@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -270,7 +270,7 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote('Super Utilisateur'))
+				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
 				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
