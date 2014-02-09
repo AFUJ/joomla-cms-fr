@@ -2,12 +2,12 @@
 <extension version="3.2" client="site" type="language" method="upgrade">
 	<name>French (fr-FR)</name>
 	<tag>fr-FR</tag>
-	<version>3.2.1.1</version>
-	<creationDate>novembre 2013</creationDate>
+	<version>3.2.2.1</version>
+	<creationDate>February 2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2013 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
+	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>fr-FR site language for 3.2</description>
 	<files>
@@ -33,6 +33,7 @@
 		<filename>fr-FR.lib_idna_convert.sys.ini</filename>
 		<filename>fr-FR.lib_joomla.ini</filename>
 		<filename>fr-FR.lib_joomla.sys.ini</filename>
+		<filename>fr-FR.lib_phpass.sys.ini</filename>
 		<filename>fr-FR.lib_phpmailer.sys.ini</filename>
 		<filename>fr-FR.lib_phputf8.sys.ini</filename>
 		<filename>fr-FR.lib_simplepie.sys.ini</filename>
