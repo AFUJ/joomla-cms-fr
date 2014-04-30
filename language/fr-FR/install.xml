@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.2" client="site" type="language" method="upgrade">
+<extension version="3.3" client="site" type="language" method="upgrade">
 	<name>French (fr-FR)</name>
 	<tag>fr-FR</tag>
-	<version>3.2.3.1</version>
-	<creationDate>February 2014</creationDate>
+	<version>3.3.0.1</version>
+	<creationDate>April 2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
 	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>fr-FR site language for 3.2</description>
+	<description>fr-FR site language for 3.x</description>
 	<files>
 		<filename>index.html</filename>
 		<filename>fr-FR.com_ajax.ini</filename>
