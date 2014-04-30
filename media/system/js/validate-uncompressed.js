@@ -179,13 +179,14 @@ var JFormValidator = function() {
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('email', function(value) {
+		    value = punycode.toASCII(value);
  	 	 	regex = /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
  	 	jQuery('form.form-validate').each(function() {
  	 	 	attachToForm(this);
- 	 	}, this);
+ 	 	});
  	};
 
  	// Initialize handlers and attach validation to form
