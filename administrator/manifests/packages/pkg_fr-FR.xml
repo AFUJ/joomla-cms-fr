@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3.3">
+<extension type="package" version="3.2">
   <name>French Language Pack</name>
 	<packagename>fr-FR</packagename>
 	<version>3.3.0.1</version>
