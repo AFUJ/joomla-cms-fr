@@ -2,7 +2,7 @@
 <extension type="package" version="3.3">
   <name>French Language Pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.3.2.1</version>
+	<version>3.3.3.1</version>
 	<creationDate>July 2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
@@ -15,8 +15,8 @@
 	<description>
 		<![CDATA[
 		<div style="text-align:left;">
-		<h3>Joomla! 3.3.2 Full French (fr-FR) Language Package - Version 3.3.2v1</h3>
-		<h3>Paquet de langue Joomla! 3.3.2 français (fr-FR) complet - Version 3.3.2v1</h3>
+		<h3>Joomla! 3.3.3 Full French (fr-FR) Language Package - Version 3.3.3v1</h3>
+		<h3>Paquet de langue Joomla! 3.3.3 français (fr-FR) complet - Version 3.3.3v1</h3>
 		</div>
 		]]>
 	</description>
