@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension version="3.3" client="administrator" type="language" method="upgrade">
-	<name>French (fr-FR)</name>
+	<name>French Language pack</name>
 	<tag>fr-FR</tag>
-	<version>3.3.3.1</version>
-	<creationDate>July 2014</creationDate>
+	<version>3.3.4.1</version>
+	<creationDate>17/09/2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>www.joomla.fr</authorUrl>
+	<authorUrl>http://www.joomla.fr</authorUrl>
 	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>fr-FR administrator language for 3.3.x</description>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>fr-FRsite language</description>
 	<files>
-		<filename>index.html</filename>
+		<filename>fr-FR.ini</filename>
 		<filename>fr-FR.com_admin.ini</filename>
 		<filename>fr-FR.com_admin.sys.ini</filename>
-		<filename>fr-FR.com_banners.ini</filename>
-		<filename>fr-FR.com_banners.sys.ini</filename>
 		<filename>fr-FR.com_ajax.ini</filename>
 		<filename>fr-FR.com_ajax.sys.ini</filename>
+		<filename>fr-FR.com_banners.ini</filename>
+		<filename>fr-FR.com_banners.sys.ini</filename>
 		<filename>fr-FR.com_cache.ini</filename>
 		<filename>fr-FR.com_cache.sys.ini</filename>
 		<filename>fr-FR.com_categories.ini</filename>
@@ -73,9 +73,7 @@
 		<filename>fr-FR.com_weblinks.sys.ini</filename>
 		<filename>fr-FR.com_wrapper.ini</filename>
 		<filename>fr-FR.com_wrapper.sys.ini</filename>
-		<filename>fr-FR.ini</filename>
 		<filename>fr-FR.lib_joomla.ini</filename>
-		<filename>fr-FR.localise.php</filename>
 		<filename>fr-FR.mod_custom.ini</filename>
 		<filename>fr-FR.mod_custom.sys.ini</filename>
 		<filename>fr-FR.mod_feed.ini</filename>
@@ -122,8 +120,6 @@
 		<filename>fr-FR.plg_content_emailcloak.sys.ini</filename>
 		<filename>fr-FR.plg_content_finder.ini</filename>
 		<filename>fr-FR.plg_content_finder.sys.ini</filename>
-		<filename>fr-FR.plg_content_geshi.ini</filename>
-		<filename>fr-FR.plg_content_geshi.sys.ini</filename>
 		<filename>fr-FR.plg_content_joomla.ini</filename>
 		<filename>fr-FR.plg_content_joomla.sys.ini</filename>
 		<filename>fr-FR.plg_content_loadmodule.ini</filename>
@@ -134,12 +130,6 @@
 		<filename>fr-FR.plg_content_pagenavigation.sys.ini</filename>
 		<filename>fr-FR.plg_content_vote.ini</filename>
 		<filename>fr-FR.plg_content_vote.sys.ini</filename>
-		<filename>fr-FR.plg_editors_codemirror.ini</filename>
-		<filename>fr-FR.plg_editors_codemirror.sys.ini</filename>
-		<filename>fr-FR.plg_editors_none.ini</filename>
-		<filename>fr-FR.plg_editors_none.sys.ini</filename>
-		<filename>fr-FR.plg_editors_tinymce.ini</filename>
-		<filename>fr-FR.plg_editors_tinymce.sys.ini</filename>
 		<filename>fr-FR.plg_editors-xtd_article.ini</filename>
 		<filename>fr-FR.plg_editors-xtd_article.sys.ini</filename>
 		<filename>fr-FR.plg_editors-xtd_image.ini</filename>
@@ -148,6 +138,12 @@
 		<filename>fr-FR.plg_editors-xtd_pagebreak.sys.ini</filename>
 		<filename>fr-FR.plg_editors-xtd_readmore.ini</filename>
 		<filename>fr-FR.plg_editors-xtd_readmore.sys.ini</filename>
+		<filename>fr-FR.plg_editors_codemirror.ini</filename>
+		<filename>fr-FR.plg_editors_codemirror.sys.ini</filename>
+		<filename>fr-FR.plg_editors_none.ini</filename>
+		<filename>fr-FR.plg_editors_none.sys.ini</filename>
+		<filename>fr-FR.plg_editors_tinymce.ini</filename>
+		<filename>fr-FR.plg_editors_tinymce.sys.ini</filename>
 		<filename>fr-FR.plg_extension_joomla.ini</filename>
 		<filename>fr-FR.plg_extension_joomla.sys.ini</filename>
 		<filename>fr-FR.plg_finder_categories.ini</filename>
@@ -216,8 +212,10 @@
 		<filename>fr-FR.tpl_hathor.sys.ini</filename>
 		<filename>fr-FR.tpl_isis.ini</filename>
 		<filename>fr-FR.tpl_isis.sys.ini</filename>
+		<filename>fr-FR.localise.php</filename>
 		<filename file="meta">install.xml</filename>
 		<filename file="meta">fr-FR.xml</filename>
+		<filename>index.html</filename>
 	</files>
 	<params />
 </extension>
