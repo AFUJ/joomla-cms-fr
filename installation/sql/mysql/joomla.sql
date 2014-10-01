@@ -628,7 +628,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (602, 'French fr-FR', 'language', 'fr-FR', '', 0, 1, 0, 0, '{"name":"French (fr-FR)","type":"language","creationDate":"February 2014","author":"French translation team : joomla.fr","copyright":"Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits r\\u00e9serv\\u00e9s","authorEmail":"traduction@joomla.fr","authorUrl":"www.joomla.fr","version":"3.2.2.1","description":"fr-FR site language","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (603, 'French fr-FR', 'language', 'fr-FR', '', 1, 1, 0, 0, '{"name":"French (fr-FR)","type":"language","creationDate":"February 2014","author":"French translation team : joomla.fr","copyright":"Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits r\\u00e9serv\\u00e9s","authorEmail":"traduction@joomla.fr","authorUrl":"www.joomla.fr","version":"3.2.2.1","description":"fr-FR administrator language","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(605, 'fr-FR', 'package', 'pkg_fr-FR', '', 0, 1, 1, 0, '{"name":"French Language Pack","type":"package","creationDate":"February 2014","author":"French translation team : joomla.fr","copyright":"Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits r\\u00e9serv\\u00e9s","authorEmail":"traduction@joomla.fr","authorUrl":"www.joomla.fr","version":"3.1.2.1","description":"\\n\\t\\t\\n\\t\\t<h3>Paquet de langue fran\\u00e7ais complet Joomla! fr-FR version 3.2.2<\\/h3>\\n\\t\\t<h3>Joomla! Full French (fr-FR) Language Package version 3.2.2<\\/h3>\\n\\t\\t\\n\\t","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(605, 'fr-FR', 'package', 'pkg_fr-FR', '', 0, 1, 1, 0, '{"name":"French Language Pack","type":"package","creationDate":"February 2014","author":"French translation team : joomla.fr","copyright":"Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits r\\u00e9serv\\u00e9s","authorEmail":"traduction@joomla.fr","authorUrl":"www.joomla.fr","version":"3.1.2.1","description":"\\n\\t\\t\\n\\t\\t<h3>Paquet de langue fran\\u00e7ais complet Joomla! fr-FR version 3.3.x<\\/h3>\\n\\t\\t<h3>Joomla! Full French (fr-FR) Language Package version 3.3.x<\\/h3>\\n\\t\\t\\n\\t","group":""}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (700, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
@@ -1900,7 +1900,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
 INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
 (1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
 (2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
-(3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
+(3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0),
+(4, 'Joomla! Update Component Update Site', 'extension', 'http://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1922,7 +1923,8 @@ INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALU
 (1, 700),
 (2, 700),
 (3, 600),
-(4, 605);
+(4, 28),
+(5, 605);
 
 -- --------------------------------------------------------
 
