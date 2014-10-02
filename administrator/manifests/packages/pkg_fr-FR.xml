@@ -1,25 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" version="3.3">
-  <name>French Language Pack</name>
+	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.3.6.1</version>
-	<creationDate>July 2014</creationDate>
+	<version>3.3.6.2</version>
+	<creationDate>02/10/2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>www.joomla.fr</authorUrl>
-    <copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorUrl>http://www.joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager>Joomla! French</packager>
-	<packagerurl>www.joomla.fr</packagerurl>
-	<description>
-		<![CDATA[
-		<div style="text-align:left;">
-		<h3>Joomla! 3.3.6 Full French (fr-FR) Language Package - Version 3.3.6v1</h3>
-		<h3>Paquet de langue Joomla! 3.3.6 français (fr-FR) complet - Version 3.3.6v1</h3>
-		</div>
-		]]>
-	</description>
+	<packagerurl>http://www.joomla.fr</packagerurl>
+	<description><![CDATA[<div style="text-align:left;">
+		<h3>Joomla! 3.3.6 Full French (fr-FR) Language Package - Version 3.3.6v2</h3>
+		<h3>Paquet de langue Joomla! 3.3.6 français (fr-FR) complet - Version 3.3.6v2</h3>
+		</div>]]></description>
 	<files>
 		<file type="language" client="site" id="fr-FR">site_fr-FR.zip</file>
 		<file type="language" client="administrator" id="fr-FR">admin_fr-FR.zip</file>
