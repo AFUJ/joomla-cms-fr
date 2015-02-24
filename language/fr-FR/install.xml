@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <extension version="3.3" client="site" type="language" method="upgrade">
-	<name>French (fr-FR)</name>
+	<name>French Language pack</name>
 	<tag>fr-FR</tag>
-	<version>3.3.3.1</version>
-	<creationDate>July 2014</creationDate>
+	<version>3.3.4.1</version>
+	<creationDate>17/09/2014</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>www.joomla.fr</authorUrl>
+	<authorUrl>http://www.joomla.fr</authorUrl>
 	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>fr-FR site language for 3.x</description>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>fr-FRsite language</description>
 	<files>
-		<filename>index.html</filename>
+		<filename>fr-FR.ini</filename>
 		<filename>fr-FR.com_ajax.ini</filename>
 		<filename>fr-FR.com_config.ini</filename>
 		<filename>fr-FR.com_contact.ini</filename>
@@ -28,7 +28,6 @@
 		<filename>fr-FR.com_wrapper.ini</filename>
 		<filename>fr-FR.files_joomla.sys.ini</filename>
 		<filename>fr-FR.finder_cli.ini</filename>
-		<filename>fr-FR.ini</filename>
 		<filename>fr-FR.lib_fof.sys.ini</filename>
 		<filename>fr-FR.lib_idna_convert.sys.ini</filename>
 		<filename>fr-FR.lib_joomla.ini</filename>
@@ -37,7 +36,6 @@
 		<filename>fr-FR.lib_phpmailer.sys.ini</filename>
 		<filename>fr-FR.lib_phputf8.sys.ini</filename>
 		<filename>fr-FR.lib_simplepie.sys.ini</filename>
-		<filename>fr-FR.localise.php</filename>
 		<filename>fr-FR.mod_articles_archive.ini</filename>
 		<filename>fr-FR.mod_articles_archive.sys.ini</filename>
 		<filename>fr-FR.mod_articles_categories.ini</filename>
@@ -94,8 +92,10 @@
 		<filename>fr-FR.tpl_beez3.sys.ini</filename>
 		<filename>fr-FR.tpl_protostar.ini</filename>
 		<filename>fr-FR.tpl_protostar.sys.ini</filename>
+		<filename>fr-FR.localise.php</filename>
 		<filename file="meta">install.xml</filename>
 		<filename file="meta">fr-FR.xml</filename>
+		<filename>index.html</filename>
 	</files>
 	<params />
 </extension>
