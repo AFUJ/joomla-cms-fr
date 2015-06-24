@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.3" client="site" type="language" method="upgrade">
-	<name>French Language pack</name>
+<extension version="3.4" client="site" type="language" method="upgrade">
+	<name>French_fr-FR</name>
 	<tag>fr-FR</tag>
-	<version>3.3.6.2</version>
-	<creationDate>02/10/2014</creationDate>
+	<version>3.4.1.2</version>
+	<creationDate>01/04/2015</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>http://www.joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2014 joomla.fr et Open Source Matters. Tous droits réservés</copyright>
+	<authorUrl>http://joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2015 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>fr-FRsite language</description>
 	<files>
@@ -33,7 +33,6 @@
 		<filename>fr-FR.lib_joomla.ini</filename>
 		<filename>fr-FR.lib_joomla.sys.ini</filename>
 		<filename>fr-FR.lib_phpass.sys.ini</filename>
-		<filename>fr-FR.lib_phpmailer.sys.ini</filename>
 		<filename>fr-FR.lib_phputf8.sys.ini</filename>
 		<filename>fr-FR.lib_simplepie.sys.ini</filename>
 		<filename>fr-FR.mod_articles_archive.ini</filename>
