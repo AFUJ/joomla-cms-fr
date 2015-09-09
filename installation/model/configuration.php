@@ -236,7 +236,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDBO(
+			$db = InstallationHelperDatabase::getDbo(
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
@@ -307,7 +307,7 @@ class InstallationModelConfiguration extends JModelBase
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super Utilisateur') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
