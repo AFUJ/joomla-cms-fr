@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 /**
  * HTML utility class for the installation application
  *
- * @since  1.6
+ * @package  Joomla.Installation
+ * @since    1.6
  */
-class InstallationHtmlHelper
+class JHtmlInstallation
 {
 	/**
 	 * Method to generate the side bar.

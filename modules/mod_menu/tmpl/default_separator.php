@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
-$class = $item->anchor_css ? ' ' . $item->anchor_css : '';
 $title = $item->anchor_title ? ' title="' . $item->anchor_title . '" ' : '';
 if ($item->menu_image)
 	{
@@ -24,6 +23,6 @@ else
 }
 
 ?>
-<span class="separator<?php echo $class;?>"<?php echo $title; ?>>
+<span class="separator"<?php echo $title; ?>>
 	<?php echo $linktype; ?>
 </span>

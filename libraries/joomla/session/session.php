@@ -61,6 +61,15 @@ class JSession implements IteratorAggregate
 	protected $_security = array('fix_browser');
 
 	/**
+	 * Force cookies to be SSL only
+	 * Default  false
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $_force_ssl = false;
+
+	/**
 	 * JSession instances container.
 	 *
 	 * @var    JSession
@@ -93,39 +102,37 @@ class JSession implements IteratorAggregate
 	private $_dispatcher = null;
 
 	/**
-	 * Holds the event dispatcher object
-	 *
-	 * @var    JSessionHandlerInterface
-	 * @since  3.5
-	 */
-	protected $_handler = null;
-
-	/**
 	 * Constructor
 	 *
-	 * @param   string                    $store             The type of storage for the session.
-	 * @param   array                     $options           Optional parameters
-	 * @param   JSessionHandlerInterface  $handlerInterface  The session handler
+	 * @param   string  $store    The type of storage for the session.
+	 * @param   array   $options  Optional parameters
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($store = 'none', array $options = array(), JSessionHandlerInterface $handlerInterface = null)
+	public function __construct($store = 'none', array $options = array())
 	{
-		// Set the session handler
-		$this->_handler = $handlerInterface instanceof JSessionHandlerInterface ? $handlerInterface : new JSessionHandlerJoomla($options);
-
-		// Clear any existing sessions
-		if ($this->_handler->getId())
+		// Need to destroy any existing sessions started with session.auto_start
+		if (session_id())
 		{
-			$this->_handler->clear();
+			session_unset();
+			session_destroy();
 		}
+
+		// Disable transparent sid support
+		ini_set('session.use_trans_sid', '0');
+
+		// Only allow the session ID to come from cookies and nothing else.
+		ini_set('session.use_only_cookies', '1');
 
 		// Create handler
 		$this->_store = JSessionStorage::getInstance($store, $options);
 
 		$this->storeName = $store;
 
+		// Set options
 		$this->_setOptions($options);
+
+		$this->_setCookieParams();
 
 		$this->_state = 'inactive';
 	}
@@ -155,21 +162,21 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
-	 * Returns the global Session object, only creating it if it doesn't already exist.
+	 * Returns the global Session object, only creating it
+	 * if it doesn't already exist.
 	 *
-	 * @param   string                    $store             The type of storage for the session.
-	 * @param   array                     $options           An array of configuration options.
-	 * @param   JSessionHandlerInterface  $handlerInterface  The session handler
+	 * @param   string  $handler  The type of session handler.
+	 * @param   array   $options  An array of configuration options.
 	 *
 	 * @return  JSession  The Session object.
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($store, $options, JSessionHandlerInterface $handlerInterface = null)
+	public static function getInstance($handler, $options)
 	{
 		if (!is_object(self::$instance))
 		{
-			self::$instance = new JSession($store, $options, $handlerInterface);
+			self::$instance = new JSession($handler, $options);
 		}
 
 		return self::$instance;
@@ -270,7 +277,17 @@ class JSession implements IteratorAggregate
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
 
-		return JApplicationHelper::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		// TODO: Decouple from legacy JApplication class.
+		if (is_callable(array('JApplication', 'getHash')))
+		{
+			$hash = JApplication::getHash($user->get('id', 0) . $session->getToken($forceNew));
+		}
+		else
+		{
+			$hash = md5(JFactory::getApplication()->get('secret') . $user->get('id', 0) . $session->getToken($forceNew));
+		}
+
+		return $hash;
 	}
 
 	/**
@@ -310,8 +327,6 @@ class JSession implements IteratorAggregate
 				// Redirect to login screen.
 				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
 				$app->redirect(JRoute::_('index.php'));
-
-				return true;
 			}
 			else
 			{
@@ -339,7 +354,7 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-		return $this->_handler->getName();
+		return session_name();
 	}
 
 	/**
@@ -357,7 +372,7 @@ class JSession implements IteratorAggregate
 			return null;
 		}
 
-		return $this->_handler->getId();
+		return session_id();
 	}
 
 	/**
@@ -443,16 +458,7 @@ class JSession implements IteratorAggregate
 	 */
 	public function initialise(JInput $input, JEventDispatcher $dispatcher = null)
 	{
-		// With the introduction of the handler class this variable is no longer required
-		// however we keep setting it for b/c
 		$this->_input      = $input;
-
-		// Nasty workaround to deal in a b/c way with JInput being required in the 3.4+ Handler class.
-		if ($this->_handler instanceof JSessionHandlerJoomla)
-		{
-			$this->_handler->input = $input;
-		}
-
 		$this->_dispatcher = $dispatcher;
 	}
 
@@ -622,7 +628,41 @@ class JSession implements IteratorAggregate
 	 */
 	protected function _start()
 	{
-		$this->_handler->start();
+		// Start session if not started
+		if ($this->_state === 'restart')
+		{
+			session_regenerate_id(true);
+		}
+		else
+		{
+			$session_name = session_name();
+
+			// Get the JInputCookie object
+			$cookie = $this->_input->cookie;
+
+			if (is_null($cookie->get($session_name)))
+			{
+				$session_clean = $this->_input->get($session_name, false, 'string');
+
+				if ($session_clean)
+				{
+					session_id($session_clean);
+					$cookie->set($session_name, '', time() - 3600);
+				}
+			}
+		}
+
+		/**
+		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
+		 * Thus destructors can use sessions but session handler can't use objects.
+		 * So we are moving session closure before destructing objects.
+		 *
+		 * Replace with session_register_shutdown() when dropping compatibility with PHP 5.3
+		 */
+		register_shutdown_function('session_write_close');
+
+		session_cache_limiter('none');
+		session_start();
 
 		return true;
 	}
@@ -648,7 +688,21 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
-		$this->_handler->clear();
+		/*
+		 * In order to kill the session altogether, such as to log the user out, the session id
+		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
+		 * then the session cookie must be deleted.
+		 */
+		if (isset($_COOKIE[session_name()]))
+		{
+			$config = JFactory::getConfig();
+			$cookie_domain = $config->get('cookie_domain', '');
+			$cookie_path = $config->get('cookie_path', '/');
+			setcookie(session_name(), '', time() - 42000, $cookie_path, $cookie_domain);
+		}
+
+		session_unset();
+		session_destroy();
 
 		$this->_state = 'destroyed';
 
@@ -679,7 +733,7 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$this->_handler->regenerate(true, null);
+		session_regenerate_id(true);
 		$this->_start();
 		$this->_state = 'active';
 
@@ -708,7 +762,7 @@ class JSession implements IteratorAggregate
 		$cookie = session_get_cookie_params();
 
 		// Kill session
-		$this->_handler->clear();
+		session_destroy();
 
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
@@ -717,8 +771,8 @@ class JSession implements IteratorAggregate
 		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		// Restart session with new id
-		$this->_handler->regenerate(true, null);
-		$this->_handler->start();
+		session_regenerate_id(true);
+		session_start();
 
 		return true;
 	}
@@ -736,23 +790,43 @@ class JSession implements IteratorAggregate
 	 *
 	 * @return  void
 	 *
+	 * @see     session_write_close()
 	 * @since   11.1
 	 */
 	public function close()
 	{
-		$this->_handler->save();
+		session_write_close();
 	}
 
 	/**
-	 * Set the session handler
-	 *
-	 * @param   JSessionHandlerInterface  $handler  The session handler
+	 * Set session cookie parameters
 	 *
 	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	public function setHandler(JSessionHandlerInterface $handler)
+	protected function _setCookieParams()
 	{
-		$this->_handler = $handler;
+		$cookie = session_get_cookie_params();
+
+		if ($this->_force_ssl)
+		{
+			$cookie['secure'] = true;
+		}
+
+		$config = JFactory::getConfig();
+
+		if ($config->get('cookie_domain', '') != '')
+		{
+			$cookie['domain'] = $config->get('cookie_domain');
+		}
+
+		if ($config->get('cookie_path', '') != '')
+		{
+			$cookie['path'] = $config->get('cookie_path');
+		}
+
+		session_set_cookie_params($cookie['lifetime'], $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 	}
 
 	/**
@@ -769,7 +843,7 @@ class JSession implements IteratorAggregate
 		static $chars = '0123456789abcdef';
 		$max = strlen($chars) - 1;
 		$token = '';
-		$name = $this->_handler->getName();
+		$name = session_name();
 
 		for ($i = 0; $i < $length; ++$i)
 		{
@@ -834,13 +908,13 @@ class JSession implements IteratorAggregate
 		// Set name
 		if (isset($options['name']))
 		{
-			$this->_handler->setName(md5($options['name']));
+			session_name(md5($options['name']));
 		}
 
 		// Set id
 		if (isset($options['id']))
 		{
-			$this->_handler->setId($options['id']);
+			session_id($options['id']);
 		}
 
 		// Set expire time
@@ -853,6 +927,11 @@ class JSession implements IteratorAggregate
 		if (isset($options['security']))
 		{
 			$this->_security = explode(',', $options['security']);
+		}
+
+		if (isset($options['force_ssl']))
+		{
+			$this->_force_ssl = (bool) $options['force_ssl'];
 		}
 
 		// Sync the session maxlifetime

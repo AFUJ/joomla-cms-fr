@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Version information class for the Joomla Platform.
  *
- * @since       11.1
- * @deprecated  4.0  Deprecated without replacement
+ * @package  Joomla.Platform
+ * @since    11.1
  */
 final class JPlatform
 {
@@ -58,7 +58,6 @@ final class JPlatform
 	 *
 	 * @see     http://www.php.net/version_compare
 	 * @since   11.1
-	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function isCompatible($minimum)
 	{
@@ -71,7 +70,6 @@ final class JPlatform
 	 * @return  string  Version string.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function getShortVersion()
 	{
@@ -84,7 +82,6 @@ final class JPlatform
 	 * @return  string  Complete version string.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function getLongVersion()
 	{

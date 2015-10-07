@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\StringHelper;
+use Joomla\String\String;
 
 /**
  * String handling class for utf-8 data
@@ -17,9 +17,9 @@ use Joomla\String\StringHelper;
  * All functions assume the validity of utf-8 strings.
  *
  * @since       11.1
- * @deprecated  4.0  Use {@link \Joomla\String\StringHelper} instead unless otherwise noted.
+ * @deprecated  4.0  Use {@link \Joomla\String\String} instead unless otherwise noted.
  */
-abstract class JString extends StringHelper
+abstract class JString extends String
 {
 	/**
 	 * Split a string in camel case format

@@ -20,5 +20,8 @@ jQuery(function ($) {
 
 	$('button.submit').on('click', function() {
 		$('div.download_message').show();
+		var $el = $('div.joomlaupdate_spinner');
+		$el.attr('spinner', {class: 'joomlaupdate_spinner'});
+		$el.get(0).spin();
 	})
 });

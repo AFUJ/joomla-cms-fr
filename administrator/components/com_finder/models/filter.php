@@ -153,23 +153,4 @@ class FinderModelFilter extends JModelAdmin
 
 		return $data;
 	}
-
-	/**
-	 * Method to get the total indexed items
-	 *
-	 * @return  number the number of indexed items
-	 *
-	 * @since  3.5
-	 */
-	public function getTotal()
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('MAX(link_id)')
-			->from('#__finder_links');
-		$db->setQuery($query);
-		$total = $db->loadResult();
-
-		return $total;
-	}
 }

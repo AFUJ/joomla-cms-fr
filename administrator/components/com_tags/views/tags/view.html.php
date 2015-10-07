@@ -31,11 +31,9 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -44,8 +42,6 @@ class TagsViewTags extends JViewLegacy
 
 			return false;
 		}
-
-		TagsHelper::addSubmenu('tags');
 
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
@@ -68,12 +64,8 @@ class TagsViewTags extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -146,6 +138,26 @@ class TagsViewTags extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
+
+		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

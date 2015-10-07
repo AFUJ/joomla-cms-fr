@@ -58,105 +58,124 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!extension_loaded('zlib'))
 		{
-			return $this->raiseWarning(100, 'The zlib extension is not available.');
-		}
-
-		if (isset($options['use_streams']) && $options['use_streams'] != false)
-		{
-			return $this->extractStream($archive, $destination, $options);
-		}
-
-		$this->_data = file_get_contents($archive);
-
-		if (!$this->_data)
-		{
-			return $this->raiseWarning(100, 'Unable to read archive');
-		}
-
-		$position = $this->_getFilePosition();
-		$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
-
-		if (empty($buffer))
-		{
-			return $this->raiseWarning(100, 'Unable to decompress data');
-		}
-
-		if (JFile::write($destination, $buffer) === false)
-		{
-			return $this->raiseWarning(100, 'Unable to write archive');
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to extract archive using stream objects
-	 *
-	 * @param   string  $archive      Path to ZIP archive to extract
-	 * @param   string  $destination  Path to extract archive to
-	 * @param   array   $options      Extraction options [unused]
-	 *
-	 * @return  boolean  True if successful
-	 */
-	protected function extractStream($archive, $destination, $options = array ())
-	{
-		// New style! streams!
-		$input = JFactory::getStream();
-
-		// Use gz
-		$input->set('processingmethod', 'gz');
-
-		if (!$input->open($archive))
-		{
-			return $this->raiseWarning(100, 'Unable to read archive (gz)');
-		}
-
-		$output = JFactory::getStream();
-
-		if (!$output->open($destination, 'w'))
-		{
-			$input->close();
-
-			return $this->raiseWarning(100, 'Unable to write archive (gz)');
-		}
-
-		do
-		{
-			$this->_data = $input->read($input->get('chunksize', 8196));
-
-			if ($this->_data && !$output->write($this->_data))
+			if (class_exists('JError'))
 			{
-				$input->close();
-
-				return $this->raiseWarning(100, 'Unable to write file (gz)');
+				return JError::raiseWarning(100, 'The zlib extension is not available.');
+			}
+			else
+			{
+				throw new RuntimeException('The zlib extension is not available.');
 			}
 		}
 
-		while ($this->_data);
-
-		$output->close();
-		$input->close();
-
-		return true;
-	}
-
-	/**
-	 * Temporary private method to isolate JError from the extract method
-	 * This code should be removed when JError is removed.
-	 *
-	 * @param   int     $code  The application-internal error code for this error
-	 * @param   string  $msg   The error message, which may also be shown the user if need be.
-	 *
-	 * @return mixed JError object or Runtime Exception
-	 */
-	private function raiseWarning($code, $msg)
-	{
-		if (class_exists('JError'))
+		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
-			return JError::raiseWarning($code, $msg);
+			$this->_data = file_get_contents($archive);
+
+			if (!$this->_data)
+			{
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to read archive');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to read archive');
+				}
+			}
+
+			$position = $this->_getFilePosition();
+			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
+
+			if (empty($buffer))
+			{
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to decompress data');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to decompress data');
+				}
+			}
+
+			if (JFile::write($destination, $buffer) === false)
+			{
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to write archive');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to write archive');
+				}
+			}
+		}
+		else
+		{
+			// New style! streams!
+			$input = JFactory::getStream();
+
+			// Use gz
+			$input->set('processingmethod', 'gz');
+
+			if (!$input->open($archive))
+			{
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to read archive (gz)');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to read archive (gz)');
+				}
+			}
+
+			$output = JFactory::getStream();
+
+			if (!$output->open($destination, 'w'))
+			{
+				$input->close();
+
+				if (class_exists('JError'))
+				{
+					return JError::raiseWarning(100, 'Unable to write archive (gz)');
+				}
+				else
+				{
+					throw new RuntimeException('Unable to write archive (gz)');
+				}
+			}
+
+			do
+			{
+				$this->_data = $input->read($input->get('chunksize', 8196));
+
+				if ($this->_data)
+				{
+					if (!$output->write($this->_data))
+					{
+						$input->close();
+
+						if (class_exists('JError'))
+						{
+							return JError::raiseWarning(100, 'Unable to write file (gz)');
+						}
+						else
+						{
+							throw new RuntimeException('Unable to write file (gz)');
+						}
+					}
+				}
+			}
+
+			while ($this->_data);
+
+			$output->close();
+			$input->close();
 		}
 
-		throw new RuntimeException($msg);
+		return true;
 	}
 
 	/**
@@ -187,7 +206,14 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if (!$info)
 		{
-			return $this->raiseWarning(100, 'Unable to decompress data.');
+			if (class_exists('JError'))
+			{
+				return JError::raiseWarning(100, 'Unable to decompress data.');
+			}
+			else
+			{
+				throw new RuntimeException('Unable to decompress data.');
+			}
 		}
 
 		$position += 10;

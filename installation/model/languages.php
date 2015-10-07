@@ -58,13 +58,7 @@ class InstallationModelLanguages extends JModelBase
 		// Overrides application config and set the configuration.php file so tokens and database works.
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-
-		/*
-		 * JFactory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
-		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
-		 * The day we have proper dependency injection will be a glorious one.
-		 */
-		JFactory::$database = null;
+		JFactory::$session = null;
 
 		parent::__construct();
 	}

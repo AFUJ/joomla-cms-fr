@@ -83,11 +83,12 @@ abstract class AbstractCliApplication extends AbstractApplication
 	 *
 	 * @return  AbstractCliApplication  Instance of $this to allow chaining.
 	 *
+	 * @codeCoverageIgnore
 	 * @since   1.0
 	 */
 	public function out($text = '', $nl = true)
 	{
-		$this->getOutput()->out($text, $nl);
+		$this->output->out($text, $nl);
 
 		return $this;
 	}

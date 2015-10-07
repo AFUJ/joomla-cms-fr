@@ -169,9 +169,7 @@ class JFilesystemPatcher
 		// Patch each destination file
 		foreach ($this->destinations as $file => $content)
 		{
-			$buffer = implode("\n", $content);
-
-			if (JFile::write($file, $buffer))
+			if (JFile::write($file, implode("\n", $content)))
 			{
 				if (isset($this->sources[$file]))
 				{

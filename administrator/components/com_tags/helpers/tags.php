@@ -33,12 +33,6 @@ class TagsHelper extends JHelperContent
 		// Avoid nonsense situation.
 		if ($component == 'tags')
 		{
-			JHtmlSidebar::addEntry(
-				JText::_('COM_TAGS'),
-				'index.php?option=com_tags&view=tags',
-				$extension == 'tags'
-			);
-
 			return;
 		}
 

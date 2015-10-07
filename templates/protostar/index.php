@@ -42,14 +42,6 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template
 // Add Stylesheets
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
-// Check for a custom CSS file
-$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
-
-if (file_exists($userCss) && filesize($userCss) > 0)
-{
-	$doc->addStyleSheet('templates/' . $this->template . '/css/user.css');
-}
-
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 

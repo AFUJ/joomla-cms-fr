@@ -54,14 +54,6 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_DATABASE_CONNECTION_COLLATION'); ?></strong>
-				</td>
-				<td>
-					<?php echo $this->info['dbconnectioncollation']; ?>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<strong><?php echo JText::_('COM_ADMIN_PHP_VERSION'); ?></strong>
 				</td>
 				<td>

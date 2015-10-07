@@ -26,14 +26,12 @@
 
 		<field
 			name="cachetime"
-			type="number"
-			min="1"
+			type="text"
 			default="15"
 			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			required="true"
 			filter="integer"
-			validate="number"
 			size="6" />
 
 		<field
@@ -718,14 +716,12 @@
 		label="CONFIG_SESSION_SETTINGS_LABEL">
 		<field
 			name="lifetime"
-			type="number"
-			min="1"
+			type="text"
 			default="15"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			required="true"
 			filter="integer"
-			validate="number"
 			size="6" />
 
 		<field
@@ -850,7 +846,7 @@
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			required="true"
+			required="false"
 			filter="cmd" />
 
 		<field

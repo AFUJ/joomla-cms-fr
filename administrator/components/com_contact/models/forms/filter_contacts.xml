@@ -4,14 +4,15 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_NEWSFEEDS_FILTER_SEARCH_DESC"
+			label="COM_CONTACT_FILTER_SEARCH_DESC"
+			description="COM_CONTACT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="published"
 			type="status"
-			label="COM_NEWSFEEDS_FILTER_PUBLISHED"
-			description="COM_NEWSFEEDS_FILTER_PUBLISHED_DESC"
+			label="JOPTION_SELECT_PUBLISHED"
+			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -20,9 +21,10 @@
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_newsfeeds"
+			extension="com_contact"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
+			published="0,1,2"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
@@ -60,8 +62,8 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_NEWSFEEDS_LIST_FULL_ORDERING"
-			description="COM_NEWSFEEDS_LIST_FULL_ORDERING_DESC"
+			label="COM_CONTACT_LIST_FULL_ORDERING"
+			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -76,22 +78,22 @@
 			<option value="category_title DESC">JCATEGORY_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="numarticles ASC">COM_NEWSFEEDS_NUM_ARTICLES_HEADING_ASC</option>
-			<option value="numarticles DESC">COM_NEWSFEEDS_NUM_ARTICLES_HEADING_DESC</option>
-            <option value="a.cache_time ASC">COM_NEWSFEEDS_CACHE_TIME_HEADING_ASC</option>
-            <option value="a.cache_time DESC">COM_NEWSFEEDS_CACHE_TIME_HEADING_DESC</option>
+			<option value="ul.name ASC">COM_CONTACT_FIELD_LINKED_USER_LABEL_ASC</option>
+			<option value="ul.name DESC">COM_CONTACT_FIELD_LINKED_USER_LABEL_DESC</option>
 			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="a.featured ASC">JFEATURED_ASC</option>
+			<option value="a.featured DESC">JFEATURED_DESC</option>
 		</field>
 		<field
 			name="limit"
 			type="limitbox"
 			class="input-mini"
 			default="25"
-			label="COM_NEWSFEEDS_LIST_LIMIT"
-			description="COM_NEWSFEEDS_LIST_LIMIT_DESC"
+			label="COM_CONTACT_LIST_LIMIT"
+			description="COM_CONTACT_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>

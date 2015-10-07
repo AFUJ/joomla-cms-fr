@@ -16,123 +16,38 @@ defined('JPATH_PLATFORM') or die;
  */
 final class JVersion
 {
-	/**
-	 * Product name.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const PRODUCT = 'Joomla!';
+	/** @var  string  Product name. */
+	public $PRODUCT = 'Joomla!';
 
-	/**
-	 * Release version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const RELEASE = '3.5';
+	/** @var  string  Release version. */
+	public $RELEASE = '3.4';
 
-	/**
-	 * Maintenance version.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const DEV_LEVEL = '0-dev';
+	/** @var  string  Maintenance version. */
+	public $DEV_LEVEL = '5';
 
-	/**
-	 * Development status.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const DEV_STATUS = 'Development';
+	/** @var  string  Development STATUS. */
+	public $DEV_STATUS = 'Development';
 
-	/**
-	 * Build number.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const BUILD = '';
+	/** @var  string  Build number. */
+	public $BUILD = '';
 
-	/**
-	 * Code name.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const CODENAME = 'Ember';
+	/** @var  string  Code name. */
+	public $CODENAME = 'Ember';
 
-	/**
-	 * Release date.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const RELDATE = '8-September-2015';
+	/** @var  string  Release date. */
+	public $RELDATE = '8-September-2015';
 
-	/**
-	 * Release time.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const RELTIME = '21:30';
+	/** @var  string  Release time. */
+	public $RELTIME = '21:30';
 
-	/**
-	 * Release timezone.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const RELTZ = 'GMT';
+	/** @var  string  Release timezone. */
+	public $RELTZ = 'GMT';
 
-	/**
-	 * Copyright Notice.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
+	/** @var  string  Copyright Notice. */
+	public $COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
 
-	/**
-	 * Link text.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	const URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
-
-	/**
-	 * Magic getter providing access to constants previously defined as class member vars.
-	 *
-	 * @param   string  $name  The name of the property.
-	 *
-	 * @return  mixed   A value if the property name is valid.
-	 *
-	 * @since   3.5
-	 * @deprecated  4.0  Access the constants directly
-	 */
-	public function __get($name)
-	{
-		if (defined("JVersion::$name"))
-		{
-			JLog::add(
-				'Accessing JVersion data through class member variables is deprecated, use the corresponding constant instead.',
-				JLog::WARNING,
-				'deprecated'
-			);
-
-			return constant("JVersion::$name");
-		}
-
-		$trace = debug_backtrace();
-		trigger_error(
-			'Undefined constant via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
-			E_USER_NOTICE
-		);
-	}
+	/** @var  string  Link text. */
+	public $URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Check if we are in development mode
@@ -143,7 +58,7 @@ final class JVersion
 	 */
 	public function isInDevelopmentState()
 	{
-		return strtolower(self::DEV_STATUS) != 'stable';
+		return strtolower($this->DEV_STATUS) != 'stable';
 	}
 
 	/**
@@ -170,7 +85,7 @@ final class JVersion
 	 */
 	public function getHelpVersion()
 	{
-		return '.' . str_replace('.', '', self::RELEASE);
+		return '.' . str_replace('.', '', $this->RELEASE);
 	}
 
 	/**
@@ -182,7 +97,7 @@ final class JVersion
 	 */
 	public function getShortVersion()
 	{
-		return self::RELEASE . '.' . self::DEV_LEVEL;
+		return $this->RELEASE . '.' . $this->DEV_LEVEL;
 	}
 
 	/**
@@ -194,9 +109,9 @@ final class JVersion
 	 */
 	public function getLongVersion()
 	{
-		return self::PRODUCT . ' ' . self::RELEASE . '.' . self::DEV_LEVEL . ' '
-			. self::DEV_STATUS . ' [ ' . self::CODENAME . ' ] ' . self::RELDATE . ' '
-			. self::RELTIME . ' ' . self::RELTZ;
+		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
+			. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+			. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**
@@ -219,17 +134,17 @@ final class JVersion
 
 		if ($add_version)
 		{
-			$component .= '/' . self::RELEASE;
+			$component .= '/' . $this->RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
 		if ($mask)
 		{
-			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return 'Mozilla/5.0 ' . $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 		else
 		{
-			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 	}
 

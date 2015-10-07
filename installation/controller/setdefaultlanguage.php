@@ -28,6 +28,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::$session = null;
 	}
 
 	/**

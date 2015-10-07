@@ -74,16 +74,13 @@ $saveOrder = $listOrder == 'fp.ordering';
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-						</th>
-						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -120,8 +117,8 @@ $saveOrder = $listOrder == 'fp.ordering';
 								?>
 							</div>
 						</td>
-						<td class="nowrap has-context">
-							<div class="pull-left">
+						<td class="has-context">
+							<div class="pull-left break-word">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 								<?php endif; ?>
@@ -136,9 +133,6 @@ $saveOrder = $listOrder == 'fp.ordering';
 								<?php else : ?>
 									<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 								<?php endif; ?>
-								<span class="small break-word">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 								</div>
@@ -181,10 +175,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="center hidden-phone">
-							<?php echo (int) $item->hits; ?>
-						</td>
-						<td class="center hidden-phone">
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

@@ -25,14 +25,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public $name = 'postgresql';
 
 	/**
-	 * The type of the database server family supported by this driver.
-	 *
-	 * @var    string
-	 * @since  CMS 3.5.0
-	 */
-	public $serverType = 'postgresql';
-
-	/**
 	 * Quote for named objects
 	 *
 	 * @var    string
@@ -271,17 +263,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$array = $this->loadAssocList();
 
 		return $array[0]['lc_collate'];
-	}
-
-	/**
-	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
-	 * reporting this value please return an empty string.
-	 *
-	 * @return  string
-	 */
-	public function getConnectionCollation()
-	{
-		return pg_client_encoding($this->connection);
 	}
 
 	/**
