@@ -616,15 +616,64 @@ class PlgEditorTinymce extends JPlugin
 		$btnsNames = $buttons['names'];
 		$tinyBtns  = $buttons['script'];
 
-			// Prepare config variables
+		// Drag and drop Images
+		$allowImgPaste = "false";
+		$dragDropPlg   = '';
+		$dragdrop      = $this->params->get('drag_drop', 1);
+		$user          = JFactory::getUser();
+
+		if ($dragdrop && $user->authorise('core.create', 'com_media'))
+		{
+			$allowImgPaste = "true";
+			$isSubDir      = '';
+			$session       = JFactory::getSession();
+			$uploadUrl     = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
+				. $session->getName() . '=' . $session->getId()
+				. '&' . JSession::getFormToken() . '=1'
+				. '&asset=image&format=json';
+
+			if (JFactory::getApplication()->isSite())
+			{
+				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
+			}
+
+			// Is Joomla installed in subdirectory
+			if (JUri::root(true) != '/')
+			{
+				$isSubDir = JUri::root(true);
+			}
+
+			// Get specific path
+			$tempPath = $this->params->get('path', '');
+
+			if (!empty($tempPath))
+			{
+				$tempPath = rtrim($tempPath, '/');
+				$tempPath = ltrim($tempPath, '/');
+			}
+
+			$dragDropPlg = 'jdragdrop';
+
+			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		var setCustomDir    = '" . $isSubDir . "';
+		var mediaUploadPath = '" . $tempPath . "';
+		var uploadUri       = '" . $uploadUrl . "';
+				"
+			);
+		}
+
+		// Prepare config variables
 		$plugins  = implode(',', $plugins);
 		$elements = implode(',', $elements);
 
 		// Prepare config variables
-		$toolbar1 = implode(' ', $toolbar1_add);
-		$toolbar2 = implode(' ', $toolbar2_add);
-		$toolbar3 = implode(' ', $toolbar3_add);
-		$toolbar4 = implode(' ', $toolbar4_add);
+		$toolbar1 = implode(' ', $toolbar1_add) . ' | '
+			. implode(' ', $toolbar2_add) . ' | '
+			. implode(' ', $toolbar3_add) . ' | '
+			. implode(' ', $toolbar4_add) . ' | '
+			. implode(" | ", $btnsNames);
 		$toolbar5 = implode(" | ", $btnsNames);
 
 		// The buttons script
@@ -669,9 +718,8 @@ class PlgEditorTinymce extends JPlugin
 			theme : \"$theme\",
 			schema: \"html5\",
 			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist\",
-			toolbar2: \"$toolbar5 | code\",
-			plugins: \"code\",
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			plugins: \"$dragDropPlg code\",
 			// Cleanup/Output
 			inline_styles : true,
 			gecko_spellcheck : true,
@@ -686,7 +734,8 @@ class PlgEditorTinymce extends JPlugin
 			document_base_url : \"" . JUri::root() . "\",
 			setup: function (editor) {
 				$tinyBtns
-			}
+			},
+			paste_data_images: $allowImgPaste
 		});
 		"
 				);
@@ -694,8 +743,8 @@ class PlgEditorTinymce extends JPlugin
 
 			case 1:
 			default: /* Advanced mode*/
-				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist";
-				$toolbar2 = "outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+			$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+				. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
 				JFactory::getDocument()->addScriptDeclaration(
 					"
 		tinyMCE.init({
@@ -718,11 +767,9 @@ class PlgEditorTinymce extends JPlugin
 			$smallButtons
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"table link image code hr charmap autolink lists importcss\",
+			plugins : \"table link image code hr charmap autolink lists importcss $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1\",
-			toolbar2: \"$toolbar2\",
-			toolbar3: \"$toolbar5 | code\",
+			toolbar1: \"$toolbar1 | $toolbar5 | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			relative_urls : $relative_urls,
@@ -737,7 +784,8 @@ class PlgEditorTinymce extends JPlugin
 			width : \"$html_width\",
 			setup: function (editor) {
 				$tinyBtns
-			}
+			},
+			paste_data_images: $allowImgPaste
 		});
 			"
 				);
@@ -766,13 +814,9 @@ class PlgEditorTinymce extends JPlugin
 			$smallButtons
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"$plugins\",
+			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1\",
-			toolbar2: \"$toolbar2\",
-			toolbar3: \"$toolbar3\",
-			toolbar4: \"$toolbar4\",
-			toolbar5: \"$toolbar5 | code\",
+			toolbar1: \"$toolbar1 | code\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			relative_urls : $relative_urls,
@@ -805,7 +849,8 @@ class PlgEditorTinymce extends JPlugin
 			width : \"$html_width\",
 			setup: function (editor) {
 				$tinyBtns
-			}
+			},
+			paste_data_images: $allowImgPaste
 		});
 		"
 				);
@@ -962,11 +1007,11 @@ class PlgEditorTinymce extends JPlugin
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name     = str_replace(" ", "", $button->get('text'));
-				$title    = $button->get('text');
-				$onclick  = ($button->get('onclick')) ? $button->get('onclick') : null;
-				$options  = $button->get('options');
-				$icon     = $button->get('name');
+				$name    = str_replace(" ", "", $button->get('text'));
+				$title   = $button->get('text');
+				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
+				$options = $button->get('options');
+				$icon    = $button->get('name');
 
 				if ($button->get('link') != "#")
 				{
@@ -1040,7 +1085,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		return array(
-			'names' => $btnsNames,
+			'names'  => $btnsNames,
 			'script' => $tinyBtns
 		);
 	}

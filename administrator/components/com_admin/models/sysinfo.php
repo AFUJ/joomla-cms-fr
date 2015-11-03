@@ -96,7 +96,8 @@ class AdminModelSysInfo extends JModelLegacy
 			'zlib'               => extension_loaded('zlib'),
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
-			'iconv'              => function_exists('iconv')
+			'iconv'              => function_exists('iconv'),
+			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
 		return $this->php_settings;
@@ -142,20 +143,21 @@ class AdminModelSysInfo extends JModelLegacy
 			return $this->info;
 		}
 
-		$version    = new JVersion;
-		$platform   = new JPlatform;
-		$db         = $this->getDbo();
+		$version  = new JVersion;
+		$platform = new JPlatform;
+		$db       = $this->getDbo();
 
 		$this->info = array(
-			'php'         => php_uname(),
-			'dbversion'   => $db->getVersion(),
-			'dbcollation' => $db->getCollation(),
-			'phpversion'  => phpversion(),
-			'server'      => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
-			'sapi_name'   => php_sapi_name(),
-			'version'     => $version->getLongVersion(),
-			'platform'    => $platform->getLongVersion(),
-			'useragent'   => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""
+			'php'                   => php_uname(),
+			'dbversion'             => $db->getVersion(),
+			'dbcollation'           => $db->getCollation(),
+			'dbconnectioncollation' => $db->getConnectionCollation(),
+			'phpversion'            => phpversion(),
+			'server'                => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : getenv('SERVER_SOFTWARE'),
+			'sapi_name'             => php_sapi_name(),
+			'version'               => $version->getLongVersion(),
+			'platform'              => $platform->getLongVersion(),
+			'useragent'             => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ""
 		);
 
 		return $this->info;
