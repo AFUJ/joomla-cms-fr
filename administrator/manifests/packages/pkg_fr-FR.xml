@@ -3,11 +3,11 @@
 	<name>French_fr-FR</name>
 	<packagename>fr-FR</packagename>
 	<version>3.5.0.1</version>
-	<creationDate>21/11/2015</creationDate>
+	<creationDate>November 2015</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
+	<authorUrl>http://www.joomla.fr</authorUrl>
+	<copyright>Copyright (C) 2005 - 2015 Joomla.fr and Open Source Matters, Inc. Tous droits réservés.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager></packager>
