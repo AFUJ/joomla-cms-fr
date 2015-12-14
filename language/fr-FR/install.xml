@@ -3,13 +3,13 @@
 	<name>French_fr-FR</name>
 	<tag>fr-FR</tag>
 	<version>3.4.6.1</version>
-	<creationDate>14/12/2015</creationDate>
+	<creationDate>22/10/2015</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
 	<copyright>Copyright (C) 2005 - 2015 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>fr-FRsite language</description>
+	<description>fr-FR_site language</description>
 	<files>
 		<filename>fr-FR.ini</filename>
 		<filename>fr-FR.com_ajax.ini</filename>
