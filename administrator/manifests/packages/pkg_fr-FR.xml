@@ -3,7 +3,7 @@
 	<name>French_fr-FR</name>
 	<packagename>fr-FR</packagename>
 	<version>3.4.6.1</version>
-	<creationDate>14/12/2015</creationDate>
+	<creationDate>22/10/2015</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -13,8 +13,11 @@
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
-<h3>Joomla! 3.4.5 Full French (fr-FR) Language Package - Version 3.4.5.1</h3>
-<h3>Paquet de langue Joomla! 3.4.5 français (fr-FR) complet - Version 3.4.5.1</h3>
+
+<h3>Joomla! 3.4.6 Full French (fr-FR) Language Package - Version 3.4.6.1</h3>
+
+<h3>Paquet de langue Joomla! 3.4.6 français (fr-FR) complet - Version 3.4.6.1</h3>
+
 </div>]]></description>
 	<files>
 		<file type="language" client="site" id="fr-FR">site_fr-FR.zip</file>
