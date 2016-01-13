@@ -98,6 +98,7 @@ abstract class ModArticlesNewsHelper
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
+			// New
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
