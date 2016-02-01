@@ -2,20 +2,20 @@
 <metafile
 	version="3.5"
 	client="installation">
-	<name>Persian (پارسی)</name>
+	<name>Basque</name>
 	<version>3.5.0</version>
-	<creationDate>2016-01-30</creationDate>
-	<author>JoomlaFarsi.Com Team</author>
+	<creationDate>August 2015</creationDate>
+	<author>Miel Loinaz</author>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
+	<description>Basque language installation language file for Joomla</description>
 	<files>
-		<filename>fa-IR.ini</filename>
+		<filename>eu-ES.ini</filename>
 	</files>
 	<metadata>
-		<name>Persian (پارسی)</name>
-		<tag>fa-IR</tag>
-		<rtl>1</rtl>
+		<name>Basque</name>
+		<tag>eu-ES</tag>
+		<rtl>0</rtl>
 	</metadata>
 	<params />
 </metafile>
