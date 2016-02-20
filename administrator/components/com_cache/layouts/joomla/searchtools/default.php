@@ -14,18 +14,16 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if ($data['view'] instanceof MenusViewItems)
+if ($data['view'] instanceof CacheViewCache)
 {
-	$doc = JFactory::getDocument();
-
-	$doc->addStyleDeclaration("
+	JFactory::getDocument()->addStyleDeclaration("
 		/* Fixed filter field in search bar */
-		.js-stools .js-stools-menutype {
+		.js-stools .js-stools-client_id {
 			float: left;
 			margin-right: 10px;
 			min-width: 220px;
 		}
-		html[dir=rtl] .js-stools .js-stools-menutype {
+		html[dir=rtl] .js-stools .js-stools-client_id {
 			float: right;
 			margin-left: 10px
 			margin-right: 0;
@@ -35,8 +33,8 @@ if ($data['view'] instanceof MenusViewItems)
 		}
 	");
 
-	// Menutype filter doesn't have to activate the filter bar
-	unset($data['view']->activeFilters['menutype']);
+	// Client id filter doesn't have to activate the filter bar
+	unset($data['view']->activeFilters['client_id']);
 }
 
 // Display the main joomla layout

@@ -11,13 +11,12 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-if ($data['view'] instanceof MenusViewItems)
+if ($data['view'] instanceof CacheViewCache)
 {
-	// We will get the menutype filter & remove it from the form filters
-	$menuTypeField = $data['view']->filterForm->getField('menutype');
+	$clientIdField = $data['view']->filterForm->getField('client_id');
 ?>
-	<div class="js-stools-field-filter js-stools-menutype">
-		<?php echo $menuTypeField->input; ?>
+	<div class="js-stools-field-filter js-stools-client_id">
+		<?php echo $clientIdField->input; ?>
 	</div>
 <?php
 }
