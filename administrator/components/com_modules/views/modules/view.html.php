@@ -49,10 +49,7 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
-		if ($this->getLayout() == 'default')
-		{
-			$this->addToolbar();
-		}
+		$this->addToolbar();
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -75,7 +72,14 @@ class ModulesViewModules extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
+		if ($state->get('filter.client_id') == 1)
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		}
 
 		if ($canDo->get('core.create'))
 		{
