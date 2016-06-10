@@ -137,7 +137,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('feed_limit', 10);
 		$registry->set('feed_email', 'none');
 
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.
@@ -310,7 +310,7 @@ class InstallationModelConfiguration extends JModelBase
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super Utilisateur') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
