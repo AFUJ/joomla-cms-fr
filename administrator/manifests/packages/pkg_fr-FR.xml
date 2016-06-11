@@ -3,7 +3,7 @@
 	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
 	<version>3.6.0.1</version>
-	<creationDate>04/05/2016</creationDate>
+	<creationDate>10/06/2016</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -21,6 +21,6 @@
 		<file type="language" client="administrator" id="fr-FR">admin_fr-FR.zip</file>
 	</files>
 	<updateservers>
-		<server type="collection" priority="1" name="Accredited Joomla! Translations">http://update.joomla.org/language/translationlist_3.xml</server>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">https://update.joomla.org/language/translationlist_3.xml</server>
 	</updateservers>
 </extension>
