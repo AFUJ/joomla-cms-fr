@@ -2,19 +2,19 @@
 <extension type="package" version="3.6" method="upgrade">
 	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.6.0.1</version>
-	<creationDate>21/06/2016</creationDate>
+	<version>3.6.1.1</version>
+	<creationDate>22/07/2016</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
-<h3>Joomla! 3.6.0 Full French (fr-FR) Language Package - Version 3.6.0.1</h3>
-<h3>Paquet de langue Joomla! 3.6.0 français (fr-FR) complet - Version 3.6.0.1</h3>
+<h3>Joomla! 3.6.1 Full French (fr-FR) Language Package - Version 3.6.1.1</h3>
+<h3>Paquet de langue Joomla! 3.6.1 français (fr-FR) complet - Version 3.6.1.1</h3>
 </div>]]></description>
 	<files>
 		<file type="language" client="site" id="fr-FR">site_fr-FR.zip</file>
