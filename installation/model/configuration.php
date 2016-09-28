@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -31,16 +30,16 @@ class InstallationModelConfiguration extends JModelBase
 	public function setup($options)
 	{
 		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
+		$options = JArrayHelper::toObject($options);
 
-		// Attempt to create the configuration.
-		if (!$this->createConfiguration($options))
+		// Attempt to create the root user.
+		if (!$this->_createConfiguration($options))
 		{
 			return false;
 		}
 
 		// Attempt to create the root user.
-		if (!$this->createRootUser($options))
+		if (!$this->_createRootUser($options))
 		{
 			return false;
 		}
@@ -57,7 +56,7 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function createConfiguration($options)
+	public function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
@@ -184,9 +183,6 @@ class InstallationModelConfiguration extends JModelBase
 			$useFTP = false;
 		}
 
-		// Get the session
-		$session = JFactory::getSession();
-
 		if ($useFTP == true)
 		{
 			// Connect the FTP client.
@@ -200,6 +196,7 @@ class InstallationModelConfiguration extends JModelBase
 			if (!$ftp->write($file, $buffer))
 			{
 				// Set the config string to the session.
+				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 
@@ -210,11 +207,13 @@ class InstallationModelConfiguration extends JModelBase
 			if ($canWrite)
 			{
 				file_put_contents($path, $buffer);
+				$session = JFactory::getSession();
 				$session->set('setup.config', null);
 			}
 			else
 			{
 				// Set the config string to the session.
+				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 		}
@@ -231,8 +230,12 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	private function createRootUser($options)
+	private function _createRootUser($options)
 	{
+		// Get the application
+		/* @var InstallationApplicationWeb $app */
+		$app = JFactory::getApplication();
+
 		// Get a database object.
 		try
 		{
@@ -247,7 +250,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
 
 			return false;
 		}
@@ -307,7 +310,7 @@ class InstallationModelConfiguration extends JModelBase
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote('Super Utilisateur') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
@@ -322,7 +325,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$app->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}
@@ -358,7 +361,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$app->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}
