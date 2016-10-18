@@ -199,7 +199,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
@@ -359,7 +359,7 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Get the profile information for the linked user
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -542,7 +542,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Get the profile information for the linked user
-				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 
