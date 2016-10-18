@@ -15,7 +15,7 @@ $canEdit = $displayData->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 ?>
 
-<?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
+<?php if ($params->get('show_title') || $displayData->state == 0 || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
 			<h2 itemprop="name">
@@ -39,9 +39,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 		
-		<?php if ($displayData->publish_down != JFactory::getDbo()->getNullDate()
-			&& (strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
-		) : ?>
+		<?php if ((strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
+			&& $displayData->publish_down != JFactory::getDbo()->getNullDate()) : ?>
 			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>

@@ -29,14 +29,14 @@ $title = '';
 
 if (!empty($description))
 {
-	if ($text && $text !== $description)
+	if ($text && $text != $description)
 	{
 		JHtml::_('bootstrap.popover');
 		$classes[] = 'hasPopover';
 		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
 			. ' data-content="'. htmlspecialchars($description) . '"';
 
-		if (!$position && JFactory::getLanguage()->isRtl())
+		if (JFactory::getLanguage()->isRtl() && !$position)
 		{
 			$position = ' data-placement="left" ';
 		}
