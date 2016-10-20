@@ -42,63 +42,91 @@ class JFormFieldModal_Category extends JFormField
 			$extension = (string) JFactory::getApplication()->input->get('extension', 'com_content');
 		}
 
-		$allowNew    = ((string) $this->element['new'] == 'true');
-		$allowEdit   = ((string) $this->element['edit'] == 'true');
-		$allowClear  = ((string) $this->element['clear'] != 'false');
-		$allowSelect = ((string) $this->element['select'] != 'false');
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
-		// Load language.
+		// Load language
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
 		// The active category id field.
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
-		// Create the modal id.
-		$modalId = 'Category_' . $this->id;
+		// Build the script.
+		$script = array();
 
-		// Add the modal field script to the document head.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/modal-fields.js', false, true);
+		// Select button script
+		$script[] = '	function jSelectCategory_' . $this->id . '(id, title, object) {';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
 
-		// Script to proxy the select modal function to the modal-fields.js file.
-		if ($allowSelect)
+		if ($allowEdit)
 		{
-			static $scriptSelect = null;
-
-			if (is_null($scriptSelect))
-			{
-				$scriptSelect = array();
-			}
-
-			if (!isset($scriptSelect[$this->id]))
-			{
-				JFactory::getDocument()->addScriptDeclaration("
-				function jSelectCategory_" . $this->id . "(id, title, object) {
-					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
-				}
-				");
-
-				$scriptSelect[$this->id] = true;
-			}
+			$script[] = '		if (id == "' . (int) $this->value . '") {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		} else {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").addClass("hidden");';
+			$script[] = '		}';
 		}
 
+		if ($allowClear)
+		{
+			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
+		}
+
+		$script[] = '		jQuery("#categorySelect' . $this->id . 'Modal").modal("hide");';
+		$script[] = '	}';
+
+		// Edit button script
+		$script[] = '	function jEditCategory_' . $value . '(title) {';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
+		$script[] = '	}';
+
+		// Clear button script
+		static $scriptClear;
+
+		if ($allowClear && !$scriptClear)
+		{
+			$scriptClear = true;
+
+			$script[] = '	function jClearCategory(id) {';
+			$script[] = '		document.getElementById(id + "_id").value = "";';
+			$script[] = '		document.getElementById(id + "_name").value = "'
+				. htmlspecialchars(JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8') . '";';
+			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
+			$script[] = '		if (document.getElementById(id + "_edit")) {';
+			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
+			$script[] = '		}';
+			$script[] = '		return false;';
+			$script[] = '	}';
+		}
+
+		// Add the script to the document head.
+		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
 		// Setup variables for display.
-		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1'
-			. '&amp;extension=' . $extension;
-		$linkCategory  = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1'
-			. '&amp;extension=' . $extension;
-		$modalTitle    = JText::_('COM_CATEGORIES_CHANGE_CATEGORY');
+		$html = array();
+
+		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component'
+			. '&amp;extension=' . $extension
+			. '&amp;function=jSelectCategory_' . $this->id;
+
+		$linkCategory   = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component'
+			. '&amp;task=category.edit'
+			. '&amp;function=jEditCategory_' . $value;
 
 		if (isset($this->element['language']))
 		{
 			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle     .= ' &#8212; ' . $this->element['label'];
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY') . ' &#8212; ' . $this->element['label'];
+		}
+		else
+		{
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY');
 		}
 
-		$urlSelect = $linkCategories . '&amp;function=jSelectCategory_' . $this->id;
-		$urlEdit   = $linkCategory . '&amp;task=category.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
-		$urlNew    = $linkCategory . '&amp;task=category.add';
+		$urlSelect = $linkCategories . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit   = $linkCategory . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
 		if ($value)
 		{
@@ -119,150 +147,101 @@ class JFormFieldModal_Category extends JFormField
 			}
 		}
 
-		$title = empty($title) ? JText::_('COM_CATEGORIES_SELECT_A_CATEGORY') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		if (empty($title))
+		{
+			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true);
+		}
+
+		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current category display field.
-		$html  = '<span class="input-append">';
-		$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
+		$html[] = '<span class="input-append">';
+		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
-		// Select category button.
-		if ($allowSelect)
-		{
-			$html .= '<a'
-				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
-				. ' id="' . $this->id . '_select"'
-				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalSelect' . $modalId . '"'
-				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
-				. '<span class="icon-file"></span> ' . JText::_('JSELECT')
-				. '</a>';
-		}
+		// Select category button
+		$html[] = '<a'
+			. ' class="btn hasTooltip"'
+			. ' data-toggle="modal"'
+			. ' role="button"'
+			. ' href="#categorySelect' . $this->id . 'Modal"'
+			. ' title="' . JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY') . '">'
+			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
+			. '</a>';
 
-		// New category button.
-		if ($allowNew)
-		{
-			$html .= '<a'
-				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
-				. ' id="' . $this->id . '_new"'
-				. ' data-toggle="modal"'
-				. ' role="button"'
-				. ' href="#ModalNew' . $modalId . '"'
-				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_NEW_CATEGORY') . '">'
-				. '<span class="icon-new"></span> ' . JText::_('JACTION_CREATE')
-				. '</a>';
-		}
-
-		// Edit category button.
+		// Edit category button
 		if ($allowEdit)
 		{
-			$html .= '<a'
+			$html[] = '<a'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#ModalEdit' . $modalId . '"'
+				. ' href="#categoryEdit' . $value . 'Modal"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
 		}
 
-		// Clear category button.
+		// Clear category button
 		if ($allowClear)
 		{
-			$html .= '<a'
+			$html[] = '<button'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' href="#"'
-				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
+				. ' onclick="return jClearCategory(\'' . $this->id . '\')">'
 				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
-				. '</a>';
+				. '</button>';
 		}
 
-		$html .= '</span>';
+		$html[] = '</span>';
 
-		// Select category modal.
-		if ($allowSelect)
-		{
-			$html .= JHtml::_(
-				'bootstrap.renderModal',
-				'ModalSelect' . $modalId,
-				array(
-					'title'       => $modalTitle,
-					'url'         => $urlSelect,
-					'height'      => '400px',
-					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
-				)
-			);
-		}
+		// Select category modal
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'categorySelect' . $this->id . 'Modal',
+			array(
+				'title'       => $modalTitle,
+				'url'         => $urlSelect,
+				'height'      => '400px',
+				'width'       => '800px',
+				'bodyHeight'  => '70',
+				'modalWidth'  => '80',
+				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+			)
+		);
 
-		// New category modal.
-		if ($allowNew)
-		{
-			$html .= JHtml::_(
-				'bootstrap.renderModal',
-				'ModalNew' . $modalId,
-				array(
-					'title'       => JText::_('COM_CATEGORIES_NEW_CATEGORY'),
-					'backdrop'    => 'static',
-					'keyboard'    => false,
-					'closeButton' => false,
-					'url'         => $urlNew,
-					'height'      => '400px',
-					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
-				)
-			);
-		}
-
-		// Edit category modal.
-		if ($allowEdit)
-		{
-			$html .= JHtml::_(
-				'bootstrap.renderModal',
-				'ModalEdit' . $modalId,
-				array(
-					'title'       => JText::_('COM_CATEGORIES_EDIT_CATEGORY'),
-					'backdrop'    => 'static',
-					'keyboard'    => false,
-					'closeButton' => false,
-					'url'         => $urlEdit,
-					'height'      => '400px',
-					'width'       => '800px',
-					'bodyHeight'  => '70',
-					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
-							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
-							. JText::_("JAPPLY") . '</a>',
-				)
-			);
-		}
+		// Edit category modal
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'categoryEdit' . $value . 'Modal',
+			array(
+				'title'       => JText::_('COM_CATEGORIES_EDIT_CATEGORY'),
+				'backdrop'    => 'static',
+				'keyboard'    => false,
+				'closeButton' => false,
+				'url'         => $urlEdit,
+				'height'      => '400px',
+				'width'       => '800px',
+				'bodyHeight'  => '70',
+				'modalWidth'  => '80',
+				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. JText::_("JSAVE") . '</button>'
+						. '<button type="button" class="btn btn-success" aria-hidden="true"'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. JText::_("JAPPLY") . '</button>',
+			)
+		);
 
 		// Note: class='required' for client side validation
 		$class = $this->required ? ' class="required modal-value"' : '';
 
-		$html .= '<input type="hidden" id="' . $this->id . '_id"' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name . '"'
-			. '" data-text="' . htmlspecialchars(JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 
-		return $html;
+		return implode("\n", $html);
 	}
 }

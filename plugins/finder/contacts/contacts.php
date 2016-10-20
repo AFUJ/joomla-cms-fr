@@ -259,7 +259,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$item->params = new Registry($item->params);
+		$registry = new Registry;
+		$registry->loadString($item->params);
+		$item->params = $registry;
 
 		// Build the necessary route and path information.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Articles list controller class.
  *
@@ -23,7 +21,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -56,7 +54,7 @@ class ContentControllerArticles extends JControllerAdmin
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
@@ -76,7 +74,6 @@ class ContentControllerArticles extends JControllerAdmin
 		else
 		{
 			// Get the model.
-			/** @var ContentModelArticle $model */
 			$model = $this->getModel();
 
 			// Publish the items.
@@ -114,12 +111,27 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModelLegacy
+	 * @return  JModel
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
 	}
 }

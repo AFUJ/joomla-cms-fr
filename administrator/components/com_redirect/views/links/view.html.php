@@ -37,8 +37,6 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Set variables
-		$app                        = JFactory::getApplication();
 		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
@@ -55,20 +53,15 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
-		// Show messages about the enabled plugin and if the plugin should collect URLs
-		if ($this->enabled && $this->collect_urls_enabled)
-		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-		}
-		elseif ($this->enabled && !$this->collect_urls_enabled)
+		if (!$this->enabled)
 		{
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
 		}
-		else
+		elseif (!$this->collect_urls_enabled)
 		{
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
 
 		$this->addToolbar();

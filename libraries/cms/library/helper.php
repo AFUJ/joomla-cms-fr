@@ -175,7 +175,9 @@ class JLibraryHelper
 		// Convert the params to an object.
 		if (is_string(static::$libraries[$element]->params))
 		{
-			static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
+			$temp = new Registry;
+			$temp->loadString(static::$libraries[$element]->params);
+			static::$libraries[$element]->params = $temp;
 		}
 
 		return true;

@@ -184,11 +184,10 @@ class JRouter
 				{
 					$path = $info->path . '/includes/router.php';
 
-					JLoader::register($classname, $path);
-
-					if (class_exists($classname))
+					if (file_exists($path))
 					{
 						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
+						include_once $path;
 					}
 				}
 			}

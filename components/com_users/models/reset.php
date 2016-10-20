@@ -447,7 +447,9 @@ class UsersModelReset extends JModelForm
 
 		// Assemble the password reset confirmation link.
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
-		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
+		$itemid = UsersHelperRoute::getLoginRoute();
+		$itemid = $itemid !== null ? '&Itemid=' . $itemid : '';
+		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token . $itemid;
 
 		// Put together the email template data.
 		$data = $user->getProperties();

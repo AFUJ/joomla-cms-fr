@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * User model.
@@ -613,7 +612,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		// Sanitize user ids.
 		$pks = array_unique($pks);
-		$pks = ArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true))
@@ -632,7 +631,7 @@ class UsersModelUser extends JModelAdmin
 
 		if (!empty($commands['group_id']))
 		{
-			$cmd = ArrayHelper::getValue($commands, 'group_action', 'add');
+			$cmd = JArrayHelper::getValue($commands, 'group_action', 'add');
 
 			if (!$this->batchUser((int) $commands['group_id'], $pks, $cmd))
 			{
@@ -700,7 +699,7 @@ class UsersModelUser extends JModelAdmin
 		// Get the DB object
 		$db = $this->getDbo();
 
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		JArrayHelper::toInteger($user_ids);
 
 		$query = $db->getQuery(true);
 
@@ -741,7 +740,7 @@ class UsersModelUser extends JModelAdmin
 		// Get the DB object
 		$db = $this->getDbo();
 
-		$user_ids = ArrayHelper::toInteger($user_ids);
+		JArrayHelper::toInteger($user_ids);
 
 		// Non-super admin cannot work with super-admin group
 		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)

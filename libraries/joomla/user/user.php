@@ -364,7 +364,8 @@ class JUser extends JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = JFactory::getConfig()->get('root_user');
+			$config = JFactory::getConfig();
+			$rootUser = $config->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -375,7 +376,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			elseif ($this->id > 0)
+			else
 			{
 				// Get all groups against which the user is mapped.
 				$identities = $this->getAuthorisedGroups();
@@ -798,7 +799,8 @@ class JUser extends JObject
 
 			if ($my->id == $table->id)
 			{
-				$registry = new Registry($table->params);
+				$registry = new Registry;
+				$registry->loadString($table->params);
 				$my->setParameters($registry);
 			}
 

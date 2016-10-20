@@ -290,31 +290,27 @@ abstract class JPluginHelper
 			return static::$plugins;
 		}
 
-		$levels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$user = JFactory::getUser();
+		$cache = JFactory::getCache('com_plugins', '');
 
-		/** @var JCacheControllerCallback $cache */
-		$cache = JFactory::getCache('com_plugins', 'callback');
+		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		static::$plugins = $cache->get(
-			function () use ($levels)
-			{
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true)
-					->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
-					->from('#__extensions')
-					->where('enabled = 1')
-					->where('type = ' . $db->quote('plugin'))
-					->where('state IN (0,1)')
-					->where('access IN (' . $levels . ')')
-					->order('ordering');
-				$db->setQuery($query);
+		if (!(static::$plugins = $cache->get($levels)))
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('folder AS type, element AS name, params')
+				->from('#__extensions')
+				->where('enabled = 1')
+				->where('type =' . $db->quote('plugin'))
+				->where('state IN (0,1)')
+				->where('access IN (' . $levels . ')')
+				->order('ordering');
 
-				return $db->loadObjectList();
-			},
-			array(),
-			md5($levels),
-			false
-		);
+			static::$plugins = $db->setQuery($query)->loadObjectList();
+
+			$cache->store(static::$plugins, $levels);
+		}
 
 		return static::$plugins;
 	}

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Installer Update Controller
  *
@@ -34,7 +32,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 
-		$uid = ArrayHelper::toInteger($uid, array());
+		JArrayHelper::toInteger($uid, array());
 
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');
@@ -45,7 +43,8 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($model->getState('result', false))
 		{
-			JFactory::getCache('mod_menu')->clean();
+			$cache = JFactory::getCache('mod_menu');
+			$cache->clean();
 		}
 
 		$app          = JFactory::getApplication();

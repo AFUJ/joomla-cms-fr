@@ -9,21 +9,22 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
-$app  = JFactory::getApplication();
-$lang = JFactory::getLanguage();
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$lang            = JFactory::getLanguage();
+$this->language  = $doc->language;
+$this->direction = $doc->direction;
 
 // Output as HTML5
-$this->setHtml5(true);
+$doc->setHtml5(true);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -33,7 +34,7 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (is_file($file))
 {
-	$this->addStyleSheet($file);
+	$doc->addStyleSheet($file);
 }
 
 // Load custom.css
@@ -41,13 +42,13 @@ $file = 'templates/' . $this->template . '/css/custom.css';
 
 if (is_file($file))
 {
-	$this->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($file);
 }
 
 // Link color
 if ($this->params->get('linkColor'))
 {
-	$this->addStyleDeclaration('a { color: ' . $this->params->get('linkColor') . '; }');
+	$doc->addStyleDeclaration('a { color: ' . $this->params->get('linkColor') . '; }');
 }
 ?>
 <!DOCTYPE html>

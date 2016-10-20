@@ -86,7 +86,7 @@ elseif ($input->get('module'))
 
 		if (is_file($helperFile))
 		{
-			JLoader::register($class, $helperFile);
+			require_once $helperFile;
 
 			if (method_exists($class, $method . 'Ajax'))
 			{

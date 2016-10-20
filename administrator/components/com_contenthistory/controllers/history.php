@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Contenthistory list controller class.
  *
@@ -42,7 +40,8 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -104,7 +103,8 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->keep($cid))

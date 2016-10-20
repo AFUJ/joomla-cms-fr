@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Languages controller Class.
  *
@@ -43,12 +41,12 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 */
 	public function saveOrderAjax()
 	{
-		$pks   = $this->input->post->get('cid', array(), 'array');
+		$pks = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input.
-		$pks   = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
 
 		// Get the model.
 		$model = $this->getModel();

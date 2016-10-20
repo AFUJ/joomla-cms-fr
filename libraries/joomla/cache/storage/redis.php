@@ -64,15 +64,16 @@ class JCacheStorageRedis extends JCacheStorage
 			return false;
 		}
 
-		$app = JFactory::getApplication();
+		$config = JFactory::getConfig();
+		$app    = JFactory::getApplication();
 
-		$this->_persistent = $app->get('redis_persist', true);
+		$this->_persistent = $config->get('redis_persist', true);
 
 		$server = array(
-			'host' => $app->get('redis_server_host', 'localhost'),
-			'port' => $app->get('redis_server_port', 6379),
-			'auth' => $app->get('redis_server_auth', null),
-			'db'   => (int) $app->get('redis_server_db', null),
+			'host' => $config->get('redis_server_host', 'localhost'),
+			'port' => $config->get('redis_server_port', 6379),
+			'auth' => $config->get('redis_server_auth', null),
+			'db'   => (int) $config->get('redis_server_db', null),
 		);
 
 		static::$_redis = new Redis;

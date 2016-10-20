@@ -38,13 +38,6 @@
 									$orders[i] = response.data[i].split(',');
 								}
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
-
-								// Add chosen to the element
-								var $el = $("#" + $id);
-								if ($el) {
-									$el.chosen('destroy');
-									$el.chosen();
-								}
 							}
 						}
 

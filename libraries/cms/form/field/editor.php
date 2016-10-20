@@ -298,7 +298,8 @@ class JFormFieldEditor extends JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if (is_null($editor))
 			{
-				$editor = JFactory::getConfig()->get('editor');
+				$conf = JFactory::getConfig();
+				$editor = $conf->get('editor');
 			}
 
 			$this->editor = JEditor::getInstance($editor);

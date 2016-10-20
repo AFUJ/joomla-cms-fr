@@ -199,17 +199,19 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->published != $published) && ($data->published != $archived)))
 				{
 					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry($data->params);
+				$registry = new Registry;
+				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry($data->metadata);
+				$registry = new Registry;
+				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
 
 				$data->tags = new JHelperTags;
@@ -271,7 +273,8 @@ class ContactModelContact extends JModelForm
 		$groups    = implode(',', $user->getAuthorisedViewLevels());
 		$published = $this->getState('filter.published');
 
-		$contactParams = new Registry($contact->params);
+		$contactParams = new Registry;
+		$contactParams->loadString($contact->params);
 
 		// If we are showing a contact list, then the contact parameters take priority
 		// So merge the contact parameters with the merged parameters
@@ -456,7 +459,8 @@ class ContactModelContact extends JModelForm
 			if ($result)
 			{
 
-				$contactParams = new Registry($result->params);
+				$contactParams = new Registry;
+				$contactParams->loadString($result->params);
 
 				// If we are showing a contact list, then the contact parameters take priority
 				// So merge the contact parameters with the merged parameters

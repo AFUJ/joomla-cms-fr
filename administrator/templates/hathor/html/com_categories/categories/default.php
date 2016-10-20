@@ -218,7 +218,11 @@ $component = $jinput->get('extension');
 								</td>
 							<?php endif; ?>
 							<td class="center nowrap">
-								<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+								<?php if ($item->language == '*'): ?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else: ?>
+									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php endif; ?>
 							</td>
 							<td class="center">
 						<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">

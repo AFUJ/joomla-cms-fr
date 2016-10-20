@@ -163,7 +163,7 @@ class MenusHelper
 
 		if (JLanguageMultilang::isEnabled())
 		{
-			$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
+			$query->select('l.title AS language_title, l.image AS language_image')
 				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 		}
 

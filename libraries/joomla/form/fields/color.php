@@ -75,14 +75,6 @@ class JFormFieldColor extends JFormField
 	protected $split = 3;
 
 	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $layout = 'joomla.form.field.color';
-
-	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -180,125 +172,140 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Switch the layouts
-		$this->layout = $this->control === 'simple' ? $this->layout . '.simple' : $this->layout . '.advanced';
+		$lang = JFactory::getLanguage();
 
-		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
-	}
+		// Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.5
-	 */
-	protected function getLayoutData()
-	{
-		$lang  = JFactory::getLanguage();
-		$data  = parent::getLayoutData();
-		$color = strtolower($this->value);
-		$color = ! $color ? '' : $color;
+		// Control value can be: hue (default), saturation, brightness, wheel or simple
+		$control = $this->control;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
 		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
 
-		if (!$color || in_array($color, array('none', 'transparent')))
+		// Validation of data can be: color (hex color value). Keep for B/C (minicolors.js already auto-validates color)
+		$validate = $this->validate ? ' data-validate="' . $this->validate . '"' : '';
+
+		$onchange  = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$class     = $this->class;
+		$required  = $this->required ? ' required aria-required="true"' : '';
+		$disabled  = $this->disabled ? ' disabled' : '';
+		$autofocus = $this->autofocus ? ' autofocus' : '';
+
+		$color = strtolower($this->value);
+		$color = ! $color ? '' : $color;
+
+		if ($control == 'simple')
 		{
-			$color = 'none';
-		}
-		elseif ($color['0'] != '#')
-		{
-			$color = '#' . $color;
-		}
+			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
+			JHtml::_('behavior.simplecolorpicker');
 
-		// Assign data for simple/advanced mode
-		$controlModeData = $this->control === 'simple' ? $this->getSimpleModeLayoutData() : $this->getAdvancedModeLayoutData($lang);
-
-		$extraData = array(
-			'color'    => $color,
-			'format'   => $this->format,
-			'keywords' => $this->keywords,
-			'position' => $position,
-			'validate' => $this->validate
-		);
-
-		return array_merge($data, $extraData, $controlModeData);
-	}
-
-	/**
-	 * Method to get the data for the simple mode to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.5
-	 */
-	protected function getSimpleModeLayoutData()
-	{
-		$colors = strtolower($this->colors);
-
-		if (empty($colors))
-		{
-			$colors = array(
-				'none',
-				'#049cdb',
-				'#46a546',
-				'#9d261d',
-				'#ffc40d',
-				'#f89406',
-				'#c3325f',
-				'#7a43b6',
-				'#ffffff',
-				'#999999',
-				'#555555',
-				'#000000',
-			);
-		}
-		else
-		{
-			$colors = explode(',', $colors);
-		}
-
-		if (!$this->split)
-		{
-			$count = count($colors);
-			if ($count % 5 == 0)
+			if (in_array($color, array('none', 'transparent')))
 			{
-				$split = 5;
+				$color = 'none';
+			}
+			elseif ($color['0'] != '#')
+			{
+				$color = '#' . $color;
+			}
+
+			$colors = strtolower($this->colors);
+
+			if (empty($colors))
+			{
+				$colors = array(
+					'none',
+					'#049cdb',
+					'#46a546',
+					'#9d261d',
+					'#ffc40d',
+					'#f89406',
+					'#c3325f',
+					'#7a43b6',
+					'#ffffff',
+					'#999999',
+					'#555555',
+					'#000000',
+				);
 			}
 			else
 			{
-				if ($count % 4 == 0)
+				$colors = explode(',', $colors);
+			}
+
+			$split = $this->split;
+
+			if (!$split)
+			{
+				$count = count($colors);
+
+				if ($count % 5 == 0)
 				{
-					$split = 4;
+					$split = 5;
+				}
+				else
+				{
+					if ($count % 4 == 0)
+					{
+						$split = 4;
+					}
 				}
 			}
+
+			$split = $split ? $split : 3;
+
+			$html = array();
+			$html[] = '<select data-chosen="true" name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
+				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
+
+			foreach ($colors as $i => $c)
+			{
+				$html[] = '<option' . ($c == $color ? ' selected="selected"' : '') . '>' . $c . '</option>';
+
+				if (($i + 1) % $split == 0)
+				{
+					$html[] = '<option>-</option>';
+				}
+			}
+
+			$html[] = '</select>';
+
+			return implode('', $html);
 		}
+		else
+		{
+			if (in_array($this->format, array('rgb', 'rgba')) && $this->validate != 'color')
+			{
+				$alpha = ($this->format == 'rgba') ? true : false;
+				$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+			}
+			else
+			{
+				$placeholder = '#rrggbb';
+			}
 
-		$split = $this->split ? $this->split : 3;
+			$inputclass   = ($this->keywords && ! in_array($this->format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $this->format;
+			$class        = ' class="' . trim('minicolors ' . $class) . ($this->validate == 'color' ? '' : $inputclass) . '"';
+			$control      = $control ? ' data-control="' . $control . '"' : '';
+			$format       = $this->format ? ' data-format="' . $this->format . '"' : '';
+			$keywords     = $this->keywords ? ' data-keywords="' . $this->keywords . '"' : '';
+			$readonly     = $this->readonly ? ' readonly' : '';
+			$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+			$autocomplete = ! $this->autocomplete ? ' autocomplete="off"' : '';
 
-		return array(
-			'colors' => $colors,
-			'split'  => $split,
-		);
-	}
+			// Force LTR input value in RTL, due to display issues with rgba/hex colors
+			$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
-	/**
-	 * Method to get the data for the advanced mode to be passed to the layout for rendering.
-	 *
-	 * @param   object  $lang  The language object
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	protected function getAdvancedModeLayoutData($lang)
-	{
-		return array(
-			'colors'  => $this->colors,
-			'control' => $this->control,
-			'lang'    => $lang,
-		);
+			// Including fallback code for HTML5 non supported browsers.
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'system/html5fallback.js', false, true);
+
+			JHtml::_('behavior.colorpicker');
+
+			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
+				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus
+				. $format . $keywords . $direction . $validate . '/>';
+		}
 	}
 }

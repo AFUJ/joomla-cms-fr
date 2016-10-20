@@ -12,7 +12,7 @@
         require("../css/css"),
         require("../sass/sass"),
         require("../stylus/stylus"),
-        require("../pug/pug"),
+        require("../jade/jade"),
         require("../handlebars/handlebars"));
   } else if (typeof define === "function" && define.amd) { // AMD
     define(["../../lib/codemirror",
@@ -23,7 +23,7 @@
             "../css/css",
             "../sass/sass",
             "../stylus/stylus",
-            "../pug/pug",
+            "../jade/jade",
             "../handlebars/handlebars"], mod);
   } else { // Plain browser env
     mod(CodeMirror);
@@ -42,9 +42,9 @@
     ],
     template: [
       ["lang", /^vue-template$/i, "vue"],
-      ["lang", /^pug$/i, "pug"],
+      ["lang", /^jade$/i, "jade"],
       ["lang", /^handlebars$/i, "handlebars"],
-      ["type", /^(text\/)?(x-)?pug$/i, "pug"],
+      ["type", /^(text\/)?(x-)?jade$/i, "jade"],
       ["type", /^text\/x-handlebars-template$/i, "handlebars"],
       [null, null, "vue-template"]
     ]
@@ -63,7 +63,7 @@
 
   CodeMirror.defineMode("vue", function (config) {
     return CodeMirror.getMode(config, {name: "htmlmixed", tags: tagLanguages});
-  }, "htmlmixed", "xml", "javascript", "coffeescript", "css", "sass", "stylus", "pug", "handlebars");
+  }, "htmlmixed", "xml", "javascript", "coffeescript", "css", "sass", "stylus", "jade", "handlebars");
 
   CodeMirror.defineMIME("script/x-vue", "vue");
 });

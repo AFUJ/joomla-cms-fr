@@ -46,7 +46,8 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = (boolean) JFactory::getConfig()->get('debug');
+			$config = JFactory::getConfig();
+			$debug  = (boolean) $config->get('debug');
 		}
 
 		JHtml::_('script', 'jui/jquery.min.js', false, true, false, false, $debug);
@@ -91,7 +92,8 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = JDEBUG;
+			$config = JFactory::getConfig();
+			$debug  = (boolean) $config->get('debug');
 		}
 
 		// Load each of the requested components

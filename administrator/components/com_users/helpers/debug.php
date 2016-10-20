@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Users component debugging helper.
  *
@@ -54,7 +52,7 @@ class UsersHelperDebug
 			}
 
 			// Sort by component name
-			$items = ArrayHelper::sortObjects($items, 'text', 1, true, true);
+			JArrayHelper::sortObjects($items, 'text', 1, true, true);
 		}
 
 		return $items;

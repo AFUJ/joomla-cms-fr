@@ -32,6 +32,8 @@ abstract class JInstallerHelper
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
+		$config = JFactory::getConfig();
+
 		// Capture PHP errors
 		$track_errors = ini_get('track_errors');
 		ini_set('track_errors', true);
@@ -76,16 +78,14 @@ abstract class JInstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = JFactory::getConfig()->get('tmp_path');
-
 		// Set the target path if not given
 		if (!$target)
 		{
-			$target = $tmpPath . '/' . self::getFilenameFromUrl($url);
+			$target = $config->get('tmp_path') . '/' . self::getFilenameFromUrl($url);
 		}
 		else
 		{
-			$target = $tmpPath . '/' . basename($target);
+			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
 		// Write buffer to file

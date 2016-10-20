@@ -45,6 +45,8 @@ class ContentModelFeature extends ContentModelArticle
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		$condition = array();
+
+		return $condition;
 	}
 }

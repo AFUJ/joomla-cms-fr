@@ -141,9 +141,11 @@ class JCategories
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
 
-			JLoader::register($classname, $path);
-
-			if (!class_exists($classname))
+			if (is_file($path))
+			{
+				include_once $path;
+			}
+			else
 			{
 				return false;
 			}
@@ -730,7 +732,7 @@ class JCategoryNode extends JObject
 					$this->_path = $parent->getPath();
 				}
 
-				$this->_path[$this->id] = $this->id . ':' . $this->alias;
+				$this->_path[] = $this->id . ':' . $this->alias;
 			}
 
 			if (count($parent->_children) > 1)
@@ -916,7 +918,9 @@ class JCategoryNode extends JObject
 	{
 		if (!($this->params instanceof Registry))
 		{
-			$this->params = new Registry($this->params);
+			$temp = new Registry;
+			$temp->loadString($this->params);
+			$this->params = $temp;
 		}
 
 		return $this->params;
@@ -933,7 +937,9 @@ class JCategoryNode extends JObject
 	{
 		if (!($this->metadata instanceof Registry))
 		{
-			$this->metadata = new Registry($this->metadata);
+			$temp = new Registry;
+			$temp->loadString($this->metadata);
+			$this->metadata = $temp;
 		}
 
 		return $this->metadata;

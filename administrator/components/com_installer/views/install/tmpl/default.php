@@ -64,6 +64,12 @@ JFactory::getDocument()->addStyleDeclaration(
 		filter: alpha(opacity = 80);
 		overflow: hidden;
 	}
+	
+	.j-jed-message {
+		margin-bottom: 40px;
+		line-height: 2em;
+		color:#333333;
+	}
 	'
 );
 

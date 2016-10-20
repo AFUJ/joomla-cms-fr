@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Helper for mod_menu
  *
@@ -151,6 +149,8 @@ abstract class ModMenuHelper
 			}
 		}
 
-		return ArrayHelper::sortObjects($result, 'text', 1, false, true);
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
+
+		return $result;
 	}
 }

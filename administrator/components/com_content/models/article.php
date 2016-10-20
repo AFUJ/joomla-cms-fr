@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -22,26 +21,24 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 class ContentModelArticle extends JModelAdmin
 {
 	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  1.6
+	 * @var        string    The prefix to use with controller messages.
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_CONTENT';
 
 	/**
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *
-	 * @var    string
-	 * @since  3.2
+	 * @var      string
+	 * @since    3.2
 	 */
 	public $typeAlias = 'com_content.article';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var    string
-	 * @since  3.4.4
+	 * @var      string
+	 * @since    3.4.4
 	 */
 	protected $associationsContext = 'com_content.item';
 
@@ -62,7 +59,7 @@ class ContentModelArticle extends JModelAdmin
 
 		$newIds = array();
 
-		if (!$this->checkCategoryId($categoryId))
+		if (!parent::checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -124,7 +121,7 @@ class ContentModelArticle extends JModelAdmin
 				return false;
 			}
 
-			$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.
 			if (!$this->table->store())
@@ -176,7 +173,9 @@ class ContentModelArticle extends JModelAdmin
 				return false;
 			}
 
-			return JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			$user = JFactory::getUser();
+
+			return $user->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 		}
 
 		return false;
@@ -200,15 +199,16 @@ class ContentModelArticle extends JModelAdmin
 		{
 			return $user->authorise('core.edit.state', 'com_content.article.' . (int) $record->id);
 		}
-
 		// New article, so check against the category.
-		if (!empty($record->catid))
+		elseif (!empty($record->catid))
 		{
 			return $user->authorise('core.edit.state', 'com_content.category.' . (int) $record->catid);
 		}
-
 		// Default to component settings if neither article nor category known.
-		return parent::canEditState();
+		else
+		{
+			return parent::canEditState('com_content');
+		}
 	}
 
 	/**
@@ -223,6 +223,8 @@ class ContentModelArticle extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
+		$db = $this->getDbo();
+
 		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = JFactory::getDate()->toSql();
@@ -230,7 +232,7 @@ class ContentModelArticle extends JModelAdmin
 
 		if ($table->state == 1 && intval($table->publish_down) == 0)
 		{
-			$table->publish_down = $this->getDbo()->getNullDate();
+			$table->publish_down = $db->getNullDate();
 		}
 
 		// Increment the content version number.
@@ -269,19 +271,23 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry($item->attribs);
+			$registry = new Registry;
+			$registry->loadString($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new Registry($item->metadata);
+			$registry = new Registry;
+			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry($item->images);
+			$registry = new Registry;
+			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new Registry($item->urls);
+			$registry = new Registry;
+			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
@@ -294,6 +300,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Load associated content items
+		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -320,7 +327,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  mixed  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -336,11 +343,16 @@ class ContentModelArticle extends JModelAdmin
 
 		$jinput = JFactory::getApplication()->input;
 
-		/*
-		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
-		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
+		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
+		if ($jinput->get('a_id'))
+		{
+			$id = $jinput->get('a_id', 0);
+		}
+		// The back end uses id so we use that the rest of the time and set it to 0 by default.
+		else
+		{
+			$id = $jinput->get('id', 0);
+		}
 
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
@@ -477,7 +489,8 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new Registry($data['images']);
+			$registry = new Registry;
+			$registry->loadArray($data['images']);
 
 			$data['images'] = (string) $registry;
 		}
@@ -528,7 +541,8 @@ class ContentModelArticle extends JModelAdmin
 
 			unset($check);
 
-			$registry = new Registry($data['urls']);
+			$registry = new Registry;
+			$registry->loadArray($data['urls']);
 
 			$data['urls'] = (string) $registry;
 		}
@@ -612,7 +626,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
-		$pks = ArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($pks);
 
 		if (empty($pks))
 		{
@@ -667,6 +681,7 @@ class ContentModelArticle extends JModelAdmin
 
 				if (count($tuples))
 				{
+					$db = $this->getDbo();
 					$columns = array('content_id', 'ordering');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
@@ -702,7 +717,10 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('catid = ' . (int) $table->catid);
+		$condition = array();
+		$condition[] = 'catid = ' . (int) $table->catid;
+
+		return $condition;
 	}
 
 	/**
@@ -714,7 +732,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since    3.0
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
@@ -748,8 +766,6 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$field->addAttribute('select', 'true');
-					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}

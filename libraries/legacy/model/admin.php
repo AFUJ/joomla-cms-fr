@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 
 /**
  * Prototype admin model.
@@ -865,8 +864,8 @@ abstract class JModelAdmin extends JModelForm
 
 		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
 		{
-			$title = StringHelper::increment($title);
-			$alias = StringHelper::increment($alias, 'dash');
+			$title = JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
@@ -906,7 +905,8 @@ abstract class JModelAdmin extends JModelForm
 
 		if (property_exists($item, 'params'))
 		{
-			$registry = new Registry($item->params);
+			$registry = new Registry;
+			$registry->loadString($item->params);
 			$item->params = $registry->toArray();
 		}
 

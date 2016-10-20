@@ -10,8 +10,6 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
 JLoader::import('joomla.filesystem.file');
 
 // Check modules

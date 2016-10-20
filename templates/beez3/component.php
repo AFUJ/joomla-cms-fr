@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
 $color = $this->params->get('templatecolor');
 
 // Output as HTML5

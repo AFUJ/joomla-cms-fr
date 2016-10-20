@@ -129,7 +129,8 @@ class BannersTableBanner extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry($array['params']);
+			$registry = new Registry;
+			$registry->loadArray($array['params']);
 
 			if ((int) $registry->get('width', 0) < 0)
 			{

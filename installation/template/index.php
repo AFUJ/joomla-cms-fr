@@ -8,7 +8,9 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
+// Add Stylesheets
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
@@ -17,9 +19,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
 
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load JavaScript message titles
 JText::script('ERROR');
@@ -55,7 +54,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
 		</script>
 	</head>
-	<body data-basepath="<?php echo JUri::root(true); ?>">
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
@@ -102,12 +101,10 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					$('.radio.btn-group label').addClass('btn');
 
 					$('fieldset.btn-group').each(function() {
-						var $self = $(this);
 						// Handle disabled, prevent clicks on the container, and add disabled style to each button
-						if ($self.prop('disabled'))
-						{
-							$self.css('pointer-events', 'none').off('click');
-							$self.find('.btn').addClass('disabled');
+						if ($(this).prop('disabled')) {
+							$(this).css('pointer-events', 'none').off('click');
+							$(this).find('.btn').addClass('disabled');
 						}
 					});
 
@@ -118,75 +115,29 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 
 						if (!input.prop('checked'))
 						{
-							label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-
-							if (label.closest('.btn-group').hasClass('btn-group-reverse'))
+							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+							if(input.val()== '')
 							{
-								if (input.val() == '')
-								{
 									label.addClass('active btn-primary');
-								}
-								else if (input.val() == 0)
-								{
-									label.addClass('active btn-danger');
-								}
-								else
-								{
-									label.addClass('active btn-success');
-								}
-							}
-							else
+							 } else if(input.val()==0 || input.val()=='remove')
 							{
-								if (input.val() == '')
-								{
-									label.addClass('active btn-primary');
-								}
-								else if (input.val() == 0)
-								{
-									label.addClass('active btn-success');
-								}
-								else
-								{
 									label.addClass('active btn-danger');
-								}
-							}
+							 } else {
+							label.addClass('active btn-success');
+							 }
 							input.prop('checked', true);
 						}
 					});
 					$(".btn-group input[checked='checked']").each(function()
 					{
-						var $self  = $(this);
-						var attrId = $self.attr('id');
-
-						if ($self.hasClass('btn-group-reverse'))
+						if ($(this).val()== '')
 						{
-							if ($self.val() == '')
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-primary');
-							}
-							else if ($self.val() == 0)
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-danger');
-							}
-							else
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-success');
-							}
-						}
-						else
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+						} else if($(this).val()==0 || $(this).val()=='remove')
 						{
-							if ($self.val() == '')
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-primary');
-							}
-							else if ($self.val() == 0)
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-success');
-							}
-							else
-							{
-								$('label[for=' + attrId + ']').addClass('active btn-danger');
-							}
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+						} else {
+							$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 						}
 					});
 				})(jQuery);

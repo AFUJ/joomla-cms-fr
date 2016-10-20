@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Redirect link list controller class.
  *
@@ -43,7 +41,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			$ids = ArrayHelper::toInteger($ids);
+			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
@@ -84,7 +82,7 @@ class RedirectControllerLinks extends JControllerAdmin
 			// Get the model.
 			$model = $this->getModel();
 
-			$ids = ArrayHelper::toInteger($ids);
+			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))

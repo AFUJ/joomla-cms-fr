@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menu Item Model for Menus.
@@ -132,7 +131,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		$properties = $table->getProperties(1);
-		$value      = ArrayHelper::toObject($properties, 'JObject');
+		$value      = JArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}
@@ -262,7 +261,8 @@ class MenusModelMenu extends JModelForm
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Sanitize the ids.
-		$itemIds = ArrayHelper::toInteger((array) $itemIds);
+		$itemIds = (array) $itemIds;
+		JArrayHelper::toInteger($itemIds);
 
 		// Get a group row instance.
 		$table = $this->getTable();
@@ -323,7 +323,8 @@ class MenusModelMenu extends JModelForm
 
 		foreach ($modules as &$module)
 		{
-			$params = new Registry($module->params);
+			$params = new Registry;
+			$params->loadString($module->params);
 
 			$menuType = $params->get('menutype');
 
@@ -350,7 +351,6 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

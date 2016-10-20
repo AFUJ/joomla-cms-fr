@@ -87,7 +87,8 @@ class ContentModelForm extends ContentModelArticle
 		$value = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
-		$value->params = new Registry($value->attribs);
+		$value->params = new Registry;
+		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
 		$user   = JFactory::getUser();
@@ -140,7 +141,8 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		// Convert the metadata field to an array.
-		$registry = new Registry($value->metadata);
+		$registry = new Registry;
+		$registry->loadString($value->metadata);
 		$value->metadata = $registry->toArray();
 
 		if ($itemId)

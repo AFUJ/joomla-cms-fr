@@ -225,18 +225,16 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	/**
 	 * Get the columns from database table.
 	 *
-	 * @param   bool  $reload  flag to reload cache
-	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function getFields($reload = false)
+	public function getFields()
 	{
 		static $cache = null;
 
-		if ($cache === null || $reload)
+		if ($cache === null)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -286,7 +284,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				if ($tryThis = JPath::find($paths[$pathIndex++], strtolower($type) . '.php'))
 				{
 					// Import the class file.
-					JLoader::register($tableClass, $tryThis);
+					include_once $tryThis;
 				}
 			}
 

@@ -121,7 +121,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="small">
-							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+							<?php if ($item->language == '*'): ?>
+								<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else:?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+							<?php endif;?>
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>

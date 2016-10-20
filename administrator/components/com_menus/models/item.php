@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
@@ -151,7 +149,7 @@ class MenusModelItem extends JModelAdmin
 		// $value comes as {menutype}.{parent_id}
 		$parts = explode('.', $value);
 		$menuType = $parts[0];
-		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
+		$parentId = (int) JArrayHelper::getValue($parts, 1, 0);
 
 		$table = $this->getTable();
 		$db = $this->getDbo();
@@ -356,7 +354,7 @@ class MenusModelItem extends JModelAdmin
 		// $value comes as {menutype}.{parent_id}
 		$parts    = explode('.', $value);
 		$menuType = $parts[0];
-		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
+		$parentId = (int) JArrayHelper::getValue($parts, 1, 0);
 
 		$table = $this->getTable();
 		$db    = $this->getDbo();
@@ -474,7 +472,7 @@ class MenusModelItem extends JModelAdmin
 		{
 			// Remove any duplicates and sanitize ids.
 			$children = array_unique($children);
-			$children = ArrayHelper::toInteger($children);
+			JArrayHelper::toInteger($children);
 
 			// Update the menutype field in all nodes where necessary.
 			$query->clear()
@@ -538,8 +536,8 @@ class MenusModelItem extends JModelAdmin
 		}
 		else
 		{
-			$this->setState('item.link', ArrayHelper::getValue($data, 'link'));
-			$this->setState('item.type', ArrayHelper::getValue($data, 'type'));
+			$this->setState('item.link', JArrayHelper::getValue($data, 'link'));
+			$this->setState('item.type', JArrayHelper::getValue($data, 'type'));
 		}
 
 		// Get the form.
@@ -727,10 +725,11 @@ class MenusModelItem extends JModelAdmin
 
 		// Convert to the JObject before adding the params.
 		$properties = $table->getProperties(1);
-		$result = ArrayHelper::toObject($properties);
+		$result = JArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
-		$registry = new Registry($table->params);
+		$registry = new Registry;
+		$registry->loadString($table->params);
 		$result->params = $registry->toArray();
 
 		// Merge the request arguments in to the params for a component.
@@ -1164,14 +1163,11 @@ class MenusModelItem extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_menu');
+					$field->addAttribute('type', 'menuitem');
 					$field->addAttribute('language', $tag);
+					$field->addAttribute('disable', 'separator,alias,heading,url');
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$field->addAttribute('select', 'true');
-					$field->addAttribute('new', 'true');
-					$field->addAttribute('edit', 'true');
-					$field->addAttribute('clear', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1236,7 +1232,8 @@ class MenusModelItem extends JModelAdmin
 
 		foreach ($items as &$item)
 		{
-			$registry = new Registry($item->params);
+			$registry = new Registry;
+			$registry->loadString($item->params);
 			$params = (string) $registry;
 
 			$query->clear();
@@ -1665,10 +1662,10 @@ class MenusModelItem extends JModelAdmin
 		{
 			if ($title == $table->title)
 			{
-				$title = StringHelper::increment($title);
+				$title = JString::increment($title);
 			}
 
-			$alias = StringHelper::increment($alias, 'dash');
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
@@ -1686,7 +1683,6 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
 	}

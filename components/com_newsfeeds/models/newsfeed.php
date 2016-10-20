@@ -133,11 +133,14 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry($data->params);
+				$registry = new Registry;
+				$registry->loadString($data->params);
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$data->metadata = new Registry($data->metadata);
+				$registry = new Registry;
+				$registry->loadString($data->metadata);
+				$data->metadata = $registry;
 
 				// Compute access permissions.
 

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Module model.
  *
@@ -148,7 +146,7 @@ class ModulesModelSelect extends JModelList
 			}
 		}
 
-		$items = ArrayHelper::sortObjects($items, 'name', 1, true, true);
+		$items = JArrayHelper::sortObjects($items, 'name', 1, true, true);
 
 		// TODO: Use the cached XML from the extensions table?
 

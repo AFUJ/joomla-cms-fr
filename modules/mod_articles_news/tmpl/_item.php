@@ -31,9 +31,7 @@ $item_heading = $params->get('item_heading', 'h4');
 
 <?php echo $item->beforeDisplayContent; ?>
 
-<?php if ($params->get('show_introtext', '1')) : ?>
-	<?php echo $item->introtext; ?>
-<?php endif; ?>
+<?php echo $item->introtext; ?>
 
 <?php echo $item->afterDisplayContent; ?>
 

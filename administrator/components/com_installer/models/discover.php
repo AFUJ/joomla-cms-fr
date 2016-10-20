@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
@@ -191,7 +189,7 @@ class InstallerModelDiscover extends InstallerModel
 				$eid = array($eid);
 			}
 
-			$eid = ArrayHelper::toInteger($eid);
+			JArrayHelper::toInteger($eid);
 			$failed = false;
 
 			foreach ($eid as $id)

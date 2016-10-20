@@ -222,7 +222,8 @@ abstract class JHtmlBootstrap
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = JDEBUG;
+			$config = JFactory::getConfig();
+			$debug = (boolean) $config->get('debug');
 		}
 
 		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);

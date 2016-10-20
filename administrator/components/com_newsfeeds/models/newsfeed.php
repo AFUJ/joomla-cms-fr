@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
 
@@ -367,11 +366,13 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry($item->metadata);
+			$registry = new Registry;
+			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry($item->images);
+			$registry = new Registry;
+			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 		}
 
@@ -532,8 +533,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$field->addAttribute('select', 'true');
-					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
@@ -567,9 +566,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		{
 			if ($name == $table->name)
 			{
-				$name = StringHelper::increment($name);
+				$name = JString::increment($name);
 			}
-			$alias = StringHelper::increment($alias, 'dash');
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($name, $alias);

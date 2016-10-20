@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
@@ -119,7 +117,7 @@ abstract class FinderIndexer
 		if (file_exists($path))
 		{
 			// Instantiate the parser.
-			JLoader::register($class, $path);
+			include_once $path;
 
 			return new $class;
 		}
@@ -340,7 +338,7 @@ abstract class FinderIndexer
 							$string = substr($buffer, 0, $ls);
 
 							// Adjust the buffer based on the last space for the next iteration and trim.
-							$buffer = StringHelper::trim(substr($buffer, $ls));
+							$buffer = JString::trim(substr($buffer, $ls));
 						}
 						// No space character was found.
 						else

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Users list controller class.
  *
@@ -71,7 +69,7 @@ class UsersControllerUsers extends JControllerAdmin
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('block' => 1, 'unblock' => 0);
 		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{

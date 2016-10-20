@@ -153,7 +153,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Get the newsfeed
 		$newsfeed = $item;
 
-		$temp = new Registry($item->params);
+		$temp = new Registry;
+		$temp->loadString($item->params);
 		$params->merge($temp);
 
 		try
@@ -184,15 +185,15 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->params = $params;
-		$this->newsfeed = $newsfeed;
-		$this->state = $state;
-		$this->item = $item;
-		$this->user = $user;
+		$this->assignRef('params', $params);
+		$this->assignRef('newsfeed', $newsfeed);
+		$this->assignRef('state', $state);
+		$this->assignRef('item', $item);
+		$this->assignRef('user', $user);
 
 		if (!empty($msg))
 		{
-			$this->msg = $msg;
+			$this->assignRef('msg', $msg);
 		}
 
 		$this->print = $print;

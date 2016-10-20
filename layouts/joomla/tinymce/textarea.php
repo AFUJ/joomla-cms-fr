@@ -18,7 +18,7 @@ $data = $displayData;
 	cols="<?php echo $data->cols; ?>"
 	rows="<?php echo $data->rows; ?>"
 	style="width: <?php echo $data->width; ?>; height: <?php echo $data->height; ?>;"
-	class="<?php echo empty($data->class) ? 'mce_editable' : $data->class; ?>"
+	class="mce_editable"
 >
 	<?php echo $data->content; ?>
 </textarea>

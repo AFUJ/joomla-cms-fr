@@ -9,15 +9,16 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
-$app   = JFactory::getApplication();
-$lang  = JFactory::getLanguage();
-$input = $app->input;
-$user  = JFactory::getUser();
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$lang            = JFactory::getLanguage();
+$this->language  = $doc->language;
+$this->direction = $doc->direction;
+$input           = $app->input;
+$user            = JFactory::getUser();
 
 // Output as HTML5
-$this->setHtml5(true);
+$doc->setHtml5(true);
 
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
@@ -27,17 +28,17 @@ $mainPageUri = $frontEndUri->toString();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
 $languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$this->addStyleSheetVersion($languageCss);
+	$doc->addStyleSheetVersion($languageCss);
 }
 
 // Load custom.css
@@ -45,7 +46,7 @@ $customCss = 'templates/' . $this->template . '/css/custom.css';
 
 if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$this->addStyleSheetVersion($customCss);
+	$doc->addStyleSheetVersion($customCss);
 }
 
 // Detecting Active Variables
@@ -125,7 +126,7 @@ if ($stickyToolbar)
 // Template color
 if ($navbar_color)
 {
-	$this->addStyleDeclaration("
+	$doc->addStyleDeclaration("
 	.navbar-inner,
 	.navbar-inverse .navbar-inner,
 	.dropdown-menu li > a:hover,
@@ -142,7 +143,7 @@ if ($navbar_color)
 // Template header color
 if ($header_color)
 {
-	$this->addStyleDeclaration("
+	$doc->addStyleDeclaration("
 	.header {
 		background: " . $header_color . ";
 	}");
@@ -151,7 +152,7 @@ if ($header_color)
 // Sidebar background color
 if ($this->params->get('sidebarColor'))
 {
-	$this->addStyleDeclaration("
+	$doc->addStyleDeclaration("
 	.nav-list > .active > a,
 	.nav-list > .active > a:hover {
 		background: " . $this->params->get('sidebarColor') . ";
@@ -161,7 +162,7 @@ if ($this->params->get('sidebarColor'))
 // Link color
 if ($this->params->get('linkColor'))
 {
-	$this->addStyleDeclaration("
+	$doc->addStyleDeclaration("
 	a,
 	.j-toggle-sidebar-button {
 		color: " . $this->params->get('linkColor') . ";
@@ -183,6 +184,7 @@ if ($this->params->get('linkColor'))
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>

@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JCrypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
- * @since       12.1
- * @deprecated  4.0   Without replacment use JCryptCipherCrypto
+ * @since  12.1
  */
 abstract class JCryptCipherMcrypt implements JCryptCipher
 {

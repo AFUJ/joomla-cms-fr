@@ -30,40 +30,14 @@
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
 
-			if (!input.prop('checked'))
-			{
+			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
-
-				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
-				{
-					if (input.val() == '')
-					{
-						label.addClass('active btn-primary');
-					}
-					else if (input.val() == 0)
-					{
-						label.addClass('active btn-success');
-					}
-					else
-					{
-						label.addClass('active btn-danger');
-					}
-				}
-				else
-				{
-					if (input.val() == '')
-					{
-						label.addClass('active btn-primary');
-					}
-					else if (input.val() == 0)
-					{
-						label.addClass('active btn-danger');
-					}
-					else
-					{
-						label.addClass('active btn-success');
-					}
-
+				if (input.val() == '') {
+					label.addClass('active btn-primary');
+				} else if (input.val() == 0) {
+					label.addClass('active btn-danger');
+				} else {
+					label.addClass('active btn-success');
 				}
 				input.prop('checked', true);
 				input.trigger('change');
@@ -71,38 +45,12 @@
 		});
 		$('.btn-group input[checked=checked]').each(function()
 		{
-			var $self  = $(this);
-			var attrId = $self.attr('id');
-
-			if ($self.parent().hasClass('btn-group-reversed'))
-			{
-				if ($self.val() == '')
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-primary');
-				}
-				else if ($self.val() == 0)
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-success');
-				}
-				else
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger');
-				}
-			}
-			else
-			{
-				if ($self.val() == '')
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-primary');
-				}
-				else if ($self.val() == 0)
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger');
-				}
-				else
-				{
-					$('label[for=' + attrId + ']').addClass('active btn-success');
-				}
+			if ($(this).val() == '') {
+				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-primary');
+			} else if ($(this).val() == 0) {
+				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-danger');
+			} else {
+				$('label[for=' + $(this).attr('id') + ']').addClass('active btn-success');
 			}
 		});
 		// add color classes to chosen field based on value

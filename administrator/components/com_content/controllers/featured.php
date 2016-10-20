@@ -51,7 +51,6 @@ class ContentControllerFeatured extends ContentControllerArticles
 		else
 		{
 			// Get the model.
-			/** @var ContentModelFeature $model */
 			$model = $this->getModel();
 
 			// Remove the items.
@@ -85,7 +84,7 @@ class ContentControllerFeatured extends ContentControllerArticles
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy  The model.
+	 * @return  object  The model.
 	 *
 	 * @since   1.6
 	 */

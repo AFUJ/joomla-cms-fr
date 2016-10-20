@@ -52,7 +52,8 @@ abstract class JHtmlBehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = JDEBUG;
+			$config = JFactory::getConfig();
+			$debug = $config->get('debug');
 		}
 
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
@@ -593,8 +594,6 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.7
-	 *
-	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function colorpicker()
 	{
@@ -639,8 +638,6 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.1
-	 *
-	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function simplecolorpicker()
 	{
@@ -683,32 +680,39 @@ abstract class JHtmlBehavior
 		$session = JFactory::getSession();
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		$refreshTime = 300;
-
-		if ($session->storeName === 'database')
+		if ($session->storeName != 'database')
 		{
-			$lifeTime    = $session->getExpire();
-			$refreshTime = $lifeTime <= 60 ? 45 : $lifeTime - 60;
+			$refresh_time = 300000;
+		}
+		else
+		{
+			$life_time    = $session->getExpire() * 1000;
+			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
-			if ($refreshTime > 3600 || $refreshTime <= 0)
+			if ($refresh_time > 3600000 || $refresh_time <= 0)
 			{
-				$refreshTime = 3600;
+				$refresh_time = 3600000;
 			}
 		}
 
+		$url = JUri::base(true) . '/index.php';
+
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
+		{
+			$url .= '?option=com_ajax&format=json';
+		}
 
-		// Include core and polyfill for browsers lower than IE 9.
-		static::core();
-		static::polyfill('event', 'lt IE 9');
+		$script = 'window.setInterval(function(){';
+		$script .= 'var r;';
+		$script .= 'try{';
+		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
+		$script .= '}catch(e){}';
+		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
+		$script .= '},' . $refresh_time . ');';
 
-		// Add keepalive script options. 
-		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
-
-		// Add script.
-		JHtml::script('system/keepalive.js', false, true);
+		JFactory::getDocument()->addScriptDeclaration($script);
 
 		static::$loaded[__METHOD__] = true;
 
@@ -793,13 +797,9 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
-	 *
-	 * @deprecated  4.0  Add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.
 	 */
 	public static function noframes()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', JLog::WARNING, 'deprecated');
-
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
 		{
@@ -965,47 +965,5 @@ abstract class JHtmlBehavior
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
-	}
-
-	/**
-	 * Add javascript polyfills.
-	 *
-	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
-	 * @param   string        $conditionalBrowser  An IE conditional expression. Example: lt IE 9 (lower than IE 9).
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
-	{
-		if (is_null($polyfillTypes))
-		{
-			return false;
-		}
-
-		if (!is_array($polyfillTypes))
-		{
-			$polyfillTypes = array($polyfillTypes);
-		}
-
-		foreach ($polyfillTypes as $polyfillType)
-		{
-			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
-
-			// Only load once
-			if (isset(static::$loaded[__METHOD__][$sig]))
-			{
-				continue;
-			}
-
-			// If include according to browser.
-			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
-
-			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
 	}
 }

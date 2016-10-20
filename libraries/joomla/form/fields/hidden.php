@@ -27,14 +27,6 @@ class JFormFieldHidden extends JFormField
 	protected $type = 'Hidden';
 
 	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.7
-	 */
-	protected $layout = 'joomla.form.field.hidden';
-
-	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -43,19 +35,14 @@ class JFormFieldHidden extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
-	}
+		// Initialize some field attributes.
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$disabled = $this->disabled ? ' disabled' : '';
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.7
-	 */
-	protected function getLayoutData()
-	{
-		return parent::getLayoutData();
+		// Initialize JavaScript field attributes.
+		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+
+		return '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $onchange . ' />';
 	}
 }

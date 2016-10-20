@@ -86,7 +86,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterRender()
 	{
-		if (!$this->app->isSite())
+		if (!$this->app->isSite() || $this->app->get('sef', '0') == '0')
 		{
 			return;
 		}

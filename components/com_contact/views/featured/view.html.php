@@ -96,7 +96,9 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp       = new Registry($item->params);
+			$temp       = new Registry;
+
+			$temp->loadString($item->params);
 			$item->params = clone $params;
 			$item->params->merge($temp);
 

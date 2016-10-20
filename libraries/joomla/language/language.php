@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\StringHelper;
-
 /**
  * Allows for quoting in language .ini files.
  */
@@ -233,7 +231,10 @@ class JLanguage
 
 		while (!class_exists($class) && $path)
 		{
-			JLoader::register($class, $path);
+			if (file_exists($path))
+			{
+				require_once $path;
+			}
 
 			$path = next($paths);
 		}
@@ -397,7 +398,7 @@ class JLanguage
 		}
 
 		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
-		$string = StringHelper::strtolower($string);
+		$string = JString::strtolower($string);
 
 		return $string;
 	}

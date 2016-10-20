@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
- * Methods supporting a list of featured article records.
+ * About Page Model
  *
  * @since  1.6
  */
@@ -25,7 +23,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JControllerLegacy
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -65,11 +63,13 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  JDatabaseQuery
+	 * @param   boolean  $resolveFKs  True to join selected foreign information
+	 *
+	 * @return  string
 	 *
 	 * @since   1.6
 	 */
-	protected function getListQuery()
+	protected function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -109,14 +109,6 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-		// Join on voting table
-		if (JPluginHelper::isEnabled('content', 'vote'))
-		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-		}
-
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
@@ -151,7 +143,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 		elseif (is_array($categoryId))
 		{
-			$categoryId = implode(',', ArrayHelper::toInteger($categoryId));
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}
 
@@ -204,8 +197,7 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT',
-					$db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);

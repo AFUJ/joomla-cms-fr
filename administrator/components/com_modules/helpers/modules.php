@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Modules component helper.
  *
@@ -210,7 +208,7 @@ abstract class ModulesHelper
 			$modules[$i]->text = JText::_($module->text);
 		}
 
-		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
+		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
 
 		return $modules;
 	}

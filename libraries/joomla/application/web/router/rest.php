@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RESTful Web application router class for the Joomla Platform.
  *
- * @since       12.2
- * @deprecated  __DEPLOY_VERSION__  Use the `joomla/router` package via Composer instead
+ * @since  12.2
  */
 class JApplicationWebRouterRest extends JApplicationWebRouterBase
 {

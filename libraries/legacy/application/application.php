@@ -616,9 +616,11 @@ class JApplication extends JApplicationBase
 	 */
 	public function login($credentials, $options = array())
 	{
+		// Get the global JAuthentication object.
+		jimport('joomla.user.authentication');
+
 		JPluginHelper::importPlugin('user');
 
-		// Get the global JAuthentication object.
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -1097,7 +1099,7 @@ class JApplication extends JApplicationBase
 
 		if ($session->isNew())
 		{
-			$session->set('registry', new Registry);
+			$session->set('registry', new Registry('session'));
 			$session->set('user', new JUser);
 		}
 	}
@@ -1121,11 +1123,11 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  Use isClient('administrator') instead.
+	 * @deprecated  4.0
 	 */
 	public function isAdmin()
 	{
-		return $this->isClient('administrator');
+		return $this->_clientId == 1;
 	}
 
 	/**
@@ -1134,25 +1136,11 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  Use isClient('site') instead.
+	 * @deprecated  4.0
 	 */
 	public function isSite()
 	{
-		return $this->isClient('site');
-	}
-
-	/**
-	 * Check the client interface by name.
-	 *
-	 * @param   string  $identifier  String identifier for the application interface
-	 *
-	 * @return  boolean  True if this application is of the given type client interface.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function isClient($identifier)
-	{
-		return $this->getName() == $identifier;
+		return $this->_clientId == 0;
 	}
 
 	/**

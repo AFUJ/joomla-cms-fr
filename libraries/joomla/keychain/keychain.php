@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Keychain Class
  *
- * @since       12.3
- * @deprecated  4.0  Deprecated without replacement
+ * @since  12.3
  */
 class JKeychain extends \Joomla\Registry\Registry
 {

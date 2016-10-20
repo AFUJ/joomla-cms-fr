@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-
 jimport('joomla.utilities.utility');
 
 /**
@@ -74,7 +72,7 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// Simple performance check to determine whether bot should process further.
-		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
+		if (JString::strpos($row->text, 'class="system-pagebreak') === false)
 		{
 			return true;
 		}

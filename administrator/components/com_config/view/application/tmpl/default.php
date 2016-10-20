@@ -46,7 +46,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				foreach ($this->submenumodules as $submenumodule)
 				{
 					$output = JModuleHelper::renderModule($submenumodule);
-					$params = new Registry($submenumodule->params);
+					$params = new Registry;
+					$params->loadString($submenumodule->params);
 					echo $output;
 				}
 				?>

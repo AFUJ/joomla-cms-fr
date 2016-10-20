@@ -9,18 +9,19 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentHtml $this */
-
-$app = JFactory::getApplication();
+$app             = JFactory::getApplication();
+$doc             = JFactory::getDocument();
+$this->language  = $doc->language;
+$this->direction = $doc->direction;
 
 // Output as HTML5
-$this->setHtml5(true);
+$doc->setHtml5(true);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
 // Add Stylesheets
-$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load optional rtl Bootstrap css and Bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);

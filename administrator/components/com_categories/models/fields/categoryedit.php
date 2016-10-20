@@ -161,15 +161,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			if (strpos($this->element['language'], ',') !== false)
-			{
-				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
-			}
-			else
-			{
-				$language = $db->quote($this->element['language']);
-			}
-			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
+			$subQuery->where('language = ' . $db->quote($this->element['language']));
 		}
 
 		// Filter on the published state

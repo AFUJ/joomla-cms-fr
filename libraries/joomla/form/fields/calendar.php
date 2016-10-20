@@ -140,25 +140,7 @@ class JFormFieldCalendar extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$translateFormat = (string) $this->element['translateformat'];
-
-		if ($translateFormat && $translateFormat != 'false')
-		{
-			$showTime = (string) $this->element['showtime'];
-
-			if ($showTime && $showTime != 'false')
-			{
-				$format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
-			}
-			else
-			{
-				$format = JText::_('DATE_FORMAT_CALENDAR_DATE');
-			}
-		}
-		else
-		{
-			$format = $this->format;
-		}
+		$format = $this->format;
 
 		// Build the attributes array.
 		$attributes = array();

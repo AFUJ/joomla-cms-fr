@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Installer Update Sites Controller
  *
@@ -55,7 +53,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{

@@ -14,25 +14,10 @@ $app = JFactory::getApplication();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
-$params    = &$this->item->params;
-$n         = count($this->items);
+$n = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$listDirn = $this->escape($this->state->get('list.direction'));
 
-// Check for at least one editable article
-$isEditable = false;
-
-if (!empty($this->items))
-{
-	foreach ($this->items as $article)
-	{
-		if ($article->params->get('access-edit'))
-		{
-			$isEditable = true;
-			break;
-		}
-	}
-}
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -80,9 +65,10 @@ if (!empty($this->items))
 	<div class="clr"></div>
 
 	<table class="category">
-		<?php if ($this->params->get('show_headings')) : ?>
+		<?php if ($this->params->get('show_headings')) :?>
 		<thead>
 			<tr>
+
 				<th class="list-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
@@ -109,19 +95,6 @@ if (!empty($this->items))
 				<th class="list-hits" id="tableOrdering4">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 				</th>
-				<?php endif; ?>
-				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
-					<th id="categorylist_header_votes">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-					</th>
-				<?php endif; ?>
-				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
-					<th id="categorylist_header_ratings">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
-					</th>
-				<?php endif; ?>
-				<?php if ($isEditable) : ?>
-					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
 		</thead>
@@ -171,23 +144,6 @@ if (!empty($this->items))
 					</td>
 					<?php endif; ?>
 
-					<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
-						<td class="list-votes">
-							<?php echo $article->rating_count; ?>
-						</td>
-					<?php endif; ?>
-					<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
-						<td class="list-ratings">
-							<?php echo $article->rating; ?>
-						</td>
-					<?php endif; ?>
-					<?php if ($isEditable) : ?>
-						<td class="list-edit">
-							<?php if ($article->params->get('access-edit')) : ?>
-								<?php echo JHtml::_('icon.edit', $article, $params, array(), true); ?>
-							<?php endif; ?>
-						</td>
-					<?php endif; ?>
 				<?php else : ?>
 				<td>
 					<?php

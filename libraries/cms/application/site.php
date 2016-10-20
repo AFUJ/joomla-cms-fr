@@ -351,7 +351,8 @@ final class JApplicationSite extends JApplicationCms
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$temp = new Registry($menu->params);
+				$temp = new Registry;
+				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
 				$title = $menu->title;
 			}
@@ -400,7 +401,8 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = JFactory::getConfig()->get('sef');
+		$config = JFactory::getConfig();
+		$options['mode'] = $config->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -483,7 +485,9 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as &$template)
 			{
-				$template->params = new Registry($template->params);
+				$registry = new Registry;
+				$registry->loadString($template->params);
+				$template->params = $registry;
 
 				// Create home element
 				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
@@ -518,7 +522,9 @@ final class JApplicationSite extends JApplicationCms
 					{
 						$template = $tmpl;
 
-						$template->params = new Registry($template->params);
+						$registry = new Registry;
+						$registry->loadString($template->params);
+						$template->params = $registry;
 
 						break;
 					}

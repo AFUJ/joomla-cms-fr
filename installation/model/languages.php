@@ -688,39 +688,6 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Publish the Installed Content Languages.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function publishContentLanguages()
-	{
-		$app = JFactory::getApplication();
-
-		// Publish the Content Languages.
-		$tableLanguage = JTable::getInstance('Language');
-
-		$siteLanguages = $this->getInstalledlangs('site');
-
-		// For each content language.
-		foreach ($siteLanguages as $siteLang)
-		{
-			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
-			{
-				if (!$tableLanguage->publish())
-				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
-
-					continue;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Gets a unique language SEF string.
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
@@ -734,7 +701,6 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  string
 	 *
 	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function getSefString($itemLanguage, $siteLanguages)
 	{
@@ -771,7 +737,6 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function addLanguage($itemLanguage, $sefLangString)
 	{

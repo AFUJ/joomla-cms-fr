@@ -51,14 +51,6 @@ class JFormFieldTextarea extends JFormField
 	protected $maxlength;
 
 	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.7
-	 */
-	protected $layout = 'joomla.form.field.textarea';
-
-	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -143,32 +135,33 @@ class JFormFieldTextarea extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Trim the trailing line in the layout file
-		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
-	}
-
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.7
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+		// Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
+		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$disabled     = $this->disabled ? ' disabled' : '';
+		$readonly     = $this->readonly ? ' readonly' : '';
 		$columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
+		$required     = $this->required ? ' required aria-required="true"' : '';
+		$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
+		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
+		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
+		$autofocus    = $this->autofocus ? ' autofocus' : '';
+		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
 		$maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
-		$extraData = array(
-			'maxlength'    => $maxlength,
-			'rows'         => $rows,
-			'columns'      => $columns
-		);
+		// Initialize JavaScript field attributes.
+		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		$onclick = $this->onclick ? ' onclick="' . $this->onclick . '"' : '';
 
-		return array_merge($data, $extraData);
+		// Including fallback code for HTML5 non supported browsers.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/html5fallback.js', false, true);
+
+		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
+			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength . ' >'
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

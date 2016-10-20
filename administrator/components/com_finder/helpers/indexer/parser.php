@@ -55,7 +55,7 @@ abstract class FinderIndexerParser
 		}
 
 		// Instantiate the parser.
-		JLoader::register($class, $path);
+		include_once $path;
 		$instances[$format] = new $class;
 
 		return $instances[$format];

@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.7';
+	const RELEASE = '3.6';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-dev';
+	const DEV_LEVEL = '4-dev';
 
 	/**
 	 * Development status.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '27-June-2016';
+	const RELDATE = '18-October-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '08:13';
+	const RELTIME = '16:37';
 
 	/**
 	 * Release timezone.
@@ -243,9 +243,10 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date = new JDate;
+		$date   = new JDate;
+		$config = JFactory::getConfig();
 
-		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
 	}
 
 	/**
@@ -266,6 +267,9 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
+			$config = JFactory::getConfig();
+			$debugEnabled = $config->get('debug', 0);
+
 			// Get the joomla library params
 			$params = JLibraryHelper::getParams('joomla');
 
@@ -273,7 +277,7 @@ final class JVersion
 			$mediaVersion = $params->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if (JDEBUG || empty($mediaVersion))
+			if ($debugEnabled || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 

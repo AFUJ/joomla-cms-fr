@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * JHtml administrator messages class.
  *
@@ -75,7 +73,7 @@ class JHtmlMessages
 			0 => array('unpublish', 'messages.publish', 'COM_MESSAGES_OPTION_UNREAD', 'COM_MESSAGES_MARK_AS_READ'),
 		);
 
-		$state = ArrayHelper::getValue($states, (int) $value, $states[0]);
+		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$icon  = $state[0];
 
 		if ($canChange)

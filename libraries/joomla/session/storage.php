@@ -65,7 +65,7 @@ abstract class JSessionStorage
 					throw new JSessionExceptionUnsupported('Unable to load session storage class: ' . $name);
 				}
 
-				JLoader::register($class, $path);
+				require_once $path;
 
 				// The class should now be loaded
 				if (!class_exists($class))

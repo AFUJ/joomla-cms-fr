@@ -166,7 +166,8 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new Registry($module->params);
+		$params = new Registry;
+		$params->loadString($module->params);
 
 		// Get the template
 		$template = $app->getTemplate();

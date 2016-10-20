@@ -101,18 +101,10 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 							<?php elseif ($canChange):?>
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1');?>">
-									<?php if ($item->image) : ?>
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
-									<?php else : ?>
-										<span class="label" title="<?php echo JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
-									<?php endif; ?>
+									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 								</a>
 							<?php else:?>
-								<?php if ($item->image) : ?>
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
-								<?php else : ?>
-									<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
-								<?php endif; ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 							<?php endif;?>
 						</td>
 						<?php if ($clientId === 0) : ?>

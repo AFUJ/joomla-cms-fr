@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Methods supporting a list of article records.
  *
@@ -24,7 +22,7 @@ class ContentModelArticles extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     JControllerLegacy
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
@@ -168,6 +166,7 @@ class ContentModelArticles extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -200,24 +199,13 @@ class ContentModelArticles extends JModelList
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
-		// Join on voting table
-		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
-
-		if (JPluginHelper::isEnabled('content', 'vote'))
-		{
-			$assogroup .= ', v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-		}
-
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group($assogroup);
+				->group('a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name');
 		}
 
 		// Filter by access level.
@@ -261,7 +249,9 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN (' . $categoryId . ')');
 		}
 
 		// Filter on the level.
@@ -313,8 +303,7 @@ class ContentModelArticles extends JModelList
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT',
-					$db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
@@ -324,13 +313,23 @@ class ContentModelArticles extends JModelList
 		$orderCol = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
-		if (JPluginHelper::isEnabled('content', 'vote'))
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
-			$orderCol  = $this->state->get('list.fullordering', 'a.id');
-			$orderDirn = '';
+			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
 
-		$query->order($db->escape($orderCol) . ' ' . $orderDirn);
+		// SQL server change
+		if ($orderCol == 'language')
+		{
+			$orderCol = 'l.title';
+		}
+
+		if ($orderCol == 'access_level')
+		{
+			$orderCol = 'ag.title';
+		}
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
@@ -338,7 +337,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  stdClass
+	 * @return  JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -376,7 +375,8 @@ class ContentModelArticles extends JModelList
 
 		if (JFactory::getApplication()->isSite())
 		{
-			$groups = JFactory::getUser()->getAuthorisedViewLevels();
+			$user = JFactory::getUser();
+			$groups = $user->getAuthorisedViewLevels();
 
 			for ($x = 0, $count = count($items); $x < $count; $x++)
 			{

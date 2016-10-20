@@ -29,15 +29,16 @@ class PlgButtonReadmore extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  JObject  The button options as JObject
-	 *
-	 * @since   1.5
+	 * @return array A two element array of (imageName, textToInsert)
 	 */
 	public function onDisplay($name)
 	{
-		$getContent = $this->_subject->getContent($name);
-		$present    = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
+		$doc = JFactory::getDocument();
 
+		// Button is not active in specific content components
+
+		$getContent = $this->_subject->getContent($name);
+		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
 		$js = "
 			function insertReadmore(editor)
 			{
@@ -52,14 +53,17 @@ class PlgButtonReadmore extends JPlugin
 			}
 			";
 
-		JFactory::getDocument()->addScriptDeclaration($js);
+		$doc->addScriptDeclaration($js);
 
-		$button = new JObject;
+		$button          = new JObject;
 		$button->modal   = false;
 		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
+
+		// @TODO: The button writer needs to take into account the javascript directive
+		// $button->link', 'javascript:void(0)');
 		$button->link    = '#';
 
 		return $button;

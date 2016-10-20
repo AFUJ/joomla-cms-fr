@@ -11,7 +11,7 @@
  * @since       3.5.1
  * @version     1.0
  */
-document.addEventListener('DOMContentLoaded', function () {
+jQuery(document).ready(function() {
 	if (typeof window.jModalClose_no_tinyMCE === 'undefined')
 	{
 		window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;

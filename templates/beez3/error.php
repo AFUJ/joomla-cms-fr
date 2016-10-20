@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-/** @var JDocumentError $this */
-
 $showRightColumn = 0;
 $showleft        = 0;
 $showbottom      = 0;

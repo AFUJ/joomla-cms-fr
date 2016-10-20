@@ -912,9 +912,13 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-			$classname = $this->getScriptClassName();
+			if (is_file($manifestScriptFile))
+			{
+				// Load the file
+				include_once $manifestScriptFile;
+			}
 
-			JLoader::register($classname, $manifestScriptFile);
+			$classname = $this->getScriptClassName();
 
 			if (class_exists($classname))
 			{

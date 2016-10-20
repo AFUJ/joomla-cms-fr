@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-
 /**
  * Newsfeed Table class.
  *
@@ -81,7 +79,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -105,7 +103,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		{
 			// Only process if not empty
 			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = StringHelper::str_ireplace($bad_characters, "", $this->metadesc);
+			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
 
 		return true;

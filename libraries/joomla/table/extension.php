@@ -68,13 +68,15 @@ class JTableExtension extends JTable
 	{
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new Registry($array['params']);
+			$registry = new Registry;
+			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['control']) && is_array($array['control']))
 		{
-			$registry = new Registry($array['control']);
+			$registry = new Registry;
+			$registry->loadArray($array['control']);
 			$array['control'] = (string) $registry;
 		}
 

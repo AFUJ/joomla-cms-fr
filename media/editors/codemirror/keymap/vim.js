@@ -780,12 +780,8 @@
 
           if (lastInsertModeKeyTimer) { window.clearTimeout(lastInsertModeKeyTimer); }
           if (keysAreChars) {
-            var selections = cm.listSelections();
-            for (var i = 0; i < selections.length; i++) {
-              var here = selections[i].head;
-              cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
-            }
-            vimGlobalState.macroModeState.lastInsertModeChanges.changes.pop();
+            var here = cm.getCursor();
+            cm.replaceRange('', offsetCursor(here, 0, -(keys.length - 1)), here, '+input');
           }
           clearInputState(cm);
           return match.command;
@@ -822,7 +818,7 @@
           // TODO: Look into using CodeMirror's multi-key handling.
           // Return no-op since we are caching the key. Counts as handled, but
           // don't want act on it just yet.
-          return function() { return true; };
+          return function() {};
         } else {
           return function() {
             return cm.operation(function() {
@@ -4878,10 +4874,6 @@
           if (changeObj.origin == '+input' || changeObj.origin == 'paste'
               || changeObj.origin === undefined /* only in testing */) {
             var text = changeObj.text.join('\n');
-            if (lastChange.maybeReset) {
-              lastChange.changes = [];
-              lastChange.maybeReset = false;
-            }
             lastChange.changes.push(text);
           }
           // Change objects may be chained with next.
@@ -4904,7 +4896,7 @@
           lastChange.expectCursorActivityForChange = false;
         } else {
           // Cursor moved outside the context of an edit. Reset the change.
-          lastChange.maybeReset = true;
+          lastChange.changes = [];
         }
       } else if (!cm.curOp.isVimOp) {
         handleExternalSelection(cm, vim);
@@ -4968,10 +4960,6 @@
       var keyName = CodeMirror.keyName(e);
       if (!keyName) { return; }
       function onKeyFound() {
-        if (lastChange.maybeReset) {
-          lastChange.changes = [];
-          lastChange.maybeReset = false;
-        }
         lastChange.changes.push(new InsertModeKey(keyName));
         return true;
       }
