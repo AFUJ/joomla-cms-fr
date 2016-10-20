@@ -45,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				if ($displayData->hide) : ?>
 					<a class="nolink"><?php echo $item[0]; ?></a>
 				<?php else :
-					if ($item[1] !== '') : ?>
+					if (strlen($item[1])) : ?>
 						<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
 					<?php else : ?>
 						<?php echo $item[0]; ?>
