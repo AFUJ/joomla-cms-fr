@@ -44,7 +44,8 @@ class LanguagesController extends JControllerLegacy
 		if ($view == 'language' && $layout == 'edit' && !$this->checkEditId('com_languages.edit.language', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_languages&view=languages', false));
 
 			return false;

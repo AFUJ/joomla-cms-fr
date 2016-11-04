@@ -2,7 +2,7 @@
 <extension version="3.6" client="administrator" type="language" method="upgrade">
 	<name>English (en-GB)</name>
 	<tag>en-GB</tag>
-	<version>4.0.0</version>
+	<version>3.6.4</version>
 	<creationDate>October 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -205,6 +205,8 @@
 		<filename>en-GB.plg_system_log.sys.ini</filename>
 		<filename>en-GB.plg_system_logout.ini</filename>
 		<filename>en-GB.plg_system_logout.sys.ini</filename>
+		<filename>en-GB.plg_system_p3p.ini</filename>
+		<filename>en-GB.plg_system_p3p.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_redirect.sys.ini</filename>
 		<filename>en-GB.plg_system_remember.ini</filename>
@@ -225,6 +227,8 @@
 		<filename>en-GB.plg_user_joomla.sys.ini</filename>
 		<filename>en-GB.plg_user_profile.ini</filename>
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
+		<filename>en-GB.tpl_hathor.ini</filename>
+		<filename>en-GB.tpl_hathor.sys.ini</filename>
 		<filename>en-GB.tpl_isis.ini</filename>
 		<filename>en-GB.tpl_isis.sys.ini</filename>
 		<filename file="meta">en-GB.xml</filename>

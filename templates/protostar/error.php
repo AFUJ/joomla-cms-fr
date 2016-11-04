@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentError $this */
 
-$app = JFactory::getApplication();
+$app  = JFactory::getApplication();
+$user = JFactory::getUser();
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;

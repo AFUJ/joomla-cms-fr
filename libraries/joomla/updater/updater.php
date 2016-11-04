@@ -91,7 +91,7 @@ class JUpdater extends JAdapter
 	{
 		if (!isset(self::$instance))
 		{
-			self::$instance = new static;
+			self::$instance = new JUpdater;
 		}
 
 		return self::$instance;

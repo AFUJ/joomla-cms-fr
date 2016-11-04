@@ -37,7 +37,7 @@ class ContentController extends JControllerLegacy
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
+			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -50,7 +50,7 @@ class ContentController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JControllerLegacy  This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

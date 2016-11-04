@@ -9,12 +9,18 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.base.adapterinstance');
+
 /**
  * Abstract adapter for the installer.
  *
+ * @method         JInstaller  getParent()  Retrieves the parent object.
+ * @property-read  JInstaller  $parent      Parent object
+ *
  * @since  3.4
+ * @note   As of 4.0, this class will no longer extend from JAdapterInstance
  */
-abstract class JInstallerAdapter
+abstract class JInstallerAdapter extends JAdapterInstance
 {
 	/**
 	 * ID for the currently installed extension if present
@@ -53,7 +59,7 @@ abstract class JInstallerAdapter
 	 *
 	 * Making this object public allows extensions to customize the manifest in custom scripts.
 	 *
-	 * @var    SimpleXMLElement
+	 * @var    string
 	 * @since  3.4
 	 */
 	public $manifest = null;
@@ -73,14 +79,6 @@ abstract class JInstallerAdapter
 	 * @since  3.4
 	 */
 	protected $name = null;
-
-	/**
-	 * Installer used with this adapter
-	 *
-	 * @var    JInstaller
-	 * @since  4.0
-	 */
-	protected $parent = null;
 
 	/**
 	 * Install function routing
@@ -119,16 +117,7 @@ abstract class JInstallerAdapter
 	 */
 	public function __construct(JInstaller $parent, JDatabaseDriver $db, array $options = array())
 	{
-		$this->parent = $parent;
-		$this->db     = $db;
-
-		foreach ($options as $key => $value)
-		{
-			if (property_exists($this, $key))
-			{
-				$this->$key = $value;
-			}
-		}
+		parent::__construct($parent, $db, $options);
 
 		// Get a generic JTableExtension instance for use if not already loaded
 		if (!($this->extension instanceof JTableInterface))
@@ -540,18 +529,6 @@ abstract class JInstallerAdapter
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 
 		return $name;
-	}
-
-	/**
-	 * Retrieves the parent installer
-	 *
-	 * @return  JInstaller
-	 *
-	 * @since   4.0
-	 */
-	public function getParent()
-	{
-		return $this->parent;
 	}
 
 	/**

@@ -21,15 +21,16 @@ class BannersTableClient extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(&$db)
 	{
-		$this->typeAlias        = 'com_banners.client';
 		$this->checked_out_time = $db->getNullDate();
 		parent::__construct('#__banner_clients', 'id', $db);
+
+		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.client'));
 	}
 
 	/**

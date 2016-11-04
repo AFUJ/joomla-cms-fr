@@ -31,10 +31,11 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterSave event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
+		$dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
 	}
 
 	/**
@@ -51,10 +52,11 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderBeforeSave event.
-		JFactory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
+		$dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
 	}
 
 	/**
@@ -70,10 +72,11 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentAfterDelete($context, $article)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderAfterDelete event.
-		JFactory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
+		$dispatcher->trigger('onFinderAfterDelete', array($context, $article));
 	}
 
 	/**
@@ -92,10 +95,11 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
+		$dispatcher->trigger('onFinderChangeState', array($context, $pks, $value));
 	}
 
 	/**
@@ -113,9 +117,10 @@ class PlgContentFinder extends JPlugin
 	 */
 	public function onCategoryChangeState($extension, $pks, $value)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('finder');
 
 		// Trigger the onFinderCategoryChangeState event.
-		JFactory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
+		$dispatcher->trigger('onFinderCategoryChangeState', array($extension, $pks, $value));
 	}
 }

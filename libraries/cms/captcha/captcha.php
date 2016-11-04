@@ -9,11 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Dispatcher;
-use Joomla\Event\Event;
 use Joomla\Registry\Registry;
 
 /**
@@ -24,9 +19,31 @@ use Joomla\Registry\Registry;
  * @subpackage  Captcha
  * @since       2.5
  */
-class JCaptcha implements DispatcherAwareInterface
+class JCaptcha extends JObject
 {
-	use DispatcherAwareTrait;
+	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
+	protected $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  2.5
+	 */
+	protected $_state = null;
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
+	protected $_methods = array();
 
 	/**
 	 * Captcha Plugin object
@@ -63,7 +80,6 @@ class JCaptcha implements DispatcherAwareInterface
 	public function __construct($captcha, $options)
 	{
 		$this->_name = $captcha;
-		$this->setDispatcher(JFactory::getApplication()->getDispatcher());
 		$this->_load($options);
 	}
 
@@ -86,7 +102,7 @@ class JCaptcha implements DispatcherAwareInterface
 		{
 			try
 			{
-				self::$_instances[$signature] = new static($captcha, $options);
+				self::$_instances[$signature] = new JCaptcha($captcha, $options);
 			}
 			catch (RuntimeException $e)
 			{
@@ -110,14 +126,12 @@ class JCaptcha implements DispatcherAwareInterface
 	 */
 	public function initialise($id)
 	{
-		$event = new Event(
-			'onInit',
-			['id' => $id]
-		);
+		$args['id']    = $id;
+		$args['event'] = 'onInit';
 
 		try
 		{
-			$this->getDispatcher()->dispatch('onInit', $event);
+			$this->_captcha->update($args);
 		}
 		catch (Exception $e)
 		{
@@ -136,7 +150,7 @@ class JCaptcha implements DispatcherAwareInterface
 	 * @param   string  $id     The id for the control.
 	 * @param   string  $class  Value for the HTML class attribute
 	 *
-	 * @return  string  The return value of the function "onDisplay" of the selected Plugin.
+	 * @return  mixed  The return value of the function "onDisplay" of the selected Plugin.
 	 *
 	 * @since   2.5
 	 */
@@ -145,28 +159,21 @@ class JCaptcha implements DispatcherAwareInterface
 		// Check if captcha is already loaded.
 		if (is_null($this->_captcha))
 		{
-			return '';
+			return;
 		}
 
 		// Initialise the Captcha.
 		if (!$this->initialise($id))
 		{
-			return '';
+			return;
 		}
 
-		$event = new Event(
-			'onDisplay',
-			[
-				'name'  => $name,
-				'id'    => $id ? $id : $name,
-				'class' => $class ? 'class="' . $class . '"' : '',
-			]
-		);
+		$args['name']  = $name;
+		$args['id']    = $id ? $id : $name;
+		$args['class'] = $class ? 'class="' . $class . '"' : '';
+		$args['event'] = 'onDisplay';
 
-		$result = $this->getDispatcher()->dispatch('onInit', $event);
-
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results192
-		return $result['result'][0];
+		return $this->_captcha->update($args);
 	}
 
 	/**
@@ -174,7 +181,7 @@ class JCaptcha implements DispatcherAwareInterface
 	 *
 	 * @param   string  $code  The answer.
 	 *
-	 * @return  bool   The return value of the function "onCheckAnswer" of the selected Plugin.
+	 * @return  mixed   The return value of the function "onCheckAnswer" of the selected Plugin.
 	 *
 	 * @since	2.5
 	 */
@@ -183,18 +190,13 @@ class JCaptcha implements DispatcherAwareInterface
 		// Check if captcha is already loaded
 		if (is_null(($this->_captcha)))
 		{
-			return false;
+			return;
 		}
 
-		$event = new Event(
-			'onCheckAnswer',
-			['code'	=> $code]
-		);
+		$args['code']  = $code;
+		$args['event'] = 'onCheckAnswer';
 
-		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
-
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $this->_captcha->update($args);
 	}
 
 	/**
@@ -238,7 +240,120 @@ class JCaptcha implements DispatcherAwareInterface
 
 		// Build captcha plugin classname
 		$name = 'PlgCaptcha' . $this->_name;
-		$dispatcher     = $this->getDispatcher();
-		$this->_captcha = new $name($dispatcher, (array) $plugin, $options);
+		$this->_captcha = new $name($this, (array) $plugin, $options);
+	}
+
+	/**
+	 * Get the state of the JEditor object
+	 *
+	 * @return  mixed  The state of the object.
+	 *
+	 * @since   2.5
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   object  $observer  An observer object to attach
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof JEditor))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+		}
+
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   2.5
+	 */
+	public function detach($observer)
+	{
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
 	}
 }

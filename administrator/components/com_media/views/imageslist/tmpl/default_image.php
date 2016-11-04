@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 $params     = new Registry;
-JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+$dispatcher = JEventDispatcher::getInstance();
+$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
 
 <li class="imgOutline thumbnail height-80 width-80 center">
@@ -26,4 +27,4 @@ JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_me
 	</a>
 </li>
 <?php
-JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+$dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));

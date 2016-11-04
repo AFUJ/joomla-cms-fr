@@ -260,10 +260,18 @@ class UsersModelRegistration extends JModelForm
 			unset($this->data->password2);
 
 			// Get the dispatcher and load the users plugins.
+			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
-			JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.registration', $this->data));
+			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.registration', $this->data));
+
+			// Check for errors encountered while preparing the data.
+			if (count($results) && in_array(false, $results, true))
+			{
+				$this->setError($dispatcher->getError());
+				$this->data = false;
+			}
 		}
 
 		return $this->data;

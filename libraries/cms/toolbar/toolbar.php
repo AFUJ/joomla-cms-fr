@@ -81,7 +81,7 @@ class JToolbar
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = new static($name);
+			self::$instances[$name] = new JToolbar($name);
 		}
 
 		return self::$instances[$name];
@@ -226,48 +226,46 @@ class JToolbar
 
 		$buttonClass = 'JToolbarButton' . ucfirst($type);
 
+		// @deprecated 12.3 Remove the acceptance of legacy classes starting with JButton.
+		$buttonClassOld = 'JButton' . ucfirst($type);
+
 		if (!class_exists($buttonClass))
 		{
-			if (isset($this->_buttonPath))
+			if (!class_exists($buttonClassOld))
 			{
-				$dirs = $this->_buttonPath;
-			}
-			else
-			{
-				$dirs = array();
-			}
+				if (isset($this->_buttonPath))
+				{
+					$dirs = $this->_buttonPath;
+				}
+				else
+				{
+					$dirs = array();
+				}
 
-			$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
+				$file = JFilterInput::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
-			jimport('joomla.filesystem.path');
+				jimport('joomla.filesystem.path');
 
-			if ($buttonFile = JPath::find($dirs, $file))
-			{
-				include_once $buttonFile;
-			}
-			else
-			{
-				JLog::add(JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), JLog::WARNING, 'jerror');
+				if ($buttonFile = JPath::find($dirs, $file))
+				{
+					include_once $buttonFile;
+				}
+				else
+				{
+					JLog::add(JText::sprintf('JLIB_HTML_BUTTON_NO_LOAD', $buttonClass, $buttonFile), JLog::WARNING, 'jerror');
 
-				return false;
+					return false;
+				}
 			}
 		}
 
-		if (!class_exists($buttonClass))
+		if (!class_exists($buttonClass) && !class_exists($buttonClassOld))
 		{
 			// @todo remove code: return	JError::raiseError('SOME_ERROR_CODE', "Module file $buttonFile does not contain class $buttonClass.");
 			return false;
 		}
 
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($buttonClass))
-		{
-			$this->_buttons[$signature] = JFactory::getContainer()->get($buttonClass);
-		}
-		else
-		{
-			$this->_buttons[$signature] = new $buttonClass($this);
-		}
+		$this->_buttons[$signature] = new $buttonClass($this);
 
 		return $this->_buttons[$signature];
 	}

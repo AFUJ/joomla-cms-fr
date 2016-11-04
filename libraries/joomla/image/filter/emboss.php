@@ -9,13 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterEmboss is deprecated, use Joomla\Image\Filter\Emboss instead.', JLog::WARNING, 'deprecated');
-
 /**
  * Image Filter class to emboss an image.
  *
- * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Emboss instead
+ * @since  11.3
  */
 class JImageFilterEmboss extends JImageFilter
 {
@@ -27,7 +24,6 @@ class JImageFilterEmboss extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Emboss::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

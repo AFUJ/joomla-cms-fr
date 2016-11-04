@@ -7,13 +7,9 @@
  */
 
 /**
- * NOTE: This file should remain compatible with PHP 5.2 to allow us to run our PHP minimum check and show a friendly error message
- */
-
-/**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-define('JOOMLA_MINIMUM_PHP', '5.5.9');
+define('JOOMLA_MINIMUM_PHP', '5.3.10');
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
@@ -22,11 +18,15 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 
 /**
  * Constant that is checked in included files to prevent direct access.
+ * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
  */
 define('_JEXEC', 1);
 
 // Bootstrap the application
 require_once dirname(__FILE__) . '/application/bootstrap.php';
 
-// Instantiate and execute the application
-JFactory::getApplication('web', array(), 'InstallationApplication')->execute();
+// Get the application
+$app = JApplicationWeb::getInstance('InstallationApplicationWeb');
+
+// Execute the application
+$app->execute();

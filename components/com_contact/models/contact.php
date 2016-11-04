@@ -363,11 +363,14 @@ class ContactModelContact extends JModelForm
 		JPluginHelper::importPlugin('user');
 		$form = new JForm('com_users.profile');
 
+		// Get the dispatcher.
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Trigger the form preparation event.
-		JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+		$dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 		// Trigger the data preparation event.
-		JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
 
 		// Load the data into the form after the plugins have operated.
 		$form->bind($data);
@@ -542,11 +545,14 @@ class ContactModelContact extends JModelForm
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 
+				// Get the dispatcher.
+				$dispatcher = JEventDispatcher::getInstance();
+
 				// Trigger the form preparation event.
-				JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+				$dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 				// Trigger the data preparation event.
-				JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $data));
+				$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
 
 				// Load the data into the form after the plugins have operated.
 				$form->bind($data);

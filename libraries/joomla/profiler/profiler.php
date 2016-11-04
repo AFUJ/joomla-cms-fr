@@ -88,7 +88,7 @@ class JProfiler
 	{
 		if (empty(self::$instances[$prefix]))
 		{
-			self::$instances[$prefix] = new static($prefix);
+			self::$instances[$prefix] = new JProfiler($prefix);
 		}
 
 		return self::$instances[$prefix];

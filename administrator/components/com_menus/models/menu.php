@@ -193,6 +193,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
 		$id         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
 		$isNew      = true;
 
@@ -226,7 +227,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		// Trigger the before event.
-		$result = JFactory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
+		$result = $dispatcher->trigger('onContentBeforeSave', array($this->_context, &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -237,7 +238,7 @@ class MenusModelMenu extends JModelForm
 		}
 
 		// Trigger the after save event.
-		JFactory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
+		$dispatcher->trigger('onContentAfterSave', array($this->_context, &$table, $isNew));
 
 		$this->setState('menu.id', $table->id);
 
@@ -258,6 +259,8 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function delete($itemIds)
 	{
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Sanitize the ids.
 		$itemIds = ArrayHelper::toInteger((array) $itemIds);
 
@@ -273,7 +276,7 @@ class MenusModelMenu extends JModelForm
 			if ($table->load($itemId))
 			{
 				// Trigger the before delete event.
-				$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
+				$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
 
 				if (in_array(false, $result, true) || !$table->delete($itemId))
 				{
@@ -283,7 +286,7 @@ class MenusModelMenu extends JModelForm
 				}
 
 				// Trigger the after delete event.
-				JFactory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
+				$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
 
 				// TODO: Delete the menu associations - Menu items and Modules
 			}

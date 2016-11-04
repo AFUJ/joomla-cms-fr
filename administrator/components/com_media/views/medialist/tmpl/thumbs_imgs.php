@@ -11,11 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-$params = new Registry;
+$params     = new Registry;
+$dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $img) : ?>
-	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$img, &$params)); ?>
 	<li class="imgOutline thumbnail height-80 width-80 center">
 		<?php if ($this->canDelete):?>
 			<a class="close delete-item" target="_top"
@@ -39,5 +40,5 @@ $params = new Registry;
 			</a>
 		</div>
 	</li>
-	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$img, &$params)); ?>
 <?php endforeach; ?>

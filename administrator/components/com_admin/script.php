@@ -245,6 +245,7 @@ class JoomlaInstallerScript
 			array('component', 'com_fields', '', 1),
 
 			// Libraries
+			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
@@ -288,6 +289,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_quickicon', '', 1),
 			array('module', 'mod_stats_admin', '', 1),
 			array('module', 'mod_status', '', 1),
+			array('module', 'mod_submenu', '', 1),
 			array('module', 'mod_title', '', 1),
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
@@ -315,6 +317,7 @@ class JoomlaInstallerScript
 			array('plugin', 'newsfeeds', 'search', 0),
 			array('plugin', 'tags', 'search', 0),
 			array('plugin', 'languagefilter', 'system', 0),
+			array('plugin', 'p3p', 'system', 0),
 			array('plugin', 'cache', 'system', 0),
 			array('plugin', 'debug', 'system', 0),
 			array('plugin', 'log', 'system', 0),
@@ -352,6 +355,7 @@ class JoomlaInstallerScript
 
 			// Templates
 			array('template', 'beez3', '', 0),
+			array('template', 'hathor', '', 1),
 			array('template', 'protostar', '', 0),
 			array('template', 'isis', '', 1),
 

@@ -84,7 +84,9 @@ class CategoriesViewCategories extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -180,7 +182,7 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');

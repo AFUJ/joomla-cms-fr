@@ -106,14 +106,22 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			throw new JCacheExceptionConnecting('Redis connection failed', 500);
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis connection failed');
+			}
+
+			return false;
 		}
 
 		if ($auth == false)
 		{
-			static::$_redis = null;
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis authentication failed');
+			}
 
-			throw new JCacheExceptionConnecting('Redis authentication failed', 500);
+			return false;
 		}
 
 		$select = static::$_redis->select($server['db']);
@@ -122,7 +130,12 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			throw new JCacheExceptionConnecting('Redis failed to select database', 500);
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis failed to select database');
+			}
+
+			return false;
 		}
 
 		try
@@ -133,7 +146,12 @@ class JCacheStorageRedis extends JCacheStorage
 		{
 			static::$_redis = null;
 
-			throw new JCacheExceptionConnecting('Redis ping failed', 500);
+			if ($app->isAdmin())
+			{
+				JError::raiseWarning(500, 'Redis ping failed');
+			}
+
+			return false;
 		}
 
 		return static::$_redis;

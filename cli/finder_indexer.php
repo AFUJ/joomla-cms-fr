@@ -42,7 +42,10 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
+
+// Bootstrap the CMS libraries.
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';
@@ -100,7 +103,7 @@ class FinderCli extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	protected function doExecute()
+	public function doExecute()
 	{
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));
@@ -170,7 +173,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
-		JFactory::getApplication()->triggerEvent('onStartIndex');
+		JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -182,7 +185,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
-		JFactory::getApplication()->triggerEvent('onBeforeIndex');
+		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 		// Startup reporting.
 		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
@@ -204,7 +207,7 @@ class FinderCli extends JApplicationCli
 				$state->batchOffset = 0;
 
 				// Trigger the onBuildIndex event.
-				JFactory::getApplication()->triggerEvent('onBuildIndex');
+				JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 				// Batch reporting.
 				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->qtime, 3)), true);

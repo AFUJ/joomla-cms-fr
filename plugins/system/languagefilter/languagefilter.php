@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Cms\Event\BeforeExecuteEvent;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -163,30 +162,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
-	}
-
-	/**
-	 * Listener for the onBeforeExecute event
-	 *
-	 * @param   BeforeExecuteEvent  $event  The Event object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function onBeforeExecute(BeforeExecuteEvent $event)
-	{
-		/** @var JApplicationCms $app */
-		$app = $event->getApplication();
-
-		if (!$app->isSite())
-		{
-			return;
-		}
-
-		// If a language was specified it has priority, otherwise use user or default language settings
-		$app->setLanguageFilter(true);
-		$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 	}
 
 	/**

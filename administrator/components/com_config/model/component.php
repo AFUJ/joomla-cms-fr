@@ -127,6 +127,7 @@ class ConfigModelComponent extends ConfigModelForm
 	public function save($data)
 	{
 		$table      = JTable::getInstance('extension');
+		$dispatcher = JEventDispatcher::getInstance();
 		$context    = $this->option . '.' . $this->name;
 		JPluginHelper::importPlugin('extension');
 
@@ -177,7 +178,7 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		$result = JFactory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, $table, false));
 
 			// Store the data.
 		if (in_array(false, $result, true) || !$table->store())
@@ -185,7 +186,8 @@ class ConfigModelComponent extends ConfigModelForm
 			throw new RuntimeException($table->getError());
 		}
 
-		JFactory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+		// Trigger the after save event.
+		$dispatcher->trigger('onExtensionAfterSave', array($context, $table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system', 0);

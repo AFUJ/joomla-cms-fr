@@ -425,10 +425,21 @@ class FinderIndexerHelper
 	 */
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
+		// Get the event dispatcher.
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
 
-		JFactory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+		// Trigger the event.
+		$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
+
+		// Check the returned results. This is for plugins that don't throw
+		// exceptions when they encounter serious errors.
+		if (in_array(false, $results))
+		{
+			throw new Exception($dispatcher->getError(), 500);
+		}
 
 		return true;
 	}
@@ -446,6 +457,9 @@ class FinderIndexerHelper
 	public static function prepareContent($text, $params = null)
 	{
 		static $loaded;
+
+		// Get the dispatcher.
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the content plugins if necessary.
 		if (empty($loaded))
@@ -466,7 +480,7 @@ class FinderIndexerHelper
 		$content->text = $text;
 
 		// Fire the onContentPrepare event.
-		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+		$dispatcher->trigger('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
 
 		return $content->text;
 	}

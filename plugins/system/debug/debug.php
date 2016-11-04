@@ -194,7 +194,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+			JHtml::_('stylesheet', 'cms/debug.css', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Only if debugging is enabled for SQL query popovers.
@@ -498,7 +498,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		if (!$session)
 		{
-			$session = $this->app->getSession()->all();
+			$session = JFactory::getSession()->getData();
 		}
 
 		$html = array();

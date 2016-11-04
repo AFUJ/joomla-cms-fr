@@ -61,7 +61,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @param   string  $context  The calling context
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -69,7 +69,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	{
 		if (!$this->shouldDisplayMessage())
 		{
-			return [];
+			return;
 		}
 
 		$supportStatus = $this->getPhpSupport();
@@ -90,8 +90,6 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 					break;
 			}
 		}
-
-		return [];
 	}
 
 	/**

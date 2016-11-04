@@ -9,11 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
-use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,9 +16,31 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class JEditor implements DispatcherAwareInterface
+class JEditor extends JObject
 {
-	use DispatcherAwareTrait;
+	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 * @since  1.5
+	 */
+	protected $_observers = array();
+
+	/**
+	 * The state of the observable object
+	 *
+	 * @var    mixed
+	 * @since  1.5
+	 */
+	protected $_state = null;
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 * @since  1.5
+	 */
+	protected $_methods = array();
 
 	/**
 	 * Editor Plugin object
@@ -68,33 +85,11 @@ class JEditor implements DispatcherAwareInterface
 	/**
 	 * Constructor
 	 *
-	 * @param   string               $editor      The editor name
-	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+	 * @param   string  $editor  The editor name
 	 */
-	public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
+	public function __construct($editor = 'none')
 	{
 		$this->_name = $editor;
-
-		// Set the dispatcher
-		if (!is_object($dispatcher))
-		{
-			$dispatcher = JFactory::getContainer()->get('dispatcher');
-		}
-
-		$this->setDispatcher($dispatcher);
-
-		// Register the getButtons event
-		$this->getDispatcher()->addListener(
-			'getButtons',
-			function(AbstractEvent $event) {
-				$editor = $event->getArgument('editor', null);
-				$buttons = $event->getArgument('buttons', null);
-				$result = $event->getArgument('result', []);
-				$newResult = $this->getButtons($editor, $buttons);
-				$newResult = (array) $newResult;
-				$event['result'] = array_merge($result, $newResult);
-			}
-		);
 	}
 
 	/**
@@ -113,10 +108,126 @@ class JEditor implements DispatcherAwareInterface
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new static($editor);
+			self::$instances[$signature] = new JEditor($editor);
 		}
 
 		return self::$instances[$signature];
+	}
+
+	/**
+	 * Get the state of the JEditor object
+	 *
+	 * @return  mixed    The state of the object.
+	 *
+	 * @since   1.5
+	 */
+	public function getState()
+	{
+		return $this->_state;
+	}
+
+	/**
+	 * Attach an observer object
+	 *
+	 * @param   array|object  $observer  An observer object to attach or an array with handler and event keys
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public function attach($observer)
+	{
+		if (is_array($observer))
+		{
+			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check)
+			{
+				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+			end($this->_observers);
+			$methods = array($observer['event']);
+		}
+		else
+		{
+			if (!($observer instanceof JEditor))
+			{
+				return;
+			}
+
+			// Make sure we haven't already attached this object as an observer
+			$class = get_class($observer);
+
+			foreach ($this->_observers as $check)
+			{
+				if ($check instanceof $class)
+				{
+					return;
+				}
+			}
+
+			$this->_observers[] = $observer;
+
+			// @todo We require a JEditor object above but get the methods from JPlugin - something isn't right here!
+			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
+		}
+
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+	}
+
+	/**
+	 * Detach an observer object
+	 *
+	 * @param   object  $observer  An observer object to detach.
+	 *
+	 * @return  boolean  True if the observer object was detached.
+	 *
+	 * @since   1.5
+	 */
+	public function detach($observer)
+	{
+		$retval = false;
+
+		$key = array_search($observer, $this->_observers);
+
+		if ($key !== false)
+		{
+			unset($this->_observers[$key]);
+			$retval = true;
+
+			foreach ($this->_methods as &$method)
+			{
+				$k = array_search($key, $method);
+
+				if ($k !== false)
+				{
+					unset($method[$k]);
+				}
+			}
+		}
+
+		return $retval;
 	}
 
 	/**
@@ -134,22 +245,23 @@ class JEditor implements DispatcherAwareInterface
 			return;
 		}
 
-		$event = new Event('onInit');
+		$args['event'] = 'onInit';
 
 		$return    = '';
-		$results   = $this->getDispatcher()->dispatch('onInit', $event);
+		$results[] = $this->_editor->update($args);
 
-		foreach ($results['result'] as $result)
+		foreach ($results as $result)
 		{
 			if (trim($result))
 			{
+				// @todo remove code: $return .= $result;
 				$return = $result;
 			}
 		}
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, "addCustomTag"))
+		if (method_exists($document, "addCustomTag") && !empty($return))
 		{
 			$document->addCustomTag($return);
 		}
@@ -183,7 +295,7 @@ class JEditor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
 
 			return;
 		}
@@ -203,48 +315,11 @@ class JEditor implements DispatcherAwareInterface
 		$args['row'] = $row;
 		$args['buttons'] = $buttons;
 		$args['id'] = $id ? $id : $name;
+		$args['event'] = 'onDisplay';
 
-		$editorId = (object) array('id' => $args['id']);
+		$results[] = $this->_editor->update($args);
 
-		// Register the getContent event
-		$this->getDispatcher()->addListener(
-			'getContent',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$result = $event->getArgument('result', []);
-				$result[] = $this->getContent($editor);
-				$event['result'] = $result;
-			}
-		);
-
-		// Register the setContent event
-		$this->getDispatcher()->addListener(
-			'setContent',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$html = $event->getArgument('html', null);
-				$result = $event->getArgument('result', []);
-				$result[] = $this->setContent($editor, $html);
-				$event['result'] = $result;
-			}
-		);
-
-		// Register the save event
-		$this->getDispatcher()->addListener(
-			'save',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$result = $event->getArgument('result', []);
-				$result[] = $this->save($editor);
-				$event['result'] = $result;
-			}
-		);
-
-		$event = new Event('onDisplay', $args);
-
-		$results = $this->getDispatcher()->dispatch('onDisplay', $event);
-
-		foreach ($results['result'] as $result)
+		foreach ($results as $result)
 		{
 			if (trim($result))
 			{
@@ -271,17 +346,16 @@ class JEditor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
-			return '';
+			return;
 		}
 
 		$args[] = $editor;
-
-		$event = new Event('onSave', $args);
+		$args['event'] = 'onSave';
 
 		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSave', $event);
+		$results[] = $this->_editor->update($args);
 
-		foreach ($results['result'] as $result)
+		foreach ($results as $result)
 		{
 			if (trim($result))
 			{
@@ -306,13 +380,12 @@ class JEditor implements DispatcherAwareInterface
 		$this->_loadEditor();
 
 		$args['name'] = $editor;
-
-		$event = new Event('onGetContent', $args);
+		$args['event'] = 'onGetContent';
 
 		$return = '';
-		$results = $this->getDispatcher()->dispatch('onGetContent', $event);
+		$results[] = $this->_editor->update($args);
 
-		foreach ($results['result'] as $result)
+		foreach ($results as $result)
 		{
 			if (trim($result))
 			{
@@ -339,13 +412,12 @@ class JEditor implements DispatcherAwareInterface
 
 		$args['name'] = $editor;
 		$args['html'] = $html;
-
-		$event = new Event('onSetContent', $args);
+		$args['event'] = 'onSetContent';
 
 		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSetContent', $event);
+		$results[] = $this->_editor->update($args);
 
-		foreach ($results['result'] as $result)
+		foreach ($results as $result)
 		{
 			if (trim($result))
 			{
@@ -396,8 +468,7 @@ class JEditor implements DispatcherAwareInterface
 
 			if (class_exists($className))
 			{
-				$dispatcher = $this->getDispatcher();
-				$plugin = new $className($dispatcher, (array) $plugin);
+				$plugin = new $className($this, (array) $plugin);
 			}
 
 			// Try to authenticate
@@ -428,7 +499,7 @@ class JEditor implements DispatcherAwareInterface
 	/**
 	 * Load the editor
 	 *
-	 * @param   array  $config  Associative array of editor config parameters
+	 * @param   array  $config  Associative array of editor config paramaters
 	 *
 	 * @return  mixed
 	 *
@@ -439,7 +510,7 @@ class JEditor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if (!is_null(($this->_editor)))
 		{
-			return false;
+			return;
 		}
 
 		// Build the path to the needed editor plugin
@@ -472,9 +543,7 @@ class JEditor implements DispatcherAwareInterface
 		// Build editor plugin classname
 		$name = 'PlgEditor' . $this->_name;
 
-		$dispatcher = $this->getDispatcher();
-
-		if ($this->_editor = new $name($dispatcher, (array) $plugin))
+		if ($this->_editor = new $name($this, (array) $plugin))
 		{
 			// Load plugin parameters
 			$this->initialise();

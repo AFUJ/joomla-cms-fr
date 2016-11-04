@@ -71,12 +71,13 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Load installer plugins for assistance if required:
 		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
 
 		$package = null;
 
 		// This event allows an input pre-treatment, a custom pre-packing or custom installation.
 		// (e.g. from a JSON description).
-		$results = $app->triggerEvent('onInstallerBeforeInstallation', array($this, &$package));
+		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
 
 		if (in_array(true, $results, true))
 		{
@@ -117,7 +118,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// This event allows a custom installation of the package or a customization of the package:
-		$results = $app->triggerEvent('onInstallerBeforeInstaller', array($this, &$package));
+		$results = $dispatcher->trigger('onInstallerBeforeInstaller', array($this, &$package));
 
 		if (in_array(true, $results, true))
 		{
@@ -199,7 +200,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// This event allows a custom a post-flight:
-		$app->triggerEvent('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
+		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values.
 		$app = JFactory::getApplication();

@@ -45,9 +45,10 @@ class PlgSystemStatsFormFieldData extends PlgSystemStatsFormFieldBase
 	{
 		$data       = parent::getLayoutData();
 
+		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('system', 'stats');
 
-		$result = JFactory::getApplication()->triggerEvent('onGetStatsData', array('stats.field.data'));
+		$result = $dispatcher->trigger('onGetStatsData', array('stats.field.data'));
 
 		$data['statsData'] = $result ? reset($result) : array();
 

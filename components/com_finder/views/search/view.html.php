@@ -52,7 +52,8 @@ class FinderViewSearch extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
 		// Configure the pathway.

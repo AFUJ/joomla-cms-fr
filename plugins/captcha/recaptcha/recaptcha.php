@@ -59,7 +59,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		else
 		{
 			// Load callback first for browser compatibility
-			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', false, true);
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
 			JHtml::_('script', $file);
@@ -111,9 +111,6 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
-		$challenge  = null;
-		$response   = null;
-		$spam       = false;
 
 		switch ($version)
 		{
@@ -133,19 +130,25 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
+
+			return false;
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
+
+			return false;
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
+
+			return false;
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
@@ -184,7 +187,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if (trim($answers[0]) !== 'true')
 				{
-					throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))), 403);
+					// @todo use exceptions here
+					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
+
+					return false;
 				}
 				break;
 			case '2.0':
@@ -195,9 +201,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if ( !isset($response->success) || !$response->success)
 				{
+					// @todo use exceptions here
 					foreach ($response->errorCodes as $error)
 					{
-						throw new RuntimeException($error, 403);
+						$this->_subject->setError($error);
 					}
 
 					return false;

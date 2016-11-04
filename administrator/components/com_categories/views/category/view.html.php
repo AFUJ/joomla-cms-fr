@@ -70,7 +70,9 @@ class CategoriesViewCategory extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Check for tag type
@@ -159,7 +161,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array('version' => 'auto', 'relative' => true));
 
 		// Prepare the toolbar.
 		JToolbarHelper::title(
