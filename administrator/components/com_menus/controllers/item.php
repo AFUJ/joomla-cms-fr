@@ -264,8 +264,7 @@ class MenusControllerItem extends JControllerForm
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -482,11 +481,6 @@ class MenusControllerItem extends JControllerForm
 		{
 			$title = 'component';
 		}
-		else
-		{
-			// Set correct component id to ensure proper 404 messages with system links
-			$data['component_id'] = 0;
-		}
 
 		$app->setUserState('com_menus.edit.item.type', $title);
 
@@ -535,11 +529,8 @@ class MenusControllerItem extends JControllerForm
 		$menutype = $this->input->get->get('menutype');
 
 		$model = $this->getModel('Items', '', array());
-		$model->getState();
 		$model->setState('filter.menutype', $menutype);
 		$model->setState('list.select', 'a.id, a.title, a.level');
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
 
 		$results = $model->getItems();
 

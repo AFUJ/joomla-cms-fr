@@ -54,7 +54,7 @@ class UsersViewDebuguser extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
-			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$this->actions       = $this->get('DebugActions');
@@ -65,16 +65,10 @@ class UsersViewDebuguser extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		// Vars only used in hathor.
-		$this->levels        = UsersHelperDebug::getLevelsOptions();
-		$this->components    = UsersHelperDebug::getComponents();
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();

@@ -46,7 +46,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
@@ -83,7 +83,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		JHtml::_('bootstrap.framework');
+		static::framework();
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -113,7 +113,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		JHtml::_('bootstrap.framework');
+		static::framework();
 
 		// Attach the button to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -147,7 +147,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
@@ -185,7 +185,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		JHtml::_('bootstrap.framework');
+		static::framework();
 
 		// Attach the dropdown to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -232,53 +232,6 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Add javascript support for Bootstrap modals
-	 *
-	 * @param   string  $selector  The ID selector for the modal.
-	 * @param   array   $params    An array of options for the modal.
-	 *                             Options for the modal can be:
-	 *                             - backdrop  boolean  Includes a modal-backdrop element.
-	 *                             - keyboard  boolean  Closes the modal when escape key is pressed.
-	 *                             - show      boolean  Shows the modal when initialized.
-	 *                             - remote    string   An optional remote URL to load
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
-	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
-	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
-	 */
-	public static function modal($selector = 'modal', $params = array())
-	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
-		{
-			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : false;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($){ $(' . json_encode('#' . $selector) . ').modal(' . $options . '); });'
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
-
-		return;
-	}
-
-	/**
 	 * Method to render a Bootstrap modal
 	 *
 	 * @param   string  $selector  The ID selector for the modal.
@@ -303,7 +256,7 @@ abstract class JHtmlBootstrap
 	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
 		// Include Bootstrap framework
-		JHtml::_('bootstrap.framework');
+		static::framework();
 
 		$layoutData = array(
 			'selector' => $selector,
@@ -348,7 +301,7 @@ abstract class JHtmlBootstrap
 		}
 
 		// Include Bootstrap framework
-		JHtml::_('bootstrap.framework');
+		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
 		$opt['html']      = isset($params['html']) ? $params['html'] : true;
@@ -391,7 +344,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
@@ -440,7 +393,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
@@ -541,7 +494,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['source']      = isset($params['source']) ? $params['source'] : null;
@@ -593,7 +546,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
@@ -717,7 +670,7 @@ abstract class JHtmlBootstrap
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
+			static::framework();
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -784,91 +737,6 @@ abstract class JHtmlBootstrap
 	public static function endTab()
 	{
 		return JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
-	}
-
-	/**
-	 * Creates a tab pane
-	 *
-	 * @param   string  $selector  The pane identifier.
-	 * @param   array   $params    The parameters for the pane
-	 *
-	 * @return  string
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
-	 */
-	public static function startPane($selector = 'myTab', $params = array())
-	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
-		{
-			// Include Bootstrap framework
-			JHtml::_('bootstrap.framework');
-
-			// Setup options object
-			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
-
-			// Attach tab to document
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($){
-					$(' . json_encode('#' . $selector . ' a') . ').click(function (e) {
-						e.preventDefault();
-						$(this).tab("show");
-					});
-				});'
-			);
-
-			// Set static array
-			static::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
-			static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
-		}
-
-		return '<div class="tab-content" id="' . $selector . 'Content">';
-	}
-
-	/**
-	 * Close the current tab pane
-	 *
-	 * @return  string  HTML to close the pane
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
-	 */
-	public static function endPane()
-	{
-		return '</div>';
-	}
-
-	/**
-	 * Begins the display of a new tab content panel.
-	 *
-	 * @param   string  $selector  Identifier of the panel.
-	 * @param   string  $id        The ID of the div element
-	 *
-	 * @return  string  HTML to start a new panel
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
-	 */
-	public static function addPanel($selector, $id)
-	{
-		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
-
-		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
-	}
-
-	/**
-	 * Close the current tab content panel
-	 *
-	 * @return  string  HTML to close the pane
-	 *
-	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
-	 */
-	public static function endPanel()
-	{
-		return '</div>';
 	}
 
 	/**

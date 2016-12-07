@@ -37,7 +37,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		$app        = JFactory::getApplication();
 		$user       = JFactory::getUser();
-		$dispatcher = JEventDispatcher::getInstance();
 
 		$this->item  = $this->get('Item');
 		$this->print = $app->input->getBool('print');
@@ -47,9 +46,7 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Create a shortcut for $item.
@@ -163,16 +160,16 @@ class ContentViewArticle extends JViewLegacy
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
 		$item->event = new stdClass;
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+		$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Escape strings for HTML output

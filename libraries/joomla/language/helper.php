@@ -32,19 +32,41 @@ class JLanguageHelper
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
-		$list      = array();
-		$clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
-		$languages = $installed ? static::getInstalledLanguages($clientId, true) : JLanguage::getKnownLanguages($basePath);
+		$list = array();
 
-		foreach ($languages as $languageCode => $language)
+		// Cache activation
+		$langs = JLanguage::getKnownLanguages($basePath);
+
+		if ($installed)
 		{
-			$metadata = $installed ? $language->metadata : $language;
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('element')
+				->from('#__extensions')
+				->where('type=' . $db->quote('language'))
+				->where('state=0')
+				->where('enabled=1')
+				->where('client_id=' . ($basePath == JPATH_ADMINISTRATOR ? 1 : 0));
+			$db->setQuery($query);
+			$installed_languages = $db->loadObjectList('element');
+		}
 
-			$list[] = array(
-				'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
-				'value'    => $languageCode,
-				'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
-			);
+		foreach ($langs as $lang => $metadata)
+		{
+			if (!$installed || array_key_exists($lang, $installed_languages))
+			{
+				$option = array(
+					'text'  => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
+					'value' => $lang,
+				);
+
+				if ($lang === $actualLanguage)
+				{
+					$option['selected'] = 'selected="selected"';
+				}
+
+				$list[] = $option;
+			}
 		}
 
 		return $list;
@@ -202,11 +224,8 @@ class JLanguageHelper
 			}
 		}
 
+		$languages = array();
 		$clients   = $clientId === null ? array(0, 1) : array((int) $clientId);
-		$languages = array(
-			0 => array(),
-			1 => array(),
-		);
 
 		foreach ($installedLanguages as $language)
 		{
@@ -226,23 +245,11 @@ class JLanguageHelper
 				// Process the language metadata.
 				if ($processMetaData)
 				{
-					try
-					{
-						$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
-					}
-					// Not able to process xml language file. Fail silently.
-					catch (Exception $e)
-					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
+					$lang->metadata = JLanguage::parseXMLLanguageFile($metafile);
 
-						continue;
-					}
-
-					// No metadata found, not a valid language. Fail silently.
+					// No metadata found, not a valid language.
 					if (!is_array($lang->metadata))
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
-
 						continue;
 					}
 				}
@@ -250,23 +257,11 @@ class JLanguageHelper
 				// Process the language manifest.
 				if ($processManifest)
 				{
-					try
-					{
-						$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
-					}
-					// Not able to process xml language file. Fail silently.
-					catch (Exception $e)
-					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), JLog::WARNING, 'language');
+					$lang->manifest = JInstaller::parseXMLInstallFile($metafile);
 
-						continue;
-					}
-
-					// No metadata found, not a valid language. Fail silently.
+					// No metadata found, not a valid language.
 					if (!is_array($lang->manifest))
 					{
-						JLog::add(JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), JLog::WARNING, 'language');
-
 						continue;
 					}
 				}

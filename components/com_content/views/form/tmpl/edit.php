@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 

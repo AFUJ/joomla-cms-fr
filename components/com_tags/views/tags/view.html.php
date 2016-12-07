@@ -46,12 +46,10 @@ class TagsViewTags extends JViewLegacy
 		$item       = $this->get('Item');
 		$pagination = $this->get('Pagination');
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+		}
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
@@ -122,7 +120,7 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 		}
-		elseif (!empty($items[0]))
+		elseif(!empty($items[0]))
 		{
 			// Merge so that tag params take priority
 			$temp->merge($items[0]->params);

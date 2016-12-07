@@ -54,12 +54,10 @@ class TagsViewTag extends JViewLegacy
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+		}
 
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
@@ -92,18 +90,16 @@ class TagsViewTag extends JViewLegacy
 				// For some plugins.
 				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-				$dispatcher = JEventDispatcher::getInstance();
-
 				JPluginHelper::importPlugin('content');
-				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body

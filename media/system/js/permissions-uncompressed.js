@@ -74,9 +74,8 @@ function sendPermissions(event) {
 			{
 				icon.setAttribute('class', 'icon-save');
 
-				jQuery(event.target).parents().next("td").find("span")
-					.removeClass()
-					.addClass(response['data']['class'])
+				jQuery(event.target).parents().next('td').find('span')
+					.removeClass().addClass(response.data.class)
 					.html(response.data.text);
 			}
 		}

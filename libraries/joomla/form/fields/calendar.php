@@ -52,30 +52,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	protected $filter;
 
 	/**
-	 * The minimum year number to subtract/add from the current year
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $minyear;
-
-	/**
-	 * The maximum year number to subtract/add from the current year
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $maxyear;
-
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $layout = 'joomla.form.field.calendar';
-
-	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -91,14 +67,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'maxlength':
 			case 'format':
 			case 'filter':
-			case 'timeformat':
-			case 'todaybutton':
-			case 'singleheader':
-			case 'weeknumbers':
-			case 'showtime':
-			case 'filltable':
-			case 'minyear':
-			case 'maxyear':
 				return $this->$name;
 		}
 
@@ -120,18 +88,9 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		switch ($name)
 		{
 			case 'maxlength':
-			case 'timeformat':
-				$this->$name = (int) $value;
-				break;
-			case 'todaybutton':
-			case 'singleheader':
-			case 'weeknumbers':
-			case 'showtime':
-			case 'filltable':
+				$value = (int) $value;
 			case 'format':
 			case 'filter':
-			case 'minyear':
-			case 'maxyear':
 				$this->$name = (string) $value;
 				break;
 
@@ -160,17 +119,9 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 		if ($return)
 		{
-			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
-			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : "true";
-			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : "false";
-			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : "true";
-			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
-			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
-			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
+			$this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
+			$this->format    = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
 		}
 
 		return $return;
@@ -185,44 +136,58 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getInput()
 	{
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
+		// Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function getLayoutData()
-	{
-		$data      = parent::getLayoutData();
-		$tag       = JFactory::getLanguage()->getTag();
-		$calendar  = JFactory::getLanguage()->getCalendar();
-		$config    = JFactory::getConfig();
-		$user      = JFactory::getUser();
-		$direction = strtolower(JFactory::getDocument()->getDirection());
+		// Initialize some field attributes.
+		$translateFormat = (string) $this->element['translateformat'];
 
-		// Get the appropriate file for the current language date helper
-		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
-
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($translateFormat && $translateFormat != 'false')
 		{
-			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
+			$showTime = (string) $this->element['showtime'];
+
+			if ($showTime && $showTime != 'false')
+			{
+				$format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
+			}
+			else
+			{
+				$format = JText::_('DATE_FORMAT_CALENDAR_DATE');
+			}
+		}
+		else
+		{
+			$format = $this->format;
 		}
 
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
+		// Build the attributes array.
+		$attributes = array();
 
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
+		empty($this->size)      ? null : $attributes['size'] = $this->size;
+		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
+		empty($this->class)     ? null : $attributes['class'] = $this->class;
+		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
+		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
+		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
+		!strlen($hint)          ? null : $attributes['placeholder'] = $hint;
+		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
+		!$this->autofocus       ? null : $attributes['autofocus'] = '';
+
+		if ($this->required)
 		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
+			$attributes['required'] = '';
+			$attributes['aria-required'] = 'true';
 		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+
+		// Handle the special case for "now".
+		if (strtoupper($this->value) == 'NOW')
 		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
+			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
 		}
+
+		// Get some system objects.
+		$config = JFactory::getConfig();
+		$user = JFactory::getUser();
 
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
@@ -238,39 +203,29 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
+
 				break;
+
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
 				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
+
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
+
 				break;
 		}
 
-		$extraData = array(
-			'value'        => $this->value,
-			'maxLength'    => $this->maxlength,
-			'format'       => $this->format,
-			'filter'       => $this->filter,
-			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
-			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,
-			'showtime'     => ($this->showtime === "true") ? 1 : 0,
-			'filltable'    => ($this->filltable === "true") ? 1 : 0,
-			'timeformat'   => $this->timeformat,
-			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
-			'helperPath'   => $helperPath,
-			'localesPath'  => $localesPath,
-			'minYear'      => $this->minyear,
-			'maxYear'      => $this->maxyear,
-			'direction'    => $direction,
-		);
+		// Including fallback code for HTML5 non supported browsers.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
 
-		return array_merge($data, $extraData);
+		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}
 }

@@ -74,9 +74,7 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -153,7 +151,7 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
-			if (JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
+			if ($this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}

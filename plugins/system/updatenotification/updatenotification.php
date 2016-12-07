@@ -171,7 +171,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		 * The plugins should modify the $uri object directly and return null.
 		 */
 
-		JEventDispatcher::getInstance()->trigger('onBuildAdministratorLoginURL', array(&$uri));
+		JFactory::getApplication()->triggerEvent('onBuildAdministratorLoginURL', array(&$uri));
 
 		// Let's find out the email addresses to notify
 		$superUsers    = array();
@@ -292,9 +292,10 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
-			$rules     = JAccess::getAssetRules($rootId)->getData();
-			$rawGroups = $rules['core.admin']->getData();
+			$assets = JTable::getInstance('Asset', 'JTable');
+			$rootId = $assets->getRootId();
+			$rules = JAccess::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin'];
 			$groups    = array();
 
 			if (empty($rawGroups))

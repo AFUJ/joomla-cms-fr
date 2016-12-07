@@ -21,7 +21,7 @@ class JMenu
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @var    JMenuItem[]
+	 * @var    array
 	 * @since  1.5
 	 * @deprecated  4.0  Will convert to $items
 	 */
@@ -79,6 +79,21 @@ class JMenu
 			{
 				$this->_default[trim($item->language)] = $item->id;
 			}
+
+			// Decode the item params
+			try
+			{
+				$item->params = new Registry($item->params);
+			}
+			catch (RuntimeException $e)
+			{
+				/**
+				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
+				 * error checks. So for now we catch the exception here - but one day we should remove it and require
+				 * valid JSON.
+				 */
+				$item->params = new Registry;
+			}
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -104,29 +119,18 @@ class JMenu
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
-				// Load the menu object
-				$info = JApplicationHelper::getClientInfo($client, true);
-
-				if (is_object($info))
-				{
-					$path = $info->path . '/includes/menu.php';
-
-					JLoader::register($classname, $path);
-
-					if (class_exists($classname))
-					{
-						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-					}
-				}
-			}
-
-			if (!class_exists($classname))
-			{
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
 
-			self::$instances[$client] = new $classname($options);
+			// Check for a possible service from the container otherwise manually instantiate the class
+			if (JFactory::getContainer()->exists($classname))
+			{
+				self::$instances[$client] = JFactory::getContainer()->get($classname);
+			}
+			else
+			{
+				self::$instances[$client] = new $classname($options);
+			}
 		}
 
 		return self::$instances[$client];

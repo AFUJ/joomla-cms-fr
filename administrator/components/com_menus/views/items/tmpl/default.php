@@ -22,7 +22,9 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $ordering   = ($listOrder == 'a.lft');
+$canOrder   = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuTypeId = (int) $this->state->get('menutypeid');
 $menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
 if ($saveOrder && $menuType)
@@ -107,13 +109,12 @@ if ($menuType == '')
 
 				<tbody>
 				<?php
-				
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $item->menutype_id);
-					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $item->menutype_id);
+					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menuTypeId);
+					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menuTypeId);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $item->menutype_id) && $canCheckin;
+					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menuTypeId) && $canCheckin;
 
 					// Get the parents of item for sorting
 					if ($item->level > 1)

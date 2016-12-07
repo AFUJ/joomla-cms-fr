@@ -84,9 +84,7 @@ class CategoriesViewCategories extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -146,6 +144,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$section    = $this->state->get('filter.section');
 		$canDo      = JHelperContent::getActions($component, 'category', $categoryId);
 		$user       = JFactory::getUser();
+		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
@@ -209,9 +208,9 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.create')
-			&& $canDo->get('core.edit')
-			&& $canDo->get('core.edit.state'))
+		if ($user->authorise('core.create', $extension)
+			&& $user->authorise('core.edit', $extension)
+			&& $user->authorise('core.edit.state', $extension))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 

@@ -245,7 +245,6 @@ class JoomlaInstallerScript
 			array('component', 'com_fields', '', 1),
 
 			// Libraries
-			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
@@ -289,7 +288,6 @@ class JoomlaInstallerScript
 			array('module', 'mod_quickicon', '', 1),
 			array('module', 'mod_stats_admin', '', 1),
 			array('module', 'mod_status', '', 1),
-			array('module', 'mod_submenu', '', 1),
 			array('module', 'mod_title', '', 1),
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
@@ -317,7 +315,6 @@ class JoomlaInstallerScript
 			array('plugin', 'newsfeeds', 'search', 0),
 			array('plugin', 'tags', 'search', 0),
 			array('plugin', 'languagefilter', 'system', 0),
-			array('plugin', 'p3p', 'system', 0),
 			array('plugin', 'cache', 'system', 0),
 			array('plugin', 'debug', 'system', 0),
 			array('plugin', 'log', 'system', 0),
@@ -355,7 +352,6 @@ class JoomlaInstallerScript
 
 			// Templates
 			array('template', 'beez3', '', 0),
-			array('template', 'hathor', '', 1),
 			array('template', 'protostar', '', 0),
 			array('template', 'isis', '', 1),
 
@@ -542,15 +538,9 @@ class JoomlaInstallerScript
 			'/includes/pathway.php',
 			'/includes/router.php',
 			'/language/en-GB/en-GB.pkg_joomla.sys.ini',
-			'/libraries/cms/controller/index.html',
-			'/libraries/cms/controller/legacy.php',
-			'/libraries/cms/model/index.html',
-			'/libraries/cms/model/legacy.php',
 			'/libraries/cms/schema/changeitemmysql.php',
 			'/libraries/cms/schema/changeitemsqlazure.php',
 			'/libraries/cms/schema/changeitemsqlsrv.php',
-			'/libraries/cms/view/index.html',
-			'/libraries/cms/view/legacy.php',
 			'/libraries/joomla/application/application.php',
 			'/libraries/joomla/application/categories.php',
 			'/libraries/joomla/application/cli/daemon.php',
@@ -1560,9 +1550,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_newsfeeds/elements',
 			'/administrator/components/com_templates/views/prevuuw/tmpl',
 			'/administrator/components/com_templates/views/prevuuw',
-			'/libraries/cms/controller',
-			'/libraries/cms/model',
-			'/libraries/cms/view',
 			'/libraries/joomla/application/cli',
 			'/libraries/joomla/application/component',
 			'/libraries/joomla/application/input',
@@ -1655,7 +1642,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			// Joomla! __DEPLOY_VERSION__
+			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 		);
 
