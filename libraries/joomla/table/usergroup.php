@@ -23,7 +23,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}
@@ -37,17 +37,6 @@ class JTableUsergroup extends JTable
 	 */
 	public function check()
 	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{

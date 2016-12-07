@@ -8,9 +8,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\DI\Container;
 use Joomla\Registry\Registry;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Joomla Platform Factory class.
@@ -40,17 +38,8 @@ abstract class JFactory
 	 *
 	 * @var    JConfig
 	 * @since  11.1
-	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static $config = null;
-
-	/**
-	 * Global container object
-	 *
-	 * @var    Container
-	 * @since  4.0
-	 */
-	public static $container = null;
 
 	/**
 	 * Container for JDate instances
@@ -98,7 +87,6 @@ abstract class JFactory
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  11.1
-	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	public static $database = null;
 
@@ -115,10 +103,9 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   mixed      $id         A client identifier or name.
-	 * @param   array      $config     An optional associative array of configuration settings.
-	 * @param   string     $prefix     Application prefix
-	 * @param   Container  $container  An optional dependency injection container to inject into the application.
+	 * @param   mixed   $id      A client identifier or name.
+	 * @param   array   $config  An optional associative array of configuration settings.
+	 * @param   string  $prefix  Application prefix
 	 *
 	 * @return  JApplicationCms object
 	 *
@@ -126,7 +113,7 @@ abstract class JFactory
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'JApplication', Container $container = null)
+	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
 	{
 		if (!self::$application)
 		{
@@ -135,9 +122,7 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			$container = $container ?: self::getContainer();
-
-			self::$application = JApplicationCms::getInstance($id, $prefix, $container);
+			self::$application = JApplicationCms::getInstance($id);
 		}
 
 		return self::$application;
@@ -156,25 +141,9 @@ abstract class JFactory
 	 *
 	 * @see     Registry
 	 * @since   11.1
-	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
-		JLog::add(
-			sprintf(
-				'%s() is deprecated. The configuration object should be read from the application.',
-				__METHOD__
-			),
-			JLog::WARNING,
-			'deprecated'
-		);
-
-		// If there is an application object, fetch the configuration from there
-		if (self::$application)
-		{
-			return self::$application->getConfig();
-		}
-
 		if (!self::$config)
 		{
 			if ($file === null)
@@ -189,25 +158,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get a container object
-	 *
-	 * Returns the global service container object, only creating it if it doesn't already exist.
-	 *
-	 * @return  Container
-	 *
-	 * @since   4.0
-	 */
-	public static function getContainer()
-	{
-		if (!self::$container)
-		{
-			self::$container = self::createContainer();
-		}
-
-		return self::$container;
-	}
-
-	/**
 	 * Get a session object.
 	 *
 	 * Returns the global {@link JSession} object, only creating it if it doesn't already exist.
@@ -218,17 +168,15 @@ abstract class JFactory
 	 *
 	 * @see     JSession
 	 * @since   11.1
-	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	public static function getSession(array $options = array())
 	{
-		JLog::add(
-			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via JFactory::getApplication()->getSession().',
-			JLog::WARNING,
-			'deprecated'
-		);
+		if (!self::$session)
+		{
+			self::$session = self::createSession($options);
+		}
 
-		return self::getApplication()->getSession();
+		return self::$session;
 	}
 
 	/**
@@ -343,6 +291,28 @@ abstract class JFactory
 	}
 
 	/**
+	 * Get an authorization object
+	 *
+	 * Returns the global {@link JAccess} object, only creating it
+	 * if it doesn't already exist.
+	 *
+	 * @return  JAccess object
+	 *
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
+	 */
+	public static function getAcl()
+	{
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
+
+		if (!self::$acl)
+		{
+			self::$acl = new JAccess;
+		}
+
+		return self::$acl;
+	}
+
+	/**
 	 * Get a database object.
 	 *
 	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
@@ -356,14 +326,7 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('JDatabaseDriver'))
-			{
-				self::$database = self::getContainer()->get('JDatabaseDriver');
-			}
-			else
-			{
-				self::$database = self::createDbo();
-			}
+			self::$database = self::createDbo();
 		}
 
 		return self::$database;
@@ -389,6 +352,30 @@ abstract class JFactory
 		$copy = clone self::$mailer;
 
 		return $copy;
+	}
+
+	/**
+	 * Get a parsed XML Feed Source
+	 *
+	 * @param   string   $url         Url for feed source.
+	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
+	 *
+	 * @return  mixed  SimplePie parsed object on success, false on failure.
+	 *
+	 * @since   11.1
+	 * @throws  BadMethodCallException
+	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
+	 */
+	public static function getFeedParser($url, $cache_time = 0)
+	{
+		if (!class_exists('JSimplepieFactory'))
+		{
+			throw new BadMethodCallException('JSimplepieFactory not found');
+		}
+
+		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', JLog::WARNING, 'deprecated');
+
+		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
 
 	/**
@@ -559,19 +546,9 @@ abstract class JFactory
 	 *
 	 * @see     Registry
 	 * @since   11.1
-	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
-		JLog::add(
-			sprintf(
-				'%s() is deprecated. The configuration object should be read from the application.',
-				__METHOD__
-			),
-			JLog::WARNING,
-			'deprecated'
-		);
-
 		if (is_file($file))
 		{
 			include_once $file;
@@ -600,24 +577,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Create a container object
-	 *
-	 * @return  Container
-	 *
-	 * @since   4.0
-	 */
-	protected static function createContainer()
-	{
-		$container = (new Container)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Database)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Dispatcher)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Session);
-
-		return $container;
-	}
-
-	/**
 	 * Create a session object
 	 *
 	 * @param   array  $options  An array containing session options
@@ -625,12 +584,9 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
-	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	protected static function createSession(array $options = array())
 	{
-		JLog::add(__METHOD__ . '() is deprecated. The session should be a service in the dependency injection container.', JLog::WARNING, 'deprecated');
-
 		// Get the Joomla configuration settings
 		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
@@ -656,14 +612,9 @@ abstract class JFactory
 	 *
 	 * @see     JDatabaseDriver
 	 * @since   11.1
-	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	protected static function createDbo()
 	{
-		JLog::add(
-			__METHOD__ . '() is deprecated, register a service provider to create a JDatabaseDriver instance instead.', JLog::WARNING, 'deprecated'
-		);
-
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');

@@ -32,12 +32,23 @@ class ContenthistoryViewPreview extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->state = $this->get('State');
-		$this->item = $this->get('Item');
+		$this->item  = $this->get('Item');
+		
+		if (false === $this->item) 
+		{
+			JFactory::getLanguage()->load('com_content', JPATH_SITE, null, true);
+
+			JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+
+			return false;
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		return parent::display($tpl);

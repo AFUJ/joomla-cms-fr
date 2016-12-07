@@ -12,9 +12,9 @@
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
 		<fieldset name="request"
-			addfieldpath="/administrator/components/com_categories/models/fields">
+			addfieldpath="/administrator/components/com_categories/models/fields"
 		>
-			<field
+			<field 
 				name="id"
 				type="modal_category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
@@ -381,7 +381,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
+			
 			<field
 				name="show_associations"
 				type="list"

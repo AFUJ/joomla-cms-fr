@@ -9,13 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterEdgedetect is deprecated, use Joomla\Image\Filter\Edgedetect instead.', JLog::WARNING, 'deprecated');
-
 /**
  * Image Filter class to add an edge detect effect to an image.
  *
- * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect instead
+ * @since  11.3
  */
 class JImageFilterEdgedetect extends JImageFilter
 {
@@ -27,7 +24,6 @@ class JImageFilterEdgedetect extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

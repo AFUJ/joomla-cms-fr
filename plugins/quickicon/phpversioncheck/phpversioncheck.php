@@ -61,7 +61,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @param   string  $context  The calling context
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -69,7 +69,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	{
 		if (!$this->shouldDisplayMessage())
 		{
-			return [];
+			return;
 		}
 
 		$supportStatus = $this->getPhpSupport();
@@ -90,8 +90,6 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 					break;
 			}
 		}
-
-		return [];
 	}
 
 	/**
@@ -126,6 +124,10 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 			'7.0' => array(
 				'security' => '2017-12-03',
 				'eos'      => '2018-12-03'
+			),
+			'7.1' => array(
+				'security' => '2018-12-01',
+				'eos'      => '2019-12-01'
 			),
 		);
 

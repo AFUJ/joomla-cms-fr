@@ -23,7 +23,7 @@ class JTableLanguage extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__languages', 'lang_id', $db);
 	}
@@ -37,17 +37,6 @@ class JTableLanguage extends JTable
 	 */
 	public function check()
 	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));

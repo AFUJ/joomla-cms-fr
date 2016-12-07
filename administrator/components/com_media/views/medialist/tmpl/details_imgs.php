@@ -13,12 +13,13 @@ use Joomla\Registry\Registry;
 
 JHtml::_('bootstrap.tooltip');
 
-$user   = JFactory::getUser();
-$params = new Registry;
+$user       = JFactory::getUser();
+$params     = new Registry;
+$dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->images as $i => $image) : ?>
-	<?php JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$image, &$params)); ?>
 	<tr>
 		<td>
 			<a class="img-preview" href="<?php echo COM_MEDIA_BASEURL, '/', $image->path_relative; ?>" title="<?php echo $image->name; ?>">
@@ -49,5 +50,5 @@ $params = new Registry;
 			</td>
 		<?php endif;?>
 	</tr>
-	<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$image, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$image, &$params)); ?>
 <?php endforeach; ?>

@@ -70,7 +70,9 @@ class CategoriesViewCategory extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Check for tag type
@@ -201,7 +203,7 @@ class CategoriesViewCategory extends JViewLegacy
 				JToolbarHelper::save2copy('category.save2copy');
 			}
 
-			if ($componentParams->get('save_history', 0) && $itemEditable)
+			if (JComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);

@@ -68,7 +68,8 @@ class CategoriesController extends JControllerLegacy
 		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
 
 			return false;

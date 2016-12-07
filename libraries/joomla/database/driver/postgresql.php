@@ -137,11 +137,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			throw new JDatabaseExceptionConnecting('Error connecting to PGSQL database.');
 		}
 
-		if (function_exists('pg_set_error_verbosity'))
-		{
-			pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
-		}
-
+		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
 		pg_query($this->connection, 'SET standard_conforming_strings=off');
 		pg_query($this->connection, 'SET escape_string_warning=off');
 	}

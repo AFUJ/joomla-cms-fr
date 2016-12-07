@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use PHPMailer\PHPMailer\Exception as phpmailerException;
-use PHPMailer\PHPMailer\PHPMailer;
-
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
@@ -77,18 +74,19 @@ class JMail extends PHPMailer
 	 */
 	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
-		if (empty(static::$instances[$id]))
+		if (empty(self::$instances[$id]))
 		{
-			static::$instances[$id] = new static($exceptions);
+			self::$instances[$id] = new JMail($exceptions);
 		}
 
-		return static::$instances[$id];
+		return self::$instances[$id];
 	}
 
 	/**
 	 * Send the mail
 	 *
-	 * @return  boolean  Boolean true if successful.
+	 * @return  boolean|JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
+	 *                              or a JException object if the mail function does not exist or sending the message fails.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -99,7 +97,7 @@ class JMail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				throw new RuntimeException(JText::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
+				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 			}
 
 			try
@@ -135,7 +133,7 @@ class JMail extends PHPMailer
 
 			if ($result == false)
 			{
-				throw new RuntimeException(JText::_($this->ErrorInfo), 500);
+				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
 			}
 
 			return $result;

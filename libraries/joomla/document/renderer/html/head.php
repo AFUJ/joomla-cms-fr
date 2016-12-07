@@ -245,7 +245,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 		$html5NoValueAttributes = array('defer', 'async');
-		$mediaVersion           = $document->getMediaVersion();
 
 		// Generate script file links
 		foreach ($document->_scripts as $src => $attribs)
@@ -354,6 +353,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
-		return $buffer;
+		return ltrim($buffer, $tab);
 	}
 }

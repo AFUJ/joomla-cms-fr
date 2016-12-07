@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
 
-use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,7 +20,7 @@ use Joomla\Registry\Registry;
  * @see    https://secure.php.net/manual/en/features.commandline.php
  * @since  11.1
  */
-abstract class JApplicationDaemon extends JApplicationCli
+class JApplicationDaemon extends JApplicationCli
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
@@ -94,21 +93,21 @@ abstract class JApplicationDaemon extends JApplicationCli
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInputCli            $input       An optional argument to provide dependency injection for the application's
-	 *                                            input object.  If the argument is a JInputCli object that object will become
-	 *                                            the application's input object, otherwise a default input object is created.
-	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
-	 *                                            config object.  If the argument is a Registry object that object will become
-	 *                                            the application's config object, otherwise a default config object is created.
-	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
-	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
-	 *                                            will be created based on the application's loadDispatcher() method.
+	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
+	 *                                         input object.  If the argument is a JInputCli object that object will become
+	 *                                         the application's input object, otherwise a default input object is created.
+	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
+	 *                                         config object.  If the argument is a Registry object that object will become
+	 *                                         the application's config object, otherwise a default config object is created.
+	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                         event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
+	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
-	public function __construct(JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
@@ -127,7 +126,7 @@ abstract class JApplicationDaemon extends JApplicationCli
 		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.
-		parent::__construct($input, $config, null, null, $dispatcher);
+		parent::__construct($input, $config, $dispatcher);
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));

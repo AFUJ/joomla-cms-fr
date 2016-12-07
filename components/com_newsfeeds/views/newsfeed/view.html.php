@@ -73,7 +73,9 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// @TODO: Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseWarning(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Add router helpers.

@@ -75,9 +75,7 @@ class JComponentHelper
 	 */
 	public static function isEnabled($option)
 	{
-		$result = static::getComponent($option, true);
-
-		return $result->enabled;
+		return (bool) static::getComponent($option, true)->enabled;
 	}
 
 	/**
@@ -404,6 +402,21 @@ class JComponentHelper
 		$contents = ob_get_clean();
 
 		return $contents;
+	}
+
+	/**
+	 * Load the installed components into the components property.
+	 *
+	 * @param   string  $option  The element value for the extension
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0  Use JComponentHelper::load() instead
+	 */
+	protected static function _load($option)
+	{
+		return static::load($option);
 	}
 
 	/**

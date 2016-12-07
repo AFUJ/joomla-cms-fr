@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Crypt\Key;
-
 /**
  * JCrypt cipher for encryption, decryption and key generation via the php-encryption library.
  *
@@ -21,26 +19,26 @@ class JCryptCipherCrypto implements JCryptCipher
 	/**
 	 * Method to decrypt a data string.
 	 *
-	 * @param   string  $data  The encrypted string to decrypt.
-	 * @param   Key     $key   The key object to use for decryption.
+	 * @param   string     $data  The encrypted string to decrypt.
+	 * @param   JCryptKey  $key   The key object to use for decryption.
 	 *
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   3.5
 	 * @throws  RuntimeException
 	 */
-	public function decrypt($data, Key $key)
+	public function decrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->getType() != 'crypto')
+		if ($key->type != 'crypto')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
 		}
 
 		// Decrypt the data.
 		try
 		{
-			return Crypto::Decrypt($data, $key->getPublic());
+			return Crypto::Decrypt($data, $key->public);
 		}
 		catch (InvalidCiphertextException $ex)
 		{
@@ -59,26 +57,26 @@ class JCryptCipherCrypto implements JCryptCipher
 	/**
 	 * Method to encrypt a data string.
 	 *
-	 * @param   string  $data  The data string to encrypt.
-	 * @param   Key     $key   The key object to use for encryption.
+	 * @param   string     $data  The data string to encrypt.
+	 * @param   JCryptKey  $key   The key object to use for encryption.
 	 *
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   3.5
 	 * @throws  RuntimeException
 	 */
-	public function encrypt($data, Key $key)
+	public function encrypt($data, JCryptKey $key)
 	{
 		// Validate key.
-		if ($key->getType() != 'crypto')
+		if ($key->type != 'crypto')
 		{
-			throw new InvalidArgumentException('Invalid key of type: ' . $key->getType() . '.  Expected crypto.');
+			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected crypto.');
 		}
 
 		// Encrypt the data.
 		try
 		{
-			return Crypto::Encrypt($data, $key->getPublic());
+			return Crypto::Encrypt($data, $key->public);
 		}
 		catch (CryptoTestFailedException $ex)
 		{
@@ -95,17 +93,20 @@ class JCryptCipherCrypto implements JCryptCipher
 	 *
 	 * @param   array  $options  Key generation options.
 	 *
-	 * @return  Key
+	 * @return  JCryptKey
 	 *
 	 * @since   3.5
 	 * @throws  RuntimeException
 	 */
 	public function generateKey(array $options = array())
 	{
+		// Create the new encryption key object.
+		$key = new JCryptKey('crypto');
+
 		// Generate the encryption key.
 		try
 		{
-			$public = Crypto::CreateNewRandomKey();
+			$key->public = Crypto::CreateNewRandomKey();
 		}
 		catch (CryptoTestFailedException $ex)
 		{
@@ -117,8 +118,8 @@ class JCryptCipherCrypto implements JCryptCipher
 		}
 
 		// Explicitly flag the private as unused in this cipher.
-		$private = 'unused';
+		$key->private = 'unused';
 
-		return new Key('crypto', $private, $public);
+		return $key;
 	}
 }

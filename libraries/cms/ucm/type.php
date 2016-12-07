@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Application\AbstractApplication;
-
 /**
  * UCM Class for handling content types
  *
@@ -79,13 +77,13 @@ class JUcmType implements JUcm
 	/**
 	 * Class constructor
 	 *
-	 * @param   string               $alias        The alias for the item
-	 * @param   JDatabaseDriver      $database     The database object
-	 * @param   AbstractApplication  $application  The application object
+	 * @param   string            $alias        The alias for the item
+	 * @param   JDatabaseDriver   $database     The database object
+	 * @param   JApplicationBase  $application  The application object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($alias = null, JDatabaseDriver $database = null, AbstractApplication $application = null)
+	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{
 		$this->db = $database ? $database : JFactory::getDbo();
 		$app      = $application ? $application : JFactory::getApplication();

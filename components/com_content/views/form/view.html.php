@@ -88,7 +88,9 @@ class ContentViewForm extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new JViewGenericdataexception(implode("\n", $errors), 500);
+			JError::raiseWarning(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Create a shortcut to the parameters.

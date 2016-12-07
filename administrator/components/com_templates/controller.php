@@ -63,7 +63,8 @@ class TemplatesController extends JControllerLegacy
 		if ($view == 'style' && $layout == 'edit' && !$this->checkEditId('com_templates.edit.style', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=styles', false));
 
 			return false;

@@ -42,7 +42,7 @@ class JTableContenthistory extends JTable
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
 		$this->ignoreChanges = array(

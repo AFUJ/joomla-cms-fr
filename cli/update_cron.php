@@ -30,8 +30,8 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-// Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
@@ -51,7 +51,7 @@ class Updatecron extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	protected function doExecute()
+	public function doExecute()
 	{
 		// Get the update cache time
 		$component = JComponentHelper::getComponent('com_installer');

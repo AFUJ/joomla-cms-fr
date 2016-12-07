@@ -118,7 +118,9 @@ class PlgSystemLanguagecode extends JPlugin
 		// Check we have a form.
 		if (!($form instanceof JForm))
 		{
-			throw new RuntimeException(JText::_('JERROR_NOT_A_FORM'), 500);
+			$this->_subject->setError('JERROR_NOT_A_FORM');
+
+			return false;
 		}
 
 		// Check we are manipulating the languagecode plugin.

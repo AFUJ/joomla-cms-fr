@@ -171,7 +171,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 		}
 
 		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
-		$head[] = '#Software: ' . (new JVersion)->getLongVersion();
+		$head[] = '#Software: ' . JPlatform::getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string

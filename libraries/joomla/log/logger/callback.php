@@ -55,6 +55,7 @@ class JLogLoggerCallback extends JLogLogger
 	 * @return  boolean  True on success.
 	 *
 	 * @since   12.2
+	 * @throws  LogException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{

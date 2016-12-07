@@ -22,7 +22,10 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/bootstrap.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
+
+// Bootstrap the CMS libraries.
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
@@ -50,7 +53,7 @@ class DeletefilesCli extends JApplicationCli
 	 *
 	 * @since   3.0
 	 */
-	protected function doExecute()
+	public function doExecute()
 	{
 		// Import the dependencies
 		jimport('joomla.filesystem.file');
@@ -60,7 +63,10 @@ class DeletefilesCli extends JApplicationCli
 		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 		// Instantiate the class
-		(new JoomlaInstallerScript)->deleteUnexistingFiles();
+		$class = new JoomlaInstallerScript;
+
+		// Run the delete method
+		$class->deleteUnexistingFiles();
 	}
 }
 

@@ -9,13 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy instead.', JLog::WARNING, 'deprecated');
-
 /**
  * Image Filter class to make an image appear "sketchy".
  *
- * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy instead
+ * @since  11.3
  */
 class JImageFilterSketchy extends JImageFilter
 {
@@ -27,7 +24,6 @@ class JImageFilterSketchy extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

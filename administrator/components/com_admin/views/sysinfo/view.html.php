@@ -70,7 +70,7 @@ class AdminViewSysinfo extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new JUserAuthorizationexception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		$this->php_settings = $this->get('PhpSettings');

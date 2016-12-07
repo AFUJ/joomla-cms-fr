@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 /**
@@ -22,29 +21,28 @@ class JApplicationAdministrator extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
-	 *                                             input object.  If the argument is a JInput object that object will become
-	 *                                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
-	 *                                             config object.  If the argument is a Registry object that object will become
-	 *                                             the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
-	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                             the application's client object, otherwise a default client object is created.
-	 * @param   Container              $container  Dependency injection container.
+	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
+	 *                                          input object.  If the argument is a JInput object that object will become
+	 *                                          the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
+	 *                                          config object.  If the argument is a Registry object that object will become
+	 *                                          the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
+	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                          the application's client object, otherwise a default client object is created.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
 		// Register the application name
-		$this->name = 'administrator';
+		$this->_name = 'administrator';
 
 		// Register the client ID
-		$this->clientId = 1;
+		$this->_clientId = 1;
 
 		// Execute the parent constructor
-		parent::__construct($input, $config, $client, $container);
+		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
 		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
@@ -63,7 +61,7 @@ class JApplicationAdministrator extends JApplicationCms
 	{
 		if ($component === null)
 		{
-			$component = $this->findOption();
+			$component = JAdministratorHelper::findOption();
 		}
 
 		// Load the document to the API
@@ -457,39 +455,5 @@ class JApplicationAdministrator extends JApplicationCms
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
-	}
-
-	/**
-	 * Return the application option string [main component].
-	 *
-	 * @return  string  The component to access.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function findOption()
-	{
-		$app = JFactory::getApplication();
-		$option = strtolower($app->input->get('option'));
-		$user = $app->getIdentity();
-
-		if (!$user)
-		{
-			$app->loadIdentity(JFactory::getUser());
-			$user = $app->getIdentity();
-		}
-
-		if ($user->get('guest') || !$user->authorise('core.login.admin'))
-		{
-			$option = 'com_login';
-		}
-
-		if (empty($option))
-		{
-			$option = 'com_cpanel';
-		}
-
-		$app->input->set('option', $option);
-
-		return $option;
 	}
 }

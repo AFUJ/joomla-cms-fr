@@ -134,7 +134,7 @@ class JArchiveZip implements JArchiveExtractable
 	{
 		if (!is_file($archive))
 		{
-			throw new RuntimeException('Archive does not exist');
+			return $this->raiseWarning(100, 'Archive does not exist');
 		}
 
 		if ($this->hasNativeSupport())
@@ -143,6 +143,27 @@ class JArchiveZip implements JArchiveExtractable
 		}
 
 		return $this->extractCustom($archive, $destination);
+	}
+
+	/**
+	 * Temporary private method to isolate JError from the extract method
+	 * This code should be removed when JError is removed.
+	 *
+	 * @param   int     $code  The application-internal error code for this error
+	 * @param   string  $msg   The error message, which may also be shown the user if need be.
+	 *
+	 * @return  JException  JException instance if JError class exists
+	 *
+	 * @throws  RuntimeException if JError class does not exist
+	 */
+	private function raiseWarning($code, $msg)
+	{
+		if (class_exists('JError'))
+		{
+			return JError::raiseWarning($code, $msg);
+		}
+
+		throw new RuntimeException($msg);
 	}
 
 	/**
@@ -206,19 +227,19 @@ class JArchiveZip implements JArchiveExtractable
 
 		if (!extension_loaded('zlib'))
 		{
-			throw new RuntimeException('Zlib not supported');
+			return $this->raiseWarning(100, 'Zlib not supported');
 		}
 
 		$this->_data = file_get_contents($archive);
 
 		if (!$this->_data)
 		{
-			throw new RuntimeException('Unable to read archive (zip)');
+			return $this->raiseWarning(100, 'Unable to read archive (zip)');
 		}
 
 		if (!$this->_readZipInfo($this->_data))
 		{
-			throw new RuntimeException('Get ZIP Information failed');
+			return $this->raiseWarning(100, 'Get ZIP Information failed');
 		}
 
 		for ($i = 0, $n = count($this->_metadata); $i < $n; $i++)
@@ -233,12 +254,12 @@ class JArchiveZip implements JArchiveExtractable
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
-					throw new RuntimeException('Unable to create destination');
+					return $this->raiseWarning(100, 'Unable to create destination');
 				}
 
 				if (JFile::write($path, $buffer) === false)
 				{
-					throw new RuntimeException('Unable to write entry');
+					return $this->raiseWarning(100, 'Unable to write entry');
 				}
 			}
 		}
@@ -263,13 +284,13 @@ class JArchiveZip implements JArchiveExtractable
 
 		if (!is_resource($zip))
 		{
-			throw new RuntimeException('Unable to open archive');
+			return $this->raiseWarning(100, 'Unable to open archive');
 		}
 
 		// Make sure the destination folder exists
 		if (!JFolder::create($destination))
 		{
-			throw new RuntimeException('Unable to create destination');
+			return $this->raiseWarning(100, 'Unable to create destination');
 		}
 
 		// Read files in the archive
@@ -277,7 +298,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			if (!zip_entry_open($zip, $file, "r"))
 			{
-				throw new RuntimeException('Unable to read entry');
+				return $this->raiseWarning(100, 'Unable to read entry');
 			}
 
 			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
@@ -286,7 +307,7 @@ class JArchiveZip implements JArchiveExtractable
 
 				if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false)
 				{
-					throw new RuntimeException('Unable to write entry');
+					return $this->raiseWarning(100, 'Unable to write entry');
 				}
 
 				zip_entry_close($file);
@@ -355,7 +376,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			if ($dataLength < $fhStart + 31)
 			{
-				throw new RuntimeException('Invalid Zip Data');
+				return $this->raiseWarning(100, 'Invalid Zip Data');
 			}
 
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart + 10, 20));
@@ -385,7 +406,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $fhStart + 43)
 			{
-				throw new RuntimeException('Invalid ZIP data');
+				return $this->raiseWarning(100, 'Invalid ZIP data');
 			}
 
 			$info = unpack('vInternal/VExternal/VOffset', substr($data, $fhStart + 36, 10));
@@ -400,7 +421,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $lfhStart + 34)
 			{
-				throw new RuntimeException('Invalid Zip Data');
+				return $this->raiseWarning(100, 'Invalid Zip Data');
 			}
 
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart + 8, 25));

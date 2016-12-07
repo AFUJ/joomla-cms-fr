@@ -240,6 +240,7 @@ class UsersModelGroup extends JModelAdmin
 
 		// Load plugins.
 		JPluginHelper::importPlugin($this->events_map['delete']);
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check if I am a Super Admin
 		$iAmSuperAdmin = $user->authorise('core.admin');
@@ -268,7 +269,7 @@ class UsersModelGroup extends JModelAdmin
 				if ($allow)
 				{
 					// Fire the before delete event.
-					JFactory::getApplication()->triggerEvent($this->event_before_delete, array($table->getProperties()));
+					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -279,7 +280,7 @@ class UsersModelGroup extends JModelAdmin
 					else
 					{
 						// Trigger the after delete event.
-						JFactory::getApplication()->triggerEvent($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
+						$dispatcher->trigger($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 				}
 				else

@@ -23,12 +23,10 @@
 		/>
 
 		<field
-			name="catid"
-			type="categoryedit"
-			allowAdd="true"
+			name="group_id"
+			type="fieldgroups"
 			label="COM_FIELDS_FIELD_GROUP_LABEL"
-			extension="com_fields"
-			description="COM_FIELDS_FIELD_GROUP_DESC" class=""
+			description="COM_FIELDS_FIELD_GROUP_DESC"
 		>
 			<option value=""></option>
 		</field>
@@ -53,7 +51,7 @@
 			size="40"
 			required="true"
 		/>
-
+		
 		<field
 			name="alias"
 			type="text"
@@ -62,7 +60,7 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
-
+	
 		<field
 			name="type"
 			type="type"
@@ -91,7 +89,7 @@
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
 		/>
-
+	
 		<field
 			name="state"
 			type="list"
@@ -113,7 +111,7 @@
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer"
 		/>
-
+	
 		<field
 			name="checked_out"
 			type="hidden"
@@ -125,7 +123,7 @@
 			type="hidden"
 			filter="unset"
 		/>
-
+	
 		<field
 			name="created_user_id"
 			type="user"
@@ -211,7 +209,6 @@
 			translate_label="false"
 			filter="rules"
 			validate="rules"
-			component="com_fields"
 			section="field"
 		/>
 

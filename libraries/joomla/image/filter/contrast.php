@@ -9,13 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLog::add('JImageFilterContrast is deprecated, use Joomla\Image\Filter\Contrast instead.', JLog::WARNING, 'deprecated');
-
 /**
  * Image Filter class adjust the contrast of an image.
  *
- * @since       11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Contrast instead
+ * @since  11.3
  */
 class JImageFilterContrast extends JImageFilter
 {
@@ -28,7 +25,6 @@ class JImageFilterContrast extends JImageFilter
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Contrast::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

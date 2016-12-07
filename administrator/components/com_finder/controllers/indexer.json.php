@@ -67,7 +67,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		try
 		{
 			// Trigger the onStartIndex event.
-			JFactory::getApplication()->triggerEvent('onStartIndex');
+			JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -170,10 +170,10 @@ class FinderControllerIndexer extends JControllerLegacy
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			JFactory::getApplication()->triggerEvent('onBeforeIndex');
+			JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			JFactory::getApplication()->triggerEvent('onBuildIndex');
+			JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -185,6 +185,9 @@ class FinderControllerIndexer extends JControllerLegacy
 
 			// Swap the applications back.
 			$app = $admin;
+
+			// Log batch completion and memory high-water mark.
+			JLog::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', JLog::INFO);
 
 			// Send the response.
 			$this->sendResponse($state);
