@@ -48,7 +48,7 @@ class ContactHelper extends JHelperContent
 			);
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&extension=com_contact',
+				'index.php?option=com_fields&view=groups&context=com_contact.contact',
 				$vName == 'fields.groups'
 			);
 		}
@@ -182,7 +182,7 @@ class ContactHelper extends JHelperContent
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.7.0
 	 */
 	public static function getContexts()
 	{
