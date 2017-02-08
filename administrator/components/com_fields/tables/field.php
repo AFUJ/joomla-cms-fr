@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -110,11 +110,6 @@ class FieldsTableField extends JTable
 			$this->type = 'text';
 		}
 
-		if (is_array($this->assigned_cat_ids))
-		{
-			$this->assigned_cat_ids = implode(',', $this->assigned_cat_ids);
-		}
-
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
@@ -136,6 +131,11 @@ class FieldsTableField extends JTable
 				$this->created_user_id = $user->get('id');
 			}
 		}
+
+		if (empty($this->group_id))
+		{
+			$this->group_id = 0;
+		}	
 
 		return true;
 	}
@@ -177,7 +177,7 @@ class FieldsTableField extends JTable
 	 * Method to get the parent asset under which to register this one.
 	 * By default, all assets are registered to the ROOT node with ID,
 	 * which will default to 1 if none exists.
-	 * The extended class can define a table and id to lookup.  If the
+ 	 * The extended class can define a table and id to lookup.  If the
 	 * asset does not exist it will be created.
 	 *
 	 * @param   JTable   $table  A JTable object for the asset parent.
