@@ -115,6 +115,9 @@ class FieldsModelField extends JModelAdmin
 			$data['state'] = 0;
 		}
 
+		// Load the fields plugins, perhaps they want to do something
+		JPluginHelper::importPlugin('fields');
+
 		if (!parent::save($data))
 		{
 			return false;
@@ -792,6 +795,19 @@ class FieldsModelField extends JModelAdmin
 			if ($dataObject->id)
 			{
 				$form->setFieldAttribute('type', 'readonly', 'true');
+			}
+
+			// Allow to override the default value label and description through the plugin
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'label', $key);
+			}
+
+			$key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+			if (JFactory::getLanguage()->hasKey($key))
+			{
+				$form->setFieldAttribute('default_value', 'description', $key);
 			}
 		}
 
