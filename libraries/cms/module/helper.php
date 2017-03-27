@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -166,8 +166,7 @@ abstract class JModuleHelper
 		$app->scope = $module->module;
 
 		// Get module parameters
-		$params = new Registry;
-		$params->loadString($module->params);
+		$params = new Registry($module->params);
 
 		// Get the template
 		$template = $app->getTemplate();
@@ -406,7 +405,7 @@ abstract class JModuleHelper
 			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter())
 		{
 			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			$cacheId .= $lang . '*';

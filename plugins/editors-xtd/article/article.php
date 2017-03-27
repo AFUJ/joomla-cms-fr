@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,9 @@ class PlgButtonArticle extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A four element array of (article_id, article_title, category_id, object)
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
@@ -58,8 +60,7 @@ class PlgButtonArticle extends JPlugin
 				jModalClose();
 			}";
 
-			$doc = JFactory::getDocument();
-			$doc->addScriptDeclaration($js);
+			JFactory::getDocument()->addScriptDeclaration($js);
 
 			/*
 			 * Use the built-in element view to select the article.

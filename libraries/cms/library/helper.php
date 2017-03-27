@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Library
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -175,9 +175,7 @@ class JLibraryHelper
 		// Convert the params to an object.
 		if (is_string(static::$libraries[$element]->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$libraries[$element]->params);
-			static::$libraries[$element]->params = $temp;
+			static::$libraries[$element]->params = new Registry(static::$libraries[$element]->params);
 		}
 
 		return true;

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		// do field validation 
 		if (form.install_package.value == "")
 		{
-			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
+			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
 		}
 		else
 		{
@@ -34,7 +34,9 @@ JFactory::getDocument()->addScriptDeclaration('
 <div class="control-group">
 	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 	<div class="controls">
-		<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+		<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+		<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+		<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 	</div>
 </div>
 <div class="form-actions">

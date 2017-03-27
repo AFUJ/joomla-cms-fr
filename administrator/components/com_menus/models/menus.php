@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menu List Model for Menus.
@@ -70,7 +72,7 @@ class MenusModelMenus extends JModelList
 
 		// Get the menu types of menus in the list.
 		$db = $this->getDbo();
-		$menuTypes = JArrayHelper::getColumn($items, 'menutype');
+		$menuTypes = ArrayHelper::getColumn((array) $items, 'menutype');
 
 		// Quote the strings.
 		$menuTypes = implode(
