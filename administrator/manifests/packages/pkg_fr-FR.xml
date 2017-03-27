@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" version="3.7" method="upgrade">
-	<name>French Language pack_3.7</name>
+	<name>French Language pack_3.7_alpha2</name>
 	<packagename>fr-FR</packagename>
 	<version>3.7.0.1</version>
-	<creationDate>15/12/2016</creationDate>
+	<creationDate>20/01/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
