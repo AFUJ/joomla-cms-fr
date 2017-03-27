@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="package" version="3.7" method="upgrade">
-	<name>French Language pack_3.7_alpha2</name>
+	<name>French Language pack_3.7_beta3</name>
 	<packagename>fr-FR</packagename>
 	<version>3.7.0.1</version>
-	<creationDate>21/01/2017</creationDate>
+	<creationDate>24/03/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2016 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2017 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager></packager>
