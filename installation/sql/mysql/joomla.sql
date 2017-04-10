@@ -1428,7 +1428,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
 --
 
 INSERT IGNORE INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
-(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
+(1, 0, 'mainmenu', 'Menu principal', 'Le menu principal du site', 0);
 
 -- --------------------------------------------------------
 
