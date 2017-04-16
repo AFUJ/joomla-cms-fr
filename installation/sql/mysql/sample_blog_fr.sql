@@ -130,7 +130,7 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 -- Dumping data for table `#__menu_types`
 --
 
-INSERT IGNORE INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
+INSERT INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
 (1, 0, 'mainmenu', 'Menu principal', 'Le menu principal de votre site', 0),
 (2, 0, 'authormenu', 'Menu auteur', '', 0),
 (3, 0, 'menubas', 'Menu bas', '', 0);
