@@ -163,7 +163,7 @@ class SearchViewSearch extends JViewLegacy
 				$row = &$results[$i]->text;
 
 				// Doing HTML entity decoding here, just in case we get any HTML entities here.
-                $quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_QUOTES | ENT_HTML401 : ENT_QUOTES;
+				$quoteStyle   = version_compare(PHP_VERSION, '5.4', '>=') ? ENT_NOQUOTES | ENT_HTML401 : ENT_NOQUOTES;
 				$row          = html_entity_decode($row, $quoteStyle, 'UTF-8');
 				$row          = SearchHelper::prepareSearchContent($row, $needle);
 				$searchWords  = array_values(array_unique($searchWords));

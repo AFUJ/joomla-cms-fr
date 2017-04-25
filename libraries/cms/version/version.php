@@ -70,11 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const RELDATE = '24-April-2017';
-=======
 	const RELDATE = '25-April-2017';
->>>>>>> c3c37559f0ae4d8ee43a6254da6b42225feda15b
 
 	/**
 	 * Release time.
@@ -82,11 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const RELTIME = '13:22';
-=======
 	const RELTIME = '15:36';
->>>>>>> c3c37559f0ae4d8ee43a6254da6b42225feda15b
 
 	/**
 	 * Release timezone.
