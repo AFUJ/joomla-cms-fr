@@ -4,7 +4,7 @@ window.JoomlaCalLocale = {
 	wk : "sem",
 	time : "Hora:",
 	days : ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"],
-	shortDays : ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+	shortDays : ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"],
 	months : ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
 	shortMonths : ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
 	AM : "AM",
