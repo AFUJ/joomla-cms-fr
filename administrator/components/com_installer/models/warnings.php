@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Installer Warnings Model
+ * Extension Manager Templates Model
  *
  * @since  1.6
  */

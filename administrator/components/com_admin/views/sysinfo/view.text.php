@@ -30,7 +30,7 @@ class AdminViewSysinfo extends JViewLegacy
 		// Access check.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		header('Content-Type: text/plain; charset=utf-8');

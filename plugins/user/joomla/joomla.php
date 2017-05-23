@@ -253,17 +253,12 @@ class PlgUserJoomla extends JPlugin
 		$instance->setLastVisit();
 
 		// Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
+		$cookie_domain = $this->app->get('cookie_domain', '');
+		$cookie_path   = $this->app->get('cookie_path', '/');
+
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set(
-				'joomla_user_state',
-				'logged_in',
-				0,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
-			);
+			$this->app->input->cookie->set('joomla_user_state', 'logged_in', 0, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
@@ -327,9 +322,12 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
+		$cookie_domain = $this->app->get('cookie_domain', '');
+		$cookie_path   = $this->app->get('cookie_path', '/');
+
 		if ($this->app->isClient('site'))
 		{
-			$this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$this->app->input->cookie->set('joomla_user_state', '', time() - 86400, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;

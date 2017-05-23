@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Uncomment the following line to enable debug mode for testing purposes. Note: statistics will be sent on every page load
-// define('PLG_SYSTEM_STATS_DEBUG', 1);
-
 /**
  * Statistics system plugin. This sends anonymous data back to the Joomla! Project about the
  * PHP, SQL, Joomla and OS versions
@@ -366,7 +363,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function isDebugEnabled()
 	{
-		return defined('PLG_SYSTEM_STATS_DEBUG');
+		return ((int) $this->params->get('debug', 0) === 1);
 	}
 
 	/**

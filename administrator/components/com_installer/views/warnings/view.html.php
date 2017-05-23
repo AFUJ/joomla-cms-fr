@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
- * Extension Manager Warning View
+ * Extension Manager Templates View
  *
  * @since  1.6
  */

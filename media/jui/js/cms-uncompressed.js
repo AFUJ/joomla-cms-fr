@@ -74,24 +74,14 @@ if (!Array.prototype.indexOf)
 				$fields.each(function() {
 					var $field = $(this);
 
-					// If checkbox or radio box the value is read from properties
+					// If checkbox or radio box the value is read from proprieties
 					if (['checkbox','radio'].indexOf($field.attr('type')) !== -1)
 					{
-                                                if (!$field.prop('checked')) {
-                                                    // unchecked fields will return a blank and so always match a != condition so we skip them
-                                                    return;
-                                                }
-						itemval = $field.val() ;
+						itemval = $field.prop('checked') ? $field.val() : '';
 					}
 					else
 					{
-                                                // select lists, textarea etc. Note that multiple-select list returns an Array here 
-                                                // se we can always tream 'itemval' as an array
 						itemval = $field.val();
-                                                // a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
-                                                if (itemval == null && $field.prop("tagName").toLowerCase()=="select"){
-                                                    itemval = [];
-                                                }
 					}
 
 					// Convert to array to allow multiple values in the field (e.g. type=list multiple)
@@ -101,19 +91,9 @@ if (!Array.prototype.indexOf)
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-                                        // for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
-                                        // see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
-                                        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-                                        // use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
-                                        // We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-                                        // 
 					// Test if any of the values of the field exists in showon conditions
-                                        for (var i in itemval) {
-                                                // See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
-                                                // Needed otherwise we pick up unenumerable properties like length etc. and !: will always match one of these  !!
-                                                if (!itemval.propertyIsEnumerable(i)) {
-                                                    continue;
-                                                }
+					for (var i in itemval)
+					{
 						// ":" Equal to one or more of the values condition
 						if (jsondata[j]['sign'] == '=' && jsondata[j]['values'].indexOf(itemval[i]) !== -1)
 						{
@@ -124,9 +104,7 @@ if (!Array.prototype.indexOf)
 						{
 							jsondata[j]['valid'] = 1;
 						}
-                                            
-                                        }
-
+					}
 				});
 
 				// Verify conditions

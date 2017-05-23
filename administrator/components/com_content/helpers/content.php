@@ -40,12 +40,6 @@ class ContentHelper extends JHelperContent
 			$vName == 'categories'
 		);
 
-		JHtmlSidebar::addEntry(
-			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
-			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
-		);
-
 		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
@@ -59,6 +53,12 @@ class ContentHelper extends JHelperContent
 				$vName == 'fields.groups'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
+			'index.php?option=com_content&view=featured',
+			$vName == 'featured'
+		);
 	}
 
 	/**

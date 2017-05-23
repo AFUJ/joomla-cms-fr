@@ -815,33 +815,27 @@ class PlgSystemLanguageFilter extends JPlugin
 	/**
 	 * Set the language cookie
 	 *
-	 * @param   string  $languageCode  The language code for which we want to set the cookie
+	 * @param   string  $lang_code  The language code for which we want to set the cookie
 	 *
 	 * @return  void
 	 *
 	 * @since   3.4.2
 	 */
-	private function setLanguageCookie($languageCode)
+	private function setLanguageCookie($lang_code)
 	{
-		// If is set to use language cookie for a year in plugin params, save the user language in a new cookie.
-		if ((int) $this->params->get('lang_cookie', 0) === 1)
+		// Get the cookie lifetime we want.
+		$cookie_expire = 0;
+
+		if ($this->params->get('lang_cookie', 1) == 1)
 		{
-			// Create a cookie with one year lifetime.
-			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('language'),
-				$languageCode,
-				time() + 365 * 86400,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
-			);
+			$cookie_expire = time() + 365 * 86400;
 		}
-		// If not, set the user language in the session (that is already saved in a cookie).
-		else
-		{
-			JFactory::getSession()->set('plg_system_languagefilter.language', $languageCode);
-		}
+
+		// Create a cookie.
+		$cookie_domain = $this->app->get('cookie_domain');
+		$cookie_path   = $this->app->get('cookie_path', '/');
+		$cookie_secure = $this->app->isSSLConnection();
+		$this->app->input->cookie->set(JApplicationHelper::getHash('language'), $lang_code, $cookie_expire, $cookie_path, $cookie_domain, $cookie_secure);
 	}
 
 	/**
@@ -853,23 +847,14 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function getLanguageCookie()
 	{
-		// Is is set to use a year language cookie in plugin params, get the user language from the cookie.
-		if ((int) $this->params->get('lang_cookie', 0) === 1)
-		{
-			$languageCode = $this->app->input->cookie->get(JApplicationHelper::getHash('language'));
-		}
-		// Else get the user language from the session.
-		else
-		{
-			$languageCode = JFactory::getSession()->get('plg_system_languagefilter.language');
-		}
+		$lang_code = $this->app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
 		// Let's be sure we got a valid language code. Fallback to null.
-		if (!array_key_exists($languageCode, $this->lang_codes))
+		if (!array_key_exists($lang_code, $this->lang_codes))
 		{
-			$languageCode = null;
+			$lang_code = null;
 		}
 
-		return $languageCode;
+		return $lang_code;
 	}
 }

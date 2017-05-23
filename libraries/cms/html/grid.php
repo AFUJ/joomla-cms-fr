@@ -64,13 +64,12 @@ abstract class JHtmlGrid
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
 	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
-	 * @param   string  $form           An optional form selector
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '')
 	{
 		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.popover');
@@ -88,12 +87,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		if ($form)
-		{
-			$form = ', document.getElementById(\'' . $form . '\')';
-		}
-
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
 			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
 			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
 

@@ -8,20 +8,20 @@
  */
 defined('_JEXEC') or die;
 
-if ($field->value == '')
-{
-	return;
-}
-
+$value = $field->value;
 $class = $fieldParams->get('image_class');
 
 if ($class)
 {
-	// space before, so if no class sprintf below works
-	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
+	$class = ' class="' . $class . '"';
 }
 
-$value  = (array) $field->value;
+if ($value == '')
+{
+	return;
+}
+
+$value  = (array) $value;
 $buffer = '';
 
 foreach ($value as $path)
@@ -31,21 +31,8 @@ foreach ($value as $path)
 		continue;
 	}
 
-	if ($fieldParams->get('directory', '/') !== '/')
-	{
-		$buffer .= sprintf('<img src="images/%s/%s"%s>',
-			$fieldParams->get('directory'),
-			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-			$class
-		);
-	}
-	else
-	{
-		$buffer .= sprintf('<img src="images/%s"%s>',
-			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-			$class
-		);
-	}
+	$buffer .= '<img src="images/' . $fieldParams->get('directory', '/')
+				. '/' . htmlentities($path) . '"' . $class . '/>';
 }
 
 echo $buffer;

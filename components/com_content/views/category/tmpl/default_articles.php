@@ -93,7 +93,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<thead>
 			<tr>
 				<th scope="col" id="categorylist_header_title">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder, null, 'asc', '', 'adminForm'); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th scope="col" id="categorylist_header_date">
