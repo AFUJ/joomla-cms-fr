@@ -20,17 +20,11 @@ class RedirectViewLinks extends JViewLegacy
 
 	protected $collect_urls_enabled;
 
-	protected $redirectPluginId = 0;
-
 	protected $items;
 
 	protected $pagination;
 
 	protected $state;
-
-	public $filterForm;
-
-	public $activeFilters;
 
 	/**
 	 * Display the view.
@@ -40,14 +34,12 @@ class RedirectViewLinks extends JViewLegacy
 	 * @return  mixed  False if unsuccessful, otherwise void.
 	 *
 	 * @since   1.6
-	 *
-	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Set variables
 		$app                        = JFactory::getApplication();
-		$this->enabled              = JPluginHelper::isEnabled('system', 'redirect');
+		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
@@ -64,42 +56,22 @@ class RedirectViewLinks extends JViewLegacy
 		// Show messages about the enabled plugin and if the plugin should collect URLs
 		if ($this->enabled && $this->collect_urls_enabled)
 		{
-			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+		}
+		elseif ($this->enabled && !$this->collect_urls_enabled)
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
 		else
 		{
-			$this->redirectPluginId = RedirectHelper::getRedirectPluginId();
-
-			$link = JHtml::_(
-				'link',
-				'#plugin' . $this->redirectPluginId . 'Modal',
-				JText::_('COM_REDIRECT_SYSTEM_PLUGIN'),
-				'class="alert-link" data-toggle="modal" id="title-' . $this->redirectPluginId . '"'
-			);
-
-			// To be removed in Joomla 4
-			if (JFactory::getApplication()->getTemplate() === 'hathor')
-			{
-				$link = JHtml::_(
-					'link',
-					JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId()),
-					JText::_('COM_REDIRECT_SYSTEM_PLUGIN')
-				);
-			}
-
-			if ($this->enabled && !$this->collect_urls_enabled)
-			{
-				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', JText::_('COM_REDIRECT_PLUGIN_ENABLED'), $link), 'notice');
-			}
-			else
-			{
-				$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
-			}
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
 		}
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -157,8 +129,6 @@ class RedirectViewLinks extends JViewLegacy
 
 			$title = JText::_('JTOOLBAR_BULK_IMPORT');
 
-			JHtml::_('bootstrap.modal', 'collapseModal');
-
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('toolbar.batch');
 
@@ -185,5 +155,6 @@ class RedirectViewLinks extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+
 	}
 }

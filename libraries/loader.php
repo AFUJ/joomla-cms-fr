@@ -106,13 +106,13 @@ abstract class JLoader
 				$fileName = $file->getFilename();
 
 				// Only load for php files.
-				if ($file->isFile() && $file->getExtension() === 'php')
+				if ($file->isFile() && $file->getExtension() == 'php')
 				{
 					// Get the class name and full path for each file.
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
 
 					// Register the class with the autoloader if not already registered or the force flag is set.
-					if ($force || empty(self::$classes[$class]))
+					if (empty(self::$classes[$class]) || $force)
 					{
 						self::register($class, $file->getPath() . '/' . $fileName);
 					}
@@ -191,7 +191,7 @@ abstract class JLoader
 			$path    = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
-			if ($class === 'helper')
+			if ($class == 'helper')
 			{
 				$class = ucfirst(array_pop($parts)) . ucfirst($class);
 			}
@@ -246,7 +246,7 @@ abstract class JLoader
 	public static function load($class)
 	{
 		// Sanitize class name.
-		$key = strtolower($class);
+		$class = strtolower($class);
 
 		// If the class already exists do nothing.
 		if (class_exists($class, false))
@@ -255,27 +255,9 @@ abstract class JLoader
 		}
 
 		// If the class is registered include the file.
-		if (isset(self::$classes[$key]))
+		if (isset(self::$classes[$class]))
 		{
-			$found = (bool) include_once self::$classes[$key];
-
-			if ($found)
-			{
-				self::loadAliasFor($class);
-			}
-
-			// If the class doesn't exists, we probably have a class alias available
-			if (!class_exists($class, false))
-			{
-				// Search the alias class, first none namespaced and then namespaced
-				$original = array_search($class, self::$classAliases) ? : array_search('\\' . $class, self::$classAliases);
-
-				// When we have an original and the class exists an alias should be created
-				if ($original && class_exists($original, false))
-				{
-					class_alias($original, $class);
-				}
-			}
+			include_once self::$classes[$class];
 
 			return true;
 		}
@@ -296,12 +278,6 @@ abstract class JLoader
 	 */
 	public static function register($class, $path, $force = true)
 	{
-		// When an alias exists, register it as well
-		if (key_exists($class, self::$classAliases))
-		{
-			self::register(self::stripFirstBackslash(self::$classAliases[$class]), $path, $force);
-		}
-
 		// Sanitize class name.
 		$class = strtolower($class);
 
@@ -309,7 +285,7 @@ abstract class JLoader
 		if (!empty($class) && is_file($path))
 		{
 			// Register the class with the autoloader if not already registered or the force flag is set.
-			if ($force || empty(self::$classes[$class]))
+			if (empty(self::$classes[$class]) || $force)
 			{
 				self::$classes[$class] = $path;
 			}
@@ -345,7 +321,7 @@ abstract class JLoader
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
-		if ($reset || !isset(self::$prefixes[$prefix]))
+		if (!isset(self::$prefixes[$prefix]) || $reset)
 		{
 			self::$prefixes[$prefix] = array($path);
 		}
@@ -381,7 +357,11 @@ abstract class JLoader
 		{
 			self::$classAliases[$alias] = $original;
 
-			$original = self::stripFirstBackslash($original);
+			// Remove the root backslash if present.
+			if ($original[0] == '\\')
+			{
+				$original = substr($original, 1);
+			}
 
 			if (!isset(self::$classAliasesInverse[$original]))
 			{
@@ -436,7 +416,7 @@ abstract class JLoader
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if ($reset || !isset(self::$namespaces[$type][$namespace]))
+		if (!isset(self::$namespaces[$type][$namespace]) || $reset)
 		{
 			self::$namespaces[$type][$namespace] = array($path);
 		}
@@ -489,7 +469,7 @@ abstract class JLoader
 
 		if ($enablePsr)
 		{
-			// Register the PSR based autoloader.
+			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
@@ -507,7 +487,11 @@ abstract class JLoader
 	 */
 	public static function loadByPsr4($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
 
 		// Find the location of the last NS separator.
 		$pos = strrpos($class, '\\');
@@ -542,14 +526,7 @@ abstract class JLoader
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
 					{
-						$found = (bool) include_once $classFilePath;
-
-						if ($found)
-						{
-							self::loadAliasFor($class);
-						}
-
-						return $found;
+						return (bool) include_once $classFilePath;
 					}
 				}
 			}
@@ -571,7 +548,11 @@ abstract class JLoader
 	 */
 	public static function loadByPsr0($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
 
 		// Find the location of the last NS separator.
 		$pos = strrpos($class, '\\');
@@ -604,14 +585,7 @@ abstract class JLoader
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
 					{
-						$found = (bool) include_once $classFilePath;
-
-						if ($found)
-						{
-							self::loadAliasFor($class);
-						}
-
-						return $found;
+						return (bool) include_once $classFilePath;
 					}
 				}
 			}
@@ -631,7 +605,11 @@ abstract class JLoader
 	 */
 	public static function loadByAlias($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
 
 		if (isset(self::$classAliases[$class]))
 		{
@@ -658,7 +636,11 @@ abstract class JLoader
 	 */
 	public static function applyAliasFor($class)
 	{
-		$class = self::stripFirstBackslash($class);
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
 
 		if (isset(self::$classAliasesInverse[$class]))
 		{
@@ -696,7 +678,7 @@ abstract class JLoader
 	/**
 	 * Load a class based on name and lookup array.
 	 *
-	 * @param   string  $class   The class to be loaded (without prefix).
+	 * @param   string  $class   The class to be loaded (wihtout prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
@@ -717,14 +699,7 @@ abstract class JLoader
 			// Load the file if it exists.
 			if (file_exists($path))
 			{
-				$found = (bool) include_once $path;
-
-				if ($found)
-				{
-					self::loadAliasFor($class);
-				}
-
-				return $found;
+				return include $path;
 			}
 
 			// Backwards compatibility patch
@@ -738,56 +713,12 @@ abstract class JLoader
 				// Load the file if it exists.
 				if (file_exists($path))
 				{
-					$found = (bool) include_once $path;
-
-					if ($found)
-					{
-						self::loadAliasFor($class);
-					}
-
-					return $found;
+					return include $path;
 				}
 			}
 		}
 
 		return false;
-	}
-
-	/**
-	 * Loads the aliases for the given class.
-	 *
-	 * @param   string  $class  The class.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.0
-	 */
-	private static function loadAliasFor($class)
-	{
-		if (!key_exists($class, self::$classAliasesInverse))
-		{
-			return;
-		}
-
-		foreach (self::$classAliasesInverse[$class] as $alias)
-		{
-			// Force auto-load of the alias class
-			class_exists($alias, true);
-		}
-	}
-
-	/**
-	 * Strips the first backslash from the given class if present.
-	 *
-	 * @param   string  $class  The class to strip the first prefix from.
-	 *
-	 * @return  string  The striped class name.
-	 *
-	 * @since   3.8.0
-	 */
-	private static function stripFirstBackslash($class)
-	{
-		return $class && $class[0] === '\\' ? substr($class, 1) : $class;
 	}
 }
 
