@@ -1007,7 +1007,7 @@
 
 			if (calObj) {
 				if (calObj.inputField.value) {
-					if (typeof calObj.params.dateClicked === 'undefined') {
+					if (typeof calObj.dateClicked === 'undefined') {
 						calObj.inputField.setAttribute('data-local-value', calObj.inputField.value);
 
 						if (calObj.params.dateType !== 'gregorian') {

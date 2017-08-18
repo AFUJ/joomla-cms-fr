@@ -495,7 +495,6 @@ class InstallerModelUpdate extends JModelList
 
 			return false;
 		}
-
 		// Check the session for previously entered form data.
 		$data = $this->loadFormData();
 

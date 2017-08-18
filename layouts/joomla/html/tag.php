@@ -52,7 +52,7 @@ if ($allowCustom)
 				// Tag is greater than the minimum required chars and enter pressed
 				if (this.value && this.value.length >= " . $minTermLength . " && (event.which === 13 || event.which === 188)) {
 
-					// Search a highlighted result
+					// Search an highlighted result
 					var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
 
 					// Add the highlighted option
@@ -83,7 +83,7 @@ if ($allowCustom)
 							option.text(this.value).val(customTagPrefix + this.value);
 							option.attr('selected','selected');
 
-							// Append the option and repopulate the chosen field
+							// Append the option an repopulate the chosen field
 							$('" . $selector . "').append(option);
 						}
 					}
