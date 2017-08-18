@@ -38,11 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const DEV_LEVEL = '4-beta1';
-=======
-	const DEV_LEVEL = '4';
->>>>>>> 72a662e9b6cc47c643a29fedfdd13036ee02b3d2
+	const DEV_LEVEL = '5';
 
 	/**
 	 * Development status.
@@ -50,11 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const DEV_STATUS = 'Beta';
-=======
 	const DEV_STATUS = 'Stable';
->>>>>>> 72a662e9b6cc47c643a29fedfdd13036ee02b3d2
 
 	/**
 	 * Build number.
@@ -78,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '25-July-2017';
+	const RELDATE = '14-August-2017';
 
 	/**
 	 * Release time.
@@ -86,11 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const RELTIME = '16:40';
-=======
-	const RELTIME = '11:11';
->>>>>>> 72a662e9b6cc47c643a29fedfdd13036ee02b3d2
+	const RELTIME = '12:09';
 
 	/**
 	 * Release timezone.
