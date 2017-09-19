@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.7" client="administrator" type="language" method="upgrade">
+<extension version="3.8" client="administrator" type="language" method="upgrade">
 	<name>French (FR)</name>
 	<tag>fr-FR</tag>
-	<version>3.7.4.1</version>
-	<creationDate>18/07/2017</creationDate>
+	<version>3.8.0.1</version>
+	<creationDate>19/09/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -96,6 +96,8 @@
 		<filename>fr-FR.mod_popular.sys.ini</filename>
 		<filename>fr-FR.mod_quickicon.ini</filename>
 		<filename>fr-FR.mod_quickicon.sys.ini</filename>
+		<filename>fr-FR.mod_sampledata.ini</filename>
+		<filename>fr-FR.mod_sampledata.sys.ini</filename>
 		<filename>fr-FR.mod_stats_admin.ini</filename>
 		<filename>fr-FR.mod_stats_admin.sys.ini</filename>
 		<filename>fr-FR.mod_status.ini</filename>
@@ -218,6 +220,8 @@
 		<filename>fr-FR.plg_quickicon_joomlaupdate.sys.ini</filename>
 		<filename>fr-FR.plg_quickicon_phpversioncheck.ini</filename>
 		<filename>fr-FR.plg_quickicon_phpversioncheck.sys.ini</filename>
+		<filename>fr-FR.plg_sampledata_blog.ini</filename>
+		<filename>fr-FR.plg_sampledata_blog.sys.ini</filename>
 		<filename>fr-FR.plg_search_categories.ini</filename>
 		<filename>fr-FR.plg_search_categories.sys.ini</filename>
 		<filename>fr-FR.plg_search_contacts.ini</filename>
