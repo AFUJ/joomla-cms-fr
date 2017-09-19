@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="package" version="3.7" method="upgrade">
+<extension type="package" version="3.8" method="upgrade">
 	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.7.5.1</version>
-	<creationDate>18/08/2017</creationDate>
+	<version>3.8.0.1</version>
+	<creationDate>19/09/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -13,11 +13,8 @@
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
-
-<h3>Joomla! 3.7.5 Full French (fr-FR) Language Package - Version 3.7.5.1</h3>
-
-<h3>Paquet de langue Joomla! 3.7.5 français (fr-FR) complet - Version 3.7.5.1</h3>
-
+<h3>Joomla! 3.8.0 Full French (fr-FR) Language Package - Version 3.8.0.1</h3>
+<h3>Paquet de langue Joomla! 3.8.0 français (fr-FR) complet - Version 3.8.0.1</h3>
 </div>]]></description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<files>
