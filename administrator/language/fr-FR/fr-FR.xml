@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.7" client="administrator">
+<metafile version="3.8" client="administrator">
 	<tag>fr-FR</tag>
 	<name>French (FR)</name>
-	<version>3.7.4.1</version>
-	<creationDate>July 2017</creationDate>
+	<version>3.8.0.1</version>
+	<creationDate>September 2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://www.joomla.fr</authorUrl>
