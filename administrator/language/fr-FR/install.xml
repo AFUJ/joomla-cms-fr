@@ -2,8 +2,8 @@
 <extension version="3.8" client="administrator" type="language" method="upgrade">
 	<name>French (FR)</name>
 	<tag>fr-FR</tag>
-	<version>3.8.0.1</version>
-	<creationDate>19/09/2017</creationDate>
+	<version>3.8.1.1</version>
+	<creationDate>30/09/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
