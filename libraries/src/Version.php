@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '4-October-2017';
+	const RELDATE = '4-November-2017';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '14:00';
+	const RELTIME = '16:00';
 
 	/**
 	 * Release timezone.
