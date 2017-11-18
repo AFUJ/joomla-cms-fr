@@ -4652,6 +4652,10 @@ a.badge:focus {
 	.dl-horizontal dd {
 		margin-left: 0;
 	}
+	.dropdown-menu .menuitem-group {
+		background-color: #10223e;
+		color: #eee;
+	}
 	.container {
 		width: auto;
 	}
@@ -8178,9 +8182,6 @@ body .navbar-fixed-top {
 		margin-left: 10px;
 		padding: 9px 9px 0 9px;
 	}
-}
-.navbar-search .search-query {
-	background: rgba(255,255,255,0.3);
 }
 @media (max-width: 979px) {
 	.navbar .nav {
