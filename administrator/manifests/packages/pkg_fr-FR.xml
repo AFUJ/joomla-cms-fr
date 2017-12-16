@@ -2,8 +2,8 @@
 <extension type="package" version="3.8" method="upgrade">
 	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.8.3.1</version>
-	<creationDate>11/12/2017</creationDate>
+	<version>3.8.3.2</version>
+	<creationDate>14/12/2017</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -12,7 +12,7 @@
 	<url></url>
 	<packager></packager>
 	<packagerurl></packagerurl>
-	<description><![CDATA[d<div style="text-align:left;">
+	<description><![CDATA[<div style="text-align:left;">
 
 <h3>Joomla! 3.8.3 Full French (fr-FR) Language Package - Version 3.8.3.1</h3>
 
