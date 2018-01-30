@@ -2,21 +2,21 @@
 <extension type="package" version="3.8" method="upgrade">
 	<name>French Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.8.3.2</version>
-	<creationDate>14/12/2017</creationDate>
+	<version>3.8.4.1</version>
+	<creationDate>22/01/2018</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2017 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
 
-<h3>Joomla! 3.8.3 Full French (fr-FR) Language Package - Version 3.8.3.1</h3>
+<h3>Joomla! 3.8.4 Full French (fr-FR) Language Package - Version 3.8.4.1</h3>
 
-<h3>Paquet de langue Joomla! 3.8.3 français (fr-FR) complet - Version 3.8.3.1</h3>
+<h3>Paquet de langue Joomla! 3.8.4 français (fr-FR) complet - Version 3.8.4.1</h3>
 
 </div>]]></description>
 	<blockChildUninstall>true</blockChildUninstall>
