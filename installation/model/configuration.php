@@ -78,7 +78,6 @@ class InstallationModelConfiguration extends JModelBase
 		// Debug settings.
 		$registry->set('debug', 0);
 		$registry->set('debug_lang', 0);
-		$registry->set('debug_lang_const', 1);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
@@ -311,7 +310,7 @@ class InstallationModelConfiguration extends JModelBase
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote('Super Utilisateur') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
