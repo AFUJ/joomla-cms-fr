@@ -323,10 +323,6 @@ class JAdminCssMenu
 			{
 				continue;
 			}
-			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
-			{
-				continue;
-			}
 			elseif ($item->element === 'com_admin')
 			{
 				parse_str($item->link, $query);
