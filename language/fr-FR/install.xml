@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.8" client="site" type="language" method="upgrade">
+<extension version="3.9" client="site" type="language" method="upgrade">
 	<name>French (FR)</name>
 	<tag>fr-FR</tag>
-	<version>3.8.13.1</version>
-	<creationDate>30/09/2018</creationDate>
+	<version>3.9.0.1</version>
+	<creationDate>30/10/2018</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -21,6 +21,7 @@
 		<filename>fr-FR.com_media.ini</filename>
 		<filename>fr-FR.com_messages.ini</filename>
 		<filename>fr-FR.com_newsfeeds.ini</filename>
+		<filename>fr-FR.com_privacy.ini</filename>
 		<filename>fr-FR.com_search.ini</filename>
 		<filename>fr-FR.com_tags.ini</filename>
 		<filename>fr-FR.com_users.ini</filename>
