@@ -78,11 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-<<<<<<< HEAD
-	const DEV_LEVEL = '2';
-=======
-	const DEV_LEVEL = '3-dev';
->>>>>>> 19cddf9a7b0d8864ae4a940c8cc5d4a084ac9c8a
+	const DEV_LEVEL = '3';
 
 	/**
 	 * Development status.
@@ -115,11 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
-	const RELDATE = '15-January-2019';
-=======
-	const RELDATE = '9-February-2019';
->>>>>>> 19cddf9a7b0d8864ae4a940c8cc5d4a084ac9c8a
+	const RELDATE = '12-February-2019';
 
 	/**
 	 * Release time.
@@ -127,11 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-<<<<<<< HEAD
 	const RELTIME = '15:00';
-=======
-	const RELTIME = '19:31';
->>>>>>> 19cddf9a7b0d8864ae4a940c8cc5d4a084ac9c8a
 
 	/**
 	 * Release timezone.
