@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<localise version="3.6" client="installation">
-	<forceLang></forceLang>
+<localise version="3.9" client="installation">
+	<forceLang>fr-FR</forceLang>
 	<debug>0</debug>
-	<sampledata></sampledata>
+	<sampledata>sample_data_fr.sql</sampledata>
 	<params/>
 </localise>
