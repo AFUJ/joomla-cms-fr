@@ -2,19 +2,19 @@
 <extension type="package" version="3.9" method="upgrade">
 	<name>French (fr-FR) Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.9.14.1</version>
-	<creationDate>2019-12-12</creationDate>
+	<version>3.9.15.1</version>
+	<creationDate>2020-01-21</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2019 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Joomla.fr and Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<url></url>
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
-<h3>Joomla! 3.9.14 Full French (fr-FR) Language Package - Version 3.9.14.1</h3>
-<h3>Paquet de langue Joomla! 3.9.14 français (fr-FR) complet - Version 3.9.14.1</h3>
+<h3>Joomla! 3.9.15 Full French (fr-FR) Language Package - Version 3.9.15.1</h3>
+<h3>Paquet de langue Joomla! 3.9.15 français (fr-FR) complet - Version 3.9.15.1</h3>
 </div>]]></description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<files>
