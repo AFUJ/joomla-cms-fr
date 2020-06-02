@@ -2,8 +2,8 @@
 <extension type="package" version="3.9" method="upgrade">
 	<name>French (fr-FR) Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>3.9.18.1</version>
-	<creationDate>2020-04-22</creationDate>
+	<version>3.9.19.1</version>
+	<creationDate>2020-05-28</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://joomla.fr</authorUrl>
@@ -13,8 +13,8 @@
 	<packager></packager>
 	<packagerurl></packagerurl>
 	<description><![CDATA[<div style="text-align:left;">
-<h3>Joomla! 3.9.18 Full French (fr-FR) Language Package - Version 3.9.18.1</h3>
-<h3>Paquet de langue Joomla! 3.9.18 français (fr-FR) complet - Version 3.9.18.1</h3>
+<h3>Joomla! 3.9.19 Full French (fr-FR) Language Package - Version 3.9.19.1</h3>
+<h3>Paquet de langue Joomla! 3.9.19 français (fr-FR) complet - Version 3.9.19.1</h3>
 </div>]]></description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<files>
