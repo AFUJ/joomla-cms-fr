@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -272,7 +272,7 @@ abstract class DatabaseExporter
 
 			foreach ($fields as $field)
 			{
-				// Cacth blob for conversion xml
+				// Catch blob for conversion xml
 				if ($field->Type == 'mediumblob')
 				{
 					$colblob[] = $field->Field;

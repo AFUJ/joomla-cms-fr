@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1071,7 +1071,7 @@ class SqlsrvQuery extends DatabaseQuery
 				{
 					if ($i === $start && $colIdx > 0 && !isset($column[$colIdx]))
 					{
-						// Remove whitepace placed before dot
+						// Remove whitespace placed before dot
 						$colIdx--;
 					}
 
@@ -1081,7 +1081,7 @@ class SqlsrvQuery extends DatabaseQuery
 				{
 					if (ctype_space($current))
 					{
-						// Normalize whitepace
+						// Normalize whitespace
 						$string[$i] = ' ';
 
 						if ($start < $i)

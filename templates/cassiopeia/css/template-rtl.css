@@ -11153,10 +11153,6 @@ figcaption {
   flex-direction: column;
 }
 
-.mod-languages__select {
-  background-color: white;
-}
-
 meter {
   width: 100%;
 }
@@ -11643,43 +11639,11 @@ fieldset > * {
   left: 0;
   background: white;
 }
-.container-header .metismenu > li > .mm-toggler-component__wrapper a,
-.container-header .metismenu > li > .mm-toggler-url__wrapper a {
-  position: relative;
-}
-.container-header .metismenu > li > .mm-toggler-component__wrapper > a:hover::after,
-.container-header .metismenu > li > .mm-toggler-component__wrapper > button:hover::before, .container-header .metismenu > li > .mm-toggler-component__wrapper.active > a::after, .container-header .metismenu > li > .mm-toggler-component__wrapper.active > button::before,
-.container-header .metismenu > li > .mm-toggler-url__wrapper > a:hover::after,
-.container-header .metismenu > li > .mm-toggler-url__wrapper > button:hover::before,
-.container-header .metismenu > li > .mm-toggler-url__wrapper.active > a::after,
-.container-header .metismenu > li > .mm-toggler-url__wrapper.active > button::before {
-  right: 0;
-  left: 0;
-  background: white;
-}
-@media (min-width: 768px) {
-  .container-header .metismenu > li > .mm-toggler-component__wrapper > a::after,
-.container-header .metismenu > li > .mm-toggler-component__wrapper > button::before,
-.container-header .metismenu > li > .mm-toggler-url__wrapper > a::after,
-.container-header .metismenu > li > .mm-toggler-url__wrapper > button::before {
-    position: absolute;
-    right: 50%;
-    bottom: 0;
-    left: 50%;
-    display: block;
-    height: 2px;
-    margin: auto;
-    content: "";
-    background: transparent;
-    opacity: 0.2;
-    transition: all 0.2s ease, background-color 0.2s ease;
-  }
-}
-.container-header .metismenu > li button.mm-toggler-link:hover::before, .container-header .metismenu > li.active > button.mm-toggler-link::before {
+.container-header .metismenu > li > button.mm-toggler-link:hover::before, .container-header .metismenu > li.active > button.mm-toggler-link::before {
   right: 0;
   left: 0.5em;
 }
-[dir=rtl] .container-header .metismenu > li button.mm-toggler-link:hover::before, [dir=rtl] .container-header .metismenu > li.active > button.mm-toggler-link::before {
+[dir=rtl] .container-header .metismenu > li > button.mm-toggler-link:hover::before, [dir=rtl] .container-header .metismenu > li.active > button.mm-toggler-link::before {
   right: 0.5em;
   left: 0;
 }
@@ -11692,23 +11656,6 @@ fieldset > * {
 }
 .container-header .metismenu > li.level-1 > ul {
   min-width: 12rem;
-  max-width: 90vw;
-}
-@media (min-width: 768px) {
-  .container-header .metismenu > li.level-1 > .mm-toggler-url__wrapper > a:hover,
-.container-header .metismenu > li.level-1 > .mm-toggler-url__wrapper > button:hover,
-.container-header .metismenu > li.level-1 > .mm-toggler-component__wrapper > a:hover,
-.container-header .metismenu > li.level-1 > .mm-toggler-component__wrapper > button:hover {
-    text-decoration: none;
-  }
-}
-.container-header li.level-2 .mm-toggler {
-  min-height: 1.5em;
-  color: #22262a;
-}
-.container-header .metismenu > .metismenu-item > .mm-toggler-component__wrapper a,
-.container-header .metismenu > .metismenu-item > .mm-toggler-url__wrapper a {
-  color: #fff;
 }
 .container-header .navbar-toggler {
   color: white;
@@ -12746,17 +12693,6 @@ joomla-tab[view=accordion] .col-md-3 {
   background-color: white;
   border-color: #dfe3e7;
 }
-.dropdown-menu::after {
-  position: absolute;
-  top: -1.5rem;
-  left: 0.9rem;
-  font-family: "Font Awesome 5 Free";
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-  content: "";
-}
 
 .dropdown-item {
   padding: 3px 0.75rem;
@@ -13110,20 +13046,6 @@ joomla-tab[view=accordion] .col-md-3 {
   outline: 1px dotted #ced4da;
   outline-offset: 2px;
 }
-.metismenu.mod-menu .metismenu-item > .mm-toggler-component__wrapper,
-.metismenu.mod-menu .metismenu-item > .mm-toggler-url__wrapper {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  overflow: visible;
-}
-.metismenu.mod-menu .metismenu-item > .mm-toggler-component__wrapper > a:focus,
-.metismenu.mod-menu .metismenu-item > .mm-toggler-component__wrapper > button:focus,
-.metismenu.mod-menu .metismenu-item > .mm-toggler-url__wrapper > a:focus,
-.metismenu.mod-menu .metismenu-item > .mm-toggler-url__wrapper > button:focus {
-  outline: 1px dotted #ced4da;
-  outline-offset: 2px;
-}
 .metismenu.mod-menu .metismenu-item.active > a, .metismenu.mod-menu .metismenu-item.active > button,
 .metismenu.mod-menu .metismenu-item > a:hover,
 .metismenu.mod-menu .metismenu-item > button:hover {
@@ -13228,26 +13150,11 @@ joomla-tab[view=accordion] .col-md-3 {
 .metismenu.mod-menu .parent > ul {
   color: #22262a;
 }
-@media (max-width: 767.98px) {
-  .metismenu.mod-menu .metismenu-item > span, .metismenu.mod-menu .metismenu-item > a, .metismenu.mod-menu .metismenu-item > button {
-    text-align: left;
-    white-space: break-spaces;
-  }
-}
 
 .sidebar-right .metismenu .mm-collapse,
 .sidebar-left .metismenu .mm-collapse {
   position: relative;
   background-color: rgba(0, 0, 0, 0.03);
-}
-.sidebar-right .metismenu .metismenu-item > span,
-.sidebar-right .metismenu .metismenu-item > a,
-.sidebar-right .metismenu .metismenu-item > button,
-.sidebar-left .metismenu .metismenu-item > span,
-.sidebar-left .metismenu .metismenu-item > a,
-.sidebar-left .metismenu .metismenu-item > button {
-  text-align: left;
-  white-space: break-spaces;
 }
 .sidebar-right .metismenu li.parent > ul,
 .sidebar-left .metismenu li.parent > ul {
@@ -13272,11 +13179,6 @@ joomla-tab[view=accordion] .col-md-3 {
   width: auto;
   height: 1px;
   border-bottom: 1px solid #ced4da;
-}
-
-.metismenu .metismenu-item .mm-toggler-component__wrapper a:hover,
-.metismenu .metismenu-item .mm-toggler-url__wrapper a:hover {
-  text-decoration: underline;
 }
 
 .minicolors-theme-bootstrap .minicolors-input {

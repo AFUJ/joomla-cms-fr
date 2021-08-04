@@ -55,15 +55,15 @@ var JoomlaMediaManager = (function () {
 
   var $propertyIsEnumerable$1 = {}.propertyIsEnumerable;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getOwnPropertyDescriptor$5 = Object.getOwnPropertyDescriptor;
+  var getOwnPropertyDescriptor$6 = Object.getOwnPropertyDescriptor;
 
   // Nashorn ~ JDK8 bug
-  var NASHORN_BUG = getOwnPropertyDescriptor$5 && !$propertyIsEnumerable$1.call({ 1: 2 }, 1);
+  var NASHORN_BUG = getOwnPropertyDescriptor$6 && !$propertyIsEnumerable$1.call({ 1: 2 }, 1);
 
   // `Object.prototype.propertyIsEnumerable` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
   var f$7 = NASHORN_BUG ? function propertyIsEnumerable(V) {
-    var descriptor = getOwnPropertyDescriptor$5(this, V);
+    var descriptor = getOwnPropertyDescriptor$6(this, V);
     return !!descriptor && descriptor.enumerable;
   } : $propertyIsEnumerable$1;
 
@@ -379,23 +379,23 @@ var JoomlaMediaManager = (function () {
     return isNaN(argument = +argument) ? 0 : (argument > 0 ? floor$6 : ceil)(argument);
   };
 
-  var min$7 = Math.min;
+  var min$8 = Math.min;
 
   // `ToLength` abstract operation
   // https://tc39.es/ecma262/#sec-tolength
   var toLength = function (argument) {
-    return argument > 0 ? min$7(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+    return argument > 0 ? min$8(toInteger(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
 
   var max$3 = Math.max;
-  var min$6 = Math.min;
+  var min$7 = Math.min;
 
   // Helper for a popular repeating case of the spec:
   // Let integer be ? ToInteger(index).
   // If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
   var toAbsoluteIndex = function (index, length) {
     var integer = toInteger(index);
-    return integer < 0 ? max$3(integer + length, 0) : min$6(integer, length);
+    return integer < 0 ? max$3(integer + length, 0) : min$7(integer, length);
   };
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
@@ -511,7 +511,7 @@ var JoomlaMediaManager = (function () {
 
   var isForced_1 = isForced;
 
-  var getOwnPropertyDescriptor$4 = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$5 = objectGetOwnPropertyDescriptor.f;
 
 
 
@@ -547,7 +547,7 @@ var JoomlaMediaManager = (function () {
     if (target) for (key in source) {
       sourceProperty = source[key];
       if (options.noTargetGet) {
-        descriptor = getOwnPropertyDescriptor$4(target, key);
+        descriptor = getOwnPropertyDescriptor$5(target, key);
         targetProperty = descriptor && descriptor.value;
       } else targetProperty = target[key];
       FORCED = isForced_1(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
@@ -947,7 +947,7 @@ var JoomlaMediaManager = (function () {
 
   var UNSUPPORTED_Y$1 = regexpStickyHelpers.UNSUPPORTED_Y;
   var arrayPush = [].push;
-  var min$5 = Math.min;
+  var min$6 = Math.min;
   var MAX_UINT32 = 0xFFFFFFFF;
 
   // @@split logic
@@ -1049,7 +1049,7 @@ var JoomlaMediaManager = (function () {
           var e;
           if (
             z === null ||
-            (e = min$5(toLength(splitter.lastIndex + (UNSUPPORTED_Y$1 ? q : 0)), S.length)) === p
+            (e = min$6(toLength(splitter.lastIndex + (UNSUPPORTED_Y$1 ? q : 0)), S.length)) === p
           ) {
             q = advanceStringIndex(S, q, unicodeMatching);
           } else {
@@ -1815,7 +1815,7 @@ var JoomlaMediaManager = (function () {
     } return false;
   };
 
-  var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$4 = objectGetOwnPropertyDescriptor.f;
 
 
 
@@ -1824,22 +1824,22 @@ var JoomlaMediaManager = (function () {
 
   // eslint-disable-next-line es/no-string-prototype-startswith -- safe
   var $startsWith = ''.startsWith;
-  var min$4 = Math.min;
+  var min$5 = Math.min;
 
-  var CORRECT_IS_REGEXP_LOGIC = correctIsRegexpLogic('startsWith');
+  var CORRECT_IS_REGEXP_LOGIC$1 = correctIsRegexpLogic('startsWith');
   // https://github.com/zloirock/core-js/pull/702
-  var MDN_POLYFILL_BUG = !CORRECT_IS_REGEXP_LOGIC && !!function () {
-    var descriptor = getOwnPropertyDescriptor$3(String.prototype, 'startsWith');
+  var MDN_POLYFILL_BUG$1 = !CORRECT_IS_REGEXP_LOGIC$1 && !!function () {
+    var descriptor = getOwnPropertyDescriptor$4(String.prototype, 'startsWith');
     return descriptor && !descriptor.writable;
   }();
 
   // `String.prototype.startsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.startswith
-  _export({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+  _export({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
     startsWith: function startsWith(searchString /* , position = 0 */) {
       var that = String(requireObjectCoercible(this));
       notARegexp(searchString);
-      var index = toLength(min$4(arguments.length > 1 ? arguments[1] : undefined, that.length));
+      var index = toLength(min$5(arguments.length > 1 ? arguments[1] : undefined, that.length));
       var search = String(searchString);
       return $startsWith
         ? $startsWith.call(that, search, index)
@@ -1903,7 +1903,7 @@ var JoomlaMediaManager = (function () {
   var HAS_SPECIES_SUPPORT$3 = arrayMethodHasSpeciesSupport('splice');
 
   var max$2 = Math.max;
-  var min$3 = Math.min;
+  var min$4 = Math.min;
   var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
   var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
 
@@ -1924,7 +1924,7 @@ var JoomlaMediaManager = (function () {
         actualDeleteCount = len - actualStart;
       } else {
         insertCount = argumentsLength - 2;
-        actualDeleteCount = min$3(max$2(toInteger(deleteCount), 0), len - actualStart);
+        actualDeleteCount = min$4(max$2(toInteger(deleteCount), 0), len - actualStart);
       }
       if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
         throw TypeError(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
@@ -2036,7 +2036,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var max = Math.max;
-  var min$2 = Math.min;
+  var min$3 = Math.min;
 
   var maybeToString = function (it) {
     return it === undefined ? it : String(it);
@@ -2098,7 +2098,7 @@ var JoomlaMediaManager = (function () {
           result = results[i];
 
           var matched = String(result[0]);
-          var position = max(min$2(toInteger(result.index), S.length), 0);
+          var position = max(min$3(toInteger(result.index), S.length), 0);
           var captures = [];
           // NOTE: This is equivalent to
           //   captures = result.slice(1).map(maybeToString)
@@ -3290,7 +3290,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var getOwnPropertyNames$2 = objectGetOwnPropertyNames.f;
-  var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
   var defineProperty$4 = objectDefineProperty.f;
   var trim = stringTrim.trim;
 
@@ -3351,7 +3351,7 @@ var JoomlaMediaManager = (function () {
       'fromString,range'
     ).split(','), j$1 = 0, key$1; keys$2.length > j$1; j$1++) {
       if (has$3(NativeNumber, key$1 = keys$2[j$1]) && !has$3(NumberWrapper, key$1)) {
-        defineProperty$4(NumberWrapper, key$1, getOwnPropertyDescriptor$2(NativeNumber, key$1));
+        defineProperty$4(NumberWrapper, key$1, getOwnPropertyDescriptor$3(NativeNumber, key$1));
       }
     }
     NumberWrapper.prototype = NumberPrototype;
@@ -3396,13 +3396,13 @@ var JoomlaMediaManager = (function () {
     set: set$4
   });
 
-  var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
 
   // `Reflect.deleteProperty` method
   // https://tc39.es/ecma262/#sec-reflect.deleteproperty
   _export({ target: 'Reflect', stat: true }, {
     deleteProperty: function deleteProperty(target, propertyKey) {
-      var descriptor = getOwnPropertyDescriptor$1(anObject(target), propertyKey);
+      var descriptor = getOwnPropertyDescriptor$2(anObject(target), propertyKey);
       return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
     }
   });
@@ -3598,7 +3598,7 @@ var JoomlaMediaManager = (function () {
 
   var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(engineUserAgent);
 
-  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+  var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
   var macrotask = task$1.set;
 
 
@@ -3609,7 +3609,7 @@ var JoomlaMediaManager = (function () {
   var process$1 = global$1.process;
   var Promise$1 = global$1.Promise;
   // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
-  var queueMicrotaskDescriptor = getOwnPropertyDescriptor(global$1, 'queueMicrotask');
+  var queueMicrotaskDescriptor = getOwnPropertyDescriptor$1(global$1, 'queueMicrotask');
   var queueMicrotask = queueMicrotaskDescriptor && queueMicrotaskDescriptor.value;
 
   var flush, head, last, notify$1, toggle, node, promise, then;
@@ -4213,10 +4213,6 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  // `Symbol.unscopables` well-known symbol
-  // https://tc39.es/ecma262/#sec-symbol.unscopables
-  defineWellKnownSymbol('unscopables');
-
   // call something on iterator step with safe closing on error
   var callWithSafeIterationClosing = function (iterator, fn, value, ENTRIES) {
     try {
@@ -4271,6 +4267,10 @@ var JoomlaMediaManager = (function () {
   _export({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
     from: arrayFrom
   });
+
+  // `Symbol.unscopables` well-known symbol
+  // https://tc39.es/ecma262/#sec-symbol.unscopables
+  defineWellKnownSymbol('unscopables');
 
   // `SameValue` abstract operation
   // https://tc39.es/ecma262/#sec-samevalue
@@ -4444,6 +4444,40 @@ var JoomlaMediaManager = (function () {
       } else {
         result = sign + result;
       } return result;
+    }
+  });
+
+  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+
+
+
+
+
+
+  // eslint-disable-next-line es/no-string-prototype-endswith -- safe
+  var $endsWith = ''.endsWith;
+  var min$2 = Math.min;
+
+  var CORRECT_IS_REGEXP_LOGIC = correctIsRegexpLogic('endsWith');
+  // https://github.com/zloirock/core-js/pull/702
+  var MDN_POLYFILL_BUG = !CORRECT_IS_REGEXP_LOGIC && !!function () {
+    var descriptor = getOwnPropertyDescriptor(String.prototype, 'endsWith');
+    return descriptor && !descriptor.writable;
+  }();
+
+  // `String.prototype.endsWith` method
+  // https://tc39.es/ecma262/#sec-string.prototype.endswith
+  _export({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+    endsWith: function endsWith(searchString /* , endPosition = @length */) {
+      var that = String(requireObjectCoercible(this));
+      notARegexp(searchString);
+      var endPosition = arguments.length > 1 ? arguments[1] : undefined;
+      var len = toLength(that.length);
+      var end = endPosition === undefined ? len : min$2(toLength(endPosition), len);
+      var search = String(searchString);
+      return $endsWith
+        ? $endsWith.call(that, search, end)
+        : that.slice(end - search.length, end) === search;
     }
   });
 
@@ -7673,7 +7707,7 @@ var JoomlaMediaManager = (function () {
   function createReactiveEffect(fn, options) {
     var effect = function reactiveEffect() {
       if (!effect.active) {
-        return options.scheduler ? undefined : fn();
+        return fn();
       }
 
       if (!effectStack.includes(effect)) {
@@ -8113,6 +8147,10 @@ var JoomlaMediaManager = (function () {
       return wrap(target.get(key));
     } else if (has.call(rawTarget, rawKey)) {
       return wrap(target.get(rawKey));
+    } else if (target !== rawTarget) {
+      // #3602 readonly(reactive(Map))
+      // ensure that the nested reactive `Map` can do tracking for itself
+      target.get(key);
     }
   }
 
@@ -8562,6 +8600,13 @@ var JoomlaMediaManager = (function () {
     ]) || observed;
   }
 
+  function markRaw(value) {
+    def(value, "__v_skip"
+    /* SKIP */
+    , true);
+    return value;
+  }
+
   function isRef(r) {
     return Boolean(r && r.__v_isRef === true);
   }
@@ -8676,6 +8721,130 @@ var JoomlaMediaManager = (function () {
     return new ComputedRefImpl(getter, setter, isFunction(getterOrOptions) || !getterOrOptions.set);
   }
 
+  var stack = [];
+
+  function warn(msg) {
+    // avoid props formatting or warn handler tracking deps that might be mutated
+    // during patch, leading to infinite recursion.
+    pauseTracking();
+    var instance = stack.length ? stack[stack.length - 1].component : null;
+    var appWarnHandler = instance && instance.appContext.config.warnHandler;
+    var trace = getComponentTrace();
+
+    for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key4 = 1; _key4 < _len3; _key4++) {
+      args[_key4 - 1] = arguments[_key4];
+    }
+
+    if (appWarnHandler) {
+      callWithErrorHandling(appWarnHandler, instance, 11
+      /* APP_WARN_HANDLER */
+      , [msg + args.join(''), instance && instance.proxy, trace.map(function (_ref5) {
+        var vnode = _ref5.vnode;
+        return "at <" + formatComponentName(instance, vnode.type) + ">";
+      }).join('\n'), trace]);
+    } else {
+      var _console;
+
+      var warnArgs = ["[Vue warn]: " + msg].concat(args);
+      /* istanbul ignore if */
+
+      if (trace.length && // avoid spamming console during tests
+      !false) {
+        warnArgs.push.apply(warnArgs, ["\n"].concat(formatTrace(trace)));
+      }
+
+      (_console = console).warn.apply(_console, warnArgs);
+    }
+
+    resetTracking();
+  }
+
+  function getComponentTrace() {
+    var currentVNode = stack[stack.length - 1];
+
+    if (!currentVNode) {
+      return [];
+    } // we can't just use the stack because it will be incomplete during updates
+    // that did not start from the root. Re-construct the parent chain using
+    // instance parent pointers.
+
+
+    var normalizedStack = [];
+
+    while (currentVNode) {
+      var last = normalizedStack[0];
+
+      if (last && last.vnode === currentVNode) {
+        last.recurseCount++;
+      } else {
+        normalizedStack.push({
+          vnode: currentVNode,
+          recurseCount: 0
+        });
+      }
+
+      var parentInstance = currentVNode.component && currentVNode.component.parent;
+      currentVNode = parentInstance && parentInstance.vnode;
+    }
+
+    return normalizedStack;
+  }
+  /* istanbul ignore next */
+
+
+  function formatTrace(trace) {
+    var logs = [];
+    trace.forEach(function (entry, i) {
+      logs.push.apply(logs, (i === 0 ? [] : ["\n"]).concat(formatTraceEntry(entry)));
+    });
+    return logs;
+  }
+
+  function formatTraceEntry(_ref6) {
+    var vnode = _ref6.vnode,
+        recurseCount = _ref6.recurseCount;
+    var postfix = recurseCount > 0 ? "... (" + recurseCount + " recursive calls)" : "";
+    var isRoot = vnode.component ? vnode.component.parent == null : false;
+    var open = " at <" + formatComponentName(vnode.component, vnode.type, isRoot);
+    var close = ">" + postfix;
+    return vnode.props ? [open].concat(formatProps(vnode.props), [close]) : [open + close];
+  }
+  /* istanbul ignore next */
+
+
+  function formatProps(props) {
+    var res = [];
+    var keys = Object.keys(props);
+    keys.slice(0, 3).forEach(function (key) {
+      res.push.apply(res, formatProp(key, props[key]));
+    });
+
+    if (keys.length > 3) {
+      res.push(" ...");
+    }
+
+    return res;
+  }
+  /* istanbul ignore next */
+
+
+  function formatProp(key, value, raw) {
+    if (isString(value)) {
+      value = JSON.stringify(value);
+      return raw ? value : [key + "=" + value];
+    } else if (typeof value === 'number' || typeof value === 'boolean' || value == null) {
+      return raw ? value : [key + "=" + value];
+    } else if (isRef(value)) {
+      value = formatProp(key, toRaw(value.value), true);
+      return raw ? value : [key + "=Ref<", value, ">"];
+    } else if (isFunction(value)) {
+      return [key + "=fn" + (value.name ? "<" + value.name + ">" : "")];
+    } else {
+      value = toRaw(value);
+      return raw ? value : [key + "=", value];
+    }
+  }
+
   function callWithErrorHandling(fn, instance, type, args) {
     var res;
 
@@ -8770,6 +8939,7 @@ var JoomlaMediaManager = (function () {
   var resolvedPromise = Promise.resolve();
   var currentFlushPromise = null;
   var currentPreFlushParentJob = null;
+  var RECURSION_LIMIT = 100;
 
   function nextTick(fn) {
     var p = currentFlushPromise || resolvedPromise;
@@ -8925,8 +9095,8 @@ var JoomlaMediaManager = (function () {
       for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
         var job = queue[flushIndex];
 
-        if (job) {
-          if ("production" !== 'production') ;
+        if (job && job.active !== false) {
+          if ("production" !== 'production' && checkRecursiveUpdates(seen, job)) ;
           callWithErrorHandling(job, null, 14
           /* SCHEDULER */
           );
@@ -8940,8 +9110,25 @@ var JoomlaMediaManager = (function () {
       currentFlushPromise = null; // some postFlushCb queued jobs!
       // keep flushing until it drains.
 
-      if (queue.length || pendingPostFlushCbs.length) {
+      if (queue.length || pendingPreFlushCbs.length || pendingPostFlushCbs.length) {
         flushJobs(seen);
+      }
+    }
+  }
+
+  function checkRecursiveUpdates(seen, fn) {
+    if (!seen.has(fn)) {
+      seen.set(fn, 1);
+    } else {
+      var count = seen.get(fn);
+
+      if (count > RECURSION_LIMIT) {
+        var instance = fn.ownerInstance;
+        var componentName = instance && getComponentName(instance.type);
+        warn("Maximum recursive updates exceeded" + (componentName ? " in component <" + componentName + ">" : "") + ". " + "This means you have a reactive effect that is mutating its own " + "dependencies and thus recursively triggering itself. Possible sources " + "include component template, render function, updated hook or " + "watcher source function.");
+        return true;
+      } else {
+        seen.set(fn, count + 1);
       }
     }
   }
@@ -8960,7 +9147,7 @@ var JoomlaMediaManager = (function () {
     , app, version, {
       Fragment: Fragment,
       Text: Text,
-      Comment: Comment,
+      Comment: Comment$1,
       Static: Static
     });
   }
@@ -8994,6 +9181,41 @@ var JoomlaMediaManager = (function () {
     devtools.emit("component:emit"
     /* COMPONENT_EMIT */
     , component.appContext.app, component, event, params);
+  }
+
+  var globalCompatConfig = {
+    MODE: 2
+  };
+
+  function getCompatConfigForKey(key, instance) {
+    var instanceConfig = instance && instance.type.compatConfig;
+
+    if (instanceConfig && key in instanceConfig) {
+      return instanceConfig[key];
+    }
+
+    return globalCompatConfig[key];
+  }
+
+  function isCompatEnabled(key, instance, enableForBuiltIn) {
+    if (enableForBuiltIn === void 0) {
+      enableForBuiltIn = false;
+    }
+
+    // skip compat for built-in components
+    if (!enableForBuiltIn && instance && instance.type.__isBuiltIn) {
+      return false;
+    }
+
+    var rawMode = getCompatConfigForKey('MODE', instance) || 2;
+    var val = getCompatConfigForKey(key, instance);
+    var mode = isFunction(rawMode) ? rawMode(instance && instance.type) : rawMode;
+
+    if (mode === 2) {
+      return val !== false;
+    } else {
+      return val === true || val === 'suppress-warning';
+    }
   }
 
   function emit(instance, event) {
@@ -9047,11 +9269,12 @@ var JoomlaMediaManager = (function () {
 
     if (onceHandler) {
       if (!instance.emitted) {
-        (instance.emitted = {})[handlerName] = true;
+        instance.emitted = {};
       } else if (instance.emitted[handlerName]) {
         return;
       }
 
+      instance.emitted[handlerName] = true;
       callWithAsyncErrorHandling(onceHandler, instance, 6
       /* COMPONENT_EVENT_HANDLER */
       , args);
@@ -9063,8 +9286,11 @@ var JoomlaMediaManager = (function () {
       asMixin = false;
     }
 
-    if (!appContext.deopt && comp.__emits !== undefined) {
-      return comp.__emits;
+    var cache = appContext.emitsCache;
+    var cached = cache.get(comp);
+
+    if (cached !== undefined) {
+      return cached;
     }
 
     var raw = comp.emits;
@@ -9096,7 +9322,8 @@ var JoomlaMediaManager = (function () {
     }
 
     if (!raw && !hasExtends) {
-      return comp.__emits = null;
+      cache.set(comp, null);
+      return null;
     }
 
     if (isArray(raw)) {
@@ -9107,7 +9334,8 @@ var JoomlaMediaManager = (function () {
       extend(normalized, raw);
     }
 
-    return comp.__emits = normalized;
+    cache.set(comp, normalized);
+    return normalized;
   } // Check if an incoming prop key is a declared emit event listener.
   // e.g. With `emits: { click: null }`, props named `onClick` and `onclick` are
   // both considered matched listeners.
@@ -9120,58 +9348,6 @@ var JoomlaMediaManager = (function () {
 
     key = key.slice(2).replace(/Once$/, '');
     return hasOwn(options, key[0].toLowerCase() + key.slice(1)) || hasOwn(options, hyphenate(key)) || hasOwn(options, key);
-  }
-
-  var isRenderingCompiledSlot = 0;
-
-  var setCompiledSlotRendering = function setCompiledSlotRendering(n) {
-    return isRenderingCompiledSlot += n;
-  };
-  /**
-   * Compiler runtime helper for rendering `<slot/>`
-   * @private
-   */
-
-
-  function renderSlot(slots, name, props, // this is not a user-facing function, so the fallback is always generated by
-  // the compiler and guaranteed to be a function returning an array
-  fallback, noSlotted) {
-    if (props === void 0) {
-      props = {};
-    }
-
-    var slot = slots[name]; // invocation interfering with template-based block tracking, but in
-    // `renderSlot` we can be sure that it's template-based so we can force
-    // enable it.
-
-    isRenderingCompiledSlot++;
-    openBlock();
-    var validSlotContent = slot && ensureValidVNode(slot(props));
-    var rendered = createBlock(Fragment, {
-      key: props.key || "_" + name
-    }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
-    /* STABLE */
-    ? 64
-    /* STABLE_FRAGMENT */
-    : -2
-    /* BAIL */
-    );
-
-    if (!noSlotted && rendered.scopeId) {
-      rendered.slotScopeIds = [rendered.scopeId + '-s'];
-    }
-
-    isRenderingCompiledSlot--;
-    return rendered;
-  }
-
-  function ensureValidVNode(vnodes) {
-    return vnodes.some(function (child) {
-      if (!isVNode(child)) return true;
-      if (child.type === Comment) return false;
-      if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
-      return true;
-    }) ? vnodes : null;
   }
   /**
    * mark the current rendering instance for asset resolution (e.g.
@@ -9204,38 +9380,51 @@ var JoomlaMediaManager = (function () {
    */
 
 
-  function withCtx(fn, ctx) {
+  function withCtx(fn, ctx, isNonScopedSlot // false only
+  ) {
     if (ctx === void 0) {
       ctx = currentRenderingInstance;
     }
 
-    if (!ctx) return fn;
+    if (!ctx) return fn; // already normalized
+
+    if (fn._n) {
+      return fn;
+    }
 
     var renderFnWithContext = function renderFnWithContext() {
       // If a user calls a compiled slot inside a template expression (#1745), it
-      // can mess up block tracking, so by default we need to push a null block to
-      // avoid that. This isn't necessary if rendering a compiled `<slot>`.
-      if (!isRenderingCompiledSlot) {
-        openBlock(true
-        /* null block that disables tracking */
-        );
+      // can mess up block tracking, so by default we disable block tracking and
+      // force bail out when invoking a compiled slot (indicated by the ._d flag).
+      // This isn't necessary if rendering a compiled `<slot>`, so we flip the
+      // ._d flag off when invoking the wrapped fn inside `renderSlot`.
+      if (renderFnWithContext._d) {
+        setBlockTracking(-1);
       }
 
       var prevInstance = setCurrentRenderingInstance(ctx);
       var res = fn.apply(void 0, arguments);
       setCurrentRenderingInstance(prevInstance);
 
-      if (!isRenderingCompiledSlot) {
-        closeBlock();
+      if (renderFnWithContext._d) {
+        setBlockTracking(1);
+      }
+
+      if (__VUE_PROD_DEVTOOLS__) {
+        devtoolsComponentUpdated(ctx);
       }
 
       return res;
-    }; // mark this as a compiled slot function.
+    }; // mark normalized to avoid duplicated wrapping
+
+
+    renderFnWithContext._n = true; // mark this as compiled by default
     // this is used in vnode.ts -> normalizeChildren() to set the slot
     // rendering flag.
 
+    renderFnWithContext._c = true; // disable block tracking by default
 
-    renderFnWithContext._c = true;
+    renderFnWithContext._d = true;
     return renderFnWithContext;
   }
   /**
@@ -9266,7 +9455,8 @@ var JoomlaMediaManager = (function () {
         renderCache = instance.renderCache,
         data = instance.data,
         setupState = instance.setupState,
-        ctx = instance.ctx;
+        ctx = instance.ctx,
+        inheritAttrs = instance.inheritAttrs;
     var result;
     var prev = setCurrentRenderingInstance(instance);
 
@@ -9313,7 +9503,7 @@ var JoomlaMediaManager = (function () {
       /* DEV_ROOT_FRAGMENT */
       ) ;
 
-      if (Component.inheritAttrs !== false && fallthroughAttrs) {
+      if (fallthroughAttrs && inheritAttrs !== false) {
         var keys = Object.keys(fallthroughAttrs);
         var _root = root,
             shapeFlag = _root.shapeFlag;
@@ -9333,10 +9523,19 @@ var JoomlaMediaManager = (function () {
               }
 
               root = cloneVNode(root, fallthroughAttrs);
-            } else if ("production" !== 'production' && !accessedAttrs && root.type !== Comment) ;
+            } else if ("production" !== 'production' && !accessedAttrs && root.type !== Comment$1) ;
         }
-      } // inherit directives
+      }
 
+      if (false && isCompatEnabled("INSTANCE_ATTRS_CLASS_STYLE"
+      /* INSTANCE_ATTRS_CLASS_STYLE */
+      , instance) && vnode.shapeFlag & 4
+      /* STATEFUL_COMPONENT */
+      && (root.shapeFlag & 1
+      /* ELEMENT */
+      || root.shapeFlag & 6
+      /* COMPONENT */
+      )) ; // inherit directives
 
       if (vnode.dirs) {
         if ("production" !== 'production' && !isElementRoot(root)) ;
@@ -9357,35 +9556,11 @@ var JoomlaMediaManager = (function () {
       handleError(err, instance, 1
       /* RENDER_FUNCTION */
       );
-      result = createVNode(Comment);
+      result = createVNode(Comment$1);
     }
 
     setCurrentRenderingInstance(prev);
     return result;
-  }
-
-  function filterSingleRoot(children) {
-    var singleRoot;
-
-    for (var _i9 = 0; _i9 < children.length; _i9++) {
-      var child = children[_i9];
-
-      if (isVNode(child)) {
-        // ignore user comment
-        if (child.type !== Comment || child.children === 'v-if') {
-          if (singleRoot) {
-            // has more than 1 non-comment child, return now
-            return;
-          } else {
-            singleRoot = child;
-          }
-        }
-      } else {
-        return;
-      }
-    }
-
-    return singleRoot;
   }
 
   var getFunctionalFallthrough = function getFunctionalFallthrough(attrs) {
@@ -9417,7 +9592,7 @@ var JoomlaMediaManager = (function () {
     /* COMPONENT */
     || vnode.shapeFlag & 1
     /* ELEMENT */
-    || vnode.type === Comment // potential v-if branch switch
+    || vnode.type === Comment$1 // potential v-if branch switch
     ;
   };
 
@@ -9526,41 +9701,6 @@ var JoomlaMediaManager = (function () {
   }; // Suspense exposes a component-like API, and is treated like a component
 
 
-  function normalizeSuspenseChildren(vnode) {
-    var shapeFlag = vnode.shapeFlag,
-        children = vnode.children;
-    var content;
-    var fallback;
-
-    if (shapeFlag & 32
-    /* SLOTS_CHILDREN */
-    ) {
-        content = normalizeSuspenseSlot(children.default);
-        fallback = normalizeSuspenseSlot(children.fallback);
-      } else {
-      content = normalizeSuspenseSlot(children);
-      fallback = normalizeVNode(null);
-    }
-
-    return {
-      content: content,
-      fallback: fallback
-    };
-  }
-
-  function normalizeSuspenseSlot(s) {
-    if (isFunction(s)) {
-      s = s();
-    }
-
-    if (isArray(s)) {
-      var singleChild = filterSingleRoot(s);
-      s = singleChild;
-    }
-
-    return normalizeVNode(s);
-  }
-
   function queueEffectWithSuspense(fn, suspense) {
     if (suspense && suspense.pendingBranch) {
       if (isArray(fn)) {
@@ -9575,401 +9715,48 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  function initProps(instance, rawProps, isStateful, // result of bitwise flag comparison
-  isSSR) {
-    if (isSSR === void 0) {
-      isSSR = false;
-    }
+  function provide(key, value) {
+    if (!currentInstance) ;else {
+      var provides = currentInstance.provides; // by default an instance inherits its parent's provides object
+      // but when it needs to provide values of its own, it creates its
+      // own provides object using parent provides object as prototype.
+      // this way in `inject` we can simply look up injections from direct
+      // parent and let the prototype chain do the work.
 
-    var props = {};
-    var attrs = {};
-    def(attrs, InternalObjectKey, 1);
-    instance.propsDefaults = Object.create(null);
-    setFullProps(instance, rawProps, props, attrs); // validation
+      var parentProvides = currentInstance.parent && currentInstance.parent.provides;
 
-    if (isStateful) {
-      // stateful
-      instance.props = isSSR ? props : shallowReactive(props);
-    } else {
-      if (!instance.type.props) {
-        // functional w/ optional props, props === attrs
-        instance.props = attrs;
-      } else {
-        // functional w/ declared props
-        instance.props = props;
-      }
-    }
-
-    instance.attrs = attrs;
-  }
-
-  function updateProps(instance, rawProps, rawPrevProps, optimized) {
-    var props = instance.props,
-        attrs = instance.attrs,
-        patchFlag = instance.vnode.patchFlag;
-    var rawCurrentProps = toRaw(props);
-    var _instance$propsOption2 = instance.propsOptions,
-        options = _instance$propsOption2[0];
-
-    if ( // always force full diff in dev
-    // - #1942 if hmr is enabled with sfc component
-    // - vite#872 non-sfc component used by sfc component
-    (optimized || patchFlag > 0) && !(patchFlag & 16
-    /* FULL_PROPS */
-    )) {
-      if (patchFlag & 8
-      /* PROPS */
-      ) {
-          // Compiler-generated props & no keys change, just set the updated
-          // the props.
-          var propsToUpdate = instance.vnode.dynamicProps;
-
-          for (var _i12 = 0; _i12 < propsToUpdate.length; _i12++) {
-            var key = propsToUpdate[_i12]; // PROPS flag guarantees rawProps to be non-null
-
-            var value = rawProps[key];
-
-            if (options) {
-              // attr / props separation was done on init and will be consistent
-              // in this code path, so just check if attrs have it.
-              if (hasOwn(attrs, key)) {
-                attrs[key] = value;
-              } else {
-                var camelizedKey = camelize(key);
-                props[camelizedKey] = resolvePropValue(options, rawCurrentProps, camelizedKey, value, instance);
-              }
-            } else {
-              attrs[key] = value;
-            }
-          }
-        }
-    } else {
-      // full props update.
-      setFullProps(instance, rawProps, props, attrs); // in case of dynamic props, check if we need to delete keys from
-      // the props object
-
-      var kebabKey;
-
-      for (var _key6 in rawCurrentProps) {
-        if (!rawProps || // for camelCase
-        !hasOwn(rawProps, _key6) && ( // it's possible the original props was passed in as kebab-case
-        // and converted to camelCase (#955)
-        (kebabKey = hyphenate(_key6)) === _key6 || !hasOwn(rawProps, kebabKey))) {
-          if (options) {
-            if (rawPrevProps && ( // for camelCase
-            rawPrevProps[_key6] !== undefined || // for kebab-case
-            rawPrevProps[kebabKey] !== undefined)) {
-              props[_key6] = resolvePropValue(options, rawProps || EMPTY_OBJ, _key6, undefined, instance);
-            }
-          } else {
-            delete props[_key6];
-          }
-        }
-      } // in the case of functional component w/o props declaration, props and
-      // attrs point to the same object so it should already have been updated.
+      if (parentProvides === provides) {
+        provides = currentInstance.provides = Object.create(parentProvides);
+      } // TS doesn't allow symbol as index type
 
 
-      if (attrs !== rawCurrentProps) {
-        for (var _key7 in attrs) {
-          if (!rawProps || !hasOwn(rawProps, _key7)) {
-            delete attrs[_key7];
-          }
-        }
-      }
-    } // trigger updates for $attrs in case it's used in component slots
-
-
-    trigger$1(instance, "set"
-    /* SET */
-    , '$attrs');
-  }
-
-  function setFullProps(instance, rawProps, props, attrs) {
-    var _instance$propsOption3 = instance.propsOptions,
-        options = _instance$propsOption3[0],
-        needCastKeys = _instance$propsOption3[1];
-
-    if (rawProps) {
-      for (var key in rawProps) {
-        var value = rawProps[key]; // key, ref are reserved and never passed down
-
-        if (isReservedProp(key)) {
-          continue;
-        } // prop option names are camelized during normalization, so to support
-        // kebab -> camel conversion here we need to camelize the key.
-
-
-        var camelKey = void 0;
-
-        if (options && hasOwn(options, camelKey = camelize(key))) {
-          props[camelKey] = value;
-        } else if (!isEmitListener(instance.emitsOptions, key)) {
-          // Any non-declared (either as a prop or an emitted event) props are put
-          // into a separate `attrs` object for spreading. Make sure to preserve
-          // original key casing
-          attrs[key] = value;
-        }
-      }
-    }
-
-    if (needCastKeys) {
-      var rawCurrentProps = toRaw(props);
-
-      for (var _i13 = 0; _i13 < needCastKeys.length; _i13++) {
-        var _key8 = needCastKeys[_i13];
-        props[_key8] = resolvePropValue(options, rawCurrentProps, _key8, rawCurrentProps[_key8], instance);
-      }
+      provides[key] = value;
     }
   }
 
-  function resolvePropValue(options, props, key, value, instance) {
-    var opt = options[key];
-
-    if (opt != null) {
-      var hasDefault = hasOwn(opt, 'default'); // default values
-
-      if (hasDefault && value === undefined) {
-        var defaultValue = opt.default;
-
-        if (opt.type !== Function && isFunction(defaultValue)) {
-          var propsDefaults = instance.propsDefaults;
-
-          if (key in propsDefaults) {
-            value = propsDefaults[key];
-          } else {
-            setCurrentInstance(instance);
-            value = propsDefaults[key] = defaultValue(props);
-            setCurrentInstance(null);
-          }
-        } else {
-          value = defaultValue;
-        }
-      } // boolean casting
-
-
-      if (opt[0
-      /* shouldCast */
-      ]) {
-        if (!hasOwn(props, key) && !hasDefault) {
-          value = false;
-        } else if (opt[1
-        /* shouldCastTrue */
-        ] && (value === '' || value === hyphenate(key))) {
-          value = true;
-        }
-      }
+  function inject(key, defaultValue, treatDefaultAsFactory) {
+    if (treatDefaultAsFactory === void 0) {
+      treatDefaultAsFactory = false;
     }
 
-    return value;
-  }
+    // fallback to `currentRenderingInstance` so that this can be called in
+    // a functional component
+    var instance = currentInstance || currentRenderingInstance;
 
-  function normalizePropsOptions(comp, appContext, asMixin) {
-    if (asMixin === void 0) {
-      asMixin = false;
+    if (instance) {
+      // #2400
+      // to support `app.use` plugins,
+      // fallback to appContext's `provides` if the intance is at root
+      var provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
+
+      if (provides && key in provides) {
+        // TS doesn't allow symbol as index type
+        return provides[key];
+      } else if (arguments.length > 1) {
+        return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance.proxy) : defaultValue;
+      } else ;
     }
-
-    if (!appContext.deopt && comp.__props) {
-      return comp.__props;
-    }
-
-    var raw = comp.props;
-    var normalized = {};
-    var needCastKeys = []; // apply mixin/extends props
-
-    var hasExtends = false;
-
-    if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
-      var extendProps = function extendProps(raw) {
-        hasExtends = true;
-
-        var _normalizePropsOption = normalizePropsOptions(raw, appContext, true),
-            props = _normalizePropsOption[0],
-            keys = _normalizePropsOption[1];
-
-        extend(normalized, props);
-        if (keys) needCastKeys.push.apply(needCastKeys, keys);
-      };
-
-      if (!asMixin && appContext.mixins.length) {
-        appContext.mixins.forEach(extendProps);
-      }
-
-      if (comp.extends) {
-        extendProps(comp.extends);
-      }
-
-      if (comp.mixins) {
-        comp.mixins.forEach(extendProps);
-      }
-    }
-
-    if (!raw && !hasExtends) {
-      return comp.__props = EMPTY_ARR;
-    }
-
-    if (isArray(raw)) {
-      for (var _i14 = 0; _i14 < raw.length; _i14++) {
-        var normalizedKey = camelize(raw[_i14]);
-
-        if (validatePropName(normalizedKey)) {
-          normalized[normalizedKey] = EMPTY_OBJ;
-        }
-      }
-    } else if (raw) {
-      for (var key in raw) {
-        var _normalizedKey = camelize(key);
-
-        if (validatePropName(_normalizedKey)) {
-          var opt = raw[key];
-          var prop = normalized[_normalizedKey] = isArray(opt) || isFunction(opt) ? {
-            type: opt
-          } : opt;
-
-          if (prop) {
-            var booleanIndex = getTypeIndex(Boolean, prop.type);
-            var stringIndex = getTypeIndex(String, prop.type);
-            prop[0
-            /* shouldCast */
-            ] = booleanIndex > -1;
-            prop[1
-            /* shouldCastTrue */
-            ] = stringIndex < 0 || booleanIndex < stringIndex; // if the prop needs boolean casting or default value
-
-            if (booleanIndex > -1 || hasOwn(prop, 'default')) {
-              needCastKeys.push(_normalizedKey);
-            }
-          }
-        }
-      }
-    }
-
-    return comp.__props = [normalized, needCastKeys];
-  }
-
-  function validatePropName(key) {
-    if (key[0] !== '$') {
-      return true;
-    }
-
-    return false;
-  } // use function string name to check type constructors
-  // so that it works across vms / iframes.
-
-
-  function getType(ctor) {
-    var match = ctor && ctor.toString().match(/^\s*function (\w+)/);
-    return match ? match[1] : '';
-  }
-
-  function isSameType(a, b) {
-    return getType(a) === getType(b);
-  }
-
-  function getTypeIndex(type, expectedTypes) {
-    if (isArray(expectedTypes)) {
-      return expectedTypes.findIndex(function (t) {
-        return isSameType(t, type);
-      });
-    } else if (isFunction(expectedTypes)) {
-      return isSameType(expectedTypes, type) ? 0 : -1;
-    }
-
-    return -1;
-  }
-
-  function injectHook(type, hook, target, prepend) {
-    if (target === void 0) {
-      target = currentInstance;
-    }
-
-    if (prepend === void 0) {
-      prepend = false;
-    }
-
-    if (target) {
-      var hooks = target[type] || (target[type] = []); // cache the error handling wrapper for injected hooks so the same hook
-      // can be properly deduped by the scheduler. "__weh" stands for "with error
-      // handling".
-
-      var wrappedHook = hook.__weh || (hook.__weh = function () {
-        if (target.isUnmounted) {
-          return;
-        } // disable tracking inside all lifecycle hooks
-        // since they can potentially be called inside effects.
-
-
-        pauseTracking(); // Set currentInstance during hook invocation.
-        // This assumes the hook does not synchronously trigger other hooks, which
-        // can only be false when the user does something really funky.
-
-        setCurrentInstance(target);
-
-        for (var _len5 = arguments.length, args = new Array(_len5), _key9 = 0; _key9 < _len5; _key9++) {
-          args[_key9] = arguments[_key9];
-        }
-
-        var res = callWithAsyncErrorHandling(hook, target, type, args);
-        setCurrentInstance(null);
-        resetTracking();
-        return res;
-      });
-
-      if (prepend) {
-        hooks.unshift(wrappedHook);
-      } else {
-        hooks.push(wrappedHook);
-      }
-
-      return wrappedHook;
-    }
-  }
-
-  var createHook = function createHook(lifecycle) {
-    return function (hook, target) {
-      if (target === void 0) {
-        target = currentInstance;
-      }
-
-      return (// post-create lifecycle registrations are noops during SSR
-        !isInSSRComponentSetup && injectHook(lifecycle, hook, target)
-      );
-    };
-  };
-
-  var onBeforeMount = createHook("bm"
-  /* BEFORE_MOUNT */
-  );
-  var onMounted = createHook("m"
-  /* MOUNTED */
-  );
-  var onBeforeUpdate = createHook("bu"
-  /* BEFORE_UPDATE */
-  );
-  var onUpdated = createHook("u"
-  /* UPDATED */
-  );
-  var onBeforeUnmount = createHook("bum"
-  /* BEFORE_UNMOUNT */
-  );
-  var onUnmounted = createHook("um"
-  /* UNMOUNTED */
-  );
-  var onRenderTriggered = createHook("rtg"
-  /* RENDER_TRIGGERED */
-  );
-  var onRenderTracked = createHook("rtc"
-  /* RENDER_TRACKED */
-  );
-
-  var onErrorCaptured = function onErrorCaptured(hook, target) {
-    if (target === void 0) {
-      target = currentInstance;
-    }
-
-    injectHook("ec"
-    /* ERROR_CAPTURED */
-    , hook, target);
-  }; // Simple effect.
+  } // Simple effect.
 
 
   var INITIAL_WATCHER_VALUE = {}; // implementation
@@ -9992,6 +9779,7 @@ var JoomlaMediaManager = (function () {
 
     var getter;
     var forceTrigger = false;
+    var isMultiSource = false;
 
     if (isRef(source)) {
       getter = function getter() {
@@ -10006,6 +9794,9 @@ var JoomlaMediaManager = (function () {
 
       deep = true;
     } else if (isArray(source)) {
+      isMultiSource = true;
+      forceTrigger = source.some(isReactive);
+
       getter = function getter() {
         return source.map(function (s) {
           if (isRef(s)) {
@@ -10015,7 +9806,7 @@ var JoomlaMediaManager = (function () {
           } else if (isFunction(s)) {
             return callWithErrorHandling(s, instance, 2
             /* WATCH_GETTER */
-            , [instance && instance.proxy]);
+            );
           } else ;
         });
       };
@@ -10025,7 +9816,7 @@ var JoomlaMediaManager = (function () {
         getter = function getter() {
           return callWithErrorHandling(source, instance, 2
           /* WATCH_GETTER */
-          , [instance && instance.proxy]);
+          );
         };
       } else {
         // no cb -> simple effect
@@ -10065,7 +9856,7 @@ var JoomlaMediaManager = (function () {
       };
     };
 
-    var oldValue = isArray(source) ? [] : INITIAL_WATCHER_VALUE;
+    var oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE;
 
     var job = function job() {
       if (!runner.active) {
@@ -10076,7 +9867,9 @@ var JoomlaMediaManager = (function () {
         // watch(source, cb)
         var newValue = runner();
 
-        if (deep || forceTrigger || hasChanged(newValue, oldValue)) {
+        if (deep || forceTrigger || (isMultiSource ? newValue.some(function (v, i) {
+          return hasChanged(v, oldValue[i]);
+        }) : hasChanged(newValue, oldValue)) || false) {
           // cleanup before running cb again
           if (cleanup) {
             cleanup();
@@ -10100,7 +9893,7 @@ var JoomlaMediaManager = (function () {
     var scheduler;
 
     if (flush === 'sync') {
-      scheduler = job;
+      scheduler = job; // the scheduler function gets called directly
     } else if (flush === 'post') {
       scheduler = function scheduler() {
         return queuePostRenderEffect(job, instance && instance.suspense);
@@ -10148,12 +9941,34 @@ var JoomlaMediaManager = (function () {
   } // this.$watch
 
 
-  function instanceWatch(source, cb, options) {
+  function instanceWatch(source, value, options) {
     var publicThis = this.proxy;
-    var getter = isString(source) ? function () {
+    var getter = isString(source) ? source.includes('.') ? createPathGetter(publicThis, source) : function () {
       return publicThis[source];
-    } : source.bind(publicThis);
+    } : source.bind(publicThis, publicThis);
+    var cb;
+
+    if (isFunction(value)) {
+      cb = value;
+    } else {
+      cb = value.handler;
+      options = value;
+    }
+
     return doWatch(getter, cb.bind(publicThis), options, this);
+  }
+
+  function createPathGetter(ctx, path) {
+    var segments = path.split('.');
+    return function () {
+      var cur = ctx;
+
+      for (var _i12 = 0; _i12 < segments.length && cur; _i12++) {
+        cur = cur[segments[_i12]];
+      }
+
+      return cur;
+    };
   }
 
   function traverse(value, seen) {
@@ -10161,7 +9976,9 @@ var JoomlaMediaManager = (function () {
       seen = new Set();
     }
 
-    if (!isObject$1(value) || seen.has(value)) {
+    if (!isObject$1(value) || seen.has(value) || value["__v_skip"
+    /* SKIP */
+    ]) {
       return value;
     }
 
@@ -10170,14 +9987,14 @@ var JoomlaMediaManager = (function () {
     if (isRef(value)) {
       traverse(value.value, seen);
     } else if (isArray(value)) {
-      for (var _i15 = 0; _i15 < value.length; _i15++) {
-        traverse(value[_i15], seen);
+      for (var _i13 = 0; _i13 < value.length; _i13++) {
+        traverse(value[_i13], seen);
       }
     } else if (isSet(value) || isMap(value)) {
       value.forEach(function (v) {
         traverse(v, seen);
       });
-    } else {
+    } else if (isPlainObject(value)) {
       for (var key in value) {
         traverse(value[key], seen);
       }
@@ -10275,7 +10092,7 @@ var JoomlaMediaManager = (function () {
         } // handle mode
 
 
-        if (oldInnerChild && oldInnerChild.type !== Comment && (!isSameVNodeType(innerChild, oldInnerChild) || transitionKeyChanged)) {
+        if (oldInnerChild && oldInnerChild.type !== Comment$1 && (!isSameVNodeType(innerChild, oldInnerChild) || transitionKeyChanged)) {
           var leavingHooks = resolveTransitionHooks(oldInnerChild, rawProps, state, instance); // update old tree's hooks in case of dynamic transition
 
           setTransitionHooks(oldInnerChild, leavingHooks); // switching between different views
@@ -10289,7 +10106,7 @@ var JoomlaMediaManager = (function () {
             };
 
             return emptyPlaceholder(child);
-          } else if (mode === 'in-out' && innerChild.type !== Comment) {
+          } else if (mode === 'in-out' && innerChild.type !== Comment$1) {
             leavingHooks.delayLeave = function (el, earlyRemove, delayedLeave) {
               var leavingVNodesCache = getLeavingNodesForType(state, oldInnerChild);
               leavingVNodesCache[String(oldInnerChild.key)] = oldInnerChild; // early removal callback
@@ -10520,8 +10337,8 @@ var JoomlaMediaManager = (function () {
     var ret = [];
     var keyedFragmentCount = 0;
 
-    for (var _i16 = 0; _i16 < children.length; _i16++) {
-      var child = children[_i16]; // handle fragment children case, e.g. v-for
+    for (var _i14 = 0; _i14 < children.length; _i14++) {
+      var child = children[_i14]; // handle fragment children case, e.g. v-for
 
       if (child.type === Fragment) {
         if (child.patchFlag & 128
@@ -10529,7 +10346,7 @@ var JoomlaMediaManager = (function () {
         ) keyedFragmentCount++;
         ret = ret.concat(getTransitionRawChildren(child.children, keepComment));
       } // comment placeholders should be skipped, e.g. v-if
-      else if (keepComment || child.type !== Comment) {
+      else if (keepComment || child.type !== Comment$1) {
           ret.push(child);
         }
     } // #1126 if a transition children list contains multiple sub fragments, these
@@ -10539,15 +10356,20 @@ var JoomlaMediaManager = (function () {
 
 
     if (keyedFragmentCount > 1) {
-      for (var _i17 = 0; _i17 < ret.length; _i17++) {
-        ret[_i17].patchFlag = -2
+      for (var _i15 = 0; _i15 < ret.length; _i15++) {
+        ret[_i15].patchFlag = -2
         /* BAIL */
         ;
       }
     }
 
     return ret;
-  }
+  } // implementation, close to no-op
+
+
+  var isAsyncWrapper = function isAsyncWrapper(i) {
+    return !!i.type.__asyncLoader;
+  };
 
   var isKeepAlive = function isKeepAlive(vnode) {
     return vnode.type.__isKeepAlive;
@@ -10618,6 +10440,823 @@ var JoomlaMediaManager = (function () {
     }, target);
   }
 
+  function injectHook(type, hook, target, prepend) {
+    if (target === void 0) {
+      target = currentInstance;
+    }
+
+    if (prepend === void 0) {
+      prepend = false;
+    }
+
+    if (target) {
+      var hooks = target[type] || (target[type] = []); // cache the error handling wrapper for injected hooks so the same hook
+      // can be properly deduped by the scheduler. "__weh" stands for "with error
+      // handling".
+
+      var wrappedHook = hook.__weh || (hook.__weh = function () {
+        if (target.isUnmounted) {
+          return;
+        } // disable tracking inside all lifecycle hooks
+        // since they can potentially be called inside effects.
+
+
+        pauseTracking(); // Set currentInstance during hook invocation.
+        // This assumes the hook does not synchronously trigger other hooks, which
+        // can only be false when the user does something really funky.
+
+        setCurrentInstance(target);
+
+        for (var _len5 = arguments.length, args = new Array(_len5), _key6 = 0; _key6 < _len5; _key6++) {
+          args[_key6] = arguments[_key6];
+        }
+
+        var res = callWithAsyncErrorHandling(hook, target, type, args);
+        setCurrentInstance(null);
+        resetTracking();
+        return res;
+      });
+
+      if (prepend) {
+        hooks.unshift(wrappedHook);
+      } else {
+        hooks.push(wrappedHook);
+      }
+
+      return wrappedHook;
+    }
+  }
+
+  var createHook = function createHook(lifecycle) {
+    return function (hook, target) {
+      if (target === void 0) {
+        target = currentInstance;
+      }
+
+      return (// post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
+        (!isInSSRComponentSetup || lifecycle === "sp"
+        /* SERVER_PREFETCH */
+        ) && injectHook(lifecycle, hook, target)
+      );
+    };
+  };
+
+  var onBeforeMount = createHook("bm"
+  /* BEFORE_MOUNT */
+  );
+  var onMounted = createHook("m"
+  /* MOUNTED */
+  );
+  var onBeforeUpdate = createHook("bu"
+  /* BEFORE_UPDATE */
+  );
+  var onUpdated = createHook("u"
+  /* UPDATED */
+  );
+  var onBeforeUnmount = createHook("bum"
+  /* BEFORE_UNMOUNT */
+  );
+  var onUnmounted = createHook("um"
+  /* UNMOUNTED */
+  );
+  var onServerPrefetch = createHook("sp"
+  /* SERVER_PREFETCH */
+  );
+  var onRenderTriggered = createHook("rtg"
+  /* RENDER_TRIGGERED */
+  );
+  var onRenderTracked = createHook("rtc"
+  /* RENDER_TRACKED */
+  );
+
+  function onErrorCaptured(hook, target) {
+    if (target === void 0) {
+      target = currentInstance;
+    }
+
+    injectHook("ec"
+    /* ERROR_CAPTURED */
+    , hook, target);
+  }
+
+  var shouldCacheAccess = true;
+
+  function applyOptions(instance) {
+    var options = resolveMergedOptions(instance);
+    var publicThis = instance.proxy;
+    var ctx = instance.ctx; // do not cache property access on public proxy during state initialization
+
+    shouldCacheAccess = false; // call beforeCreate first before accessing other options since
+    // the hook may mutate resolved options (#2791)
+
+    if (options.beforeCreate) {
+      callHook$1(options.beforeCreate, instance, "bc"
+      /* BEFORE_CREATE */
+      );
+    }
+
+    var dataOptions = options.data,
+        computedOptions = options.computed,
+        methods = options.methods,
+        watchOptions = options.watch,
+        provideOptions = options.provide,
+        injectOptions = options.inject,
+        created = options.created,
+        beforeMount = options.beforeMount,
+        mounted = options.mounted,
+        beforeUpdate = options.beforeUpdate,
+        updated = options.updated,
+        activated = options.activated,
+        deactivated = options.deactivated;
+        options.beforeDestroy;
+        var beforeUnmount = options.beforeUnmount;
+        options.destroyed;
+        var unmounted = options.unmounted,
+        render = options.render,
+        renderTracked = options.renderTracked,
+        renderTriggered = options.renderTriggered,
+        errorCaptured = options.errorCaptured,
+        serverPrefetch = options.serverPrefetch,
+        expose = options.expose,
+        inheritAttrs = options.inheritAttrs,
+        components = options.components,
+        directives = options.directives;
+        options.filters;
+    // - inject
+    // - methods
+    // - data (deferred since it relies on `this` access)
+    // - computed
+    // - watch (deferred since it relies on `this` access)
+
+    if (injectOptions) {
+      resolveInjections(injectOptions, ctx);
+    }
+
+    if (methods) {
+      for (var key in methods) {
+        var methodHandler = methods[key];
+
+        if (isFunction(methodHandler)) {
+          // In dev mode, we use the `createRenderContext` function to define methods to the proxy target,
+          // and those are read-only but reconfigurable, so it needs to be redefined here
+          {
+            ctx[key] = methodHandler.bind(publicThis);
+          }
+        }
+      }
+    }
+
+    if (dataOptions) {
+      var data = dataOptions.call(publicThis, publicThis);
+      if (!isObject$1(data)) ;else {
+        instance.data = reactive(data);
+      }
+    } // state initialization complete at this point - start caching access
+
+
+    shouldCacheAccess = true;
+
+    if (computedOptions) {
+      var _loop = function _loop(_key7) {
+        var opt = computedOptions[_key7];
+        var get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
+        var set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
+        var c = computed({
+          get: get,
+          set: set
+        });
+        Object.defineProperty(ctx, _key7, {
+          enumerable: true,
+          configurable: true,
+          get: function get() {
+            return c.value;
+          },
+          set: function set(v) {
+            return c.value = v;
+          }
+        });
+      };
+
+      for (var _key7 in computedOptions) {
+        _loop(_key7);
+      }
+    }
+
+    if (watchOptions) {
+      for (var _key8 in watchOptions) {
+        createWatcher(watchOptions[_key8], ctx, publicThis, _key8);
+      }
+    }
+
+    if (provideOptions) {
+      var provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
+      Reflect.ownKeys(provides).forEach(function (key) {
+        provide(key, provides[key]);
+      });
+    }
+
+    if (created) {
+      callHook$1(created, instance, "c"
+      /* CREATED */
+      );
+    }
+
+    function registerLifecycleHook(register, hook) {
+      if (isArray(hook)) {
+        hook.forEach(function (_hook) {
+          return register(_hook.bind(publicThis));
+        });
+      } else if (hook) {
+        register(hook.bind(publicThis));
+      }
+    }
+
+    registerLifecycleHook(onBeforeMount, beforeMount);
+    registerLifecycleHook(onMounted, mounted);
+    registerLifecycleHook(onBeforeUpdate, beforeUpdate);
+    registerLifecycleHook(onUpdated, updated);
+    registerLifecycleHook(onActivated, activated);
+    registerLifecycleHook(onDeactivated, deactivated);
+    registerLifecycleHook(onErrorCaptured, errorCaptured);
+    registerLifecycleHook(onRenderTracked, renderTracked);
+    registerLifecycleHook(onRenderTriggered, renderTriggered);
+    registerLifecycleHook(onBeforeUnmount, beforeUnmount);
+    registerLifecycleHook(onUnmounted, unmounted);
+    registerLifecycleHook(onServerPrefetch, serverPrefetch);
+
+    if (isArray(expose)) {
+      if (expose.length) {
+        var exposed = instance.exposed || (instance.exposed = proxyRefs({}));
+        expose.forEach(function (key) {
+          exposed[key] = toRef(publicThis, key);
+        });
+      } else if (!instance.exposed) {
+        instance.exposed = EMPTY_OBJ;
+      }
+    } // options that are handled when creating the instance but also need to be
+    // applied from mixins
+
+
+    if (render && instance.render === NOOP) {
+      instance.render = render;
+    }
+
+    if (inheritAttrs != null) {
+      instance.inheritAttrs = inheritAttrs;
+    } // asset options.
+
+
+    if (components) instance.components = components;
+    if (directives) instance.directives = directives;
+  }
+
+  function resolveInjections(injectOptions, ctx, checkDuplicateProperties) {
+
+    if (isArray(injectOptions)) {
+      injectOptions = normalizeInject(injectOptions);
+    }
+
+    for (var key in injectOptions) {
+      var opt = injectOptions[key];
+
+      if (isObject$1(opt)) {
+        if ('default' in opt) {
+          ctx[key] = inject(opt.from || key, opt.default, true
+          /* treat default function as factory */
+          );
+        } else {
+          ctx[key] = inject(opt.from || key);
+        }
+      } else {
+        ctx[key] = inject(opt);
+      }
+    }
+  }
+
+  function callHook$1(hook, instance, type) {
+    callWithAsyncErrorHandling(isArray(hook) ? hook.map(function (h) {
+      return h.bind(instance.proxy);
+    }) : hook.bind(instance.proxy), instance, type);
+  }
+
+  function createWatcher(raw, ctx, publicThis, key) {
+    var getter = key.includes('.') ? createPathGetter(publicThis, key) : function () {
+      return publicThis[key];
+    };
+
+    if (isString(raw)) {
+      var handler = ctx[raw];
+
+      if (isFunction(handler)) {
+        watch(getter, handler);
+      }
+    } else if (isFunction(raw)) {
+      watch(getter, raw.bind(publicThis));
+    } else if (isObject$1(raw)) {
+      if (isArray(raw)) {
+        raw.forEach(function (r) {
+          return createWatcher(r, ctx, publicThis, key);
+        });
+      } else {
+        var _handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+
+        if (isFunction(_handler)) {
+          watch(getter, _handler, raw);
+        }
+      }
+    } else ;
+  }
+  /**
+   * Resolve merged options and cache it on the component.
+   * This is done only once per-component since the merging does not involve
+   * instances.
+   */
+
+
+  function resolveMergedOptions(instance) {
+    var base = instance.type;
+    var mixins = base.mixins,
+        extendsOptions = base.extends;
+    var _instance$appContext = instance.appContext,
+        globalMixins = _instance$appContext.mixins,
+        cache = _instance$appContext.optionsCache,
+        optionMergeStrategies = _instance$appContext.config.optionMergeStrategies;
+    var cached = cache.get(base);
+    var resolved;
+
+    if (cached) {
+      resolved = cached;
+    } else if (!globalMixins.length && !mixins && !extendsOptions) {
+      {
+        resolved = base;
+      }
+    } else {
+      resolved = {};
+
+      if (globalMixins.length) {
+        globalMixins.forEach(function (m) {
+          return mergeOptions(resolved, m, optionMergeStrategies, true);
+        });
+      }
+
+      mergeOptions(resolved, base, optionMergeStrategies);
+    }
+
+    cache.set(base, resolved);
+    return resolved;
+  }
+
+  function mergeOptions(to, from, strats, asMixin) {
+    if (asMixin === void 0) {
+      asMixin = false;
+    }
+
+    var mixins = from.mixins,
+        extendsOptions = from.extends;
+
+    if (extendsOptions) {
+      mergeOptions(to, extendsOptions, strats, true);
+    }
+
+    if (mixins) {
+      mixins.forEach(function (m) {
+        return mergeOptions(to, m, strats, true);
+      });
+    }
+
+    for (var key in from) {
+      if (asMixin && key === 'expose') ;else {
+        var strat = internalOptionMergeStrats[key] || strats && strats[key];
+        to[key] = strat ? strat(to[key], from[key]) : from[key];
+      }
+    }
+
+    return to;
+  }
+
+  var internalOptionMergeStrats = {
+    data: mergeDataFn,
+    props: mergeObjectOptions,
+    emits: mergeObjectOptions,
+    // objects
+    methods: mergeObjectOptions,
+    computed: mergeObjectOptions,
+    // lifecycle
+    beforeCreate: mergeAsArray,
+    created: mergeAsArray,
+    beforeMount: mergeAsArray,
+    mounted: mergeAsArray,
+    beforeUpdate: mergeAsArray,
+    updated: mergeAsArray,
+    beforeDestroy: mergeAsArray,
+    destroyed: mergeAsArray,
+    activated: mergeAsArray,
+    deactivated: mergeAsArray,
+    errorCaptured: mergeAsArray,
+    serverPrefetch: mergeAsArray,
+    // assets
+    components: mergeObjectOptions,
+    directives: mergeObjectOptions,
+    // watch
+    watch: mergeWatchOptions,
+    // provide / inject
+    provide: mergeDataFn,
+    inject: mergeInject
+  };
+
+  function mergeDataFn(to, from) {
+    if (!from) {
+      return to;
+    }
+
+    if (!to) {
+      return from;
+    }
+
+    return function mergedDataFn() {
+      return extend(isFunction(to) ? to.call(this, this) : to, isFunction(from) ? from.call(this, this) : from);
+    };
+  }
+
+  function mergeInject(to, from) {
+    return mergeObjectOptions(normalizeInject(to), normalizeInject(from));
+  }
+
+  function normalizeInject(raw) {
+    if (isArray(raw)) {
+      var res = {};
+
+      for (var _i16 = 0; _i16 < raw.length; _i16++) {
+        res[raw[_i16]] = raw[_i16];
+      }
+
+      return res;
+    }
+
+    return raw;
+  }
+
+  function mergeAsArray(to, from) {
+    return to ? [].concat(new Set([].concat(to, from))) : from;
+  }
+
+  function mergeObjectOptions(to, from) {
+    return to ? extend(extend(Object.create(null), to), from) : from;
+  }
+
+  function mergeWatchOptions(to, from) {
+    if (!to) return from;
+    if (!from) return to;
+    var merged = extend(Object.create(null), to);
+
+    for (var key in from) {
+      merged[key] = mergeAsArray(to[key], from[key]);
+    }
+
+    return merged;
+  }
+
+  function initProps(instance, rawProps, isStateful, // result of bitwise flag comparison
+  isSSR) {
+    if (isSSR === void 0) {
+      isSSR = false;
+    }
+
+    var props = {};
+    var attrs = {};
+    def(attrs, InternalObjectKey, 1);
+    instance.propsDefaults = Object.create(null);
+    setFullProps(instance, rawProps, props, attrs); // ensure all declared prop keys are present
+
+    for (var key in instance.propsOptions[0]) {
+      if (!(key in props)) {
+        props[key] = undefined;
+      }
+    } // validation
+
+
+    if (isStateful) {
+      // stateful
+      instance.props = isSSR ? props : shallowReactive(props);
+    } else {
+      if (!instance.type.props) {
+        // functional w/ optional props, props === attrs
+        instance.props = attrs;
+      } else {
+        // functional w/ declared props
+        instance.props = props;
+      }
+    }
+
+    instance.attrs = attrs;
+  }
+
+  function updateProps(instance, rawProps, rawPrevProps, optimized) {
+    var props = instance.props,
+        attrs = instance.attrs,
+        patchFlag = instance.vnode.patchFlag;
+    var rawCurrentProps = toRaw(props);
+    var _instance$propsOption2 = instance.propsOptions,
+        options = _instance$propsOption2[0];
+    var hasAttrsChanged = false;
+
+    if ( // always force full diff in dev
+    // - #1942 if hmr is enabled with sfc component
+    // - vite#872 non-sfc component used by sfc component
+    (optimized || patchFlag > 0) && !(patchFlag & 16
+    /* FULL_PROPS */
+    )) {
+      if (patchFlag & 8
+      /* PROPS */
+      ) {
+          // Compiler-generated props & no keys change, just set the updated
+          // the props.
+          var propsToUpdate = instance.vnode.dynamicProps;
+
+          for (var _i17 = 0; _i17 < propsToUpdate.length; _i17++) {
+            var key = propsToUpdate[_i17]; // PROPS flag guarantees rawProps to be non-null
+
+            var value = rawProps[key];
+
+            if (options) {
+              // attr / props separation was done on init and will be consistent
+              // in this code path, so just check if attrs have it.
+              if (hasOwn(attrs, key)) {
+                if (value !== attrs[key]) {
+                  attrs[key] = value;
+                  hasAttrsChanged = true;
+                }
+              } else {
+                var camelizedKey = camelize(key);
+                props[camelizedKey] = resolvePropValue(options, rawCurrentProps, camelizedKey, value, instance, false
+                /* isAbsent */
+                );
+              }
+            } else {
+              if (value !== attrs[key]) {
+                attrs[key] = value;
+                hasAttrsChanged = true;
+              }
+            }
+          }
+        }
+    } else {
+      // full props update.
+      if (setFullProps(instance, rawProps, props, attrs)) {
+        hasAttrsChanged = true;
+      } // in case of dynamic props, check if we need to delete keys from
+      // the props object
+
+
+      var kebabKey;
+
+      for (var _key9 in rawCurrentProps) {
+        if (!rawProps || // for camelCase
+        !hasOwn(rawProps, _key9) && ( // it's possible the original props was passed in as kebab-case
+        // and converted to camelCase (#955)
+        (kebabKey = hyphenate(_key9)) === _key9 || !hasOwn(rawProps, kebabKey))) {
+          if (options) {
+            if (rawPrevProps && ( // for camelCase
+            rawPrevProps[_key9] !== undefined || // for kebab-case
+            rawPrevProps[kebabKey] !== undefined)) {
+              props[_key9] = resolvePropValue(options, rawCurrentProps, _key9, undefined, instance, true
+              /* isAbsent */
+              );
+            }
+          } else {
+            delete props[_key9];
+          }
+        }
+      } // in the case of functional component w/o props declaration, props and
+      // attrs point to the same object so it should already have been updated.
+
+
+      if (attrs !== rawCurrentProps) {
+        for (var _key10 in attrs) {
+          if (!rawProps || !hasOwn(rawProps, _key10)) {
+            delete attrs[_key10];
+            hasAttrsChanged = true;
+          }
+        }
+      }
+    } // trigger updates for $attrs in case it's used in component slots
+
+
+    if (hasAttrsChanged) {
+      trigger$1(instance, "set"
+      /* SET */
+      , '$attrs');
+    }
+  }
+
+  function setFullProps(instance, rawProps, props, attrs) {
+    var _instance$propsOption3 = instance.propsOptions,
+        options = _instance$propsOption3[0],
+        needCastKeys = _instance$propsOption3[1];
+    var hasAttrsChanged = false;
+    var rawCastValues;
+
+    if (rawProps) {
+      for (var key in rawProps) {
+        // key, ref are reserved and never passed down
+        if (isReservedProp(key)) {
+          continue;
+        }
+
+        var value = rawProps[key]; // prop option names are camelized during normalization, so to support
+        // kebab -> camel conversion here we need to camelize the key.
+
+        var camelKey = void 0;
+
+        if (options && hasOwn(options, camelKey = camelize(key))) {
+          if (!needCastKeys || !needCastKeys.includes(camelKey)) {
+            props[camelKey] = value;
+          } else {
+            (rawCastValues || (rawCastValues = {}))[camelKey] = value;
+          }
+        } else if (!isEmitListener(instance.emitsOptions, key)) {
+          if (value !== attrs[key]) {
+            attrs[key] = value;
+            hasAttrsChanged = true;
+          }
+        }
+      }
+    }
+
+    if (needCastKeys) {
+      var rawCurrentProps = toRaw(props);
+      var castValues = rawCastValues || EMPTY_OBJ;
+
+      for (var _i18 = 0; _i18 < needCastKeys.length; _i18++) {
+        var _key11 = needCastKeys[_i18];
+        props[_key11] = resolvePropValue(options, rawCurrentProps, _key11, castValues[_key11], instance, !hasOwn(castValues, _key11));
+      }
+    }
+
+    return hasAttrsChanged;
+  }
+
+  function resolvePropValue(options, props, key, value, instance, isAbsent) {
+    var opt = options[key];
+
+    if (opt != null) {
+      var hasDefault = hasOwn(opt, 'default'); // default values
+
+      if (hasDefault && value === undefined) {
+        var defaultValue = opt.default;
+
+        if (opt.type !== Function && isFunction(defaultValue)) {
+          var propsDefaults = instance.propsDefaults;
+
+          if (key in propsDefaults) {
+            value = propsDefaults[key];
+          } else {
+            setCurrentInstance(instance);
+            value = propsDefaults[key] = defaultValue.call(null, props);
+            setCurrentInstance(null);
+          }
+        } else {
+          value = defaultValue;
+        }
+      } // boolean casting
+
+
+      if (opt[0
+      /* shouldCast */
+      ]) {
+        if (isAbsent && !hasDefault) {
+          value = false;
+        } else if (opt[1
+        /* shouldCastTrue */
+        ] && (value === '' || value === hyphenate(key))) {
+          value = true;
+        }
+      }
+    }
+
+    return value;
+  }
+
+  function normalizePropsOptions(comp, appContext, asMixin) {
+    if (asMixin === void 0) {
+      asMixin = false;
+    }
+
+    var cache = appContext.propsCache;
+    var cached = cache.get(comp);
+
+    if (cached) {
+      return cached;
+    }
+
+    var raw = comp.props;
+    var normalized = {};
+    var needCastKeys = []; // apply mixin/extends props
+
+    var hasExtends = false;
+
+    if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
+      var extendProps = function extendProps(raw) {
+        hasExtends = true;
+
+        var _normalizePropsOption = normalizePropsOptions(raw, appContext, true),
+            props = _normalizePropsOption[0],
+            keys = _normalizePropsOption[1];
+
+        extend(normalized, props);
+        if (keys) needCastKeys.push.apply(needCastKeys, keys);
+      };
+
+      if (!asMixin && appContext.mixins.length) {
+        appContext.mixins.forEach(extendProps);
+      }
+
+      if (comp.extends) {
+        extendProps(comp.extends);
+      }
+
+      if (comp.mixins) {
+        comp.mixins.forEach(extendProps);
+      }
+    }
+
+    if (!raw && !hasExtends) {
+      cache.set(comp, EMPTY_ARR);
+      return EMPTY_ARR;
+    }
+
+    if (isArray(raw)) {
+      for (var _i19 = 0; _i19 < raw.length; _i19++) {
+        var normalizedKey = camelize(raw[_i19]);
+
+        if (validatePropName(normalizedKey)) {
+          normalized[normalizedKey] = EMPTY_OBJ;
+        }
+      }
+    } else if (raw) {
+      for (var key in raw) {
+        var _normalizedKey = camelize(key);
+
+        if (validatePropName(_normalizedKey)) {
+          var opt = raw[key];
+          var prop = normalized[_normalizedKey] = isArray(opt) || isFunction(opt) ? {
+            type: opt
+          } : opt;
+
+          if (prop) {
+            var booleanIndex = getTypeIndex(Boolean, prop.type);
+            var stringIndex = getTypeIndex(String, prop.type);
+            prop[0
+            /* shouldCast */
+            ] = booleanIndex > -1;
+            prop[1
+            /* shouldCastTrue */
+            ] = stringIndex < 0 || booleanIndex < stringIndex; // if the prop needs boolean casting or default value
+
+            if (booleanIndex > -1 || hasOwn(prop, 'default')) {
+              needCastKeys.push(_normalizedKey);
+            }
+          }
+        }
+      }
+    }
+
+    var res = [normalized, needCastKeys];
+    cache.set(comp, res);
+    return res;
+  }
+
+  function validatePropName(key) {
+    if (key[0] !== '$') {
+      return true;
+    }
+
+    return false;
+  } // use function string name to check type constructors
+  // so that it works across vms / iframes.
+
+
+  function getType(ctor) {
+    var match = ctor && ctor.toString().match(/^\s*function (\w+)/);
+    return match ? match[1] : '';
+  }
+
+  function isSameType(a, b) {
+    return getType(a) === getType(b);
+  }
+
+  function getTypeIndex(type, expectedTypes) {
+    if (isArray(expectedTypes)) {
+      return expectedTypes.findIndex(function (t) {
+        return isSameType(t, type);
+      });
+    } else if (isFunction(expectedTypes)) {
+      return isSameType(expectedTypes, type) ? 0 : -1;
+    }
+
+    return -1;
+  }
+
   var isInternalKey = function isInternalKey(key) {
     return key[0] === '_' || key === '$stable';
   };
@@ -10627,12 +11266,14 @@ var JoomlaMediaManager = (function () {
   };
 
   var normalizeSlot = function normalizeSlot(key, rawSlot, ctx) {
-    return withCtx(function (props) {
+    var normalized = withCtx(function (props) {
       return normalizeSlotValue(rawSlot(props));
     }, ctx);
+    normalized._c = false;
+    return normalized;
   };
 
-  var normalizeObjectSlots = function normalizeObjectSlots(rawSlots, slots) {
+  var normalizeObjectSlots = function normalizeObjectSlots(rawSlots, slots, instance) {
     var ctx = rawSlots._ctx;
 
     for (var key in rawSlots) {
@@ -10668,7 +11309,9 @@ var JoomlaMediaManager = (function () {
         var type = children._;
 
         if (type) {
-          instance.slots = children; // make compiler marker non-enumerable
+          // users can get the shallow readonly version of the slots object through `this.$slots`,
+          // we should avoid the proxy object polluting the slots of the internal instance
+          instance.slots = toRaw(children); // make compiler marker non-enumerable
 
           def(children, '_', type);
         } else {
@@ -10756,8 +11399,8 @@ var JoomlaMediaManager = (function () {
     var instance = internalInstance.proxy;
     var bindings = vnode.dirs || (vnode.dirs = []);
 
-    for (var _i18 = 0; _i18 < directives.length; _i18++) {
-      var _directives$_i = directives[_i18],
+    for (var _i20 = 0; _i20 < directives.length; _i20++) {
+      var _directives$_i = directives[_i20],
           dir = _directives$_i[0],
           value = _directives$_i[1],
           arg = _directives$_i[2],
@@ -10788,19 +11431,23 @@ var JoomlaMediaManager = (function () {
     var bindings = vnode.dirs;
     var oldBindings = prevVNode && prevVNode.dirs;
 
-    for (var _i19 = 0; _i19 < bindings.length; _i19++) {
-      var binding = bindings[_i19];
+    for (var _i21 = 0; _i21 < bindings.length; _i21++) {
+      var binding = bindings[_i21];
 
       if (oldBindings) {
-        binding.oldValue = oldBindings[_i19].value;
+        binding.oldValue = oldBindings[_i21].value;
       }
 
       var hook = binding.dir[name];
 
       if (hook) {
+        // disable tracking inside all lifecycle hooks
+        // since they can potentially be called inside effects.
+        pauseTracking();
         callWithAsyncErrorHandling(hook, instance, 8
         /* DIRECTIVE_HOOK */
         , [vnode.el, binding, vnode, prevVNode]);
+        resetTracking();
       }
     }
   }
@@ -10813,14 +11460,17 @@ var JoomlaMediaManager = (function () {
         performance: false,
         globalProperties: {},
         optionMergeStrategies: {},
-        isCustomElement: NO,
         errorHandler: undefined,
-        warnHandler: undefined
+        warnHandler: undefined,
+        compilerOptions: {}
       },
       mixins: [],
       components: {},
       directives: {},
-      provides: Object.create(null)
+      provides: Object.create(null),
+      optionsCache: new WeakMap(),
+      propsCache: new WeakMap(),
+      emitsCache: new WeakMap()
     };
   }
 
@@ -10845,6 +11495,7 @@ var JoomlaMediaManager = (function () {
         _props: rootProps,
         _container: null,
         _context: context,
+        _instance: null,
         version: version,
 
         get config() {
@@ -10854,8 +11505,8 @@ var JoomlaMediaManager = (function () {
         set config(v) {},
 
         use: function use(plugin) {
-          for (var _len6 = arguments.length, options = new Array(_len6 > 1 ? _len6 - 1 : 0), _key10 = 1; _key10 < _len6; _key10++) {
-            options[_key10 - 1] = arguments[_key10];
+          for (var _len6 = arguments.length, options = new Array(_len6 > 1 ? _len6 - 1 : 0), _key12 = 1; _key12 < _len6; _key12++) {
+            options[_key12 - 1] = arguments[_key12];
           }
 
           if (installedPlugins.has(plugin)) ;else if (plugin && isFunction(plugin.install)) {
@@ -10870,12 +11521,7 @@ var JoomlaMediaManager = (function () {
         mixin: function mixin(_mixin) {
           if (__VUE_OPTIONS_API__) {
             if (!context.mixins.includes(_mixin)) {
-              context.mixins.push(_mixin); // global mixin with props/emits de-optimizes props/emits
-              // normalization caching.
-
-              if (_mixin.props || _mixin.emits) {
-                context.deopt = true;
-              }
+              context.mixins.push(_mixin);
             }
           }
 
@@ -10915,6 +11561,7 @@ var JoomlaMediaManager = (function () {
             rootContainer.__vue_app__ = app;
 
             if (__VUE_PROD_DEVTOOLS__) {
+              app._instance = vnode.component;
               devtoolsInitApp(app, version);
             }
 
@@ -10926,6 +11573,7 @@ var JoomlaMediaManager = (function () {
             render(null, app._container);
 
             if (__VUE_PROD_DEVTOOLS__) {
+              app._instance = null;
               devtoolsUnmountApp(app);
             }
 
@@ -10958,12 +11606,7 @@ var JoomlaMediaManager = (function () {
     if (typeof __VUE_PROD_DEVTOOLS__ !== 'boolean') {
       getGlobalThis().__VUE_PROD_DEVTOOLS__ = false;
     }
-  } // implementation, close to no-op
-
-
-  var isAsyncWrapper = function isAsyncWrapper(i) {
-    return !!i.type.__asyncLoader;
-  };
+  }
 
   var prodEffectOptions = {
     scheduler: queueJob,
@@ -10972,36 +11615,33 @@ var JoomlaMediaManager = (function () {
   };
   var queuePostRenderEffect = queueEffectWithSuspense;
 
-  var setRef = function setRef(rawRef, oldRawRef, parentSuspense, vnode) {
+  var setRef = function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
+    if (isUnmount === void 0) {
+      isUnmount = false;
+    }
+
     if (isArray(rawRef)) {
       rawRef.forEach(function (r, i) {
-        return setRef(r, oldRawRef && (isArray(oldRawRef) ? oldRawRef[i] : oldRawRef), parentSuspense, vnode);
+        return setRef(r, oldRawRef && (isArray(oldRawRef) ? oldRawRef[i] : oldRawRef), parentSuspense, vnode, isUnmount);
       });
       return;
     }
 
-    var value;
-
-    if (!vnode) {
-      // means unmount
-      value = null;
-    } else if (isAsyncWrapper(vnode)) {
+    if (isAsyncWrapper(vnode) && !isUnmount) {
       // when mounting async components, nothing needs to be done,
       // because the template ref is forwarded to inner component
       return;
-    } else if (vnode.shapeFlag & 4
-    /* STATEFUL_COMPONENT */
-    ) {
-        value = vnode.component.exposed || vnode.component.proxy;
-      } else {
-      value = vnode.el;
     }
 
+    var refValue = vnode.shapeFlag & 4
+    /* STATEFUL_COMPONENT */
+    ? vnode.component.exposed || vnode.component.proxy : vnode.el;
+    var value = isUnmount ? null : refValue;
     var owner = rawRef.i,
         ref = rawRef.r;
     var oldRef = oldRawRef && oldRawRef.r;
     var refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
-    var setupState = owner.setupState; // unset old ref
+    var setupState = owner.setupState; // dynamic ref changed. unset old ref
 
     if (oldRef != null && oldRef !== ref) {
       if (isString(oldRef)) {
@@ -11017,7 +11657,9 @@ var JoomlaMediaManager = (function () {
 
     if (isString(ref)) {
       var doSet = function doSet() {
-        refs[ref] = value;
+        {
+          refs[ref] = value;
+        }
 
         if (hasOwn(setupState, ref)) {
           setupState[ref] = value;
@@ -11079,10 +11721,9 @@ var JoomlaMediaManager = (function () {
     }
 
     if (__VUE_PROD_DEVTOOLS__) {
-      var _target = getGlobalThis();
-
-      _target.__VUE__ = true;
-      setDevtoolsHook(_target.__VUE_DEVTOOLS_GLOBAL_HOOK__);
+      var target = getGlobalThis();
+      target.__VUE__ = true;
+      setDevtoolsHook(target.__VUE_DEVTOOLS_GLOBAL_HOOK__);
     }
 
     var hostInsert = options.insert,
@@ -11150,7 +11791,7 @@ var JoomlaMediaManager = (function () {
           processText(n1, n2, container, anchor);
           break;
 
-        case Comment:
+        case Comment$1:
           processCommentNode(n1, n2, container, anchor);
           break;
 
@@ -11188,7 +11829,7 @@ var JoomlaMediaManager = (function () {
 
 
       if (ref != null && parentComponent) {
-        setRef(ref, n1 && n1.ref, parentSuspense, n2);
+        setRef(ref, n1 && n1.ref, parentSuspense, n2 || n1, !n2);
       }
     };
 
@@ -11214,7 +11855,10 @@ var JoomlaMediaManager = (function () {
     };
 
     var mountStaticNode = function mountStaticNode(n2, container, anchor, isSVG) {
-      var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, isSVG);
+      var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, isSVG, // pass cached nodes if the static node is being mounted multiple times
+      // so that runtime-dom can simply cloneNode() instead of inserting new
+      // HTML
+      n2.el && [n2.el, n2.anchor]);
 
       n2.el = _hostInsertStaticCont[0];
       n2.anchor = _hostInsertStaticCont[1];
@@ -11351,8 +11995,8 @@ var JoomlaMediaManager = (function () {
       }
 
       if (slotScopeIds) {
-        for (var _i20 = 0; _i20 < slotScopeIds.length; _i20++) {
-          hostSetScopeId(el, slotScopeIds[_i20]);
+        for (var _i22 = 0; _i22 < slotScopeIds.length; _i22++) {
+          hostSetScopeId(el, slotScopeIds[_i22]);
         }
       }
 
@@ -11366,14 +12010,14 @@ var JoomlaMediaManager = (function () {
       }
     };
 
-    var mountChildren = function mountChildren(children, container, anchor, parentComponent, parentSuspense, isSVG, optimized, slotScopeIds, start) {
+    var mountChildren = function mountChildren(children, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, start) {
       if (start === void 0) {
         start = 0;
       }
 
-      for (var _i21 = start; _i21 < children.length; _i21++) {
-        var child = children[_i21] = optimized ? cloneIfMounted(children[_i21]) : normalizeVNode(children[_i21]);
-        patch(null, child, container, anchor, parentComponent, parentSuspense, isSVG, optimized, slotScopeIds);
+      for (var _i23 = start; _i23 < children.length; _i23++) {
+        var child = children[_i23] = optimized ? cloneIfMounted(children[_i23]) : normalizeVNode(children[_i23]);
+        patch(null, child, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
       }
     };
 
@@ -11440,8 +12084,8 @@ var JoomlaMediaManager = (function () {
               // if the flag is present then dynamicProps must be non-null
               var propsToUpdate = n2.dynamicProps;
 
-              for (var _i22 = 0; _i22 < propsToUpdate.length; _i22++) {
-                var key = propsToUpdate[_i22];
+              for (var _i24 = 0; _i24 < propsToUpdate.length; _i24++) {
+                var key = propsToUpdate[_i24];
                 var prev = oldProps[key];
                 var next = newProps[key];
 
@@ -11485,11 +12129,13 @@ var JoomlaMediaManager = (function () {
 
 
     var patchBlockChildren = function patchBlockChildren(oldChildren, newChildren, fallbackContainer, parentComponent, parentSuspense, isSVG, slotScopeIds) {
-      for (var _i23 = 0; _i23 < newChildren.length; _i23++) {
-        var oldVNode = oldChildren[_i23];
-        var newVNode = newChildren[_i23]; // Determine the container (parent element) for the patch.
+      for (var _i25 = 0; _i25 < newChildren.length; _i25++) {
+        var oldVNode = oldChildren[_i25];
+        var newVNode = newChildren[_i25]; // Determine the container (parent element) for the patch.
 
-        var container = // - In the case of a Fragment, we need to provide the actual parent
+        var container = // oldVNode may be an errored async setup() component inside Suspense
+        // which will not have a mounted element
+        oldVNode.el && ( // - In the case of a Fragment, we need to provide the actual parent
         // of the Fragment itself so it can move its children.
         oldVNode.type === Fragment || // - In the case of different nodes, there is going to be a replacement
         // which also requires the correct parent container
@@ -11498,7 +12144,7 @@ var JoomlaMediaManager = (function () {
         /* COMPONENT */
         || oldVNode.shapeFlag & 64
         /* TELEPORT */
-        ? hostParentNode(oldVNode.el) : // In other cases, the parent container is not actually used so we
+        ) ? hostParentNode(oldVNode.el) : // In other cases, the parent container is not actually used so we
         // just pass the block element here to avoid a DOM parentNode call.
         fallbackContainer;
         patch(oldVNode, newVNode, container, null, parentComponent, parentSuspense, isSVG, slotScopeIds, true);
@@ -11519,9 +12165,9 @@ var JoomlaMediaManager = (function () {
         }
 
         if (oldProps !== EMPTY_OBJ) {
-          for (var _key11 in oldProps) {
-            if (!isReservedProp(_key11) && !(_key11 in newProps)) {
-              hostPatchProp(el, _key11, oldProps[_key11], null, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
+          for (var _key13 in oldProps) {
+            if (!isReservedProp(_key13) && !(_key13 in newProps)) {
+              hostPatchProp(el, _key13, oldProps[_key13], null, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
             }
           }
         }
@@ -11535,7 +12181,7 @@ var JoomlaMediaManager = (function () {
           dynamicChildren = n2.dynamicChildren,
           fragmentSlotScopeIds = n2.slotScopeIds;
 
-      if (patchFlag > 0) {
+      if (dynamicChildren) {
         optimized = true;
       } // check if this is a slot fragment with :slotted scope ids
 
@@ -11604,14 +12250,17 @@ var JoomlaMediaManager = (function () {
       } // resolve props and slots for setup context
 
 
-      setupComponent(instance); // before proceeding
+      {
+        setupComponent(instance);
+      } // setup() is async. This component relies on async logic to be resolved
+      // before proceeding
 
       if (instance.asyncDep) {
         parentSuspense && parentSuspense.registerDep(instance, setupRenderEffect); // Give it a placeholder if this is not hydration
         // TODO handle self-defined fallback
 
         if (!initialVNode.el) {
-          var placeholder = instance.subTree = createVNode(Comment);
+          var placeholder = instance.subTree = createVNode(Comment$1);
           processCommentNode(null, placeholder, container, anchor);
         }
 
@@ -11664,14 +12313,28 @@ var JoomlaMediaManager = (function () {
 
           if (vnodeHook = props && props.onVnodeBeforeMount) {
             invokeVNodeHook(vnodeHook, parent, initialVNode);
-          } // render
-
-
-          var subTree = instance.subTree = renderComponentRoot(instance);
+          }
 
           if (el && hydrateNode) {
-            hydrateNode(initialVNode.el, subTree, instance, parentSuspense, null);
+            // vnode has adopted host node - perform hydration instead of mount.
+            var hydrateSubTree = function hydrateSubTree() {
+              instance.subTree = renderComponentRoot(instance);
+              hydrateNode(el, instance.subTree, instance, parentSuspense, null);
+            };
+
+            if (isAsyncWrapper(initialVNode)) {
+              initialVNode.type.__asyncLoader().then( // note: we are moving the render call into an async callback,
+              // which means it won't track dependencies - but it's ok because
+              // a server-rendered async wrapper is already in resolved state
+              // and it will never need to change.
+              function () {
+                return !instance.isUnmounted && hydrateSubTree();
+              });
+            } else {
+              hydrateSubTree();
+            }
           } else {
+            var subTree = instance.subTree = renderComponentRoot(instance);
             patch(null, subTree, container, anchor, instance, parentSuspense, isSVG);
             initialVNode.el = subTree.el;
           } // mounted hook
@@ -11685,19 +12348,17 @@ var JoomlaMediaManager = (function () {
           if (vnodeHook = props && props.onVnodeMounted) {
             var scopedInitialVNode = initialVNode;
             queuePostRenderEffect(function () {
-              invokeVNodeHook(vnodeHook, parent, scopedInitialVNode);
+              return invokeVNodeHook(vnodeHook, parent, scopedInitialVNode);
             }, parentSuspense);
           } // activated hook for keep-alive roots.
           // #1742 activated hook must be accessed after first render
           // since the hook may be injected by a child keep-alive
 
 
-          var _a = instance.a;
-
-          if (_a && initialVNode.shapeFlag & 256
+          if (initialVNode.shapeFlag & 256
           /* COMPONENT_SHOULD_KEEP_ALIVE */
           ) {
-              queuePostRenderEffect(_a, parentSuspense);
+              instance.a && queuePostRenderEffect(instance.a, parentSuspense);
             }
 
           instance.isMounted = true;
@@ -11762,7 +12423,7 @@ var JoomlaMediaManager = (function () {
 
           if (_vnodeHook = next.props && next.props.onVnodeUpdated) {
             queuePostRenderEffect(function () {
-              invokeVNodeHook(_vnodeHook, _parent, next, vnode);
+              return invokeVNodeHook(_vnodeHook, _parent, next, vnode);
             }, parentSuspense);
           }
 
@@ -12098,8 +12759,8 @@ var JoomlaMediaManager = (function () {
       if (type === Fragment) {
         hostInsert(el, container, anchor);
 
-        for (var _i24 = 0; _i24 < children.length; _i24++) {
-          move(children[_i24], container, anchor, moveType);
+        for (var _i26 = 0; _i26 < children.length; _i26++) {
+          move(children[_i26], container, anchor, moveType);
         }
 
         hostInsert(vnode.anchor, container, anchor);
@@ -12174,7 +12835,7 @@ var JoomlaMediaManager = (function () {
           dirs = vnode.dirs; // unset ref
 
       if (ref != null) {
-        setRef(ref, null, parentSuspense, null);
+        setRef(ref, null, parentSuspense, vnode, true);
       }
 
       if (shapeFlag & 256
@@ -12312,8 +12973,8 @@ var JoomlaMediaManager = (function () {
       }
 
       if (effects) {
-        for (var _i25 = 0; _i25 < effects.length; _i25++) {
-          stop(effects[_i25]);
+        for (var _i27 = 0; _i27 < effects.length; _i27++) {
+          stop(effects[_i27]);
         }
       } // update may be null if a component is unmounted before its async
       // setup has resolved.
@@ -12361,8 +13022,8 @@ var JoomlaMediaManager = (function () {
         start = 0;
       }
 
-      for (var _i26 = start; _i26 < children.length; _i26++) {
-        unmount(children[_i26], parentComponent, parentSuspense, doRemove, optimized);
+      for (var _i28 = start; _i28 < children.length; _i28++) {
+        unmount(children[_i28], parentComponent, parentSuspense, doRemove, optimized);
       }
     };
 
@@ -12455,11 +13116,11 @@ var JoomlaMediaManager = (function () {
     var ch2 = n2.children;
 
     if (isArray(ch1) && isArray(ch2)) {
-      for (var _i27 = 0; _i27 < ch1.length; _i27++) {
+      for (var _i29 = 0; _i29 < ch1.length; _i29++) {
         // this is only called in the optimized path so array children are
         // guaranteed to be vnodes
-        var c1 = ch1[_i27];
-        var c2 = ch2[_i27];
+        var c1 = ch1[_i29];
+        var c2 = ch2[_i29];
 
         if (c2.shapeFlag & 1
         /* ELEMENT */
@@ -12467,7 +13128,7 @@ var JoomlaMediaManager = (function () {
           if (c2.patchFlag <= 0 || c2.patchFlag === 32
           /* HYDRATE_EVENTS */
           ) {
-              c2 = ch2[_i27] = cloneIfMounted(ch2[_i27]);
+              c2 = ch2[_i29] = cloneIfMounted(ch2[_i29]);
               c2.el = c1.el;
             }
 
@@ -12566,7 +13227,7 @@ var JoomlaMediaManager = (function () {
       }
 
       var res = // local registration
-      // check instance[type] first for components with mixin or extends.
+      // check instance[type] first which is resolved for options API
       resolve(instance[type] || Component[type], name) || // global registration
       resolve(instance.appContext[type], name);
 
@@ -12585,7 +13246,7 @@ var JoomlaMediaManager = (function () {
 
   var Fragment = Symbol(undefined);
   var Text = Symbol(undefined);
-  var Comment = Symbol(undefined);
+  var Comment$1 = Symbol(undefined);
   var Static = Symbol(undefined); // Since v-if and v-for are the two possible ways node structure can dynamically
   // change, once we consider v-if branches and each v-for fragment a block, we
   // can divide a template into nested blocks, and within each block the node
@@ -12623,7 +13284,32 @@ var JoomlaMediaManager = (function () {
     blockStack.pop();
     currentBlock = blockStack[blockStack.length - 1] || null;
   } // Whether we should be tracking dynamic child nodes inside a block.
+  // Only tracks when this value is > 0
+  // We are not using a simple boolean because this value may need to be
+  // incremented/decremented by nested usage of v-once (see below)
 
+
+  var isBlockTreeEnabled = 1;
+  /**
+   * Block tracking sometimes needs to be disabled, for example during the
+   * creation of a tree that needs to be cached by v-once. The compiler generates
+   * code like this:
+   *
+   * ``` js
+   * _cache[1] || (
+   *   setBlockTracking(-1),
+   *   _cache[1] = createVNode(...),
+   *   setBlockTracking(1),
+   *   _cache[1]
+   * )
+   * ```
+   *
+   * @private
+   */
+
+  function setBlockTracking(value) {
+    isBlockTreeEnabled += value;
+  }
   /**
    * Create a block root vnode. Takes the same exact arguments as `createVNode`.
    * A block root keeps track of dynamic nodes within the block in the
@@ -12638,12 +13324,12 @@ var JoomlaMediaManager = (function () {
     /* isBlock: prevent a block from tracking itself */
     ); // save current block children on the block vnode
 
-    vnode.dynamicChildren = currentBlock || EMPTY_ARR; // close block
+    vnode.dynamicChildren = isBlockTreeEnabled > 0 ? currentBlock || EMPTY_ARR : null; // close block
 
     closeBlock(); // a block is always going to be patched, so track it as a child of its
     // parent block
 
-    if (currentBlock) {
+    if (isBlockTreeEnabled > 0 && currentBlock) {
       currentBlock.push(vnode);
     }
 
@@ -12676,8 +13362,6 @@ var JoomlaMediaManager = (function () {
   var createVNode = _createVNode;
 
   function _createVNode(type, props, children, patchFlag, dynamicProps, isBlockNode) {
-    var _vnode;
-
     if (props === void 0) {
       props = null;
     }
@@ -12699,7 +13383,7 @@ var JoomlaMediaManager = (function () {
     }
 
     if (!type || type === NULL_DYNAMIC_COMPONENT) {
-      type = Comment;
+      type = Comment$1;
     }
 
     if (isVNode(type)) {
@@ -12760,26 +13444,43 @@ var JoomlaMediaManager = (function () {
     : isFunction(type) ? 2
     /* FUNCTIONAL_COMPONENT */
     : 0;
-    var vnode = (_vnode = {
-      __v_isVNode: true
-    }, _vnode["__v_skip"
-    /* SKIP */
-    ] = true, _vnode.type = type, _vnode.props = props, _vnode.key = props && normalizeKey(props), _vnode.ref = props && normalizeRef(props), _vnode.scopeId = currentScopeId, _vnode.slotScopeIds = null, _vnode.children = null, _vnode.component = null, _vnode.suspense = null, _vnode.ssContent = null, _vnode.ssFallback = null, _vnode.dirs = null, _vnode.transition = null, _vnode.el = null, _vnode.anchor = null, _vnode.target = null, _vnode.targetAnchor = null, _vnode.staticCount = 0, _vnode.shapeFlag = shapeFlag, _vnode.patchFlag = patchFlag, _vnode.dynamicProps = dynamicProps, _vnode.dynamicChildren = null, _vnode.appContext = null, _vnode); // validate key
+    var vnode = {
+      __v_isVNode: true,
+      __v_skip: true,
+      type: type,
+      props: props,
+      key: props && normalizeKey(props),
+      ref: props && normalizeRef(props),
+      scopeId: currentScopeId,
+      slotScopeIds: null,
+      children: null,
+      component: null,
+      suspense: null,
+      ssContent: null,
+      ssFallback: null,
+      dirs: null,
+      transition: null,
+      el: null,
+      anchor: null,
+      target: null,
+      targetAnchor: null,
+      staticCount: 0,
+      shapeFlag: shapeFlag,
+      patchFlag: patchFlag,
+      dynamicProps: dynamicProps,
+      dynamicChildren: null,
+      appContext: null
+    }; // validate key
 
     normalizeChildren(vnode, children); // normalize suspense children
 
     if (shapeFlag & 128
     /* SUSPENSE */
     ) {
-        var _normalizeSuspenseChi = normalizeSuspenseChildren(vnode),
-            content = _normalizeSuspenseChi.content,
-            fallback = _normalizeSuspenseChi.fallback;
-
-        vnode.ssContent = content;
-        vnode.ssFallback = fallback;
+        type.normalize(vnode);
       }
 
-    if ( // avoid a block node from tracking itself
+    if (isBlockTreeEnabled > 0 && // avoid a block node from tracking itself
     !isBlockNode && // has current parent block
     currentBlock && ( // presence of a patch flag indicates this node needs patching on updates.
     // component nodes also should always be patched, because even if the
@@ -12799,8 +13500,6 @@ var JoomlaMediaManager = (function () {
   }
 
   function cloneVNode(vnode, extraProps, mergeRef) {
-    var _ref15;
-
     if (mergeRef === void 0) {
       mergeRef = false;
     }
@@ -12812,19 +13511,50 @@ var JoomlaMediaManager = (function () {
         patchFlag = vnode.patchFlag,
         children = vnode.children;
     var mergedProps = extraProps ? mergeProps(props || {}, extraProps) : props;
-    return _ref15 = {
-      __v_isVNode: true
-    }, _ref15["__v_skip"
-    /* SKIP */
-    ] = true, _ref15.type = vnode.type, _ref15.props = mergedProps, _ref15.key = mergedProps && normalizeKey(mergedProps), _ref15.ref = extraProps && extraProps.ref ? // #2078 in the case of <component :is="vnode" ref="extra"/>
-    // if the vnode itself already has a ref, cloneVNode will need to merge
-    // the refs so the single vnode can be set on multiple refs
-    mergeRef && ref ? isArray(ref) ? ref.concat(normalizeRef(extraProps)) : [ref, normalizeRef(extraProps)] : normalizeRef(extraProps) : ref, _ref15.scopeId = vnode.scopeId, _ref15.slotScopeIds = vnode.slotScopeIds, _ref15.children = children, _ref15.target = vnode.target, _ref15.targetAnchor = vnode.targetAnchor, _ref15.staticCount = vnode.staticCount, _ref15.shapeFlag = vnode.shapeFlag, _ref15.patchFlag = extraProps && vnode.type !== Fragment ? patchFlag === -1 // hoisted node
-    ? 16
-    /* FULL_PROPS */
-    : patchFlag | 16
-    /* FULL_PROPS */
-    : patchFlag, _ref15.dynamicProps = vnode.dynamicProps, _ref15.dynamicChildren = vnode.dynamicChildren, _ref15.appContext = vnode.appContext, _ref15.dirs = vnode.dirs, _ref15.transition = vnode.transition, _ref15.component = vnode.component, _ref15.suspense = vnode.suspense, _ref15.ssContent = vnode.ssContent && cloneVNode(vnode.ssContent), _ref15.ssFallback = vnode.ssFallback && cloneVNode(vnode.ssFallback), _ref15.el = vnode.el, _ref15.anchor = vnode.anchor, _ref15;
+    var cloned = {
+      __v_isVNode: true,
+      __v_skip: true,
+      type: vnode.type,
+      props: mergedProps,
+      key: mergedProps && normalizeKey(mergedProps),
+      ref: extraProps && extraProps.ref ? // #2078 in the case of <component :is="vnode" ref="extra"/>
+      // if the vnode itself already has a ref, cloneVNode will need to merge
+      // the refs so the single vnode can be set on multiple refs
+      mergeRef && ref ? isArray(ref) ? ref.concat(normalizeRef(extraProps)) : [ref, normalizeRef(extraProps)] : normalizeRef(extraProps) : ref,
+      scopeId: vnode.scopeId,
+      slotScopeIds: vnode.slotScopeIds,
+      children: children,
+      target: vnode.target,
+      targetAnchor: vnode.targetAnchor,
+      staticCount: vnode.staticCount,
+      shapeFlag: vnode.shapeFlag,
+      // if the vnode is cloned with extra props, we can no longer assume its
+      // existing patch flag to be reliable and need to add the FULL_PROPS flag.
+      // note: perserve flag for fragments since they use the flag for children
+      // fast paths only.
+      patchFlag: extraProps && vnode.type !== Fragment ? patchFlag === -1 // hoisted node
+      ? 16
+      /* FULL_PROPS */
+      : patchFlag | 16
+      /* FULL_PROPS */
+      : patchFlag,
+      dynamicProps: vnode.dynamicProps,
+      dynamicChildren: vnode.dynamicChildren,
+      appContext: vnode.appContext,
+      dirs: vnode.dirs,
+      transition: vnode.transition,
+      // These should technically only be non-null on mounted VNodes. However,
+      // they *should* be copied for kept-alive vnodes. So we just always copy
+      // them since them being non-null during a mount doesn't affect the logic as
+      // they will simply be overwritten.
+      component: vnode.component,
+      suspense: vnode.suspense,
+      ssContent: vnode.ssContent && cloneVNode(vnode.ssContent),
+      ssFallback: vnode.ssFallback && cloneVNode(vnode.ssFallback),
+      el: vnode.el,
+      anchor: vnode.anchor
+    };
+    return cloned;
   }
   /**
    * @private
@@ -12858,20 +13588,21 @@ var JoomlaMediaManager = (function () {
       asBlock = false;
     }
 
-    return asBlock ? (openBlock(), createBlock(Comment, null, text)) : createVNode(Comment, null, text);
+    return asBlock ? (openBlock(), createBlock(Comment$1, null, text)) : createVNode(Comment$1, null, text);
   }
 
   function normalizeVNode(child) {
     if (child == null || typeof child === 'boolean') {
       // empty placeholder
-      return createVNode(Comment);
+      return createVNode(Comment$1);
     } else if (isArray(child)) {
       // fragment
-      return createVNode(Fragment, null, child);
+      return createVNode(Fragment, null, // #3666, avoid reference pollution when reusing vnode
+      child.slice());
     } else if (typeof child === 'object') {
       // already vnode, this should be the most common since compiled templates
       // always produce all-vnode children arrays
-      return child.el === null ? child : cloneVNode(child);
+      return cloneIfMounted(child);
     } else {
       // strings and numbers
       return createVNode(Text, null, String(child));
@@ -12904,9 +13635,9 @@ var JoomlaMediaManager = (function () {
 
           if (slot) {
             // _c marker is added by withCtx() indicating this is a compiled slot
-            slot._c && setCompiledSlotRendering(1);
+            slot._c && (slot._d = false);
             normalizeChildren(vnode, slot());
-            slot._c && setCompiledSlotRendering(-1);
+            slot._c && (slot._d = true);
           }
 
           return;
@@ -12923,18 +13654,18 @@ var JoomlaMediaManager = (function () {
         && currentRenderingInstance) {
           // a child component receives forwarded slots from the parent.
           // its slot type is determined by its parent's slot type.
-          if (currentRenderingInstance.vnode.patchFlag & 1024
-          /* DYNAMIC_SLOTS */
+          if (currentRenderingInstance.slots._ === 1
+          /* STABLE */
           ) {
-              children._ = 2
-              /* DYNAMIC */
-              ;
-              vnode.patchFlag |= 1024
-              /* DYNAMIC_SLOTS */
+              children._ = 1
+              /* STABLE */
               ;
             } else {
-            children._ = 1
-            /* STABLE */
+            children._ = 2
+            /* DYNAMIC */
+            ;
+            vnode.patchFlag |= 1024
+            /* DYNAMIC_SLOTS */
             ;
           }
         }
@@ -12971,8 +13702,8 @@ var JoomlaMediaManager = (function () {
   function mergeProps() {
     var ret = extend({}, arguments.length <= 0 ? undefined : arguments[0]);
 
-    for (var _i28 = 1; _i28 < arguments.length; _i28++) {
-      var toMerge = _i28 < 0 || arguments.length <= _i28 ? undefined : arguments[_i28];
+    for (var _i30 = 1; _i30 < arguments.length; _i30++) {
+      var toMerge = _i30 < 0 || arguments.length <= _i30 ? undefined : arguments[_i30];
 
       for (var key in toMerge) {
         if (key === 'class') {
@@ -12986,7 +13717,7 @@ var JoomlaMediaManager = (function () {
           var incoming = toMerge[key];
 
           if (existing !== incoming) {
-            ret[key] = existing ? [].concat(existing, toMerge[key]) : incoming;
+            ret[key] = existing ? [].concat(existing, incoming) : incoming;
           }
         } else if (key !== '') {
           ret[key] = toMerge[key];
@@ -12996,427 +13727,95 @@ var JoomlaMediaManager = (function () {
 
     return ret;
   }
-
-  function provide(key, value) {
-    if (!currentInstance) ;else {
-      var provides = currentInstance.provides; // by default an instance inherits its parent's provides object
-      // but when it needs to provide values of its own, it creates its
-      // own provides object using parent provides object as prototype.
-      // this way in `inject` we can simply look up injections from direct
-      // parent and let the prototype chain do the work.
-
-      var parentProvides = currentInstance.parent && currentInstance.parent.provides;
-
-      if (parentProvides === provides) {
-        provides = currentInstance.provides = Object.create(parentProvides);
-      } // TS doesn't allow symbol as index type
+  /**
+   * Actual implementation
+   */
 
 
-      provides[key] = value;
-    }
-  }
+  function renderList(source, renderItem) {
+    var ret;
 
-  function inject(key, defaultValue, treatDefaultAsFactory) {
-    if (treatDefaultAsFactory === void 0) {
-      treatDefaultAsFactory = false;
-    }
+    if (isArray(source) || isString(source)) {
+      ret = new Array(source.length);
 
-    // fallback to `currentRenderingInstance` so that this can be called in
-    // a functional component
-    var instance = currentInstance || currentRenderingInstance;
+      for (var _i31 = 0, l = source.length; _i31 < l; _i31++) {
+        ret[_i31] = renderItem(source[_i31], _i31);
+      }
+    } else if (typeof source === 'number') {
+      ret = new Array(source);
 
-    if (instance) {
-      // #2400
-      // to support `app.use` plugins,
-      // fallback to appContext's `provides` if the intance is at root
-      var provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
-
-      if (provides && key in provides) {
-        // TS doesn't allow symbol as index type
-        return provides[key];
-      } else if (arguments.length > 1) {
-        return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue() : defaultValue;
-      } else ;
-    }
-  }
-
-  var shouldCacheAccess = true;
-
-  function applyOptions(instance, options, deferredData, deferredWatch, deferredProvide, asMixin) {
-    if (deferredData === void 0) {
-      deferredData = [];
-    }
-
-    if (deferredWatch === void 0) {
-      deferredWatch = [];
-    }
-
-    if (deferredProvide === void 0) {
-      deferredProvide = [];
-    }
-
-    if (asMixin === void 0) {
-      asMixin = false;
-    }
-
-    var mixins = options.mixins,
-        extendsOptions = options.extends,
-        dataOptions = options.data,
-        computedOptions = options.computed,
-        methods = options.methods,
-        watchOptions = options.watch,
-        provideOptions = options.provide,
-        injectOptions = options.inject,
-        components = options.components,
-        directives = options.directives,
-        beforeMount = options.beforeMount,
-        mounted = options.mounted,
-        beforeUpdate = options.beforeUpdate,
-        updated = options.updated,
-        activated = options.activated,
-        deactivated = options.deactivated;
-        options.beforeDestroy;
-        var beforeUnmount = options.beforeUnmount;
-        options.destroyed;
-        var unmounted = options.unmounted,
-        render = options.render,
-        renderTracked = options.renderTracked,
-        renderTriggered = options.renderTriggered,
-        errorCaptured = options.errorCaptured,
-        expose = options.expose;
-    var publicThis = instance.proxy;
-    var ctx = instance.ctx;
-    var globalMixins = instance.appContext.mixins;
-
-    if (asMixin && render && instance.render === NOOP) {
-      instance.render = render;
-    } // applyOptions is called non-as-mixin once per instance
-
-
-    if (!asMixin) {
-      shouldCacheAccess = false;
-      callSyncHook('beforeCreate', "bc"
-      /* BEFORE_CREATE */
-      , options, instance, globalMixins);
-      shouldCacheAccess = true; // global mixins are applied first
-
-      applyMixins(instance, globalMixins, deferredData, deferredWatch, deferredProvide);
-    } // extending a base component...
-
-
-    if (extendsOptions) {
-      applyOptions(instance, extendsOptions, deferredData, deferredWatch, deferredProvide, true);
-    } // local mixins
-
-
-    if (mixins) {
-      applyMixins(instance, mixins, deferredData, deferredWatch, deferredProvide);
-    } // - props (already done outside of this function)
-    // - inject
-    // - methods
-    // - data (deferred since it relies on `this` access)
-    // - computed
-    // - watch (deferred since it relies on `this` access)
-
-
-    if (injectOptions) {
-      if (isArray(injectOptions)) {
-        for (var _i29 = 0; _i29 < injectOptions.length; _i29++) {
-          var key = injectOptions[_i29];
-          ctx[key] = inject(key);
-        }
+      for (var _i32 = 0; _i32 < source; _i32++) {
+        ret[_i32] = renderItem(_i32 + 1, _i32);
+      }
+    } else if (isObject$1(source)) {
+      if (source[Symbol.iterator]) {
+        ret = Array.from(source, renderItem);
       } else {
-        for (var _key12 in injectOptions) {
-          var opt = injectOptions[_key12];
+        var keys = Object.keys(source);
+        ret = new Array(keys.length);
 
-          if (isObject$1(opt)) {
-            ctx[_key12] = inject(opt.from || _key12, opt.default, true
-            /* treat default function as factory */
-            );
-          } else {
-            ctx[_key12] = inject(opt);
-          }
+        for (var _i33 = 0, _l = keys.length; _i33 < _l; _i33++) {
+          var key = keys[_i33];
+          ret[_i33] = renderItem(source[key], key, _i33);
         }
       }
-    }
-
-    if (methods) {
-      for (var _key13 in methods) {
-        var methodHandler = methods[_key13];
-
-        if (isFunction(methodHandler)) {
-          // In dev mode, we use the `createRenderContext` function to define methods to the proxy target,
-          // and those are read-only but reconfigurable, so it needs to be redefined here
-          {
-            ctx[_key13] = methodHandler.bind(publicThis);
-          }
-        }
-      }
-    }
-
-    if (!asMixin) {
-      if (deferredData.length) {
-        deferredData.forEach(function (dataFn) {
-          return resolveData(instance, dataFn, publicThis);
-        });
-      }
-
-      if (dataOptions) {
-        // @ts-ignore dataOptions is not fully type safe
-        resolveData(instance, dataOptions, publicThis);
-      }
-    } else if (dataOptions) {
-      deferredData.push(dataOptions);
-    }
-
-    if (computedOptions) {
-      var _loop = function _loop(_key14) {
-        var opt = computedOptions[_key14];
-        var get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
-        var set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
-        var c = computed({
-          get: get,
-          set: set
-        });
-        Object.defineProperty(ctx, _key14, {
-          enumerable: true,
-          configurable: true,
-          get: function get() {
-            return c.value;
-          },
-          set: function set(v) {
-            return c.value = v;
-          }
-        });
-      };
-
-      for (var _key14 in computedOptions) {
-        _loop(_key14);
-      }
-    }
-
-    if (watchOptions) {
-      deferredWatch.push(watchOptions);
-    }
-
-    if (!asMixin && deferredWatch.length) {
-      deferredWatch.forEach(function (watchOptions) {
-        for (var _key15 in watchOptions) {
-          createWatcher(watchOptions[_key15], ctx, publicThis, _key15);
-        }
-      });
-    }
-
-    if (provideOptions) {
-      deferredProvide.push(provideOptions);
-    }
-
-    if (!asMixin && deferredProvide.length) {
-      deferredProvide.forEach(function (provideOptions) {
-        var provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
-        Reflect.ownKeys(provides).forEach(function (key) {
-          provide(key, provides[key]);
-        });
-      });
-    } // asset options.
-    // To reduce memory usage, only components with mixins or extends will have
-    // resolved asset registry attached to instance.
-
-
-    if (asMixin) {
-      if (components) {
-        extend(instance.components || (instance.components = extend({}, instance.type.components)), components);
-      }
-
-      if (directives) {
-        extend(instance.directives || (instance.directives = extend({}, instance.type.directives)), directives);
-      }
-    } // lifecycle options
-
-
-    if (!asMixin) {
-      callSyncHook('created', "c"
-      /* CREATED */
-      , options, instance, globalMixins);
-    }
-
-    if (beforeMount) {
-      onBeforeMount(beforeMount.bind(publicThis));
-    }
-
-    if (mounted) {
-      onMounted(mounted.bind(publicThis));
-    }
-
-    if (beforeUpdate) {
-      onBeforeUpdate(beforeUpdate.bind(publicThis));
-    }
-
-    if (updated) {
-      onUpdated(updated.bind(publicThis));
-    }
-
-    if (activated) {
-      onActivated(activated.bind(publicThis));
-    }
-
-    if (deactivated) {
-      onDeactivated(deactivated.bind(publicThis));
-    }
-
-    if (errorCaptured) {
-      onErrorCaptured(errorCaptured.bind(publicThis));
-    }
-
-    if (renderTracked) {
-      onRenderTracked(renderTracked.bind(publicThis));
-    }
-
-    if (renderTriggered) {
-      onRenderTriggered(renderTriggered.bind(publicThis));
-    }
-
-    if (beforeUnmount) {
-      onBeforeUnmount(beforeUnmount.bind(publicThis));
-    }
-
-    if (unmounted) {
-      onUnmounted(unmounted.bind(publicThis));
-    }
-
-    if (isArray(expose)) {
-      if (!asMixin) {
-        if (expose.length) {
-          var exposed = instance.exposed || (instance.exposed = proxyRefs({}));
-          expose.forEach(function (key) {
-            exposed[key] = toRef(publicThis, key);
-          });
-        } else if (!instance.exposed) {
-          instance.exposed = EMPTY_OBJ;
-        }
-      }
-    }
-  }
-
-  function callSyncHook(name, type, options, instance, globalMixins) {
-    for (var _i30 = 0; _i30 < globalMixins.length; _i30++) {
-      callHookWithMixinAndExtends(name, type, globalMixins[_i30], instance);
-    }
-
-    callHookWithMixinAndExtends(name, type, options, instance);
-  }
-
-  function callHookWithMixinAndExtends(name, type, options, instance) {
-    var base = options.extends,
-        mixins = options.mixins;
-    var selfHook = options[name];
-
-    if (base) {
-      callHookWithMixinAndExtends(name, type, base, instance);
-    }
-
-    if (mixins) {
-      for (var _i31 = 0; _i31 < mixins.length; _i31++) {
-        callHookWithMixinAndExtends(name, type, mixins[_i31], instance);
-      }
-    }
-
-    if (selfHook) {
-      callWithAsyncErrorHandling(selfHook.bind(instance.proxy), instance, type);
-    }
-  }
-
-  function applyMixins(instance, mixins, deferredData, deferredWatch, deferredProvide) {
-    for (var _i32 = 0; _i32 < mixins.length; _i32++) {
-      applyOptions(instance, mixins[_i32], deferredData, deferredWatch, deferredProvide, true);
-    }
-  }
-
-  function resolveData(instance, dataFn, publicThis) {
-    shouldCacheAccess = false;
-    var data = dataFn.call(publicThis, publicThis);
-    shouldCacheAccess = true;
-    if (!isObject$1(data)) ;else if (instance.data === EMPTY_OBJ) {
-      instance.data = reactive(data);
     } else {
-      // existing data: this is a mixin or extends.
-      extend(instance.data, data);
+      ret = [];
     }
+
+    return ret;
   }
+  /**
+   * Compiler runtime helper for rendering `<slot/>`
+   * @private
+   */
 
-  function createWatcher(raw, ctx, publicThis, key) {
-    var getter = key.includes('.') ? createPathGetter(publicThis, key) : function () {
-      return publicThis[key];
-    };
 
-    if (isString(raw)) {
-      var handler = ctx[raw];
-
-      if (isFunction(handler)) {
-        watch(getter, handler);
-      }
-    } else if (isFunction(raw)) {
-      watch(getter, raw.bind(publicThis));
-    } else if (isObject$1(raw)) {
-      if (isArray(raw)) {
-        raw.forEach(function (r) {
-          return createWatcher(r, ctx, publicThis, key);
-        });
-      } else {
-        var _handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
-
-        if (isFunction(_handler)) {
-          watch(getter, _handler, raw);
-        }
-      }
-    } else ;
-  }
-
-  function createPathGetter(ctx, path) {
-    var segments = path.split('.');
-    return function () {
-      var cur = ctx;
-
-      for (var _i33 = 0; _i33 < segments.length && cur; _i33++) {
-        cur = cur[segments[_i33]];
-      }
-
-      return cur;
-    };
-  }
-
-  function resolveMergedOptions(instance) {
-    var raw = instance.type;
-    var __merged = raw.__merged,
-        mixins = raw.mixins,
-        extendsOptions = raw.extends;
-    if (__merged) return __merged;
-    var globalMixins = instance.appContext.mixins;
-    if (!globalMixins.length && !mixins && !extendsOptions) return raw;
-    var options = {};
-    globalMixins.forEach(function (m) {
-      return mergeOptions(options, m, instance);
-    });
-    mergeOptions(options, raw, instance);
-    return raw.__merged = options;
-  }
-
-  function mergeOptions(to, from, instance) {
-    var strats = instance.appContext.config.optionMergeStrategies;
-    var mixins = from.mixins,
-        extendsOptions = from.extends;
-    extendsOptions && mergeOptions(to, extendsOptions, instance);
-    mixins && mixins.forEach(function (m) {
-      return mergeOptions(to, m, instance);
-    });
-
-    for (var key in from) {
-      if (strats && hasOwn(strats, key)) {
-        to[key] = strats[key](to[key], from[key], instance.proxy, key);
-      } else {
-        to[key] = from[key];
-      }
+  function renderSlot(slots, name, props, // this is not a user-facing function, so the fallback is always generated by
+  // the compiler and guaranteed to be a function returning an array
+  fallback, noSlotted) {
+    if (props === void 0) {
+      props = {};
     }
+
+    var slot = slots[name]; // invocation interfering with template-based block tracking, but in
+    // `renderSlot` we can be sure that it's template-based so we can force
+    // enable it.
+
+    if (slot && slot._c) {
+      slot._d = false;
+    }
+
+    openBlock();
+    var validSlotContent = slot && ensureValidVNode(slot(props));
+    var rendered = createBlock(Fragment, {
+      key: props.key || "_" + name
+    }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
+    /* STABLE */
+    ? 64
+    /* STABLE_FRAGMENT */
+    : -2
+    /* BAIL */
+    );
+
+    if (!noSlotted && rendered.scopeId) {
+      rendered.slotScopeIds = [rendered.scopeId + '-s'];
+    }
+
+    if (slot && slot._c) {
+      slot._d = true;
+    }
+
+    return rendered;
+  }
+
+  function ensureValidVNode(vnodes) {
+    return vnodes.some(function (child) {
+      if (!isVNode(child)) return true;
+      if (child.type === Comment$1) return false;
+      if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
+      return true;
+    }) ? vnodes : null;
   }
   /**
    * #2437 In Vue 3, functional components do not have a public instance proxy but
@@ -13478,27 +13877,20 @@ var JoomlaMediaManager = (function () {
     }
   });
   var PublicInstanceProxyHandlers = {
-    get: function get(_ref16, key) {
-      var instance = _ref16._;
+    get: function get(_ref15, key) {
+      var instance = _ref15._;
       var ctx = instance.ctx,
           setupState = instance.setupState,
           data = instance.data,
           props = instance.props,
           accessCache = instance.accessCache,
           type = instance.type,
-          appContext = instance.appContext; // let @vue/reactivity know it should never observe Vue public instances.
-
-      if (key === "__v_skip"
-      /* SKIP */
-      ) {
-          return true;
-        } // for internal formatters to know that this is a Vue instance
+          appContext = instance.appContext; // for internal formatters to know that this is a Vue instance
       // This getter gets called for every property access on the render context
       // during render and is a major hotspot. The most expensive part of this
       // is the multiple hasOwn() calls. It's much faster to do a simple property
       // access on a plain object, so we use an accessCache object (with null
       // prototype) to memoize what access type a key corresponds to.
-
 
       var normalizedProps;
 
@@ -13579,11 +13971,13 @@ var JoomlaMediaManager = (function () {
         return ctx[key];
       } else if ( // global properties
       globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)) {
-        return globalProperties[key];
+        {
+          return globalProperties[key];
+        }
       } else ;
     },
-    set: function set(_ref17, key, value) {
-      var instance = _ref17._;
+    set: function set(_ref16, key, value) {
+      var instance = _ref16._;
       var data = instance.data,
           setupState = instance.setupState,
           ctx = instance.ctx;
@@ -13606,14 +14000,14 @@ var JoomlaMediaManager = (function () {
 
       return true;
     },
-    has: function has(_ref18, key) {
-      var _ref18$_ = _ref18._,
-          data = _ref18$_.data,
-          setupState = _ref18$_.setupState,
-          accessCache = _ref18$_.accessCache,
-          ctx = _ref18$_.ctx,
-          appContext = _ref18$_.appContext,
-          propsOptions = _ref18$_.propsOptions;
+    has: function has(_ref17, key) {
+      var _ref17$_ = _ref17._,
+          data = _ref17$_.data,
+          setupState = _ref17$_.setupState,
+          accessCache = _ref17$_.accessCache,
+          ctx = _ref17$_.ctx,
+          appContext = _ref17$_.appContext,
+          propsOptions = _ref17$_.propsOptions;
       var normalizedProps;
       return accessCache[key] !== undefined || data !== EMPTY_OBJ && hasOwn(data, key) || setupState !== EMPTY_OBJ && hasOwn(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
     }
@@ -13669,6 +14063,8 @@ var JoomlaMediaManager = (function () {
       emitted: null,
       // props default value
       propsDefaults: EMPTY_OBJ,
+      // inheritAttrs
+      inheritAttrs: type.inheritAttrs,
       // state
       ctx: EMPTY_OBJ,
       data: EMPTY_OBJ,
@@ -13700,7 +14096,8 @@ var JoomlaMediaManager = (function () {
       a: null,
       rtg: null,
       rtc: null,
-      ec: null
+      ec: null,
+      sp: null
     };
     {
       instance.ctx = {
@@ -13752,7 +14149,7 @@ var JoomlaMediaManager = (function () {
     instance.accessCache = Object.create(null); // 1. create public instance / render proxy
     // also mark it raw so it's never observed
 
-    instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers);
+    instance.proxy = markRaw(new Proxy(instance.ctx, PublicInstanceProxyHandlers));
     var setup = Component.setup;
 
     if (setup) {
@@ -13806,7 +14203,7 @@ var JoomlaMediaManager = (function () {
     finishComponentSetup(instance);
   }
 
-  function finishComponentSetup(instance, isSSR) {
+  function finishComponentSetup(instance, isSSR, skipOptions) {
     var Component = instance.type; // template / render function normalization
 
     if (!instance.render) {
@@ -13820,10 +14217,10 @@ var JoomlaMediaManager = (function () {
     } // support for 2.x options
 
 
-    if (__VUE_OPTIONS_API__) {
+    if (__VUE_OPTIONS_API__ && !false) {
       currentInstance = instance;
       pauseTracking();
-      applyOptions(instance, Component);
+      applyOptions(instance);
       resetTracking();
       currentInstance = null;
     } // warn missing template/render
@@ -13857,8 +14254,49 @@ var JoomlaMediaManager = (function () {
     }
   }
 
+  var classifyRE = /(?:^|[-_])(\w)/g;
+
+  var classify = function classify(str) {
+    return str.replace(classifyRE, function (c) {
+      return c.toUpperCase();
+    }).replace(/[-_]/g, '');
+  };
+
   function getComponentName(Component) {
     return isFunction(Component) ? Component.displayName || Component.name : Component.name;
+  }
+  /* istanbul ignore next */
+
+
+  function formatComponentName(instance, Component, isRoot) {
+    if (isRoot === void 0) {
+      isRoot = false;
+    }
+
+    var name = getComponentName(Component);
+
+    if (!name && Component.__file) {
+      var match = Component.__file.match(/([^/\\]+)\.\w+$/);
+
+      if (match) {
+        name = match[1];
+      }
+    }
+
+    if (!name && instance && instance.parent) {
+      // try to infer the name based on reverse resolution
+      var inferFromRegistry = function inferFromRegistry(registry) {
+        for (var key in registry) {
+          if (registry[key] === Component) {
+            return key;
+          }
+        }
+      };
+
+      name = inferFromRegistry(instance.components || instance.parent.type.components) || inferFromRegistry(instance.appContext.components);
+    }
+
+    return name ? classify(name) : isRoot ? "App" : "Anonymous";
   }
 
   function isClassComponent(value) {
@@ -13898,50 +14336,10 @@ var JoomlaMediaManager = (function () {
       return createVNode(type, propsOrChildren, children);
     }
   }
-  /**
-   * Actual implementation
-   */
 
-
-  function renderList(source, renderItem) {
-    var ret;
-
-    if (isArray(source) || isString(source)) {
-      ret = new Array(source.length);
-
-      for (var _i34 = 0, l = source.length; _i34 < l; _i34++) {
-        ret[_i34] = renderItem(source[_i34], _i34);
-      }
-    } else if (typeof source === 'number') {
-      ret = new Array(source);
-
-      for (var _i35 = 0; _i35 < source; _i35++) {
-        ret[_i35] = renderItem(_i35 + 1, _i35);
-      }
-    } else if (isObject$1(source)) {
-      if (source[Symbol.iterator]) {
-        ret = Array.from(source, renderItem);
-      } else {
-        var keys = Object.keys(source);
-        ret = new Array(keys.length);
-
-        for (var _i36 = 0, _l = keys.length; _i36 < _l; _i36++) {
-          var key = keys[_i36];
-          ret[_i36] = renderItem(source[key], key, _i36);
-        }
-      }
-    } else {
-      ret = [];
-    }
-
-    return ret;
-  }
-
-  var version = "3.0.11";
+  var version = "3.1.2";
   var svgNS = 'http://www.w3.org/2000/svg';
   var doc = typeof document !== 'undefined' ? document : null;
-  var tempContainer;
-  var tempSVGContainer;
   var nodeOps = {
     insert: function insert(child, parent, anchor) {
       parent.insertBefore(child, anchor || null);
@@ -14006,23 +14404,60 @@ var JoomlaMediaManager = (function () {
       return cloned;
     },
     // __UNSAFE__
-    // Reason: innerHTML.
+    // Reason: insertAdjacentHTML.
     // Static content here can only come from compiled templates.
     // As long as the user only uses trusted templates, this is safe.
-    insertStaticContent: function insertStaticContent(content, parent, anchor, isSVG) {
-      var temp = isSVG ? tempSVGContainer || (tempSVGContainer = doc.createElementNS(svgNS, 'svg')) : tempContainer || (tempContainer = doc.createElement('div'));
-      temp.innerHTML = content;
-      var first = temp.firstChild;
-      var node = first;
-      var last = node;
+    insertStaticContent: function insertStaticContent(content, parent, anchor, isSVG, cached) {
+      if (cached) {
+        var cachedFirst = cached[0],
+            cachedLast = cached[1];
+        var first, last;
 
-      while (node) {
-        last = node;
-        nodeOps.insert(node, parent, anchor);
-        node = temp.firstChild;
+        while (true) {
+          var node = cachedFirst.cloneNode(true);
+          if (!first) first = node;
+          parent.insertBefore(node, anchor);
+
+          if (cachedFirst === cachedLast) {
+            last = node;
+            break;
+          }
+
+          cachedFirst = cachedFirst.nextSibling;
+        }
+
+        return [first, last];
+      } // <parent> before | first ... last | anchor </parent>
+
+
+      var before = anchor ? anchor.previousSibling : parent.lastChild;
+
+      if (anchor) {
+        var insertionPoint;
+        var usingTempInsertionPoint = false;
+
+        if (anchor instanceof Element) {
+          insertionPoint = anchor;
+        } else {
+          // insertAdjacentHTML only works for elements but the anchor is not an
+          // element...
+          usingTempInsertionPoint = true;
+          insertionPoint = isSVG ? doc.createElementNS(svgNS, 'g') : doc.createElement('div');
+          parent.insertBefore(insertionPoint, anchor);
+        }
+
+        insertionPoint.insertAdjacentHTML('beforebegin', content);
+
+        if (usingTempInsertionPoint) {
+          parent.removeChild(insertionPoint);
+        }
+      } else {
+        parent.insertAdjacentHTML('beforeend', content);
       }
 
-      return [first, last];
+      return [// first
+      before ? before.nextSibling : parent.firstChild, // last
+      anchor ? anchor.previousSibling : parent.lastChild];
     }
   }; // compiler should normalize class + :class bindings on the same element
   // into a single binding ['staticClass', dynamic]
@@ -14070,9 +14505,9 @@ var JoomlaMediaManager = (function () {
       }
 
       if (prev && !isString(prev)) {
-        for (var _key16 in prev) {
-          if (next[_key16] == null) {
-            setStyle(style, _key16, '');
+        for (var _key14 in prev) {
+          if (next[_key14] == null) {
+            setStyle(style, _key14, '');
           }
         }
       }
@@ -14121,8 +14556,8 @@ var JoomlaMediaManager = (function () {
 
     name = capitalize(name);
 
-    for (var _i37 = 0; _i37 < prefixes.length; _i37++) {
-      var prefixed = prefixes[_i37] + name;
+    for (var _i34 = 0; _i34 < prefixes.length; _i34++) {
+      var prefixed = prefixes[_i34] + name;
 
       if (prefixed in style) {
         return prefixCache[rawName] = prefixed;
@@ -14134,7 +14569,7 @@ var JoomlaMediaManager = (function () {
 
   var xlinkNS = 'http://www.w3.org/1999/xlink';
 
-  function patchAttr(el, key, value, isSVG) {
+  function patchAttr(el, key, value, isSVG, instance) {
     if (isSVG && key.startsWith('xlink:')) {
       if (value == null) {
         el.removeAttributeNS(xlinkNS, key.slice(6, key.length));
@@ -14177,6 +14612,10 @@ var JoomlaMediaManager = (function () {
 
       if (el.value !== newValue) {
         el.value = newValue;
+      }
+
+      if (value == null) {
+        el.removeAttribute(key);
       }
 
       return;
@@ -14442,8 +14881,8 @@ var JoomlaMediaManager = (function () {
   var ANIMATION = 'animation'; // DOM Transition is a higher-order-component based on the platform-agnostic
   // base Transition component, with DOM-specific logic.
 
-  var Transition = function Transition(props, _ref19) {
-    var slots = _ref19.slots;
+  var Transition = function Transition(props, _ref18) {
+    var slots = _ref18.slots;
     return h(BaseTransition, resolveTransitionProps(props), slots);
   };
 
@@ -14467,13 +14906,52 @@ var JoomlaMediaManager = (function () {
     leaveToClass: String
   };
   Transition.props = /*#__PURE__*/extend({}, BaseTransition.props, DOMTransitionPropsValidators);
+  /**
+   * #3227 Incoming hooks may be merged into arrays when wrapping Transition
+   * with custom HOCs.
+   */
+
+  var callHook = function callHook(hook, args) {
+    if (args === void 0) {
+      args = [];
+    }
+
+    if (isArray(hook)) {
+      hook.forEach(function (h) {
+        return h.apply(void 0, args);
+      });
+    } else if (hook) {
+      hook.apply(void 0, args);
+    }
+  };
+  /**
+   * Check if a hook expects a callback (2nd arg), which means the user
+   * intends to explicitly control the end of the transition.
+   */
+
+
+  var hasExplicitCallback = function hasExplicitCallback(hook) {
+    return hook ? isArray(hook) ? hook.some(function (h) {
+      return h.length > 1;
+    }) : hook.length > 1 : false;
+  };
 
   function resolveTransitionProps(rawProps) {
+    var baseProps = {};
+
+    for (var key in rawProps) {
+      if (!(key in DOMTransitionPropsValidators)) {
+        baseProps[key] = rawProps[key];
+      }
+    }
+
+    if (rawProps.css === false) {
+      return baseProps;
+    }
+
     var _rawProps$name = rawProps.name,
         name = _rawProps$name === void 0 ? 'v' : _rawProps$name,
         type = rawProps.type,
-        _rawProps$css = rawProps.css,
-        css = _rawProps$css === void 0 ? true : _rawProps$css,
         duration = rawProps.duration,
         _rawProps$enterFromCl = rawProps.enterFromClass,
         enterFromClass = _rawProps$enterFromCl === void 0 ? name + "-enter-from" : _rawProps$enterFromCl,
@@ -14493,18 +14971,6 @@ var JoomlaMediaManager = (function () {
         leaveActiveClass = _rawProps$leaveActive === void 0 ? name + "-leave-active" : _rawProps$leaveActive,
         _rawProps$leaveToClas = rawProps.leaveToClass,
         leaveToClass = _rawProps$leaveToClas === void 0 ? name + "-leave-to" : _rawProps$leaveToClas;
-    var baseProps = {};
-
-    for (var key in rawProps) {
-      if (!(key in DOMTransitionPropsValidators)) {
-        baseProps[key] = rawProps[key];
-      }
-    }
-
-    if (!css) {
-      return baseProps;
-    }
-
     var durations = normalizeDuration(duration);
     var enterDuration = durations && durations[0];
     var leaveDuration = durations && durations[1];
@@ -14541,12 +15007,12 @@ var JoomlaMediaManager = (function () {
           return finishEnter(el, isAppear, done);
         };
 
-        hook && hook(el, resolve);
+        callHook(hook, [el, resolve]);
         nextFrame(function () {
           removeTransitionClass(el, isAppear ? appearFromClass : enterFromClass);
           addTransitionClass(el, isAppear ? appearToClass : enterToClass);
 
-          if (!(hook && hook.length > 1)) {
+          if (!hasExplicitCallback(hook)) {
             whenTransitionEnds(el, type, enterDuration, resolve);
           }
         });
@@ -14555,12 +15021,12 @@ var JoomlaMediaManager = (function () {
 
     return extend(baseProps, {
       onBeforeEnter: function onBeforeEnter(el) {
-        _onBeforeEnter && _onBeforeEnter(el);
+        callHook(_onBeforeEnter, [el]);
         addTransitionClass(el, enterFromClass);
         addTransitionClass(el, enterActiveClass);
       },
       onBeforeAppear: function onBeforeAppear(el) {
-        _onBeforeAppear && _onBeforeAppear(el);
+        callHook(_onBeforeAppear, [el]);
         addTransitionClass(el, appearFromClass);
         addTransitionClass(el, appearActiveClass);
       },
@@ -14579,23 +15045,23 @@ var JoomlaMediaManager = (function () {
           removeTransitionClass(el, leaveFromClass);
           addTransitionClass(el, leaveToClass);
 
-          if (!(_onLeave && _onLeave.length > 1)) {
+          if (!hasExplicitCallback(_onLeave)) {
             whenTransitionEnds(el, type, leaveDuration, resolve);
           }
         });
-        _onLeave && _onLeave(el, resolve);
+        callHook(_onLeave, [el, resolve]);
       },
       onEnterCancelled: function onEnterCancelled(el) {
         finishEnter(el, false);
-        _onEnterCancelled && _onEnterCancelled(el);
+        callHook(_onEnterCancelled, [el]);
       },
       onAppearCancelled: function onAppearCancelled(el) {
         finishEnter(el, true);
-        _onAppearCancelled && _onAppearCancelled(el);
+        callHook(_onAppearCancelled, [el]);
       },
       onLeaveCancelled: function onLeaveCancelled(el) {
         finishLeave(el);
-        _onLeaveCancelled && _onLeaveCancelled(el);
+        callHook(_onLeaveCancelled, [el]);
       }
     });
   }
@@ -14788,11 +15254,11 @@ var JoomlaMediaManager = (function () {
 
 
   var vModelText = {
-    created: function created(el, _ref20, vnode) {
-      var _ref20$modifiers = _ref20.modifiers,
-          lazy = _ref20$modifiers.lazy,
-          trim = _ref20$modifiers.trim,
-          number = _ref20$modifiers.number;
+    created: function created(el, _ref19, vnode) {
+      var _ref19$modifiers = _ref19.modifiers,
+          lazy = _ref19$modifiers.lazy,
+          trim = _ref19$modifiers.trim,
+          number = _ref19$modifiers.number;
       el._assign = getModelAssigner(vnode);
       var castToNumber = number || el.type === 'number';
       addEventListener(el, lazy ? 'change' : 'input', function (e) {
@@ -14825,15 +15291,15 @@ var JoomlaMediaManager = (function () {
       }
     },
     // set value on mounted so it's after min/max for type="range"
-    mounted: function mounted(el, _ref21) {
-      var value = _ref21.value;
+    mounted: function mounted(el, _ref20) {
+      var value = _ref20.value;
       el.value = value == null ? '' : value;
     },
-    beforeUpdate: function beforeUpdate(el, _ref22, vnode) {
-      var value = _ref22.value,
-          _ref22$modifiers = _ref22.modifiers,
-          trim = _ref22$modifiers.trim,
-          number = _ref22$modifiers.number;
+    beforeUpdate: function beforeUpdate(el, _ref21, vnode) {
+      var value = _ref21.value,
+          _ref21$modifiers = _ref21.modifiers,
+          trim = _ref21$modifiers.trim,
+          number = _ref21$modifiers.number;
       el._assign = getModelAssigner(vnode); // avoid clearing unresolved text. #2302
 
       if (el.composing) return;
@@ -14899,13 +15365,13 @@ var JoomlaMediaManager = (function () {
 
   var withModifiers = function withModifiers(fn, modifiers) {
     return function (event) {
-      for (var _i38 = 0; _i38 < modifiers.length; _i38++) {
-        var guard = modifierGuards[modifiers[_i38]];
+      for (var _i35 = 0; _i35 < modifiers.length; _i35++) {
+        var guard = modifierGuards[modifiers[_i35]];
         if (guard && guard(event, modifiers)) return;
       }
 
-      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key17 = 1; _key17 < _len7; _key17++) {
-        args[_key17 - 1] = arguments[_key17];
+      for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key15 = 1; _key15 < _len7; _key15++) {
+        args[_key15 - 1] = arguments[_key15];
       }
 
       return fn.apply(void 0, [event].concat(args));
@@ -14929,24 +15395,24 @@ var JoomlaMediaManager = (function () {
 
   var withKeys = function withKeys(fn, modifiers) {
     return function (event) {
-      if (!('key' in event)) return;
-      var eventKey = hyphenate(event.key);
-
-      if ( // None of the provided key modifiers match the current event key
-      !modifiers.some(function (k) {
-        return k === eventKey || keyNames[k] === eventKey;
-      })) {
+      if (!('key' in event)) {
         return;
       }
 
-      return fn(event);
+      var eventKey = hyphenate(event.key);
+
+      if (modifiers.some(function (k) {
+        return k === eventKey || keyNames[k] === eventKey;
+      })) {
+        return fn(event);
+      }
     };
   };
 
   var vShow = {
-    beforeMount: function beforeMount(el, _ref23, _ref24) {
-      var value = _ref23.value;
-      var transition = _ref24.transition;
+    beforeMount: function beforeMount(el, _ref22, _ref23) {
+      var value = _ref22.value;
+      var transition = _ref23.transition;
       el._vod = el.style.display === 'none' ? '' : el.style.display;
 
       if (transition && value) {
@@ -14955,18 +15421,18 @@ var JoomlaMediaManager = (function () {
         setDisplay(el, value);
       }
     },
-    mounted: function mounted(el, _ref25, _ref26) {
-      var value = _ref25.value;
-      var transition = _ref26.transition;
+    mounted: function mounted(el, _ref24, _ref25) {
+      var value = _ref24.value;
+      var transition = _ref25.transition;
 
       if (transition && value) {
         transition.enter(el);
       }
     },
-    updated: function updated(el, _ref27, _ref28) {
-      var value = _ref27.value,
-          oldValue = _ref27.oldValue;
-      var transition = _ref28.transition;
+    updated: function updated(el, _ref26, _ref27) {
+      var value = _ref26.value,
+          oldValue = _ref26.oldValue;
+      var transition = _ref27.transition;
       if (!value === !oldValue) return;
 
       if (transition) {
@@ -14983,8 +15449,8 @@ var JoomlaMediaManager = (function () {
         setDisplay(el, value);
       }
     },
-    beforeUnmount: function beforeUnmount(el, _ref29) {
-      var value = _ref29.value;
+    beforeUnmount: function beforeUnmount(el, _ref28) {
+      var value = _ref28.value;
       setDisplay(el, value);
     }
   };
@@ -15018,6 +15484,10 @@ var JoomlaMediaManager = (function () {
       var component = app._component;
 
       if (!isFunction(component) && !component.render && !component.template) {
+        // __UNSAFE__
+        // Reason: potential execution of JS expressions in in-DOM template.
+        // The user must make sure the in-DOM template is trusted. If it's
+        // rendered by the server, the template should not contain any user data.
         component.template = container.innerHTML;
       } // clear content before mounting
 
@@ -15188,7 +15658,7 @@ var JoomlaMediaManager = (function () {
 
 
   var notifications = new Notifications();
-  var script$k = {
+  var script$m = {
     name: 'MediaApp',
     data: function data() {
       return {
@@ -15240,17 +15710,17 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$i = {
+  var _hoisted_1$k = {
     class: "media-container"
   };
-  var _hoisted_2$f = {
+  var _hoisted_2$h = {
     class: "media-sidebar"
   };
-  var _hoisted_3$e = {
+  var _hoisted_3$g = {
     class: "media-main"
   };
 
-  function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$m(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_disk = resolveComponent("media-disk");
 
     var _component_media_toolbar = resolveComponent("media-toolbar");
@@ -15269,7 +15739,7 @@ var JoomlaMediaManager = (function () {
 
     var _component_media_confirm_delete_modal = resolveComponent("media-confirm-delete-modal");
 
-    return openBlock(), createBlock("div", _hoisted_1$i, [createVNode("div", _hoisted_2$f, [(openBlock(true), createBlock(Fragment, null, renderList($options.disks, function (disk, index) {
+    return openBlock(), createBlock("div", _hoisted_1$k, [createVNode("div", _hoisted_2$h, [(openBlock(true), createBlock(Fragment, null, renderList($options.disks, function (disk, index) {
       return openBlock(), createBlock(_component_media_disk, {
         key: index,
         uid: index,
@@ -15279,12 +15749,12 @@ var JoomlaMediaManager = (function () {
       , ["uid", "disk"]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))]), createVNode("div", _hoisted_3$e, [createVNode(_component_media_toolbar), createVNode(_component_media_browser)]), createVNode(_component_media_upload), createVNode(_component_media_create_folder_modal), createVNode(_component_media_preview_modal), createVNode(_component_media_rename_modal), createVNode(_component_media_share_modal), createVNode(_component_media_confirm_delete_modal)]);
+    ))]), createVNode("div", _hoisted_3$g, [createVNode(_component_media_toolbar), createVNode(_component_media_browser)]), createVNode(_component_media_upload), createVNode(_component_media_create_folder_modal), createVNode(_component_media_preview_modal), createVNode(_component_media_rename_modal), createVNode(_component_media_share_modal), createVNode(_component_media_confirm_delete_modal)]);
   }
 
-  script$k.render = render$k;
-  script$k.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
-  var script$j = {
+  script$m.render = render$m;
+  script$m.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+  var script$l = {
     name: 'MediaDisk',
     // eslint-disable-next-line vue/require-prop-types
     props: ['disk', 'uid'],
@@ -15294,14 +15764,14 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$h = {
+  var _hoisted_1$j = {
     class: "media-disk"
   };
 
-  function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$l(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_drive = resolveComponent("media-drive");
 
-    return openBlock(), createBlock("div", _hoisted_1$h, [createVNode("h2", {
+    return openBlock(), createBlock("div", _hoisted_1$j, [createVNode("h2", {
       id: $options.diskId,
       class: "media-disk-name"
     }, toDisplayString($props.disk.displayName), 9
@@ -15321,8 +15791,8 @@ var JoomlaMediaManager = (function () {
     ))]);
   }
 
-  script$j.render = render$j;
-  script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+  script$l.render = render$l;
+  script$l.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
   var navigable = {
     methods: {
       navigateTo: function navigateTo(path) {
@@ -15330,7 +15800,7 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var script$i = {
+  var script$k = {
     name: 'MediaDrive',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -15351,11 +15821,11 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$g = {
+  var _hoisted_1$i = {
     class: "item-name"
   };
 
-  function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$k(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
     return openBlock(), createBlock("div", {
@@ -15378,7 +15848,7 @@ var JoomlaMediaManager = (function () {
       "aria-setsize": $props.counter,
       "aria-posinset": 1,
       tabindex: $options.getTabindex
-    }, [createVNode("a", null, [createVNode("span", _hoisted_1$g, toDisplayString($props.drive.displayName), 1
+    }, [createVNode("a", null, [createVNode("span", _hoisted_1$i, toDisplayString($props.drive.displayName), 1
     /* TEXT */
     )]), createVNode(_component_media_tree, {
       root: $props.drive.root,
@@ -15392,9 +15862,9 @@ var JoomlaMediaManager = (function () {
     , ["aria-labelledby"])]);
   }
 
-  script$i.render = render$i;
-  script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
-  var script$h = {
+  script$k.render = render$k;
+  script$k.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+  var script$j = {
     name: 'MediaTree',
     props: {
       root: {
@@ -15420,15 +15890,15 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$f = {
+  var _hoisted_1$h = {
     class: "media-tree",
     role: "group"
   };
 
-  function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$j(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree_item = resolveComponent("media-tree-item");
 
-    return openBlock(), createBlock("ul", _hoisted_1$f, [(openBlock(true), createBlock(Fragment, null, renderList($options.directories, function (item, index) {
+    return openBlock(), createBlock("ul", _hoisted_1$h, [(openBlock(true), createBlock(Fragment, null, renderList($options.directories, function (item, index) {
       return openBlock(), createBlock(_component_media_tree_item, {
         key: item.path,
         counter: index,
@@ -15443,9 +15913,9 @@ var JoomlaMediaManager = (function () {
     ))]);
   }
 
-  script$h.render = render$h;
-  script$h.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
-  var script$g = {
+  script$j.render = render$j;
+  script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
+  var script$i = {
     name: 'MediaTreeItem',
     mixins: [navigable],
     props: {
@@ -15500,17 +15970,22 @@ var JoomlaMediaManager = (function () {
       /* Handle the on item click event */
       onItemClick: function onItemClick() {
         this.navigateTo(this.item.path);
+        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {}
+        }));
       }
     }
   };
-  var _hoisted_1$e = {
+  var _hoisted_1$g = {
     class: "item-icon"
   };
-  var _hoisted_2$e = {
+  var _hoisted_2$g = {
     class: "item-name"
   };
 
-  function render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$i(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
     return openBlock(), createBlock("li", {
@@ -15526,11 +16001,11 @@ var JoomlaMediaManager = (function () {
       onClick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
         return $options.onItemClick();
       }, ["stop", "prevent"]))
-    }, [createVNode("span", _hoisted_1$e, [createVNode("span", {
+    }, [createVNode("span", _hoisted_1$g, [createVNode("span", {
       class: $options.iconClass
     }, null, 2
     /* CLASS */
-    )]), createVNode("span", _hoisted_2$e, toDisplayString($props.item.name), 1
+    )]), createVNode("span", _hoisted_2$g, toDisplayString($props.item.name), 1
     /* TEXT */
     )]), createVNode(Transition, {
       name: "slide-fade"
@@ -15553,16 +16028,13 @@ var JoomlaMediaManager = (function () {
     , ["aria-level", "aria-setsize", "aria-posinset", "tabindex"]);
   }
 
-  script$g.render = render$g;
-  script$g.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
-  var script$f = {
+  script$i.render = render$i;
+  script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
+  var script$h = {
     name: 'MediaToolbar',
     computed: {
       toggleListViewBtnIcon: function toggleListViewBtnIcon() {
         return this.isGridView ? 'icon-list' : 'icon-th';
-      },
-      toggleSelectAllBtnIcon: function toggleSelectAllBtnIcon() {
-        return this.allItemsSelected ? 'icon-check-square' : 'icon-square';
       },
       isLoading: function isLoading() {
         return this.$store.state.isLoading;
@@ -15576,6 +16048,14 @@ var JoomlaMediaManager = (function () {
       allItemsSelected: function allItemsSelected() {
         // eslint-disable-next-line max-len
         return this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length;
+      }
+    },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.selectedItems': function $storeStateSelectedItems() {
+        if (!this.allItemsSelected) {
+          this.$refs.mediaToolbarSelectAll.checked = false;
+        }
       }
     },
     methods: {
@@ -15609,6 +16089,11 @@ var JoomlaMediaManager = (function () {
         } else {
           // eslint-disable-next-line max-len
           this.$store.commit(SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+          window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {}
+          }));
         }
       },
       isGridSize: function isGridSize(size) {
@@ -15619,14 +16104,14 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$d = {
+  var _hoisted_1$f = {
     key: 0,
     class: "media-loader"
   };
-  var _hoisted_2$d = {
+  var _hoisted_2$f = {
     class: "media-view-icons"
   };
-  var _hoisted_3$d = {
+  var _hoisted_3$f = {
     class: "media-view-search-input",
     role: "search"
   };
@@ -15659,28 +16144,24 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  function render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$h(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_breadcrumb = resolveComponent("media-breadcrumb");
 
     return openBlock(), createBlock("div", {
       class: "media-toolbar",
       role: "toolbar",
       "aria-label": _ctx.translate('COM_MEDIA_TOOLBAR_LABEL')
-    }, [$options.isLoading ? (openBlock(), createBlock("div", _hoisted_1$d)) : createCommentVNode("v-if", true), createVNode("div", _hoisted_2$d, [createVNode("a", {
-      href: "#",
+    }, [$options.isLoading ? (openBlock(), createBlock("div", _hoisted_1$f)) : createCommentVNode("v-if", true), createVNode("div", _hoisted_2$f, [createVNode("input", {
+      ref: "mediaToolbarSelectAll",
+      type: "checkbox",
       class: "media-toolbar-icon media-toolbar-select-all",
       "aria-label": _ctx.translate('COM_MEDIA_SELECT_ALL'),
-      onClick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
-        return $options.toggleSelectAll();
-      }, ["stop", "prevent"]))
-    }, [createVNode("span", {
-      class: $options.toggleSelectAllBtnIcon,
-      "aria-hidden": "true"
-    }, null, 2
-    /* CLASS */
-    )], 8
+      onClick: _cache[1] || (_cache[1] = withModifiers(function () {
+        return $options.toggleSelectAll && $options.toggleSelectAll.apply($options, arguments);
+      }, ["stop"]))
+    }, null, 8
     /* PROPS */
-    , ["aria-label"])]), createVNode(_component_media_breadcrumb), createVNode("div", _hoisted_3$d, [createVNode("label", _hoisted_4$9, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
+    , ["aria-label"])]), createVNode(_component_media_breadcrumb), createVNode("div", _hoisted_3$f, [createVNode("label", _hoisted_4$9, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
     /* TEXT */
     ), createVNode("input", {
       id: "media_search",
@@ -15746,9 +16227,9 @@ var JoomlaMediaManager = (function () {
     , ["aria-label"]);
   }
 
-  script$f.render = render$f;
-  script$f.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
-  var script$e = {
+  script$h.render = render$h;
+  script$h.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
+  var script$g = {
     name: 'MediaBreadcrumb',
     mixins: [navigable],
     computed: {
@@ -15788,6 +16269,11 @@ var JoomlaMediaManager = (function () {
       /* Handle the on crumb click event */
       onCrumbClick: function onCrumbClick(crumb) {
         this.navigateTo(crumb.path);
+        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {}
+        }));
       },
       findDrive: function findDrive(adapter) {
         var driveObject = null;
@@ -15806,7 +16292,7 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  function render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("nav", {
       class: "media-breadcrumb",
       "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
@@ -15830,9 +16316,9 @@ var JoomlaMediaManager = (function () {
     , ["aria-label"]);
   }
 
-  script$e.render = render$e;
-  script$e.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
-  var script$d = {
+  script$g.render = render$g;
+  script$g.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
+  var script$f = {
     name: 'MediaBrowser',
     computed: {
       /* Get the contents of the currently selected directory */
@@ -15868,9 +16354,9 @@ var JoomlaMediaManager = (function () {
         return this.$store.state.listView;
       },
       mediaBrowserGridItemsClass: function mediaBrowserGridItemsClass() {
-        var _ref30;
+        var _ref29;
 
-        return _ref30 = {}, _ref30["media-browser-items-" + this.$store.state.gridSize] = true, _ref30;
+        return _ref29 = {}, _ref29["media-browser-items-" + this.$store.state.gridSize] = true, _ref29;
       },
       isModal: function isModal() {
         return Joomla.getOptions('com_media', {}).isModal;
@@ -15964,7 +16450,7 @@ var JoomlaMediaManager = (function () {
 
         if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
           // eslint-disable-next-line no-plusplus,no-cond-assign
-          for (var _i39 = 0, f; f = e.dataTransfer.files[_i39]; _i39++) {
+          for (var _i36 = 0, f; f = e.dataTransfer.files[_i36]; _i36++) {
             document.querySelector('.media-dragoutline').classList.remove('active');
             this.upload(f);
           }
@@ -15981,18 +16467,18 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$c = {
+  var _hoisted_1$e = {
     class: "media-dragoutline"
   };
 
-  var _hoisted_2$c = /*#__PURE__*/createVNode("span", {
+  var _hoisted_2$e = /*#__PURE__*/createVNode("span", {
     class: "icon-cloud-upload upload-icon",
     "aria-hidden": "true"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_3$c = {
+  var _hoisted_3$e = {
     key: 0,
     class: "table media-browser-table"
   };
@@ -16035,7 +16521,7 @@ var JoomlaMediaManager = (function () {
     class: "media-browser-grid"
   };
 
-  function render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$f(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_browser_item_row = resolveComponent("media-browser-item-row");
 
     var _component_media_browser_item = resolveComponent("media-browser-item");
@@ -16058,9 +16544,9 @@ var JoomlaMediaManager = (function () {
       onDragleave: _cache[4] || (_cache[4] = function () {
         return $options.onDragLeave && $options.onDragLeave.apply($options, arguments);
       })
-    }, [createVNode("div", _hoisted_1$c, [_hoisted_2$c, createVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1
+    }, [createVNode("div", _hoisted_1$e, [_hoisted_2$e, createVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1
     /* TEXT */
-    )]), $options.listView === 'table' ? (openBlock(), createBlock("table", _hoisted_3$c, [createVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1
+    )]), $options.listView === 'table' ? (openBlock(), createBlock("table", _hoisted_3$e, [createVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1
     /* TEXT */
     ), createVNode("thead", _hoisted_5$4, [createVNode("tr", null, [_hoisted_6$2, createVNode("th", _hoisted_7$2, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1
     /* TEXT */
@@ -16103,9 +16589,9 @@ var JoomlaMediaManager = (function () {
     )]);
   }
 
-  script$d.render = render$d;
-  script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
-  var script$c = {
+  script$f.render = render$f;
+  script$f.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
+  var script$e = {
     name: 'MediaBrowserItemDirectory',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -16167,7 +16653,7 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var _hoisted_1$b = /*#__PURE__*/createVNode("div", {
+  var _hoisted_1$d = /*#__PURE__*/createVNode("div", {
     class: "file-background"
   }, [/*#__PURE__*/createVNode("div", {
     class: "folder-icon"
@@ -16177,15 +16663,15 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$b = {
+  var _hoisted_2$d = {
     class: "media-browser-item-info"
   };
-  var _hoisted_3$b = {
+  var _hoisted_3$d = {
     key: 0,
     class: "media-browser-actions-list"
   };
 
-  function render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("div", {
       class: "media-browser-item-directory",
       onMouseleave: _cache[25] || (_cache[25] = function ($event) {
@@ -16196,9 +16682,9 @@ var JoomlaMediaManager = (function () {
       onDblclick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
         return $options.onPreviewDblClick();
       }, ["stop", "prevent"]))
-    }, [_hoisted_1$b], 32
+    }, [_hoisted_1$d], 32
     /* HYDRATE_EVENTS */
-    ), createVNode("div", _hoisted_2$b, toDisplayString($props.item.name), 1
+    ), createVNode("div", _hoisted_2$d, toDisplayString($props.item.name), 1
     /* TEXT */
     ), createVNode("span", {
       class: "media-browser-select",
@@ -16239,7 +16725,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop"]))
     })], 40
     /* PROPS, HYDRATE_EVENTS */
-    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$b, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
+    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$d, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
       ref: "actionRename",
       type: "button",
       class: "action-rename",
@@ -16308,9 +16794,9 @@ var JoomlaMediaManager = (function () {
     );
   }
 
-  script$c.render = render$c;
-  script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
-  var script$b = {
+  script$e.render = render$e;
+  script$e.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
+  var script$d = {
     name: 'MediaBrowserItemFile',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -16376,7 +16862,7 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var _hoisted_1$a = /*#__PURE__*/createVNode("div", {
+  var _hoisted_1$c = /*#__PURE__*/createVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createVNode("div", {
     class: "file-background"
@@ -16388,21 +16874,21 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$a = {
+  var _hoisted_2$c = {
     class: "media-browser-item-info"
   };
-  var _hoisted_3$a = {
+  var _hoisted_3$c = {
     key: 0,
     class: "media-browser-actions-list"
   };
 
-  function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("div", {
       class: "media-browser-item-file",
       onMouseleave: _cache[37] || (_cache[37] = function ($event) {
         return $options.hideActions();
       })
-    }, [_hoisted_1$a, createVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    }, [_hoisted_1$c, createVNode("div", _hoisted_2$c, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
     ), createVNode("span", {
       class: "media-browser-select",
@@ -16444,7 +16930,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop"]))
     })], 40
     /* PROPS, HYDRATE_EVENTS */
-    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$a, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
+    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$c, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
       ref: "actionDownload",
       type: "button",
       class: "action-download",
@@ -16567,9 +17053,9 @@ var JoomlaMediaManager = (function () {
     );
   }
 
-  script$b.render = render$b;
-  script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
-  var script$a = {
+  script$d.render = render$d;
+  script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+  var script$c = {
     name: 'MediaBrowserItemImage',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -16658,13 +17144,13 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$9 = {
+  var _hoisted_1$b = {
     class: "media-browser-item-preview"
   };
-  var _hoisted_2$9 = {
+  var _hoisted_2$b = {
     class: "image-background"
   };
-  var _hoisted_3$9 = {
+  var _hoisted_3$b = {
     class: "media-browser-item-info"
   };
   var _hoisted_4$7 = {
@@ -16675,7 +17161,7 @@ var JoomlaMediaManager = (function () {
     key: 0
   };
 
-  function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$c(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("div", {
       class: "media-browser-image",
       onDblclick: _cache[56] || (_cache[56] = function ($event) {
@@ -16684,14 +17170,14 @@ var JoomlaMediaManager = (function () {
       onMouseleave: _cache[57] || (_cache[57] = function ($event) {
         return $options.hideActions();
       })
-    }, [createVNode("div", _hoisted_1$9, [createVNode("div", _hoisted_2$9, [createVNode("div", {
+    }, [createVNode("div", _hoisted_1$b, [createVNode("div", _hoisted_2$b, [createVNode("div", {
       class: "image-cropped",
       style: {
         backgroundImage: 'url(' + $options.thumbUrl + ')'
       }
     }, null, 4
     /* STYLE */
-    )])]), createVNode("div", _hoisted_3$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    )])]), createVNode("div", _hoisted_3$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
     ), createVNode("span", {
       class: "media-browser-select",
@@ -16925,9 +17411,9 @@ var JoomlaMediaManager = (function () {
     );
   }
 
-  script$a.render = render$a;
-  script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
-  var script$9 = {
+  script$c.render = render$c;
+  script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+  var script$b = {
     name: 'MediaBrowserItemVideo',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -16999,6 +17485,618 @@ var JoomlaMediaManager = (function () {
     }
   };
 
+  var _hoisted_1$a = /*#__PURE__*/createVNode("div", {
+    class: "media-browser-item-preview"
+  }, [/*#__PURE__*/createVNode("div", {
+    class: "file-background"
+  }, [/*#__PURE__*/createVNode("div", {
+    class: "file-icon"
+  }, [/*#__PURE__*/createVNode("span", {
+    class: "fas fa-file-video"
+  })])])], -1
+  /* HOISTED */
+  );
+
+  var _hoisted_2$a = {
+    class: "media-browser-item-info"
+  };
+  var _hoisted_3$a = {
+    key: 0,
+    class: "media-browser-actions-list"
+  };
+
+  function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createBlock("div", {
+      class: "media-browser-image",
+      onDblclick: _cache[48] || (_cache[48] = function ($event) {
+        return $options.openPreview();
+      }),
+      onMouseleave: _cache[49] || (_cache[49] = function ($event) {
+        return $options.hideActions();
+      })
+    }, [_hoisted_1$a, createVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    /* TEXT */
+    ), createVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8
+    /* PROPS */
+    , ["aria-label", "title"]), createVNode("div", {
+      class: ["media-browser-actions", {
+        'active': $data.showActions
+      }]
+    }, [createVNode("button", {
+      ref: "actionToggle",
+      type: "button",
+      class: "action-toggle",
+      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["enter"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["space"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["down"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
+        return $options.openLastActions();
+      }, ["up"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-ellipsis-h",
+      "aria-hidden": "true",
+      onClick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
+        return $options.openActions();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$a, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
+      ref: "actionPreview",
+      type: "button",
+      class: "action-preview",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      onKeyup: [_cache[9] || (_cache[9] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["enter"])), _cache[10] || (_cache[10] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["space"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.focus();
+      }, ["up"])), _cache[15] || (_cache[15] = withKeys(function ($event) {
+        return _ctx.$refs.actionDownload.focus();
+      }, ["down"]))],
+      onFocus: _cache[11] || (_cache[11] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[12] || (_cache[12] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-search-plus",
+      "aria-hidden": "true",
+      onClick: _cache[8] || (_cache[8] = withModifiers(function ($event) {
+        return $options.openPreview();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionDownload",
+      type: "button",
+      class: "action-download",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      onKeyup: [_cache[17] || (_cache[17] = withKeys(function ($event) {
+        return $options.download();
+      }, ["enter"])), _cache[18] || (_cache[18] = withKeys(function ($event) {
+        return $options.download();
+      }, ["space"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.focus();
+      }, ["up"])), _cache[23] || (_cache[23] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.focus();
+      }, ["down"]))],
+      onFocus: _cache[19] || (_cache[19] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[20] || (_cache[20] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-download",
+      "aria-hidden": "true",
+      onClick: _cache[16] || (_cache[16] = withModifiers(function ($event) {
+        return $options.download();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionRename",
+      type: "button",
+      class: "action-rename",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      onKeyup: [_cache[25] || (_cache[25] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["enter"])), _cache[26] || (_cache[26] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["space"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
+        return _ctx.$refs.actionDownload.focus();
+      }, ["up"])), _cache[31] || (_cache[31] = withKeys(function ($event) {
+        return _ctx.$refs.actionShare.focus();
+      }, ["down"]))],
+      onFocus: _cache[27] || (_cache[27] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[28] || (_cache[28] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-text-width",
+      "aria-hidden": "true",
+      onClick: _cache[24] || (_cache[24] = withModifiers(function ($event) {
+        return $options.openRenameModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionShare",
+      type: "button",
+      class: "action-url",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      onKeyup: [_cache[33] || (_cache[33] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["enter"])), _cache[34] || (_cache[34] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["space"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.focus();
+      }, ["up"])), _cache[39] || (_cache[39] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.focus();
+      }, ["down"]))],
+      onFocus: _cache[35] || (_cache[35] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[36] || (_cache[36] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-link",
+      "aria-hidden": "true",
+      onClick: _cache[32] || (_cache[32] = withModifiers(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionDelete",
+      type: "button",
+      class: "action-delete",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      onKeyup: [_cache[41] || (_cache[41] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["enter"])), _cache[42] || (_cache[42] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["space"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
+        return _ctx.$refs.actionShare.focus();
+      }, ["up"])), _cache[47] || (_cache[47] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.focus();
+      }, ["down"]))],
+      onFocus: _cache[43] || (_cache[43] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[44] || (_cache[44] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-trash",
+      "aria-hidden": "true",
+      onClick: _cache[40] || (_cache[40] = withModifiers(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])])])])) : createCommentVNode("v-if", true)], 2
+    /* CLASS */
+    )], 32
+    /* HYDRATE_EVENTS */
+    );
+  }
+
+  script$b.render = render$b;
+  script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+  var script$a = {
+    name: 'MediaBrowserItemAudio',
+    // eslint-disable-next-line vue/require-prop-types
+    props: ['item', 'focused'],
+    data: function data() {
+      return {
+        showActions: false
+      };
+    },
+    methods: {
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$store.commit(SHOW_PREVIEW_MODAL);
+        this.$store.dispatch('getFullContents', this.item);
+      },
+
+      /* Preview an item */
+      download: function download() {
+        this.$store.dispatch('download', this.item);
+      },
+
+      /* Opening confirm delete modal */
+      openConfirmDeleteModal: function openConfirmDeleteModal() {
+        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+      },
+
+      /* Rename an item */
+      openRenameModal: function openRenameModal() {
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_RENAME_MODAL);
+      },
+
+      /* Open modal for share url */
+      openShareUrlModal: function openShareUrlModal() {
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_SHARE_MODAL);
+      },
+
+      /* Open actions dropdown */
+      openActions: function openActions() {
+        var _this20 = this;
+
+        this.showActions = true;
+        this.$nextTick(function () {
+          return _this20.$refs.actionPreview.focus();
+        });
+      },
+
+      /* Open actions dropdown and focus on last element */
+      openLastActions: function openLastActions() {
+        var _this21 = this;
+
+        this.showActions = true;
+        this.$nextTick(function () {
+          return _this21.$refs.actionDelete.focus();
+        });
+      },
+
+      /* Hide actions dropdown */
+      hideActions: function hideActions() {
+        var _this22 = this;
+
+        this.showActions = false;
+        this.$nextTick(function () {
+          return _this22.$refs.actionToggle.focus();
+        });
+      }
+    }
+  };
+
+  var _hoisted_1$9 = /*#__PURE__*/createVNode("div", {
+    class: "media-browser-item-preview"
+  }, [/*#__PURE__*/createVNode("div", {
+    class: "file-background"
+  }, [/*#__PURE__*/createVNode("div", {
+    class: "file-icon"
+  }, [/*#__PURE__*/createVNode("span", {
+    class: "fas fa-file-audio"
+  })])])], -1
+  /* HOISTED */
+  );
+
+  var _hoisted_2$9 = {
+    class: "media-browser-item-info"
+  };
+  var _hoisted_3$9 = {
+    key: 0,
+    class: "media-browser-actions-list"
+  };
+
+  function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createBlock("div", {
+      class: "media-browser-audio",
+      onDblclick: _cache[48] || (_cache[48] = function ($event) {
+        return $options.openPreview();
+      }),
+      onMouseleave: _cache[49] || (_cache[49] = function ($event) {
+        return $options.hideActions();
+      })
+    }, [_hoisted_1$9, createVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    /* TEXT */
+    ), createVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8
+    /* PROPS */
+    , ["aria-label", "title"]), createVNode("div", {
+      class: ["media-browser-actions", {
+        'active': $data.showActions
+      }]
+    }, [createVNode("button", {
+      ref: "actionToggle",
+      type: "button",
+      class: "action-toggle",
+      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["enter"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["space"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["down"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
+        return $options.openLastActions();
+      }, ["up"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-ellipsis-h",
+      "aria-hidden": "true",
+      onClick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
+        return $options.openActions();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"]), $data.showActions ? (openBlock(), createBlock("div", _hoisted_3$9, [createVNode("ul", null, [createVNode("li", null, [createVNode("button", {
+      ref: "actionPreview",
+      type: "button",
+      class: "action-preview",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      onKeyup: [_cache[9] || (_cache[9] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["enter"])), _cache[10] || (_cache[10] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["space"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.focus();
+      }, ["up"])), _cache[15] || (_cache[15] = withKeys(function ($event) {
+        return _ctx.$refs.actionDownload.focus();
+      }, ["down"]))],
+      onFocus: _cache[11] || (_cache[11] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[12] || (_cache[12] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-search-plus",
+      "aria-hidden": "true",
+      onClick: _cache[8] || (_cache[8] = withModifiers(function ($event) {
+        return $options.openPreview();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionDownload",
+      type: "button",
+      class: "action-download",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      onKeyup: [_cache[17] || (_cache[17] = withKeys(function ($event) {
+        return $options.download();
+      }, ["enter"])), _cache[18] || (_cache[18] = withKeys(function ($event) {
+        return $options.download();
+      }, ["space"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.focus();
+      }, ["up"])), _cache[23] || (_cache[23] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.focus();
+      }, ["down"]))],
+      onFocus: _cache[19] || (_cache[19] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[20] || (_cache[20] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-download",
+      "aria-hidden": "true",
+      onClick: _cache[16] || (_cache[16] = withModifiers(function ($event) {
+        return $options.download();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionRename",
+      type: "button",
+      class: "action-rename",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      onKeyup: [_cache[25] || (_cache[25] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["enter"])), _cache[26] || (_cache[26] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["space"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
+        return _ctx.$refs.actionDownload.focus();
+      }, ["up"])), _cache[31] || (_cache[31] = withKeys(function ($event) {
+        return _ctx.$refs.actionShare.focus();
+      }, ["down"]))],
+      onFocus: _cache[27] || (_cache[27] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[28] || (_cache[28] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-text-width",
+      "aria-hidden": "true",
+      onClick: _cache[24] || (_cache[24] = withModifiers(function ($event) {
+        return $options.openRenameModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionShare",
+      type: "button",
+      class: "action-url",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      onKeyup: [_cache[33] || (_cache[33] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["enter"])), _cache[34] || (_cache[34] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["space"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.focus();
+      }, ["up"])), _cache[39] || (_cache[39] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.focus();
+      }, ["down"]))],
+      onFocus: _cache[35] || (_cache[35] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[36] || (_cache[36] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-link",
+      "aria-hidden": "true",
+      onClick: _cache[32] || (_cache[32] = withModifiers(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])]), createVNode("li", null, [createVNode("button", {
+      ref: "actionDelete",
+      type: "button",
+      class: "action-delete",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      onKeyup: [_cache[41] || (_cache[41] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["enter"])), _cache[42] || (_cache[42] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["space"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
+        return _ctx.$refs.actionShare.focus();
+      }, ["up"])), _cache[47] || (_cache[47] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.focus();
+      }, ["down"]))],
+      onFocus: _cache[43] || (_cache[43] = function ($event) {
+        return $props.focused(true);
+      }),
+      onBlur: _cache[44] || (_cache[44] = function ($event) {
+        return $props.focused(false);
+      })
+    }, [createVNode("span", {
+      class: "image-browser-action icon-trash",
+      "aria-hidden": "true",
+      onClick: _cache[40] || (_cache[40] = withModifiers(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , ["aria-label", "title"])])])])) : createCommentVNode("v-if", true)], 2
+    /* CLASS */
+    )], 32
+    /* HYDRATE_EVENTS */
+    );
+  }
+
+  script$a.render = render$a;
+  script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
+  var script$9 = {
+    name: 'MediaBrowserItemAudio',
+    // eslint-disable-next-line vue/require-prop-types
+    props: ['item', 'focused'],
+    data: function data() {
+      return {
+        showActions: false
+      };
+    },
+    methods: {
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$store.commit(SHOW_PREVIEW_MODAL);
+        this.$store.dispatch('getFullContents', this.item);
+      },
+
+      /* Preview an item */
+      download: function download() {
+        this.$store.dispatch('download', this.item);
+      },
+
+      /* Opening confirm delete modal */
+      openConfirmDeleteModal: function openConfirmDeleteModal() {
+        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+      },
+
+      /* Rename an item */
+      openRenameModal: function openRenameModal() {
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_RENAME_MODAL);
+      },
+
+      /* Open modal for share url */
+      openShareUrlModal: function openShareUrlModal() {
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_SHARE_MODAL);
+      },
+
+      /* Open actions dropdown */
+      openActions: function openActions() {
+        var _this23 = this;
+
+        this.showActions = true;
+        this.$nextTick(function () {
+          return _this23.$refs.actionPreview.focus();
+        });
+      },
+
+      /* Open actions dropdown and focus on last element */
+      openLastActions: function openLastActions() {
+        var _this24 = this;
+
+        this.showActions = true;
+        this.$nextTick(function () {
+          return _this24.$refs.actionDelete.focus();
+        });
+      },
+
+      /* Hide actions dropdown */
+      hideActions: function hideActions() {
+        var _this25 = this;
+
+        this.showActions = false;
+        this.$nextTick(function () {
+          return _this25.$refs.actionToggle.focus();
+        });
+      }
+    }
+  };
+
   var _hoisted_1$8 = /*#__PURE__*/createVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createVNode("div", {
@@ -17006,7 +18104,7 @@ var JoomlaMediaManager = (function () {
   }, [/*#__PURE__*/createVNode("div", {
     class: "file-icon"
   }, [/*#__PURE__*/createVNode("span", {
-    class: "icon-file-alt"
+    class: "fas fa-file-pdf"
   })])])], -1
   /* HOISTED */
   );
@@ -17021,7 +18119,7 @@ var JoomlaMediaManager = (function () {
 
   function render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("div", {
-      class: "media-browser-image",
+      class: "media-browser-doc",
       onDblclick: _cache[48] || (_cache[48] = function ($event) {
         return $options.openPreview();
       }),
@@ -17232,7 +18330,7 @@ var JoomlaMediaManager = (function () {
   }
 
   script$9.render = render$9;
-  script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+  script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
 
   var dirname = function dirname(path) {
     if (typeof path !== 'string') {
@@ -17245,12 +18343,12 @@ var JoomlaMediaManager = (function () {
     var end = -1;
     var matchedSlash = true;
 
-    for (var _i40 = path.length - 1; _i40 >= 1; --_i40) {
-      code = path.charCodeAt(_i40);
+    for (var _i37 = path.length - 1; _i37 >= 1; --_i37) {
+      code = path.charCodeAt(_i37);
 
       if (code === 47) {
         if (!matchedSlash) {
-          end = _i40;
+          end = _i37;
           break;
         }
       } else {
@@ -17288,6 +18386,9 @@ var JoomlaMediaManager = (function () {
 
       this._csrfToken = Joomla.getOptions('csrf.token');
       this.imagesExtensions = options.imagesExtensions;
+      this.audioExtensions = options.audioExtensions;
+      this.videoExtensions = options.videoExtensions;
+      this.documentExtensions = options.documentExtensions;
     }
     /**
        * Get the contents of a directory from the server
@@ -17301,7 +18402,7 @@ var JoomlaMediaManager = (function () {
     var _proto3 = Api.prototype;
 
     _proto3.getContents = function getContents(dir, full, content) {
-      var _this20 = this;
+      var _this26 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
@@ -17316,7 +18417,7 @@ var JoomlaMediaManager = (function () {
         } // eslint-disable-next-line no-underscore-dangle
 
 
-        var url = _this20._baseUrl + "&task=api.files&path=" + dir;
+        var url = _this26._baseUrl + "&task=api.files&path=" + dir;
 
         if (full) {
           url += "&url=" + full;
@@ -17334,7 +18435,7 @@ var JoomlaMediaManager = (function () {
           },
           onSuccess: function onSuccess(response) {
             // eslint-disable-next-line no-underscore-dangle
-            resolve(_this20._normalizeArray(JSON.parse(response).data));
+            resolve(_this26._normalizeArray(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             reject(xhr);
@@ -17351,16 +18452,16 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto3.createDirectory = function createDirectory(name, parent) {
-      var _this21 = this;
+      var _this27 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this21._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
+        var url = _this27._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
 
-        var data = (_data = {}, _data[_this21._csrfToken] = '1', _data.name = name, _data);
+        var data = (_data = {}, _data[_this27._csrfToken] = '1', _data.name = name, _data);
         Joomla.request({
           url: url,
           method: 'POST',
@@ -17371,7 +18472,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this21._normalizeItem(JSON.parse(response).data));
+            resolve(_this27._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
@@ -17391,15 +18492,15 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto3.upload = function upload(name, parent, content, override) {
-      var _this22 = this;
+      var _this28 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data2;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this22._baseUrl + "&task=api.files&path=" + parent;
-        var data = (_data2 = {}, _data2[_this22._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
+        var url = _this28._baseUrl + "&task=api.files&path=" + parent;
+        var data = (_data2 = {}, _data2[_this28._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
 
         if (override === true) {
           data.override = true;
@@ -17415,7 +18516,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_UPLOAD_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this22._normalizeItem(JSON.parse(response).data));
+            resolve(_this28._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             reject(xhr);
@@ -17433,15 +18534,15 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto3.rename = function rename(path, newPath) {
-      var _this23 = this;
+      var _this29 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data3;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this23._baseUrl + "&task=api.files&path=" + path;
-        var data = (_data3 = {}, _data3[_this23._csrfToken] = '1', _data3.newPath = newPath, _data3);
+        var url = _this29._baseUrl + "&task=api.files&path=" + path;
+        var data = (_data3 = {}, _data3[_this29._csrfToken] = '1', _data3.newPath = newPath, _data3);
         Joomla.request({
           url: url,
           method: 'PUT',
@@ -17452,7 +18553,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_RENAME_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this23._normalizeItem(JSON.parse(response).data));
+            resolve(_this29._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             notifications.error('COM_MEDIA_RENAME_ERROR');
@@ -17470,16 +18571,16 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto3.delete = function _delete(path) {
-      var _this24 = this;
+      var _this30 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data4;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this24._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
+        var url = _this30._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
 
-        var data = (_data4 = {}, _data4[_this24._csrfToken] = '1', _data4);
+        var data = (_data4 = {}, _data4[_this30._csrfToken] = '1', _data4);
         Joomla.request({
           url: url,
           method: 'DELETE',
@@ -17531,19 +18632,19 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto3._normalizeArray = function _normalizeArray(data) {
-      var _this25 = this;
+      var _this31 = this;
 
       var directories = data.filter(function (item) {
         return item.type === 'dir';
       }) // eslint-disable-next-line no-underscore-dangle
       .map(function (directory) {
-        return _this25._normalizeItem(directory);
+        return _this31._normalizeItem(directory);
       });
       var files = data.filter(function (item) {
         return item.type === 'file';
       }) // eslint-disable-next-line no-underscore-dangle
       .map(function (file) {
-        return _this25._normalizeItem(file);
+        return _this31._normalizeItem(file);
       });
       return {
         directories: directories,
@@ -17609,31 +18710,39 @@ var JoomlaMediaManager = (function () {
     },
     methods: {
       /**
-           * Return the correct item type component
-           */
+       * Return the correct item type component
+       */
       itemType: function itemType() {
-        var imageExtensions = api.imagesExtensions;
-        var videoExtensions = ['mp4']; // Render directory items
+        // Render directory items
+        if (this.item.type === 'dir') return script$e; // Render image items
 
-        if (this.item.type === 'dir') return script$c; // Render image items
-
-        if (this.item.extension && imageExtensions.includes(this.item.extension.toLowerCase())) {
-          return script$a;
+        if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
+          return script$c;
         } // Render video items
 
 
-        if (this.item.extension && !videoExtensions.includes(this.item.extension.toLowerCase())) {
+        if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
+          return script$b;
+        } // Render audio items
+
+
+        if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
+          return script$a;
+        } // Render document items
+
+
+        if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
           return script$9;
         } // Default to file type
 
 
-        return script$b;
+        return script$d;
       },
 
       /**
-           * Get the styles for the media browser item
-           * @returns {{}}
-           */
+       * Get the styles for the media browser item
+       * @returns {{}}
+       */
       styles: function styles() {
         return {
           width: "calc(" + this.$store.state.gridSize + "% - 20px)"
@@ -17641,43 +18750,43 @@ var JoomlaMediaManager = (function () {
       },
 
       /**
-           * Whether or not the item is currently selected
-           * @returns {boolean}
-           */
+       * Whether or not the item is currently selected
+       * @returns {boolean}
+       */
       isSelected: function isSelected() {
-        var _this26 = this;
+        var _this32 = this;
 
         return this.$store.state.selectedItems.some(function (selected) {
-          return selected.path === _this26.item.path;
+          return selected.path === _this32.item.path;
         });
       },
 
       /**
-           * Whether or not the item is currently active (on hover or via tab)
-           * @returns {boolean}
-           */
+       * Whether or not the item is currently active (on hover or via tab)
+       * @returns {boolean}
+       */
       isHoverActive: function isHoverActive() {
         return this.hoverActive;
       },
 
       /**
-           * Turns on the hover class
-           */
+       * Turns on the hover class
+       */
       mouseover: function mouseover() {
         this.hoverActive = true;
       },
 
       /**
-           * Turns off the hover class
-           */
+       * Turns off the hover class
+       */
       mouseleave: function mouseleave() {
         this.hoverActive = false;
       },
 
       /**
-           * Handle the click event
-           * @param event
-           */
+       * Handle the click event
+       * @param event
+       */
       handleClick: function handleClick(event) {
         if (this.item.path && this.item.type === 'file') {
           window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
@@ -17729,9 +18838,9 @@ var JoomlaMediaManager = (function () {
       },
 
       /**
-           * Handle the when an element is focused in the child to display the layover for a11y
-           * @param value
-           */
+       * Handle the when an element is focused in the child to display the layover for a11y
+       * @param value
+       */
       focused: function focused(value) {
         // eslint-disable-next-line no-unused-expressions
         value ? this.mouseover() : this.mouseleave();
@@ -17790,9 +18899,10 @@ var JoomlaMediaManager = (function () {
         if (this.isDir) {
           this.navigateTo(this.item.path);
           return;
-        }
+        } // @todo remove the hardcoded extensions here
 
-        var extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4']; // Show preview
+
+        var extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf']; // Show preview
 
         if (this.item.extension && extensionWithPreview.includes(this.item.extension.toLowerCase())) {
           this.$store.commit(SHOW_PREVIEW_MODAL);
@@ -17801,21 +18911,21 @@ var JoomlaMediaManager = (function () {
       },
 
       /**
-               * Whether or not the item is currently selected
-               * @returns {boolean}
-               */
+       * Whether or not the item is currently selected
+       * @returns {boolean}
+       */
       isSelected: function isSelected() {
-        var _this27 = this;
+        var _this33 = this;
 
         return this.$store.state.selectedItems.some(function (selected) {
-          return selected.path === _this27.item.path;
+          return selected.path === _this33.item.path;
         });
       },
 
       /**
-               * Handle the click event
-               * @param event
-               */
+       * Handle the click event
+       * @param event
+       */
       onClick: function onClick(event) {
         var path = false;
         var data = {
@@ -17830,12 +18940,11 @@ var JoomlaMediaManager = (function () {
           data.thumb = this.item.thumb ? this.item.thumb : false;
           data.width = this.item.width ? this.item.width : 0;
           data.height = this.item.height ? this.item.height : 0;
-          var ev = new CustomEvent('onMediaFileSelected', {
+          window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
             bubbles: true,
             cancelable: false,
             detail: data
-          });
-          window.parent.document.dispatchEvent(ev);
+          }));
         } // Handle clicks when the item was not selected
 
 
@@ -18158,6 +19267,12 @@ var JoomlaMediaManager = (function () {
       },
       isVideo: function isVideo() {
         return this.item.mime_type.indexOf('video/') === 0;
+      },
+      isAudio: function isAudio() {
+        return this.item.mime_type.indexOf('audio/') === 0;
+      },
+      isDoc: function isDoc() {
+        return this.item.mime_type.indexOf('application/') === 0;
       }
     }
   };
@@ -18198,18 +19313,32 @@ var JoomlaMediaManager = (function () {
         )];
       }),
       body: withCtx(function () {
-        return [createVNode("div", _hoisted_2$4, [$options.isImage() ? (openBlock(), createBlock("img", {
+        return [createVNode("div", _hoisted_2$4, [$options.isAudio() ? (openBlock(), createBlock("audio", {
           key: 0,
+          controls: "",
+          src: $options.item.url
+        }, null, 8
+        /* PROPS */
+        , ["src"])) : createCommentVNode("v-if", true), $options.isVideo() ? (openBlock(), createBlock("video", _hoisted_3$4, [createVNode("source", {
           src: $options.item.url,
           type: $options.item.mime_type
         }, null, 8
         /* PROPS */
-        , ["src", "type"])) : createCommentVNode("v-if", true), $options.isVideo() ? (openBlock(), createBlock("video", _hoisted_3$4, [createVNode("source", {
+        , ["src", "type"])])) : createCommentVNode("v-if", true), $options.isDoc() ? (openBlock(), createBlock("object", {
+          key: 2,
+          type: $options.item.mime_type,
+          data: $options.item.url,
+          width: "800",
+          height: "600"
+        }, null, 8
+        /* PROPS */
+        , ["type", "data"])) : createCommentVNode("v-if", true), $options.isImage() ? (openBlock(), createBlock("img", {
+          key: 3,
           src: $options.item.url,
           type: $options.item.mime_type
         }, null, 8
         /* PROPS */
-        , ["src", "type"])])) : createCommentVNode("v-if", true)])];
+        , ["src", "type"])) : createCommentVNode("v-if", true)])];
       }),
       "backdrop-close": withCtx(function () {
         return [createVNode("button", {
@@ -18745,11 +19874,11 @@ var JoomlaMediaManager = (function () {
       }
     },
     created: function created() {
-      var _this28 = this;
+      var _this34 = this;
 
       // Listen to the toolbar upload click event
       MediaManager.Event.listen('onClickUpload', function () {
-        return _this28.chooseFiles();
+        return _this34.chooseFiles();
       });
     },
     methods: {
@@ -18760,7 +19889,7 @@ var JoomlaMediaManager = (function () {
 
       /* Upload files */
       upload: function upload(e) {
-        var _this29 = this;
+        var _this35 = this;
 
         e.preventDefault();
         var files = e.target.files; // Loop through array of files and upload each file
@@ -18774,9 +19903,9 @@ var JoomlaMediaManager = (function () {
             var splitIndex = result.indexOf('base64') + 7;
             var content = result.slice(splitIndex, result.length); // Upload the file
 
-            _this29.$store.dispatch('uploadFile', {
+            _this35.$store.dispatch('uploadFile', {
               name: file.name,
-              parent: _this29.$store.state.selectedDirectory,
+              parent: _this35.$store.state.selectedDirectory,
               content: content
             });
           };
@@ -18815,8 +19944,8 @@ var JoomlaMediaManager = (function () {
       return Joomla.Text._(key, key);
     },
     sprintf: function sprintf(string) {
-      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key18 = 1; _key18 < _len8; _key18++) {
-        args[_key18 - 1] = arguments[_key18];
+      for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key16 = 1; _key16 < _len8; _key16++) {
+        args[_key16 - 1] = arguments[_key16];
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -18845,8 +19974,8 @@ var JoomlaMediaManager = (function () {
             return Translate.translate(key);
           },
           sprintf: function sprintf(key) {
-            for (var _len9 = arguments.length, args = new Array(_len9 > 1 ? _len9 - 1 : 0), _key19 = 1; _key19 < _len9; _key19++) {
-              args[_key19 - 1] = arguments[_key19];
+            for (var _len9 = arguments.length, args = new Array(_len9 > 1 ? _len9 - 1 : 0), _key17 = 1; _key17 < _len9; _key17++) {
+              args[_key17 - 1] = arguments[_key17];
             }
 
             return Translate.sprintf(key, args);
@@ -18855,41 +19984,43 @@ var JoomlaMediaManager = (function () {
       });
     }
   };
+
+  function getDevtoolsGlobalHook() {
+    return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
+  }
+
+  function getTarget() {
+    // @ts-ignore
+    return typeof navigator !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : {};
+  }
+
+  var HOOK_SETUP = 'devtools-plugin:setup';
+
+  function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
+    var hook = getDevtoolsGlobalHook();
+
+    if (hook) {
+      hook.emit(HOOK_SETUP, pluginDescriptor, setupFn);
+    } else {
+      var target = getTarget();
+      var list = target.__VUE_DEVTOOLS_PLUGINS__ = target.__VUE_DEVTOOLS_PLUGINS__ || [];
+      list.push({
+        pluginDescriptor: pluginDescriptor,
+        setupFn: setupFn
+      });
+    }
+  }
   /*!
-   * vuex v4.0.0
+   * vuex v4.0.2
    * (c) 2021 Evan You
    * @license MIT
    */
 
+
   var storeKey = 'store';
-  var target = typeof window !== 'undefined' ? window : typeof commonjsGlobal !== 'undefined' ? commonjsGlobal : {};
-  var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-  function devtoolPlugin(store) {
-    if (!devtoolHook) {
-      return;
-    }
-
-    store._devtoolHook = devtoolHook;
-    devtoolHook.emit('vuex:init', store);
-    devtoolHook.on('vuex:travel-to-state', function (targetState) {
-      store.replaceState(targetState);
-    });
-    store.subscribe(function (mutation, state) {
-      devtoolHook.emit('vuex:mutation', mutation, state);
-    }, {
-      prepend: true
-    });
-    store.subscribeAction(function (action, state) {
-      devtoolHook.emit('vuex:action', action, state);
-    }, {
-      prepend: true
-    });
-  }
   /**
    * forEach for object
    */
-
 
   function forEachValue(obj, fn) {
     Object.keys(obj).forEach(function (key) {
@@ -18909,405 +20040,7 @@ var JoomlaMediaManager = (function () {
     return function () {
       return fn(arg);
     };
-  } // Base data struct for store's module, package with some attribute and method
-
-
-  var Module = function Module(rawModule, runtime) {
-    this.runtime = runtime; // Store some children item
-
-    this._children = Object.create(null); // Store the origin module object which passed by programmer
-
-    this._rawModule = rawModule;
-    var rawState = rawModule.state; // Store the origin module's state
-
-    this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
-  };
-
-  var prototypeAccessors = {
-    namespaced: {
-      configurable: true
-    }
-  };
-
-  prototypeAccessors.namespaced.get = function () {
-    return !!this._rawModule.namespaced;
-  };
-
-  Module.prototype.addChild = function addChild(key, module) {
-    this._children[key] = module;
-  };
-
-  Module.prototype.removeChild = function removeChild(key) {
-    delete this._children[key];
-  };
-
-  Module.prototype.getChild = function getChild(key) {
-    return this._children[key];
-  };
-
-  Module.prototype.hasChild = function hasChild(key) {
-    return key in this._children;
-  };
-
-  Module.prototype.update = function update(rawModule) {
-    this._rawModule.namespaced = rawModule.namespaced;
-
-    if (rawModule.actions) {
-      this._rawModule.actions = rawModule.actions;
-    }
-
-    if (rawModule.mutations) {
-      this._rawModule.mutations = rawModule.mutations;
-    }
-
-    if (rawModule.getters) {
-      this._rawModule.getters = rawModule.getters;
-    }
-  };
-
-  Module.prototype.forEachChild = function forEachChild(fn) {
-    forEachValue(this._children, fn);
-  };
-
-  Module.prototype.forEachGetter = function forEachGetter(fn) {
-    if (this._rawModule.getters) {
-      forEachValue(this._rawModule.getters, fn);
-    }
-  };
-
-  Module.prototype.forEachAction = function forEachAction(fn) {
-    if (this._rawModule.actions) {
-      forEachValue(this._rawModule.actions, fn);
-    }
-  };
-
-  Module.prototype.forEachMutation = function forEachMutation(fn) {
-    if (this._rawModule.mutations) {
-      forEachValue(this._rawModule.mutations, fn);
-    }
-  };
-
-  Object.defineProperties(Module.prototype, prototypeAccessors);
-
-  var ModuleCollection = function ModuleCollection(rawRootModule) {
-    // register root module (Vuex.Store options)
-    this.register([], rawRootModule, false);
-  };
-
-  ModuleCollection.prototype.get = function get(path) {
-    return path.reduce(function (module, key) {
-      return module.getChild(key);
-    }, this.root);
-  };
-
-  ModuleCollection.prototype.getNamespace = function getNamespace(path) {
-    var module = this.root;
-    return path.reduce(function (namespace, key) {
-      module = module.getChild(key);
-      return namespace + (module.namespaced ? key + '/' : '');
-    }, '');
-  };
-
-  ModuleCollection.prototype.update = function update$1(rawRootModule) {
-    update([], this.root, rawRootModule);
-  };
-
-  ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
-    var this$1 = this;
-    if (runtime === void 0) runtime = true;
-    var newModule = new Module(rawModule, runtime);
-
-    if (path.length === 0) {
-      this.root = newModule;
-    } else {
-      var parent = this.get(path.slice(0, -1));
-      parent.addChild(path[path.length - 1], newModule);
-    } // register nested modules
-
-
-    if (rawModule.modules) {
-      forEachValue(rawModule.modules, function (rawChildModule, key) {
-        this$1.register(path.concat(key), rawChildModule, runtime);
-      });
-    }
-  };
-
-  ModuleCollection.prototype.unregister = function unregister(path) {
-    var parent = this.get(path.slice(0, -1));
-    var key = path[path.length - 1];
-    var child = parent.getChild(key);
-
-    if (!child) {
-      return;
-    }
-
-    if (!child.runtime) {
-      return;
-    }
-
-    parent.removeChild(key);
-  };
-
-  ModuleCollection.prototype.isRegistered = function isRegistered(path) {
-    var parent = this.get(path.slice(0, -1));
-    var key = path[path.length - 1];
-
-    if (parent) {
-      return parent.hasChild(key);
-    }
-
-    return false;
-  };
-
-  function update(path, targetModule, newModule) {
-    targetModule.update(newModule); // update nested modules
-
-    if (newModule.modules) {
-      for (var key in newModule.modules) {
-        if (!targetModule.getChild(key)) {
-          return;
-        }
-
-        update(path.concat(key), targetModule.getChild(key), newModule.modules[key]);
-      }
-    }
   }
-
-  function createStore(options) {
-    return new Store(options);
-  }
-
-  var Store = function Store(options) {
-    var this$1 = this;
-    if (options === void 0) options = {};
-    var plugins = options.plugins;
-    if (plugins === void 0) plugins = [];
-    var strict = options.strict;
-    if (strict === void 0) strict = false; // store internal state
-
-    this._committing = false;
-    this._actions = Object.create(null);
-    this._actionSubscribers = [];
-    this._mutations = Object.create(null);
-    this._wrappedGetters = Object.create(null);
-    this._modules = new ModuleCollection(options);
-    this._modulesNamespaceMap = Object.create(null);
-    this._subscribers = [];
-    this._makeLocalGettersCache = Object.create(null); // bind commit and dispatch to self
-
-    var store = this;
-    var ref = this;
-    var dispatch = ref.dispatch;
-    var commit = ref.commit;
-
-    this.dispatch = function boundDispatch(type, payload) {
-      return dispatch.call(store, type, payload);
-    };
-
-    this.commit = function boundCommit(type, payload, options) {
-      return commit.call(store, type, payload, options);
-    }; // strict mode
-
-
-    this.strict = strict;
-    var state = this._modules.root.state; // init root module.
-    // this also recursively registers all sub-modules
-    // and collects all module getters inside this._wrappedGetters
-
-    installModule(this, state, [], this._modules.root); // initialize the store state, which is responsible for the reactivity
-    // (also registers _wrappedGetters as computed properties)
-
-    resetStoreState(this, state); // apply plugins
-
-    plugins.forEach(function (plugin) {
-      return plugin(this$1);
-    });
-    var useDevtools = options.devtools !== undefined ? options.devtools :
-    /* Vue.config.devtools */
-    true;
-
-    if (useDevtools) {
-      devtoolPlugin(this);
-    }
-  };
-
-  var prototypeAccessors$1 = {
-    state: {
-      configurable: true
-    }
-  };
-
-  Store.prototype.install = function install(app, injectKey) {
-    app.provide(injectKey || storeKey, this);
-    app.config.globalProperties.$store = this;
-  };
-
-  prototypeAccessors$1.state.get = function () {
-    return this._state.data;
-  };
-
-  prototypeAccessors$1.state.set = function (v) {};
-
-  Store.prototype.commit = function commit(_type, _payload, _options) {
-    var this$1 = this; // check object-style commit
-
-    var ref = unifyObjectStyle(_type, _payload, _options);
-    var type = ref.type;
-    var payload = ref.payload;
-    var mutation = {
-      type: type,
-      payload: payload
-    };
-    var entry = this._mutations[type];
-
-    if (!entry) {
-      return;
-    }
-
-    this._withCommit(function () {
-      entry.forEach(function commitIterator(handler) {
-        handler(payload);
-      });
-    });
-
-    this._subscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-    .forEach(function (sub) {
-      return sub(mutation, this$1.state);
-    });
-  };
-
-  Store.prototype.dispatch = function dispatch(_type, _payload) {
-    var this$1 = this; // check object-style dispatch
-
-    var ref = unifyObjectStyle(_type, _payload);
-    var type = ref.type;
-    var payload = ref.payload;
-    var action = {
-      type: type,
-      payload: payload
-    };
-    var entry = this._actions[type];
-
-    if (!entry) {
-      return;
-    }
-
-    try {
-      this._actionSubscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-      .filter(function (sub) {
-        return sub.before;
-      }).forEach(function (sub) {
-        return sub.before(action, this$1.state);
-      });
-    } catch (e) {}
-
-    var result = entry.length > 1 ? Promise.all(entry.map(function (handler) {
-      return handler(payload);
-    })) : entry[0](payload);
-    return new Promise(function (resolve, reject) {
-      result.then(function (res) {
-        try {
-          this$1._actionSubscribers.filter(function (sub) {
-            return sub.after;
-          }).forEach(function (sub) {
-            return sub.after(action, this$1.state);
-          });
-        } catch (e) {}
-
-        resolve(res);
-      }, function (error) {
-        try {
-          this$1._actionSubscribers.filter(function (sub) {
-            return sub.error;
-          }).forEach(function (sub) {
-            return sub.error(action, this$1.state, error);
-          });
-        } catch (e) {}
-
-        reject(error);
-      });
-    });
-  };
-
-  Store.prototype.subscribe = function subscribe(fn, options) {
-    return genericSubscribe(fn, this._subscribers, options);
-  };
-
-  Store.prototype.subscribeAction = function subscribeAction(fn, options) {
-    var subs = typeof fn === 'function' ? {
-      before: fn
-    } : fn;
-    return genericSubscribe(subs, this._actionSubscribers, options);
-  };
-
-  Store.prototype.watch = function watch$1(getter, cb, options) {
-    var this$1 = this;
-    return watch(function () {
-      return getter(this$1.state, this$1.getters);
-    }, cb, Object.assign({}, options));
-  };
-
-  Store.prototype.replaceState = function replaceState(state) {
-    var this$1 = this;
-
-    this._withCommit(function () {
-      this$1._state.data = state;
-    });
-  };
-
-  Store.prototype.registerModule = function registerModule(path, rawModule, options) {
-    if (options === void 0) options = {};
-
-    if (typeof path === 'string') {
-      path = [path];
-    }
-
-    this._modules.register(path, rawModule);
-
-    installModule(this, this.state, path, this._modules.get(path), options.preserveState); // reset store to update getters...
-
-    resetStoreState(this, this.state);
-  };
-
-  Store.prototype.unregisterModule = function unregisterModule(path) {
-    var this$1 = this;
-
-    if (typeof path === 'string') {
-      path = [path];
-    }
-
-    this._modules.unregister(path);
-
-    this._withCommit(function () {
-      var parentState = getNestedState(this$1.state, path.slice(0, -1));
-      delete parentState[path[path.length - 1]];
-    });
-
-    resetStore(this);
-  };
-
-  Store.prototype.hasModule = function hasModule(path) {
-    if (typeof path === 'string') {
-      path = [path];
-    }
-
-    return this._modules.isRegistered(path);
-  };
-
-  Store.prototype.hotUpdate = function hotUpdate(newOptions) {
-    this._modules.update(newOptions);
-
-    resetStore(this, true);
-  };
-
-  Store.prototype._withCommit = function _withCommit(fn) {
-    var committing = this._committing;
-    this._committing = true;
-    fn();
-    this._committing = committing;
-  };
-
-  Object.defineProperties(Store.prototype, prototypeAccessors$1);
 
   function genericSubscribe(fn, subs, options) {
     if (subs.indexOf(fn) < 0) {
@@ -19577,6 +20310,692 @@ var JoomlaMediaManager = (function () {
       options: options
     };
   }
+
+  var LABEL_VUEX_BINDINGS = 'vuex bindings';
+  var MUTATIONS_LAYER_ID = 'vuex:mutations';
+  var ACTIONS_LAYER_ID = 'vuex:actions';
+  var INSPECTOR_ID = 'vuex';
+  var actionId = 0;
+
+  function addDevtools(app, store) {
+    setupDevtoolsPlugin({
+      id: 'org.vuejs.vuex',
+      app: app,
+      label: 'Vuex',
+      homepage: 'https://next.vuex.vuejs.org/',
+      logo: 'https://vuejs.org/images/icons/favicon-96x96.png',
+      packageName: 'vuex',
+      componentStateTypes: [LABEL_VUEX_BINDINGS]
+    }, function (api) {
+      api.addTimelineLayer({
+        id: MUTATIONS_LAYER_ID,
+        label: 'Vuex Mutations',
+        color: COLOR_LIME_500
+      });
+      api.addTimelineLayer({
+        id: ACTIONS_LAYER_ID,
+        label: 'Vuex Actions',
+        color: COLOR_LIME_500
+      });
+      api.addInspector({
+        id: INSPECTOR_ID,
+        label: 'Vuex',
+        icon: 'storage',
+        treeFilterPlaceholder: 'Filter stores...'
+      });
+      api.on.getInspectorTree(function (payload) {
+        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+          if (payload.filter) {
+            var nodes = [];
+            flattenStoreForInspectorTree(nodes, store._modules.root, payload.filter, '');
+            payload.rootNodes = nodes;
+          } else {
+            payload.rootNodes = [formatStoreForInspectorTree(store._modules.root, '')];
+          }
+        }
+      });
+      api.on.getInspectorState(function (payload) {
+        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+          var modulePath = payload.nodeId;
+          makeLocalGetters(store, modulePath);
+          payload.state = formatStoreForInspectorState(getStoreModule(store._modules, modulePath), modulePath === 'root' ? store.getters : store._makeLocalGettersCache, modulePath);
+        }
+      });
+      api.on.editInspectorState(function (payload) {
+        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+          var modulePath = payload.nodeId;
+          var path = payload.path;
+
+          if (modulePath !== 'root') {
+            path = modulePath.split('/').filter(Boolean).concat(path);
+          }
+
+          store._withCommit(function () {
+            payload.set(store._state.data, path, payload.state.value);
+          });
+        }
+      });
+      store.subscribe(function (mutation, state) {
+        var data = {};
+
+        if (mutation.payload) {
+          data.payload = mutation.payload;
+        }
+
+        data.state = state;
+        api.notifyComponentUpdate();
+        api.sendInspectorTree(INSPECTOR_ID);
+        api.sendInspectorState(INSPECTOR_ID);
+        api.addTimelineEvent({
+          layerId: MUTATIONS_LAYER_ID,
+          event: {
+            time: Date.now(),
+            title: mutation.type,
+            data: data
+          }
+        });
+      });
+      store.subscribeAction({
+        before: function before(action, state) {
+          var data = {};
+
+          if (action.payload) {
+            data.payload = action.payload;
+          }
+
+          action._id = actionId++;
+          action._time = Date.now();
+          data.state = state;
+          api.addTimelineEvent({
+            layerId: ACTIONS_LAYER_ID,
+            event: {
+              time: action._time,
+              title: action.type,
+              groupId: action._id,
+              subtitle: 'start',
+              data: data
+            }
+          });
+        },
+        after: function after(action, state) {
+          var data = {};
+
+          var duration = Date.now() - action._time;
+
+          data.duration = {
+            _custom: {
+              type: 'duration',
+              display: duration + "ms",
+              tooltip: 'Action duration',
+              value: duration
+            }
+          };
+
+          if (action.payload) {
+            data.payload = action.payload;
+          }
+
+          data.state = state;
+          api.addTimelineEvent({
+            layerId: ACTIONS_LAYER_ID,
+            event: {
+              time: Date.now(),
+              title: action.type,
+              groupId: action._id,
+              subtitle: 'end',
+              data: data
+            }
+          });
+        }
+      });
+    });
+  } // extracted from tailwind palette
+
+
+  var COLOR_LIME_500 = 0x84cc16;
+  var COLOR_DARK = 0x666666;
+  var COLOR_WHITE = 0xffffff;
+  var TAG_NAMESPACED = {
+    label: 'namespaced',
+    textColor: COLOR_WHITE,
+    backgroundColor: COLOR_DARK
+  };
+  /**
+   * @param {string} path
+   */
+
+  function extractNameFromPath(path) {
+    return path && path !== 'root' ? path.split('/').slice(-2, -1)[0] : 'Root';
+  }
+  /**
+   * @param {*} module
+   * @return {import('@vue/devtools-api').CustomInspectorNode}
+   */
+
+
+  function formatStoreForInspectorTree(module, path) {
+    return {
+      id: path || 'root',
+      // all modules end with a `/`, we want the last segment only
+      // cart/ -> cart
+      // nested/cart/ -> cart
+      label: extractNameFromPath(path),
+      tags: module.namespaced ? [TAG_NAMESPACED] : [],
+      children: Object.keys(module._children).map(function (moduleName) {
+        return formatStoreForInspectorTree(module._children[moduleName], path + moduleName + '/');
+      })
+    };
+  }
+  /**
+   * @param {import('@vue/devtools-api').CustomInspectorNode[]} result
+   * @param {*} module
+   * @param {string} filter
+   * @param {string} path
+   */
+
+
+  function flattenStoreForInspectorTree(result, module, filter, path) {
+    if (path.includes(filter)) {
+      result.push({
+        id: path || 'root',
+        label: path.endsWith('/') ? path.slice(0, path.length - 1) : path || 'Root',
+        tags: module.namespaced ? [TAG_NAMESPACED] : []
+      });
+    }
+
+    Object.keys(module._children).forEach(function (moduleName) {
+      flattenStoreForInspectorTree(result, module._children[moduleName], filter, path + moduleName + '/');
+    });
+  }
+  /**
+   * @param {*} module
+   * @return {import('@vue/devtools-api').CustomInspectorState}
+   */
+
+
+  function formatStoreForInspectorState(module, getters, path) {
+    getters = path === 'root' ? getters : getters[path];
+    var gettersKeys = Object.keys(getters);
+    var storeState = {
+      state: Object.keys(module.state).map(function (key) {
+        return {
+          key: key,
+          editable: true,
+          value: module.state[key]
+        };
+      })
+    };
+
+    if (gettersKeys.length) {
+      var tree = transformPathsToObjectTree(getters);
+      storeState.getters = Object.keys(tree).map(function (key) {
+        return {
+          key: key.endsWith('/') ? extractNameFromPath(key) : key,
+          editable: false,
+          value: canThrow(function () {
+            return tree[key];
+          })
+        };
+      });
+    }
+
+    return storeState;
+  }
+
+  function transformPathsToObjectTree(getters) {
+    var result = {};
+    Object.keys(getters).forEach(function (key) {
+      var path = key.split('/');
+
+      if (path.length > 1) {
+        var target = result;
+        var leafKey = path.pop();
+        path.forEach(function (p) {
+          if (!target[p]) {
+            target[p] = {
+              _custom: {
+                value: {},
+                display: p,
+                tooltip: 'Module',
+                abstract: true
+              }
+            };
+          }
+
+          target = target[p]._custom.value;
+        });
+        target[leafKey] = canThrow(function () {
+          return getters[key];
+        });
+      } else {
+        result[key] = canThrow(function () {
+          return getters[key];
+        });
+      }
+    });
+    return result;
+  }
+
+  function getStoreModule(moduleMap, path) {
+    var names = path.split('/').filter(function (n) {
+      return n;
+    });
+    return names.reduce(function (module, moduleName, i) {
+      var child = module[moduleName];
+
+      if (!child) {
+        throw new Error("Missing module \"" + moduleName + "\" for path \"" + path + "\".");
+      }
+
+      return i === names.length - 1 ? child : child._children;
+    }, path === 'root' ? moduleMap : moduleMap.root._children);
+  }
+
+  function canThrow(cb) {
+    try {
+      return cb();
+    } catch (e) {
+      return e;
+    }
+  } // Base data struct for store's module, package with some attribute and method
+
+
+  var Module = function Module(rawModule, runtime) {
+    this.runtime = runtime; // Store some children item
+
+    this._children = Object.create(null); // Store the origin module object which passed by programmer
+
+    this._rawModule = rawModule;
+    var rawState = rawModule.state; // Store the origin module's state
+
+    this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+  };
+
+  var prototypeAccessors$1 = {
+    namespaced: {
+      configurable: true
+    }
+  };
+
+  prototypeAccessors$1.namespaced.get = function () {
+    return !!this._rawModule.namespaced;
+  };
+
+  Module.prototype.addChild = function addChild(key, module) {
+    this._children[key] = module;
+  };
+
+  Module.prototype.removeChild = function removeChild(key) {
+    delete this._children[key];
+  };
+
+  Module.prototype.getChild = function getChild(key) {
+    return this._children[key];
+  };
+
+  Module.prototype.hasChild = function hasChild(key) {
+    return key in this._children;
+  };
+
+  Module.prototype.update = function update(rawModule) {
+    this._rawModule.namespaced = rawModule.namespaced;
+
+    if (rawModule.actions) {
+      this._rawModule.actions = rawModule.actions;
+    }
+
+    if (rawModule.mutations) {
+      this._rawModule.mutations = rawModule.mutations;
+    }
+
+    if (rawModule.getters) {
+      this._rawModule.getters = rawModule.getters;
+    }
+  };
+
+  Module.prototype.forEachChild = function forEachChild(fn) {
+    forEachValue(this._children, fn);
+  };
+
+  Module.prototype.forEachGetter = function forEachGetter(fn) {
+    if (this._rawModule.getters) {
+      forEachValue(this._rawModule.getters, fn);
+    }
+  };
+
+  Module.prototype.forEachAction = function forEachAction(fn) {
+    if (this._rawModule.actions) {
+      forEachValue(this._rawModule.actions, fn);
+    }
+  };
+
+  Module.prototype.forEachMutation = function forEachMutation(fn) {
+    if (this._rawModule.mutations) {
+      forEachValue(this._rawModule.mutations, fn);
+    }
+  };
+
+  Object.defineProperties(Module.prototype, prototypeAccessors$1);
+
+  var ModuleCollection = function ModuleCollection(rawRootModule) {
+    // register root module (Vuex.Store options)
+    this.register([], rawRootModule, false);
+  };
+
+  ModuleCollection.prototype.get = function get(path) {
+    return path.reduce(function (module, key) {
+      return module.getChild(key);
+    }, this.root);
+  };
+
+  ModuleCollection.prototype.getNamespace = function getNamespace(path) {
+    var module = this.root;
+    return path.reduce(function (namespace, key) {
+      module = module.getChild(key);
+      return namespace + (module.namespaced ? key + '/' : '');
+    }, '');
+  };
+
+  ModuleCollection.prototype.update = function update$1(rawRootModule) {
+    update([], this.root, rawRootModule);
+  };
+
+  ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
+    var this$1$1 = this;
+    if (runtime === void 0) runtime = true;
+    var newModule = new Module(rawModule, runtime);
+
+    if (path.length === 0) {
+      this.root = newModule;
+    } else {
+      var parent = this.get(path.slice(0, -1));
+      parent.addChild(path[path.length - 1], newModule);
+    } // register nested modules
+
+
+    if (rawModule.modules) {
+      forEachValue(rawModule.modules, function (rawChildModule, key) {
+        this$1$1.register(path.concat(key), rawChildModule, runtime);
+      });
+    }
+  };
+
+  ModuleCollection.prototype.unregister = function unregister(path) {
+    var parent = this.get(path.slice(0, -1));
+    var key = path[path.length - 1];
+    var child = parent.getChild(key);
+
+    if (!child) {
+      return;
+    }
+
+    if (!child.runtime) {
+      return;
+    }
+
+    parent.removeChild(key);
+  };
+
+  ModuleCollection.prototype.isRegistered = function isRegistered(path) {
+    var parent = this.get(path.slice(0, -1));
+    var key = path[path.length - 1];
+
+    if (parent) {
+      return parent.hasChild(key);
+    }
+
+    return false;
+  };
+
+  function update(path, targetModule, newModule) {
+    targetModule.update(newModule); // update nested modules
+
+    if (newModule.modules) {
+      for (var key in newModule.modules) {
+        if (!targetModule.getChild(key)) {
+          return;
+        }
+
+        update(path.concat(key), targetModule.getChild(key), newModule.modules[key]);
+      }
+    }
+  }
+
+  function createStore(options) {
+    return new Store(options);
+  }
+
+  var Store = function Store(options) {
+    var this$1$1 = this;
+    if (options === void 0) options = {};
+    var plugins = options.plugins;
+    if (plugins === void 0) plugins = [];
+    var strict = options.strict;
+    if (strict === void 0) strict = false;
+    var devtools = options.devtools; // store internal state
+
+    this._committing = false;
+    this._actions = Object.create(null);
+    this._actionSubscribers = [];
+    this._mutations = Object.create(null);
+    this._wrappedGetters = Object.create(null);
+    this._modules = new ModuleCollection(options);
+    this._modulesNamespaceMap = Object.create(null);
+    this._subscribers = [];
+    this._makeLocalGettersCache = Object.create(null);
+    this._devtools = devtools; // bind commit and dispatch to self
+
+    var store = this;
+    var ref = this;
+    var dispatch = ref.dispatch;
+    var commit = ref.commit;
+
+    this.dispatch = function boundDispatch(type, payload) {
+      return dispatch.call(store, type, payload);
+    };
+
+    this.commit = function boundCommit(type, payload, options) {
+      return commit.call(store, type, payload, options);
+    }; // strict mode
+
+
+    this.strict = strict;
+    var state = this._modules.root.state; // init root module.
+    // this also recursively registers all sub-modules
+    // and collects all module getters inside this._wrappedGetters
+
+    installModule(this, state, [], this._modules.root); // initialize the store state, which is responsible for the reactivity
+    // (also registers _wrappedGetters as computed properties)
+
+    resetStoreState(this, state); // apply plugins
+
+    plugins.forEach(function (plugin) {
+      return plugin(this$1$1);
+    });
+  };
+
+  var prototypeAccessors = {
+    state: {
+      configurable: true
+    }
+  };
+
+  Store.prototype.install = function install(app, injectKey) {
+    app.provide(injectKey || storeKey, this);
+    app.config.globalProperties.$store = this;
+    var useDevtools = this._devtools !== undefined ? this._devtools : __VUE_PROD_DEVTOOLS__;
+
+    if (useDevtools) {
+      addDevtools(app, this);
+    }
+  };
+
+  prototypeAccessors.state.get = function () {
+    return this._state.data;
+  };
+
+  prototypeAccessors.state.set = function (v) {};
+
+  Store.prototype.commit = function commit(_type, _payload, _options) {
+    var this$1$1 = this; // check object-style commit
+
+    var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var mutation = {
+      type: type,
+      payload: payload
+    };
+    var entry = this._mutations[type];
+
+    if (!entry) {
+      return;
+    }
+
+    this._withCommit(function () {
+      entry.forEach(function commitIterator(handler) {
+        handler(payload);
+      });
+    });
+
+    this._subscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+    .forEach(function (sub) {
+      return sub(mutation, this$1$1.state);
+    });
+  };
+
+  Store.prototype.dispatch = function dispatch(_type, _payload) {
+    var this$1$1 = this; // check object-style dispatch
+
+    var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+    var action = {
+      type: type,
+      payload: payload
+    };
+    var entry = this._actions[type];
+
+    if (!entry) {
+      return;
+    }
+
+    try {
+      this._actionSubscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+      .filter(function (sub) {
+        return sub.before;
+      }).forEach(function (sub) {
+        return sub.before(action, this$1$1.state);
+      });
+    } catch (e) {}
+
+    var result = entry.length > 1 ? Promise.all(entry.map(function (handler) {
+      return handler(payload);
+    })) : entry[0](payload);
+    return new Promise(function (resolve, reject) {
+      result.then(function (res) {
+        try {
+          this$1$1._actionSubscribers.filter(function (sub) {
+            return sub.after;
+          }).forEach(function (sub) {
+            return sub.after(action, this$1$1.state);
+          });
+        } catch (e) {}
+
+        resolve(res);
+      }, function (error) {
+        try {
+          this$1$1._actionSubscribers.filter(function (sub) {
+            return sub.error;
+          }).forEach(function (sub) {
+            return sub.error(action, this$1$1.state, error);
+          });
+        } catch (e) {}
+
+        reject(error);
+      });
+    });
+  };
+
+  Store.prototype.subscribe = function subscribe(fn, options) {
+    return genericSubscribe(fn, this._subscribers, options);
+  };
+
+  Store.prototype.subscribeAction = function subscribeAction(fn, options) {
+    var subs = typeof fn === 'function' ? {
+      before: fn
+    } : fn;
+    return genericSubscribe(subs, this._actionSubscribers, options);
+  };
+
+  Store.prototype.watch = function watch$1(getter, cb, options) {
+    var this$1$1 = this;
+    return watch(function () {
+      return getter(this$1$1.state, this$1$1.getters);
+    }, cb, Object.assign({}, options));
+  };
+
+  Store.prototype.replaceState = function replaceState(state) {
+    var this$1$1 = this;
+
+    this._withCommit(function () {
+      this$1$1._state.data = state;
+    });
+  };
+
+  Store.prototype.registerModule = function registerModule(path, rawModule, options) {
+    if (options === void 0) options = {};
+
+    if (typeof path === 'string') {
+      path = [path];
+    }
+
+    this._modules.register(path, rawModule);
+
+    installModule(this, this.state, path, this._modules.get(path), options.preserveState); // reset store to update getters...
+
+    resetStoreState(this, this.state);
+  };
+
+  Store.prototype.unregisterModule = function unregisterModule(path) {
+    var this$1$1 = this;
+
+    if (typeof path === 'string') {
+      path = [path];
+    }
+
+    this._modules.unregister(path);
+
+    this._withCommit(function () {
+      var parentState = getNestedState(this$1$1.state, path.slice(0, -1));
+      delete parentState[path[path.length - 1]];
+    });
+
+    resetStore(this);
+  };
+
+  Store.prototype.hasModule = function hasModule(path) {
+    if (typeof path === 'string') {
+      path = [path];
+    }
+
+    return this._modules.isRegistered(path);
+  };
+
+  Store.prototype.hotUpdate = function hotUpdate(newOptions) {
+    this._modules.update(newOptions);
+
+    resetStore(this, true);
+  };
+
+  Store.prototype._withCommit = function _withCommit(fn) {
+    var committing = this._committing;
+    this._committing = true;
+    fn();
+    this._committing = committing;
+  };
+
+  Object.defineProperties(Store.prototype, prototypeAccessors);
 
   var r = function r(_r) {
     return function (r) {
@@ -19941,8 +21360,8 @@ var JoomlaMediaManager = (function () {
         var slice = byteCharacters.slice(offset, offset + 512);
         var byteNumbers = new Array(slice.length); // eslint-disable-next-line no-plusplus
 
-        for (var _i41 = 0; _i41 < slice.length; _i41++) {
-          byteNumbers[_i41] = slice.charCodeAt(_i41);
+        for (var _i38 = 0; _i38 < slice.length; _i38++) {
+          byteNumbers[_i38] = slice.charCodeAt(_i38);
         }
 
         var byteArray = new Uint8Array(byteNumbers);
@@ -20355,17 +21774,17 @@ var JoomlaMediaManager = (function () {
 
   window.MediaManager.Event = new Event(); // Create the Vue app instance
 
-  var app = createApp(script$k);
+  var app = createApp(script$m);
   app.use(store);
   app.use(Translate); // Register the vue components
 
-  app.component('MediaDrive', script$i);
-  app.component('MediaDisk', script$j);
-  app.component('MediaTree', script$h);
-  app.component('MediaTreeItem', script$g);
-  app.component('MediaToolbar', script$f);
-  app.component('MediaBreadcrumb', script$e);
-  app.component('MediaBrowser', script$d);
+  app.component('MediaDrive', script$k);
+  app.component('MediaDisk', script$l);
+  app.component('MediaTree', script$j);
+  app.component('MediaTreeItem', script$i);
+  app.component('MediaToolbar', script$h);
+  app.component('MediaBreadcrumb', script$g);
+  app.component('MediaBrowser', script$f);
   app.component('MediaBrowserItem', BrowserItem);
   app.component('MediaBrowserItemRow', script$8);
   app.component('MediaModal', script$7);

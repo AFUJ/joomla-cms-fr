@@ -136,6 +136,14 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
     if (fileDirectory.endsWith(':')) {
       fileDirectory = `${fileDirectory}/`;
+    } // Respect the images_only URI param
+
+
+    const mediaTypes = document.querySelector('input[name="mediatypes"]');
+    let mediatypes;
+
+    if (mediaTypes) {
+      mediatypes = `&mediatypes=${mediaTypes.value ? mediaTypes.value : '0'}`;
     }
 
     switch (task) {
@@ -149,9 +157,9 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         Joomla.UploadFile.exec(name, JSON.stringify(forUpload), uploadPath, url, type, function () {
           if (this.readyState === XMLHttpRequest.DONE) {
             if (window.self !== window.top) {
-              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
+              window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}&tmpl=component`;
             } else {
-              window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
+              window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}`;
             }
           }
         });
@@ -159,9 +167,9 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       case 'cancel':
         if (window.self !== window.top) {
-          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}&tmpl=component`;
+          window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}&tmpl=component`;
         } else {
-          window.location = `${pathName}?option=com_media&view=media&path=${fileDirectory}`;
+          window.location = `${pathName}?option=com_media&view=media${mediatypes}&path=${fileDirectory}`;
         }
 
         break;

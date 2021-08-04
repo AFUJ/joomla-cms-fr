@@ -45,8 +45,8 @@
       var button = document.querySelector('#select-file-button');
       var returnUrl = document.querySelector('#installer-return').value;
       var progress = document.getElementById('upload-progress');
-      var progressBar = progress.querySelectorAll('.bar')[0];
-      var percentage = progress.querySelectorAll('.uploading-number')[0];
+      var progressBar = progress.querySelector('.progress-bar');
+      var percentage = progress.querySelector('.uploading-number');
       var uploadUrl = 'index.php?option=com_installer&task=install.ajax_upload';
 
       function showError(res) {
@@ -138,7 +138,7 @@
           if (evt.lengthComputable) {
             var percentComplete = evt.loaded / evt.total;
             var number = Math.round(percentComplete * 100);
-            progressBar.css('width', number + "%");
+            progressBar.style.width = number + "%";
             progressBar.setAttribute('aria-valuenow', number);
             percentage.textContent = "" + number;
 
@@ -153,10 +153,9 @@
           method: 'POST',
           perform: true,
           data: data,
-          headers: {
-            'Content-Type': 'false'
+          onBefore: function onBefore(xhr) {
+            xhr.upload.addEventListener('progress', progressCallback);
           },
-          uploadProgressCallback: progressCallback,
           onSuccess: function onSuccess(response) {
             if (!response) {
               showError(response);

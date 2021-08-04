@@ -172,17 +172,17 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.2.9",
-            "version_normalized": "1.2.9.0",
+            "version": "1.2.10",
+            "version_normalized": "1.2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5"
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
-                "reference": "78a0e288fdcebf92aa2318a8d3656168da6ac1a5",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9fdb22c2e97a614657716178093cd1da90a64aa8",
+                "reference": "9fdb22c2e97a614657716178093cd1da90a64aa8",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                 "symfony/phpunit-bridge": "^4.2 || ^5",
                 "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0"
             },
-            "time": "2021-01-12T12:10:35+00:00",
+            "time": "2021-06-07T13:58:28+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -227,6 +227,25 @@
                 "certificate",
                 "ssl",
                 "tls"
+            ],
+            "support": {
+                "irc": "irc://irc.freenode.org/composer",
+                "issues": "https://github.com/composer/ca-bundle/issues",
+                "source": "https://github.com/composer/ca-bundle/tree/1.2.10"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
             ],
             "install-path": "./ca-bundle"
         },
@@ -955,22 +974,22 @@
         },
         {
             "name": "joomla/database",
-            "version": "2.0.0-beta3",
-            "version_normalized": "2.0.0.0-beta3",
+            "version": "2.0.0-beta4",
+            "version_normalized": "2.0.0.0-beta4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790"
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/530a04e71ef728d7b571a83b5f16c2fa25a75790",
-                "reference": "530a04e71ef728d7b571a83b5f16c2fa25a75790",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/3f3a1b42b3942f05c29f1b756d4014d58fed711e",
+                "reference": "3f3a1b42b3942f05c29f1b756d4014d58fed711e",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "^2.0",
-                "php": "^7.2.5",
+                "php": "^7.2.5|^8.0",
                 "symfony/deprecation-contracts": "^2.1"
             },
             "require-dev": {
@@ -996,7 +1015,7 @@
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry.",
                 "psr/log": "To use the LoggingMonitor, install psr/log."
             },
-            "time": "2020-09-11T12:34:36+00:00",
+            "time": "2021-07-13T18:43:12+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1019,6 +1038,20 @@
                 "database",
                 "framework",
                 "joomla"
+            ],
+            "support": {
+                "issues": "https://github.com/joomla-framework/database/issues",
+                "source": "https://github.com/joomla-framework/database/tree/2.0.0-beta4"
+            },
+            "funding": [
+                {
+                    "url": "https://community.joomla.org/sponsorship-campaigns.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/joomla",
+                    "type": "github"
+                }
             ],
             "install-path": "../joomla/database"
         },

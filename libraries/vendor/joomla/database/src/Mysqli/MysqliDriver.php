@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -302,7 +302,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 
 		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
 
-		// Set charactersets (needed for MySQL 4.1.2+ and MariaDB).
+		// Set character sets (needed for MySQL 4.1.2+ and MariaDB).
 		$this->utf = $this->setUtf();
 
 		$this->dispatchEvent(new ConnectionEvent(DatabaseEvents::POST_CONNECT, $this));
@@ -496,7 +496,7 @@ class MysqliDriver extends DatabaseDriver implements UTF8MB4SupportInterface
 	/**
 	 * Method to test if the database TLS connections encryption are supported.
 	 *
-	 * @return  boolean  Whether the databse supports TLS connections encryption.
+	 * @return  boolean  Whether the database supports TLS connections encryption.
 	 *
 	 * @since   2.0.0
 	 */

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -152,7 +152,7 @@ interface DatabaseInterface
 	/**
 	 * Method to test if the database TLS connections encryption are supported.
 	 *
-	 * @return  boolean  Whether the databse supports TLS connections encryption.
+	 * @return  boolean  Whether the database supports TLS connections encryption.
 	 *
 	 * @since   2.0.0
 	 */
@@ -342,7 +342,7 @@ interface DatabaseInterface
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
 	 * a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key     The name of a field on which to key the result array.

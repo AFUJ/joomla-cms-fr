@@ -285,7 +285,7 @@ let uid$2 = 0;
 function createReactiveEffect(fn, options) {
   const effect = function reactiveEffect() {
     if (!effect.active) {
-      return options.scheduler ? undefined : fn();
+      return fn();
     }
 
     if (!effectStack.includes(effect)) {
@@ -693,6 +693,10 @@ function get$1(target, key, isReadonly = false, isShallow = false) {
     return wrap(target.get(key));
   } else if (has.call(rawTarget, rawKey)) {
     return wrap(target.get(rawKey));
+  } else if (target !== rawTarget) {
+    // #3602 readonly(reactive(Map))
+    // ensure that the nested reactive `Map` can do tracking for itself
+    target.get(key);
   }
 }
 
@@ -1138,6 +1142,13 @@ function toRaw(observed) {
   return observed && toRaw(observed["__v_raw"
   /* RAW */
   ]) || observed;
+}
+
+function markRaw(value) {
+  def(value, "__v_skip"
+  /* SKIP */
+  , true);
+  return value;
 }
 
 function isRef(r) {
@@ -1601,8 +1612,8 @@ function flushJobs(seen) {
     for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
       const job = queue[flushIndex];
 
-      if (job) {
-        if ("production" !== 'production') ;
+      if (job && job.active !== false) {
+        if ("production" !== 'production' && checkRecursiveUpdates(seen, job)) ;
 
         callWithErrorHandling(job, null, 14
         /* SCHEDULER */
@@ -1617,7 +1628,7 @@ function flushJobs(seen) {
     currentFlushPromise = null; // some postFlushCb queued jobs!
     // keep flushing until it drains.
 
-    if (queue.length || pendingPostFlushCbs.length) {
+    if (queue.length || pendingPreFlushCbs.length || pendingPostFlushCbs.length) {
       flushJobs(seen);
     }
   }
@@ -1630,7 +1641,10 @@ function checkRecursiveUpdates(seen, fn) {
     const count = seen.get(fn);
 
     if (count > RECURSION_LIMIT) {
-      throw new Error(`Maximum recursive updates exceeded. ` + `This means you have a reactive effect that is mutating its own ` + `dependencies and thus recursively triggering itself. Possible sources ` + `include component template, render function, updated hook or ` + `watcher source function.`);
+      const instance = fn.ownerInstance;
+      const componentName = instance && getComponentName(instance.type);
+      warn(`Maximum recursive updates exceeded${componentName ? ` in component <${componentName}>` : ``}. ` + `This means you have a reactive effect that is mutating its own ` + `dependencies and thus recursively triggering itself. Possible sources ` + `include component template, render function, updated hook or ` + `watcher source function.`);
+      return true;
     } else {
       seen.set(fn, count + 1);
     }
@@ -1651,7 +1665,7 @@ function devtoolsInitApp(app, version) {
   , app, version, {
     Fragment,
     Text,
-    Comment,
+    Comment: Comment$1,
     Static
   });
 }
@@ -1685,6 +1699,37 @@ function devtoolsComponentEmit(component, event, params) {
   devtools.emit("component:emit"
   /* COMPONENT_EMIT */
   , component.appContext.app, component, event, params);
+}
+
+const globalCompatConfig = {
+  MODE: 2
+};
+
+function getCompatConfigForKey(key, instance) {
+  const instanceConfig = instance && instance.type.compatConfig;
+
+  if (instanceConfig && key in instanceConfig) {
+    return instanceConfig[key];
+  }
+
+  return globalCompatConfig[key];
+}
+
+function isCompatEnabled(key, instance, enableForBuiltIn = false) {
+  // skip compat for built-in components
+  if (!enableForBuiltIn && instance && instance.type.__isBuiltIn) {
+    return false;
+  }
+
+  const rawMode = getCompatConfigForKey('MODE', instance) || 2;
+  const val = getCompatConfigForKey(key, instance);
+  const mode = isFunction(rawMode) ? rawMode(instance && instance.type) : rawMode;
+
+  if (mode === 2) {
+    return val !== false;
+  } else {
+    return val === true || val === 'suppress-warning';
+  }
 }
 
 function emit(instance, event, ...rawArgs) {
@@ -1732,11 +1777,12 @@ function emit(instance, event, ...rawArgs) {
 
   if (onceHandler) {
     if (!instance.emitted) {
-      (instance.emitted = {})[handlerName] = true;
+      instance.emitted = {};
     } else if (instance.emitted[handlerName]) {
       return;
     }
 
+    instance.emitted[handlerName] = true;
     callWithAsyncErrorHandling(onceHandler, instance, 6
     /* COMPONENT_EVENT_HANDLER */
     , args);
@@ -1744,8 +1790,11 @@ function emit(instance, event, ...rawArgs) {
 }
 
 function normalizeEmitsOptions(comp, appContext, asMixin = false) {
-  if (!appContext.deopt && comp.__emits !== undefined) {
-    return comp.__emits;
+  const cache = appContext.emitsCache;
+  const cached = cache.get(comp);
+
+  if (cached !== undefined) {
+    return cached;
   }
 
   const raw = comp.emits;
@@ -1777,7 +1826,8 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
   }
 
   if (!raw && !hasExtends) {
-    return comp.__emits = null;
+    cache.set(comp, null);
+    return null;
   }
 
   if (isArray(raw)) {
@@ -1786,7 +1836,8 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
     extend(normalized, raw);
   }
 
-  return comp.__emits = normalized;
+  cache.set(comp, normalized);
+  return normalized;
 } // Check if an incoming prop key is a declared emit event listener.
 // e.g. With `emits: { click: null }`, props named `onClick` and `onclick` are
 // both considered matched listeners.
@@ -1799,54 +1850,6 @@ function isEmitListener(options, key) {
 
   key = key.slice(2).replace(/Once$/, '');
   return hasOwn(options, key[0].toLowerCase() + key.slice(1)) || hasOwn(options, hyphenate(key)) || hasOwn(options, key);
-}
-
-let isRenderingCompiledSlot = 0;
-
-const setCompiledSlotRendering = n => isRenderingCompiledSlot += n;
-/**
- * Compiler runtime helper for rendering `<slot/>`
- * @private
- */
-
-
-function renderSlot(slots, name, props = {}, // this is not a user-facing function, so the fallback is always generated by
-// the compiler and guaranteed to be a function returning an array
-fallback, noSlotted) {
-  let slot = slots[name];
-  // invocation interfering with template-based block tracking, but in
-  // `renderSlot` we can be sure that it's template-based so we can force
-  // enable it.
-
-
-  isRenderingCompiledSlot++;
-  openBlock();
-  const validSlotContent = slot && ensureValidVNode(slot(props));
-  const rendered = createBlock(Fragment, {
-    key: props.key || `_${name}`
-  }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
-  /* STABLE */
-  ? 64
-  /* STABLE_FRAGMENT */
-  : -2
-  /* BAIL */
-  );
-
-  if (!noSlotted && rendered.scopeId) {
-    rendered.slotScopeIds = [rendered.scopeId + '-s'];
-  }
-
-  isRenderingCompiledSlot--;
-  return rendered;
-}
-
-function ensureValidVNode(vnodes) {
-  return vnodes.some(child => {
-    if (!isVNode(child)) return true;
-    if (child.type === Comment) return false;
-    if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
-    return true;
-  }) ? vnodes : null;
 }
 /**
  * mark the current rendering instance for asset resolution (e.g.
@@ -1879,34 +1882,47 @@ function setCurrentRenderingInstance(instance) {
  */
 
 
-function withCtx(fn, ctx = currentRenderingInstance) {
-  if (!ctx) return fn;
+function withCtx(fn, ctx = currentRenderingInstance, isNonScopedSlot // false only
+) {
+  if (!ctx) return fn; // already normalized
+
+  if (fn._n) {
+    return fn;
+  }
 
   const renderFnWithContext = (...args) => {
     // If a user calls a compiled slot inside a template expression (#1745), it
-    // can mess up block tracking, so by default we need to push a null block to
-    // avoid that. This isn't necessary if rendering a compiled `<slot>`.
-    if (!isRenderingCompiledSlot) {
-      openBlock(true
-      /* null block that disables tracking */
-      );
+    // can mess up block tracking, so by default we disable block tracking and
+    // force bail out when invoking a compiled slot (indicated by the ._d flag).
+    // This isn't necessary if rendering a compiled `<slot>`, so we flip the
+    // ._d flag off when invoking the wrapped fn inside `renderSlot`.
+    if (renderFnWithContext._d) {
+      setBlockTracking(-1);
     }
 
     const prevInstance = setCurrentRenderingInstance(ctx);
     const res = fn(...args);
     setCurrentRenderingInstance(prevInstance);
 
-    if (!isRenderingCompiledSlot) {
-      closeBlock();
+    if (renderFnWithContext._d) {
+      setBlockTracking(1);
+    }
+
+    if (__VUE_PROD_DEVTOOLS__) {
+      devtoolsComponentUpdated(ctx);
     }
 
     return res;
-  }; // mark this as a compiled slot function.
+  }; // mark normalized to avoid duplicated wrapping
+
+
+  renderFnWithContext._n = true; // mark this as compiled by default
   // this is used in vnode.ts -> normalizeChildren() to set the slot
   // rendering flag.
 
+  renderFnWithContext._c = true; // disable block tracking by default
 
-  renderFnWithContext._c = true;
+  renderFnWithContext._d = true;
   return renderFnWithContext;
 }
 /**
@@ -1937,7 +1953,8 @@ function renderComponentRoot(instance) {
     renderCache,
     data,
     setupState,
-    ctx
+    ctx,
+    inheritAttrs
   } = instance;
   let result;
   const prev = setCurrentRenderingInstance(instance);
@@ -1987,7 +2004,7 @@ function renderComponentRoot(instance) {
     /* DEV_ROOT_FRAGMENT */
     ) ;
 
-    if (Component.inheritAttrs !== false && fallthroughAttrs) {
+    if (fallthroughAttrs && inheritAttrs !== false) {
       const keys = Object.keys(fallthroughAttrs);
       const {
         shapeFlag
@@ -2008,10 +2025,19 @@ function renderComponentRoot(instance) {
             }
 
             root = cloneVNode(root, fallthroughAttrs);
-          } else if ("production" !== 'production' && !accessedAttrs && root.type !== Comment) ;
+          } else if ("production" !== 'production' && !accessedAttrs && root.type !== Comment$1) ;
       }
-    } // inherit directives
+    }
 
+    if (false && isCompatEnabled("INSTANCE_ATTRS_CLASS_STYLE"
+    /* INSTANCE_ATTRS_CLASS_STYLE */
+    , instance) && vnode.shapeFlag & 4
+    /* STATEFUL_COMPONENT */
+    && (root.shapeFlag & 1
+    /* ELEMENT */
+    || root.shapeFlag & 6
+    /* COMPONENT */
+    )) ; // inherit directives
 
     if (vnode.dirs) {
       if ("production" !== 'production' && !isElementRoot(root)) ;
@@ -2034,7 +2060,7 @@ function renderComponentRoot(instance) {
     handleError(err, instance, 1
     /* RENDER_FUNCTION */
     );
-    result = createVNode(Comment);
+    result = createVNode(Comment$1);
   }
 
   setCurrentRenderingInstance(prev);
@@ -2083,7 +2109,7 @@ function filterSingleRoot(children) {
 
     if (isVNode(child)) {
       // ignore user comment
-      if (child.type !== Comment || child.children === 'v-if') {
+      if (child.type !== Comment$1 || child.children === 'v-if') {
         if (singleRoot) {
           // has more than 1 non-comment child, return now
           return;
@@ -2128,7 +2154,7 @@ const isElementRoot = vnode => {
   /* COMPONENT */
   || vnode.shapeFlag & 1
   /* ELEMENT */
-  || vnode.type === Comment // potential v-if branch switch
+  || vnode.type === Comment$1 // potential v-if branch switch
   ;
 };
 
@@ -2239,44 +2265,6 @@ function updateHOCHostEl({
 
 const isSuspense = type => type.__isSuspense; // Suspense exposes a component-like API, and is treated like a component
 
-function normalizeSuspenseChildren(vnode) {
-  const {
-    shapeFlag,
-    children
-  } = vnode;
-  let content;
-  let fallback;
-
-  if (shapeFlag & 32
-  /* SLOTS_CHILDREN */
-  ) {
-      content = normalizeSuspenseSlot(children.default);
-      fallback = normalizeSuspenseSlot(children.fallback);
-    } else {
-    content = normalizeSuspenseSlot(children);
-    fallback = normalizeVNode(null);
-  }
-
-  return {
-    content,
-    fallback
-  };
-}
-
-function normalizeSuspenseSlot(s) {
-  if (isFunction(s)) {
-    s = s();
-  }
-
-  if (isArray(s)) {
-    const singleChild = filterSingleRoot(s);
-
-    s = singleChild;
-  }
-
-  return normalizeVNode(s);
-}
-
 function queueEffectWithSuspense(fn, suspense) {
   if (suspense && suspense.pendingBranch) {
     if (isArray(fn)) {
@@ -2289,366 +2277,44 @@ function queueEffectWithSuspense(fn, suspense) {
   }
 }
 
-function initProps(instance, rawProps, isStateful, // result of bitwise flag comparison
-isSSR = false) {
-  const props = {};
-  const attrs = {};
-  def(attrs, InternalObjectKey, 1);
-  instance.propsDefaults = Object.create(null);
-  setFullProps(instance, rawProps, props, attrs); // validation
+function provide(key, value) {
+  if (!currentInstance) ; else {
+    let provides = currentInstance.provides; // by default an instance inherits its parent's provides object
+    // but when it needs to provide values of its own, it creates its
+    // own provides object using parent provides object as prototype.
+    // this way in `inject` we can simply look up injections from direct
+    // parent and let the prototype chain do the work.
 
-  if (isStateful) {
-    // stateful
-    instance.props = isSSR ? props : shallowReactive(props);
-  } else {
-    if (!instance.type.props) {
-      // functional w/ optional props, props === attrs
-      instance.props = attrs;
-    } else {
-      // functional w/ declared props
-      instance.props = props;
-    }
-  }
+    const parentProvides = currentInstance.parent && currentInstance.parent.provides;
 
-  instance.attrs = attrs;
-}
-
-function updateProps(instance, rawProps, rawPrevProps, optimized) {
-  const {
-    props,
-    attrs,
-    vnode: {
-      patchFlag
-    }
-  } = instance;
-  const rawCurrentProps = toRaw(props);
-  const [options] = instance.propsOptions;
-
-  if ( // always force full diff in dev
-  // - #1942 if hmr is enabled with sfc component
-  // - vite#872 non-sfc component used by sfc component
-  (optimized || patchFlag > 0) && !(patchFlag & 16
-  /* FULL_PROPS */
-  )) {
-    if (patchFlag & 8
-    /* PROPS */
-    ) {
-        // Compiler-generated props & no keys change, just set the updated
-        // the props.
-        const propsToUpdate = instance.vnode.dynamicProps;
-
-        for (let i = 0; i < propsToUpdate.length; i++) {
-          const key = propsToUpdate[i]; // PROPS flag guarantees rawProps to be non-null
-
-          const value = rawProps[key];
-
-          if (options) {
-            // attr / props separation was done on init and will be consistent
-            // in this code path, so just check if attrs have it.
-            if (hasOwn(attrs, key)) {
-              attrs[key] = value;
-            } else {
-              const camelizedKey = camelize(key);
-              props[camelizedKey] = resolvePropValue(options, rawCurrentProps, camelizedKey, value, instance);
-            }
-          } else {
-            attrs[key] = value;
-          }
-        }
-      }
-  } else {
-    // full props update.
-    setFullProps(instance, rawProps, props, attrs); // in case of dynamic props, check if we need to delete keys from
-    // the props object
-
-    let kebabKey;
-
-    for (const key in rawCurrentProps) {
-      if (!rawProps || // for camelCase
-      !hasOwn(rawProps, key) && ( // it's possible the original props was passed in as kebab-case
-      // and converted to camelCase (#955)
-      (kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
-        if (options) {
-          if (rawPrevProps && ( // for camelCase
-          rawPrevProps[key] !== undefined || // for kebab-case
-          rawPrevProps[kebabKey] !== undefined)) {
-            props[key] = resolvePropValue(options, rawProps || EMPTY_OBJ, key, undefined, instance);
-          }
-        } else {
-          delete props[key];
-        }
-      }
-    } // in the case of functional component w/o props declaration, props and
-    // attrs point to the same object so it should already have been updated.
+    if (parentProvides === provides) {
+      provides = currentInstance.provides = Object.create(parentProvides);
+    } // TS doesn't allow symbol as index type
 
 
-    if (attrs !== rawCurrentProps) {
-      for (const key in attrs) {
-        if (!rawProps || !hasOwn(rawProps, key)) {
-          delete attrs[key];
-        }
-      }
-    }
-  } // trigger updates for $attrs in case it's used in component slots
-
-
-  trigger$1(instance, "set"
-  /* SET */
-  , '$attrs');
-}
-
-function setFullProps(instance, rawProps, props, attrs) {
-  const [options, needCastKeys] = instance.propsOptions;
-
-  if (rawProps) {
-    for (const key in rawProps) {
-      const value = rawProps[key]; // key, ref are reserved and never passed down
-
-      if (isReservedProp(key)) {
-        continue;
-      } // prop option names are camelized during normalization, so to support
-      // kebab -> camel conversion here we need to camelize the key.
-
-
-      let camelKey;
-
-      if (options && hasOwn(options, camelKey = camelize(key))) {
-        props[camelKey] = value;
-      } else if (!isEmitListener(instance.emitsOptions, key)) {
-        // Any non-declared (either as a prop or an emitted event) props are put
-        // into a separate `attrs` object for spreading. Make sure to preserve
-        // original key casing
-        attrs[key] = value;
-      }
-    }
-  }
-
-  if (needCastKeys) {
-    const rawCurrentProps = toRaw(props);
-
-    for (let i = 0; i < needCastKeys.length; i++) {
-      const key = needCastKeys[i];
-      props[key] = resolvePropValue(options, rawCurrentProps, key, rawCurrentProps[key], instance);
-    }
+    provides[key] = value;
   }
 }
 
-function resolvePropValue(options, props, key, value, instance) {
-  const opt = options[key];
+function inject(key, defaultValue, treatDefaultAsFactory = false) {
+  // fallback to `currentRenderingInstance` so that this can be called in
+  // a functional component
+  const instance = currentInstance || currentRenderingInstance;
 
-  if (opt != null) {
-    const hasDefault = hasOwn(opt, 'default'); // default values
+  if (instance) {
+    // #2400
+    // to support `app.use` plugins,
+    // fallback to appContext's `provides` if the intance is at root
+    const provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
 
-    if (hasDefault && value === undefined) {
-      const defaultValue = opt.default;
-
-      if (opt.type !== Function && isFunction(defaultValue)) {
-        const {
-          propsDefaults
-        } = instance;
-
-        if (key in propsDefaults) {
-          value = propsDefaults[key];
-        } else {
-          setCurrentInstance(instance);
-          value = propsDefaults[key] = defaultValue(props);
-          setCurrentInstance(null);
-        }
-      } else {
-        value = defaultValue;
-      }
-    } // boolean casting
-
-
-    if (opt[0
-    /* shouldCast */
-    ]) {
-      if (!hasOwn(props, key) && !hasDefault) {
-        value = false;
-      } else if (opt[1
-      /* shouldCastTrue */
-      ] && (value === '' || value === hyphenate(key))) {
-        value = true;
-      }
-    }
+    if (provides && key in provides) {
+      // TS doesn't allow symbol as index type
+      return provides[key];
+    } else if (arguments.length > 1) {
+      return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance.proxy) : defaultValue;
+    } else ;
   }
-
-  return value;
-}
-
-function normalizePropsOptions(comp, appContext, asMixin = false) {
-  if (!appContext.deopt && comp.__props) {
-    return comp.__props;
-  }
-
-  const raw = comp.props;
-  const normalized = {};
-  const needCastKeys = []; // apply mixin/extends props
-
-  let hasExtends = false;
-
-  if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
-    const extendProps = raw => {
-      hasExtends = true;
-      const [props, keys] = normalizePropsOptions(raw, appContext, true);
-      extend(normalized, props);
-      if (keys) needCastKeys.push(...keys);
-    };
-
-    if (!asMixin && appContext.mixins.length) {
-      appContext.mixins.forEach(extendProps);
-    }
-
-    if (comp.extends) {
-      extendProps(comp.extends);
-    }
-
-    if (comp.mixins) {
-      comp.mixins.forEach(extendProps);
-    }
-  }
-
-  if (!raw && !hasExtends) {
-    return comp.__props = EMPTY_ARR;
-  }
-
-  if (isArray(raw)) {
-    for (let i = 0; i < raw.length; i++) {
-
-      const normalizedKey = camelize(raw[i]);
-
-      if (validatePropName(normalizedKey)) {
-        normalized[normalizedKey] = EMPTY_OBJ;
-      }
-    }
-  } else if (raw) {
-
-    for (const key in raw) {
-      const normalizedKey = camelize(key);
-
-      if (validatePropName(normalizedKey)) {
-        const opt = raw[key];
-        const prop = normalized[normalizedKey] = isArray(opt) || isFunction(opt) ? {
-          type: opt
-        } : opt;
-
-        if (prop) {
-          const booleanIndex = getTypeIndex(Boolean, prop.type);
-          const stringIndex = getTypeIndex(String, prop.type);
-          prop[0
-          /* shouldCast */
-          ] = booleanIndex > -1;
-          prop[1
-          /* shouldCastTrue */
-          ] = stringIndex < 0 || booleanIndex < stringIndex; // if the prop needs boolean casting or default value
-
-          if (booleanIndex > -1 || hasOwn(prop, 'default')) {
-            needCastKeys.push(normalizedKey);
-          }
-        }
-      }
-    }
-  }
-
-  return comp.__props = [normalized, needCastKeys];
-}
-
-function validatePropName(key) {
-  if (key[0] !== '$') {
-    return true;
-  }
-
-  return false;
-} // use function string name to check type constructors
-// so that it works across vms / iframes.
-
-
-function getType(ctor) {
-  const match = ctor && ctor.toString().match(/^\s*function (\w+)/);
-  return match ? match[1] : '';
-}
-
-function isSameType(a, b) {
-  return getType(a) === getType(b);
-}
-
-function getTypeIndex(type, expectedTypes) {
-  if (isArray(expectedTypes)) {
-    return expectedTypes.findIndex(t => isSameType(t, type));
-  } else if (isFunction(expectedTypes)) {
-    return isSameType(expectedTypes, type) ? 0 : -1;
-  }
-
-  return -1;
-}
-
-function injectHook(type, hook, target = currentInstance, prepend = false) {
-  if (target) {
-    const hooks = target[type] || (target[type] = []); // cache the error handling wrapper for injected hooks so the same hook
-    // can be properly deduped by the scheduler. "__weh" stands for "with error
-    // handling".
-
-    const wrappedHook = hook.__weh || (hook.__weh = (...args) => {
-      if (target.isUnmounted) {
-        return;
-      } // disable tracking inside all lifecycle hooks
-      // since they can potentially be called inside effects.
-
-
-      pauseTracking(); // Set currentInstance during hook invocation.
-      // This assumes the hook does not synchronously trigger other hooks, which
-      // can only be false when the user does something really funky.
-
-      setCurrentInstance(target);
-      const res = callWithAsyncErrorHandling(hook, target, type, args);
-      setCurrentInstance(null);
-      resetTracking();
-      return res;
-    });
-
-    if (prepend) {
-      hooks.unshift(wrappedHook);
-    } else {
-      hooks.push(wrappedHook);
-    }
-
-    return wrappedHook;
-  }
-}
-
-const createHook = lifecycle => (hook, target = currentInstance) => // post-create lifecycle registrations are noops during SSR
-!isInSSRComponentSetup && injectHook(lifecycle, hook, target);
-
-const onBeforeMount = createHook("bm"
-/* BEFORE_MOUNT */
-);
-const onMounted = createHook("m"
-/* MOUNTED */
-);
-const onBeforeUpdate = createHook("bu"
-/* BEFORE_UPDATE */
-);
-const onUpdated = createHook("u"
-/* UPDATED */
-);
-const onBeforeUnmount = createHook("bum"
-/* BEFORE_UNMOUNT */
-);
-const onUnmounted = createHook("um"
-/* UNMOUNTED */
-);
-const onRenderTriggered = createHook("rtg"
-/* RENDER_TRIGGERED */
-);
-const onRenderTracked = createHook("rtc"
-/* RENDER_TRACKED */
-);
-
-const onErrorCaptured = (hook, target = currentInstance) => {
-  injectHook("ec"
-  /* ERROR_CAPTURED */
-  , hook, target);
-}; // Simple effect.
+} // Simple effect.
 
 
 const INITIAL_WATCHER_VALUE = {}; // implementation
@@ -2668,6 +2334,7 @@ function doWatch(source, cb, {
 
   let getter;
   let forceTrigger = false;
+  let isMultiSource = false;
 
   if (isRef(source)) {
     getter = () => source.value;
@@ -2678,6 +2345,9 @@ function doWatch(source, cb, {
 
     deep = true;
   } else if (isArray(source)) {
+    isMultiSource = true;
+    forceTrigger = source.some(isReactive);
+
     getter = () => source.map(s => {
       if (isRef(s)) {
         return s.value;
@@ -2686,7 +2356,7 @@ function doWatch(source, cb, {
       } else if (isFunction(s)) {
         return callWithErrorHandling(s, instance, 2
         /* WATCH_GETTER */
-        , [instance && instance.proxy]);
+        );
       } else ;
     });
   } else if (isFunction(source)) {
@@ -2694,7 +2364,7 @@ function doWatch(source, cb, {
       // getter with cb
       getter = () => callWithErrorHandling(source, instance, 2
       /* WATCH_GETTER */
-      , [instance && instance.proxy]);
+      );
     } else {
       // no cb -> simple effect
       getter = () => {
@@ -2731,7 +2401,7 @@ function doWatch(source, cb, {
     };
   };
 
-  let oldValue = isArray(source) ? [] : INITIAL_WATCHER_VALUE;
+  let oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE;
 
   const job = () => {
     if (!runner.active) {
@@ -2742,7 +2412,7 @@ function doWatch(source, cb, {
       // watch(source, cb)
       const newValue = runner();
 
-      if (deep || forceTrigger || hasChanged(newValue, oldValue)) {
+      if (deep || forceTrigger || (isMultiSource ? newValue.some((v, i) => hasChanged(v, oldValue[i])) : hasChanged(newValue, oldValue)) || false) {
         // cleanup before running cb again
         if (cleanup) {
           cleanup();
@@ -2766,7 +2436,7 @@ function doWatch(source, cb, {
   let scheduler;
 
   if (flush === 'sync') {
-    scheduler = job;
+    scheduler = job; // the scheduler function gets called directly
   } else if (flush === 'post') {
     scheduler = () => queuePostRenderEffect(job, instance && instance.suspense);
   } else {
@@ -2812,14 +2482,38 @@ function doWatch(source, cb, {
 } // this.$watch
 
 
-function instanceWatch(source, cb, options) {
+function instanceWatch(source, value, options) {
   const publicThis = this.proxy;
-  const getter = isString(source) ? () => publicThis[source] : source.bind(publicThis);
+  const getter = isString(source) ? source.includes('.') ? createPathGetter(publicThis, source) : () => publicThis[source] : source.bind(publicThis, publicThis);
+  let cb;
+
+  if (isFunction(value)) {
+    cb = value;
+  } else {
+    cb = value.handler;
+    options = value;
+  }
+
   return doWatch(getter, cb.bind(publicThis), options, this);
 }
 
+function createPathGetter(ctx, path) {
+  const segments = path.split('.');
+  return () => {
+    let cur = ctx;
+
+    for (let i = 0; i < segments.length && cur; i++) {
+      cur = cur[segments[i]];
+    }
+
+    return cur;
+  };
+}
+
 function traverse(value, seen = new Set()) {
-  if (!isObject$1(value) || seen.has(value)) {
+  if (!isObject$1(value) || seen.has(value) || value["__v_skip"
+  /* SKIP */
+  ]) {
     return value;
   }
 
@@ -2835,7 +2529,7 @@ function traverse(value, seen = new Set()) {
     value.forEach(v => {
       traverse(v, seen);
     });
-  } else {
+  } else if (isPlainObject(value)) {
     for (const key in value) {
       traverse(value[key], seen);
     }
@@ -2940,7 +2634,7 @@ const BaseTransitionImpl = {
       } // handle mode
 
 
-      if (oldInnerChild && oldInnerChild.type !== Comment && (!isSameVNodeType(innerChild, oldInnerChild) || transitionKeyChanged)) {
+      if (oldInnerChild && oldInnerChild.type !== Comment$1 && (!isSameVNodeType(innerChild, oldInnerChild) || transitionKeyChanged)) {
         const leavingHooks = resolveTransitionHooks(oldInnerChild, rawProps, state, instance); // update old tree's hooks in case of dynamic transition
 
         setTransitionHooks(oldInnerChild, leavingHooks); // switching between different views
@@ -2954,7 +2648,7 @@ const BaseTransitionImpl = {
           };
 
           return emptyPlaceholder(child);
-        } else if (mode === 'in-out' && innerChild.type !== Comment) {
+        } else if (mode === 'in-out' && innerChild.type !== Comment$1) {
           leavingHooks.delayLeave = (el, earlyRemove, delayedLeave) => {
             const leavingVNodesCache = getLeavingNodesForType(state, oldInnerChild);
             leavingVNodesCache[String(oldInnerChild.key)] = oldInnerChild; // early removal callback
@@ -3199,7 +2893,7 @@ function getTransitionRawChildren(children, keepComment = false) {
       ) keyedFragmentCount++;
       ret = ret.concat(getTransitionRawChildren(child.children, keepComment));
     } // comment placeholders should be skipped, e.g. v-if
-    else if (keepComment || child.type !== Comment) {
+    else if (keepComment || child.type !== Comment$1) {
         ret.push(child);
       }
   } // #1126 if a transition children list contains multiple sub fragments, these
@@ -3217,7 +2911,9 @@ function getTransitionRawChildren(children, keepComment = false) {
   }
 
   return ret;
-}
+} // implementation, close to no-op
+
+const isAsyncWrapper = i => !!i.type.__asyncLoader;
 
 const isKeepAlive = vnode => vnode.type.__isKeepAlive;
 
@@ -3282,16 +2978,795 @@ function injectToKeepAliveRoot(hook, type, target, keepAliveRoot) {
   }, target);
 }
 
+function injectHook(type, hook, target = currentInstance, prepend = false) {
+  if (target) {
+    const hooks = target[type] || (target[type] = []); // cache the error handling wrapper for injected hooks so the same hook
+    // can be properly deduped by the scheduler. "__weh" stands for "with error
+    // handling".
+
+    const wrappedHook = hook.__weh || (hook.__weh = (...args) => {
+      if (target.isUnmounted) {
+        return;
+      } // disable tracking inside all lifecycle hooks
+      // since they can potentially be called inside effects.
+
+
+      pauseTracking(); // Set currentInstance during hook invocation.
+      // This assumes the hook does not synchronously trigger other hooks, which
+      // can only be false when the user does something really funky.
+
+      setCurrentInstance(target);
+      const res = callWithAsyncErrorHandling(hook, target, type, args);
+      setCurrentInstance(null);
+      resetTracking();
+      return res;
+    });
+
+    if (prepend) {
+      hooks.unshift(wrappedHook);
+    } else {
+      hooks.push(wrappedHook);
+    }
+
+    return wrappedHook;
+  }
+}
+
+const createHook = lifecycle => (hook, target = currentInstance) => // post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
+(!isInSSRComponentSetup || lifecycle === "sp"
+/* SERVER_PREFETCH */
+) && injectHook(lifecycle, hook, target);
+
+const onBeforeMount = createHook("bm"
+/* BEFORE_MOUNT */
+);
+const onMounted = createHook("m"
+/* MOUNTED */
+);
+const onBeforeUpdate = createHook("bu"
+/* BEFORE_UPDATE */
+);
+const onUpdated = createHook("u"
+/* UPDATED */
+);
+const onBeforeUnmount = createHook("bum"
+/* BEFORE_UNMOUNT */
+);
+const onUnmounted = createHook("um"
+/* UNMOUNTED */
+);
+const onServerPrefetch = createHook("sp"
+/* SERVER_PREFETCH */
+);
+const onRenderTriggered = createHook("rtg"
+/* RENDER_TRIGGERED */
+);
+const onRenderTracked = createHook("rtc"
+/* RENDER_TRACKED */
+);
+
+function onErrorCaptured(hook, target = currentInstance) {
+  injectHook("ec"
+  /* ERROR_CAPTURED */
+  , hook, target);
+}
+
+let shouldCacheAccess = true;
+
+function applyOptions(instance) {
+  const options = resolveMergedOptions(instance);
+  const publicThis = instance.proxy;
+  const ctx = instance.ctx; // do not cache property access on public proxy during state initialization
+
+  shouldCacheAccess = false; // call beforeCreate first before accessing other options since
+  // the hook may mutate resolved options (#2791)
+
+  if (options.beforeCreate) {
+    callHook$1(options.beforeCreate, instance, "bc"
+    /* BEFORE_CREATE */
+    );
+  }
+
+  const {
+    // state
+    data: dataOptions,
+    computed: computedOptions,
+    methods,
+    watch: watchOptions,
+    provide: provideOptions,
+    inject: injectOptions,
+    // lifecycle
+    created,
+    beforeMount,
+    mounted,
+    beforeUpdate,
+    updated,
+    activated,
+    deactivated,
+    beforeDestroy,
+    beforeUnmount,
+    destroyed,
+    unmounted,
+    render,
+    renderTracked,
+    renderTriggered,
+    errorCaptured,
+    serverPrefetch,
+    // public API
+    expose,
+    inheritAttrs,
+    // assets
+    components,
+    directives,
+    filters
+  } = options;
+  const checkDuplicateProperties = null;
+  // - props (already done outside of this function)
+  // - inject
+  // - methods
+  // - data (deferred since it relies on `this` access)
+  // - computed
+  // - watch (deferred since it relies on `this` access)
+
+
+  if (injectOptions) {
+    resolveInjections(injectOptions, ctx, checkDuplicateProperties);
+  }
+
+  if (methods) {
+    for (const key in methods) {
+      const methodHandler = methods[key];
+
+      if (isFunction(methodHandler)) {
+        // In dev mode, we use the `createRenderContext` function to define methods to the proxy target,
+        // and those are read-only but reconfigurable, so it needs to be redefined here
+        {
+          ctx[key] = methodHandler.bind(publicThis);
+        }
+      }
+    }
+  }
+
+  if (dataOptions) {
+
+    const data = dataOptions.call(publicThis, publicThis);
+
+    if (!isObject$1(data)) ; else {
+      instance.data = reactive(data);
+    }
+  } // state initialization complete at this point - start caching access
+
+
+  shouldCacheAccess = true;
+
+  if (computedOptions) {
+    for (const key in computedOptions) {
+      const opt = computedOptions[key];
+      const get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
+
+      const set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
+      const c = computed({
+        get,
+        set
+      });
+      Object.defineProperty(ctx, key, {
+        enumerable: true,
+        configurable: true,
+        get: () => c.value,
+        set: v => c.value = v
+      });
+    }
+  }
+
+  if (watchOptions) {
+    for (const key in watchOptions) {
+      createWatcher(watchOptions[key], ctx, publicThis, key);
+    }
+  }
+
+  if (provideOptions) {
+    const provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
+    Reflect.ownKeys(provides).forEach(key => {
+      provide(key, provides[key]);
+    });
+  }
+
+  if (created) {
+    callHook$1(created, instance, "c"
+    /* CREATED */
+    );
+  }
+
+  function registerLifecycleHook(register, hook) {
+    if (isArray(hook)) {
+      hook.forEach(_hook => register(_hook.bind(publicThis)));
+    } else if (hook) {
+      register(hook.bind(publicThis));
+    }
+  }
+
+  registerLifecycleHook(onBeforeMount, beforeMount);
+  registerLifecycleHook(onMounted, mounted);
+  registerLifecycleHook(onBeforeUpdate, beforeUpdate);
+  registerLifecycleHook(onUpdated, updated);
+  registerLifecycleHook(onActivated, activated);
+  registerLifecycleHook(onDeactivated, deactivated);
+  registerLifecycleHook(onErrorCaptured, errorCaptured);
+  registerLifecycleHook(onRenderTracked, renderTracked);
+  registerLifecycleHook(onRenderTriggered, renderTriggered);
+  registerLifecycleHook(onBeforeUnmount, beforeUnmount);
+  registerLifecycleHook(onUnmounted, unmounted);
+  registerLifecycleHook(onServerPrefetch, serverPrefetch);
+
+  if (isArray(expose)) {
+    if (expose.length) {
+      const exposed = instance.exposed || (instance.exposed = proxyRefs({}));
+      expose.forEach(key => {
+        exposed[key] = toRef(publicThis, key);
+      });
+    } else if (!instance.exposed) {
+      instance.exposed = EMPTY_OBJ;
+    }
+  } // options that are handled when creating the instance but also need to be
+  // applied from mixins
+
+
+  if (render && instance.render === NOOP) {
+    instance.render = render;
+  }
+
+  if (inheritAttrs != null) {
+    instance.inheritAttrs = inheritAttrs;
+  } // asset options.
+
+
+  if (components) instance.components = components;
+  if (directives) instance.directives = directives;
+}
+
+function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) {
+  if (isArray(injectOptions)) {
+    injectOptions = normalizeInject(injectOptions);
+  }
+
+  for (const key in injectOptions) {
+    const opt = injectOptions[key];
+
+    if (isObject$1(opt)) {
+      if ('default' in opt) {
+        ctx[key] = inject(opt.from || key, opt.default, true
+        /* treat default function as factory */
+        );
+      } else {
+        ctx[key] = inject(opt.from || key);
+      }
+    } else {
+      ctx[key] = inject(opt);
+    }
+  }
+}
+
+function callHook$1(hook, instance, type) {
+  callWithAsyncErrorHandling(isArray(hook) ? hook.map(h => h.bind(instance.proxy)) : hook.bind(instance.proxy), instance, type);
+}
+
+function createWatcher(raw, ctx, publicThis, key) {
+  const getter = key.includes('.') ? createPathGetter(publicThis, key) : () => publicThis[key];
+
+  if (isString(raw)) {
+    const handler = ctx[raw];
+
+    if (isFunction(handler)) {
+      watch(getter, handler);
+    }
+  } else if (isFunction(raw)) {
+    watch(getter, raw.bind(publicThis));
+  } else if (isObject$1(raw)) {
+    if (isArray(raw)) {
+      raw.forEach(r => createWatcher(r, ctx, publicThis, key));
+    } else {
+      const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
+
+      if (isFunction(handler)) {
+        watch(getter, handler, raw);
+      }
+    }
+  } else ;
+}
+/**
+ * Resolve merged options and cache it on the component.
+ * This is done only once per-component since the merging does not involve
+ * instances.
+ */
+
+
+function resolveMergedOptions(instance) {
+  const base = instance.type;
+  const {
+    mixins,
+    extends: extendsOptions
+  } = base;
+  const {
+    mixins: globalMixins,
+    optionsCache: cache,
+    config: {
+      optionMergeStrategies
+    }
+  } = instance.appContext;
+  const cached = cache.get(base);
+  let resolved;
+
+  if (cached) {
+    resolved = cached;
+  } else if (!globalMixins.length && !mixins && !extendsOptions) {
+    {
+      resolved = base;
+    }
+  } else {
+    resolved = {};
+
+    if (globalMixins.length) {
+      globalMixins.forEach(m => mergeOptions(resolved, m, optionMergeStrategies, true));
+    }
+
+    mergeOptions(resolved, base, optionMergeStrategies);
+  }
+
+  cache.set(base, resolved);
+  return resolved;
+}
+
+function mergeOptions(to, from, strats, asMixin = false) {
+  const {
+    mixins,
+    extends: extendsOptions
+  } = from;
+
+  if (extendsOptions) {
+    mergeOptions(to, extendsOptions, strats, true);
+  }
+
+  if (mixins) {
+    mixins.forEach(m => mergeOptions(to, m, strats, true));
+  }
+
+  for (const key in from) {
+    if (asMixin && key === 'expose') ; else {
+      const strat = internalOptionMergeStrats[key] || strats && strats[key];
+      to[key] = strat ? strat(to[key], from[key]) : from[key];
+    }
+  }
+
+  return to;
+}
+
+const internalOptionMergeStrats = {
+  data: mergeDataFn,
+  props: mergeObjectOptions,
+  emits: mergeObjectOptions,
+  // objects
+  methods: mergeObjectOptions,
+  computed: mergeObjectOptions,
+  // lifecycle
+  beforeCreate: mergeAsArray,
+  created: mergeAsArray,
+  beforeMount: mergeAsArray,
+  mounted: mergeAsArray,
+  beforeUpdate: mergeAsArray,
+  updated: mergeAsArray,
+  beforeDestroy: mergeAsArray,
+  destroyed: mergeAsArray,
+  activated: mergeAsArray,
+  deactivated: mergeAsArray,
+  errorCaptured: mergeAsArray,
+  serverPrefetch: mergeAsArray,
+  // assets
+  components: mergeObjectOptions,
+  directives: mergeObjectOptions,
+  // watch
+  watch: mergeWatchOptions,
+  // provide / inject
+  provide: mergeDataFn,
+  inject: mergeInject
+};
+
+function mergeDataFn(to, from) {
+  if (!from) {
+    return to;
+  }
+
+  if (!to) {
+    return from;
+  }
+
+  return function mergedDataFn() {
+    return extend(isFunction(to) ? to.call(this, this) : to, isFunction(from) ? from.call(this, this) : from);
+  };
+}
+
+function mergeInject(to, from) {
+  return mergeObjectOptions(normalizeInject(to), normalizeInject(from));
+}
+
+function normalizeInject(raw) {
+  if (isArray(raw)) {
+    const res = {};
+
+    for (let i = 0; i < raw.length; i++) {
+      res[raw[i]] = raw[i];
+    }
+
+    return res;
+  }
+
+  return raw;
+}
+
+function mergeAsArray(to, from) {
+  return to ? [...new Set([].concat(to, from))] : from;
+}
+
+function mergeObjectOptions(to, from) {
+  return to ? extend(extend(Object.create(null), to), from) : from;
+}
+
+function mergeWatchOptions(to, from) {
+  if (!to) return from;
+  if (!from) return to;
+  const merged = extend(Object.create(null), to);
+
+  for (const key in from) {
+    merged[key] = mergeAsArray(to[key], from[key]);
+  }
+
+  return merged;
+}
+
+function initProps(instance, rawProps, isStateful, // result of bitwise flag comparison
+isSSR = false) {
+  const props = {};
+  const attrs = {};
+  def(attrs, InternalObjectKey, 1);
+  instance.propsDefaults = Object.create(null);
+  setFullProps(instance, rawProps, props, attrs); // ensure all declared prop keys are present
+
+  for (const key in instance.propsOptions[0]) {
+    if (!(key in props)) {
+      props[key] = undefined;
+    }
+  } // validation
+
+  if (isStateful) {
+    // stateful
+    instance.props = isSSR ? props : shallowReactive(props);
+  } else {
+    if (!instance.type.props) {
+      // functional w/ optional props, props === attrs
+      instance.props = attrs;
+    } else {
+      // functional w/ declared props
+      instance.props = props;
+    }
+  }
+
+  instance.attrs = attrs;
+}
+
+function updateProps(instance, rawProps, rawPrevProps, optimized) {
+  const {
+    props,
+    attrs,
+    vnode: {
+      patchFlag
+    }
+  } = instance;
+  const rawCurrentProps = toRaw(props);
+  const [options] = instance.propsOptions;
+  let hasAttrsChanged = false;
+
+  if ( // always force full diff in dev
+  // - #1942 if hmr is enabled with sfc component
+  // - vite#872 non-sfc component used by sfc component
+  (optimized || patchFlag > 0) && !(patchFlag & 16
+  /* FULL_PROPS */
+  )) {
+    if (patchFlag & 8
+    /* PROPS */
+    ) {
+        // Compiler-generated props & no keys change, just set the updated
+        // the props.
+        const propsToUpdate = instance.vnode.dynamicProps;
+
+        for (let i = 0; i < propsToUpdate.length; i++) {
+          let key = propsToUpdate[i]; // PROPS flag guarantees rawProps to be non-null
+
+          const value = rawProps[key];
+
+          if (options) {
+            // attr / props separation was done on init and will be consistent
+            // in this code path, so just check if attrs have it.
+            if (hasOwn(attrs, key)) {
+              if (value !== attrs[key]) {
+                attrs[key] = value;
+                hasAttrsChanged = true;
+              }
+            } else {
+              const camelizedKey = camelize(key);
+              props[camelizedKey] = resolvePropValue(options, rawCurrentProps, camelizedKey, value, instance, false
+              /* isAbsent */
+              );
+            }
+          } else {
+            if (value !== attrs[key]) {
+              attrs[key] = value;
+              hasAttrsChanged = true;
+            }
+          }
+        }
+      }
+  } else {
+    // full props update.
+    if (setFullProps(instance, rawProps, props, attrs)) {
+      hasAttrsChanged = true;
+    } // in case of dynamic props, check if we need to delete keys from
+    // the props object
+
+
+    let kebabKey;
+
+    for (const key in rawCurrentProps) {
+      if (!rawProps || // for camelCase
+      !hasOwn(rawProps, key) && ( // it's possible the original props was passed in as kebab-case
+      // and converted to camelCase (#955)
+      (kebabKey = hyphenate(key)) === key || !hasOwn(rawProps, kebabKey))) {
+        if (options) {
+          if (rawPrevProps && ( // for camelCase
+          rawPrevProps[key] !== undefined || // for kebab-case
+          rawPrevProps[kebabKey] !== undefined)) {
+            props[key] = resolvePropValue(options, rawCurrentProps, key, undefined, instance, true
+            /* isAbsent */
+            );
+          }
+        } else {
+          delete props[key];
+        }
+      }
+    } // in the case of functional component w/o props declaration, props and
+    // attrs point to the same object so it should already have been updated.
+
+
+    if (attrs !== rawCurrentProps) {
+      for (const key in attrs) {
+        if (!rawProps || !hasOwn(rawProps, key)) {
+          delete attrs[key];
+          hasAttrsChanged = true;
+        }
+      }
+    }
+  } // trigger updates for $attrs in case it's used in component slots
+
+
+  if (hasAttrsChanged) {
+    trigger$1(instance, "set"
+    /* SET */
+    , '$attrs');
+  }
+}
+
+function setFullProps(instance, rawProps, props, attrs) {
+  const [options, needCastKeys] = instance.propsOptions;
+  let hasAttrsChanged = false;
+  let rawCastValues;
+
+  if (rawProps) {
+    for (let key in rawProps) {
+      // key, ref are reserved and never passed down
+      if (isReservedProp(key)) {
+        continue;
+      }
+
+      const value = rawProps[key]; // prop option names are camelized during normalization, so to support
+      // kebab -> camel conversion here we need to camelize the key.
+
+      let camelKey;
+
+      if (options && hasOwn(options, camelKey = camelize(key))) {
+        if (!needCastKeys || !needCastKeys.includes(camelKey)) {
+          props[camelKey] = value;
+        } else {
+          (rawCastValues || (rawCastValues = {}))[camelKey] = value;
+        }
+      } else if (!isEmitListener(instance.emitsOptions, key)) {
+        if (value !== attrs[key]) {
+          attrs[key] = value;
+          hasAttrsChanged = true;
+        }
+      }
+    }
+  }
+
+  if (needCastKeys) {
+    const rawCurrentProps = toRaw(props);
+    const castValues = rawCastValues || EMPTY_OBJ;
+
+    for (let i = 0; i < needCastKeys.length; i++) {
+      const key = needCastKeys[i];
+      props[key] = resolvePropValue(options, rawCurrentProps, key, castValues[key], instance, !hasOwn(castValues, key));
+    }
+  }
+
+  return hasAttrsChanged;
+}
+
+function resolvePropValue(options, props, key, value, instance, isAbsent) {
+  const opt = options[key];
+
+  if (opt != null) {
+    const hasDefault = hasOwn(opt, 'default'); // default values
+
+    if (hasDefault && value === undefined) {
+      const defaultValue = opt.default;
+
+      if (opt.type !== Function && isFunction(defaultValue)) {
+        const {
+          propsDefaults
+        } = instance;
+
+        if (key in propsDefaults) {
+          value = propsDefaults[key];
+        } else {
+          setCurrentInstance(instance);
+          value = propsDefaults[key] = defaultValue.call(null, props);
+          setCurrentInstance(null);
+        }
+      } else {
+        value = defaultValue;
+      }
+    } // boolean casting
+
+
+    if (opt[0
+    /* shouldCast */
+    ]) {
+      if (isAbsent && !hasDefault) {
+        value = false;
+      } else if (opt[1
+      /* shouldCastTrue */
+      ] && (value === '' || value === hyphenate(key))) {
+        value = true;
+      }
+    }
+  }
+
+  return value;
+}
+
+function normalizePropsOptions(comp, appContext, asMixin = false) {
+  const cache = appContext.propsCache;
+  const cached = cache.get(comp);
+
+  if (cached) {
+    return cached;
+  }
+
+  const raw = comp.props;
+  const normalized = {};
+  const needCastKeys = []; // apply mixin/extends props
+
+  let hasExtends = false;
+
+  if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
+    const extendProps = raw => {
+      hasExtends = true;
+      const [props, keys] = normalizePropsOptions(raw, appContext, true);
+      extend(normalized, props);
+      if (keys) needCastKeys.push(...keys);
+    };
+
+    if (!asMixin && appContext.mixins.length) {
+      appContext.mixins.forEach(extendProps);
+    }
+
+    if (comp.extends) {
+      extendProps(comp.extends);
+    }
+
+    if (comp.mixins) {
+      comp.mixins.forEach(extendProps);
+    }
+  }
+
+  if (!raw && !hasExtends) {
+    cache.set(comp, EMPTY_ARR);
+    return EMPTY_ARR;
+  }
+
+  if (isArray(raw)) {
+    for (let i = 0; i < raw.length; i++) {
+
+      const normalizedKey = camelize(raw[i]);
+
+      if (validatePropName(normalizedKey)) {
+        normalized[normalizedKey] = EMPTY_OBJ;
+      }
+    }
+  } else if (raw) {
+
+    for (const key in raw) {
+      const normalizedKey = camelize(key);
+
+      if (validatePropName(normalizedKey)) {
+        const opt = raw[key];
+        const prop = normalized[normalizedKey] = isArray(opt) || isFunction(opt) ? {
+          type: opt
+        } : opt;
+
+        if (prop) {
+          const booleanIndex = getTypeIndex(Boolean, prop.type);
+          const stringIndex = getTypeIndex(String, prop.type);
+          prop[0
+          /* shouldCast */
+          ] = booleanIndex > -1;
+          prop[1
+          /* shouldCastTrue */
+          ] = stringIndex < 0 || booleanIndex < stringIndex; // if the prop needs boolean casting or default value
+
+          if (booleanIndex > -1 || hasOwn(prop, 'default')) {
+            needCastKeys.push(normalizedKey);
+          }
+        }
+      }
+    }
+  }
+
+  const res = [normalized, needCastKeys];
+  cache.set(comp, res);
+  return res;
+}
+
+function validatePropName(key) {
+  if (key[0] !== '$') {
+    return true;
+  }
+
+  return false;
+} // use function string name to check type constructors
+// so that it works across vms / iframes.
+
+
+function getType(ctor) {
+  const match = ctor && ctor.toString().match(/^\s*function (\w+)/);
+  return match ? match[1] : '';
+}
+
+function isSameType(a, b) {
+  return getType(a) === getType(b);
+}
+
+function getTypeIndex(type, expectedTypes) {
+  if (isArray(expectedTypes)) {
+    return expectedTypes.findIndex(t => isSameType(t, type));
+  } else if (isFunction(expectedTypes)) {
+    return isSameType(expectedTypes, type) ? 0 : -1;
+  }
+
+  return -1;
+}
+
 const isInternalKey = key => key[0] === '_' || key === '$stable';
 
 const normalizeSlotValue = value => isArray(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
 
-const normalizeSlot = (key, rawSlot, ctx) => withCtx(props => {
+const normalizeSlot = (key, rawSlot, ctx) => {
+  const normalized = withCtx(props => {
 
-  return normalizeSlotValue(rawSlot(props));
-}, ctx);
+    return normalizeSlotValue(rawSlot(props));
+  }, ctx);
+  normalized._c = false;
+  return normalized;
+};
 
-const normalizeObjectSlots = (rawSlots, slots) => {
+const normalizeObjectSlots = (rawSlots, slots, instance) => {
   const ctx = rawSlots._ctx;
 
   for (const key in rawSlots) {
@@ -3323,7 +3798,9 @@ const initSlots = (instance, children) => {
       const type = children._;
 
       if (type) {
-        instance.slots = children; // make compiler marker non-enumerable
+        // users can get the shallow readonly version of the slots object through `this.$slots`,
+        // we should avoid the proxy object polluting the slots of the internal instance
+        instance.slots = toRaw(children); // make compiler marker non-enumerable
 
         def(children, '_', type);
       } else {
@@ -3447,12 +3924,16 @@ function invokeDirectiveHook(vnode, prevVNode, instance, name) {
       binding.oldValue = oldBindings[i].value;
     }
 
-    const hook = binding.dir[name];
+    let hook = binding.dir[name];
 
     if (hook) {
+      // disable tracking inside all lifecycle hooks
+      // since they can potentially be called inside effects.
+      pauseTracking();
       callWithAsyncErrorHandling(hook, instance, 8
       /* DIRECTIVE_HOOK */
       , [vnode.el, binding, vnode, prevVNode]);
+      resetTracking();
     }
   }
 }
@@ -3465,14 +3946,17 @@ function createAppContext() {
       performance: false,
       globalProperties: {},
       optionMergeStrategies: {},
-      isCustomElement: NO,
       errorHandler: undefined,
-      warnHandler: undefined
+      warnHandler: undefined,
+      compilerOptions: {}
     },
     mixins: [],
     components: {},
     directives: {},
-    provides: Object.create(null)
+    provides: Object.create(null),
+    optionsCache: new WeakMap(),
+    propsCache: new WeakMap(),
+    emitsCache: new WeakMap()
   };
 }
 
@@ -3493,6 +3977,7 @@ function createAppAPI(render, hydrate) {
       _props: rootProps,
       _container: null,
       _context: context,
+      _instance: null,
       version,
 
       get config() {
@@ -3517,12 +4002,7 @@ function createAppAPI(render, hydrate) {
       mixin(mixin) {
         if (__VUE_OPTIONS_API__) {
           if (!context.mixins.includes(mixin)) {
-            context.mixins.push(mixin); // global mixin with props/emits de-optimizes props/emits
-            // normalization caching.
-
-            if (mixin.props || mixin.emits) {
-              context.deopt = true;
-            }
+            context.mixins.push(mixin);
           }
         }
 
@@ -3567,6 +4047,7 @@ function createAppAPI(render, hydrate) {
           rootContainer.__vue_app__ = app;
 
           if (__VUE_PROD_DEVTOOLS__) {
+            app._instance = vnode.component;
             devtoolsInitApp(app, version);
           }
 
@@ -3579,6 +4060,7 @@ function createAppAPI(render, hydrate) {
           render(null, app._container);
 
           if (__VUE_PROD_DEVTOOLS__) {
+            app._instance = null;
             devtoolsUnmountApp(app);
           }
 
@@ -3616,9 +4098,7 @@ function initFeatureFlags() {
   if (typeof __VUE_PROD_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__VUE_PROD_DEVTOOLS__ = false;
   }
-} // implementation, close to no-op
-
-const isAsyncWrapper = i => !!i.type.__asyncLoader;
+}
 
 const prodEffectOptions = {
   scheduler: queueJob,
@@ -3628,29 +4108,22 @@ const prodEffectOptions = {
 
 const queuePostRenderEffect = queueEffectWithSuspense;
 
-const setRef = (rawRef, oldRawRef, parentSuspense, vnode) => {
+const setRef = (rawRef, oldRawRef, parentSuspense, vnode, isUnmount = false) => {
   if (isArray(rawRef)) {
-    rawRef.forEach((r, i) => setRef(r, oldRawRef && (isArray(oldRawRef) ? oldRawRef[i] : oldRawRef), parentSuspense, vnode));
+    rawRef.forEach((r, i) => setRef(r, oldRawRef && (isArray(oldRawRef) ? oldRawRef[i] : oldRawRef), parentSuspense, vnode, isUnmount));
     return;
   }
 
-  let value;
-
-  if (!vnode) {
-    // means unmount
-    value = null;
-  } else if (isAsyncWrapper(vnode)) {
+  if (isAsyncWrapper(vnode) && !isUnmount) {
     // when mounting async components, nothing needs to be done,
     // because the template ref is forwarded to inner component
     return;
-  } else if (vnode.shapeFlag & 4
-  /* STATEFUL_COMPONENT */
-  ) {
-      value = vnode.component.exposed || vnode.component.proxy;
-    } else {
-    value = vnode.el;
   }
 
+  const refValue = vnode.shapeFlag & 4
+  /* STATEFUL_COMPONENT */
+  ? vnode.component.exposed || vnode.component.proxy : vnode.el;
+  const value = isUnmount ? null : refValue;
   const {
     i: owner,
     r: ref
@@ -3658,7 +4131,7 @@ const setRef = (rawRef, oldRawRef, parentSuspense, vnode) => {
 
   const oldRef = oldRawRef && oldRawRef.r;
   const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
-  const setupState = owner.setupState; // unset old ref
+  const setupState = owner.setupState; // dynamic ref changed. unset old ref
 
   if (oldRef != null && oldRef !== ref) {
     if (isString(oldRef)) {
@@ -3674,7 +4147,9 @@ const setRef = (rawRef, oldRawRef, parentSuspense, vnode) => {
 
   if (isString(ref)) {
     const doSet = () => {
-      refs[ref] = value;
+      {
+        refs[ref] = value;
+      }
 
       if (hasOwn(setupState, ref)) {
         setupState[ref] = value;
@@ -3785,7 +4260,7 @@ function baseCreateRenderer(options, createHydrationFns) {
         processText(n1, n2, container, anchor);
         break;
 
-      case Comment:
+      case Comment$1:
         processCommentNode(n1, n2, container, anchor);
         break;
 
@@ -3823,7 +4298,7 @@ function baseCreateRenderer(options, createHydrationFns) {
 
 
     if (ref != null && parentComponent) {
-      setRef(ref, n1 && n1.ref, parentSuspense, n2);
+      setRef(ref, n1 && n1.ref, parentSuspense, n2 || n1, !n2);
     }
   };
 
@@ -3849,7 +4324,10 @@ function baseCreateRenderer(options, createHydrationFns) {
   };
 
   const mountStaticNode = (n2, container, anchor, isSVG) => {
-    [n2.el, n2.anchor] = hostInsertStaticContent(n2.children, container, anchor, isSVG);
+    [n2.el, n2.anchor] = hostInsertStaticContent(n2.children, container, anchor, isSVG, // pass cached nodes if the static node is being mounted multiple times
+    // so that runtime-dom can simply cloneNode() instead of inserting new
+    // HTML
+    n2.el && [n2.el, n2.anchor]);
   };
 
   const moveStaticNode = ({
@@ -4002,10 +4480,10 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
   };
 
-  const mountChildren = (children, container, anchor, parentComponent, parentSuspense, isSVG, optimized, slotScopeIds, start = 0) => {
+  const mountChildren = (children, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, start = 0) => {
     for (let i = start; i < children.length; i++) {
       const child = children[i] = optimized ? cloneIfMounted(children[i]) : normalizeVNode(children[i]);
-      patch(null, child, container, anchor, parentComponent, parentSuspense, isSVG, optimized, slotScopeIds);
+      patch(null, child, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
     }
   };
 
@@ -4123,7 +4601,9 @@ function baseCreateRenderer(options, createHydrationFns) {
       const oldVNode = oldChildren[i];
       const newVNode = newChildren[i]; // Determine the container (parent element) for the patch.
 
-      const container = // - In the case of a Fragment, we need to provide the actual parent
+      const container = // oldVNode may be an errored async setup() component inside Suspense
+      // which will not have a mounted element
+      oldVNode.el && ( // - In the case of a Fragment, we need to provide the actual parent
       // of the Fragment itself so it can move its children.
       oldVNode.type === Fragment || // - In the case of different nodes, there is going to be a replacement
       // which also requires the correct parent container
@@ -4132,7 +4612,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       /* COMPONENT */
       || oldVNode.shapeFlag & 64
       /* TELEPORT */
-      ? hostParentNode(oldVNode.el) : // In other cases, the parent container is not actually used so we
+      ) ? hostParentNode(oldVNode.el) : // In other cases, the parent container is not actually used so we
       // just pass the block element here to avoid a DOM parentNode call.
       fallbackContainer;
       patch(oldVNode, newVNode, container, null, parentComponent, parentSuspense, isSVG, slotScopeIds, true);
@@ -4171,7 +4651,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       slotScopeIds: fragmentSlotScopeIds
     } = n2;
 
-    if (patchFlag > 0) {
+    if (dynamicChildren) {
       optimized = true;
     } // check if this is a slot fragment with :slotted scope ids
 
@@ -4240,16 +4720,19 @@ function baseCreateRenderer(options, createHydrationFns) {
       instance.ctx.renderer = internals;
     } // resolve props and slots for setup context
 
-    setupComponent(instance);
-    // before proceeding
 
+    {
+
+      setupComponent(instance);
+    } // setup() is async. This component relies on async logic to be resolved
+    // before proceeding
 
     if (instance.asyncDep) {
       parentSuspense && parentSuspense.registerDep(instance, setupRenderEffect); // Give it a placeholder if this is not hydration
       // TODO handle self-defined fallback
 
       if (!initialVNode.el) {
-        const placeholder = instance.subTree = createVNode(Comment);
+        const placeholder = instance.subTree = createVNode(Comment$1);
         processCommentNode(null, placeholder, container, anchor);
       }
 
@@ -4307,15 +4790,29 @@ function baseCreateRenderer(options, createHydrationFns) {
 
         if (vnodeHook = props && props.onVnodeBeforeMount) {
           invokeVNodeHook(vnodeHook, parent, initialVNode);
-        } // render
-
-        const subTree = instance.subTree = renderComponentRoot(instance);
+        }
 
         if (el && hydrateNode) {
+          // vnode has adopted host node - perform hydration instead of mount.
+          const hydrateSubTree = () => {
 
+            instance.subTree = renderComponentRoot(instance);
 
-          hydrateNode(initialVNode.el, subTree, instance, parentSuspense, null);
+            hydrateNode(el, instance.subTree, instance, parentSuspense, null);
+          };
+
+          if (isAsyncWrapper(initialVNode)) {
+            initialVNode.type.__asyncLoader().then( // note: we are moving the render call into an async callback,
+            // which means it won't track dependencies - but it's ok because
+            // a server-rendered async wrapper is already in resolved state
+            // and it will never need to change.
+            () => !instance.isUnmounted && hydrateSubTree());
+          } else {
+            hydrateSubTree();
+          }
         } else {
+
+          const subTree = instance.subTree = renderComponentRoot(instance);
 
           patch(null, subTree, container, anchor, instance, parentSuspense, isSVG);
 
@@ -4330,22 +4827,16 @@ function baseCreateRenderer(options, createHydrationFns) {
 
         if (vnodeHook = props && props.onVnodeMounted) {
           const scopedInitialVNode = initialVNode;
-          queuePostRenderEffect(() => {
-            invokeVNodeHook(vnodeHook, parent, scopedInitialVNode);
-          }, parentSuspense);
+          queuePostRenderEffect(() => invokeVNodeHook(vnodeHook, parent, scopedInitialVNode), parentSuspense);
         } // activated hook for keep-alive roots.
         // #1742 activated hook must be accessed after first render
         // since the hook may be injected by a child keep-alive
 
 
-        const {
-          a
-        } = instance;
-
-        if (a && initialVNode.shapeFlag & 256
+        if (initialVNode.shapeFlag & 256
         /* COMPONENT_SHOULD_KEEP_ALIVE */
         ) {
-            queuePostRenderEffect(a, parentSuspense);
+            instance.a && queuePostRenderEffect(instance.a, parentSuspense);
           }
 
         instance.isMounted = true;
@@ -4412,9 +4903,7 @@ function baseCreateRenderer(options, createHydrationFns) {
 
 
         if (vnodeHook = next.props && next.props.onVnodeUpdated) {
-          queuePostRenderEffect(() => {
-            invokeVNodeHook(vnodeHook, parent, next, vnode);
-          }, parentSuspense);
+          queuePostRenderEffect(() => invokeVNodeHook(vnodeHook, parent, next, vnode), parentSuspense);
         }
 
         if (__VUE_PROD_DEVTOOLS__) {
@@ -4809,7 +5298,7 @@ function baseCreateRenderer(options, createHydrationFns) {
     } = vnode; // unset ref
 
     if (ref != null) {
-      setRef(ref, null, parentSuspense, null);
+      setRef(ref, null, parentSuspense, vnode, true);
     }
 
     if (shapeFlag & 256
@@ -5175,7 +5664,7 @@ function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false
     }
 
     const res = // local registration
-    // check instance[type] first for components with mixin or extends.
+    // check instance[type] first which is resolved for options API
     resolve(instance[type] || Component[type], name) || // global registration
     resolve(instance.appContext[type], name);
 
@@ -5194,7 +5683,7 @@ function resolve(registry, name) {
 
 const Fragment = Symbol(undefined);
 const Text = Symbol(undefined);
-const Comment = Symbol(undefined);
+const Comment$1 = Symbol(undefined);
 const Static = Symbol(undefined); // Since v-if and v-for are the two possible ways node structure can dynamically
 // change, once we consider v-if branches and each v-for fragment a block, we
 // can divide a template into nested blocks, and within each block the node
@@ -5228,6 +5717,32 @@ function closeBlock() {
   blockStack.pop();
   currentBlock = blockStack[blockStack.length - 1] || null;
 } // Whether we should be tracking dynamic child nodes inside a block.
+// Only tracks when this value is > 0
+// We are not using a simple boolean because this value may need to be
+// incremented/decremented by nested usage of v-once (see below)
+
+
+let isBlockTreeEnabled = 1;
+/**
+ * Block tracking sometimes needs to be disabled, for example during the
+ * creation of a tree that needs to be cached by v-once. The compiler generates
+ * code like this:
+ *
+ * ``` js
+ * _cache[1] || (
+ *   setBlockTracking(-1),
+ *   _cache[1] = createVNode(...),
+ *   setBlockTracking(1),
+ *   _cache[1]
+ * )
+ * ```
+ *
+ * @private
+ */
+
+function setBlockTracking(value) {
+  isBlockTreeEnabled += value;
+}
 /**
  * Create a block root vnode. Takes the same exact arguments as `createVNode`.
  * A block root keeps track of dynamic nodes within the block in the
@@ -5242,12 +5757,12 @@ function createBlock(type, props, children, patchFlag, dynamicProps) {
   /* isBlock: prevent a block from tracking itself */
   ); // save current block children on the block vnode
 
-  vnode.dynamicChildren = currentBlock || EMPTY_ARR; // close block
+  vnode.dynamicChildren = isBlockTreeEnabled > 0 ? currentBlock || EMPTY_ARR : null; // close block
 
   closeBlock(); // a block is always going to be patched, so track it as a child of its
   // parent block
 
-  if (currentBlock) {
+  if (isBlockTreeEnabled > 0 && currentBlock) {
     currentBlock.push(vnode);
   }
 
@@ -5283,7 +5798,7 @@ const createVNode = _createVNode;
 function _createVNode(type, props = null, children = null, patchFlag = 0, dynamicProps = null, isBlockNode = false) {
   if (!type || type === NULL_DYNAMIC_COMPONENT) {
 
-    type = Comment;
+    type = Comment$1;
   }
 
   if (isVNode(type)) {
@@ -5348,9 +5863,7 @@ function _createVNode(type, props = null, children = null, patchFlag = 0, dynami
 
   const vnode = {
     __v_isVNode: true,
-    ["__v_skip"
-    /* SKIP */
-    ]: true,
+    __v_skip: true,
     type,
     props,
     key: props && normalizeKey(props),
@@ -5381,15 +5894,10 @@ function _createVNode(type, props = null, children = null, patchFlag = 0, dynami
   if (shapeFlag & 128
   /* SUSPENSE */
   ) {
-      const {
-        content,
-        fallback
-      } = normalizeSuspenseChildren(vnode);
-      vnode.ssContent = content;
-      vnode.ssFallback = fallback;
+      type.normalize(vnode);
     }
 
-  if (// avoid a block node from tracking itself
+  if (isBlockTreeEnabled > 0 && // avoid a block node from tracking itself
   !isBlockNode && // has current parent block
   currentBlock && ( // presence of a patch flag indicates this node needs patching on updates.
   // component nodes also should always be patched, because even if the
@@ -5418,11 +5926,9 @@ function cloneVNode(vnode, extraProps, mergeRef = false) {
     children
   } = vnode;
   const mergedProps = extraProps ? mergeProps(props || {}, extraProps) : props;
-  return {
+  const cloned = {
     __v_isVNode: true,
-    ["__v_skip"
-    /* SKIP */
-    ]: true,
+    __v_skip: true,
     type: vnode.type,
     props: mergedProps,
     key: mergedProps && normalizeKey(mergedProps),
@@ -5463,6 +5969,7 @@ function cloneVNode(vnode, extraProps, mergeRef = false) {
     el: vnode.el,
     anchor: vnode.anchor
   };
+  return cloned;
 }
 /**
  * @private
@@ -5480,20 +5987,21 @@ function createTextVNode(text = ' ', flag = 0) {
 function createCommentVNode(text = '', // when used as the v-else branch, the comment node must be created as a
 // block to ensure correct updates.
 asBlock = false) {
-  return asBlock ? (openBlock(), createBlock(Comment, null, text)) : createVNode(Comment, null, text);
+  return asBlock ? (openBlock(), createBlock(Comment$1, null, text)) : createVNode(Comment$1, null, text);
 }
 
 function normalizeVNode(child) {
   if (child == null || typeof child === 'boolean') {
     // empty placeholder
-    return createVNode(Comment);
+    return createVNode(Comment$1);
   } else if (isArray(child)) {
     // fragment
-    return createVNode(Fragment, null, child);
+    return createVNode(Fragment, null, // #3666, avoid reference pollution when reusing vnode
+    child.slice());
   } else if (typeof child === 'object') {
     // already vnode, this should be the most common since compiled templates
     // always produce all-vnode children arrays
-    return child.el === null ? child : cloneVNode(child);
+    return cloneIfMounted(child);
   } else {
     // strings and numbers
     return createVNode(Text, null, String(child));
@@ -5528,9 +6036,9 @@ function normalizeChildren(vnode, children) {
 
         if (slot) {
           // _c marker is added by withCtx() indicating this is a compiled slot
-          slot._c && setCompiledSlotRendering(1);
+          slot._c && (slot._d = false);
           normalizeChildren(vnode, slot());
-          slot._c && setCompiledSlotRendering(-1);
+          slot._c && (slot._d = true);
         }
 
         return;
@@ -5547,18 +6055,18 @@ function normalizeChildren(vnode, children) {
       && currentRenderingInstance) {
         // a child component receives forwarded slots from the parent.
         // its slot type is determined by its parent's slot type.
-        if (currentRenderingInstance.vnode.patchFlag & 1024
-        /* DYNAMIC_SLOTS */
+        if (currentRenderingInstance.slots._ === 1
+        /* STABLE */
         ) {
-            children._ = 2
-            /* DYNAMIC */
-            ;
-            vnode.patchFlag |= 1024
-            /* DYNAMIC_SLOTS */
+            children._ = 1
+            /* STABLE */
             ;
           } else {
-          children._ = 1
-          /* STABLE */
+          children._ = 2
+          /* DYNAMIC */
+          ;
+          vnode.patchFlag |= 1024
+          /* DYNAMIC_SLOTS */
           ;
         }
       }
@@ -5610,7 +6118,7 @@ function mergeProps(...args) {
         const incoming = toMerge[key];
 
         if (existing !== incoming) {
-          ret[key] = existing ? [].concat(existing, toMerge[key]) : incoming;
+          ret[key] = existing ? [].concat(existing, incoming) : incoming;
         }
       } else if (key !== '') {
         ret[key] = toMerge[key];
@@ -5620,406 +6128,94 @@ function mergeProps(...args) {
 
   return ret;
 }
-
-function provide(key, value) {
-  if (!currentInstance) ; else {
-    let provides = currentInstance.provides; // by default an instance inherits its parent's provides object
-    // but when it needs to provide values of its own, it creates its
-    // own provides object using parent provides object as prototype.
-    // this way in `inject` we can simply look up injections from direct
-    // parent and let the prototype chain do the work.
-
-    const parentProvides = currentInstance.parent && currentInstance.parent.provides;
-
-    if (parentProvides === provides) {
-      provides = currentInstance.provides = Object.create(parentProvides);
-    } // TS doesn't allow symbol as index type
+/**
+ * Actual implementation
+ */
 
 
-    provides[key] = value;
-  }
-}
+function renderList(source, renderItem) {
+  let ret;
 
-function inject(key, defaultValue, treatDefaultAsFactory = false) {
-  // fallback to `currentRenderingInstance` so that this can be called in
-  // a functional component
-  const instance = currentInstance || currentRenderingInstance;
+  if (isArray(source) || isString(source)) {
+    ret = new Array(source.length);
 
-  if (instance) {
-    // #2400
-    // to support `app.use` plugins,
-    // fallback to appContext's `provides` if the intance is at root
-    const provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
+    for (let i = 0, l = source.length; i < l; i++) {
+      ret[i] = renderItem(source[i], i);
+    }
+  } else if (typeof source === 'number') {
 
-    if (provides && key in provides) {
-      // TS doesn't allow symbol as index type
-      return provides[key];
-    } else if (arguments.length > 1) {
-      return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue() : defaultValue;
-    } else ;
-  }
-}
+    ret = new Array(source);
 
-let shouldCacheAccess = true;
-
-function applyOptions(instance, options, deferredData = [], deferredWatch = [], deferredProvide = [], asMixin = false) {
-  const {
-    // composition
-    mixins,
-    extends: extendsOptions,
-    // state
-    data: dataOptions,
-    computed: computedOptions,
-    methods,
-    watch: watchOptions,
-    provide: provideOptions,
-    inject: injectOptions,
-    // assets
-    components,
-    directives,
-    // lifecycle
-    beforeMount,
-    mounted,
-    beforeUpdate,
-    updated,
-    activated,
-    deactivated,
-    beforeDestroy,
-    beforeUnmount,
-    destroyed,
-    unmounted,
-    render,
-    renderTracked,
-    renderTriggered,
-    errorCaptured,
-    // public API
-    expose
-  } = options;
-  const publicThis = instance.proxy;
-  const ctx = instance.ctx;
-  const globalMixins = instance.appContext.mixins;
-
-  if (asMixin && render && instance.render === NOOP) {
-    instance.render = render;
-  } // applyOptions is called non-as-mixin once per instance
-
-
-  if (!asMixin) {
-    shouldCacheAccess = false;
-    callSyncHook('beforeCreate', "bc"
-    /* BEFORE_CREATE */
-    , options, instance, globalMixins);
-    shouldCacheAccess = true; // global mixins are applied first
-
-    applyMixins(instance, globalMixins, deferredData, deferredWatch, deferredProvide);
-  } // extending a base component...
-
-
-  if (extendsOptions) {
-    applyOptions(instance, extendsOptions, deferredData, deferredWatch, deferredProvide, true);
-  } // local mixins
-
-
-  if (mixins) {
-    applyMixins(instance, mixins, deferredData, deferredWatch, deferredProvide);
-  }
-  // - props (already done outside of this function)
-  // - inject
-  // - methods
-  // - data (deferred since it relies on `this` access)
-  // - computed
-  // - watch (deferred since it relies on `this` access)
-
-
-  if (injectOptions) {
-    if (isArray(injectOptions)) {
-      for (let i = 0; i < injectOptions.length; i++) {
-        const key = injectOptions[i];
-        ctx[key] = inject(key);
-      }
+    for (let i = 0; i < source; i++) {
+      ret[i] = renderItem(i + 1, i);
+    }
+  } else if (isObject$1(source)) {
+    if (source[Symbol.iterator]) {
+      ret = Array.from(source, renderItem);
     } else {
-      for (const key in injectOptions) {
-        const opt = injectOptions[key];
+      const keys = Object.keys(source);
+      ret = new Array(keys.length);
 
-        if (isObject$1(opt)) {
-          ctx[key] = inject(opt.from || key, opt.default, true
-          /* treat default function as factory */
-          );
-        } else {
-          ctx[key] = inject(opt);
-        }
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        ret[i] = renderItem(source[key], key, i);
       }
     }
-  }
-
-  if (methods) {
-    for (const key in methods) {
-      const methodHandler = methods[key];
-
-      if (isFunction(methodHandler)) {
-        // In dev mode, we use the `createRenderContext` function to define methods to the proxy target,
-        // and those are read-only but reconfigurable, so it needs to be redefined here
-        {
-          ctx[key] = methodHandler.bind(publicThis);
-        }
-      }
-    }
-  }
-
-  if (!asMixin) {
-    if (deferredData.length) {
-      deferredData.forEach(dataFn => resolveData(instance, dataFn, publicThis));
-    }
-
-    if (dataOptions) {
-      // @ts-ignore dataOptions is not fully type safe
-      resolveData(instance, dataOptions, publicThis);
-    }
-  } else if (dataOptions) {
-    deferredData.push(dataOptions);
-  }
-
-  if (computedOptions) {
-    for (const key in computedOptions) {
-      const opt = computedOptions[key];
-      const get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
-
-      const set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
-      const c = computed({
-        get,
-        set
-      });
-      Object.defineProperty(ctx, key, {
-        enumerable: true,
-        configurable: true,
-        get: () => c.value,
-        set: v => c.value = v
-      });
-    }
-  }
-
-  if (watchOptions) {
-    deferredWatch.push(watchOptions);
-  }
-
-  if (!asMixin && deferredWatch.length) {
-    deferredWatch.forEach(watchOptions => {
-      for (const key in watchOptions) {
-        createWatcher(watchOptions[key], ctx, publicThis, key);
-      }
-    });
-  }
-
-  if (provideOptions) {
-    deferredProvide.push(provideOptions);
-  }
-
-  if (!asMixin && deferredProvide.length) {
-    deferredProvide.forEach(provideOptions => {
-      const provides = isFunction(provideOptions) ? provideOptions.call(publicThis) : provideOptions;
-      Reflect.ownKeys(provides).forEach(key => {
-        provide(key, provides[key]);
-      });
-    });
-  } // asset options.
-  // To reduce memory usage, only components with mixins or extends will have
-  // resolved asset registry attached to instance.
-
-
-  if (asMixin) {
-    if (components) {
-      extend(instance.components || (instance.components = extend({}, instance.type.components)), components);
-    }
-
-    if (directives) {
-      extend(instance.directives || (instance.directives = extend({}, instance.type.directives)), directives);
-    }
-  } // lifecycle options
-
-
-  if (!asMixin) {
-    callSyncHook('created', "c"
-    /* CREATED */
-    , options, instance, globalMixins);
-  }
-
-  if (beforeMount) {
-    onBeforeMount(beforeMount.bind(publicThis));
-  }
-
-  if (mounted) {
-    onMounted(mounted.bind(publicThis));
-  }
-
-  if (beforeUpdate) {
-    onBeforeUpdate(beforeUpdate.bind(publicThis));
-  }
-
-  if (updated) {
-    onUpdated(updated.bind(publicThis));
-  }
-
-  if (activated) {
-    onActivated(activated.bind(publicThis));
-  }
-
-  if (deactivated) {
-    onDeactivated(deactivated.bind(publicThis));
-  }
-
-  if (errorCaptured) {
-    onErrorCaptured(errorCaptured.bind(publicThis));
-  }
-
-  if (renderTracked) {
-    onRenderTracked(renderTracked.bind(publicThis));
-  }
-
-  if (renderTriggered) {
-    onRenderTriggered(renderTriggered.bind(publicThis));
-  }
-
-  if (beforeUnmount) {
-    onBeforeUnmount(beforeUnmount.bind(publicThis));
-  }
-
-  if (unmounted) {
-    onUnmounted(unmounted.bind(publicThis));
-  }
-
-  if (isArray(expose)) {
-    if (!asMixin) {
-      if (expose.length) {
-        const exposed = instance.exposed || (instance.exposed = proxyRefs({}));
-        expose.forEach(key => {
-          exposed[key] = toRef(publicThis, key);
-        });
-      } else if (!instance.exposed) {
-        instance.exposed = EMPTY_OBJ;
-      }
-    }
-  }
-}
-
-function callSyncHook(name, type, options, instance, globalMixins) {
-  for (let i = 0; i < globalMixins.length; i++) {
-    callHookWithMixinAndExtends(name, type, globalMixins[i], instance);
-  }
-
-  callHookWithMixinAndExtends(name, type, options, instance);
-}
-
-function callHookWithMixinAndExtends(name, type, options, instance) {
-  const {
-    extends: base,
-    mixins
-  } = options;
-  const selfHook = options[name];
-
-  if (base) {
-    callHookWithMixinAndExtends(name, type, base, instance);
-  }
-
-  if (mixins) {
-    for (let i = 0; i < mixins.length; i++) {
-      callHookWithMixinAndExtends(name, type, mixins[i], instance);
-    }
-  }
-
-  if (selfHook) {
-    callWithAsyncErrorHandling(selfHook.bind(instance.proxy), instance, type);
-  }
-}
-
-function applyMixins(instance, mixins, deferredData, deferredWatch, deferredProvide) {
-  for (let i = 0; i < mixins.length; i++) {
-    applyOptions(instance, mixins[i], deferredData, deferredWatch, deferredProvide, true);
-  }
-}
-
-function resolveData(instance, dataFn, publicThis) {
-
-  shouldCacheAccess = false;
-  const data = dataFn.call(publicThis, publicThis);
-  shouldCacheAccess = true;
-
-  if (!isObject$1(data)) ; else if (instance.data === EMPTY_OBJ) {
-    instance.data = reactive(data);
   } else {
-    // existing data: this is a mixin or extends.
-    extend(instance.data, data);
+    ret = [];
   }
+
+  return ret;
 }
+/**
+ * Compiler runtime helper for rendering `<slot/>`
+ * @private
+ */
 
-function createWatcher(raw, ctx, publicThis, key) {
-  const getter = key.includes('.') ? createPathGetter(publicThis, key) : () => publicThis[key];
 
-  if (isString(raw)) {
-    const handler = ctx[raw];
+function renderSlot(slots, name, props = {}, // this is not a user-facing function, so the fallback is always generated by
+// the compiler and guaranteed to be a function returning an array
+fallback, noSlotted) {
+  let slot = slots[name];
+  // invocation interfering with template-based block tracking, but in
+  // `renderSlot` we can be sure that it's template-based so we can force
+  // enable it.
 
-    if (isFunction(handler)) {
-      watch(getter, handler);
-    }
-  } else if (isFunction(raw)) {
-    watch(getter, raw.bind(publicThis));
-  } else if (isObject$1(raw)) {
-    if (isArray(raw)) {
-      raw.forEach(r => createWatcher(r, ctx, publicThis, key));
-    } else {
-      const handler = isFunction(raw.handler) ? raw.handler.bind(publicThis) : ctx[raw.handler];
 
-      if (isFunction(handler)) {
-        watch(getter, handler, raw);
-      }
-    }
-  } else ;
-}
-
-function createPathGetter(ctx, path) {
-  const segments = path.split('.');
-  return () => {
-    let cur = ctx;
-
-    for (let i = 0; i < segments.length && cur; i++) {
-      cur = cur[segments[i]];
-    }
-
-    return cur;
-  };
-}
-
-function resolveMergedOptions(instance) {
-  const raw = instance.type;
-  const {
-    __merged,
-    mixins,
-    extends: extendsOptions
-  } = raw;
-  if (__merged) return __merged;
-  const globalMixins = instance.appContext.mixins;
-  if (!globalMixins.length && !mixins && !extendsOptions) return raw;
-  const options = {};
-  globalMixins.forEach(m => mergeOptions(options, m, instance));
-  mergeOptions(options, raw, instance);
-  return raw.__merged = options;
-}
-
-function mergeOptions(to, from, instance) {
-  const strats = instance.appContext.config.optionMergeStrategies;
-  const {
-    mixins,
-    extends: extendsOptions
-  } = from;
-  extendsOptions && mergeOptions(to, extendsOptions, instance);
-  mixins && mixins.forEach(m => mergeOptions(to, m, instance));
-
-  for (const key in from) {
-    if (strats && hasOwn(strats, key)) {
-      to[key] = strats[key](to[key], from[key], instance.proxy, key);
-    } else {
-      to[key] = from[key];
-    }
+  if (slot && slot._c) {
+    slot._d = false;
   }
+
+  openBlock();
+  const validSlotContent = slot && ensureValidVNode(slot(props));
+  const rendered = createBlock(Fragment, {
+    key: props.key || `_${name}`
+  }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
+  /* STABLE */
+  ? 64
+  /* STABLE_FRAGMENT */
+  : -2
+  /* BAIL */
+  );
+
+  if (!noSlotted && rendered.scopeId) {
+    rendered.slotScopeIds = [rendered.scopeId + '-s'];
+  }
+
+  if (slot && slot._c) {
+    slot._d = true;
+  }
+
+  return rendered;
+}
+
+function ensureValidVNode(vnodes) {
+  return vnodes.some(child => {
+    if (!isVNode(child)) return true;
+    if (child.type === Comment$1) return false;
+    if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
+    return true;
+  }) ? vnodes : null;
 }
 /**
  * #2437 In Vue 3, functional components do not have a public instance proxy but
@@ -6062,13 +6258,7 @@ const PublicInstanceProxyHandlers = {
       accessCache,
       type,
       appContext
-    } = instance; // let @vue/reactivity know it should never observe Vue public instances.
-
-    if (key === "__v_skip"
-    /* SKIP */
-    ) {
-        return true;
-      } // for internal formatters to know that this is a Vue instance
+    } = instance; // for internal formatters to know that this is a Vue instance
     // This getter gets called for every property access on the render context
     // during render and is a major hotspot. The most expensive part of this
     // is the multiple hasOwn() calls. It's much faster to do a simple property
@@ -6155,7 +6345,9 @@ const PublicInstanceProxyHandlers = {
       return ctx[key];
     } else if ( // global properties
     globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)) {
-      return globalProperties[key];
+      {
+        return globalProperties[key];
+      }
     } else ;
   },
 
@@ -6257,6 +6449,8 @@ function createComponentInstance(vnode, parent, suspense) {
     emitted: null,
     // props default value
     propsDefaults: EMPTY_OBJ,
+    // inheritAttrs
+    inheritAttrs: type.inheritAttrs,
     // state
     ctx: EMPTY_OBJ,
     data: EMPTY_OBJ,
@@ -6288,7 +6482,8 @@ function createComponentInstance(vnode, parent, suspense) {
     a: null,
     rtg: null,
     rtc: null,
-    ec: null
+    ec: null,
+    sp: null
   };
 
   {
@@ -6339,7 +6534,7 @@ function setupStatefulComponent(instance, isSSR) {
   instance.accessCache = Object.create(null); // 1. create public instance / render proxy
   // also mark it raw so it's never observed
 
-  instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers);
+  instance.proxy = markRaw(new Proxy(instance.ctx, PublicInstanceProxyHandlers));
 
 
   const {
@@ -6399,7 +6594,7 @@ function handleSetupResult(instance, setupResult, isSSR) {
   finishComponentSetup(instance);
 }
 
-function finishComponentSetup(instance, isSSR) {
+function finishComponentSetup(instance, isSSR, skipOptions) {
   const Component = instance.type; // template / render function normalization
 
   if (!instance.render) {
@@ -6414,10 +6609,10 @@ function finishComponentSetup(instance, isSSR) {
   } // support for 2.x options
 
 
-  if (__VUE_OPTIONS_API__) {
+  if (__VUE_OPTIONS_API__ && !false) {
     currentInstance = instance;
     pauseTracking();
-    applyOptions(instance, Component);
+    applyOptions(instance);
     resetTracking();
     currentInstance = null;
   } // warn missing template/render
@@ -6521,53 +6716,12 @@ function h(type, propsOrChildren, children) {
     return createVNode(type, propsOrChildren, children);
   }
 }
-/**
- * Actual implementation
- */
 
 
-function renderList(source, renderItem) {
-  let ret;
-
-  if (isArray(source) || isString(source)) {
-    ret = new Array(source.length);
-
-    for (let i = 0, l = source.length; i < l; i++) {
-      ret[i] = renderItem(source[i], i);
-    }
-  } else if (typeof source === 'number') {
-
-    ret = new Array(source);
-
-    for (let i = 0; i < source; i++) {
-      ret[i] = renderItem(i + 1, i);
-    }
-  } else if (isObject$1(source)) {
-    if (source[Symbol.iterator]) {
-      ret = Array.from(source, renderItem);
-    } else {
-      const keys = Object.keys(source);
-      ret = new Array(keys.length);
-
-      for (let i = 0, l = keys.length; i < l; i++) {
-        const key = keys[i];
-        ret[i] = renderItem(source[key], key, i);
-      }
-    }
-  } else {
-    ret = [];
-  }
-
-  return ret;
-}
-
-
-const version = "3.0.11";
+const version = "3.1.2";
 
 const svgNS = 'http://www.w3.org/2000/svg';
 const doc = typeof document !== 'undefined' ? document : null;
-let tempContainer;
-let tempSVGContainer;
 const nodeOps = {
   insert: (child, parent, anchor) => {
     parent.insertBefore(child, anchor || null);
@@ -6625,23 +6779,59 @@ const nodeOps = {
   },
 
   // __UNSAFE__
-  // Reason: innerHTML.
+  // Reason: insertAdjacentHTML.
   // Static content here can only come from compiled templates.
   // As long as the user only uses trusted templates, this is safe.
-  insertStaticContent(content, parent, anchor, isSVG) {
-    const temp = isSVG ? tempSVGContainer || (tempSVGContainer = doc.createElementNS(svgNS, 'svg')) : tempContainer || (tempContainer = doc.createElement('div'));
-    temp.innerHTML = content;
-    const first = temp.firstChild;
-    let node = first;
-    let last = node;
+  insertStaticContent(content, parent, anchor, isSVG, cached) {
+    if (cached) {
+      let [cachedFirst, cachedLast] = cached;
+      let first, last;
 
-    while (node) {
-      last = node;
-      nodeOps.insert(node, parent, anchor);
-      node = temp.firstChild;
+      while (true) {
+        let node = cachedFirst.cloneNode(true);
+        if (!first) first = node;
+        parent.insertBefore(node, anchor);
+
+        if (cachedFirst === cachedLast) {
+          last = node;
+          break;
+        }
+
+        cachedFirst = cachedFirst.nextSibling;
+      }
+
+      return [first, last];
+    } // <parent> before | first ... last | anchor </parent>
+
+
+    const before = anchor ? anchor.previousSibling : parent.lastChild;
+
+    if (anchor) {
+      let insertionPoint;
+      let usingTempInsertionPoint = false;
+
+      if (anchor instanceof Element) {
+        insertionPoint = anchor;
+      } else {
+        // insertAdjacentHTML only works for elements but the anchor is not an
+        // element...
+        usingTempInsertionPoint = true;
+        insertionPoint = isSVG ? doc.createElementNS(svgNS, 'g') : doc.createElement('div');
+        parent.insertBefore(insertionPoint, anchor);
+      }
+
+      insertionPoint.insertAdjacentHTML('beforebegin', content);
+
+      if (usingTempInsertionPoint) {
+        parent.removeChild(insertionPoint);
+      }
+    } else {
+      parent.insertAdjacentHTML('beforeend', content);
     }
 
-    return [first, last];
+    return [// first
+    before ? before.nextSibling : parent.firstChild, // last
+    anchor ? anchor.previousSibling : parent.lastChild];
   }
 
 }; // compiler should normalize class + :class bindings on the same element
@@ -6752,7 +6942,7 @@ function autoPrefix(style, rawName) {
 
 const xlinkNS = 'http://www.w3.org/1999/xlink';
 
-function patchAttr(el, key, value, isSVG) {
+function patchAttr(el, key, value, isSVG, instance) {
   if (isSVG && key.startsWith('xlink:')) {
     if (value == null) {
       el.removeAttributeNS(xlinkNS, key.slice(6, key.length));
@@ -6795,6 +6985,10 @@ prevChildren, parentComponent, parentSuspense, unmountChildren) {
 
     if (el.value !== newValue) {
       el.value = newValue;
+    }
+
+    if (value == null) {
+      el.removeAttribute(key);
     }
 
     return;
@@ -7065,12 +7259,44 @@ const DOMTransitionPropsValidators = {
   leaveToClass: String
 };
 Transition.props = /*#__PURE__*/extend({}, BaseTransition.props, DOMTransitionPropsValidators);
+/**
+ * #3227 Incoming hooks may be merged into arrays when wrapping Transition
+ * with custom HOCs.
+ */
+
+const callHook = (hook, args = []) => {
+  if (isArray(hook)) {
+    hook.forEach(h => h(...args));
+  } else if (hook) {
+    hook(...args);
+  }
+};
+/**
+ * Check if a hook expects a callback (2nd arg), which means the user
+ * intends to explicitly control the end of the transition.
+ */
+
+
+const hasExplicitCallback = hook => {
+  return hook ? isArray(hook) ? hook.some(h => h.length > 1) : hook.length > 1 : false;
+};
 
 function resolveTransitionProps(rawProps) {
-  let {
+  const baseProps = {};
+
+  for (const key in rawProps) {
+    if (!(key in DOMTransitionPropsValidators)) {
+      baseProps[key] = rawProps[key];
+    }
+  }
+
+  if (rawProps.css === false) {
+    return baseProps;
+  }
+
+  const {
     name = 'v',
     type,
-    css = true,
     duration,
     enterFromClass = `${name}-enter-from`,
     enterActiveClass = `${name}-enter-active`,
@@ -7082,18 +7308,6 @@ function resolveTransitionProps(rawProps) {
     leaveActiveClass = `${name}-leave-active`,
     leaveToClass = `${name}-leave-to`
   } = rawProps;
-  const baseProps = {};
-
-  for (const key in rawProps) {
-    if (!(key in DOMTransitionPropsValidators)) {
-      baseProps[key] = rawProps[key];
-    }
-  }
-
-  if (!css) {
-    return baseProps;
-  }
-
   const durations = normalizeDuration(duration);
   const enterDuration = durations && durations[0];
   const leaveDuration = durations && durations[1];
@@ -7126,12 +7340,12 @@ function resolveTransitionProps(rawProps) {
 
       const resolve = () => finishEnter(el, isAppear, done);
 
-      hook && hook(el, resolve);
+      callHook(hook, [el, resolve]);
       nextFrame(() => {
         removeTransitionClass(el, isAppear ? appearFromClass : enterFromClass);
         addTransitionClass(el, isAppear ? appearToClass : enterToClass);
 
-        if (!(hook && hook.length > 1)) {
+        if (!hasExplicitCallback(hook)) {
           whenTransitionEnds(el, type, enterDuration, resolve);
         }
       });
@@ -7140,13 +7354,13 @@ function resolveTransitionProps(rawProps) {
 
   return extend(baseProps, {
     onBeforeEnter(el) {
-      onBeforeEnter && onBeforeEnter(el);
+      callHook(onBeforeEnter, [el]);
       addTransitionClass(el, enterFromClass);
       addTransitionClass(el, enterActiveClass);
     },
 
     onBeforeAppear(el) {
-      onBeforeAppear && onBeforeAppear(el);
+      callHook(onBeforeAppear, [el]);
       addTransitionClass(el, appearFromClass);
       addTransitionClass(el, appearActiveClass);
     },
@@ -7165,26 +7379,26 @@ function resolveTransitionProps(rawProps) {
         removeTransitionClass(el, leaveFromClass);
         addTransitionClass(el, leaveToClass);
 
-        if (!(onLeave && onLeave.length > 1)) {
+        if (!hasExplicitCallback(onLeave)) {
           whenTransitionEnds(el, type, leaveDuration, resolve);
         }
       });
-      onLeave && onLeave(el, resolve);
+      callHook(onLeave, [el, resolve]);
     },
 
     onEnterCancelled(el) {
       finishEnter(el, false);
-      onEnterCancelled && onEnterCancelled(el);
+      callHook(onEnterCancelled, [el]);
     },
 
     onAppearCancelled(el) {
       finishEnter(el, true);
-      onAppearCancelled && onAppearCancelled(el);
+      callHook(onAppearCancelled, [el]);
     },
 
     onLeaveCancelled(el) {
       finishLeave(el);
-      onLeaveCancelled && onLeaveCancelled(el);
+      callHook(onLeaveCancelled, [el]);
     }
 
   });
@@ -7492,15 +7706,15 @@ const keyNames = {
 
 const withKeys = (fn, modifiers) => {
   return event => {
-    if (!('key' in event)) return;
-    const eventKey = hyphenate(event.key);
-
-    if ( // None of the provided key modifiers match the current event key
-    !modifiers.some(k => k === eventKey || keyNames[k] === eventKey)) {
+    if (!('key' in event)) {
       return;
     }
 
-    return fn(event);
+    const eventKey = hyphenate(event.key);
+
+    if (modifiers.some(k => k === eventKey || keyNames[k] === eventKey)) {
+      return fn(event);
+    }
   };
 };
 
@@ -7589,6 +7803,10 @@ const createApp = (...args) => {
     const component = app._component;
 
     if (!isFunction(component) && !component.render && !component.template) {
+      // __UNSAFE__
+      // Reason: potential execution of JS expressions in in-DOM template.
+      // The user must make sure the in-DOM template is trusted. If it's
+      // rendered by the server, the template should not contain any user data.
       component.template = container.innerHTML;
     } // clear content before mounting
 
@@ -7748,7 +7966,7 @@ class Notifications {
 
 let notifications = new Notifications();
 
-var script$k = {
+var script$m = {
   name: 'MediaApp',
   data() {
     return {
@@ -7795,11 +8013,11 @@ var script$k = {
   },
 };
 
-const _hoisted_1$i = { class: "media-container" };
-const _hoisted_2$f = { class: "media-sidebar" };
-const _hoisted_3$e = { class: "media-main" };
+const _hoisted_1$k = { class: "media-container" };
+const _hoisted_2$h = { class: "media-sidebar" };
+const _hoisted_3$g = { class: "media-main" };
 
-function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+function render$m(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_disk = resolveComponent("media-disk");
   const _component_media_toolbar = resolveComponent("media-toolbar");
   const _component_media_browser = resolveComponent("media-browser");
@@ -7810,8 +8028,8 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_share_modal = resolveComponent("media-share-modal");
   const _component_media_confirm_delete_modal = resolveComponent("media-confirm-delete-modal");
 
-  return (openBlock(), createBlock("div", _hoisted_1$i, [
-    createVNode("div", _hoisted_2$f, [
+  return (openBlock(), createBlock("div", _hoisted_1$k, [
+    createVNode("div", _hoisted_2$h, [
       (openBlock(true), createBlock(Fragment, null, renderList($options.disks, (disk, index) => {
         return (openBlock(), createBlock(_component_media_disk, {
           key: index,
@@ -7820,7 +8038,7 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8 /* PROPS */, ["uid", "disk"]))
       }), 128 /* KEYED_FRAGMENT */))
     ]),
-    createVNode("div", _hoisted_3$e, [
+    createVNode("div", _hoisted_3$g, [
       createVNode(_component_media_toolbar),
       createVNode(_component_media_browser)
     ]),
@@ -7833,10 +8051,10 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$k.render = render$k;
-script$k.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+script$m.render = render$m;
+script$m.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
 
-var script$j = {
+var script$l = {
   name: 'MediaDisk',
   // eslint-disable-next-line vue/require-prop-types
   props: ['disk', 'uid'],
@@ -7847,12 +8065,12 @@ var script$j = {
   },
 };
 
-const _hoisted_1$h = { class: "media-disk" };
+const _hoisted_1$j = { class: "media-disk" };
 
-function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+function render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_drive = resolveComponent("media-drive");
 
-  return (openBlock(), createBlock("div", _hoisted_1$h, [
+  return (openBlock(), createBlock("div", _hoisted_1$j, [
     createVNode("h2", {
       id: $options.diskId,
       class: "media-disk-name"
@@ -7869,8 +8087,8 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$j.render = render$j;
-script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+script$l.render = render$l;
+script$l.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
 
 var navigable = {
   methods: {
@@ -7881,7 +8099,7 @@ var navigable = {
   }
 };
 
-var script$i = {
+var script$k = {
   name: 'MediaDrive',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
@@ -7903,9 +8121,9 @@ var script$i = {
   },
 };
 
-const _hoisted_1$g = { class: "item-name" };
+const _hoisted_1$i = { class: "item-name" };
 
-function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+function render$k(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree = resolveComponent("media-tree");
 
   return (openBlock(), createBlock("div", {
@@ -7926,7 +8144,7 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
         tabindex: $options.getTabindex
       }, [
         createVNode("a", null, [
-          createVNode("span", _hoisted_1$g, toDisplayString($props.drive.displayName), 1 /* TEXT */)
+          createVNode("span", _hoisted_1$i, toDisplayString($props.drive.displayName), 1 /* TEXT */)
         ]),
         createVNode(_component_media_tree, {
           root: $props.drive.root,
@@ -7937,10 +8155,10 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$i.render = render$i;
-script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+script$k.render = render$k;
+script$k.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
 
-var script$h = {
+var script$j = {
   name: 'MediaTree',
   props: {
     root: {
@@ -7963,15 +8181,15 @@ var script$h = {
   },
 };
 
-const _hoisted_1$f = {
+const _hoisted_1$h = {
   class: "media-tree",
   role: "group"
 };
 
-function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function render$j(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree_item = resolveComponent("media-tree-item");
 
-  return (openBlock(), createBlock("ul", _hoisted_1$f, [
+  return (openBlock(), createBlock("ul", _hoisted_1$h, [
     (openBlock(true), createBlock(Fragment, null, renderList($options.directories, (item, index) => {
       return (openBlock(), createBlock(_component_media_tree_item, {
         key: item.path,
@@ -7984,10 +8202,10 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$h.render = render$h;
-script$h.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
+script$j.render = render$j;
+script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
 
-var script$g = {
+var script$i = {
   name: 'MediaTreeItem',
   mixins: [navigable],
   props: {
@@ -8040,14 +8258,24 @@ var script$g = {
     /* Handle the on item click event */
     onItemClick() {
       this.navigateTo(this.item.path);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
     },
   },
 };
 
-const _hoisted_1$e = { class: "item-icon" };
-const _hoisted_2$e = { class: "item-name" };
+const _hoisted_1$g = { class: "item-icon" };
+const _hoisted_2$g = { class: "item-name" };
 
-function render$g(_ctx, _cache, $props, $setup, $data, $options) {
+function render$i(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree = resolveComponent("media-tree");
 
   return (openBlock(), createBlock("li", {
@@ -8061,10 +8289,10 @@ function render$g(_ctx, _cache, $props, $setup, $data, $options) {
     createVNode("a", {
       onClick: _cache[1] || (_cache[1] = withModifiers($event => ($options.onItemClick()), ["stop","prevent"]))
     }, [
-      createVNode("span", _hoisted_1$e, [
+      createVNode("span", _hoisted_1$g, [
         createVNode("span", { class: $options.iconClass }, null, 2 /* CLASS */)
       ]),
-      createVNode("span", _hoisted_2$e, toDisplayString($props.item.name), 1 /* TEXT */)
+      createVNode("span", _hoisted_2$g, toDisplayString($props.item.name), 1 /* TEXT */)
     ]),
     createVNode(Transition, { name: "slide-fade" }, {
       default: withCtx(() => [
@@ -8084,17 +8312,14 @@ function render$g(_ctx, _cache, $props, $setup, $data, $options) {
   ], 10 /* CLASS, PROPS */, ["aria-level", "aria-setsize", "aria-posinset", "tabindex"]))
 }
 
-script$g.render = render$g;
-script$g.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
+script$i.render = render$i;
+script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
 
-var script$f = {
+var script$h = {
   name: 'MediaToolbar',
   computed: {
     toggleListViewBtnIcon() {
       return (this.isGridView) ? 'icon-list' : 'icon-th';
-    },
-    toggleSelectAllBtnIcon() {
-      return (this.allItemsSelected) ? 'icon-check-square' : 'icon-square';
     },
     isLoading() {
       return this.$store.state.isLoading;
@@ -8108,6 +8333,14 @@ var script$f = {
     allItemsSelected() {
       // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
+    },
+  },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.selectedItems'() {
+      if (!this.allItemsSelected) {
+        this.$refs.mediaToolbarSelectAll.checked = false;
+      }
     },
   },
   methods: {
@@ -8141,6 +8374,16 @@ var script$f = {
       } else {
         // eslint-disable-next-line max-len
         this.$store.commit(SELECT_BROWSER_ITEMS, this.$store.getters.getSelectedDirectoryContents);
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: {},
+            },
+          ),
+        );
       }
     },
     isGridSize(size) {
@@ -8152,12 +8395,12 @@ var script$f = {
   },
 };
 
-const _hoisted_1$d = {
+const _hoisted_1$f = {
   key: 0,
   class: "media-loader"
 };
-const _hoisted_2$d = { class: "media-view-icons" };
-const _hoisted_3$d = {
+const _hoisted_2$f = { class: "media-view-icons" };
+const _hoisted_3$f = {
   class: "media-view-search-input",
   role: "search"
 };
@@ -8179,7 +8422,7 @@ const _hoisted_8$2 = /*#__PURE__*/createVNode("span", {
   "aria-hidden": "true"
 }, null, -1 /* HOISTED */);
 
-function render$f(_ctx, _cache, $props, $setup, $data, $options) {
+function render$h(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_breadcrumb = resolveComponent("media-breadcrumb");
 
   return (openBlock(), createBlock("div", {
@@ -8188,23 +8431,19 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": _ctx.translate('COM_MEDIA_TOOLBAR_LABEL')
   }, [
     ($options.isLoading)
-      ? (openBlock(), createBlock("div", _hoisted_1$d))
+      ? (openBlock(), createBlock("div", _hoisted_1$f))
       : createCommentVNode("v-if", true),
-    createVNode("div", _hoisted_2$d, [
-      createVNode("a", {
-        href: "#",
+    createVNode("div", _hoisted_2$f, [
+      createVNode("input", {
+        ref: "mediaToolbarSelectAll",
+        type: "checkbox",
         class: "media-toolbar-icon media-toolbar-select-all",
         "aria-label": _ctx.translate('COM_MEDIA_SELECT_ALL'),
-        onClick: _cache[1] || (_cache[1] = withModifiers($event => ($options.toggleSelectAll()), ["stop","prevent"]))
-      }, [
-        createVNode("span", {
-          class: $options.toggleSelectAllBtnIcon,
-          "aria-hidden": "true"
-        }, null, 2 /* CLASS */)
-      ], 8 /* PROPS */, ["aria-label"])
+        onClick: _cache[1] || (_cache[1] = withModifiers((...args) => ($options.toggleSelectAll && $options.toggleSelectAll(...args)), ["stop"]))
+      }, null, 8 /* PROPS */, ["aria-label"])
     ]),
     createVNode(_component_media_breadcrumb),
-    createVNode("div", _hoisted_3$d, [
+    createVNode("div", _hoisted_3$f, [
       createVNode("label", _hoisted_4$9, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1 /* TEXT */),
       createVNode("input", {
         id: "media_search",
@@ -8262,10 +8501,10 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   ], 8 /* PROPS */, ["aria-label"]))
 }
 
-script$f.render = render$f;
-script$f.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
+script$h.render = render$h;
+script$h.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
 
-var script$e = {
+var script$g = {
   name: 'MediaBreadcrumb',
   mixins: [navigable],
   computed: {
@@ -8305,6 +8544,16 @@ var script$e = {
     /* Handle the on crumb click event */
     onCrumbClick(crumb) {
       this.navigateTo(crumb.path);
+      window.parent.document.dispatchEvent(
+        new CustomEvent(
+          'onMediaFileSelected',
+          {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          },
+        ),
+      );
     },
     findDrive(adapter) {
       let driveObject = null;
@@ -8322,7 +8571,7 @@ var script$e = {
   },
 };
 
-function render$e(_ctx, _cache, $props, $setup, $data, $options) {
+function render$g(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("nav", {
     class: "media-breadcrumb",
     "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
@@ -8344,10 +8593,10 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
   ], 8 /* PROPS */, ["aria-label"]))
 }
 
-script$e.render = render$e;
-script$e.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
+script$g.render = render$g;
+script$g.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
 
-var script$d = {
+var script$f = {
   name: 'MediaBrowser',
   computed: {
     /* Get the contents of the currently selected directory */
@@ -8506,12 +8755,12 @@ var script$d = {
   },
 };
 
-const _hoisted_1$c = { class: "media-dragoutline" };
-const _hoisted_2$c = /*#__PURE__*/createVNode("span", {
+const _hoisted_1$e = { class: "media-dragoutline" };
+const _hoisted_2$e = /*#__PURE__*/createVNode("span", {
   class: "icon-cloud-upload upload-icon",
   "aria-hidden": "true"
 }, null, -1 /* HOISTED */);
-const _hoisted_3$c = {
+const _hoisted_3$e = {
   key: 0,
   class: "table media-browser-table"
 };
@@ -8546,7 +8795,7 @@ const _hoisted_12$1 = {
   class: "media-browser-grid"
 };
 
-function render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_browser_item_row = resolveComponent("media-browser-item-row");
   const _component_media_browser_item = resolveComponent("media-browser-item");
   const _component_media_infobar = resolveComponent("media-infobar");
@@ -8561,12 +8810,12 @@ function render$d(_ctx, _cache, $props, $setup, $data, $options) {
       onDragover: _cache[3] || (_cache[3] = (...args) => ($options.onDragOver && $options.onDragOver(...args))),
       onDragleave: _cache[4] || (_cache[4] = (...args) => ($options.onDragLeave && $options.onDragLeave(...args)))
     }, [
-      createVNode("div", _hoisted_1$c, [
-        _hoisted_2$c,
+      createVNode("div", _hoisted_1$e, [
+        _hoisted_2$e,
         createVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1 /* TEXT */)
       ]),
       ($options.listView === 'table')
-        ? (openBlock(), createBlock("table", _hoisted_3$c, [
+        ? (openBlock(), createBlock("table", _hoisted_3$e, [
             createVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1 /* TEXT */),
             createVNode("thead", _hoisted_5$4, [
               createVNode("tr", null, [
@@ -8606,10 +8855,10 @@ function render$d(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$d.render = render$d;
-script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
+script$f.render = render$f;
+script$f.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
 
-var script$c = {
+var script$e = {
   name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
@@ -8654,18 +8903,18 @@ var script$c = {
   },
 };
 
-const _hoisted_1$b = /*#__PURE__*/createVNode("div", { class: "file-background" }, [
+const _hoisted_1$d = /*#__PURE__*/createVNode("div", { class: "file-background" }, [
   /*#__PURE__*/createVNode("div", { class: "folder-icon" }, [
     /*#__PURE__*/createVNode("span", { class: "icon-folder" })
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$b = { class: "media-browser-item-info" };
-const _hoisted_3$b = {
+const _hoisted_2$d = { class: "media-browser-item-info" };
+const _hoisted_3$d = {
   key: 0,
   class: "media-browser-actions-list"
 };
 
-function render$c(_ctx, _cache, $props, $setup, $data, $options) {
+function render$e(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("div", {
     class: "media-browser-item-directory",
     onMouseleave: _cache[25] || (_cache[25] = $event => ($options.hideActions()))
@@ -8674,9 +8923,9 @@ function render$c(_ctx, _cache, $props, $setup, $data, $options) {
       class: "media-browser-item-preview",
       onDblclick: _cache[1] || (_cache[1] = withModifiers($event => ($options.onPreviewDblClick()), ["stop","prevent"]))
     }, [
-      _hoisted_1$b
+      _hoisted_1$d
     ], 32 /* HYDRATE_EVENTS */),
-    createVNode("div", _hoisted_2$b, toDisplayString($props.item.name), 1 /* TEXT */),
+    createVNode("div", _hoisted_2$d, toDisplayString($props.item.name), 1 /* TEXT */),
     createVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
@@ -8707,7 +8956,7 @@ function render$c(_ctx, _cache, $props, $setup, $data, $options) {
         })
       ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"]),
       ($data.showActions)
-        ? (openBlock(), createBlock("div", _hoisted_3$b, [
+        ? (openBlock(), createBlock("div", _hoisted_3$d, [
             createVNode("ul", null, [
               createVNode("li", null, [
                 createVNode("button", {
@@ -8764,10 +9013,10 @@ function render$c(_ctx, _cache, $props, $setup, $data, $options) {
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$c.render = render$c;
-script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
+script$e.render = render$e;
+script$e.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
 
-var script$b = {
+var script$d = {
   name: 'MediaBrowserItemFile',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -8815,26 +9064,26 @@ var script$b = {
   },
 };
 
-const _hoisted_1$a = /*#__PURE__*/createVNode("div", { class: "media-browser-item-preview" }, [
+const _hoisted_1$c = /*#__PURE__*/createVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createVNode("div", { class: "file-icon" }, [
       /*#__PURE__*/createVNode("span", { class: "icon-file-alt" })
     ])
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$a = { class: "media-browser-item-info" };
-const _hoisted_3$a = {
+const _hoisted_2$c = { class: "media-browser-item-info" };
+const _hoisted_3$c = {
   key: 0,
   class: "media-browser-actions-list"
 };
 
-function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+function render$d(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("div", {
     class: "media-browser-item-file",
     onMouseleave: _cache[37] || (_cache[37] = $event => ($options.hideActions()))
   }, [
-    _hoisted_1$a,
-    createVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    _hoisted_1$c,
+    createVNode("div", _hoisted_2$c, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
@@ -8866,7 +9115,7 @@ function render$b(_ctx, _cache, $props, $setup, $data, $options) {
         })
       ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"]),
       ($data.showActions)
-        ? (openBlock(), createBlock("div", _hoisted_3$a, [
+        ? (openBlock(), createBlock("div", _hoisted_3$c, [
             createVNode("ul", null, [
               createVNode("li", null, [
                 createVNode("button", {
@@ -8968,10 +9217,10 @@ function render$b(_ctx, _cache, $props, $setup, $data, $options) {
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$b.render = render$b;
-script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+script$d.render = render$d;
+script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
 
-var script$a = {
+var script$c = {
   name: 'MediaBrowserItemImage',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -9041,30 +9290,30 @@ var script$a = {
   },
 };
 
-const _hoisted_1$9 = { class: "media-browser-item-preview" };
-const _hoisted_2$9 = { class: "image-background" };
-const _hoisted_3$9 = { class: "media-browser-item-info" };
+const _hoisted_1$b = { class: "media-browser-item-preview" };
+const _hoisted_2$b = { class: "image-background" };
+const _hoisted_3$b = { class: "media-browser-item-info" };
 const _hoisted_4$7 = {
   key: 0,
   class: "media-browser-actions-list"
 };
 const _hoisted_5$3 = { key: 0 };
 
-function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+function render$c(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("div", {
     class: "media-browser-image",
     onDblclick: _cache[56] || (_cache[56] = $event => ($options.openPreview())),
     onMouseleave: _cache[57] || (_cache[57] = $event => ($options.hideActions()))
   }, [
-    createVNode("div", _hoisted_1$9, [
-      createVNode("div", _hoisted_2$9, [
+    createVNode("div", _hoisted_1$b, [
+      createVNode("div", _hoisted_2$b, [
         createVNode("div", {
           class: "image-cropped",
           style: { backgroundImage: 'url(' + $options.thumbUrl + ')' }
         }, null, 4 /* STYLE */)
       ])
     ]),
-    createVNode("div", _hoisted_3$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createVNode("div", _hoisted_3$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
@@ -9250,11 +9499,483 @@ function render$a(_ctx, _cache, $props, $setup, $data, $options) {
   ], 32 /* HYDRATE_EVENTS */))
 }
 
+script$c.render = render$c;
+script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+
+var script$b = {
+  name: 'MediaBrowserItemVideo',
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['item', 'focused'],
+  data() {
+    return {
+      showActions: false,
+    };
+  },
+  methods: {
+    /* Preview an item */
+    openPreview() {
+      this.$store.commit(SHOW_PREVIEW_MODAL);
+      this.$store.dispatch('getFullContents', this.item);
+    },
+    /* Preview an item */
+    download() {
+      this.$store.dispatch('download', this.item);
+    },
+    /* Opening confirm delete modal */
+    openConfirmDeleteModal() {
+      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+    },
+    /* Rename an item */
+    openRenameModal() {
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_RENAME_MODAL);
+    },
+    /* Open modal for share url */
+    openShareUrlModal() {
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_SHARE_MODAL);
+    },
+    /* Open actions dropdown */
+    openActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionPreview.focus());
+    },
+    /* Open actions dropdown and focus on last element */
+    openLastActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionDelete.focus());
+    },
+    /* Hide actions dropdown */
+    hideActions() {
+      this.showActions = false;
+      this.$nextTick(() => this.$refs.actionToggle.focus());
+    },
+  },
+};
+
+const _hoisted_1$a = /*#__PURE__*/createVNode("div", { class: "media-browser-item-preview" }, [
+  /*#__PURE__*/createVNode("div", { class: "file-background" }, [
+    /*#__PURE__*/createVNode("div", { class: "file-icon" }, [
+      /*#__PURE__*/createVNode("span", { class: "fas fa-file-video" })
+    ])
+  ])
+], -1 /* HOISTED */);
+const _hoisted_2$a = { class: "media-browser-item-info" };
+const _hoisted_3$a = {
+  key: 0,
+  class: "media-browser-actions-list"
+};
+
+function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createBlock("div", {
+    class: "media-browser-image",
+    onDblclick: _cache[48] || (_cache[48] = $event => ($options.openPreview())),
+    onMouseleave: _cache[49] || (_cache[49] = $event => ($options.hideActions()))
+  }, [
+    _hoisted_1$a,
+    createVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8 /* PROPS */, ["aria-label", "title"]),
+    createVNode("div", {
+      class: ["media-browser-actions", {'active': $data.showActions}]
+    }, [
+      createVNode("button", {
+        ref: "actionToggle",
+        type: "button",
+        class: "action-toggle",
+        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+        onKeyup: [
+          _cache[2] || (_cache[2] = withKeys($event => ($options.openActions()), ["enter"])),
+          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["space"])),
+          _cache[6] || (_cache[6] = withKeys($event => ($options.openActions()), ["down"])),
+          _cache[7] || (_cache[7] = withKeys($event => ($options.openLastActions()), ["up"]))
+        ],
+        onFocus: _cache[3] || (_cache[3] = $event => ($props.focused(true))),
+        onBlur: _cache[4] || (_cache[4] = $event => ($props.focused(false)))
+      }, [
+        createVNode("span", {
+          class: "image-browser-action icon-ellipsis-h",
+          "aria-hidden": "true",
+          onClick: _cache[1] || (_cache[1] = withModifiers($event => ($options.openActions()), ["stop"]))
+        })
+      ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"]),
+      ($data.showActions)
+        ? (openBlock(), createBlock("div", _hoisted_3$a, [
+            createVNode("ul", null, [
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionPreview",
+                  type: "button",
+                  class: "action-preview",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+                  onKeyup: [
+                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["enter"])),
+                    _cache[10] || (_cache[10] = withKeys($event => ($options.openPreview()), ["space"])),
+                    _cache[13] || (_cache[13] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
+                    _cache[15] || (_cache[15] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[11] || (_cache[11] = $event => ($props.focused(true))),
+                  onBlur: _cache[12] || (_cache[12] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-search-plus",
+                    "aria-hidden": "true",
+                    onClick: _cache[8] || (_cache[8] = withModifiers($event => ($options.openPreview()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionDownload",
+                  type: "button",
+                  class: "action-download",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+                  onKeyup: [
+                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["enter"])),
+                    _cache[18] || (_cache[18] = withKeys($event => ($options.download()), ["space"])),
+                    _cache[21] || (_cache[21] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
+                    _cache[23] || (_cache[23] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[19] || (_cache[19] = $event => ($props.focused(true))),
+                  onBlur: _cache[20] || (_cache[20] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-download",
+                    "aria-hidden": "true",
+                    onClick: _cache[16] || (_cache[16] = withModifiers($event => ($options.download()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionRename",
+                  type: "button",
+                  class: "action-rename",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+                  onKeyup: [
+                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["enter"])),
+                    _cache[26] || (_cache[26] = withKeys($event => ($options.openRenameModal()), ["space"])),
+                    _cache[29] || (_cache[29] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[30] || (_cache[30] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
+                    _cache[31] || (_cache[31] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[27] || (_cache[27] = $event => ($props.focused(true))),
+                  onBlur: _cache[28] || (_cache[28] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-text-width",
+                    "aria-hidden": "true",
+                    onClick: _cache[24] || (_cache[24] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionShare",
+                  type: "button",
+                  class: "action-url",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+                  onKeyup: [
+                    _cache[33] || (_cache[33] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
+                    _cache[34] || (_cache[34] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
+                    _cache[37] || (_cache[37] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
+                    _cache[39] || (_cache[39] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[35] || (_cache[35] = $event => ($props.focused(true))),
+                  onBlur: _cache[36] || (_cache[36] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-link",
+                    "aria-hidden": "true",
+                    onClick: _cache[32] || (_cache[32] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionDelete",
+                  type: "button",
+                  class: "action-delete",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+                  onKeyup: [
+                    _cache[41] || (_cache[41] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
+                    _cache[42] || (_cache[42] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
+                    _cache[45] || (_cache[45] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
+                    _cache[47] || (_cache[47] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[43] || (_cache[43] = $event => ($props.focused(true))),
+                  onBlur: _cache[44] || (_cache[44] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-trash",
+                    "aria-hidden": "true",
+                    onClick: _cache[40] || (_cache[40] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ])
+            ])
+          ]))
+        : createCommentVNode("v-if", true)
+    ], 2 /* CLASS */)
+  ], 32 /* HYDRATE_EVENTS */))
+}
+
+script$b.render = render$b;
+script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+
+var script$a = {
+  name: 'MediaBrowserItemAudio',
+  // eslint-disable-next-line vue/require-prop-types
+  props: ['item', 'focused'],
+  data() {
+    return {
+      showActions: false,
+    };
+  },
+  methods: {
+    /* Preview an item */
+    openPreview() {
+      this.$store.commit(SHOW_PREVIEW_MODAL);
+      this.$store.dispatch('getFullContents', this.item);
+    },
+    /* Preview an item */
+    download() {
+      this.$store.dispatch('download', this.item);
+    },
+    /* Opening confirm delete modal */
+    openConfirmDeleteModal() {
+      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+    },
+    /* Rename an item */
+    openRenameModal() {
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_RENAME_MODAL);
+    },
+    /* Open modal for share url */
+    openShareUrlModal() {
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_SHARE_MODAL);
+    },
+    /* Open actions dropdown */
+    openActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionPreview.focus());
+    },
+    /* Open actions dropdown and focus on last element */
+    openLastActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionDelete.focus());
+    },
+    /* Hide actions dropdown */
+    hideActions() {
+      this.showActions = false;
+      this.$nextTick(() => this.$refs.actionToggle.focus());
+    },
+  },
+};
+
+const _hoisted_1$9 = /*#__PURE__*/createVNode("div", { class: "media-browser-item-preview" }, [
+  /*#__PURE__*/createVNode("div", { class: "file-background" }, [
+    /*#__PURE__*/createVNode("div", { class: "file-icon" }, [
+      /*#__PURE__*/createVNode("span", { class: "fas fa-file-audio" })
+    ])
+  ])
+], -1 /* HOISTED */);
+const _hoisted_2$9 = { class: "media-browser-item-info" };
+const _hoisted_3$9 = {
+  key: 0,
+  class: "media-browser-actions-list"
+};
+
+function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createBlock("div", {
+    class: "media-browser-audio",
+    onDblclick: _cache[48] || (_cache[48] = $event => ($options.openPreview())),
+    onMouseleave: _cache[49] || (_cache[49] = $event => ($options.hideActions()))
+  }, [
+    _hoisted_1$9,
+    createVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8 /* PROPS */, ["aria-label", "title"]),
+    createVNode("div", {
+      class: ["media-browser-actions", {'active': $data.showActions}]
+    }, [
+      createVNode("button", {
+        ref: "actionToggle",
+        type: "button",
+        class: "action-toggle",
+        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+        onKeyup: [
+          _cache[2] || (_cache[2] = withKeys($event => ($options.openActions()), ["enter"])),
+          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["space"])),
+          _cache[6] || (_cache[6] = withKeys($event => ($options.openActions()), ["down"])),
+          _cache[7] || (_cache[7] = withKeys($event => ($options.openLastActions()), ["up"]))
+        ],
+        onFocus: _cache[3] || (_cache[3] = $event => ($props.focused(true))),
+        onBlur: _cache[4] || (_cache[4] = $event => ($props.focused(false)))
+      }, [
+        createVNode("span", {
+          class: "image-browser-action icon-ellipsis-h",
+          "aria-hidden": "true",
+          onClick: _cache[1] || (_cache[1] = withModifiers($event => ($options.openActions()), ["stop"]))
+        })
+      ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"]),
+      ($data.showActions)
+        ? (openBlock(), createBlock("div", _hoisted_3$9, [
+            createVNode("ul", null, [
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionPreview",
+                  type: "button",
+                  class: "action-preview",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+                  onKeyup: [
+                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["enter"])),
+                    _cache[10] || (_cache[10] = withKeys($event => ($options.openPreview()), ["space"])),
+                    _cache[13] || (_cache[13] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
+                    _cache[15] || (_cache[15] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[11] || (_cache[11] = $event => ($props.focused(true))),
+                  onBlur: _cache[12] || (_cache[12] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-search-plus",
+                    "aria-hidden": "true",
+                    onClick: _cache[8] || (_cache[8] = withModifiers($event => ($options.openPreview()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionDownload",
+                  type: "button",
+                  class: "action-download",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+                  onKeyup: [
+                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["enter"])),
+                    _cache[18] || (_cache[18] = withKeys($event => ($options.download()), ["space"])),
+                    _cache[21] || (_cache[21] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
+                    _cache[23] || (_cache[23] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[19] || (_cache[19] = $event => ($props.focused(true))),
+                  onBlur: _cache[20] || (_cache[20] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-download",
+                    "aria-hidden": "true",
+                    onClick: _cache[16] || (_cache[16] = withModifiers($event => ($options.download()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionRename",
+                  type: "button",
+                  class: "action-rename",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+                  onKeyup: [
+                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["enter"])),
+                    _cache[26] || (_cache[26] = withKeys($event => ($options.openRenameModal()), ["space"])),
+                    _cache[29] || (_cache[29] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[30] || (_cache[30] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
+                    _cache[31] || (_cache[31] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[27] || (_cache[27] = $event => ($props.focused(true))),
+                  onBlur: _cache[28] || (_cache[28] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-text-width",
+                    "aria-hidden": "true",
+                    onClick: _cache[24] || (_cache[24] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionShare",
+                  type: "button",
+                  class: "action-url",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+                  onKeyup: [
+                    _cache[33] || (_cache[33] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
+                    _cache[34] || (_cache[34] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
+                    _cache[37] || (_cache[37] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
+                    _cache[39] || (_cache[39] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[35] || (_cache[35] = $event => ($props.focused(true))),
+                  onBlur: _cache[36] || (_cache[36] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-link",
+                    "aria-hidden": "true",
+                    onClick: _cache[32] || (_cache[32] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ]),
+              createVNode("li", null, [
+                createVNode("button", {
+                  ref: "actionDelete",
+                  type: "button",
+                  class: "action-delete",
+                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+                  onKeyup: [
+                    _cache[41] || (_cache[41] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
+                    _cache[42] || (_cache[42] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
+                    _cache[45] || (_cache[45] = withKeys($event => ($options.hideActions()), ["esc"])),
+                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
+                    _cache[47] || (_cache[47] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
+                  ],
+                  onFocus: _cache[43] || (_cache[43] = $event => ($props.focused(true))),
+                  onBlur: _cache[44] || (_cache[44] = $event => ($props.focused(false)))
+                }, [
+                  createVNode("span", {
+                    class: "image-browser-action icon-trash",
+                    "aria-hidden": "true",
+                    onClick: _cache[40] || (_cache[40] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
+                  })
+                ], 40 /* PROPS, HYDRATE_EVENTS */, ["aria-label", "title"])
+              ])
+            ])
+          ]))
+        : createCommentVNode("v-if", true)
+    ], 2 /* CLASS */)
+  ], 32 /* HYDRATE_EVENTS */))
+}
+
 script$a.render = render$a;
-script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
 
 var script$9 = {
-  name: 'MediaBrowserItemVideo',
+  name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
   data() {
@@ -9309,7 +10030,7 @@ var script$9 = {
 const _hoisted_1$8 = /*#__PURE__*/createVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createVNode("div", { class: "file-icon" }, [
-      /*#__PURE__*/createVNode("span", { class: "icon-file-alt" })
+      /*#__PURE__*/createVNode("span", { class: "fas fa-file-pdf" })
     ])
   ])
 ], -1 /* HOISTED */);
@@ -9321,7 +10042,7 @@ const _hoisted_3$8 = {
 
 function render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("div", {
-    class: "media-browser-image",
+    class: "media-browser-doc",
     onDblclick: _cache[48] || (_cache[48] = $event => ($options.openPreview())),
     onMouseleave: _cache[49] || (_cache[49] = $event => ($options.hideActions()))
   }, [
@@ -9487,7 +10208,7 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$9.render = render$9;
-script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
 
 const dirname = path => {
   if (typeof path !== 'string') {
@@ -9543,6 +10264,9 @@ class Api {
 
     this._csrfToken = Joomla.getOptions('csrf.token');
     this.imagesExtensions = options.imagesExtensions;
+    this.audioExtensions = options.audioExtensions;
+    this.videoExtensions = options.videoExtensions;
+    this.documentExtensions = options.documentExtensions;
   }
   /**
      * Get the contents of a directory from the server
@@ -9850,31 +10574,39 @@ var BrowserItem = {
 
   methods: {
     /**
-         * Return the correct item type component
-         */
+     * Return the correct item type component
+     */
     itemType() {
-      const imageExtensions = api.imagesExtensions;
-      const videoExtensions = ['mp4']; // Render directory items
+      // Render directory items
+      if (this.item.type === 'dir') return script$e; // Render image items
 
-      if (this.item.type === 'dir') return script$c; // Render image items
-
-      if (this.item.extension && imageExtensions.includes(this.item.extension.toLowerCase())) {
-        return script$a;
+      if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
+        return script$c;
       } // Render video items
 
 
-      if (this.item.extension && !videoExtensions.includes(this.item.extension.toLowerCase())) {
+      if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
+        return script$b;
+      } // Render audio items
+
+
+      if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
+        return script$a;
+      } // Render document items
+
+
+      if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
         return script$9;
       } // Default to file type
 
 
-      return script$b;
+      return script$d;
     },
 
     /**
-         * Get the styles for the media browser item
-         * @returns {{}}
-         */
+     * Get the styles for the media browser item
+     * @returns {{}}
+     */
     styles() {
       return {
         width: `calc(${this.$store.state.gridSize}% - 20px)`
@@ -9882,39 +10614,39 @@ var BrowserItem = {
     },
 
     /**
-         * Whether or not the item is currently selected
-         * @returns {boolean}
-         */
+     * Whether or not the item is currently selected
+     * @returns {boolean}
+     */
     isSelected() {
       return this.$store.state.selectedItems.some(selected => selected.path === this.item.path);
     },
 
     /**
-         * Whether or not the item is currently active (on hover or via tab)
-         * @returns {boolean}
-         */
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
     isHoverActive() {
       return this.hoverActive;
     },
 
     /**
-         * Turns on the hover class
-         */
+     * Turns on the hover class
+     */
     mouseover() {
       this.hoverActive = true;
     },
 
     /**
-         * Turns off the hover class
-         */
+     * Turns off the hover class
+     */
     mouseleave() {
       this.hoverActive = false;
     },
 
     /**
-         * Handle the click event
-         * @param event
-         */
+     * Handle the click event
+     * @param event
+     */
     handleClick(event) {
       if (this.item.path && this.item.type === 'file') {
         window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
@@ -9966,9 +10698,9 @@ var BrowserItem = {
     },
 
     /**
-         * Handle the when an element is focused in the child to display the layover for a11y
-         * @param value
-         */
+     * Handle the when an element is focused in the child to display the layover for a11y
+     * @param value
+     */
     focused(value) {
       // eslint-disable-next-line no-unused-expressions
       value ? this.mouseover() : this.mouseleave();
@@ -10031,7 +10763,8 @@ var script$8 = {
         return;
       }
 
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'mp4'];
+      // @todo remove the hardcoded extensions here
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension
@@ -10042,17 +10775,17 @@ var script$8 = {
     },
 
     /**
-             * Whether or not the item is currently selected
-             * @returns {boolean}
-             */
+     * Whether or not the item is currently selected
+     * @returns {boolean}
+     */
     isSelected() {
       return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
     },
 
     /**
-             * Handle the click event
-             * @param event
-             */
+     * Handle the click event
+     * @param event
+     */
     onClick(event) {
       const path = false;
       const data = {
@@ -10068,12 +10801,16 @@ var script$8 = {
         data.width = this.item.width ? this.item.width : 0;
         data.height = this.item.height ? this.item.height : 0;
 
-        const ev = new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: data,
-        });
-        window.parent.document.dispatchEvent(ev);
+        window.parent.document.dispatchEvent(
+          new CustomEvent(
+            'onMediaFileSelected',
+            {
+              bubbles: true,
+              cancelable: false,
+              detail: data,
+            },
+          ),
+        );
       }
 
       // Handle clicks when the item was not selected
@@ -10364,6 +11101,12 @@ var script$5 = {
     isVideo() {
       return this.item.mime_type.indexOf('video/') === 0;
     },
+    isAudio() {
+      return this.item.mime_type.indexOf('audio/') === 0;
+    },
+    isDoc() {
+      return this.item.mime_type.indexOf('application/') === 0;
+    },
   },
 };
 
@@ -10395,12 +11138,12 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         body: withCtx(() => [
           createVNode("div", _hoisted_2$4, [
-            ($options.isImage())
-              ? (openBlock(), createBlock("img", {
+            ($options.isAudio())
+              ? (openBlock(), createBlock("audio", {
                   key: 0,
-                  src: $options.item.url,
-                  type: $options.item.mime_type
-                }, null, 8 /* PROPS */, ["src", "type"]))
+                  controls: "",
+                  src: $options.item.url
+                }, null, 8 /* PROPS */, ["src"]))
               : createCommentVNode("v-if", true),
             ($options.isVideo())
               ? (openBlock(), createBlock("video", _hoisted_3$4, [
@@ -10409,6 +11152,22 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
                     type: $options.item.mime_type
                   }, null, 8 /* PROPS */, ["src", "type"])
                 ]))
+              : createCommentVNode("v-if", true),
+            ($options.isDoc())
+              ? (openBlock(), createBlock("object", {
+                  key: 2,
+                  type: $options.item.mime_type,
+                  data: $options.item.url,
+                  width: "800",
+                  height: "600"
+                }, null, 8 /* PROPS */, ["type", "data"]))
+              : createCommentVNode("v-if", true),
+            ($options.isImage())
+              ? (openBlock(), createBlock("img", {
+                  key: 3,
+                  src: $options.item.url,
+                  type: $options.item.mime_type
+                }, null, 8 /* PROPS */, ["src", "type"]))
               : createCommentVNode("v-if", true)
           ])
         ]),
@@ -10970,37 +11729,37 @@ const Translate = {
   })
 };
 
+function getDevtoolsGlobalHook() {
+  return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
+}
+function getTarget() {
+  // @ts-ignore
+  return typeof navigator !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
+}
+
+const HOOK_SETUP = 'devtools-plugin:setup';
+
+function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
+  const hook = getDevtoolsGlobalHook();
+
+  if (hook) {
+    hook.emit(HOOK_SETUP, pluginDescriptor, setupFn);
+  } else {
+    const target = getTarget();
+    const list = target.__VUE_DEVTOOLS_PLUGINS__ = target.__VUE_DEVTOOLS_PLUGINS__ || [];
+    list.push({
+      pluginDescriptor,
+      setupFn
+    });
+  }
+}
+
 /*!
- * vuex v4.0.0
+ * vuex v4.0.2
  * (c) 2021 Evan You
  * @license MIT
  */
 var storeKey = 'store';
-
-var target = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : {};
-var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-function devtoolPlugin(store) {
-  if (!devtoolHook) {
-    return;
-  }
-
-  store._devtoolHook = devtoolHook;
-  devtoolHook.emit('vuex:init', store);
-  devtoolHook.on('vuex:travel-to-state', function (targetState) {
-    store.replaceState(targetState);
-  });
-  store.subscribe(function (mutation, state) {
-    devtoolHook.emit('vuex:mutation', mutation, state);
-  }, {
-    prepend: true
-  });
-  store.subscribeAction(function (action, state) {
-    devtoolHook.emit('vuex:action', action, state);
-  }, {
-    prepend: true
-  });
-}
 /**
  * forEach for object
  */
@@ -11024,418 +11783,7 @@ function partial(fn, arg) {
   return function () {
     return fn(arg);
   };
-} // Base data struct for store's module, package with some attribute and method
-
-
-var Module = function Module(rawModule, runtime) {
-  this.runtime = runtime; // Store some children item
-
-  this._children = Object.create(null); // Store the origin module object which passed by programmer
-
-  this._rawModule = rawModule;
-  var rawState = rawModule.state; // Store the origin module's state
-
-  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
-};
-
-var prototypeAccessors = {
-  namespaced: {
-    configurable: true
-  }
-};
-
-prototypeAccessors.namespaced.get = function () {
-  return !!this._rawModule.namespaced;
-};
-
-Module.prototype.addChild = function addChild(key, module) {
-  this._children[key] = module;
-};
-
-Module.prototype.removeChild = function removeChild(key) {
-  delete this._children[key];
-};
-
-Module.prototype.getChild = function getChild(key) {
-  return this._children[key];
-};
-
-Module.prototype.hasChild = function hasChild(key) {
-  return key in this._children;
-};
-
-Module.prototype.update = function update(rawModule) {
-  this._rawModule.namespaced = rawModule.namespaced;
-
-  if (rawModule.actions) {
-    this._rawModule.actions = rawModule.actions;
-  }
-
-  if (rawModule.mutations) {
-    this._rawModule.mutations = rawModule.mutations;
-  }
-
-  if (rawModule.getters) {
-    this._rawModule.getters = rawModule.getters;
-  }
-};
-
-Module.prototype.forEachChild = function forEachChild(fn) {
-  forEachValue(this._children, fn);
-};
-
-Module.prototype.forEachGetter = function forEachGetter(fn) {
-  if (this._rawModule.getters) {
-    forEachValue(this._rawModule.getters, fn);
-  }
-};
-
-Module.prototype.forEachAction = function forEachAction(fn) {
-  if (this._rawModule.actions) {
-    forEachValue(this._rawModule.actions, fn);
-  }
-};
-
-Module.prototype.forEachMutation = function forEachMutation(fn) {
-  if (this._rawModule.mutations) {
-    forEachValue(this._rawModule.mutations, fn);
-  }
-};
-
-Object.defineProperties(Module.prototype, prototypeAccessors);
-
-var ModuleCollection = function ModuleCollection(rawRootModule) {
-  // register root module (Vuex.Store options)
-  this.register([], rawRootModule, false);
-};
-
-ModuleCollection.prototype.get = function get(path) {
-  return path.reduce(function (module, key) {
-    return module.getChild(key);
-  }, this.root);
-};
-
-ModuleCollection.prototype.getNamespace = function getNamespace(path) {
-  var module = this.root;
-  return path.reduce(function (namespace, key) {
-    module = module.getChild(key);
-    return namespace + (module.namespaced ? key + '/' : '');
-  }, '');
-};
-
-ModuleCollection.prototype.update = function update$1(rawRootModule) {
-  update([], this.root, rawRootModule);
-};
-
-ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
-  var this$1 = this;
-  if (runtime === void 0) runtime = true;
-
-  var newModule = new Module(rawModule, runtime);
-
-  if (path.length === 0) {
-    this.root = newModule;
-  } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
-  } // register nested modules
-
-
-  if (rawModule.modules) {
-    forEachValue(rawModule.modules, function (rawChildModule, key) {
-      this$1.register(path.concat(key), rawChildModule, runtime);
-    });
-  }
-};
-
-ModuleCollection.prototype.unregister = function unregister(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  var child = parent.getChild(key);
-
-  if (!child) {
-
-    return;
-  }
-
-  if (!child.runtime) {
-    return;
-  }
-
-  parent.removeChild(key);
-};
-
-ModuleCollection.prototype.isRegistered = function isRegistered(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-
-  if (parent) {
-    return parent.hasChild(key);
-  }
-
-  return false;
-};
-
-function update(path, targetModule, newModule) {
-
-
-  targetModule.update(newModule); // update nested modules
-
-  if (newModule.modules) {
-    for (var key in newModule.modules) {
-      if (!targetModule.getChild(key)) {
-
-        return;
-      }
-
-      update(path.concat(key), targetModule.getChild(key), newModule.modules[key]);
-    }
-  }
 }
-
-function createStore(options) {
-  return new Store(options);
-}
-
-var Store = function Store(options) {
-  var this$1 = this;
-  if (options === void 0) options = {};
-
-  var plugins = options.plugins;
-  if (plugins === void 0) plugins = [];
-  var strict = options.strict;
-  if (strict === void 0) strict = false; // store internal state
-
-  this._committing = false;
-  this._actions = Object.create(null);
-  this._actionSubscribers = [];
-  this._mutations = Object.create(null);
-  this._wrappedGetters = Object.create(null);
-  this._modules = new ModuleCollection(options);
-  this._modulesNamespaceMap = Object.create(null);
-  this._subscribers = [];
-  this._makeLocalGettersCache = Object.create(null); // bind commit and dispatch to self
-
-  var store = this;
-  var ref = this;
-  var dispatch = ref.dispatch;
-  var commit = ref.commit;
-
-  this.dispatch = function boundDispatch(type, payload) {
-    return dispatch.call(store, type, payload);
-  };
-
-  this.commit = function boundCommit(type, payload, options) {
-    return commit.call(store, type, payload, options);
-  }; // strict mode
-
-
-  this.strict = strict;
-  var state = this._modules.root.state; // init root module.
-  // this also recursively registers all sub-modules
-  // and collects all module getters inside this._wrappedGetters
-
-  installModule(this, state, [], this._modules.root); // initialize the store state, which is responsible for the reactivity
-  // (also registers _wrappedGetters as computed properties)
-
-  resetStoreState(this, state); // apply plugins
-
-  plugins.forEach(function (plugin) {
-    return plugin(this$1);
-  });
-  var useDevtools = options.devtools !== undefined ? options.devtools :
-  /* Vue.config.devtools */
-  true;
-
-  if (useDevtools) {
-    devtoolPlugin(this);
-  }
-};
-
-var prototypeAccessors$1 = {
-  state: {
-    configurable: true
-  }
-};
-
-Store.prototype.install = function install(app, injectKey) {
-  app.provide(injectKey || storeKey, this);
-  app.config.globalProperties.$store = this;
-};
-
-prototypeAccessors$1.state.get = function () {
-  return this._state.data;
-};
-
-prototypeAccessors$1.state.set = function (v) {
-};
-
-Store.prototype.commit = function commit(_type, _payload, _options) {
-  var this$1 = this; // check object-style commit
-
-  var ref = unifyObjectStyle(_type, _payload, _options);
-  var type = ref.type;
-  var payload = ref.payload;
-  var mutation = {
-    type: type,
-    payload: payload
-  };
-  var entry = this._mutations[type];
-
-  if (!entry) {
-
-    return;
-  }
-
-  this._withCommit(function () {
-    entry.forEach(function commitIterator(handler) {
-      handler(payload);
-    });
-  });
-
-  this._subscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-  .forEach(function (sub) {
-    return sub(mutation, this$1.state);
-  });
-};
-
-Store.prototype.dispatch = function dispatch(_type, _payload) {
-  var this$1 = this; // check object-style dispatch
-
-  var ref = unifyObjectStyle(_type, _payload);
-  var type = ref.type;
-  var payload = ref.payload;
-  var action = {
-    type: type,
-    payload: payload
-  };
-  var entry = this._actions[type];
-
-  if (!entry) {
-
-    return;
-  }
-
-  try {
-    this._actionSubscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
-    .filter(function (sub) {
-      return sub.before;
-    }).forEach(function (sub) {
-      return sub.before(action, this$1.state);
-    });
-  } catch (e) {
-  }
-
-  var result = entry.length > 1 ? Promise.all(entry.map(function (handler) {
-    return handler(payload);
-  })) : entry[0](payload);
-  return new Promise(function (resolve, reject) {
-    result.then(function (res) {
-      try {
-        this$1._actionSubscribers.filter(function (sub) {
-          return sub.after;
-        }).forEach(function (sub) {
-          return sub.after(action, this$1.state);
-        });
-      } catch (e) {
-      }
-
-      resolve(res);
-    }, function (error) {
-      try {
-        this$1._actionSubscribers.filter(function (sub) {
-          return sub.error;
-        }).forEach(function (sub) {
-          return sub.error(action, this$1.state, error);
-        });
-      } catch (e) {
-      }
-
-      reject(error);
-    });
-  });
-};
-
-Store.prototype.subscribe = function subscribe(fn, options) {
-  return genericSubscribe(fn, this._subscribers, options);
-};
-
-Store.prototype.subscribeAction = function subscribeAction(fn, options) {
-  var subs = typeof fn === 'function' ? {
-    before: fn
-  } : fn;
-  return genericSubscribe(subs, this._actionSubscribers, options);
-};
-
-Store.prototype.watch = function watch$1(getter, cb, options) {
-  var this$1 = this;
-
-  return watch(function () {
-    return getter(this$1.state, this$1.getters);
-  }, cb, Object.assign({}, options));
-};
-
-Store.prototype.replaceState = function replaceState(state) {
-  var this$1 = this;
-
-  this._withCommit(function () {
-    this$1._state.data = state;
-  });
-};
-
-Store.prototype.registerModule = function registerModule(path, rawModule, options) {
-  if (options === void 0) options = {};
-
-  if (typeof path === 'string') {
-    path = [path];
-  }
-
-  this._modules.register(path, rawModule);
-
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState); // reset store to update getters...
-
-  resetStoreState(this, this.state);
-};
-
-Store.prototype.unregisterModule = function unregisterModule(path) {
-  var this$1 = this;
-
-  if (typeof path === 'string') {
-    path = [path];
-  }
-
-  this._modules.unregister(path);
-
-  this._withCommit(function () {
-    var parentState = getNestedState(this$1.state, path.slice(0, -1));
-    delete parentState[path[path.length - 1]];
-  });
-
-  resetStore(this);
-};
-
-Store.prototype.hasModule = function hasModule(path) {
-  if (typeof path === 'string') {
-    path = [path];
-  }
-
-  return this._modules.isRegistered(path);
-};
-
-Store.prototype.hotUpdate = function hotUpdate(newOptions) {
-  this._modules.update(newOptions);
-
-  resetStore(this, true);
-};
-
-Store.prototype._withCommit = function _withCommit(fn) {
-  var committing = this._committing;
-  this._committing = true;
-  fn();
-  this._committing = committing;
-};
-
-Object.defineProperties(Store.prototype, prototypeAccessors$1);
 
 function genericSubscribe(fn, subs, options) {
   if (subs.indexOf(fn) < 0) {
@@ -11708,6 +12056,705 @@ function unifyObjectStyle(type, payload, options) {
     options: options
   };
 }
+
+var LABEL_VUEX_BINDINGS = 'vuex bindings';
+var MUTATIONS_LAYER_ID = 'vuex:mutations';
+var ACTIONS_LAYER_ID = 'vuex:actions';
+var INSPECTOR_ID = 'vuex';
+var actionId = 0;
+
+function addDevtools(app, store) {
+  setupDevtoolsPlugin({
+    id: 'org.vuejs.vuex',
+    app: app,
+    label: 'Vuex',
+    homepage: 'https://next.vuex.vuejs.org/',
+    logo: 'https://vuejs.org/images/icons/favicon-96x96.png',
+    packageName: 'vuex',
+    componentStateTypes: [LABEL_VUEX_BINDINGS]
+  }, function (api) {
+    api.addTimelineLayer({
+      id: MUTATIONS_LAYER_ID,
+      label: 'Vuex Mutations',
+      color: COLOR_LIME_500
+    });
+    api.addTimelineLayer({
+      id: ACTIONS_LAYER_ID,
+      label: 'Vuex Actions',
+      color: COLOR_LIME_500
+    });
+    api.addInspector({
+      id: INSPECTOR_ID,
+      label: 'Vuex',
+      icon: 'storage',
+      treeFilterPlaceholder: 'Filter stores...'
+    });
+    api.on.getInspectorTree(function (payload) {
+      if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+        if (payload.filter) {
+          var nodes = [];
+          flattenStoreForInspectorTree(nodes, store._modules.root, payload.filter, '');
+          payload.rootNodes = nodes;
+        } else {
+          payload.rootNodes = [formatStoreForInspectorTree(store._modules.root, '')];
+        }
+      }
+    });
+    api.on.getInspectorState(function (payload) {
+      if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+        var modulePath = payload.nodeId;
+        makeLocalGetters(store, modulePath);
+        payload.state = formatStoreForInspectorState(getStoreModule(store._modules, modulePath), modulePath === 'root' ? store.getters : store._makeLocalGettersCache, modulePath);
+      }
+    });
+    api.on.editInspectorState(function (payload) {
+      if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+        var modulePath = payload.nodeId;
+        var path = payload.path;
+
+        if (modulePath !== 'root') {
+          path = modulePath.split('/').filter(Boolean).concat(path);
+        }
+
+        store._withCommit(function () {
+          payload.set(store._state.data, path, payload.state.value);
+        });
+      }
+    });
+    store.subscribe(function (mutation, state) {
+      var data = {};
+
+      if (mutation.payload) {
+        data.payload = mutation.payload;
+      }
+
+      data.state = state;
+      api.notifyComponentUpdate();
+      api.sendInspectorTree(INSPECTOR_ID);
+      api.sendInspectorState(INSPECTOR_ID);
+      api.addTimelineEvent({
+        layerId: MUTATIONS_LAYER_ID,
+        event: {
+          time: Date.now(),
+          title: mutation.type,
+          data: data
+        }
+      });
+    });
+    store.subscribeAction({
+      before: function (action, state) {
+        var data = {};
+
+        if (action.payload) {
+          data.payload = action.payload;
+        }
+
+        action._id = actionId++;
+        action._time = Date.now();
+        data.state = state;
+        api.addTimelineEvent({
+          layerId: ACTIONS_LAYER_ID,
+          event: {
+            time: action._time,
+            title: action.type,
+            groupId: action._id,
+            subtitle: 'start',
+            data: data
+          }
+        });
+      },
+      after: function (action, state) {
+        var data = {};
+
+        var duration = Date.now() - action._time;
+
+        data.duration = {
+          _custom: {
+            type: 'duration',
+            display: duration + "ms",
+            tooltip: 'Action duration',
+            value: duration
+          }
+        };
+
+        if (action.payload) {
+          data.payload = action.payload;
+        }
+
+        data.state = state;
+        api.addTimelineEvent({
+          layerId: ACTIONS_LAYER_ID,
+          event: {
+            time: Date.now(),
+            title: action.type,
+            groupId: action._id,
+            subtitle: 'end',
+            data: data
+          }
+        });
+      }
+    });
+  });
+} // extracted from tailwind palette
+
+
+var COLOR_LIME_500 = 0x84cc16;
+var COLOR_DARK = 0x666666;
+var COLOR_WHITE = 0xffffff;
+var TAG_NAMESPACED = {
+  label: 'namespaced',
+  textColor: COLOR_WHITE,
+  backgroundColor: COLOR_DARK
+};
+/**
+ * @param {string} path
+ */
+
+function extractNameFromPath(path) {
+  return path && path !== 'root' ? path.split('/').slice(-2, -1)[0] : 'Root';
+}
+/**
+ * @param {*} module
+ * @return {import('@vue/devtools-api').CustomInspectorNode}
+ */
+
+
+function formatStoreForInspectorTree(module, path) {
+  return {
+    id: path || 'root',
+    // all modules end with a `/`, we want the last segment only
+    // cart/ -> cart
+    // nested/cart/ -> cart
+    label: extractNameFromPath(path),
+    tags: module.namespaced ? [TAG_NAMESPACED] : [],
+    children: Object.keys(module._children).map(function (moduleName) {
+      return formatStoreForInspectorTree(module._children[moduleName], path + moduleName + '/');
+    })
+  };
+}
+/**
+ * @param {import('@vue/devtools-api').CustomInspectorNode[]} result
+ * @param {*} module
+ * @param {string} filter
+ * @param {string} path
+ */
+
+
+function flattenStoreForInspectorTree(result, module, filter, path) {
+  if (path.includes(filter)) {
+    result.push({
+      id: path || 'root',
+      label: path.endsWith('/') ? path.slice(0, path.length - 1) : path || 'Root',
+      tags: module.namespaced ? [TAG_NAMESPACED] : []
+    });
+  }
+
+  Object.keys(module._children).forEach(function (moduleName) {
+    flattenStoreForInspectorTree(result, module._children[moduleName], filter, path + moduleName + '/');
+  });
+}
+/**
+ * @param {*} module
+ * @return {import('@vue/devtools-api').CustomInspectorState}
+ */
+
+
+function formatStoreForInspectorState(module, getters, path) {
+  getters = path === 'root' ? getters : getters[path];
+  var gettersKeys = Object.keys(getters);
+  var storeState = {
+    state: Object.keys(module.state).map(function (key) {
+      return {
+        key: key,
+        editable: true,
+        value: module.state[key]
+      };
+    })
+  };
+
+  if (gettersKeys.length) {
+    var tree = transformPathsToObjectTree(getters);
+    storeState.getters = Object.keys(tree).map(function (key) {
+      return {
+        key: key.endsWith('/') ? extractNameFromPath(key) : key,
+        editable: false,
+        value: canThrow(function () {
+          return tree[key];
+        })
+      };
+    });
+  }
+
+  return storeState;
+}
+
+function transformPathsToObjectTree(getters) {
+  var result = {};
+  Object.keys(getters).forEach(function (key) {
+    var path = key.split('/');
+
+    if (path.length > 1) {
+      var target = result;
+      var leafKey = path.pop();
+      path.forEach(function (p) {
+        if (!target[p]) {
+          target[p] = {
+            _custom: {
+              value: {},
+              display: p,
+              tooltip: 'Module',
+              abstract: true
+            }
+          };
+        }
+
+        target = target[p]._custom.value;
+      });
+      target[leafKey] = canThrow(function () {
+        return getters[key];
+      });
+    } else {
+      result[key] = canThrow(function () {
+        return getters[key];
+      });
+    }
+  });
+  return result;
+}
+
+function getStoreModule(moduleMap, path) {
+  var names = path.split('/').filter(function (n) {
+    return n;
+  });
+  return names.reduce(function (module, moduleName, i) {
+    var child = module[moduleName];
+
+    if (!child) {
+      throw new Error("Missing module \"" + moduleName + "\" for path \"" + path + "\".");
+    }
+
+    return i === names.length - 1 ? child : child._children;
+  }, path === 'root' ? moduleMap : moduleMap.root._children);
+}
+
+function canThrow(cb) {
+  try {
+    return cb();
+  } catch (e) {
+    return e;
+  }
+} // Base data struct for store's module, package with some attribute and method
+
+
+var Module = function Module(rawModule, runtime) {
+  this.runtime = runtime; // Store some children item
+
+  this._children = Object.create(null); // Store the origin module object which passed by programmer
+
+  this._rawModule = rawModule;
+  var rawState = rawModule.state; // Store the origin module's state
+
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = {
+  namespaced: {
+    configurable: true
+  }
+};
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced;
+};
+
+Module.prototype.addChild = function addChild(key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild(key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild(key) {
+  return this._children[key];
+};
+
+Module.prototype.hasChild = function hasChild(key) {
+  return key in this._children;
+};
+
+Module.prototype.update = function update(rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild(fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter(fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction(fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation(fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties(Module.prototype, prototypeAccessors$1);
+
+var ModuleCollection = function ModuleCollection(rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get(path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key);
+  }, this.root);
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace(path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '');
+  }, '');
+};
+
+ModuleCollection.prototype.update = function update$1(rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
+  var this$1$1 = this;
+  if (runtime === void 0) runtime = true;
+
+  var newModule = new Module(rawModule, runtime);
+
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  } // register nested modules
+
+
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister(path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  var child = parent.getChild(key);
+
+  if (!child) {
+
+    return;
+  }
+
+  if (!child.runtime) {
+    return;
+  }
+
+  parent.removeChild(key);
+};
+
+ModuleCollection.prototype.isRegistered = function isRegistered(path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+
+  if (parent) {
+    return parent.hasChild(key);
+  }
+
+  return false;
+};
+
+function update(path, targetModule, newModule) {
+
+
+  targetModule.update(newModule); // update nested modules
+
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+
+        return;
+      }
+
+      update(path.concat(key), targetModule.getChild(key), newModule.modules[key]);
+    }
+  }
+}
+
+function createStore(options) {
+  return new Store(options);
+}
+
+var Store = function Store(options) {
+  var this$1$1 = this;
+  if (options === void 0) options = {};
+
+  var plugins = options.plugins;
+  if (plugins === void 0) plugins = [];
+  var strict = options.strict;
+  if (strict === void 0) strict = false;
+  var devtools = options.devtools; // store internal state
+
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._makeLocalGettersCache = Object.create(null);
+  this._devtools = devtools; // bind commit and dispatch to self
+
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+
+  this.dispatch = function boundDispatch(type, payload) {
+    return dispatch.call(store, type, payload);
+  };
+
+  this.commit = function boundCommit(type, payload, options) {
+    return commit.call(store, type, payload, options);
+  }; // strict mode
+
+
+  this.strict = strict;
+  var state = this._modules.root.state; // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+
+  installModule(this, state, [], this._modules.root); // initialize the store state, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+
+  resetStoreState(this, state); // apply plugins
+
+  plugins.forEach(function (plugin) {
+    return plugin(this$1$1);
+  });
+};
+
+var prototypeAccessors = {
+  state: {
+    configurable: true
+  }
+};
+
+Store.prototype.install = function install(app, injectKey) {
+  app.provide(injectKey || storeKey, this);
+  app.config.globalProperties.$store = this;
+  var useDevtools = this._devtools !== undefined ? this._devtools : __VUE_PROD_DEVTOOLS__;
+
+  if (useDevtools) {
+    addDevtools(app, this);
+  }
+};
+
+prototypeAccessors.state.get = function () {
+  return this._state.data;
+};
+
+prototypeAccessors.state.set = function (v) {
+};
+
+Store.prototype.commit = function commit(_type, _payload, _options) {
+  var this$1$1 = this; // check object-style commit
+
+  var ref = unifyObjectStyle(_type, _payload, _options);
+  var type = ref.type;
+  var payload = ref.payload;
+  var mutation = {
+    type: type,
+    payload: payload
+  };
+  var entry = this._mutations[type];
+
+  if (!entry) {
+
+    return;
+  }
+
+  this._withCommit(function () {
+    entry.forEach(function commitIterator(handler) {
+      handler(payload);
+    });
+  });
+
+  this._subscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+  .forEach(function (sub) {
+    return sub(mutation, this$1$1.state);
+  });
+};
+
+Store.prototype.dispatch = function dispatch(_type, _payload) {
+  var this$1$1 = this; // check object-style dispatch
+
+  var ref = unifyObjectStyle(_type, _payload);
+  var type = ref.type;
+  var payload = ref.payload;
+  var action = {
+    type: type,
+    payload: payload
+  };
+  var entry = this._actions[type];
+
+  if (!entry) {
+
+    return;
+  }
+
+  try {
+    this._actionSubscribers.slice() // shallow copy to prevent iterator invalidation if subscriber synchronously calls unsubscribe
+    .filter(function (sub) {
+      return sub.before;
+    }).forEach(function (sub) {
+      return sub.before(action, this$1$1.state);
+    });
+  } catch (e) {
+  }
+
+  var result = entry.length > 1 ? Promise.all(entry.map(function (handler) {
+    return handler(payload);
+  })) : entry[0](payload);
+  return new Promise(function (resolve, reject) {
+    result.then(function (res) {
+      try {
+        this$1$1._actionSubscribers.filter(function (sub) {
+          return sub.after;
+        }).forEach(function (sub) {
+          return sub.after(action, this$1$1.state);
+        });
+      } catch (e) {
+      }
+
+      resolve(res);
+    }, function (error) {
+      try {
+        this$1$1._actionSubscribers.filter(function (sub) {
+          return sub.error;
+        }).forEach(function (sub) {
+          return sub.error(action, this$1$1.state, error);
+        });
+      } catch (e) {
+      }
+
+      reject(error);
+    });
+  });
+};
+
+Store.prototype.subscribe = function subscribe(fn, options) {
+  return genericSubscribe(fn, this._subscribers, options);
+};
+
+Store.prototype.subscribeAction = function subscribeAction(fn, options) {
+  var subs = typeof fn === 'function' ? {
+    before: fn
+  } : fn;
+  return genericSubscribe(subs, this._actionSubscribers, options);
+};
+
+Store.prototype.watch = function watch$1(getter, cb, options) {
+  var this$1$1 = this;
+
+  return watch(function () {
+    return getter(this$1$1.state, this$1$1.getters);
+  }, cb, Object.assign({}, options));
+};
+
+Store.prototype.replaceState = function replaceState(state) {
+  var this$1$1 = this;
+
+  this._withCommit(function () {
+    this$1$1._state.data = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule(path, rawModule, options) {
+  if (options === void 0) options = {};
+
+  if (typeof path === 'string') {
+    path = [path];
+  }
+
+  this._modules.register(path, rawModule);
+
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState); // reset store to update getters...
+
+  resetStoreState(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule(path) {
+  var this$1$1 = this;
+
+  if (typeof path === 'string') {
+    path = [path];
+  }
+
+  this._modules.unregister(path);
+
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1$1.state, path.slice(0, -1));
+    delete parentState[path[path.length - 1]];
+  });
+
+  resetStore(this);
+};
+
+Store.prototype.hasModule = function hasModule(path) {
+  if (typeof path === 'string') {
+    path = [path];
+  }
+
+  return this._modules.isRegistered(path);
+};
+
+Store.prototype.hotUpdate = function hotUpdate(newOptions) {
+  this._modules.update(newOptions);
+
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit(fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties(Store.prototype, prototypeAccessors);
 
 var r = function (r) {
   return function (r) {
@@ -12615,17 +13662,17 @@ window.MediaManager = window.MediaManager || {}; // Register the media manager e
 
 window.MediaManager.Event = new Event(); // Create the Vue app instance
 
-const app = createApp(script$k);
+const app = createApp(script$m);
 app.use(store);
 app.use(Translate); // Register the vue components
 
-app.component('MediaDrive', script$i);
-app.component('MediaDisk', script$j);
-app.component('MediaTree', script$h);
-app.component('MediaTreeItem', script$g);
-app.component('MediaToolbar', script$f);
-app.component('MediaBreadcrumb', script$e);
-app.component('MediaBrowser', script$d);
+app.component('MediaDrive', script$k);
+app.component('MediaDisk', script$l);
+app.component('MediaTree', script$j);
+app.component('MediaTreeItem', script$i);
+app.component('MediaToolbar', script$h);
+app.component('MediaBreadcrumb', script$g);
+app.component('MediaBrowser', script$f);
 app.component('MediaBrowserItem', BrowserItem);
 app.component('MediaBrowserItemRow', script$8);
 app.component('MediaModal', script$7);

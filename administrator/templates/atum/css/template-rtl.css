@@ -11426,6 +11426,7 @@ caption {
 .container-main,
 .system-debug {
   padding-bottom: 50px;
+  overflow: auto;
 }
 
 body .container-main {
@@ -11640,7 +11641,8 @@ span.minicolors-swatch-color {
   color: var(--atum-bg-dark);
   background: var(--card-bg);
 }
-.content .card-header > [class^=icon-] {
+.content .card-header > [class^=icon-],
+.content .card-header > img {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
 }
@@ -11973,12 +11975,6 @@ th {
 .sysinfo .table thead th,
 .sysinfo .table thead td {
   white-space: normal;
-}
-@media (max-width: 767.98px) {
-  .table thead th,
-.table thead td {
-    white-space: normal;
-  }
 }
 .table thead a {
   color: var(--atum-link-color);
@@ -14076,7 +14072,8 @@ joomla-tab[view=accordion] .col-md-3 {
   color: var(--atum-bg-dark);
   background: var(--card-bg);
 }
-.com_cpanel .card-header > [class^=icon-] {
+.com_cpanel .card-header > [class^=icon-],
+.com_cpanel .card-header > img {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
 }

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -665,7 +665,7 @@ interface QueryInterface extends PreparableInterface, LimitableInterface
 
 	/**
 	 * Set a single query to the query set.
-	 * On this type of DatabaseQuery you can use union(), unioAll(), order() and setLimit()
+	 * On this type of DatabaseQuery you can use union(), unionAll(), order() and setLimit()
 	 *
 	 * Usage:
 	 * $query->querySet($query2->select('name')->from('#__foo')->order('id DESC')->setLimit(1))

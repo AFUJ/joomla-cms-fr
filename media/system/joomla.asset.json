@@ -122,6 +122,12 @@
       "version": "62494696772dab20435aa4497befa30ec623ec05"
     },
     {
+      "name": "switcher",
+      "type": "style",
+      "uri": "system/fields/switcher.min.css",
+      "version": "852c3c99beb07406033f85429263d74798ef3b15"
+    },
+    {
       "name": "form.validate",
       "type": "script",
       "class": "FormValidateAssetItem",
@@ -133,12 +139,6 @@
       ],
       "uri": "system/fields/validate.min.js",
       "version": "21cc9d15d26f5ab835adef2608fc8abf050422d0"
-    },
-    {
-      "name": "switcher",
-      "type": "style",
-      "uri": "system/fields/switcher.min.css",
-      "version": "852c3c99beb07406033f85429263d74798ef3b15"
     },
     {
       "name": "field.color-adv",
@@ -216,6 +216,18 @@
     },
     {
       "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css",
+      "version": "24b96ab0d0615abe1d23e4adad70963a02a966aa"
+    },
+    {
+      "name": "field.calendar-rtl",
+      "type": "style",
+      "uri": "system/fields/calendar-rtl.css",
+      "version": "8f75c689a92d6746d3cf48fb81fa5f060531e00d"
+    },
+    {
+      "name": "field.calendar",
       "type": "script",
       "uri": "system/fields/calendar.min.js",
       "attributes": {
@@ -276,33 +288,21 @@
       "version": "cb7f653c510ddb6c629382e0e62b733f0f9487fa"
     },
     {
-      "name": "field.calendar",
-      "type": "style",
-      "uri": "system/fields/calendar.css",
-      "version": "24b96ab0d0615abe1d23e4adad70963a02a966aa"
-    },
-    {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css",
-      "version": "8f75c689a92d6746d3cf48fb81fa5f060531e00d"
-    },
-    {
       "name": "webcomponent.field-media",
       "type": "style",
       "uri": "system/fields/joomla-field-media.min.css",
       "version": "b7ce45204d3195b4ad3190508d0a9ba7559ef26b"
     },
     {
-      "name": "webcomponent.image-select",
+      "name": "webcomponent.media-select",
       "type": "style",
-      "uri": "system/fields/joomla-image-select.min.css",
-      "version": "e664ef15c5026693e6ff0f49e432ed2d70838dfb"
+      "uri": "system/fields/joomla-media-select.min.css",
+      "version": "2183f27f21c9df4c7735eba43484455a0cc6211a"
     },
     {
-      "name": "webcomponent.image-select-legacy",
+      "name": "webcomponent.media-select-legacy",
       "type": "script",
-      "uri": "system/fields/joomla-image-select-es5.min.js",
+      "uri": "system/fields/joomla-media-select-es5.min.js",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -310,7 +310,19 @@
       "dependencies": [
         "wcpolyfill"
       ],
-      "version": "dc215f9deb6c71ce927a1213e69e0417d877df7b"
+      "version": "f3bb0baacb15a252423341f29632fc83b835f205"
+    },
+    {
+      "name": "webcomponent.media-select",
+      "type": "script",
+      "uri": "system/fields/joomla-media-select.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.media-select-legacy"
+      ],
+      "version": "62ba2011f56164423e9c848b3df3cfb6410bb2a5"
     },
     {
       "name": "webcomponent.field-media-legacy",
@@ -323,19 +335,7 @@
       "dependencies": [
         "wcpolyfill"
       ],
-      "version": "683d4f6a2eb2ca9fcf5df95a7b4be43a952684d5"
-    },
-    {
-      "name": "webcomponent.image-select",
-      "type": "script",
-      "uri": "system/fields/joomla-image-select.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "webcomponent.image-select-legacy"
-      ],
-      "version": "aa3180f9596fd6ed13e1308cf29983bb960a6f6f"
+      "version": "c8c55c3ed00456aa99d1201435551290bfeaf471"
     },
     {
       "name": "webcomponent.field-media",
@@ -347,7 +347,7 @@
       "dependencies": [
         "webcomponent.field-media-legacy"
       ],
-      "version": "faa99912f437b37e75ed7e1b493388172a50808c"
+      "version": "8b98efc610ea85a7c4bbbef7a04c370fd23b3179"
     },
     {
       "name": "webcomponent.field-module-order-legacy",

@@ -16,7 +16,7 @@
         "nomodules": true,
         "defer": true
       },
-      "version": "2850613b291f0b0ab58c153cffa77db0d0ba1887"
+      "version": "4f0b086d722ee44556bf9d6a66786117ad790cba"
     },
     {
       "name": "com_media.edit-images",
@@ -28,13 +28,13 @@
       "attributes": {
         "type": "module"
       },
-      "version": "1c2aef6f813a41bba8f25f3dcfef71a246bce251"
+      "version": "5991cfb96f60237d6a8c18dece3b7a3afa5d7c00"
     },
     {
       "name": "com_media.mediamanager",
       "type": "style",
       "uri": "com_media/media-manager.min.css",
-      "version": "56dc5d7790300c97cdef156914d6ef37affd1033"
+      "version": "38798738678af258af39926175a8282eff1c18fb"
     },
     {
       "name": "com_media.mediamanager",
@@ -46,7 +46,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "0966f4148d93a20820b2be7c0efc3a99d8b421f7"
+      "version": "a9dbe8cfacc66eec1ef5ccd60cab2b394ab75c3e"
     },
     {
       "name": "com_media.mediamanager.es5",
@@ -59,7 +59,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "166aa3e3f1cc74cc0d24d1891dea0410e0b3366b"
+      "version": "ad98c629a0c08dc2fac9ec078fc2a6922bc567fc"
     }
   ]
 }

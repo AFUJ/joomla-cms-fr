@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -851,7 +851,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	}
 
 	/**
-	 * Gets the name of the database used by this conneciton.
+	 * Gets the name of the database used by this connection.
 	 *
 	 * @return  string
 	 *
@@ -1068,7 +1068,15 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 			$this->execute();
 		}
 
-		return $this->factory->getIterator($this->name, $this->statement, $column, $class);
+		/**
+		 * Calling setQuery free's the statement from the iterator which will break the iterator.
+		 * So we set statement to null so that freeResult on the statement here has no affect.
+		 * If you unset the iterator object then that will close the cursor and free the result.
+		 */
+		$iterator = $this->factory->getIterator($this->name, $this->statement, $column, $class);
+		$this->statement = null;
+
+		return $iterator;
 	}
 
 	/**
@@ -1207,7 +1215,7 @@ abstract class DatabaseDriver implements DatabaseInterface, DispatcherAwareInter
 	 * of ['field_name' => 'row_value'].  The array of rows can optionally be keyed by a field name, but defaults to
 	 * a sequential numeric array.
 	 *
-	 * NOTE: Chosing to key the result array by a non-unique field name can result in unwanted
+	 * NOTE: Choosing to key the result array by a non-unique field name can result in unwanted
 	 * behavior and should be avoided.
 	 *
 	 * @param   string  $key     The name of a field on which to key the result array.

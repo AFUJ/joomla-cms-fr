@@ -11,7 +11,6 @@
 .fal,
 .fad,
 .fab,
-.icon-accessible,
 .icon-joomla {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -22,7 +21,7 @@
   line-height: 1;
 }
 
-.icon-accessible, .icon-joomla, [class^=icon-],
+.icon-joomla, [class^=icon-],
 [class*=" icon-"] {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -136,8 +135,6 @@
 .fal.icon-pull-left,
 .fab.fa-pull-left,
 .fab.icon-pull-left,
-.fa-pull-left.icon-accessible,
-.icon-accessible.icon-pull-left,
 .fa-pull-left.icon-joomla,
 .icon-joomla.icon-pull-left {
   margin-right: 0.3em;
@@ -155,8 +152,6 @@
 .fal.icon-pull-right,
 .fab.fa-pull-right,
 .fab.icon-pull-right,
-.fa-pull-right.icon-accessible,
-.icon-accessible.icon-pull-right,
 .fa-pull-right.icon-joomla,
 .icon-joomla.icon-pull-right {
   margin-left: 0.3em;
@@ -6181,7 +6176,7 @@ readers do not read off random characters that represent icons */
   src: url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.eot");
   src: url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff2") format("woff2"), url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff") format("woff"), url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.ttf") format("truetype"), url("../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.svg#fontawesome") format("svg");
 }
-.fab, .icon-accessible, .icon-joomla {
+.fab, .icon-joomla {
   font-family: "Font Awesome 5 Brands";
   font-weight: 400;
 }
@@ -6206,7 +6201,7 @@ readers do not read off random characters that represent icons */
 }
 
 .icon-accessible:before {
-  content: "";
+  content: "";
 }
 
 .icon-add:before {
@@ -7618,7 +7613,7 @@ readers do not read off random characters that represent icons */
 }
 
 .icon-unfeatured:before {
-  content: "";
+  content: "";
 }
 
 .icon-universal:before {

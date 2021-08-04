@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Database Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,7 +71,10 @@ final class DebugMonitor implements QueryMonitorInterface
 	public function startQuery(string $sql, ?array $boundParams = null): void
 	{
 		$this->logs[]        = $sql;
-		$this->boundParams[] = $boundParams;
+
+		// Dereference bound parameters to prevent reporting wrong value when reusing the same query object.
+		$this->boundParams[] = unserialize(serialize($boundParams));
+
 		$this->callStacks[]  = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		$this->memoryLogs[]  = memory_get_usage();
 		$this->timings[]     = microtime(true);

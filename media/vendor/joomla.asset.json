@@ -6,6 +6,16 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "short-and-sweet",
+      "type": "script",
+      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "short-and-sweet",
+      "version": "1.0.2"
+    },
+    {
       "name": "wcpolyfill",
       "type": "script",
       "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
@@ -28,16 +38,6 @@
       },
       "package": "accessibility",
       "version": "3.0.13"
-    },
-    {
-      "name": "short-and-sweet",
-      "type": "script",
-      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "short-and-sweet",
-      "version": "1.0.2"
     },
     {
       "name": "awesomplete",
@@ -67,6 +67,43 @@
       "version": "1.1.5"
     },
     {
+      "name": "cropperjs",
+      "type": "style",
+      "uri": "vendor/cropperjs/cropper.min.css",
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
+      "type": "script",
+      "uri": "vendor/cropperjs/cropper.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
+      "type": "preset",
+      "dependencies": [
+        "cropperjs#style",
+        "cropperjs#script"
+      ],
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "diff",
+      "type": "script",
+      "uri": "vendor/diff/diff.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "diff",
+      "version": "4.0.2"
+    },
+    {
       "name": "dragula",
       "type": "style",
       "uri": "vendor/dragula/dragula.min.css",
@@ -94,14 +131,21 @@
       "version": "3.7.2"
     },
     {
-      "name": "diff",
+      "name": "focus-visible",
       "type": "script",
-      "uri": "vendor/diff/diff.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "diff",
-      "version": "4.0.2"
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
+      "name": "jquery-migrate",
+      "type": "script",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "jquery-migrate",
+      "version": "3.3.2"
     },
     {
       "name": "choicesjs",
@@ -131,18 +175,18 @@
       "version": "9.0.1"
     },
     {
-      "name": "focus-visible",
+      "name": "jquery",
       "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.6.0"
     },
     {
       "name": "webcomponent.joomla-alert",
       "type": "style",
       "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
+      "version": "0.0.42"
     },
     {
       "name": "webcomponent.joomla-alert-legacy",
@@ -156,7 +200,7 @@
         "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
+      "version": "0.0.42"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -169,14 +213,14 @@
         "webcomponent.joomla-alert-legacy"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
+      "version": "0.0.42"
     },
     {
       "name": "webcomponent.joomla-tab",
       "type": "style",
       "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
+      "version": "0.0.42"
     },
     {
       "name": "webcomponent.joomla-tab-legacy",
@@ -190,7 +234,7 @@
         "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
+      "version": "0.0.42"
     },
     {
       "name": "webcomponent.joomla-tab",
@@ -203,41 +247,7 @@
         "webcomponent.joomla-tab-legacy"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.40"
-    },
-    {
-      "name": "cropperjs",
-      "type": "style",
-      "uri": "vendor/cropperjs/cropper.min.css",
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
-      "type": "script",
-      "uri": "vendor/cropperjs/cropper.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
-      "type": "preset",
-      "dependencies": [
-        "cropperjs#style",
-        "cropperjs#script"
-      ],
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "jquery",
-      "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.6.0"
+      "version": "0.0.42"
     },
     {
       "name": "minicolors",
@@ -280,16 +290,6 @@
       "version": "1.2.1"
     },
     {
-      "name": "jquery-migrate",
-      "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "jquery-migrate",
-      "version": "3.3.2"
-    },
-    {
       "name": "chosen",
       "type": "style",
       "uri": "vendor/chosen/chosen.css",
@@ -315,16 +315,6 @@
       ],
       "package": "chosen-js",
       "version": "1.8.7"
-    },
-    {
-      "name": "skipto",
-      "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "skipto",
-      "version": "4.1.0"
     },
     {
       "name": "qrcode",
@@ -363,6 +353,16 @@
       ],
       "package": "qrcode-generator",
       "version": "1.4.4"
+    },
+    {
+      "name": "skipto",
+      "type": "script",
+      "uri": "vendor/skipto/skipto.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "skipto",
+      "version": "4.1.0"
     },
     {
       "name": "fontawesome",
