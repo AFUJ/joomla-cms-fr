@@ -20,18 +20,6 @@
       "version": "9f718aaa18d4693e5c1ca24ebcc1a7ee659cb4ab"
     },
     {
-      "name": "com_templates.admin-template-compare",
-      "type": "script",
-      "uri": "com_templates/admin-template-compare.min.js",
-      "dependencies": [
-        "com_templates.admin-template-compare.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "22f26ac574bea945a0ac83e683f5391e730f7cc5"
-    },
-    {
       "name": "com_templates.admin-template-toggle-assignment.es5",
       "type": "script",
       "uri": "com_templates/admin-template-toggle-assignment-es5.min.js",
@@ -80,6 +68,18 @@
         "type": "module"
       },
       "version": "d6091960ea8e984f56aaee2b097607dc238e9681"
+    },
+    {
+      "name": "com_templates.admin-template-compare",
+      "type": "script",
+      "uri": "com_templates/admin-template-compare.min.js",
+      "dependencies": [
+        "com_templates.admin-template-compare.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "22f26ac574bea945a0ac83e683f5391e730f7cc5"
     },
     {
       "name": "com_templates.admin-templates",

@@ -13,10 +13,10 @@
         "core"
       ],
       "attributes": {
-        "nomodules": true,
+        "nomodule": true,
         "defer": true
       },
-      "version": "4f0b086d722ee44556bf9d6a66786117ad790cba"
+      "version": "245e637f91d3727e0e0c2494a831cf79d0cfcf26"
     },
     {
       "name": "com_media.edit-images",
@@ -28,13 +28,13 @@
       "attributes": {
         "type": "module"
       },
-      "version": "5991cfb96f60237d6a8c18dece3b7a3afa5d7c00"
+      "version": "6328cb24706129aadbf700ed2b32f51186de04bd"
     },
     {
       "name": "com_media.mediamanager",
       "type": "style",
       "uri": "com_media/media-manager.min.css",
-      "version": "38798738678af258af39926175a8282eff1c18fb"
+      "version": "8322c58f894ff7aae0875654963b1eebedc455fc"
     },
     {
       "name": "com_media.mediamanager",
@@ -46,7 +46,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "a9dbe8cfacc66eec1ef5ccd60cab2b394ab75c3e"
+      "version": "0e27e04a81c872ff768ebcf5dd2e58648c1371c6"
     },
     {
       "name": "com_media.mediamanager.es5",
@@ -59,7 +59,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "ad98c629a0c08dc2fac9ec078fc2a6922bc567fc"
+      "version": "25a51cd08ae958cfe48d3d8f02a4e627da127428"
     }
   ]
 }

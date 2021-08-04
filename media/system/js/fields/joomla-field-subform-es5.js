@@ -377,6 +377,7 @@
         haveName.forEach(function (elem) {
           var $el = elem;
           var name = $el.getAttribute('name');
+          var aria = $el.getAttribute('aria-describedby');
           var id = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''); // id from name
 
           var nameNew = name.replace("[" + group + "][", "[" + groupnew + "]["); // New name
@@ -447,6 +448,10 @@
 
           if ($el.id) {
             $el.id = idNew;
+          }
+
+          if (aria) {
+            $el.setAttribute('aria-describedby', nameNew + "-desc");
           } // Check if there is a label for this input
 
 

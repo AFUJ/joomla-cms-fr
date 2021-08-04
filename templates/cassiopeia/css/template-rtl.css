@@ -6,17 +6,45 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-  --blue: #010156;
-  --indigo: #6812f3;
-  --purple: #6f42c2;
-  --pink: #e93f8e;
-  --red: #a51f18;
-  --orange: #fd7e17;
-  --yellow: #ad6200;
-  --green: #448344;
-  --teal: #5abfdd;
-  --cyan: #30638d;
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --bluegray: #b2bfcd;
+  --lightbluegray: #f6f9fc;
+  --toolbar-bg: white;
+  --success-border: var(--success);
+  --info-border: var(--info);
+  --warning-border: var(--warning);
+  --danger-border: var(--danger);
+  --border: #ced4da;
   --white: white;
+  --white-offset: #fefefe;
+  --focus: #39f;
+  --focus-shadow: 0 0 0 0.2rem #eaeaea;
+  --toggle-color: white;
+  --template-sidebar-bg: var(--template-bg-dark-80);
+  --template-sidebar-font-color: white;
+  --template-sidebar-link-color: white;
+  --template-bg-light: #f0f4fb;
+  --template-text-light: white;
+  --template-special-color: #132f53;
+  --template-link-color: #2a69b8;
+  --template-link-hover-color: #173a65;
+  --template-contrast: #2a69b8;
+  --template-bg-dark: hsl(var(--hue), 40%, 20%);
+  --template-bg-dark-3: hsl(var(--hue), 40%, 97%);
+  --template-bg-dark-5: hsl(var(--hue), 40%, 95%);
+  --template-bg-dark-7: hsl(var(--hue), 40%, 93%);
+  --template-bg-dark-10: hsl(var(--hue), 40%, 90%);
+  --template-bg-dark-15: hsl(var(--hue), 40%, 85%);
+  --template-bg-dark-20: hsl(var(--hue), 40%, 80%);
+  --template-bg-dark-30: hsl(var(--hue), 40%, 70%);
+  --template-bg-dark-40: hsl(var(--hue), 40%, 60%);
+  --template-bg-dark-50: hsl(var(--hue), 40%, 50%);
+  --template-bg-dark-60: hsl(var(--hue), 40%, 40%);
+  --template-bg-dark-65: hsl(var(--hue), 40%, 35%);
+  --template-bg-dark-70: hsl(var(--hue), 40%, 30%);
+  --template-bg-dark-75: hsl(var(--hue), 40%, 25%);
+  --template-bg-dark-80: hsl(var(--hue), 40%, 20%);
+  --template-bg-dark-90: hsl(var(--hue), 40%, 10%);
   --primary: #010156;
   --secondary: #6d757e;
   --success: #448344;
@@ -10943,6 +10971,7 @@ html {
 
 body {
   position: relative;
+  min-height: 100vh;
 }
 
 img {
@@ -11010,15 +11039,6 @@ a.navbar-brand {
 .btn-group {
   margin-bottom: 1em;
 }
-.btn-group > .input-group-append > .btn-primary {
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.btn-group > .input-group-append > .btn-secondary {
-  margin-left: 0.5em;
-}
 .btn-group > input {
   padding: 0.5em;
   border: 1px solid #ced4da;
@@ -11028,16 +11048,6 @@ a.navbar-brand {
   border-bottom-right-radius: 0;
 }
 
-[dir=rtl] .btn-group > .input-group-append > .btn-primary {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-[dir=rtl] .btn-group > .input-group-append > .btn-secondary {
-  margin-right: 0.5em;
-  margin-left: 0;
-}
 [dir=rtl] .btn-group > input {
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
@@ -11420,6 +11430,7 @@ td .form-control {
   padding: 0.5em;
   margin: 0.5em;
   color: black;
+  text-align: start;
   background: white;
   border: 1px solid #6d757e;
   border-radius: 0.25rem;
@@ -11434,12 +11445,6 @@ td .form-control {
   right: auto;
   -webkit-margin-start: -10em;
           margin-inline-start: -10em;
-}
-[dir=ltr] [role=tooltip]:not(.show) {
-  text-align: left;
-}
-[dir=rtl] [role=tooltip]:not(.show) {
-  text-align: right;
 }
 
 :focus + [role=tooltip],
@@ -11741,11 +11746,9 @@ fieldset > * {
   border-color: #a51f18;
 }
 
-[dir=ltr] .plg_system_webauthn_login_button svg {
-  margin-right: 2px;
-}
-[dir=rtl] .plg_system_webauthn_login_button svg {
-  margin-left: 2px;
+.plg_system_webauthn_login_button svg {
+  -webkit-margin-end: 2px;
+          margin-inline-end: 2px;
 }
 
 .plg_system_webauthn_login_button svg path {
@@ -11808,7 +11811,7 @@ iframe {
 .container-bottom-a > *,
 .container-bottom-b > * {
   flex: 1;
-  margin: 0.5em;
+  margin: 0.5em 0;
 }
 @media (max-width: 767.98px) {
   .container-top-a,
@@ -11915,22 +11918,6 @@ iframe {
 
 .modal-header {
   padding: 0 15px;
-}
-.modal-header .close {
-  width: 3rem;
-  padding: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 2rem;
-  line-height: 3rem;
-}
-[dir=ltr] .modal-header .close {
-  margin-right: -15px;
-  border-left: 1px solid #dfe3e7;
-}
-[dir=rtl] .modal-header .close {
-  margin-left: -15px;
-  border-right: 1px solid #dfe3e7;
 }
 
 .modal-title {
@@ -12186,11 +12173,9 @@ iframe {
 }
 
 .mod-list {
-  padding-left: 0;
+  -webkit-padding-start: 0;
+          padding-inline-start: 0;
   list-style: none;
-}
-[dir=rtl] .mod-list {
-  padding-right: 0;
 }
 .mod-list li {
   padding: 0.25em 0;
@@ -12376,31 +12361,6 @@ joomla-tab[view=accordion] .col-md-3 {
     width: 100%;
   }
 
-  .toggler-toolbar {
-    top: 4px;
-    z-index: 1030;
-    width: 50px;
-    height: 50px;
-    border: 4px solid #f0f4fb;
-  }
-  [dir=ltr] .toggler-toolbar {
-    right: 4px;
-  }
-  [dir=rtl] .toggler-toolbar {
-    left: 4px;
-  }
-  .toggler-toolbar .toggler-toolbar-icon::before {
-    font: normal normal 900 20px/1 "Font Awesome 5 Free";
-    color: white;
-    content: "";
-  }
-  .toggler-toolbar.collapsed .toggler-toolbar-icon::before {
-    display: inline-block;
-    content: "";
-    -webkit-transform: translate(-4px);
-            transform: translate(-4px);
-  }
-
   .subhead joomla-toolbar-button,
 .subhead .btn-group,
 .subhead .btn {
@@ -12457,6 +12417,9 @@ joomla-tab[view=accordion] .col-md-3 {
 .site-grid > [class*=" container-"] {
     width: 100%;
     max-width: none;
+    -webkit-column-gap: 1em;
+       -moz-column-gap: 1em;
+            column-gap: 1em;
   }
   .site-grid:not(.has-sidebar-left) .container-component {
     grid-column-start: main-start;
@@ -12469,7 +12432,7 @@ joomla-tab[view=accordion] .col-md-3 {
   }
   @media (min-width: 768px) {
     .site-grid {
-      grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". side-l comp comp side-r ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer ." ". debug debug debug debug .";
+      grid-template-areas: ". head head head head ." ". banner banner banner banner ." ". top-a top-a top-a top-a ." ". top-b top-b top-b top-b ." ". side-l comp comp side-r ." ". bot-a bot-a bot-a bot-a ." ". bot-b bot-b bot-b bot-b ." ". footer footer footer footer .";
     }
   }
   .site-grid.wrapper-fluid {
@@ -12537,10 +12500,6 @@ joomla-tab[view=accordion] .col-md-3 {
   grid-area: footer;
 }
 
-.system-debug {
-  grid-area: debug;
-}
-
 .mod-finder__search.input-group {
   flex-wrap: nowrap;
 }
@@ -12553,11 +12512,8 @@ joomla-tab[view=accordion] .col-md-3 {
   align-items: center;
 }
 .mod-finder__search.input-group button .icon-search {
-  margin-right: 0.2em;
-}
-[dir=rtl] .mod-finder__search.input-group button .icon-search {
-  margin-right: 0;
-  margin-left: 0.2em;
+  -webkit-margin-end: 0.2em;
+          margin-inline-end: 0.2em;
 }
 
 .awesomplete > input {
@@ -13419,11 +13375,6 @@ body,
   float: right !important;
 }
 
-.input-group-prepend .btn,
-.input-group-append .btn {
-  right: -1px;
-}
-
 .form-check {
   padding-right: 1.25rem;
   padding-left: 0;
@@ -13464,30 +13415,6 @@ body,
 .awesomplete input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-}
-
-.input-group > .input-group-prepend > .btn,
-.input-group > .input-group-prepend > .input-group-text,
-.input-group > .input-group-append:not(:last-child) > .btn,
-.input-group > .input-group-append:not(:last-child) > .input-group-text,
-.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
-.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.input-group > .input-group-append > .btn,
-.input-group > .input-group-append > .input-group-text,
-.input-group > .input-group-prepend:not(:first-child) > .btn,
-.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
-.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
-.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .input-group > .form-control:not(:last-child),

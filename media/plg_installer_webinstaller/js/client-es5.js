@@ -418,7 +418,7 @@
 
   customElements.whenDefined('joomla-tab').then(function () {
     var installerTabs = document.getElementById('myTab');
-    var link = installerTabs.querySelector('#tab-web'); // Abort if the IFW tab cannot be found
+    var link = installerTabs.querySelector('button[aria-controls=web]'); // Abort if the IFW tab cannot be found
 
     if (!link) {
       return;
@@ -428,7 +428,7 @@
       link.click();
     }
 
-    if (link.hasAttribute('active') && !instance) {
+    if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
       instance = new WebInstaller();
       instance.initialise();
     }

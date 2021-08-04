@@ -23,7 +23,7 @@
           margin-inline-start: 8px;
 }
 .js-stools-container-bar .btn-toolbar .js-stools-btn-clear {
-  background-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
   border: 0;
 }
 .js-stools-container-bar .ordering-select {

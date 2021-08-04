@@ -277,6 +277,7 @@
       haveName.forEach(elem => {
         const $el = elem;
         const name = $el.getAttribute('name');
+        const aria = $el.getAttribute('aria-describedby');
         const id = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, ''); // id from name
 
         const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
@@ -345,6 +346,10 @@
 
         if ($el.id) {
           $el.id = idNew;
+        }
+
+        if (aria) {
+          $el.setAttribute('aria-describedby', `${nameNew}-desc`);
         } // Check if there is a label for this input
 
 

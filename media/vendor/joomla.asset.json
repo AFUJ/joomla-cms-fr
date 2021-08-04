@@ -30,16 +30,6 @@
       "version": "2.5.0"
     },
     {
-      "name": "accessibility",
-      "type": "script",
-      "uri": "vendor/accessibility/accessibility.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "accessibility",
-      "version": "3.0.13"
-    },
-    {
       "name": "awesomplete",
       "type": "style",
       "uri": "vendor/awesomplete/awesomplete.css",
@@ -65,33 +55,6 @@
       ],
       "package": "awesomplete",
       "version": "1.1.5"
-    },
-    {
-      "name": "cropperjs",
-      "type": "style",
-      "uri": "vendor/cropperjs/cropper.min.css",
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
-      "type": "script",
-      "uri": "vendor/cropperjs/cropper.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
-      "type": "preset",
-      "dependencies": [
-        "cropperjs#style",
-        "cropperjs#script"
-      ],
-      "package": "cropperjs",
-      "version": "1.5.11"
     },
     {
       "name": "diff",
@@ -131,23 +94,6 @@
       "version": "3.7.2"
     },
     {
-      "name": "focus-visible",
-      "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
-    },
-    {
-      "name": "jquery-migrate",
-      "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "jquery-migrate",
-      "version": "3.3.2"
-    },
-    {
       "name": "choicesjs",
       "type": "style",
       "uri": "vendor/choicesjs/choices.min.css",
@@ -175,18 +121,28 @@
       "version": "9.0.1"
     },
     {
-      "name": "jquery",
+      "name": "focus-visible",
       "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.6.0"
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
+      "name": "accessibility",
+      "type": "script",
+      "uri": "vendor/accessibility/accessibility.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "accessibility",
+      "version": "3.0.13"
     },
     {
       "name": "webcomponent.joomla-alert",
       "type": "style",
       "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
       "name": "webcomponent.joomla-alert-legacy",
@@ -200,7 +156,7 @@
         "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -213,14 +169,14 @@
         "webcomponent.joomla-alert-legacy"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
       "name": "webcomponent.joomla-tab",
       "type": "style",
       "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
       "name": "webcomponent.joomla-tab-legacy",
@@ -234,7 +190,7 @@
         "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
       "name": "webcomponent.joomla-tab",
@@ -247,37 +203,14 @@
         "webcomponent.joomla-tab-legacy"
       ],
       "package": "joomla-ui-custom-elements",
-      "version": "0.0.42"
+      "version": "0.2.0"
     },
     {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "minicolors",
+      "name": "jquery",
       "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "minicolors",
-      "type": "preset",
-      "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
-      ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.6.0"
     },
     {
       "name": "metismenujs",
@@ -315,6 +248,46 @@
       ],
       "package": "chosen-js",
       "version": "1.8.7"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "script",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "preset",
+      "dependencies": [
+        "minicolors#style",
+        "minicolors#script"
+      ],
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "skipto",
+      "type": "script",
+      "uri": "vendor/skipto/skipto.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "skipto",
+      "version": "4.1.0"
     },
     {
       "name": "qrcode",
@@ -355,14 +328,41 @@
       "version": "1.4.4"
     },
     {
-      "name": "skipto",
+      "name": "cropperjs",
+      "type": "style",
+      "uri": "vendor/cropperjs/cropper.min.css",
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
       "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
+      "uri": "vendor/cropperjs/cropper.min.js",
       "attributes": {
         "defer": true
       },
-      "package": "skipto",
-      "version": "4.1.0"
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
+      "type": "preset",
+      "dependencies": [
+        "cropperjs#style",
+        "cropperjs#script"
+      ],
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "jquery-migrate",
+      "type": "script",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "jquery-migrate",
+      "version": "3.3.2"
     },
     {
       "name": "fontawesome",

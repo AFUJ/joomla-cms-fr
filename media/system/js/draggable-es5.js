@@ -11,9 +11,7 @@
   var isNested;
   var dragElementIndex;
   var dropElementIndex;
-  var dropElement;
   var container = document.querySelector('.js-draggable');
-  var orderRows = container.querySelectorAll('[name="order[]"]');
 
   if (container) {
     /** The script expects a form with a class js-form
@@ -41,12 +39,7 @@
   }
 
   if (container) {
-    // Add data order attribute for initial ordering
-    for (var i = 0, l = orderRows.length; l > i; i += 1) {
-      orderRows[i].dataset.order = i + 1;
-    } // IOS 10 BUG
-
-
+    // IOS 10 BUG
     document.addEventListener('touchstart', function () {}, false);
 
     var getOrderData = function getOrderData(rows, inputRows, dragIndex, dropIndex) {
@@ -54,7 +47,7 @@
       var result = []; // Element is moved down
 
       if (dragIndex < dropIndex) {
-        rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value); // Move down
+        rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
 
         for (i = dragIndex; i < dropIndex; i += 1) {
           if (direction === 'asc') {
@@ -144,13 +137,7 @@
       } // Update positions for a children of the moved item
 
 
-      rearrangeChildren(el); // Reset data order attribute for initial ordering
-
-      var elements = container.querySelectorAll('[name="order[]"]');
-
-      for (var _i = 0, _l = elements.length; _l > _i; _i += 1) {
-        elements[_i].dataset.order = _i + 1;
-      }
+      rearrangeChildren(el);
     }; // eslint-disable-next-line no-undef
 
 
@@ -190,12 +177,7 @@
       var rowElements = [].slice.call(container.querySelectorAll(rowSelector));
       dragElementIndex = rowElements.indexOf(el);
     }).on('drop', function (el) {
-      dropElement = el;
-    }).on('dragend', function () {
-      if (dropElement) {
-        saveTheOrder(dropElement);
-        dropElement = null;
-      }
+      saveTheOrder(el);
     });
   }
 

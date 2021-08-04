@@ -404,7 +404,7 @@
 
             case 45:
               editor.value = Joomla.selectedMediaFile.url + "#joomlaImage://" + media.path.replace(':', '') + "?width=" + Joomla.selectedMediaFile.width + "&height=" + Joomla.selectedMediaFile.height;
-              fieldClass.updatePreview(Joomla.selectedMediaFile.url);
+              fieldClass.updatePreview();
 
             case 47:
             case "end":

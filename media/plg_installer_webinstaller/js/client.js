@@ -393,7 +393,7 @@ class WebInstaller {
 
 customElements.whenDefined('joomla-tab').then(() => {
   const installerTabs = document.getElementById('myTab');
-  const link = installerTabs.querySelector('#tab-web'); // Abort if the IFW tab cannot be found
+  const link = installerTabs.querySelector('button[aria-controls=web]'); // Abort if the IFW tab cannot be found
 
   if (!link) {
     return;
@@ -403,7 +403,7 @@ customElements.whenDefined('joomla-tab').then(() => {
     link.click();
   }
 
-  if (link.hasAttribute('active') && !instance) {
+  if (link.hasAttribute('aria-expanded') && link.getAttribute('aria-expanded') === 'true' && !instance) {
     instance = new WebInstaller();
     instance.initialise();
   }

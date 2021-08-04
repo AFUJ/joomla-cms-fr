@@ -34,10 +34,6 @@
   background-image: linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
 }
 
-html[dir=rtl] .header {
-  border-radius: 5px 0 0 5px;
-}
-
 .login {
   padding: 40px 20px 20px;
 }

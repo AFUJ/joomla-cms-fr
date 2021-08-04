@@ -350,7 +350,7 @@
   padding: 0.1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
-  border: solid 1px var(--atum-bg-dark-20);
+  border: solid 1px var(--template-bg-dark-20);
   border-radius: 0.25rem;
 }
 .is-focused .choices__inner {
@@ -383,14 +383,14 @@
 .choices__list--multiple .choices__item {
   position: relative;
   margin: 2px;
-  background-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
   -webkit-margin-end: 2px;
           margin-inline-end: 2px;
   border: 0;
   border-radius: 0.25rem;
 }
 .choices__list--multiple .choices__item.is-highlighted {
-  background-color: var(--atum-bg-dark);
+  background-color: var(--template-bg-dark);
   opacity: 0.9;
 }
 
@@ -439,12 +439,12 @@
           padding-inline-end: 3rem;
   cursor: pointer;
   background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-  background-color: var(--atum-bg-light);
+  background-color: var(--template-bg-light);
 }
 [dir=rtl] .choices[data-type*=select-one] .choices__inner,
 [dir=rtl] .choices[data-type*=select-multiple] .choices__inner {
   background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-  background-color: var(--atum-bg-light);
+  background-color: var(--template-bg-light);
 }
 
 .choices[data-type*=select-one] .choices__item {

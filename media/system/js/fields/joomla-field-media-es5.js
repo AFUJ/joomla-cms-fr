@@ -168,6 +168,12 @@
 
 
   var getExtension = function getExtension(path) {
+    var parts = path.split(/[#]/);
+
+    if (parts.length > 1) {
+      return parts[1].split(/[?]/)[0].split('.').pop().trim();
+    }
+
     return path.split(/[#?]/)[0].split('.').pop().trim();
   };
 
@@ -303,7 +309,7 @@
       this.setValue('');
     };
 
-    _proto.updatePreview = function updatePreview(withValue) {
+    _proto.updatePreview = function updatePreview() {
       var _this2 = this;
 
       if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
@@ -313,7 +319,6 @@
 
       if (this.preview) {
         var value = this.inputElement.value;
-        if (withValue) value = withValue;
         var supportedExtensions = this.supportedExtensions;
 
         if (!value) {

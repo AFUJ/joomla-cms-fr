@@ -13,7 +13,15 @@ if (!Joomla) {
  */
 
 
-const getExtension = path => path.split(/[#?]/)[0].split('.').pop().trim();
+const getExtension = path => {
+  const parts = path.split(/[#]/);
+
+  if (parts.length > 1) {
+    return parts[1].split(/[?]/)[0].split('.').pop().trim();
+  }
+
+  return path.split(/[#?]/)[0].split('.').pop().trim();
+};
 
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
@@ -233,17 +241,16 @@ class JoomlaFieldMedia extends HTMLElement {
     this.setValue('');
   }
 
-  updatePreview(withValue) {
+  updatePreview() {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
     } // Reset preview
 
 
     if (this.preview) {
-      let {
+      const {
         value
       } = this.inputElement;
-      if (withValue) value = withValue;
       const {
         supportedExtensions
       } = this;

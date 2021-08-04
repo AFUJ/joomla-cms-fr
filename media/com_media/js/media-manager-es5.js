@@ -17055,6 +17055,377 @@ var JoomlaMediaManager = (function () {
 
   script$d.render = render$d;
   script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+
+  var dirname = function dirname(path) {
+    if (typeof path !== 'string') {
+      throw new TypeError('Path must be a string. Received ' + JSON.stringify(path));
+    }
+
+    if (path.length === 0) return '.';
+    var code = path.charCodeAt(0);
+    var hasRoot = code === 47;
+    var end = -1;
+    var matchedSlash = true;
+
+    for (var _i37 = path.length - 1; _i37 >= 1; --_i37) {
+      code = path.charCodeAt(_i37);
+
+      if (code === 47) {
+        if (!matchedSlash) {
+          end = _i37;
+          break;
+        }
+      } else {
+        // We saw the first non-path separator
+        matchedSlash = false;
+      }
+    }
+
+    if (end === -1) return hasRoot ? '/' : '.';
+    if (hasRoot && end === 1) return '//';
+    return path.slice(0, end);
+  };
+  /**
+   * Api class for communication with the server
+   */
+
+
+  var Api = /*#__PURE__*/function () {
+    /**
+       * Store constructor
+       */
+    function Api() {
+      var options = Joomla.getOptions('com_media', {});
+
+      if (options.apiBaseUrl === undefined) {
+        throw new TypeError('Media api baseUrl is not defined');
+      }
+
+      if (options.csrfToken === undefined) {
+        throw new TypeError('Media api csrf token is not defined');
+      } // eslint-disable-next-line no-underscore-dangle
+
+
+      this._baseUrl = options.apiBaseUrl; // eslint-disable-next-line no-underscore-dangle
+
+      this._csrfToken = Joomla.getOptions('csrf.token');
+      this.imagesExtensions = options.imagesExtensions;
+      this.audioExtensions = options.audioExtensions;
+      this.videoExtensions = options.videoExtensions;
+      this.documentExtensions = options.documentExtensions;
+      this.mediaVersion = new Date().getTime().toString();
+    }
+    /**
+       * Get the contents of a directory from the server
+       * @param {string}  dir  The directory path
+       * @param {number}  full whether or not the persistent url should be returned
+       * @param {number}  content whether or not the content should be returned
+       * @returns {Promise}
+       */
+
+
+    var _proto3 = Api.prototype;
+
+    _proto3.getContents = function getContents(dir, full, content) {
+      var _this14 = this;
+
+      // Wrap the ajax call into a real promise
+      return new Promise(function (resolve, reject) {
+        // Do a check on full
+        if (['0', '1'].indexOf(full) !== -1) {
+          throw Error('Invalid parameter: full');
+        } // Do a check on download
+
+
+        if (['0', '1'].indexOf(content) !== -1) {
+          throw Error('Invalid parameter: content');
+        } // eslint-disable-next-line no-underscore-dangle
+
+
+        var url = _this14._baseUrl + "&task=api.files&path=" + dir;
+
+        if (full) {
+          url += "&url=" + full;
+        }
+
+        if (content) {
+          url += "&content=" + content;
+        }
+
+        Joomla.request({
+          url: url,
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onSuccess: function onSuccess(response) {
+            // eslint-disable-next-line no-underscore-dangle
+            resolve(_this14._normalizeArray(JSON.parse(response).data));
+          },
+          onError: function onError(xhr) {
+            reject(xhr);
+          }
+        }); // eslint-disable-next-line no-underscore-dangle
+      }).catch(this._handleError);
+    }
+    /**
+       * Create a directory
+       * @param name
+       * @param parent
+       * @returns {Promise.<T>}
+       */
+    ;
+
+    _proto3.createDirectory = function createDirectory(name, parent) {
+      var _this15 = this;
+
+      // Wrap the ajax call into a real promise
+      return new Promise(function (resolve, reject) {
+        var _data;
+
+        // eslint-disable-next-line no-underscore-dangle
+        var url = _this15._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
+
+        var data = (_data = {}, _data[_this15._csrfToken] = '1', _data.name = name, _data);
+        Joomla.request({
+          url: url,
+          method: 'POST',
+          data: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onSuccess: function onSuccess(response) {
+            notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
+
+            resolve(_this15._normalizeItem(JSON.parse(response).data));
+          },
+          onError: function onError(xhr) {
+            notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
+            reject(xhr);
+          }
+        }); // eslint-disable-next-line no-underscore-dangle
+      }).catch(this._handleError);
+    }
+    /**
+       * Upload a file
+       * @param name
+       * @param parent
+       * @param content base64 encoded string
+       * @param override boolean whether or not we should override existing files
+       * @return {Promise.<T>}
+       */
+    ;
+
+    _proto3.upload = function upload(name, parent, content, override) {
+      var _this16 = this;
+
+      // Wrap the ajax call into a real promise
+      return new Promise(function (resolve, reject) {
+        var _data2;
+
+        // eslint-disable-next-line no-underscore-dangle
+        var url = _this16._baseUrl + "&task=api.files&path=" + parent;
+        var data = (_data2 = {}, _data2[_this16._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
+
+        if (override === true) {
+          data.override = true;
+        }
+
+        Joomla.request({
+          url: url,
+          method: 'POST',
+          data: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onSuccess: function onSuccess(response) {
+            notifications.success('COM_MEDIA_UPLOAD_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
+
+            resolve(_this16._normalizeItem(JSON.parse(response).data));
+          },
+          onError: function onError(xhr) {
+            reject(xhr);
+          }
+        }); // eslint-disable-next-line no-underscore-dangle
+      }).catch(this._handleError);
+    }
+    /**
+       * Rename an item
+       * @param path
+       * @param newPath
+       * @return {Promise.<T>}
+       */
+    // eslint-disable-next-line no-shadow
+    ;
+
+    _proto3.rename = function rename(path, newPath) {
+      var _this17 = this;
+
+      // Wrap the ajax call into a real promise
+      return new Promise(function (resolve, reject) {
+        var _data3;
+
+        // eslint-disable-next-line no-underscore-dangle
+        var url = _this17._baseUrl + "&task=api.files&path=" + path;
+        var data = (_data3 = {}, _data3[_this17._csrfToken] = '1', _data3.newPath = newPath, _data3);
+        Joomla.request({
+          url: url,
+          method: 'PUT',
+          data: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onSuccess: function onSuccess(response) {
+            notifications.success('COM_MEDIA_RENAME_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
+
+            resolve(_this17._normalizeItem(JSON.parse(response).data));
+          },
+          onError: function onError(xhr) {
+            notifications.error('COM_MEDIA_RENAME_ERROR');
+            reject(xhr);
+          }
+        }); // eslint-disable-next-line no-underscore-dangle
+      }).catch(this._handleError);
+    }
+    /**
+       * Delete a file
+       * @param path
+       * @return {Promise.<T>}
+       */
+    // eslint-disable-next-line no-shadow
+    ;
+
+    _proto3.delete = function _delete(path) {
+      var _this18 = this;
+
+      // Wrap the ajax call into a real promise
+      return new Promise(function (resolve, reject) {
+        var _data4;
+
+        // eslint-disable-next-line no-underscore-dangle
+        var url = _this18._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
+
+        var data = (_data4 = {}, _data4[_this18._csrfToken] = '1', _data4);
+        Joomla.request({
+          url: url,
+          method: 'DELETE',
+          data: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          onSuccess: function onSuccess() {
+            notifications.success('COM_MEDIA_DELETE_SUCCESS');
+            resolve();
+          },
+          onError: function onError(xhr) {
+            notifications.error('COM_MEDIA_DELETE_ERROR');
+            reject(xhr);
+          }
+        }); // eslint-disable-next-line no-underscore-dangle
+      }).catch(this._handleError);
+    }
+    /**
+       * Normalize a single item
+       * @param item
+       * @returns {*}
+       * @private
+       */
+    // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
+    ;
+
+    _proto3._normalizeItem = function _normalizeItem(item) {
+      if (item.type === 'dir') {
+        item.directories = [];
+        item.files = [];
+      }
+
+      item.directory = dirname(item.path);
+
+      if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
+        item.directory += '/';
+      }
+
+      return item;
+    }
+    /**
+       * Normalize array data
+       * @param data
+       * @returns {{directories, files}}
+       * @private
+       */
+    // eslint-disable-next-line no-underscore-dangle
+    ;
+
+    _proto3._normalizeArray = function _normalizeArray(data) {
+      var _this19 = this;
+
+      var directories = data.filter(function (item) {
+        return item.type === 'dir';
+      }) // eslint-disable-next-line no-underscore-dangle
+      .map(function (directory) {
+        return _this19._normalizeItem(directory);
+      });
+      var files = data.filter(function (item) {
+        return item.type === 'file';
+      }) // eslint-disable-next-line no-underscore-dangle
+      .map(function (file) {
+        return _this19._normalizeItem(file);
+      });
+      return {
+        directories: directories,
+        files: files
+      };
+    }
+    /**
+       * Handle errors
+       * @param error
+       * @private
+       *
+       * @TODO DN improve error handling
+       */
+    // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
+    ;
+
+    _proto3._handleError = function _handleError(error) {
+      var response = JSON.parse(error.response);
+
+      if (response.message) {
+        notifications.error(response.message);
+      } else {
+        switch (error.status) {
+          case 409:
+            // Handled in consumer
+            break;
+
+          case 404:
+            notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
+            break;
+
+          case 401:
+            notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
+            break;
+
+          case 403:
+            notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
+            break;
+
+          case 500:
+            notifications.error('COM_MEDIA_SERVER_ERROR');
+            break;
+
+          default:
+            notifications.error('COM_MEDIA_ERROR');
+        }
+      }
+
+      throw error;
+    };
+
+    return Api;
+  }(); // eslint-disable-next-line import/prefer-default-export
+
+
+  var api = new Api();
   var script$c = {
     name: 'MediaBrowserItemImage',
     // eslint-disable-next-line vue/require-prop-types
@@ -17065,14 +17436,18 @@ var JoomlaMediaManager = (function () {
       };
     },
     computed: {
-      /* Get the item url */
-      thumbUrl: function thumbUrl() {
-        return this.item.thumb_path;
-      },
-
       /* Check if the item is an image to edit */
       canEdit: function canEdit() {
         return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
+      },
+
+      /* Get the hashed URL */
+      getHashedURL: function getHashedURL() {
+        if (this.item.adapter.startsWith('local-')) {
+          return "url(" + this.item.thumb_path + "?" + api.mediaVersion + ")";
+        }
+
+        return "url(" + this.item.thumb_path + ")";
       }
     },
     methods: {
@@ -17115,31 +17490,31 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this14 = this;
+        var _this20 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this14.$refs.actionPreview.focus();
+          return _this20.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this15 = this;
+        var _this21 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this15.$refs.actionDelete.focus();
+          return _this21.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this16 = this;
+        var _this22 = this;
 
         this.showActions = false;
         this.$nextTick(function () {
-          return _this16.$refs.actionToggle.focus();
+          return _this22.$refs.actionToggle.focus();
         });
       }
     }
@@ -17173,7 +17548,7 @@ var JoomlaMediaManager = (function () {
     }, [createVNode("div", _hoisted_1$b, [createVNode("div", _hoisted_2$b, [createVNode("div", {
       class: "image-cropped",
       style: {
-        backgroundImage: 'url(' + $options.thumbUrl + ')'
+        backgroundImage: $options.getHashedURL
       }
     }, null, 4
     /* STYLE */
@@ -17455,31 +17830,31 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this17 = this;
+        var _this23 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this17.$refs.actionPreview.focus();
+          return _this23.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this18 = this;
+        var _this24 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this18.$refs.actionDelete.focus();
+          return _this24.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this19 = this;
+        var _this25 = this;
 
         this.showActions = false;
         this.$nextTick(function () {
-          return _this19.$refs.actionToggle.focus();
+          return _this25.$refs.actionToggle.focus();
         });
       }
     }
@@ -17761,31 +18136,31 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this20 = this;
+        var _this26 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this20.$refs.actionPreview.focus();
+          return _this26.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this21 = this;
+        var _this27 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this21.$refs.actionDelete.focus();
+          return _this27.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this22 = this;
+        var _this28 = this;
 
         this.showActions = false;
         this.$nextTick(function () {
-          return _this22.$refs.actionToggle.focus();
+          return _this28.$refs.actionToggle.focus();
         });
       }
     }
@@ -18067,31 +18442,31 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this23 = this;
+        var _this29 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this23.$refs.actionPreview.focus();
+          return _this29.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this24 = this;
+        var _this30 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this24.$refs.actionDelete.focus();
+          return _this30.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this25 = this;
+        var _this31 = this;
 
         this.showActions = false;
         this.$nextTick(function () {
-          return _this25.$refs.actionToggle.focus();
+          return _this31.$refs.actionToggle.focus();
         });
       }
     }
@@ -18331,376 +18706,6 @@ var JoomlaMediaManager = (function () {
 
   script$9.render = render$9;
   script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
-
-  var dirname = function dirname(path) {
-    if (typeof path !== 'string') {
-      throw new TypeError('Path must be a string. Received ' + JSON.stringify(path));
-    }
-
-    if (path.length === 0) return '.';
-    var code = path.charCodeAt(0);
-    var hasRoot = code === 47;
-    var end = -1;
-    var matchedSlash = true;
-
-    for (var _i37 = path.length - 1; _i37 >= 1; --_i37) {
-      code = path.charCodeAt(_i37);
-
-      if (code === 47) {
-        if (!matchedSlash) {
-          end = _i37;
-          break;
-        }
-      } else {
-        // We saw the first non-path separator
-        matchedSlash = false;
-      }
-    }
-
-    if (end === -1) return hasRoot ? '/' : '.';
-    if (hasRoot && end === 1) return '//';
-    return path.slice(0, end);
-  };
-  /**
-   * Api class for communication with the server
-   */
-
-
-  var Api = /*#__PURE__*/function () {
-    /**
-       * Store constructor
-       */
-    function Api() {
-      var options = Joomla.getOptions('com_media', {});
-
-      if (options.apiBaseUrl === undefined) {
-        throw new TypeError('Media api baseUrl is not defined');
-      }
-
-      if (options.csrfToken === undefined) {
-        throw new TypeError('Media api csrf token is not defined');
-      } // eslint-disable-next-line no-underscore-dangle
-
-
-      this._baseUrl = options.apiBaseUrl; // eslint-disable-next-line no-underscore-dangle
-
-      this._csrfToken = Joomla.getOptions('csrf.token');
-      this.imagesExtensions = options.imagesExtensions;
-      this.audioExtensions = options.audioExtensions;
-      this.videoExtensions = options.videoExtensions;
-      this.documentExtensions = options.documentExtensions;
-    }
-    /**
-       * Get the contents of a directory from the server
-       * @param {string}  dir  The directory path
-       * @param {number}  full whether or not the persistent url should be returned
-       * @param {number}  content whether or not the content should be returned
-       * @returns {Promise}
-       */
-
-
-    var _proto3 = Api.prototype;
-
-    _proto3.getContents = function getContents(dir, full, content) {
-      var _this26 = this;
-
-      // Wrap the ajax call into a real promise
-      return new Promise(function (resolve, reject) {
-        // Do a check on full
-        if (['0', '1'].indexOf(full) !== -1) {
-          throw Error('Invalid parameter: full');
-        } // Do a check on download
-
-
-        if (['0', '1'].indexOf(content) !== -1) {
-          throw Error('Invalid parameter: content');
-        } // eslint-disable-next-line no-underscore-dangle
-
-
-        var url = _this26._baseUrl + "&task=api.files&path=" + dir;
-
-        if (full) {
-          url += "&url=" + full;
-        }
-
-        if (content) {
-          url += "&content=" + content;
-        }
-
-        Joomla.request({
-          url: url,
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          onSuccess: function onSuccess(response) {
-            // eslint-disable-next-line no-underscore-dangle
-            resolve(_this26._normalizeArray(JSON.parse(response).data));
-          },
-          onError: function onError(xhr) {
-            reject(xhr);
-          }
-        }); // eslint-disable-next-line no-underscore-dangle
-      }).catch(this._handleError);
-    }
-    /**
-       * Create a directory
-       * @param name
-       * @param parent
-       * @returns {Promise.<T>}
-       */
-    ;
-
-    _proto3.createDirectory = function createDirectory(name, parent) {
-      var _this27 = this;
-
-      // Wrap the ajax call into a real promise
-      return new Promise(function (resolve, reject) {
-        var _data;
-
-        // eslint-disable-next-line no-underscore-dangle
-        var url = _this27._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
-
-        var data = (_data = {}, _data[_this27._csrfToken] = '1', _data.name = name, _data);
-        Joomla.request({
-          url: url,
-          method: 'POST',
-          data: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          onSuccess: function onSuccess(response) {
-            notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
-
-            resolve(_this27._normalizeItem(JSON.parse(response).data));
-          },
-          onError: function onError(xhr) {
-            notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
-            reject(xhr);
-          }
-        }); // eslint-disable-next-line no-underscore-dangle
-      }).catch(this._handleError);
-    }
-    /**
-       * Upload a file
-       * @param name
-       * @param parent
-       * @param content base64 encoded string
-       * @param override boolean whether or not we should override existing files
-       * @return {Promise.<T>}
-       */
-    ;
-
-    _proto3.upload = function upload(name, parent, content, override) {
-      var _this28 = this;
-
-      // Wrap the ajax call into a real promise
-      return new Promise(function (resolve, reject) {
-        var _data2;
-
-        // eslint-disable-next-line no-underscore-dangle
-        var url = _this28._baseUrl + "&task=api.files&path=" + parent;
-        var data = (_data2 = {}, _data2[_this28._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
-
-        if (override === true) {
-          data.override = true;
-        }
-
-        Joomla.request({
-          url: url,
-          method: 'POST',
-          data: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          onSuccess: function onSuccess(response) {
-            notifications.success('COM_MEDIA_UPLOAD_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
-
-            resolve(_this28._normalizeItem(JSON.parse(response).data));
-          },
-          onError: function onError(xhr) {
-            reject(xhr);
-          }
-        }); // eslint-disable-next-line no-underscore-dangle
-      }).catch(this._handleError);
-    }
-    /**
-       * Rename an item
-       * @param path
-       * @param newPath
-       * @return {Promise.<T>}
-       */
-    // eslint-disable-next-line no-shadow
-    ;
-
-    _proto3.rename = function rename(path, newPath) {
-      var _this29 = this;
-
-      // Wrap the ajax call into a real promise
-      return new Promise(function (resolve, reject) {
-        var _data3;
-
-        // eslint-disable-next-line no-underscore-dangle
-        var url = _this29._baseUrl + "&task=api.files&path=" + path;
-        var data = (_data3 = {}, _data3[_this29._csrfToken] = '1', _data3.newPath = newPath, _data3);
-        Joomla.request({
-          url: url,
-          method: 'PUT',
-          data: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          onSuccess: function onSuccess(response) {
-            notifications.success('COM_MEDIA_RENAME_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
-
-            resolve(_this29._normalizeItem(JSON.parse(response).data));
-          },
-          onError: function onError(xhr) {
-            notifications.error('COM_MEDIA_RENAME_ERROR');
-            reject(xhr);
-          }
-        }); // eslint-disable-next-line no-underscore-dangle
-      }).catch(this._handleError);
-    }
-    /**
-       * Delete a file
-       * @param path
-       * @return {Promise.<T>}
-       */
-    // eslint-disable-next-line no-shadow
-    ;
-
-    _proto3.delete = function _delete(path) {
-      var _this30 = this;
-
-      // Wrap the ajax call into a real promise
-      return new Promise(function (resolve, reject) {
-        var _data4;
-
-        // eslint-disable-next-line no-underscore-dangle
-        var url = _this30._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
-
-        var data = (_data4 = {}, _data4[_this30._csrfToken] = '1', _data4);
-        Joomla.request({
-          url: url,
-          method: 'DELETE',
-          data: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          onSuccess: function onSuccess() {
-            notifications.success('COM_MEDIA_DELETE_SUCCESS');
-            resolve();
-          },
-          onError: function onError(xhr) {
-            notifications.error('COM_MEDIA_DELETE_ERROR');
-            reject(xhr);
-          }
-        }); // eslint-disable-next-line no-underscore-dangle
-      }).catch(this._handleError);
-    }
-    /**
-       * Normalize a single item
-       * @param item
-       * @returns {*}
-       * @private
-       */
-    // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
-    ;
-
-    _proto3._normalizeItem = function _normalizeItem(item) {
-      if (item.type === 'dir') {
-        item.directories = [];
-        item.files = [];
-      }
-
-      item.directory = dirname(item.path);
-
-      if (item.directory.indexOf(':', item.directory.length - 1) !== -1) {
-        item.directory += '/';
-      }
-
-      return item;
-    }
-    /**
-       * Normalize array data
-       * @param data
-       * @returns {{directories, files}}
-       * @private
-       */
-    // eslint-disable-next-line no-underscore-dangle
-    ;
-
-    _proto3._normalizeArray = function _normalizeArray(data) {
-      var _this31 = this;
-
-      var directories = data.filter(function (item) {
-        return item.type === 'dir';
-      }) // eslint-disable-next-line no-underscore-dangle
-      .map(function (directory) {
-        return _this31._normalizeItem(directory);
-      });
-      var files = data.filter(function (item) {
-        return item.type === 'file';
-      }) // eslint-disable-next-line no-underscore-dangle
-      .map(function (file) {
-        return _this31._normalizeItem(file);
-      });
-      return {
-        directories: directories,
-        files: files
-      };
-    }
-    /**
-       * Handle errors
-       * @param error
-       * @private
-       *
-       * @TODO DN improve error handling
-       */
-    // eslint-disable-next-line no-underscore-dangle,class-methods-use-this
-    ;
-
-    _proto3._handleError = function _handleError(error) {
-      var response = JSON.parse(error.response);
-
-      if (response.message) {
-        notifications.error(response.message);
-      } else {
-        switch (error.status) {
-          case 409:
-            // Handled in consumer
-            break;
-
-          case 404:
-            notifications.error('COM_MEDIA_ERROR_NOT_FOUND');
-            break;
-
-          case 401:
-            notifications.error('COM_MEDIA_ERROR_NOT_AUTHENTICATED');
-            break;
-
-          case 403:
-            notifications.error('COM_MEDIA_ERROR_NOT_AUTHORIZED');
-            break;
-
-          case 500:
-            notifications.error('COM_MEDIA_SERVER_ERROR');
-            break;
-
-          default:
-            notifications.error('COM_MEDIA_ERROR');
-        }
-      }
-
-      throw error;
-    };
-
-    return Api;
-  }(); // eslint-disable-next-line import/prefer-default-export
-
-
-  var api = new Api();
   var BrowserItem = {
     props: ['item'],
     data: function data() {
@@ -19255,6 +19260,15 @@ var JoomlaMediaManager = (function () {
       item: function item() {
         // Use the currently selected directory as a fallback
         return this.$store.state.previewItem;
+      },
+
+      /* Get the hashed URL */
+      getHashedURL: function getHashedURL() {
+        if (this.item.adapter.startsWith('local-')) {
+          return this.item.url + "?" + api.mediaVersion;
+        }
+
+        return this.item.url;
       }
     },
     methods: {
@@ -19334,7 +19348,7 @@ var JoomlaMediaManager = (function () {
         /* PROPS */
         , ["type", "data"])) : createCommentVNode("v-if", true), $options.isImage() ? (openBlock(), createBlock("img", {
           key: 3,
-          src: $options.item.url,
+          src: $options.getHashedURL,
           type: $options.item.mime_type
         }, null, 8
         /* PROPS */

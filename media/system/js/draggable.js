@@ -8,9 +8,7 @@ let direction;
 let isNested;
 let dragElementIndex;
 let dropElementIndex;
-let dropElement;
 let container = document.querySelector('.js-draggable');
-const orderRows = container.querySelectorAll('[name="order[]"]');
 
 if (container) {
   /** The script expects a form with a class js-form
@@ -42,12 +40,7 @@ if (container) {
 }
 
 if (container) {
-  // Add data order attribute for initial ordering
-  for (let i = 0, l = orderRows.length; l > i; i += 1) {
-    orderRows[i].dataset.order = i + 1;
-  } // IOS 10 BUG
-
-
+  // IOS 10 BUG
   document.addEventListener('touchstart', () => {}, false);
 
   const getOrderData = (rows, inputRows, dragIndex, dropIndex) => {
@@ -55,7 +48,7 @@ if (container) {
     const result = []; // Element is moved down
 
     if (dragIndex < dropIndex) {
-      rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value); // Move down
+      rows[dropIndex].setAttribute('value', rows[dropIndex - 1].value);
 
       for (i = dragIndex; i < dropIndex; i += 1) {
         if (direction === 'asc') {
@@ -145,13 +138,7 @@ if (container) {
     } // Update positions for a children of the moved item
 
 
-    rearrangeChildren(el); // Reset data order attribute for initial ordering
-
-    const elements = container.querySelectorAll('[name="order[]"]');
-
-    for (let i = 0, l = elements.length; l > i; i += 1) {
-      elements[i].dataset.order = i + 1;
-    }
+    rearrangeChildren(el);
   }; // eslint-disable-next-line no-undef
 
 
@@ -193,11 +180,6 @@ if (container) {
     const rowElements = [].slice.call(container.querySelectorAll(rowSelector));
     dragElementIndex = rowElements.indexOf(el);
   }).on('drop', el => {
-    dropElement = el;
-  }).on('dragend', () => {
-    if (dropElement) {
-      saveTheOrder(dropElement);
-      dropElement = null;
-    }
+    saveTheOrder(el);
   });
 }
