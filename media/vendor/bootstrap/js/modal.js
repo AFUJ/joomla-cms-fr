@@ -1,4 +1,4 @@
-import { M as Manipulator, S as SelectorEngine, j as execute, r as reflow, a as typeCheckConfig, E as EventHandler, k as getTransitionDurationFromElement, l as emulateTransitionEnd, B as BaseComponent, b as isRTL, g as getElementFromSelector, i as isVisible, d as defineJQueryPlugin } from './dom.js?1622576541';
+import { M as Manipulator, S as SelectorEngine, j as execute, r as reflow, a as typeCheckConfig, E as EventHandler, k as getTransitionDurationFromElement, l as emulateTransitionEnd, B as BaseComponent, b as isRTL, g as getElementFromSelector, i as isVisible, d as defineJQueryPlugin } from './dom.js?1623769888';
 
 /**
  * --------------------------------------------------------------------------
@@ -635,6 +635,9 @@ Joomla = Joomla || {};
 Joomla.Modal = Joomla.Modal || {};
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Modal = Modal;
+const allowed = {
+  iframe: ['src', 'name', 'width', 'height']
+};
 
 Joomla.initialiseModal = (modal, options) => {
   if (!(modal instanceof Element)) {
@@ -688,9 +691,9 @@ Joomla.initialiseModal = (modal, options) => {
           el = document.getElementById(idFieldArr[1]).value;
         }
 
-        modalBody.insertAdjacentHTML('afterbegin', `${iframeTextArr[0]}${el}${iframeTextArr[2]}`);
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(`${iframeTextArr[0]}${el}${iframeTextArr[2]}`, allowed));
       } else {
-        modalBody.insertAdjacentHTML('afterbegin', modal.dataset.iframe);
+        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
       }
     }
   });

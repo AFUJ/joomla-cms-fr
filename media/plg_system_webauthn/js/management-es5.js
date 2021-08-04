@@ -75,7 +75,7 @@
       // Make sure the browser supports Webauthn
       if (!('credentials' in navigator)) {
         Joomla.renderMessages({
-          error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')]
+          error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')]
         });
         return;
       } // Extract the configuration from the store
@@ -210,7 +210,7 @@
       elInput.defaultValue = oldLabel;
       var elSave = document.createElement('button');
       elSave.className = 'btn btn-success btn-sm';
-      elSave.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
+      elSave.innerText = Joomla.Text._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
       elSave.addEventListener('click', function () {
         var elNewLabel = elInput.value;
 
@@ -239,11 +239,11 @@
               }
 
               if (result !== true) {
-                handleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
+                handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'));
               }
             },
             onError: function onError(xhr) {
-              handleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + " -- " + xhr.status + " " + xhr.statusText);
+              handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED') + " -- " + xhr.status + " " + xhr.statusText);
             }
           });
         }
@@ -255,7 +255,7 @@
       }, false);
       var elCancel = document.createElement('button');
       elCancel.className = 'btn btn-danger btn-sm';
-      elCancel.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL');
+      elCancel.innerText = Joomla.Text._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL');
       elCancel.addEventListener('click', function () {
         elLabelTD.innerText = oldLabel;
         elEdit.disabled = false;
@@ -323,7 +323,7 @@
           }
 
           if (result !== true) {
-            handleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'));
+            handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'));
             return;
           }
 
@@ -332,7 +332,7 @@
         onError: function onError(xhr) {
           elEdit.disabled = false;
           elDelete.disabled = false;
-          handleCreationError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED') + " -- " + xhr.status + " " + xhr.statusText);
+          handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED') + " -- " + xhr.status + " " + xhr.statusText);
         }
       });
       return false;

@@ -218,8 +218,7 @@
       var appendInput = function appendInput(element, group, set) {
         var name = options.formControl + "[" + set + "][" + group + "][]";
         var value = element.getAttribute('data-name');
-        var input = "<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">";
-        element.innerHTML += input;
+        element.innerHTML += Joomla.sanitizeHtml("<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">");
       };
       /**
        * Create the element needed for renderBar()
@@ -279,7 +278,7 @@
 
           if (item) {
             $btn = createButton(name, item, type);
-            box.innerHTML += $btn;
+            box.innerHTML += Joomla.sanitizeHtml($btn);
             var newbutton = box.querySelector('.tox-mbtn:last-child'); // Enable tooltip
 
             if (newbutton.tooltip) {

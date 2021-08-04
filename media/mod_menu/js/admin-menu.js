@@ -45,19 +45,11 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       elem.classList.remove('child-open');
     }
 
-    if (wrapper.classList.contains('closed')) {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'closed',
-        bubbles: true,
-        cancelable: true
-      }));
-    } else {
-      window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
-        detail: 'open',
-        bubbles: true,
-        cancelable: true
-      }));
-    }
+    window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
+      detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
+      bubbles: true,
+      cancelable: true
+    }));
   }); // Sidebar Nav
 
   const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
@@ -67,7 +59,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close')); // Set active class
 
   allLinks.forEach(link => {
-    if (currentUrl === link.href) {
+    if (currentUrl.indexOf(link.href) === 0) {
       link.setAttribute('aria-current', 'page');
       link.classList.add('mm-active'); // Auto Expand Levels
 

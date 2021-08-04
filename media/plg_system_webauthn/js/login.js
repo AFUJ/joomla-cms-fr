@@ -140,7 +140,7 @@ window.Joomla = window.Joomla || {};
     };
 
     if (!publicKey.challenge) {
-      handleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+      handleLoginError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
       return;
     }
 
@@ -195,7 +195,7 @@ window.Joomla = window.Joomla || {};
 
     if (elUsername === null) {
       Joomla.renderMessages({
-        error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')]
+        error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')]
       });
       return false;
     }
@@ -205,7 +205,7 @@ window.Joomla = window.Joomla || {};
 
     if (username === '') {
       Joomla.renderMessages({
-        error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')]
+        error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')]
       });
       return false;
     } // Get the Public Key Credential Request Options (challenge and acceptable public keys)

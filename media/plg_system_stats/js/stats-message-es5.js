@@ -9,6 +9,19 @@
   Joomla = window.Joomla || {};
 
   (function (Joomla, document) {
+    var allowed = {
+      input: ['type', 'name', 'value'],
+      'joomla-alert': ['type', 'dismiss', 'role'],
+      button: ['type'],
+      table: [],
+      tbody: [],
+      thead: [],
+      caption: [],
+      th: ['scope'],
+      tr: [],
+      td: []
+    };
+
     var initStatsEvents = function initStatsEvents(callback) {
       var messageContainer = document.getElementById('system-message-container');
       var joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
@@ -72,7 +85,7 @@
             var json = JSON.parse(response);
 
             if (json && json.html) {
-              messageContainer.insertAdjacentHTML('beforeend', json.html);
+              messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html, allowed));
               messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
               initStatsEvents(getJson);
             }

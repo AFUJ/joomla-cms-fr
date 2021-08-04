@@ -41,7 +41,7 @@
         }
 
         if (progressMessage) {
-          progressMessage.innerHTML = message;
+          progressMessage.innerHTML = Joomla.sanitizeHtml(message);
         }
 
         if (progressBar) {
@@ -87,7 +87,7 @@
               Object.entries(json.pluginState).forEach(function (context) {
                 var item = "<dt class=\"col-sm-3\">" + context[0] + "</dt>";
                 item += "<dd id=\"finder-" + context[0].replace(/\s+/g, '-').toLowerCase() + "\" class=\"col-sm-9\"></dd>";
-                debuglist.insertAdjacentHTML('beforeend', item);
+                debuglist.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(item));
               });
             }
           }
@@ -97,7 +97,7 @@
 
           if (document.getElementById('finder-debug-data')) {
             Object.entries(json.pluginState).forEach(function (context) {
-              document.getElementById("finder-" + context[0].replace(/\s+/g, '-').toLowerCase()).innerHTML = json.pluginState[context[0]].offset + " of " + json.pluginState[context[0]].total;
+              document.getElementById("finder-" + context[0].replace(/\s+/g, '-').toLowerCase()).innerHTML = Joomla.sanitizeHtml(json.pluginState[context[0]].offset + " of " + json.pluginState[context[0]].total);
             });
           }
 
@@ -118,23 +118,23 @@
               }
 
               if (progressMessage) {
-                progressMessage.innerHTML = json.message;
+                progressMessage.innerHTML = Joomla.sanitizeHtml(json.message);
                 progressMessage.classList.add('finder-error');
               }
             }
           } catch (ignore) {
             if (error === '') {
               // eslint-disable-next-line no-ex-assign
-              error = Joomla.JText._('COM_FINDER_NO_ERROR_RETURNED');
+              error = Joomla.Text._('COM_FINDER_NO_ERROR_RETURNED');
             }
 
             if (progressHeader) {
-              progressHeader.innerText = Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+              progressHeader.innerText = Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
               progressHeader.classList.add('finder-error');
             }
 
             if (progressMessage) {
-              progressMessage.innerHTML = error;
+              progressMessage.innerHTML = Joomla.sanitizeHtml(error);
               progressMessage.classList.add('finder-error');
             }
           }
@@ -149,8 +149,8 @@
         var data = typeof xhr === 'object' && xhr.responseText ? xhr.responseText : null;
         data = data ? JSON.parse(data) : null;
         removeElement('progress');
-        var header = data ? data.header : Joomla.JText._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-        var message = data ? data.message : Joomla.JText._('COM_FINDER_MESSAGE_RETURNED') + "<br>" + data;
+        var header = data ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+        var message = data ? data.message : Joomla.Text._('COM_FINDER_MESSAGE_RETURNED') + "<br>" + data;
 
         if (progressHeader) {
           progressHeader.innerText = header;
@@ -158,7 +158,7 @@
         }
 
         if (progressMessage) {
-          progressMessage.innerHTML = message;
+          progressMessage.innerHTML = Joomla.sanitizeHtml(message);
           progressMessage.classList.add('finder-error');
         }
       };

@@ -21,7 +21,7 @@
 
           if (linkSpans.length) {
             linkSpans.forEach(function (span) {
-              span.innerHTML = text;
+              span.innerHTML = Joomla.sanitizeHtml(text);
             });
           }
         };

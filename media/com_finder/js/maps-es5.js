@@ -11,7 +11,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       Joomla.submitbutton = function (pressbutton) {
         // TODO replace with joomla-alert
-        if (pressbutton === 'map.delete' && !window.confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT'))) {
+        if (pressbutton === 'map.delete' && !window.confirm(Joomla.Text._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT'))) {
           return false;
         }
 

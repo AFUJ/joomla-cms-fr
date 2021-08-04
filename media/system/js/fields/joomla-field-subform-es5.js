@@ -185,8 +185,8 @@
 
 
             if (btnAdd && btnAdd.closest('joomla-field-subform') === that) {
-              var row = btnAdd.closest('joomla-field-subform');
-              row = row.closest(that.repeatableElement) === that ? row : null;
+              var row = btnAdd.closest(that.repeatableElement);
+              row = row && row.closest('joomla-field-subform') === that ? row : null;
               that.addRow(row);
               event.preventDefault();
             } else if (btnRem && btnRem.closest('joomla-field-subform') === that) {
@@ -203,8 +203,8 @@
             var isRem = that.buttonRemove && event.target.matches(that.buttonRemove);
 
             if ((isAdd || isRem) && event.target.closest('joomla-field-subform') === that) {
-              var row = event.target.closest('joomla-field-subform');
-              row = row.closest(that.repeatableElement) === that ? row : null;
+              var row = event.target.closest(that.repeatableElement);
+              row = row && row.closest('joomla-field-subform') === that ? row : null;
 
               if (isRem && row) {
                 that.removeRow(row);

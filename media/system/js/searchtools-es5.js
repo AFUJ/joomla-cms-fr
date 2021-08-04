@@ -260,7 +260,7 @@
       ;
 
       _proto.checkActiveStatus = function checkActiveStatus(cont) {
-        var els = this.getFilterFields();
+        var els = [].slice.call(this.getFilterFields());
         var activeFilterCount = 0;
         els.forEach(function (item) {
           if (item.classList.contains('active')) {
@@ -440,7 +440,7 @@
                 } // Append the option and repopulate the chosen field
 
 
-                _this.orderFieldName.innerHTML += $option;
+                _this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
               }
             }
           });

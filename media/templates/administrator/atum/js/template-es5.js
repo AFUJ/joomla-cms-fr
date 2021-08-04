@@ -19,8 +19,8 @@
   var small = window.matchMedia('(max-width: 575.98px)');
   var tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
   var menu = document.querySelector('.sidebar-menu');
-  var sidebarNav = document.querySelector('.sidebar-nav');
-  var subhead = document.querySelector('.subhead');
+  var sidebarNav = [].slice.call(document.querySelectorAll('.sidebar-nav'));
+  var subhead = document.querySelector('#subhead-container');
   var wrapper = document.querySelector('.wrapper');
   var sidebarWrapper = document.querySelector('.sidebar-wrapper');
   var logo = document.querySelector('.logo');
@@ -54,6 +54,11 @@
 
   function changeLogo(change) {
     if (!logo || isLogin) {
+      return;
+    }
+
+    if (small.matches) {
+      logo.classList.add('small');
       return;
     }
 
@@ -169,11 +174,15 @@
     }
 
     if (small.matches) {
-      if (sidebarNav) sidebarNav.classList.add('collapse');
+      sidebarNav.map(function (el) {
+        return el.classList.add('collapse');
+      });
       if (subhead) subhead.classList.add('collapse');
       if (sidebarWrapper) sidebarWrapper.classList.add('collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('collapse');
+      sidebarNav.map(function (el) {
+        return el.classList.remove('collapse');
+      });
       if (subhead) subhead.classList.remove('collapse');
       if (sidebarWrapper) sidebarWrapper.classList.remove('collapse');
     }
@@ -195,7 +204,9 @@
       sidebarWrapper.classList.remove('collapse');
     }
 
-    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    sidebarNav.map(function (el) {
+      return el.classList.remove('collapse');
+    });
     if (subhead) subhead.classList.remove('collapse');
     toggleArrowIcon('top');
   }
@@ -241,6 +252,15 @@
   reactToResize();
   subheadScrolling();
 
+  if (mobile.matches) {
+    changeLogo('closed');
+
+    if (subhead) {
+      subhead.classList.remove('show');
+      subhead.classList.add('collapse');
+    }
+  }
+
   if (!navigator.cookieEnabled) {
     Joomla.renderMessages({
       error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')]
@@ -250,7 +270,12 @@
   window.addEventListener('joomla:menu-toggle', function (event) {
     headerItemsInDropdown();
     document.cookie = "atumSidebarState=" + event.detail + ";";
-    changeLogo(event.detail);
+
+    if (mobile.matches) {
+      changeLogo('closed');
+    } else {
+      changeLogo(event.detail);
+    }
   });
 
 }());

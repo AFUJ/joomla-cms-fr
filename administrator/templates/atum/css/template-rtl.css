@@ -11351,6 +11351,9 @@ body.a11y_highlight .joomlaversion {
   text-decoration: none !important;
   border: none;
 }
+body.a11y_highlight a.page-link {
+  padding: 0.375rem 0.75rem;
+}
 
 h1, .h1,
 h2,
@@ -12023,7 +12026,7 @@ th {
   border: 1px solid var(--atum-bg-dark-20);
 }
 .alert.alert-warning {
-  color: #ffb514;
+  color: #996900;
   background-color: #fffcf4;
   border: 1px solid #ffb514;
 }
@@ -12077,9 +12080,6 @@ fieldset .alert.alert-info {
 }
 .title-alias .form-control {
   max-width: 100%;
-}
-.title-alias .control-group {
-  position: relative;
 }
 .title-alias .form-control-feedback {
   position: absolute;
@@ -12325,6 +12325,7 @@ fieldset .alert.alert-info {
 }
 
 .control-group {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin: 0 0 1rem;
@@ -12364,10 +12365,6 @@ fieldset .alert.alert-info {
 td .form-control {
   display: inline-block;
   width: auto;
-}
-
-legend {
-  margin-bottom: 1.1rem;
 }
 
 .checkboxes {
@@ -13348,7 +13345,6 @@ label {
   padding: 1rem 2rem;
 }
 .sidebar-nav li {
-  margin-bottom: 0.5rem;
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -13356,6 +13352,8 @@ label {
   margin: 0.3rem 0;
 }
 .sidebar-nav li a {
+  display: block;
+  padding: 0.25rem;
   font-weight: 400;
   color: var(--atum-text-dark);
   text-decoration: none;
@@ -13370,8 +13368,11 @@ label {
 [dir=rtl] .sidebar-nav li a::before {
   content: "";
 }
-.sidebar-nav li:hover a, .sidebar-nav li.active a {
-  color: var(--atum-link-color);
+.sidebar-nav li.item:hover, .sidebar-nav li.active {
+  background-color: var(--atum-bg-dark-60);
+}
+.sidebar-nav li.item:hover a, .sidebar-nav li.active a {
+  color: var(--atum-text-light);
 }
 
 .switcher .toggle-outside {
@@ -13925,10 +13926,6 @@ joomla-tab[view=accordion] .col-md-3 {
   border-top: var(--atum-bg-light) 1px solid;
 }
 
-.sysinfo .table th {
-  font-weight: 700;
-}
-
 .com_config #fieldset-permissions {
   grid-template-columns: 1fr;
 }
@@ -14131,6 +14128,9 @@ joomla-tab[view=accordion] .col-md-3 {
   font-weight: 500;
   text-decoration: underline;
 }
+.cpanel-modules .list-group-item .btn {
+  text-decoration: none;
+}
 .cpanel-modules .list-group-item .list-group-item a > span[class^=icon-], .cpanel-modules .list-group-item .list-group-item a > span[class*=" icon-"], .cpanel-modules .list-group-item .list-group-item a > span[class^=fa-], .cpanel-modules .list-group-item .list-group-item a > span[class*=" fa-"] {
   display: block;
   padding: 0.5rem;
@@ -14141,13 +14141,16 @@ joomla-tab[view=accordion] .col-md-3 {
 .cpanel-modules .list-group-item .list-group-item a > span[class^=icon-]:hover, .cpanel-modules .list-group-item .list-group-item a > span[class*=" icon-"]:hover, .cpanel-modules .list-group-item .list-group-item a > span[class^=fa-]:hover, .cpanel-modules .list-group-item .list-group-item a > span[class*=" fa-"]:hover {
   background: var(--atum-link-hover-color);
 }
-.cpanel-modules .list-group-item a > span.home-image[class^=icon-], .cpanel-modules .list-group-item a > span.home-image[class*=" icon-"], .cpanel-modules .list-group-item a > span.home-image[class^=fa-], .cpanel-modules .list-group-item a > span.home-image[class*=" fa-"] {
+.cpanel-modules .list-group-item span.home-image[class^=icon-], .cpanel-modules .list-group-item span.home-image[class*=" icon-"], .cpanel-modules .list-group-item span.home-image[class^=fa-], .cpanel-modules .list-group-item span.home-image[class*=" fa-"] {
   display: inline-block;
   padding: 0;
+  margin: 0 0.85rem;
   font-size: 0.9rem;
   color: #010101;
   background: var(--white-offset);
   box-shadow: none;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
 }
 .cpanel-modules h2, .cpanel-modules .h2 {
   margin-bottom: 0;
@@ -14178,14 +14181,6 @@ joomla-tab[view=accordion] .col-md-3 {
           padding-inline-start: 1rem;
   -webkit-margin-start: 8px;
           margin-inline-start: 8px;
-}
-
-.caption-top {
-  caption-side: top;
-}
-
-.com_joomlaupdate caption {
-  caption-side: top;
 }
 
 .new-modules .card-columns {

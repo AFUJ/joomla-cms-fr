@@ -29,12 +29,12 @@ const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(i
         const wrapper = element.closest('.module-wrapper');
         wrapper.parentNode.removeChild(wrapper);
         Joomla.renderMessages({
-          message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')]
+          message: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')]
         });
       },
       onError: () => {
         Joomla.renderMessages({
-          error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')]
+          error: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')]
         });
       }
     });

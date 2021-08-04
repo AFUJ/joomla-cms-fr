@@ -637,11 +637,11 @@
         elMsg.classList.add('form-control-feedback');
 
         if (empty && empty === 'checkbox') {
-          elMsg.innerHTML = message || Joomla.JText._('JLIB_FORM_FIELD_REQUIRED_CHECK');
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_CHECK'));
         } else if (empty && empty === 'value') {
-          elMsg.innerHTML = message || Joomla.JText._('JLIB_FORM_FIELD_REQUIRED_VALUE');
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_REQUIRED_VALUE'));
         } else {
-          elMsg.innerHTML = message || Joomla.JText._('JLIB_FORM_FIELD_INVALID_VALUE');
+          elMsg.innerHTML = message !== null ? Joomla.sanitizeHtml(message) : Joomla.sanitizeHtml(Joomla.Text._('JLIB_FORM_FIELD_INVALID_VALUE'));
         }
 
         if (label) {
@@ -792,7 +792,7 @@
         if (form.getAttribute('data-validation-text')) {
           message = form.getAttribute('data-validation-text');
         } else {
-          message = Joomla.JText._('JLIB_FORM_CONTAINS_INVALID_FIELDS');
+          message = Joomla.Text._('JLIB_FORM_CONTAINS_INVALID_FIELDS');
         }
 
         error = {

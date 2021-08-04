@@ -8,7 +8,7 @@
   (function () {
     var decodeHtml = function decodeHtml(html) {
       var textarea = document.createElement('textarea');
-      textarea.innerHTML = html;
+      textarea.innerHTML = Joomla.sanitizeHtml(html);
       return textarea.value;
     };
 

@@ -117,7 +117,7 @@
               editor.ui.registry.addIcon(icon, icons[icon]);
             });
             editor.ui.registry.addMenuButton('jxtdbuttons', {
-              text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
+              text: Joomla.Text._('PLG_TINY_CORE_BUTTONS'),
               icon: 'joomla',
               fetch: function fetch(callback) {
                 return callback(buttonValues);

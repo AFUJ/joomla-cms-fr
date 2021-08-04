@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Utilities Package
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -725,7 +725,7 @@ final class ArrayHelper
 	 *
 	 * @return  array  Merged array.
 	 *
-	 * @since   2.0.0-beta
+	 * @since   2.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public static function mergeRecursive(...$args): array

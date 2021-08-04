@@ -19,7 +19,7 @@
 
         if (linkSpans.length) {
           linkSpans.forEach(span => {
-            span.innerHTML = text;
+            span.innerHTML = Joomla.sanitizeHtml(text);
           });
         }
       };

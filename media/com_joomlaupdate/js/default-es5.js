@@ -12,9 +12,9 @@
       var form = document.getElementById('uploadForm'); // do field validation
 
       if (form.install_package.value === '') {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
+        alert(Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
-        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+        alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
       } else {
         form.submit();
       }
@@ -32,7 +32,7 @@
         warningElement.classList.add('hidden');
       } else if (fileSize) {
         fileSizeElement.classList.remove('hidden');
-        fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + " MB");
+        fileSizeElement.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + " MB"));
 
         if (fileSize > form.max_upload_size.value) {
           warningElement.classList.remove('hidden');
@@ -98,18 +98,18 @@
       [].slice.call(document.querySelectorAll('.settingstoggle')).forEach(function (el) {
         el.style.float = 'right';
         el.style.cursor = 'pointer';
-        el.addEventListener('click', function (toggle) {
+        el.addEventListener('click', function () {
           var settingsfieldset = el.closest('fieldset');
 
-          if (toggle.target.dataset.state === 'closed') {
-            toggle.target.dataset.state = 'open';
-            toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
+          if (el.dataset.state === 'closed') {
+            el.dataset.state = 'open';
+            el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
             settingsfieldset.querySelectorAll('.settingsInfo').forEach(function (fieldset) {
               fieldset.classList.remove('hidden');
             });
           } else {
-            toggle.target.dataset.state = 'closed';
-            toggle.target.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+            el.dataset.state = 'closed';
+            el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
             settingsfieldset.querySelectorAll('.settingsInfo').forEach(function (fieldset) {
               fieldset.classList.add('hidden');
             });
@@ -145,7 +145,7 @@
         var nonCorePluginCheckbox = document.getElementById('noncoreplugins').checked;
 
         if (preUpdateCheckbox && nonCorePluginCheckbox) {
-          if (window.confirm(Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE'))) {
+          if (window.confirm(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE'))) {
             [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(function (el) {
               el.classList.remove('disabled');
               el.removeAttribute('disabled');
@@ -194,7 +194,7 @@
 
           if (el.dataset.state === 'closed') {
             el.dataset.state = 'open';
-            el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION');
+            el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
             [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach(function (extension) {
               extension.classList.remove('col-md-8');
               extension.classList.add('col-md-4');
@@ -225,7 +225,7 @@
             }
           } else {
             el.dataset.state = 'closed';
-            el.innerHTML = Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION');
+            el.innerHTML = Joomla.sanitizeHtml(Joomla.getOptions('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
             [].slice.call(compatibilitytypes.querySelectorAll('.exname')).forEach(function (extension) {
               extension.classList.add('col-md-8');
               extension.classList.remove('col-md-4');
@@ -284,7 +284,7 @@
       }; // Request the server to check the compatibility for the passed extension and joomla version
 
       Joomla.request({
-        url: PreUpdateChecker.config.serverUrl + "&joomla-target-version=" + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion) + "joomla-current-version=" + PreUpdateChecker.joomlaCurrentVersion + "extension-version=" + node.getAttribute('data-extension-current-version') + "&extension-id=" + encodeURIComponent(node.getAttribute('data-extension-id')),
+        url: PreUpdateChecker.config.serverUrl + "&joomla-target-version=" + encodeURIComponent(PreUpdateChecker.joomlaTargetVersion) + "&joomla-current-version=" + PreUpdateChecker.joomlaCurrentVersion + "&extension-version=" + node.getAttribute('data-extension-current-version') + "&extension-id=" + encodeURIComponent(node.getAttribute('data-extension-id')),
         onSuccess: function onSuccess(data) {
           var response = JSON.parse(data); // Extract the data from the JResponseJson object
 
@@ -313,7 +313,7 @@
 
       if (extensionData.serverError) {
         // An error occurred -> show unknown error note
-        html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR'); // Force result into group 4 = Pre update checks failed
+        html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR'); // Force result into group 4 = Pre update checks failed
 
         extensionData.compatibilityData = {
           resultGroup: 4
@@ -328,58 +328,58 @@
               PreUpdateChecker.showyellowwarning = true;
             } else {
               // eslint-disable-next-line max-len
-              html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
+              html = extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion === false ? Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.upgradeCompatibilityStatus.compatibleVersion;
             }
 
             break;
 
           case PreUpdateChecker.STATE.INCOMPATIBLE:
             // No compatible version found -> display error label
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
             PreUpdateChecker.showorangewarning = true;
             break;
 
           case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
             // Could not check compatibility state -> display warning
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
             PreUpdateChecker.showorangewarning = true;
             break;
 
           default:
-            // An error occured -> show unknown error note
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+            // An error occurred -> show unknown error note
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
         }
       } // Insert the generated html
 
 
-      extensionData.element.innerHTML = html; // Process Current Version Extension Compatibility
+      extensionData.element.innerHTML = Joomla.sanitizeHtml(html); // Process Current Version Extension Compatibility
 
       html = '';
 
       if (extensionData.serverError) {
-        // An error occured -> show unknown error note
-        html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
+        // An error occurred -> show unknown error note
+        html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_SERVER_ERROR');
       } else {
         // Switch the compatibility state
         switch (extensionData.compatibilityData.currentCompatibilityStatus.state) {
           case PreUpdateChecker.STATE.COMPATIBLE:
             // eslint-disable-next-line max-len
-            html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false ? Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
+            html = extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion === false ? Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION') : extensionData.compatibilityData.currentCompatibilityStatus.compatibleVersion;
             break;
 
           case PreUpdateChecker.STATE.INCOMPATIBLE:
             // No compatible version found -> display error label
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
             break;
 
           case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
             // Could not check compatibility state -> display warning
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
             break;
 
           default:
-            // An error occured -> show unknown error note
-            html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
+            // An error occurred -> show unknown error note
+            html = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
         }
       } // Insert the generated html
 
@@ -426,7 +426,7 @@
             var tableRow = problemPluginRow.closest('tr');
             tableRow.classList.add('error');
             var pluginTitleTableCell = tableRow.querySelector('td:first-child');
-            pluginTitleTableCell.innerHTML = pluginTitleTableCell.innerHTML + "\n              <span class=\"label label-warning \" >\n              <span class=\"icon-warning\"></span>\n              " + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + "\n              </span>\n\n              <span class=\"label label-important hasPopover\"\n              title=\"" + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + " \"\n              data-bs-content=\"" + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC') + " \"\n              >\n              <span class=\"icon-help\"></span>\n              " + Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP') + "\n              </span>";
+            pluginTitleTableCell.innerHTML = Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML + "\n              <span class=\"label label-warning \" >\n              <span class=\"icon-warning\"></span>\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + "\n              </span>\n\n              <span class=\"label label-important hasPopover\"\n              title=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + " \"\n              data-bs-content=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC') + " \"\n              >\n              <span class=\"icon-help\"></span>\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP') + "\n              </span>");
             var popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
 
             if (popoverElement) {
@@ -460,7 +460,7 @@
           document.getElementById('preupdateCheckWarning').classList.add('hidden');
           document.getElementById('preupdateCheckCompleteProblems').classList.remove('hidden');
           [].slice.call(document.querySelectorAll('#preupdateconfirmation .preupdateconfirmation_label h3')).forEach(function (el) {
-            el.innerText = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
+            el.innerText = Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
           });
           [].slice.call(document.querySelectorAll('#preupdateconfirmation .preupdateconfirmation_label')).forEach(function (el) {
             el.classList.add('label-important');

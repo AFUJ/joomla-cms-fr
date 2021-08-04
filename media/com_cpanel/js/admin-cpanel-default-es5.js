@@ -44,12 +44,12 @@
           var wrapper = element.closest('.module-wrapper');
           wrapper.parentNode.removeChild(wrapper);
           Joomla.renderMessages({
-            message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')]
+            message: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')]
           });
         },
         onError: function onError() {
           Joomla.renderMessages({
-            error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')]
+            error: [Joomla.Text._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')]
           });
         }
       });

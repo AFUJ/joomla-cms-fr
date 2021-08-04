@@ -7739,7 +7739,7 @@ class Notifications {
     }
 
     Joomla.renderMessages({
-      [options.type]: [Joomla.JText._(message)]
+      [options.type]: [Joomla.Text._(message)]
     }, undefined, true, timer);
   }
 
@@ -8325,7 +8325,6 @@ var script$e = {
 function render$e(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock("nav", {
     class: "media-breadcrumb",
-    role: "navigation",
     "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
   }, [
     createVNode("ol", null, [
@@ -10936,7 +10935,7 @@ script.__file = "administrator/components/com_media/resources/scripts/components
  */
 const Translate = {
   // Translate from Joomla text
-  translate: key => Joomla.JText._(key, key),
+  translate: key => Joomla.Text._(key, key),
   sprintf: (string, ...args) => {
     // eslint-disable-next-line no-param-reassign
     string = Translate.translate(string);

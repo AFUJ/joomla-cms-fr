@@ -13,11 +13,11 @@
 
       if (copy) {
         Joomla.renderMessages({
-          message: [Joomla.JText._('PLG_USER_TOKEN_COPY_SUCCESS')]
+          message: [Joomla.Text._('PLG_USER_TOKEN_COPY_SUCCESS')]
         });
       } else {
         Joomla.renderMessages({
-          error: [Joomla.JText._('PLG_USER_TOKEN_COPY_FAIL')]
+          error: [Joomla.Text._('PLG_USER_TOKEN_COPY_FAIL')]
         });
       }
     } catch (err) {
@@ -41,11 +41,11 @@
 
       navigator.clipboard.writeText(input.value).then(() => {
         Joomla.renderMessages({
-          message: [Joomla.JText._('PLG_USER_TOKEN_COPY_SUCCESS')]
+          message: [Joomla.Text._('PLG_USER_TOKEN_COPY_SUCCESS')]
         });
       }, () => {
         Joomla.renderMessages({
-          error: [Joomla.JText._('PLG_USER_TOKEN_COPY_FAIL')]
+          error: [Joomla.Text._('PLG_USER_TOKEN_COPY_FAIL')]
         });
       });
     });

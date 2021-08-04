@@ -259,7 +259,7 @@ Joomla = window.Joomla || {};
 
 
     checkActiveStatus(cont) {
-      const els = this.getFilterFields();
+      const els = [].slice.call(this.getFilterFields());
       let activeFilterCount = 0;
       els.forEach(item => {
         if (item.classList.contains('active')) {
@@ -435,7 +435,7 @@ Joomla = window.Joomla || {};
               } // Append the option and repopulate the chosen field
 
 
-              this.orderFieldName.innerHTML += $option;
+              this.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
             }
           }
         });

@@ -293,7 +293,7 @@
           var value = this.inputElement.value;
 
           if (!value) {
-            this.previewElement.innerHTML = '<span class="field-media-preview-icon"></span>';
+            this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
           } else {
             this.previewElement.innerHTML = '';
             var imgPreview = new Image();

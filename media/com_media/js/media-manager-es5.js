@@ -15180,7 +15180,7 @@ var JoomlaMediaManager = (function () {
         timer = 3000;
       }
 
-      Joomla.renderMessages((_Joomla$renderMessage = {}, _Joomla$renderMessage[options.type] = [Joomla.JText._(message)], _Joomla$renderMessage), undefined, true, timer);
+      Joomla.renderMessages((_Joomla$renderMessage = {}, _Joomla$renderMessage[options.type] = [Joomla.Text._(message)], _Joomla$renderMessage), undefined, true, timer);
     };
 
     return Notifications;
@@ -15809,7 +15809,6 @@ var JoomlaMediaManager = (function () {
   function render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock("nav", {
       class: "media-breadcrumb",
-      role: "navigation",
       "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
     }, [createVNode("ol", null, [(openBlock(true), createBlock(Fragment, null, renderList($options.crumbs, function (val, index) {
       return openBlock(), createBlock("li", {
@@ -18813,7 +18812,7 @@ var JoomlaMediaManager = (function () {
   var Translate = {
     // Translate from Joomla text
     translate: function translate(key) {
-      return Joomla.JText._(key, key);
+      return Joomla.Text._(key, key);
     },
     sprintf: function sprintf(string) {
       for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key18 = 1; _key18 < _len8; _key18++) {

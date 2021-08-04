@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'eef2c1362ffebfffd800ed36084e013206674719',
+    'reference' => '5a00031843ab515515920a7aadf9a1a0f6639bbd',
     'name' => 'joomla/joomla-cms',
   ),
   'versions' => 
@@ -225,7 +225,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'eef2c1362ffebfffd800ed36084e013206674719',
+      'reference' => '5a00031843ab515515920a7aadf9a1a0f6639bbd',
     ),
     'joomla/ldap' => 
     array (
@@ -301,12 +301,12 @@
     ),
     'joomla/utilities' => 
     array (
-      'pretty_version' => '2.0.0-beta',
-      'version' => '2.0.0.0-beta',
+      'pretty_version' => '2.0.0-beta2',
+      'version' => '2.0.0.0-beta2',
       'aliases' => 
       array (
       ),
-      'reference' => 'e15b14b060e524ab869504942440e14473dfb3de',
+      'reference' => '30aaf824c9e6702c92c0463246b237276aa02cae',
     ),
     'laminas/laminas-diactoros' => 
     array (

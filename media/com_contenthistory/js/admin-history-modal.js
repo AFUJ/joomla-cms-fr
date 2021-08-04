@@ -4,7 +4,7 @@
  */
 ((document, Joomla) => {
 
-  if (!Joomla || typeof Joomla.JText._ !== 'function') {
+  if (!Joomla || typeof Joomla.Text._ !== 'function') {
     throw new Error('core.js was not properly initialised');
   }
 
@@ -21,7 +21,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.JText._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
       }
 
       return false;
@@ -39,7 +39,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.JText._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE'));
       }
 
       return false;
@@ -50,7 +50,7 @@
 
       if (ids.length === 0) {
         // @todo use the CE Modal here
-        alert(Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+        alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
       } else if (ids.length === 2) {
         // Add version item ids to URL
         const url = `${document.getElementById('toolbar-compare').childNodes[1].getAttribute('data-url')}&id1=${ids[0].value}&id2=${ids[1].value}`;
@@ -60,7 +60,7 @@
         }
       } else {
         // @todo use the CE Modal here
-        alert(Joomla.JText._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
+        alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO'));
       }
 
       return false;

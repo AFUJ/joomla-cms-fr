@@ -342,7 +342,7 @@
           el.style.backgroundColor = color;
           el.setAttribute('type', 'button');
           var a11yColor = color === 'transparent' ? _this2.textTransp : _this2.getColorName(color);
-          el.innerHTML = "<span class=\"visually-hidden\">" + a11yColor + "</span>";
+          el.innerHTML = Joomla.sanitizeHtml("<span class=\"visually-hidden\">" + a11yColor + "</span>");
 
           _this2.buttons.push(el);
         }); // Add a close button
@@ -350,7 +350,7 @@
         var close = document.createElement('button');
         close.setAttribute('class', 'btn-close');
         close.setAttribute('type', 'button');
-        close.innerHTML = this.textClose;
+        close.innerHTML = Joomla.sanitizeHtml(this.textClose);
         this.buttons.push(close);
         var color = this.select.value;
         var clss = '';
@@ -370,7 +370,7 @@
         this.icon.setAttribute('type', 'button');
         this.icon.setAttribute('tabindex', '0');
         this.icon.style.backgroundColor = color;
-        this.icon.innerHTML = "<span class=\"visually-hidden\">" + this.textSelect + "</span>";
+        this.icon.innerHTML = Joomla.sanitizeHtml("<span class=\"visually-hidden\">" + this.textSelect + "</span>");
         this.icon.id = uniqueId;
         this.select.insertAdjacentElement('beforebegin', this.icon);
         this.icon.addEventListener('click', this.show.bind(this));

@@ -28,7 +28,7 @@ Joomla = window.Joomla || {};
 
     if (associations) {
       const html = document.createElement('joomla-alert');
-      html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+      html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
       associations.insertAdjacentElement('afterbegin', html);
     }
 
@@ -79,7 +79,7 @@ Joomla = window.Joomla || {};
       }
     } else {
       Joomla.renderMessages({
-        warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
+        warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
       });
     }
   };
@@ -140,7 +140,7 @@ Joomla = window.Joomla || {};
       },
       onError: () => {
         Joomla.renderMessages({
-          warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
+          warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
         });
       }
     });
@@ -194,7 +194,7 @@ Joomla = window.Joomla || {};
 
         if (existsAssociations) {
           Joomla.renderMessages({
-            warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]
+            warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]
           });
         } // If the selected language is All hide the fields and add a message
 

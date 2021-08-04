@@ -183,7 +183,7 @@
 
         node.value = item[1]; // eslint-disable-next-line prefer-destructuring
 
-        node.innerHTML = item[2];
+        node.innerHTML = Joomla.sanitizeHtml(item[2]);
 
         if (originalPositionName && originalPositionValue === item[1] || !originalPositionName && i === 0) {
           node.setAttribute('selected', 'selected');

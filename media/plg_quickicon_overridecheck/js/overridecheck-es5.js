@@ -25,7 +25,7 @@
 
           if (linkSpans.length) {
             linkSpans.forEach(function (span) {
-              span.innerHTML = text;
+              span.innerHTML = Joomla.sanitizeHtml(text);
             });
           }
         };
@@ -46,7 +46,7 @@
                 } else {
                   // Scroll to page top
                   window.scrollTo(0, 0);
-                  update('danger', Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', "<span class=\"badge text-dark bg-light\">" + updateInfoList.length + "</span>"), '');
+                  update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', "<span class=\"badge text-dark bg-light\">" + updateInfoList.length + "</span>"), '');
                 }
               } else {
                 // An error occurred

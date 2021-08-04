@@ -58,7 +58,7 @@
             _this.states.refreshing = false;
           },
           onError: function onError() {
-            alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+            alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
 
             _this.refreshStatus.classList.remove('show');
           }
@@ -158,7 +158,7 @@
             _this2.spinner.classList.remove('show');
           },
           onError: function onError() {
-            alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+            alert(Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
             _this2.moreResultsButton.disabled = true;
 
             _this2.moreResults.classList.remove('show');
@@ -203,11 +203,11 @@
           key.setAttribute('id', "override_key" + _this3.states.counter + index);
           key.setAttribute('title', item.file);
           key.classList.add('result-key');
-          key.innerHTML = item.constant;
+          key.innerHTML = Joomla.sanitizeHtml(item.constant);
           var string = document.createElement('div');
           string.setAttribute('id', "override_string" + _this3.states.counter + index);
           string.classList.add('result-string');
-          string.innerHTML = item.string;
+          string.innerHTML = Joomla.sanitizeHtml(item.string);
           a.appendChild(key);
           a.appendChild(string);
           resultsDiv.appendChild(a);
@@ -215,7 +215,7 @@
 
         if (!results.length) {
           var noresult = document.createElement('div');
-          noresult.innerHTML = Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
+          noresult.innerText = Joomla.Text._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS');
           resultsDiv.appendChild(noresult);
         }
 

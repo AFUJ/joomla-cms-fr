@@ -8822,6 +8822,9 @@ var bootstrap = (function (exports) {
 	Joomla.Modal = Joomla.Modal || {};
 	window.bootstrap = window.bootstrap || {};
 	window.bootstrap.Modal = Modal;
+	var allowed = {
+	  iframe: ['src', 'name', 'width', 'height']
+	};
 
 	Joomla.initialiseModal = function (modal, options) {
 	  if (!(modal instanceof Element)) {
@@ -8875,9 +8878,9 @@ var bootstrap = (function (exports) {
 	          el = document.getElementById(idFieldArr[1]).value;
 	        }
 
-	        modalBody.insertAdjacentHTML('afterbegin', "" + iframeTextArr[0] + el + iframeTextArr[2]);
+	        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml("" + iframeTextArr[0] + el + iframeTextArr[2], allowed));
 	      } else {
-	        modalBody.insertAdjacentHTML('afterbegin', modal.dataset.iframe);
+	        modalBody.insertAdjacentHTML('afterbegin', Joomla.sanitizeHtml(modal.dataset.iframe, allowed));
 	      }
 	    }
 	  });
@@ -10944,12 +10947,7 @@ var bootstrap = (function (exports) {
 	            link.setAttribute('role', 'tab');
 	            link.setAttribute('aria-controls', element.dataset.id);
 	            link.setAttribute('aria-selected', element.dataset.id);
-	            /**
-	             * As we are re-rendering text already displayed on the page we judge that there isn't
-	             * a risk of XSS attacks
-	             */
-
-	            link.innerHTML = element.dataset.title;
+	            link.innerHTML = Joomla.sanitizeHtml(element.dataset.title);
 	            var li = document.createElement('li');
 	            li.classList.add('nav-item');
 	            li.setAttribute('role', 'presentation');

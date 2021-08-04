@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545
+class ComposerStaticInita7fb1cc07bad78e707208dca1784234f
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -985,7 +985,6 @@ class ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545
         'Joomla\\CMS\\Error\\AbstractRenderer' => __DIR__ . '/../../..' . '/libraries/src/Error/AbstractRenderer.php',
         'Joomla\\CMS\\Error\\JsonApi\\AuthenticationFailedExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/AuthenticationFailedExceptionHandler.php',
         'Joomla\\CMS\\Error\\JsonApi\\CheckinCheckoutExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/CheckinCheckoutExceptionHandler.php',
-        'Joomla\\CMS\\Error\\JsonApi\\InstallLanguageExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/InstallLanguageExceptionHandler.php',
         'Joomla\\CMS\\Error\\JsonApi\\InvalidParameterExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/InvalidParameterExceptionHandler.php',
         'Joomla\\CMS\\Error\\JsonApi\\InvalidRouteExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/InvalidRouteExceptionHandler.php',
         'Joomla\\CMS\\Error\\JsonApi\\NotAcceptableExceptionHandler' => __DIR__ . '/../../..' . '/libraries/src/Error/JsonApi/NotAcceptableExceptionHandler.php',
@@ -1315,7 +1314,6 @@ class ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545
         'Joomla\\CMS\\MVC\\Controller\\BaseController' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/BaseController.php',
         'Joomla\\CMS\\MVC\\Controller\\ControllerInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/ControllerInterface.php',
         'Joomla\\CMS\\MVC\\Controller\\Exception\\CheckinCheckout' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/Exception/CheckinCheckout.php',
-        'Joomla\\CMS\\MVC\\Controller\\Exception\\InstallLanguage' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/Exception/InstallLanguage.php',
         'Joomla\\CMS\\MVC\\Controller\\Exception\\ResourceNotFound' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/Exception/ResourceNotFound.php',
         'Joomla\\CMS\\MVC\\Controller\\Exception\\Save' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/Exception/Save.php',
         'Joomla\\CMS\\MVC\\Controller\\Exception\\SendEmail' => __DIR__ . '/../../..' . '/libraries/src/MVC/Controller/Exception/SendEmail.php',
@@ -2271,9 +2269,9 @@ class ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5185ae87872aa05a851ee33cf7ac4545::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita7fb1cc07bad78e707208dca1784234f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita7fb1cc07bad78e707208dca1784234f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita7fb1cc07bad78e707208dca1784234f::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -115,29 +115,37 @@
       },
       mirrorContainer: container
     }).on('drag', function (el) {
-      dragElementIndex = parseInt(el.querySelector('[name="order[]"]').dataset.order, 10) - 1;
-    }).on('cloned', function () {}).on('drop', function (el) {
-      var orderSelector;
-      var inputSelector;
+      var rowSelector;
       var groupId = el.dataset.draggableGroup;
 
       if (groupId) {
+        rowSelector = "tr[data-draggable-group=\"" + groupId + "\"]";
+      } else {
+        rowSelector = 'tr';
+      }
+
+      var rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+      dragElementIndex = rowElements.indexOf(el);
+    }).on('cloned', function () {}).on('drop', function (el) {
+      var orderSelector;
+      var inputSelector;
+      var rowSelector;
+      var groupId = el.dataset.draggableGroup;
+
+      if (groupId) {
+        rowSelector = "tr[data-draggable-group=\"" + groupId + "\"]";
         orderSelector = "[data-draggable-group=\"" + groupId + "\"] [name=\"order[]\"]";
         inputSelector = "[data-draggable-group=\"" + groupId + "\"] [name=\"cid[]\"]";
       } else {
+        rowSelector = 'tr';
         orderSelector = '[name="order[]"]';
         inputSelector = '[name="cid[]"]';
       }
 
+      var rowElements = [].slice.call(container.querySelectorAll(rowSelector));
       var rows = [].slice.call(container.querySelectorAll(orderSelector));
       var inputRows = [].slice.call(container.querySelectorAll(inputSelector));
-
-      for (var _i = 0, _l = rows.length - 1; _l > _i; _i += 1) {
-        if (rows[_i].dataset.order === el.querySelector('[name="order[]"]').dataset.order) {
-          dropElementIndex = _i;
-          break;
-        }
-      }
+      dropElementIndex = rowElements.indexOf(el);
 
       if (url) {
         // Detach task field if exists
@@ -163,8 +171,8 @@
     }).on('dragend', function () {
       var elements = container.querySelectorAll('[name="order[]"]'); // Reset data order attribute for initial ordering
 
-      for (var _i2 = 0, _l2 = elements.length; _l2 > _i2; _i2 += 1) {
-        elements[_i2].dataset.order = _i2 + 1;
+      for (var _i = 0, _l = elements.length; _l > _i; _i += 1) {
+        elements[_i].dataset.order = _i + 1;
       }
     });
   }

@@ -28,7 +28,45 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "fbd28a94cb4f8c040c79c45c749f1810af32a0b0"
+      "version": "e4dd41edc4a85507a0652bf7d98b833c431fc0a6"
+    },
+    {
+      "name": "com_cpanel.admin-cpanel",
+      "type": "script",
+      "uri": "com_cpanel/admin-cpanel-default.min.js",
+      "dependencies": [
+        "com_cpanel.admin-cpanel.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "29f37724fa65ef9270ce73aaf2c27f6a76d5fc95"
+    },
+    {
+      "name": "com_cpanel.admin-system-loader",
+      "type": "script",
+      "uri": "com_cpanel/admin-system-loader.min.js",
+      "dependencies": [
+        "com_cpanel.admin-system-loader.es5"
+      ],
+      "attributes": {
+        "type": "module",
+        "defer": true
+      },
+      "version": "58db82937f37e2018f994cfb15918f60a287d3a8"
+    },
+    {
+      "name": "com_cpanel.admin-system-loader.es5",
+      "type": "script",
+      "uri": "com_cpanel/admin-system-loader-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "7ee2b4be1da6c067e9c283cd78f4c4389ffcd4a5"
     },
     {
       "name": "com_cpanel.admin-addmodule.es5",
@@ -42,44 +80,6 @@
         "defer": true
       },
       "version": "26cff6e5baf165bee4fd7d3124fe1199867e32b7"
-    },
-    {
-      "name": "com_cpanel.admin-cpanel",
-      "type": "script",
-      "uri": "com_cpanel/admin-cpanel-default.min.js",
-      "dependencies": [
-        "com_cpanel.admin-cpanel.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "5fbd91074d9ac79c65c5e1f4bd28e2d46551e345"
-    },
-    {
-      "name": "com_cpanel.admin-system-loader",
-      "type": "script",
-      "uri": "com_cpanel/admin-system-loader.min.js",
-      "dependencies": [
-        "com_cpanel.admin-system-loader.es5"
-      ],
-      "attributes": {
-        "type": "module",
-        "defer": true
-      },
-      "version": "215e14aa034fb01224dd133c3a5c61677a7f5cbb"
-    },
-    {
-      "name": "com_cpanel.admin-system-loader.es5",
-      "type": "script",
-      "uri": "com_cpanel/admin-system-loader-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "aa9cb9e11568c1180264234a3d052c9ba162ed35"
     }
   ]
 }

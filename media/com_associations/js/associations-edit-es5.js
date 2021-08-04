@@ -30,7 +30,7 @@
 
       if (associations) {
         var html = document.createElement('joomla-alert');
-        html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+        html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
         associations.insertAdjacentElement('afterbegin', html);
       }
 
@@ -81,7 +81,7 @@
         }
       } else {
         Joomla.renderMessages({
-          warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
+          warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
         });
       }
     };
@@ -142,7 +142,7 @@
         },
         onError: function onError() {
           Joomla.renderMessages({
-            warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
+            warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED')]
           });
         }
       });
@@ -195,7 +195,7 @@
 
           if (existsAssociations) {
             Joomla.renderMessages({
-              warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]
+              warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')]
             });
           } // If the selected language is All hide the fields and add a message
 
