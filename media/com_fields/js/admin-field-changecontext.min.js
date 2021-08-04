@@ -1,0 +1,1 @@
+Joomla.fieldsChangeContext=e=>{const o=new RegExp("([?;&])context[^&;]*[;&]?"),n=window.location.href.replace(o,"$1").replace(/&$/,"");window.location.href=(n.length>2?n+"&":"?")+(e?"context="+e:"")};

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_joomlaupdate",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_joomlaupdate.admin-update",
+      "type": "script",
+      "uri": "com_joomlaupdate/admin-update-default.min.js",
+      "dependencies": [
+        "core",
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "3d6c129acbaece9e88379bfb3adbb7c7e0c160c3"
+    },
+    {
+      "name": "com_joomlaupdate.default",
+      "type": "script",
+      "uri": "com_joomlaupdate/default.min.js",
+      "dependencies": [
+        "core",
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "4f4d25ab616888edc99bebe4a08a8f6e7673ae95"
+    },
+    {
+      "name": "com_joomlaupdate.update",
+      "type": "script",
+      "uri": "com_joomlaupdate/update.min.js",
+      "dependencies": [
+        "core",
+        "jquery",
+        "com_joomlaupdate.encryption"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "7fb7aa971828d5ac4b31af2fac5168e4bb5cfa01"
+    },
+    {
+      "name": "com_joomlaupdate.encryption",
+      "type": "script",
+      "uri": "com_joomlaupdate/encryption.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "a7dff7d44c6350fd0862533305561dbea34ad45c"
+    }
+  ]
+}
