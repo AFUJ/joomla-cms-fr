@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '5a00031843ab515515920a7aadf9a1a0f6639bbd',
+    'reference' => '93356c8bf7935f64a421d19e396782a2141a8091',
     'name' => 'joomla/joomla-cms',
   ),
   'versions' => 
@@ -225,7 +225,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '5a00031843ab515515920a7aadf9a1a0f6639bbd',
+      'reference' => '93356c8bf7935f64a421d19e396782a2141a8091',
     ),
     'joomla/ldap' => 
     array (
@@ -371,12 +371,12 @@
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.4.1',
-      'version' => '6.4.1.0',
+      'pretty_version' => 'v6.5.0',
+      'version' => '6.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9256f12d8fb0cd0500f93b19e18c356906cbed3d',
+      'reference' => 'a5b5c43e50b7fba655f793ad27303cd74c57363c',
     ),
     'psr/container' => 
     array (

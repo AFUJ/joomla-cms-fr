@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, c as getSelectorFromElement, D as Data, E as EventHandler, r as reflow, g as getElementFromSelector, a as typeCheckConfig, e as getElement, M as Manipulator, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, S as SelectorEngine, e as getSelectorFromElement, E as EventHandler, D as Data, r as reflow, g as getElementFromSelector, a as typeCheckConfig, f as getElement, M as Manipulator, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): collapse.js
+ * Bootstrap (v5.0.2): collapse.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -118,7 +118,7 @@ class Collapse extends BaseComponent {
 
     if (actives) {
       const tempActiveData = actives.find(elem => container !== elem);
-      activesData = tempActiveData ? Data.get(tempActiveData, DATA_KEY) : null;
+      activesData = tempActiveData ? Collapse.getInstance(tempActiveData) : null;
 
       if (activesData && activesData._isTransitioning) {
         return;
@@ -281,7 +281,7 @@ class Collapse extends BaseComponent {
 
 
   static collapseInterface(element, config) {
-    let data = Data.get(element, DATA_KEY);
+    let data = Collapse.getInstance(element);
     const _config = { ...Default,
       ...Manipulator.getDataAttributes(element),
       ...(typeof config === 'object' && config ? config : {})
@@ -328,7 +328,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
   const selector = getSelectorFromElement(this);
   const selectorElements = SelectorEngine.find(selector);
   selectorElements.forEach(element => {
-    const data = Data.get(element, DATA_KEY);
+    const data = Collapse.getInstance(element);
     let config;
 
     if (data) {

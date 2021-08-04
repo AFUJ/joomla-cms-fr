@@ -1,8 +1,8 @@
-import { B as BaseComponent, D as Data, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): button.js
+ * Bootstrap (v5.0.2): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -40,11 +40,7 @@ class Button extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.get(this, DATA_KEY);
-
-      if (!data) {
-        data = new Button(this);
-      }
+      const data = Button.getOrCreateInstance(this);
 
       if (config === 'toggle') {
         data[config]();
@@ -63,12 +59,7 @@ class Button extends BaseComponent {
 EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, event => {
   event.preventDefault();
   const button = event.target.closest(SELECTOR_DATA_TOGGLE);
-  let data = Data.get(button, DATA_KEY);
-
-  if (!data) {
-    data = new Button(button);
-  }
-
+  const data = Button.getOrCreateInstance(button);
   data.toggle();
 });
 /**

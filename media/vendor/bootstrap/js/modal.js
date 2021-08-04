@@ -1,82 +1,112 @@
-import { M as Manipulator, S as SelectorEngine, j as execute, r as reflow, a as typeCheckConfig, E as EventHandler, k as getTransitionDurationFromElement, l as emulateTransitionEnd, B as BaseComponent, b as isRTL, g as getElementFromSelector, i as isVisible, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { M as Manipulator, j as isElement, S as SelectorEngine, k as execute, r as reflow, f as getElement, a as typeCheckConfig, E as EventHandler, l as executeAfterTransition, B as BaseComponent, c as isRTL, g as getElementFromSelector, i as isVisible, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): util/scrollBar.js
+ * Bootstrap (v5.0.2): util/scrollBar.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
 const SELECTOR_STICKY_CONTENT = '.sticky-top';
 
-const getWidth = () => {
-  // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-  const documentWidth = document.documentElement.clientWidth;
-  return Math.abs(window.innerWidth - documentWidth);
-};
-
-const hide = (width = getWidth()) => {
-  _disableOverFlow(); // give padding to element to balances the hidden scrollbar width
-
-
-  _setElementAttributes('body', 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements, to keep shown fullwidth
-
-
-  _setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
-
-  _setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
-};
-
-const _disableOverFlow = () => {
-  const actualValue = document.body.style.overflow;
-
-  if (actualValue) {
-    Manipulator.setDataAttribute(document.body, 'overflow', actualValue);
+class ScrollBarHelper {
+  constructor() {
+    this._element = document.body;
   }
 
-  document.body.style.overflow = 'hidden';
-};
+  getWidth() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+    const documentWidth = document.documentElement.clientWidth;
+    return Math.abs(window.innerWidth - documentWidth);
+  }
 
-const _setElementAttributes = (selector, styleProp, callback) => {
-  const scrollbarWidth = getWidth();
-  SelectorEngine.find(selector).forEach(element => {
-    if (element !== document.body && window.innerWidth > element.clientWidth + scrollbarWidth) {
-      return;
-    }
+  hide() {
+    const width = this.getWidth();
 
+    this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
+
+
+    this._setElementAttributes(this._element, 'paddingRight', calculatedValue => calculatedValue + width); // trick: We adjust positive paddingRight and negative marginRight to sticky-top elements to keep showing fullwidth
+
+
+    this._setElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight', calculatedValue => calculatedValue + width);
+
+    this._setElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight', calculatedValue => calculatedValue - width);
+  }
+
+  _disableOverFlow() {
+    this._saveInitialAttribute(this._element, 'overflow');
+
+    this._element.style.overflow = 'hidden';
+  }
+
+  _setElementAttributes(selector, styleProp, callback) {
+    const scrollbarWidth = this.getWidth();
+
+    const manipulationCallBack = element => {
+      if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+        return;
+      }
+
+      this._saveInitialAttribute(element, styleProp);
+
+      const calculatedValue = window.getComputedStyle(element)[styleProp];
+      element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+    };
+
+    this._applyManipulationCallback(selector, manipulationCallBack);
+  }
+
+  reset() {
+    this._resetElementAttributes(this._element, 'overflow');
+
+    this._resetElementAttributes(this._element, 'paddingRight');
+
+    this._resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
+
+    this._resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
+  }
+
+  _saveInitialAttribute(element, styleProp) {
     const actualValue = element.style[styleProp];
-    const calculatedValue = window.getComputedStyle(element)[styleProp];
-    Manipulator.setDataAttribute(element, styleProp, actualValue);
-    element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
-  });
-};
 
-const reset = () => {
-  _resetElementAttributes('body', 'overflow');
-
-  _resetElementAttributes('body', 'paddingRight');
-
-  _resetElementAttributes(SELECTOR_FIXED_CONTENT, 'paddingRight');
-
-  _resetElementAttributes(SELECTOR_STICKY_CONTENT, 'marginRight');
-};
-
-const _resetElementAttributes = (selector, styleProp) => {
-  SelectorEngine.find(selector).forEach(element => {
-    const value = Manipulator.getDataAttribute(element, styleProp);
-
-    if (typeof value === 'undefined') {
-      element.style.removeProperty(styleProp);
-    } else {
-      Manipulator.removeDataAttribute(element, styleProp);
-      element.style[styleProp] = value;
+    if (actualValue) {
+      Manipulator.setDataAttribute(element, styleProp, actualValue);
     }
-  });
-};
+  }
+
+  _resetElementAttributes(selector, styleProp) {
+    const manipulationCallBack = element => {
+      const value = Manipulator.getDataAttribute(element, styleProp);
+
+      if (typeof value === 'undefined') {
+        element.style.removeProperty(styleProp);
+      } else {
+        Manipulator.removeDataAttribute(element, styleProp);
+        element.style[styleProp] = value;
+      }
+    };
+
+    this._applyManipulationCallback(selector, manipulationCallBack);
+  }
+
+  _applyManipulationCallback(selector, callBack) {
+    if (isElement(selector)) {
+      callBack(selector);
+    } else {
+      SelectorEngine.find(selector, this._element).forEach(callBack);
+    }
+  }
+
+  isOverflowing() {
+    return this.getWidth() > 0;
+  }
+
+}
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): util/backdrop.js
+ * Bootstrap (v5.0.2): util/backdrop.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -84,14 +114,14 @@ const Default$1 = {
   isVisible: true,
   // if false, we use the backdrop helper without adding any element to the dom
   isAnimated: false,
-  rootElement: document.body,
+  rootElement: 'body',
   // give the choice to place backdrop under different elements
   clickCallback: null
 };
 const DefaultType$1 = {
   isVisible: 'boolean',
   isAnimated: 'boolean',
-  rootElement: 'element',
+  rootElement: '(element|string)',
   clickCallback: '(function|null)'
 };
 const NAME$1 = 'backdrop';
@@ -159,8 +189,9 @@ class Backdrop {
   _getConfig(config) {
     config = { ...Default$1,
       ...(typeof config === 'object' ? config : {})
-    };
-    config.rootElement = config.rootElement || document.body;
+    }; // use getElement() with the default "body" to get a fresh Element on each instantiation
+
+    config.rootElement = getElement(config.rootElement);
     typeCheckConfig(NAME$1, config, DefaultType$1);
     return config;
   }
@@ -185,27 +216,20 @@ class Backdrop {
 
     EventHandler.off(this._element, EVENT_MOUSEDOWN);
 
-    this._getElement().parentNode.removeChild(this._element);
+    this._element.remove();
 
     this._isAppended = false;
   }
 
   _emulateAnimation(callback) {
-    if (!this._config.isAnimated) {
-      execute(callback);
-      return;
-    }
-
-    const backdropTransitionDuration = getTransitionDurationFromElement(this._getElement());
-    EventHandler.one(this._getElement(), 'transitionend', () => execute(callback));
-    emulateTransitionEnd(this._getElement(), backdropTransitionDuration);
+    executeAfterTransition(callback, this._getElement(), this._config.isAnimated);
   }
 
 }
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): modal.js
+ * Bootstrap (v5.0.2): modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -265,6 +289,7 @@ class Modal extends BaseComponent {
     this._isShown = false;
     this._ignoreBackdropClick = false;
     this._isTransitioning = false;
+    this._scrollBar = new ScrollBarHelper();
   } // Getters
 
 
@@ -286,20 +311,22 @@ class Modal extends BaseComponent {
       return;
     }
 
-    if (this._isAnimated()) {
-      this._isTransitioning = true;
-    }
-
     const showEvent = EventHandler.trigger(this._element, EVENT_SHOW, {
       relatedTarget
     });
 
-    if (this._isShown || showEvent.defaultPrevented) {
+    if (showEvent.defaultPrevented) {
       return;
     }
 
     this._isShown = true;
-    hide();
+
+    if (this._isAnimated()) {
+      this._isTransitioning = true;
+    }
+
+    this._scrollBar.hide();
+
     document.body.classList.add(CLASS_NAME_OPEN);
 
     this._adjustDialog();
@@ -321,7 +348,7 @@ class Modal extends BaseComponent {
   }
 
   hide(event) {
-    if (event) {
+    if (event && ['A', 'AREA'].includes(event.target.tagName)) {
       event.preventDefault();
     }
 
@@ -388,7 +415,7 @@ class Modal extends BaseComponent {
   _getConfig(config) {
     config = { ...Default,
       ...Manipulator.getDataAttributes(this._element),
-      ...config
+      ...(typeof config === 'object' ? config : {})
     };
     typeCheckConfig(NAME, config, DefaultType);
     return config;
@@ -491,7 +518,8 @@ class Modal extends BaseComponent {
 
       this._resetAdjustments();
 
-      reset();
+      this._scrollBar.reset();
+
       EventHandler.trigger(this._element, EVENT_HIDDEN);
     });
   }
@@ -528,27 +556,32 @@ class Modal extends BaseComponent {
       return;
     }
 
-    const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+    const {
+      classList,
+      scrollHeight,
+      style
+    } = this._element;
+    const isModalOverflowing = scrollHeight > document.documentElement.clientHeight; // return if the following background transition hasn't yet completed
 
-    if (!isModalOverflowing) {
-      this._element.style.overflowY = 'hidden';
+    if (!isModalOverflowing && style.overflowY === 'hidden' || classList.contains(CLASS_NAME_STATIC)) {
+      return;
     }
 
-    this._element.classList.add(CLASS_NAME_STATIC);
+    if (!isModalOverflowing) {
+      style.overflowY = 'hidden';
+    }
 
-    const modalTransitionDuration = getTransitionDurationFromElement(this._dialog);
-    EventHandler.off(this._element, 'transitionend');
-    EventHandler.one(this._element, 'transitionend', () => {
-      this._element.classList.remove(CLASS_NAME_STATIC);
+    classList.add(CLASS_NAME_STATIC);
+
+    this._queueCallback(() => {
+      classList.remove(CLASS_NAME_STATIC);
 
       if (!isModalOverflowing) {
-        EventHandler.one(this._element, 'transitionend', () => {
-          this._element.style.overflowY = '';
-        });
-        emulateTransitionEnd(this._element, modalTransitionDuration);
+        this._queueCallback(() => {
+          style.overflowY = '';
+        }, this._dialog);
       }
-    });
-    emulateTransitionEnd(this._element, modalTransitionDuration);
+    }, this._dialog);
 
     this._element.focus();
   } // ----------------------------------------------------------------------
@@ -558,7 +591,9 @@ class Modal extends BaseComponent {
 
   _adjustDialog() {
     const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-    const scrollbarWidth = getWidth();
+
+    const scrollbarWidth = this._scrollBar.getWidth();
+
     const isBodyOverflowing = scrollbarWidth > 0;
 
     if (!isBodyOverflowing && isModalOverflowing && !isRTL() || isBodyOverflowing && !isModalOverflowing && isRTL()) {
@@ -578,7 +613,7 @@ class Modal extends BaseComponent {
 
   static jQueryInterface(config, relatedTarget) {
     return this.each(function () {
-      const data = Modal.getInstance(this) || new Modal(this, typeof config === 'object' ? config : {});
+      const data = Modal.getOrCreateInstance(this, config);
 
       if (typeof config !== 'string') {
         return;
@@ -619,7 +654,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
       }
     });
   });
-  const data = Modal.getInstance(target) || new Modal(target);
+  const data = Modal.getOrCreateInstance(target);
   data.toggle(this);
 });
 /**
@@ -791,4 +826,4 @@ if (Joomla && Joomla.getOptions) {
   }
 }
 
-export { Backdrop as B, Modal as M, hide as h, reset as r };
+export { Backdrop as B, Modal as M, ScrollBarHelper as S };

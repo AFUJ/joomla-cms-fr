@@ -11,6 +11,7 @@
   var isNested;
   var dragElementIndex;
   var dropElementIndex;
+  var dropElement;
   var container = document.querySelector('.js-draggable');
   var orderRows = container.querySelectorAll('[name="order[]"]');
 
@@ -61,19 +62,11 @@
           } else {
             rows[i].setAttribute('value', parseInt(rows[i].value, 10) + 1);
           }
-
-          result.push("order[]=" + encodeURIComponent(rows[i].value));
-          result.push("cid[]=" + encodeURIComponent(inputRows[i].value));
         }
-
-        result.push("order[]=" + encodeURIComponent(rows[dropIndex].value));
-        result.push("cid[]=" + encodeURIComponent(inputRows[dropIndex].value));
       } else {
         // Element is moved up
         rows[dropIndex].setAttribute('value', rows[dropIndex + 1].value);
         rows[dropIndex].value = rows[dropIndex + 1].value;
-        result.push("order[]=" + encodeURIComponent(rows[dropIndex].value));
-        result.push("cid[]=" + encodeURIComponent(inputRows[dropIndex].value));
 
         for (i = dropIndex + 1; i <= dragIndex; i += 1) {
           if (direction === 'asc') {
@@ -81,52 +74,33 @@
           } else {
             rows[i].value = parseInt(rows[i].value, 10) - 1;
           }
-
-          result.push("order[]=" + encodeURIComponent(rows[i].value));
-          result.push("cid[]=" + encodeURIComponent(inputRows[i].value));
         }
+      }
+
+      for (i = 0; i < rows.length - 1; i += 1) {
+        result.push("order[]=" + encodeURIComponent(rows[i].value));
+        result.push("cid[]=" + encodeURIComponent(inputRows[i].value));
       }
 
       return result;
-    }; // eslint-disable-next-line no-undef
+    };
 
-
-    dragula([container], {
-      // Y axis is considered when determining where an element would be dropped
-      direction: 'vertical',
-      // elements are moved by default, not copied
-      copy: false,
-      // elements in copy-source containers can be reordered
-      // copySortSource: true,
-      // spilling will put the element back where it was dragged from, if this is true
-      revertOnSpill: true,
-      // spilling will `.remove` the element, if this is true
-      // removeOnSpill: false,
-      accepts: function accepts(el, target, source, sibling) {
-        if (isNested) {
-          if (sibling !== null) {
-            return sibling.dataset.draggableGroup && sibling.dataset.draggableGroup === el.dataset.draggableGroup;
-          }
-
-          return sibling === null || sibling && sibling.tagName.toLowerCase() === 'tr';
-        }
-
-        return sibling === null || sibling && sibling.tagName.toLowerCase() === 'tr';
-      },
-      mirrorContainer: container
-    }).on('drag', function (el) {
-      var rowSelector;
-      var groupId = el.dataset.draggableGroup;
-
-      if (groupId) {
-        rowSelector = "tr[data-draggable-group=\"" + groupId + "\"]";
-      } else {
-        rowSelector = 'tr';
+    var rearrangeChildren = function rearrangeChildren($parent) {
+      if (!$parent.dataset.itemId) {
+        return;
       }
 
-      var rowElements = [].slice.call(container.querySelectorAll(rowSelector));
-      dragElementIndex = rowElements.indexOf(el);
-    }).on('cloned', function () {}).on('drop', function (el) {
+      var parentId = $parent.dataset.itemId; // Get children list. Each child row should have
+      // an attribute data-parents=" 1 2 3" where the number is id of parent
+
+      var $children = container.querySelectorAll("tr[data-parents~=\"" + parentId + "\"]");
+
+      if ($children.length) {
+        $parent.after.apply($parent, $children);
+      }
+    };
+
+    var saveTheOrder = function saveTheOrder(el) {
       var orderSelector;
       var inputSelector;
       var rowSelector;
@@ -167,12 +141,60 @@
         if (task) {
           task.setAttribute('name', 'task');
         }
-      }
-    }).on('dragend', function () {
-      var elements = container.querySelectorAll('[name="order[]"]'); // Reset data order attribute for initial ordering
+      } // Update positions for a children of the moved item
+
+
+      rearrangeChildren(el); // Reset data order attribute for initial ordering
+
+      var elements = container.querySelectorAll('[name="order[]"]');
 
       for (var _i = 0, _l = elements.length; _l > _i; _i += 1) {
         elements[_i].dataset.order = _i + 1;
+      }
+    }; // eslint-disable-next-line no-undef
+
+
+    dragula([container], {
+      // Y axis is considered when determining where an element would be dropped
+      direction: 'vertical',
+      // elements are moved by default, not copied
+      copy: false,
+      // elements in copy-source containers can be reordered
+      // copySortSource: true,
+      // spilling will put the element back where it was dragged from, if this is true
+      revertOnSpill: true,
+      // spilling will `.remove` the element, if this is true
+      // removeOnSpill: false,
+      accepts: function accepts(el, target, source, sibling) {
+        if (isNested) {
+          if (sibling !== null) {
+            return sibling.dataset.draggableGroup && sibling.dataset.draggableGroup === el.dataset.draggableGroup;
+          }
+
+          return sibling === null || sibling && sibling.tagName.toLowerCase() === 'tr';
+        }
+
+        return sibling === null || sibling && sibling.tagName.toLowerCase() === 'tr';
+      },
+      mirrorContainer: container
+    }).on('drag', function (el) {
+      var rowSelector;
+      var groupId = el.dataset.draggableGroup;
+
+      if (groupId) {
+        rowSelector = "tr[data-draggable-group=\"" + groupId + "\"]";
+      } else {
+        rowSelector = 'tr';
+      }
+
+      var rowElements = [].slice.call(container.querySelectorAll(rowSelector));
+      dragElementIndex = rowElements.indexOf(el);
+    }).on('drop', function (el) {
+      dropElement = el;
+    }).on('dragend', function () {
+      if (dropElement) {
+        saveTheOrder(dropElement);
+        dropElement = null;
       }
     });
   }

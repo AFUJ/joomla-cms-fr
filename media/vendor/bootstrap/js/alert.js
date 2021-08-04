@@ -1,8 +1,8 @@
-import { B as BaseComponent, g as getElementFromSelector, E as EventHandler, D as Data, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, g as getElementFromSelector, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): alert.js
+ * Bootstrap (v5.0.2): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -65,21 +65,14 @@ class Alert extends BaseComponent {
   }
 
   _destroyElement(element) {
-    if (element.parentNode) {
-      element.parentNode.removeChild(element);
-    }
-
+    element.remove();
     EventHandler.trigger(element, EVENT_CLOSED);
   } // Static
 
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.get(this, DATA_KEY);
-
-      if (!data) {
-        data = new Alert(this);
-      }
+      const data = Alert.getOrCreateInstance(this);
 
       if (config === 'close') {
         data[config](this);

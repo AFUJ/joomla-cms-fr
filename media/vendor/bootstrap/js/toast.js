@@ -1,8 +1,8 @@
-import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig, D as Data, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): toast.js
+ * Bootstrap (v5.0.2): toast.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -202,13 +202,7 @@ class Toast extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.get(this, DATA_KEY);
-
-      const _config = typeof config === 'object' && config;
-
-      if (!data) {
-        data = new Toast(this, _config);
-      }
+      const data = Toast.getOrCreateInstance(this, config);
 
       if (typeof config === 'string') {
         if (typeof data[config] === 'undefined') {

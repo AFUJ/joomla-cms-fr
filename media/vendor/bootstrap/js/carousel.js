@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, i as isVisible, t as triggerTransitionEnd, E as EventHandler, a as typeCheckConfig, r as reflow, b as isRTL, D as Data, M as Manipulator, g as getElementFromSelector, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, S as SelectorEngine, i as isVisible, t as triggerTransitionEnd, E as EventHandler, M as Manipulator, a as typeCheckConfig, b as getNextActiveElement, r as reflow, c as isRTL, g as getElementFromSelector, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): carousel.js
+ * Bootstrap (v5.0.2): carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -41,6 +41,10 @@ const ORDER_NEXT = 'next';
 const ORDER_PREV = 'prev';
 const DIRECTION_LEFT = 'left';
 const DIRECTION_RIGHT = 'right';
+const KEY_TO_DIRECTION = {
+  [ARROW_LEFT_KEY]: DIRECTION_RIGHT,
+  [ARROW_RIGHT_KEY]: DIRECTION_LEFT
+};
 const EVENT_SLIDE = `slide${EVENT_KEY}`;
 const EVENT_SLID = `slid${EVENT_KEY}`;
 const EVENT_KEYDOWN = `keydown${EVENT_KEY}`;
@@ -109,9 +113,7 @@ class Carousel extends BaseComponent {
 
 
   next() {
-    if (!this._isSliding) {
-      this._slide(ORDER_NEXT);
-    }
+    this._slide(ORDER_NEXT);
   }
 
   nextWhenVisible() {
@@ -123,9 +125,7 @@ class Carousel extends BaseComponent {
   }
 
   prev() {
-    if (!this._isSliding) {
-      this._slide(ORDER_PREV);
-    }
+    this._slide(ORDER_PREV);
   }
 
   pause(event) {
@@ -187,7 +187,8 @@ class Carousel extends BaseComponent {
 
   _getConfig(config) {
     config = { ...Default,
-      ...config
+      ...Manipulator.getDataAttributes(this._element),
+      ...(typeof config === 'object' ? config : {})
     };
     typeCheckConfig(NAME, config, DefaultType);
     return config;
@@ -285,14 +286,12 @@ class Carousel extends BaseComponent {
       return;
     }
 
-    if (event.key === ARROW_LEFT_KEY) {
+    const direction = KEY_TO_DIRECTION[event.key];
+
+    if (direction) {
       event.preventDefault();
 
-      this._slide(DIRECTION_RIGHT);
-    } else if (event.key === ARROW_RIGHT_KEY) {
-      event.preventDefault();
-
-      this._slide(DIRECTION_LEFT);
+      this._slide(direction);
     }
   }
 
@@ -303,20 +302,7 @@ class Carousel extends BaseComponent {
 
   _getItemByOrder(order, activeElement) {
     const isNext = order === ORDER_NEXT;
-    const isPrev = order === ORDER_PREV;
-
-    const activeIndex = this._getItemIndex(activeElement);
-
-    const lastItemIndex = this._items.length - 1;
-    const isGoingToWrap = isPrev && activeIndex === 0 || isNext && activeIndex === lastItemIndex;
-
-    if (isGoingToWrap && !this._config.wrap) {
-      return activeElement;
-    }
-
-    const delta = isPrev ? -1 : 1;
-    const itemIndex = (activeIndex + delta) % this._items.length;
-    return itemIndex === -1 ? this._items[this._items.length - 1] : this._items[itemIndex];
+    return getNextActiveElement(this._items, activeElement, isNext, this._config.wrap);
   }
 
   _triggerSlideEvent(relatedTarget, eventDirectionName) {
@@ -386,6 +372,10 @@ class Carousel extends BaseComponent {
 
     if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE)) {
       this._isSliding = false;
+      return;
+    }
+
+    if (this._isSliding) {
       return;
     }
 
@@ -472,10 +462,10 @@ class Carousel extends BaseComponent {
 
 
   static carouselInterface(element, config) {
-    let data = Data.get(element, DATA_KEY);
-    let _config = { ...Default,
-      ...Manipulator.getDataAttributes(element)
-    };
+    const data = Carousel.getOrCreateInstance(element, config);
+    let {
+      _config
+    } = data;
 
     if (typeof config === 'object') {
       _config = { ..._config,
@@ -484,10 +474,6 @@ class Carousel extends BaseComponent {
     }
 
     const action = typeof config === 'string' ? config : _config.slide;
-
-    if (!data) {
-      data = new Carousel(element, _config);
-    }
 
     if (typeof config === 'number') {
       data.to(config);
@@ -528,7 +514,7 @@ class Carousel extends BaseComponent {
     Carousel.carouselInterface(target, config);
 
     if (slideIndex) {
-      Data.get(target, DATA_KEY).to(slideIndex);
+      Carousel.getInstance(target).to(slideIndex);
     }
 
     event.preventDefault();
@@ -547,7 +533,7 @@ EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
   const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
 
   for (let i = 0, len = carousels.length; i < len; i++) {
-    Carousel.carouselInterface(carousels[i], Data.get(carousels[i], DATA_KEY));
+    Carousel.carouselInterface(carousels[i], Carousel.getInstance(carousels[i]));
   }
 });
 /**

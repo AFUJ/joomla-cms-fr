@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): dom/selector-engine.js
+ * Bootstrap (v5.0.2): dom/selector-engine.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -71,7 +71,7 @@ const SelectorEngine = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): util/index.js
+ * Bootstrap (v5.0.2): util/index.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -193,24 +193,6 @@ const getElement = obj => {
   return null;
 };
 
-const emulateTransitionEnd = (element, duration) => {
-  let called = false;
-  const durationPadding = 5;
-  const emulatedDuration = duration + durationPadding;
-
-  function listener() {
-    called = true;
-    element.removeEventListener(TRANSITION_END, listener);
-  }
-
-  element.addEventListener(TRANSITION_END, listener);
-  setTimeout(() => {
-    if (!called) {
-      triggerTransitionEnd(element);
-    }
-  }, emulatedDuration);
-};
-
 const typeCheckConfig = (componentName, config, configTypes) => {
   Object.keys(configTypes).forEach(property => {
     const expectedTypes = configTypes[property];
@@ -224,17 +206,11 @@ const typeCheckConfig = (componentName, config, configTypes) => {
 };
 
 const isVisible = element => {
-  if (!element) {
+  if (!isElement(element) || element.getClientRects().length === 0) {
     return false;
   }
 
-  if (element.style && element.parentNode && element.parentNode.style) {
-    const elementStyle = getComputedStyle(element);
-    const parentNodeStyle = getComputedStyle(element.parentNode);
-    return elementStyle.display !== 'none' && parentNodeStyle.display !== 'none' && elementStyle.visibility !== 'hidden';
-  }
-
-  return false;
+  return getComputedStyle(element).getPropertyValue('visibility') === 'visible';
 };
 
 const isDisabled = element => {
@@ -292,9 +268,18 @@ const getjQuery = () => {
   return null;
 };
 
+const DOMContentLoadedCallbacks = [];
+
 const onDOMContentLoaded = callback => {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', callback);
+    // add listener on the first call when the document is in loading state
+    if (!DOMContentLoadedCallbacks.length) {
+      document.addEventListener('DOMContentLoaded', () => {
+        DOMContentLoadedCallbacks.forEach(callback => callback());
+      });
+    }
+
+    DOMContentLoadedCallbacks.push(callback);
   } else {
     callback();
   }
@@ -327,63 +312,66 @@ const execute = callback => {
   }
 };
 
-/**
- * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): dom/data.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- * --------------------------------------------------------------------------
- */
-
-/**
- * ------------------------------------------------------------------------
- * Constants
- * ------------------------------------------------------------------------
- */
-const elementMap = new Map();
-var Data = {
-  set(element, key, instance) {
-    if (!elementMap.has(element)) {
-      elementMap.set(element, new Map());
-    }
-
-    const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
-    // can be removed later when multiple key/instances are fine to be used
-
-    if (!instanceMap.has(key) && instanceMap.size !== 0) {
-      // eslint-disable-next-line no-console
-      console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
-      return;
-    }
-
-    instanceMap.set(key, instance);
-  },
-
-  get(element, key) {
-    if (elementMap.has(element)) {
-      return elementMap.get(element).get(key) || null;
-    }
-
-    return null;
-  },
-
-  remove(element, key) {
-    if (!elementMap.has(element)) {
-      return;
-    }
-
-    const instanceMap = elementMap.get(element);
-    instanceMap.delete(key); // free up element references if there are no instances left for an element
-
-    if (instanceMap.size === 0) {
-      elementMap.delete(element);
-    }
+const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+  if (!waitForTransition) {
+    execute(callback);
+    return;
   }
 
+  const durationPadding = 5;
+  const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+  let called = false;
+
+  const handler = ({
+    target
+  }) => {
+    if (target !== transitionElement) {
+      return;
+    }
+
+    called = true;
+    transitionElement.removeEventListener(TRANSITION_END, handler);
+    execute(callback);
+  };
+
+  transitionElement.addEventListener(TRANSITION_END, handler);
+  setTimeout(() => {
+    if (!called) {
+      triggerTransitionEnd(transitionElement);
+    }
+  }, emulatedDuration);
+};
+/**
+ * Return the previous/next element of a list.
+ *
+ * @param {array} list    The list of elements
+ * @param activeElement   The active element
+ * @param shouldGetNext   Choose to get next or previous element
+ * @param isCycleAllowed
+ * @return {Element|elem} The proper element
+ */
+
+
+const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
+  let index = list.indexOf(activeElement); // if the element does not exist in the list return an element depending on the direction and if cycle is allowed
+
+  if (index === -1) {
+    return list[!shouldGetNext && isCycleAllowed ? list.length - 1 : 0];
+  }
+
+  const listLength = list.length;
+  index += shouldGetNext ? 1 : -1;
+
+  if (isCycleAllowed) {
+    index = (index + listLength) % listLength;
+  }
+
+  return list[Math.max(0, Math.min(index, listLength - 1))];
 };
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): dom/event-handler.js
+ * Bootstrap (v5.0.2): dom/event-handler.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -672,7 +660,61 @@ const EventHandler = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): base-component.js
+ * Bootstrap (v5.0.2): dom/data.js
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ * --------------------------------------------------------------------------
+ */
+
+/**
+ * ------------------------------------------------------------------------
+ * Constants
+ * ------------------------------------------------------------------------
+ */
+const elementMap = new Map();
+var Data = {
+  set(element, key, instance) {
+    if (!elementMap.has(element)) {
+      elementMap.set(element, new Map());
+    }
+
+    const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+    // can be removed later when multiple key/instances are fine to be used
+
+    if (!instanceMap.has(key) && instanceMap.size !== 0) {
+      // eslint-disable-next-line no-console
+      console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
+      return;
+    }
+
+    instanceMap.set(key, instance);
+  },
+
+  get(element, key) {
+    if (elementMap.has(element)) {
+      return elementMap.get(element).get(key) || null;
+    }
+
+    return null;
+  },
+
+  remove(element, key) {
+    if (!elementMap.has(element)) {
+      return;
+    }
+
+    const instanceMap = elementMap.get(element);
+    instanceMap.delete(key); // free up element references if there are no instances left for an element
+
+    if (instanceMap.size === 0) {
+      elementMap.delete(element);
+    }
+  }
+
+};
+
+/**
+ * --------------------------------------------------------------------------
+ * Bootstrap (v5.0.2): base-component.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -682,7 +724,7 @@ const EventHandler = {
  * ------------------------------------------------------------------------
  */
 
-const VERSION = '5.0.1';
+const VERSION = '5.0.2';
 
 class BaseComponent {
   constructor(element) {
@@ -705,20 +747,17 @@ class BaseComponent {
   }
 
   _queueCallback(callback, element, isAnimated = true) {
-    if (!isAnimated) {
-      execute(callback);
-      return;
-    }
-
-    const transitionDuration = getTransitionDurationFromElement(element);
-    EventHandler.one(element, 'transitionend', () => execute(callback));
-    emulateTransitionEnd(element, transitionDuration);
+    executeAfterTransition(callback, element, isAnimated);
   }
   /** Static */
 
 
   static getInstance(element) {
     return Data.get(element, this.DATA_KEY);
+  }
+
+  static getOrCreateInstance(element, config = {}) {
+    return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
   }
 
   static get VERSION() {
@@ -741,7 +780,7 @@ class BaseComponent {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): dom/manipulator.js
+ * Bootstrap (v5.0.2): dom/manipulator.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -813,4 +852,4 @@ const Manipulator = {
 
 };
 
-export { BaseComponent as B, Data as D, EventHandler as E, Manipulator as M, SelectorEngine as S, typeCheckConfig as a, isRTL as b, getSelectorFromElement as c, defineJQueryPlugin as d, getElement as e, isDisabled as f, getElementFromSelector as g, isElement as h, isVisible as i, execute as j, getTransitionDurationFromElement as k, emulateTransitionEnd as l, findShadowRoot as m, noop as n, getUID as o, reflow as r, triggerTransitionEnd as t };
+export { BaseComponent as B, Data as D, EventHandler as E, Manipulator as M, SelectorEngine as S, typeCheckConfig as a, getNextActiveElement as b, isRTL as c, defineJQueryPlugin as d, getSelectorFromElement as e, getElement as f, getElementFromSelector as g, isDisabled as h, isVisible as i, isElement as j, execute as k, executeAfterTransition as l, findShadowRoot as m, noop as n, getUID as o, reflow as r, triggerTransitionEnd as t };

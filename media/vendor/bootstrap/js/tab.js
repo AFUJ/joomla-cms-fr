@@ -1,8 +1,8 @@
-import { B as BaseComponent, g as getElementFromSelector, S as SelectorEngine, E as EventHandler, r as reflow, D as Data, f as isDisabled, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, g as getElementFromSelector, S as SelectorEngine, E as EventHandler, r as reflow, h as isDisabled, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): tab.js
+ * Bootstrap (v5.0.2): tab.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -157,7 +157,7 @@ class Tab extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      const data = Data.get(this, DATA_KEY) || new Tab(this);
+      const data = Tab.getOrCreateInstance(this);
 
       if (typeof config === 'string') {
         if (typeof data[config] === 'undefined') {
@@ -186,7 +186,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
     return;
   }
 
-  const data = Data.get(this, DATA_KEY) || new Tab(this);
+  const data = Tab.getOrCreateInstance(this);
   data.show();
 });
 /**

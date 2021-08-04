@@ -1,8 +1,8 @@
-import { B as BaseComponent, E as EventHandler, S as SelectorEngine, c as getSelectorFromElement, M as Manipulator, h as isElement, o as getUID, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1623769888';
+import { B as BaseComponent, E as EventHandler, S as SelectorEngine, e as getSelectorFromElement, M as Manipulator, j as isElement, o as getUID, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): scrollspy.js
+ * Bootstrap (v5.0.2): scrollspy.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -217,7 +217,7 @@ class ScrollSpy extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      const data = ScrollSpy.getInstance(this) || new ScrollSpy(this, typeof config === 'object' ? config : {});
+      const data = ScrollSpy.getOrCreateInstance(this, config);
 
       if (typeof config !== 'string') {
         return;

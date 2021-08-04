@@ -1,9 +1,9 @@
-import { B as BaseComponent, E as EventHandler, M as Manipulator, a as typeCheckConfig, D as Data, g as getElementFromSelector, f as isDisabled, i as isVisible, S as SelectorEngine, d as defineJQueryPlugin } from './dom.js?1623769888';
-import { h as hide, B as Backdrop, r as reset } from './modal.js';
+import { B as BaseComponent, E as EventHandler, M as Manipulator, a as typeCheckConfig, g as getElementFromSelector, h as isDisabled, i as isVisible, S as SelectorEngine, d as defineJQueryPlugin } from './dom.js?1624989263';
+import { S as ScrollBarHelper, B as Backdrop } from './modal.js';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): offcanvas.js
+ * Bootstrap (v5.0.2): offcanvas.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -90,7 +90,7 @@ class Offcanvas extends BaseComponent {
     this._backdrop.show();
 
     if (!this._config.scroll) {
-      hide();
+      new ScrollBarHelper().hide();
 
       this._enforceFocusOnElement(this._element);
     }
@@ -143,7 +143,7 @@ class Offcanvas extends BaseComponent {
       this._element.style.visibility = 'hidden';
 
       if (!this._config.scroll) {
-        reset();
+        new ScrollBarHelper().reset();
       }
 
       EventHandler.trigger(this._element, EVENT_HIDDEN);
@@ -201,7 +201,7 @@ class Offcanvas extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      const data = Data.get(this, DATA_KEY) || new Offcanvas(this, typeof config === 'object' ? config : {});
+      const data = Offcanvas.getOrCreateInstance(this, config);
 
       if (typeof config !== 'string') {
         return;
@@ -247,12 +247,10 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
     Offcanvas.getInstance(allReadyOpen).hide();
   }
 
-  const data = Data.get(target, DATA_KEY) || new Offcanvas(target);
+  const data = Offcanvas.getOrCreateInstance(target);
   data.toggle(this);
 });
-EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-  SelectorEngine.find(OPEN_SELECTOR).forEach(el => (Data.get(el, DATA_KEY) || new Offcanvas(el)).show());
-});
+EventHandler.on(window, EVENT_LOAD_DATA_API, () => SelectorEngine.find(OPEN_SELECTOR).forEach(el => Offcanvas.getOrCreateInstance(el).show()));
 /**
  * ------------------------------------------------------------------------
  * jQuery

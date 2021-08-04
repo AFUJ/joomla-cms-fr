@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): util/sanitizer.js
+ * Bootstrap (v5.0.2): util/sanitizer.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -60,7 +60,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
     const elName = el.nodeName.toLowerCase();
 
     if (!allowlistKeys.includes(elName)) {
-      el.parentNode.removeChild(el);
+      el.remove();
       continue;
     }
 
@@ -113,7 +113,12 @@ const DefaultAllowlist = {
   sup: [],
   strong: [],
   u: [],
-  ul: []
+  ul: [],
+  button: ['type'],
+  input: ['accept', 'alt', 'autocomplete', 'autofocus', 'capture', 'checked', 'dirname', 'disabled', 'height', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple', 'type', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'src', 'step', 'value', 'width', 'inputmode'],
+  select: ['name'],
+  textarea: ['name'],
+  option: ['value', 'selected']
 }; // Only define the Joomla namespace if not defined.
 
 window.Joomla = window.Joomla || {}; // Only define editors if not defined

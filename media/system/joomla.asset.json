@@ -41,6 +41,13 @@
       }
     },
     {
+      "name": "core",
+      "type": "script",
+      "class": "CoreAssetItem",
+      "uri": "system/core.min.js",
+      "version": "c47dc50c9a8b9c85d135bbac3f47a6e9b4100832"
+    },
+    {
       "name": "keepalive",
       "type": "script",
       "class": "KeepaliveAssetItem",
@@ -54,11 +61,17 @@
       "version": "68fd980eeacffe8a5b7e1b5559d1ee4ca1315f6e"
     },
     {
-      "name": "core",
+      "name": "messages-legacy",
       "type": "script",
-      "class": "CoreAssetItem",
-      "uri": "system/core.min.js",
-      "version": "168dad6f801a9aa30d0ca114fae9aa4ccd0eb054"
+      "uri": "system/messages-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "version": "2d82418960736112da3aed4c6935e94a154c01d0"
     },
     {
       "name": "messages",
@@ -71,19 +84,6 @@
         "messages-legacy"
       ],
       "version": "2373d7b6502f8f342e69a65b658fd7843f6b9d07"
-    },
-    {
-      "name": "messages-legacy",
-      "type": "script",
-      "uri": "system/messages-es5.min.js",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "core"
-      ],
-      "version": "2d82418960736112da3aed4c6935e94a154c01d0"
     },
     {
       "name": "multiselect",
@@ -122,12 +122,6 @@
       "version": "62494696772dab20435aa4497befa30ec623ec05"
     },
     {
-      "name": "switcher",
-      "type": "style",
-      "uri": "system/fields/switcher.min.css",
-      "version": "852c3c99beb07406033f85429263d74798ef3b15"
-    },
-    {
       "name": "form.validate",
       "type": "script",
       "class": "FormValidateAssetItem",
@@ -139,6 +133,12 @@
       ],
       "uri": "system/fields/validate.min.js",
       "version": "21cc9d15d26f5ab835adef2608fc8abf050422d0"
+    },
+    {
+      "name": "switcher",
+      "type": "style",
+      "uri": "system/fields/switcher.min.css",
+      "version": "852c3c99beb07406033f85429263d74798ef3b15"
     },
     {
       "name": "field.color-adv",
@@ -162,7 +162,7 @@
       "dependencies": [
         "dragula"
       ],
-      "version": "4281fd588360ace365141bc497c9cbe8d7d21115"
+      "version": "1085525ded6338902c8ea3cfe3936449d30b7d8e"
     },
     {
       "name": "highlight-legacy",
@@ -237,12 +237,6 @@
       "version": "25ae034e8b4bc58831708017a5c6bf5db0516745"
     },
     {
-      "name": "field.calendar",
-      "type": "style",
-      "uri": "system/fields/calendar.css",
-      "version": "24b96ab0d0615abe1d23e4adad70963a02a966aa"
-    },
-    {
       "name": "field.modal-fields",
       "type": "script",
       "uri": "system/fields/modal-fields.min.js",
@@ -282,6 +276,18 @@
       "version": "cb7f653c510ddb6c629382e0e62b733f0f9487fa"
     },
     {
+      "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css",
+      "version": "24b96ab0d0615abe1d23e4adad70963a02a966aa"
+    },
+    {
+      "name": "field.calendar-rtl",
+      "type": "style",
+      "uri": "system/fields/calendar-rtl.css",
+      "version": "8f75c689a92d6746d3cf48fb81fa5f060531e00d"
+    },
+    {
       "name": "webcomponent.field-media",
       "type": "style",
       "uri": "system/fields/joomla-field-media.min.css",
@@ -307,18 +313,6 @@
       "version": "dc215f9deb6c71ce927a1213e69e0417d877df7b"
     },
     {
-      "name": "webcomponent.image-select",
-      "type": "script",
-      "uri": "system/fields/joomla-image-select.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "webcomponent.image-select-legacy"
-      ],
-      "version": "aa3180f9596fd6ed13e1308cf29983bb960a6f6f"
-    },
-    {
       "name": "webcomponent.field-media-legacy",
       "type": "script",
       "uri": "system/fields/joomla-field-media-es5.min.js",
@@ -330,6 +324,18 @@
         "wcpolyfill"
       ],
       "version": "683d4f6a2eb2ca9fcf5df95a7b4be43a952684d5"
+    },
+    {
+      "name": "webcomponent.image-select",
+      "type": "script",
+      "uri": "system/fields/joomla-image-select.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.image-select-legacy"
+      ],
+      "version": "aa3180f9596fd6ed13e1308cf29983bb960a6f6f"
     },
     {
       "name": "webcomponent.field-media",
@@ -579,12 +585,6 @@
         "webcomponent.toolbar-button-legacy"
       ],
       "version": "176b6426ebbc64fc3b01addcab4f31ae384376d0"
-    },
-    {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css",
-      "version": "8f75c689a92d6746d3cf48fb81fa5f060531e00d"
     }
   ]
 }

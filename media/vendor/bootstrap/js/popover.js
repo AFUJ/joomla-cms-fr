@@ -1,9 +1,9 @@
-import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, o as getUID, D as Data, n as noop, S as SelectorEngine, h as isElement, e as getElement, M as Manipulator, a as typeCheckConfig } from './dom.js?1623769888';
-import { P as Popper, c as createPopper } from './popper.js?1623769888';
+import { c as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, o as getUID, D as Data, n as noop, S as SelectorEngine, j as isElement, f as getElement, M as Manipulator, a as typeCheckConfig } from './dom.js?1624989263';
+import { P as Popper, c as createPopper } from './popper.js?1624989263';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): util/sanitizer.js
+ * Bootstrap (v5.0.2): util/sanitizer.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -98,7 +98,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
     const elName = el.nodeName.toLowerCase();
 
     if (!allowlistKeys.includes(elName)) {
-      el.parentNode.removeChild(el);
+      el.remove();
       continue;
     }
 
@@ -116,7 +116,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): tooltip.js
+ * Bootstrap (v5.0.2): tooltip.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -285,8 +285,8 @@ class Tooltip extends BaseComponent {
     clearTimeout(this._timeout);
     EventHandler.off(this._element.closest(`.${CLASS_NAME_MODAL}`), 'hide.bs.modal', this._hideModalHandler);
 
-    if (this.tip && this.tip.parentNode) {
-      this.tip.parentNode.removeChild(this.tip);
+    if (this.tip) {
+      this.tip.remove();
     }
 
     if (this._popper) {
@@ -391,8 +391,8 @@ class Tooltip extends BaseComponent {
         return;
       }
 
-      if (this._hoverState !== HOVER_STATE_SHOW && tip.parentNode) {
-        tip.parentNode.removeChild(tip);
+      if (this._hoverState !== HOVER_STATE_SHOW) {
+        tip.remove();
       }
 
       this._cleanTipClass();
@@ -779,17 +779,7 @@ class Tooltip extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.get(this, DATA_KEY$1);
-
-      const _config = typeof config === 'object' && config;
-
-      if (!data && /dispose|hide/.test(config)) {
-        return;
-      }
-
-      if (!data) {
-        data = new Tooltip(this, _config);
-      }
+      const data = Tooltip.getOrCreateInstance(this, config);
 
       if (typeof config === 'string') {
         if (typeof data[config] === 'undefined') {
@@ -814,7 +804,7 @@ defineJQueryPlugin(Tooltip);
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.1): popover.js
+ * Bootstrap (v5.0.2): popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -884,6 +874,24 @@ class Popover extends Tooltip {
     return this.getTitle() || this._getContent();
   }
 
+  getTipElement() {
+    if (this.tip) {
+      return this.tip;
+    }
+
+    this.tip = super.getTipElement();
+
+    if (!this.getTitle()) {
+      SelectorEngine.findOne(SELECTOR_TITLE, this.tip).remove();
+    }
+
+    if (!this._getContent()) {
+      SelectorEngine.findOne(SELECTOR_CONTENT, this.tip).remove();
+    }
+
+    return this.tip;
+  }
+
   setContent() {
     const tip = this.getTipElement(); // we use append for html objects to maintain js events
 
@@ -920,18 +928,7 @@ class Popover extends Tooltip {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      let data = Data.get(this, DATA_KEY);
-
-      const _config = typeof config === 'object' ? config : null;
-
-      if (!data && /dispose|hide/.test(config)) {
-        return;
-      }
-
-      if (!data) {
-        data = new Popover(this, _config);
-        Data.set(this, DATA_KEY, data);
-      }
+      const data = Popover.getOrCreateInstance(this, config);
 
       if (typeof config === 'string') {
         if (typeof data[config] === 'undefined') {
