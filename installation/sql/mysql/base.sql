@@ -390,11 +390,11 @@ SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, 1
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, 1, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
-SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
-SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
-SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
 
 -- --------------------------------------------------------
 
@@ -1171,10 +1171,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`) VALUES
-(1, 58, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}'),
-(2, 59, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}'),
-(3, 60, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}'),
-(4, 61, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}'),
-(5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}'),
-(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}'),
-(7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+(1, 58, 1, 1, 1, 'Dépublié', '', -1, 1, '{"publishing":"0"}'),
+(2, 59, 1, 2, 1, 'Publié', '', -1, 1, '{"publishing":"1"}'),
+(3, 60, 1, 3, 1, 'A la corbeille', '', -1, 1, '{"publishing":"-2"}'),
+(4, 61, 1, 4, 1, 'Archivé', '', -1, 1, '{"publishing":"2"}'),
+(5, 62, 1, 5, 1, 'En vedette', '', -1, 1, '{"featuring":"1"}'),
+(6, 63, 1, 6, 1, 'Non en vedette', '', -1, 1, '{"featuring":"0"}'),
+(7, 64, 1, 7, 1, 'Publié & En vedette', '', -1, 1, '{"publishing":"1","featuring":"1"}');
