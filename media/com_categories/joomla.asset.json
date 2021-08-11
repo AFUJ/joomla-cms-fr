@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_categories",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_categories.shared-categories-accordion.es5",
+      "type": "script",
+      "uri": "com_categories/shared-categories-accordion-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "9a36ebe8696e86eafff64a90f3c1017506e39275"
+    },
+    {
+      "name": "com_categories.shared-categories-accordion",
+      "type": "script",
+      "uri": "com_categories/shared-categories-accordion.min.js",
+      "dependencies": [
+        "com_categories.shared-categories-accordion.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "18a0988e9dd5ee160969c6d907fd3dbda1393a5a"
+    },
+    {
+      "name": "com_categories.shared-categories-accordion",
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css",
+      "version": "c097215f908b0bff2149ac7738620715377b10db"
+    }
+  ]
+}

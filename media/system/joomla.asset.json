@@ -1,0 +1,584 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "template.active",
+      "type": "style",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template"
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template"
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": ""
+    },
+    {
+      "name": "field.calendar.helper",
+      "type": "script",
+      "uri": ""
+    },
+    {
+      "name": "joomla.batch-copymove",
+      "type": "script",
+      "uri": "layouts/joomla/html/batch/batch-copymove.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "messages-legacy",
+      "type": "script",
+      "uri": "system/messages-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "version": "3cfa02e233a3320687fe9b7d1134d90c6d88e40a"
+    },
+    {
+      "name": "core",
+      "type": "script",
+      "class": "CoreAssetItem",
+      "uri": "system/core.min.js",
+      "version": "c47dc50c9a8b9c85d135bbac3f47a6e9b4100832"
+    },
+    {
+      "name": "keepalive",
+      "type": "script",
+      "class": "KeepaliveAssetItem",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/keepalive.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "68fd980eeacffe8a5b7e1b5559d1ee4ca1315f6e"
+    },
+    {
+      "name": "multiselect",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/multiselect.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "48ce748e2d6e0ff3552bd0e0927833cefcf01911"
+    },
+    {
+      "name": "searchtools",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/searchtools.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "90f803363f74b2a8d2269e0a941f49fb294521b5"
+    },
+    {
+      "name": "showon",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/showon.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "62494696772dab20435aa4497befa30ec623ec05"
+    },
+    {
+      "name": "switcher",
+      "type": "style",
+      "uri": "system/fields/switcher.min.css",
+      "version": "852c3c99beb07406033f85429263d74798ef3b15"
+    },
+    {
+      "name": "form.validate",
+      "type": "script",
+      "class": "FormValidateAssetItem",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/fields/validate.min.js",
+      "version": "21cc9d15d26f5ab835adef2608fc8abf050422d0"
+    },
+    {
+      "name": "highlight-legacy",
+      "type": "script",
+      "uri": "system/highlight-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "version": "baac5e087854a9f92780e0fd8dd84c63c74ea718"
+    },
+    {
+      "name": "joomla.draggable",
+      "type": "script",
+      "uri": "system/draggable.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "dragula"
+      ],
+      "version": "184e54d0f97ab806d2c6f5c1643f27902e1697ff"
+    },
+    {
+      "name": "highlight",
+      "type": "script",
+      "uri": "system/highlight.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "highlight-legacy"
+      ],
+      "version": "e3ef70a24440793236a509c9072401c2128bba49"
+    },
+    {
+      "name": "field.passwordview",
+      "type": "script",
+      "uri": "system/fields/passwordview.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "version": "bae2911b22f836c780af199d956a1b22c8604694"
+    },
+    {
+      "name": "field.color-adv",
+      "type": "script",
+      "uri": "system/fields/color-field-adv-init.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "minicolors"
+      ],
+      "version": "f8387ac06740741c7ab68548b25818a1753a5b3b"
+    },
+    {
+      "name": "field.passwordstrength",
+      "type": "script",
+      "uri": "system/fields/passwordstrength.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "core",
+        "form.validate"
+      ],
+      "version": "035512da5c398e330c2281a95ae79a9140018b48"
+    },
+    {
+      "name": "field.calendar",
+      "type": "script",
+      "uri": "system/fields/calendar.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "dependencies": [
+        "field.calendar.helper"
+      ],
+      "version": "98c7f2f8860f0c44d72a82d32ed191007007de67"
+    },
+    {
+      "name": "field.color-slider",
+      "type": "script",
+      "uri": "system/fields/joomla-field-color-slider.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "25ae034e8b4bc58831708017a5c6bf5db0516745"
+    },
+    {
+      "name": "messages",
+      "type": "script",
+      "uri": "system/messages.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "messages-legacy"
+      ],
+      "version": "7425e8d1cb9e4f061d5e30271d6d99b085344117"
+    },
+    {
+      "name": "field.modal-fields",
+      "type": "script",
+      "uri": "system/fields/modal-fields.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "2cf5ce06b5b33eeae7bfc9c13af12daa32ce7475"
+    },
+    {
+      "name": "webcomponent.field-fancy-select-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill",
+        "choicesjs"
+      ],
+      "version": "410c97a9c65a28b3cd4e2dc29e36ebb41677714e"
+    },
+    {
+      "name": "webcomponent.field-fancy-select",
+      "type": "script",
+      "uri": "system/fields/joomla-field-fancy-select.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "choicesjs",
+        "webcomponent.field-fancy-select-legacy"
+      ],
+      "version": "cb7f653c510ddb6c629382e0e62b733f0f9487fa"
+    },
+    {
+      "name": "webcomponent.field-media",
+      "type": "style",
+      "uri": "system/fields/joomla-field-media.min.css",
+      "version": "b7ce45204d3195b4ad3190508d0a9ba7559ef26b"
+    },
+    {
+      "name": "webcomponent.media-select",
+      "type": "style",
+      "uri": "system/fields/joomla-media-select.min.css",
+      "version": "2183f27f21c9df4c7735eba43484455a0cc6211a"
+    },
+    {
+      "name": "webcomponent.media-select-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-media-select-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "7c0d6ca598f9db985717d67bf7a5dff4eb1ae726"
+    },
+    {
+      "name": "webcomponent.media-select",
+      "type": "script",
+      "uri": "system/fields/joomla-media-select.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.media-select-legacy"
+      ],
+      "version": "66ea429aa91b21ff737024bafc77507426e473a7"
+    },
+    {
+      "name": "webcomponent.field-media-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-media-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "0adb5c1d17fe273849c42a4a8f4b133b17c40ee1"
+    },
+    {
+      "name": "webcomponent.field-media",
+      "type": "script",
+      "uri": "system/fields/joomla-field-media.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-media-legacy"
+      ],
+      "version": "b9214e72c06daafd562e5c4116292b5763a437fe"
+    },
+    {
+      "name": "webcomponent.field-module-order-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-module-order-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "0ef7bf643c8572ba18dc546573016c53e8800663"
+    },
+    {
+      "name": "webcomponent.field-module-order",
+      "type": "script",
+      "uri": "system/fields/joomla-field-module-order.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-module-order-legacy"
+      ],
+      "version": "9f7b2a63e13eada7a02ec80fcdd81817627851ae"
+    },
+    {
+      "name": "webcomponent.field-permissions-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-permissions-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "a01f919c2b5a3ab6f9e9015c8a051b6d73f08640"
+    },
+    {
+      "name": "webcomponent.field-permissions",
+      "type": "script",
+      "uri": "system/fields/joomla-field-permissions.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-permissions-legacy"
+      ],
+      "version": "4723b4786f8c24bb2a81f9b46bf819d40f853777"
+    },
+    {
+      "name": "webcomponent.field-permissions",
+      "type": "style",
+      "uri": "system/fields/joomla-field-permissions.min.css",
+      "version": "39f67714a2ba03718ca7e72bb02b0c6ec1b6f714"
+    },
+    {
+      "name": "webcomponent.field-send-test-mail-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-send-test-mail-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "ad8138cb5a0e7bf5db229355b18a1e7e234cc952"
+    },
+    {
+      "name": "webcomponent.field-simple-color",
+      "type": "style",
+      "uri": "system/fields/joomla-field-simple-color.min.css",
+      "version": "abeae7015ecba75aff3b6cbf38187371ca52075d"
+    },
+    {
+      "name": "webcomponent.field-simple-color",
+      "type": "script",
+      "uri": "system/fields/joomla-field-simple-color.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-simple-color-legacy"
+      ],
+      "version": "8e4052ec81dfa02a736b8078f77aa3004be5b481"
+    },
+    {
+      "name": "webcomponent.field-send-test-mail",
+      "type": "script",
+      "uri": "system/fields/joomla-field-send-test-mail.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-send-test-mail-legacy"
+      ],
+      "version": "e91fbd76a9dcdcda2f24c2c7cb637038444a5d23"
+    },
+    {
+      "name": "field.calendar-rtl",
+      "type": "style",
+      "uri": "system/fields/calendar-rtl.css",
+      "version": "b2c0e5591d8e71ee353e507ee0d914d5713d383f"
+    },
+    {
+      "name": "webcomponent.field-subform-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-subform-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "fdbeb594d8360991e219bbef34d2131b1a36d7e3"
+    },
+    {
+      "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css",
+      "version": "310d8eb8f7b2eeb6f82c417fe1d24271e32a8d95"
+    },
+    {
+      "name": "webcomponent.field-subform",
+      "type": "script",
+      "uri": "system/fields/joomla-field-subform.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-subform-legacy"
+      ],
+      "version": "5f78cfe4319966fe5a004c2a9e0aac27b5a5f72c"
+    },
+    {
+      "name": "webcomponent.field-simple-color-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-simple-color-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "8e3dfe28b269e900329d647a54c01dc357a55c4c"
+    },
+    {
+      "name": "webcomponent.field-user",
+      "type": "script",
+      "uri": "system/fields/joomla-field-user.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-user-legacy"
+      ],
+      "version": "46cf52aed1cab73aa9dfb32f80ee0af5db674465"
+    },
+    {
+      "name": "webcomponent.field-user-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-user-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "ce1471cc2a06753826351d0b12eb4bc3b53b5bce"
+    },
+    {
+      "name": "webcomponent.core-loader-legacy",
+      "type": "script",
+      "uri": "system/joomla-core-loader-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "01c7fa0e59a8e61420fe86fb49e1c71b3501397c"
+    },
+    {
+      "name": "webcomponent.core-loader",
+      "type": "script",
+      "uri": "system/joomla-core-loader.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.core-loader-legacy"
+      ],
+      "version": "f76614a44039e2bb5becacfb081df5bf015b351d"
+    },
+    {
+      "name": "webcomponent.hidden-mail-legacy",
+      "type": "script",
+      "uri": "system/joomla-hidden-mail-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "8043bcfe22c1d170882efc3d000f60163f4a88b3"
+    },
+    {
+      "name": "webcomponent.hidden-mail",
+      "type": "script",
+      "uri": "system/joomla-hidden-mail.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.hidden-mail-legacy"
+      ],
+      "version": "6d18a0e3df2fb871b5bc7538c44a395beddb1c08"
+    },
+    {
+      "name": "webcomponent.toolbar-button-legacy",
+      "type": "script",
+      "uri": "system/joomla-toolbar-button-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "version": "3dd0139a81dc4f6288fe90c54e7bd3944d1d5fa8"
+    },
+    {
+      "name": "webcomponent.toolbar-button",
+      "type": "script",
+      "uri": "system/joomla-toolbar-button.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.toolbar-button-legacy"
+      ],
+      "version": "176b6426ebbc64fc3b01addcab4f31ae384376d0"
+    }
+  ]
+}
