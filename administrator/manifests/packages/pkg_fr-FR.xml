@@ -1,27 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <extension type="package" version="3.9" method="upgrade">
 	<name>French (fr-FR) Language pack</name>
 	<packagename>fr-FR</packagename>
 	<version>3.10.1.1</version>
-	<creationDate>2021-08-23</creationDate>
+	<creationDate>2021-08-25</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
-	<authorUrl>http://joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2019 Open Source Matters, Inc. and Joomla.fr</copyright>
-	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<url></url>
-	<packager></packager>
-	<packagerurl></packagerurl>
-	<description><![CDATA[<div style="text-align:left;">
-<h3>Joomla! 3.10.1 Full French (fr-FR) Language Package - Version 3.10.1.1</h3>
-<h3>Paquet de langue Joomla! 3.10.1 français (fr-FR) complet - Version 3.10.1.1</h3>
-</div>]]></description>
+	<authorUrl>https://joomla.fr</authorUrl>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
+	<license>https://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<url>https://github.com/joomla/joomla-cms</url>
+	<packager>Joomla.fr</packager>
+	<packagerurl>www.joomla.fr</packagerurl>
+	<description><![CDATA[<div style="text-align: left;">
+		<h3>Joomla! 3 Full French (fr-FR) Language Package - Version 3.10.1.1</h3>
+		<h3>Paquet de langue Joomla! 3 français (fr-FR) complet - Version 3.10.1.1</h3>
+		<p><a href="https:/www.joomla.fr" target="_blank">www.joomla.fr</a> - <a href="mailto:traduction@joomla.fr">traduction@joomla.fr</a></p>
+	</div>]]></description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<files>
-		<file type="language" client="site" id="fr-FR">site_fr-FR.zip</file>
-		<file type="language" client="administrator" id="fr-FR">admin_fr-FR.zip</file>
+		<folder type="language" client="site" id="fr-FR">language/fr-FR</folder>
+		<folder type="language" client="administrator" id="fr-FR">administrator/language/fr-FR</folder>
 	</files>
 	<updateservers>
-		<server type="collection" priority="1" name="Accredited Joomla! Translations">https://update.joomla.org/language/translationlist_3.xml</server>
+		<server type="collection" priority="1" name="Accredited Joomla! Translations">
+			https://update.joomla.org/language/translationlist_3.xml
+		</server>
 	</updateservers>
 </extension>
