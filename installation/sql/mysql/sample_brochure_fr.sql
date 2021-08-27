@@ -64,7 +64,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (50, 18, 52, 53, 2, 'com_modules.module.4', 'Articles ajoutés récemment', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (51, 18, 54, 55, 2, 'com_modules.module.89', 'Information sur le site', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (52, 18, 56, 57, 2, 'com_modules.module.88', 'Image', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
-(53, 18, 58, 59, 2, 'com_modules.module.90', 'News de mise à jour', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}');
+(53, 18, 58, 59, 2, 'com_modules.module.90', 'News de mise à jour', '{"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (54, 1, 91, 92, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
 (55, 1, 93, 94, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}');
 
