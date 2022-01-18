@@ -2,12 +2,12 @@
 <metafile version="3.10" client="administrator">
 	<tag>fr-FR</tag>
 	<name>French (France)</name>
-	<version>3.10.4.1</version>
-	<creationDate>2021-11-25</creationDate>
+	<version>3.10.5.1</version>
+	<creationDate>2022-01-09</creationDate>
 	<author>French translation team : joomla.fr</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>http://www.joomla.fr</authorUrl>
-	<copyright>Copyright (C) 2005 - 2021 Open Source Matters, Inc. </copyright>
+	<copyright>Copyright (C) 2005 - 2022 Open Source Matters, Inc. </copyright>
 	<copyright>joomla.fr</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>French administrator language for Joomla 3</description>
