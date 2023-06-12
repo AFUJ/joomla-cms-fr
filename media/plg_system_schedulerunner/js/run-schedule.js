@@ -21,10 +21,14 @@ const initScheduler = () => {
   const paths = Joomla.getOptions('system.paths');
   const interval = (options && options.interval ? parseInt(options.interval, 10) : 300) * 1000;
   const uri = `${paths ? `${paths.root}/index.php` : window.location.pathname}?option=com_ajax&format=raw&plugin=RunSchedulerLazy&group=system`;
-  setInterval(() => navigator.sendBeacon(uri), interval);
+  setInterval(() => fetch(uri, {
+    method: 'GET'
+  }), interval);
 
   // Run it at the beginning at least once
-  navigator.sendBeacon(uri);
+  fetch(uri, {
+    method: 'GET'
+  });
 };
 (document => {
   document.addEventListener('DOMContentLoaded', () => {

@@ -46,7 +46,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "05d67e39339bef3cd204e57c0f59a1ddb0366af6"
+      "version": "399bcc84bd622b61ca93c911937139d00833116d"
     },
     {
       "name": "com_media.mediamanager.es5",
@@ -59,7 +59,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "2261466bfb3005c3b2a558f0cbd2cf055724cff7"
+      "version": "de9e6d94919402c95103f4ac10d42949da66827d"
     }
   ]
 }

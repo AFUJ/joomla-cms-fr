@@ -16,18 +16,14 @@
       "version": "5.1.0"
     },
     {
-      "name": "wcpolyfill",
+      "name": "accessibility",
       "type": "script",
-      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
+      "uri": "vendor/accessibility/accessibility.min.js",
       "attributes": {
-        "nomodule": true,
         "defer": true
       },
-      "dependencies": [
-        "core"
-      ],
-      "package": "@webcomponents/webcomponentsjs",
-      "version": "2.7.0"
+      "package": "accessibility",
+      "version": "3.0.17"
     },
     {
       "name": "short-and-sweet",
@@ -40,41 +36,18 @@
       "version": "1.0.4"
     },
     {
-      "name": "accessibility",
+      "name": "wcpolyfill",
       "type": "script",
-      "uri": "vendor/accessibility/accessibility.min.js",
+      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
       "attributes": {
+        "nomodule": true,
         "defer": true
       },
-      "package": "accessibility",
-      "version": "3.0.17"
-    },
-    {
-      "name": "cropperjs",
-      "type": "style",
-      "uri": "vendor/cropperjs/cropper.min.css",
-      "package": "cropperjs",
-      "version": "1.5.13"
-    },
-    {
-      "name": "cropperjs",
-      "type": "script",
-      "uri": "vendor/cropperjs/cropper.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "cropperjs",
-      "version": "1.5.13"
-    },
-    {
-      "name": "cropperjs",
-      "type": "preset",
       "dependencies": [
-        "cropperjs#style",
-        "cropperjs#script"
+        "core"
       ],
-      "package": "cropperjs",
-      "version": "1.5.13"
+      "package": "@webcomponents/webcomponentsjs",
+      "version": "2.7.0"
     },
     {
       "name": "awesomplete",
@@ -104,6 +77,33 @@
       "version": "1.1.5"
     },
     {
+      "name": "cropperjs",
+      "type": "style",
+      "uri": "vendor/cropperjs/cropper.min.css",
+      "package": "cropperjs",
+      "version": "1.5.13"
+    },
+    {
+      "name": "cropperjs",
+      "type": "script",
+      "uri": "vendor/cropperjs/cropper.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "cropperjs",
+      "version": "1.5.13"
+    },
+    {
+      "name": "cropperjs",
+      "type": "preset",
+      "dependencies": [
+        "cropperjs#style",
+        "cropperjs#script"
+      ],
+      "package": "cropperjs",
+      "version": "1.5.13"
+    },
+    {
       "name": "dragula",
       "type": "style",
       "uri": "vendor/dragula/dragula.min.css",
@@ -129,13 +129,6 @@
       ],
       "package": "dragula",
       "version": "3.7.3"
-    },
-    {
-      "name": "focus-visible",
-      "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
     },
     {
       "name": "choicesjs",
@@ -165,6 +158,13 @@
       "version": "9.1.0"
     },
     {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
       "name": "hotkeysjs",
       "type": "script",
       "uri": "vendor/hotkeysjs/hotkeys.min.js",
@@ -173,16 +173,6 @@
       },
       "package": "hotkeys-js",
       "version": "3.10.1"
-    },
-    {
-      "name": "jquery-migrate",
-      "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "jquery-migrate",
-      "version": "3.4.1"
     },
     {
       "name": "jquery",
@@ -260,6 +250,16 @@
       "version": "0.2.0"
     },
     {
+      "name": "jquery-migrate",
+      "type": "script",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "jquery-migrate",
+      "version": "3.4.1"
+    },
+    {
       "name": "chosen",
       "type": "style",
       "uri": "vendor/chosen/chosen.css",
@@ -285,6 +285,36 @@
       ],
       "package": "chosen-js",
       "version": "1.8.7"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
+    },
+    {
+      "name": "minicolors",
+      "type": "script",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
+    },
+    {
+      "name": "minicolors",
+      "type": "preset",
+      "dependencies": [
+        "minicolors#style",
+        "minicolors#script"
+      ],
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
     },
     {
       "name": "metismenujs",
@@ -343,36 +373,6 @@
       ],
       "package": "qrcode-generator",
       "version": "1.4.4"
-    },
-    {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "preset",
-      "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
-      ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
     },
     {
       "name": "fontawesome",

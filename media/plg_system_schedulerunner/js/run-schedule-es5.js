@@ -25,11 +25,15 @@
     var interval = (options && options.interval ? parseInt(options.interval, 10) : 300) * 1000;
     var uri = (paths ? paths.root + "/index.php" : window.location.pathname) + "?option=com_ajax&format=raw&plugin=RunSchedulerLazy&group=system";
     setInterval(function () {
-      return navigator.sendBeacon(uri);
+      return fetch(uri, {
+        method: 'GET'
+      });
     }, interval);
 
     // Run it at the beginning at least once
-    navigator.sendBeacon(uri);
+    fetch(uri, {
+      method: 'GET'
+    });
   };
   (function (document) {
     document.addEventListener('DOMContentLoaded', function () {

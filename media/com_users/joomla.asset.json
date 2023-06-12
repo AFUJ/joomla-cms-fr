@@ -66,7 +66,19 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "2cb6c3394dd729c5aea10efff909b2150810d5b8"
+      "version": "8beb8519cfa9cac4e7c13e74007f5d529ac72b02"
+    },
+    {
+      "name": "com_users.two-factor-list",
+      "type": "script",
+      "uri": "com_users/two-factor-list.min.js",
+      "dependencies": [
+        "com_users.two-factor-list.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "03dc4f1833004e33a7f2b53debaaa28423a54091"
     },
     {
       "name": "com_users.two-factor-focus",
@@ -78,7 +90,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "1c9dcb20d1c3f3b1a4ec4cde31bec609011baf34"
+      "version": "534e5caf2f94621e257b100d63ccca2ab0ac72e7"
     },
     {
       "name": "com_users.two-factor-list.es5",
@@ -92,18 +104,6 @@
         "defer": true
       },
       "version": "9a94d6d3d100952553f71846c57e4e5fd9345401"
-    },
-    {
-      "name": "com_users.two-factor-list",
-      "type": "script",
-      "uri": "com_users/two-factor-list.min.js",
-      "dependencies": [
-        "com_users.two-factor-list.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "03dc4f1833004e33a7f2b53debaaa28423a54091"
     }
   ]
 }

@@ -16,7 +16,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "6c79a5f335ccd5e9f0a6e658e4e4832e37ab7727"
+      "version": "d95abbff3908c05eeb9743f6fe42d3d5b171d86d"
     },
     {
       "name": "plg_system_schedulerunner.run-schedule",
@@ -29,7 +29,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "78bb6c91d00e4bb7b25fddf9c51907fe7fa39b1b"
+      "version": "850ed42b5433d938bcd9ef6d1d6d92dc88111708"
     }
   ]
 }

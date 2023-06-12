@@ -23,4 +23,6 @@ if (keepAliveUri === '') {
   const systemPaths = Joomla.getOptions('system.paths');
   keepAliveUri = `${systemPaths ? `${systemPaths.root}/index.php` : window.location.pathname}?option=com_ajax&format=json`;
 }
-setInterval(() => navigator.sendBeacon(keepAliveUri), keepAliveInterval);
+setInterval(() => fetch(keepAliveUri, {
+  method: 'POST'
+}), keepAliveInterval);

@@ -28,6 +28,12 @@
     },
     {
       "name": "com_categories.shared-categories-accordion",
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css",
+      "version": "9f06cdde2b1004cbc11b9eef656fc81e563992a7"
+    },
+    {
+      "name": "com_categories.shared-categories-accordion",
       "type": "script",
       "uri": "com_categories/shared-categories-accordion.min.js",
       "dependencies": [
@@ -37,12 +43,6 @@
         "type": "module"
       },
       "version": "f2b649ad259eca8ee54071cbe78c6f788d196540"
-    },
-    {
-      "name": "com_categories.shared-categories-accordion",
-      "type": "style",
-      "uri": "com_categories/shared-categories-accordion.min.css",
-      "version": "9f06cdde2b1004cbc11b9eef656fc81e563992a7"
     }
   ]
 }

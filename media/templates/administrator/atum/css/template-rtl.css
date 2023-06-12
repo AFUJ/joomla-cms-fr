@@ -6696,8 +6696,8 @@ textarea.form-control-lg {
 }
 
 .carousel-item.active,
-.carousel-item-prev,
-.carousel-item-next {
+.carousel-item-next,
+.carousel-item-prev {
   display: block;
 }
 
@@ -6722,8 +6722,8 @@ textarea.form-control-lg {
           transform: none;
 }
 .carousel-fade .carousel-item.active,
-.carousel-fade .carousel-item-prev.carousel-item-start,
-.carousel-fade .carousel-item-next.carousel-item-end {
+.carousel-fade .carousel-item-next.carousel-item-start,
+.carousel-fade .carousel-item-prev.carousel-item-end {
   z-index: 1;
   opacity: 1;
 }
@@ -6744,8 +6744,8 @@ textarea.form-control-lg {
   }
 }
 
-.carousel-control-next,
-.carousel-control-prev {
+.carousel-control-prev,
+.carousel-control-next {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -6771,16 +6771,16 @@ textarea.form-control-lg {
   transition: opacity 0.15s ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  .carousel-control-next,
-  .carousel-control-prev {
+  .carousel-control-prev,
+  .carousel-control-next {
     -webkit-transition: none;
     -o-transition: none;
     transition: none;
   }
 }
-.carousel-control-next:hover, .carousel-control-next:focus,
-.carousel-control-prev:hover,
-.carousel-control-prev:focus {
+.carousel-control-prev:hover, .carousel-control-prev:focus,
+.carousel-control-next:hover,
+.carousel-control-next:focus {
   color: #fff;
   text-decoration: none;
   outline: 0;
@@ -6795,8 +6795,8 @@ textarea.form-control-lg {
   left: 0;
 }
 
-.carousel-control-next-icon,
-.carousel-control-prev-icon {
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
   display: inline-block;
   width: 2rem;
   height: 2rem;

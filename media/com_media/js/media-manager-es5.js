@@ -740,12 +740,12 @@ var JoomlaMediaManager = (function () {
 
   // `ToObject` abstract operation
   // https://tc39.es/ecma262/#sec-toobject
-  var toObject$d = function (argument) {
+  var toObject$e = function (argument) {
     return $Object$3(requireObjectCoercible$b(argument));
   };
 
   var uncurryThis$F = functionUncurryThis;
-  var toObject$c = toObject$d;
+  var toObject$d = toObject$e;
 
   var hasOwnProperty$2 = uncurryThis$F({}.hasOwnProperty);
 
@@ -753,7 +753,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-hasownproperty
   // eslint-disable-next-line es/no-object-hasown -- safe
   var hasOwnProperty_1 = Object.hasOwn || function hasOwn(it, key) {
-    return hasOwnProperty$2(toObject$c(it), key);
+    return hasOwnProperty$2(toObject$d(it), key);
   };
 
   var uncurryThis$E = functionUncurryThis;
@@ -1172,13 +1172,13 @@ var JoomlaMediaManager = (function () {
 
   // `ToIntegerOrInfinity` abstract operation
   // https://tc39.es/ecma262/#sec-tointegerorinfinity
-  var toIntegerOrInfinity$7 = function (argument) {
+  var toIntegerOrInfinity$8 = function (argument) {
     var number = +argument;
     // eslint-disable-next-line no-self-compare -- NaN check
     return number !== number || number === 0 ? 0 : trunc(number);
   };
 
-  var toIntegerOrInfinity$6 = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$7 = toIntegerOrInfinity$8;
 
   var max$4 = Math.max;
   var min$6 = Math.min;
@@ -1187,37 +1187,37 @@ var JoomlaMediaManager = (function () {
   // Let integer be ? ToInteger(index).
   // If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
   var toAbsoluteIndex$5 = function (index, length) {
-    var integer = toIntegerOrInfinity$6(index);
+    var integer = toIntegerOrInfinity$7(index);
     return integer < 0 ? max$4(integer + length, 0) : min$6(integer, length);
   };
 
-  var toIntegerOrInfinity$5 = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$6 = toIntegerOrInfinity$8;
 
   var min$5 = Math.min;
 
   // `ToLength` abstract operation
   // https://tc39.es/ecma262/#sec-tolength
   var toLength$6 = function (argument) {
-    return argument > 0 ? min$5(toIntegerOrInfinity$5(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+    return argument > 0 ? min$5(toIntegerOrInfinity$6(argument), 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
   };
 
   var toLength$5 = toLength$6;
 
   // `LengthOfArrayLike` abstract operation
   // https://tc39.es/ecma262/#sec-lengthofarraylike
-  var lengthOfArrayLike$a = function (obj) {
+  var lengthOfArrayLike$c = function (obj) {
     return toLength$5(obj.length);
   };
 
   var toIndexedObject$8 = toIndexedObject$a;
   var toAbsoluteIndex$4 = toAbsoluteIndex$5;
-  var lengthOfArrayLike$9 = lengthOfArrayLike$a;
+  var lengthOfArrayLike$b = lengthOfArrayLike$c;
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
   var createMethod$4 = function (IS_INCLUDES) {
     return function ($this, el, fromIndex) {
       var O = toIndexedObject$8($this);
-      var length = lengthOfArrayLike$9(O);
+      var length = lengthOfArrayLike$b(O);
       var index = toAbsoluteIndex$4(fromIndex, length);
       var value;
       // Array#includes uses SameValueZero equality algorithm
@@ -1418,7 +1418,7 @@ var JoomlaMediaManager = (function () {
   var objectKeys$3 = objectKeys$4;
   var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
-  var toObject$b = toObject$d;
+  var toObject$c = toObject$e;
   var IndexedObject$2 = indexedObject;
 
   // eslint-disable-next-line es/no-object-assign -- safe
@@ -1450,7 +1450,7 @@ var JoomlaMediaManager = (function () {
     alphabet.split('').forEach(function (chr) { B[chr] = chr; });
     return $assign({}, A)[symbol] != 7 || objectKeys$3($assign({}, B)).join('') != alphabet;
   }) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
-    var T = toObject$b(target);
+    var T = toObject$c(target);
     var argumentsLength = arguments.length;
     var index = 1;
     var getOwnPropertySymbols = getOwnPropertySymbolsModule$2.f;
@@ -1468,13 +1468,13 @@ var JoomlaMediaManager = (function () {
     } return T;
   } : $assign;
 
-  var $$U = _export;
+  var $$V = _export;
   var assign$1 = objectAssign;
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
   // eslint-disable-next-line es/no-object-assign -- required for testing
-  $$U({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign$1 }, {
+  $$V({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign$1 }, {
     assign: assign$1
   });
 
@@ -1541,7 +1541,7 @@ var JoomlaMediaManager = (function () {
   // `IsArray` abstract operation
   // https://tc39.es/ecma262/#sec-isarray
   // eslint-disable-next-line es/no-array-isarray -- safe
-  var isArray$9 = Array.isArray || function isArray(argument) {
+  var isArray$a = Array.isArray || function isArray(argument) {
     return classof$a(argument) == 'Array';
   };
 
@@ -1632,12 +1632,12 @@ var JoomlaMediaManager = (function () {
 
   var arraySlice$6 = uncurryThis$x([].slice);
 
-  var $$T = _export;
-  var isArray$8 = isArray$9;
+  var $$U = _export;
+  var isArray$9 = isArray$a;
   var isConstructor$3 = isConstructor$4;
   var isObject$k = isObject$q;
   var toAbsoluteIndex$3 = toAbsoluteIndex$5;
-  var lengthOfArrayLike$8 = lengthOfArrayLike$a;
+  var lengthOfArrayLike$a = lengthOfArrayLike$c;
   var toIndexedObject$6 = toIndexedObject$a;
   var createProperty$4 = createProperty$5;
   var wellKnownSymbol$m = wellKnownSymbol$r;
@@ -1653,18 +1653,18 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.slice` method
   // https://tc39.es/ecma262/#sec-array.prototype.slice
   // fallback for not array-like ES3 strings and DOM objects
-  $$T({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
+  $$U({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
     slice: function slice(start, end) {
       var O = toIndexedObject$6(this);
-      var length = lengthOfArrayLike$8(O);
+      var length = lengthOfArrayLike$a(O);
       var k = toAbsoluteIndex$3(start, length);
       var fin = toAbsoluteIndex$3(end === undefined ? length : end, length);
       // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
       var Constructor, result, n;
-      if (isArray$8(O)) {
+      if (isArray$9(O)) {
         Constructor = O.constructor;
         // cross-realm fallback
-        if (isConstructor$3(Constructor) && (Constructor === $Array$3 || isArray$8(Constructor.prototype))) {
+        if (isConstructor$3(Constructor) && (Constructor === $Array$3 || isArray$9(Constructor.prototype))) {
           Constructor = undefined;
         } else if (isObject$k(Constructor)) {
           Constructor = Constructor[SPECIES$5];
@@ -1689,12 +1689,12 @@ var JoomlaMediaManager = (function () {
     return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
   };
 
-  var $$S = _export;
+  var $$T = _export;
   var is = sameValue$1;
 
   // `Object.is` method
   // https://tc39.es/ecma262/#sec-object.is
-  $$S({ target: 'Object', stat: true }, {
+  $$T({ target: 'Object', stat: true }, {
     is: is
   });
 
@@ -1827,7 +1827,7 @@ var JoomlaMediaManager = (function () {
   }
 
   // add a key to Array.prototype[@@unscopables]
-  var addToUnscopables$5 = function (key) {
+  var addToUnscopables$6 = function (key) {
     ArrayPrototype$1[UNSCOPABLES][key] = true;
   };
 
@@ -1844,7 +1844,7 @@ var JoomlaMediaManager = (function () {
 
   var hasOwn$g = hasOwnProperty_1;
   var isCallable$g = isCallable$t;
-  var toObject$a = toObject$d;
+  var toObject$b = toObject$e;
   var sharedKey$1 = sharedKey$4;
   var CORRECT_PROTOTYPE_GETTER$2 = correctPrototypeGetter;
 
@@ -1856,7 +1856,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-object.getprototypeof
   // eslint-disable-next-line es/no-object-getprototypeof -- safe
   var objectGetPrototypeOf$1 = CORRECT_PROTOTYPE_GETTER$2 ? $Object$1.getPrototypeOf : function (O) {
-    var object = toObject$a(O);
+    var object = toObject$b(O);
     if (hasOwn$g(object, IE_PROTO)) return object[IE_PROTO];
     var constructor = object.constructor;
     if (isCallable$g(constructor) && object instanceof constructor) {
@@ -1987,7 +1987,7 @@ var JoomlaMediaManager = (function () {
     };
   }() : undefined);
 
-  var $$R = _export;
+  var $$S = _export;
   var call$o = functionCall;
   var FunctionName = functionName;
   var isCallable$d = isCallable$t;
@@ -2072,7 +2072,7 @@ var JoomlaMediaManager = (function () {
         if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
           defineBuiltIn$a(IterablePrototype, KEY, methods[KEY]);
         }
-      } else $$R({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+      } else $$S({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
@@ -2091,7 +2091,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var toIndexedObject$4 = toIndexedObject$a;
-  var addToUnscopables$4 = addToUnscopables$5;
+  var addToUnscopables$5 = addToUnscopables$6;
   var Iterators$2 = iterators;
   var InternalStateModule$7 = internalState;
   var defineProperty$4 = objectDefineProperty.f;
@@ -2142,9 +2142,9 @@ var JoomlaMediaManager = (function () {
   var values = Iterators$2.Arguments = Iterators$2.Array;
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$4('keys');
-  addToUnscopables$4('values');
-  addToUnscopables$4('entries');
+  addToUnscopables$5('keys');
+  addToUnscopables$5('values');
+  addToUnscopables$5('entries');
 
   // V8 ~ Chrome 45- bug
   if (DESCRIPTORS$c && values.name !== 'values') try {
@@ -2156,14 +2156,14 @@ var JoomlaMediaManager = (function () {
   var objectGetOwnPropertyNamesExternal = {};
 
   var toAbsoluteIndex$2 = toAbsoluteIndex$5;
-  var lengthOfArrayLike$7 = lengthOfArrayLike$a;
+  var lengthOfArrayLike$9 = lengthOfArrayLike$c;
   var createProperty$3 = createProperty$5;
 
   var $Array$2 = Array;
   var max$2 = Math.max;
 
   var arraySliceSimple = function (O, start, end) {
-    var length = lengthOfArrayLike$7(O);
+    var length = lengthOfArrayLike$9(O);
     var k = toAbsoluteIndex$2(start, length);
     var fin = toAbsoluteIndex$2(end === undefined ? length : end, length);
     var result = $Array$2(max$2(fin - k, 0));
@@ -2232,7 +2232,7 @@ var JoomlaMediaManager = (function () {
     return Object.isExtensible(Object.preventExtensions({}));
   });
 
-  var $$Q = _export;
+  var $$R = _export;
   var uncurryThis$v = functionUncurryThis;
   var hiddenKeys$1 = hiddenKeys$6;
   var isObject$h = isObject$q;
@@ -2307,7 +2307,7 @@ var JoomlaMediaManager = (function () {
         } return result;
       };
 
-      $$Q({ target: 'Object', stat: true, forced: true }, {
+      $$R({ target: 'Object', stat: true, forced: true }, {
         getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
       });
     }
@@ -2336,12 +2336,12 @@ var JoomlaMediaManager = (function () {
   var aCallable$6 = aCallable$9;
   var NATIVE_BIND$1 = functionBindNative;
 
-  var bind$9 = uncurryThis$t(uncurryThis$t.bind);
+  var bind$a = uncurryThis$t(uncurryThis$t.bind);
 
   // optional / simple context binding
   var functionBindContext = function (fn, that) {
     aCallable$6(fn);
-    return that === undefined ? fn : NATIVE_BIND$1 ? bind$9(fn, that) : function (/* ...args */) {
+    return that === undefined ? fn : NATIVE_BIND$1 ? bind$a(fn, that) : function (/* ...args */) {
       return fn.apply(that, arguments);
     };
   };
@@ -2409,12 +2409,12 @@ var JoomlaMediaManager = (function () {
     return value;
   };
 
-  var bind$8 = functionBindContext;
+  var bind$9 = functionBindContext;
   var call$l = functionCall;
   var anObject$j = anObject$r;
   var tryToString$3 = tryToString$6;
   var isArrayIteratorMethod$1 = isArrayIteratorMethod$2;
-  var lengthOfArrayLike$6 = lengthOfArrayLike$a;
+  var lengthOfArrayLike$8 = lengthOfArrayLike$c;
   var isPrototypeOf$5 = objectIsPrototypeOf;
   var getIterator$2 = getIterator$3;
   var getIteratorMethod$2 = getIteratorMethod$4;
@@ -2435,7 +2435,7 @@ var JoomlaMediaManager = (function () {
     var IS_RECORD = !!(options && options.IS_RECORD);
     var IS_ITERATOR = !!(options && options.IS_ITERATOR);
     var INTERRUPTED = !!(options && options.INTERRUPTED);
-    var fn = bind$8(unboundFunction, that);
+    var fn = bind$9(unboundFunction, that);
     var iterator, iterFn, index, length, result, next, step;
 
     var stop = function (condition) {
@@ -2459,7 +2459,7 @@ var JoomlaMediaManager = (function () {
       if (!iterFn) throw $TypeError$9(tryToString$3(iterable) + ' is not iterable');
       // optimisation for array iterators
       if (isArrayIteratorMethod$1(iterFn)) {
-        for (index = 0, length = lengthOfArrayLike$6(iterable); length > index; index++) {
+        for (index = 0, length = lengthOfArrayLike$8(iterable); length > index; index++) {
           result = callFn(iterable[index]);
           if (result && isPrototypeOf$5(ResultPrototype, result)) return result;
         } return new Result(false);
@@ -2545,7 +2545,7 @@ var JoomlaMediaManager = (function () {
     return $this;
   };
 
-  var $$P = _export;
+  var $$Q = _export;
   var global$k = global$u;
   var uncurryThis$s = functionUncurryThis;
   var isForced$2 = isForced_1;
@@ -2642,7 +2642,7 @@ var JoomlaMediaManager = (function () {
     }
 
     exported[CONSTRUCTOR_NAME] = Constructor;
-    $$P({ global: true, constructor: true, forced: Constructor != NativeConstructor }, exported);
+    $$Q({ global: true, constructor: true, forced: Constructor != NativeConstructor }, exported);
 
     setToStringTag$5(Constructor, CONSTRUCTOR_NAME);
 
@@ -2688,7 +2688,7 @@ var JoomlaMediaManager = (function () {
   var create$2 = objectCreate;
   var defineBuiltInAccessor$5 = defineBuiltInAccessor$7;
   var defineBuiltIns$3 = defineBuiltIns$4;
-  var bind$7 = functionBindContext;
+  var bind$8 = functionBindContext;
   var anInstance$4 = anInstance$6;
   var isNullOrUndefined$6 = isNullOrUndefined$b;
   var iterate$3 = iterate$5;
@@ -2803,7 +2803,7 @@ var JoomlaMediaManager = (function () {
         // https://tc39.es/ecma262/#sec-set.prototype.foreach
         forEach: function forEach(callbackfn /* , that = undefined */) {
           var state = getInternalState(this);
-          var boundFunction = bind$7(callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+          var boundFunction = bind$8(callbackfn, arguments.length > 1 ? arguments[1] : undefined);
           var entry;
           while (entry = entry ? entry.next : state.first) {
             boundFunction(entry.value, entry.key, this);
@@ -2911,7 +2911,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var uncurryThis$r = functionUncurryThis;
-  var toIntegerOrInfinity$4 = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$5 = toIntegerOrInfinity$8;
   var toString$h = toString$i;
   var requireObjectCoercible$a = requireObjectCoercible$d;
 
@@ -2922,7 +2922,7 @@ var JoomlaMediaManager = (function () {
   var createMethod$3 = function (CONVERT_TO_STRING) {
     return function ($this, pos) {
       var S = toString$h(requireObjectCoercible$a($this));
-      var position = toIntegerOrInfinity$4(pos);
+      var position = toIntegerOrInfinity$5(pos);
       var size = S.length;
       var first, second;
       if (position < 0 || position >= size) return CONVERT_TO_STRING ? '' : undefined;
@@ -3061,7 +3061,7 @@ var JoomlaMediaManager = (function () {
 
   handlePrototype$1(DOMTokenListPrototype$1, 'DOMTokenList');
 
-  var isArray$7 = isArray$9;
+  var isArray$8 = isArray$a;
   var isConstructor$2 = isConstructor$4;
   var isObject$e = isObject$q;
   var wellKnownSymbol$c = wellKnownSymbol$r;
@@ -3073,10 +3073,10 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-arrayspeciescreate
   var arraySpeciesConstructor$1 = function (originalArray) {
     var C;
-    if (isArray$7(originalArray)) {
+    if (isArray$8(originalArray)) {
       C = originalArray.constructor;
       // cross-realm fallback
-      if (isConstructor$2(C) && (C === $Array$1 || isArray$7(C.prototype))) C = undefined;
+      if (isConstructor$2(C) && (C === $Array$1 || isArray$8(C.prototype))) C = undefined;
       else if (isObject$e(C)) {
         C = C[SPECIES$3];
         if (C === null) C = undefined;
@@ -3088,16 +3088,16 @@ var JoomlaMediaManager = (function () {
 
   // `ArraySpeciesCreate` abstract operation
   // https://tc39.es/ecma262/#sec-arrayspeciescreate
-  var arraySpeciesCreate$3 = function (originalArray, length) {
+  var arraySpeciesCreate$4 = function (originalArray, length) {
     return new (arraySpeciesConstructor(originalArray))(length === 0 ? 0 : length);
   };
 
-  var bind$6 = functionBindContext;
+  var bind$7 = functionBindContext;
   var uncurryThis$q = functionUncurryThis;
   var IndexedObject$1 = indexedObject;
-  var toObject$9 = toObject$d;
-  var lengthOfArrayLike$5 = lengthOfArrayLike$a;
-  var arraySpeciesCreate$2 = arraySpeciesCreate$3;
+  var toObject$a = toObject$e;
+  var lengthOfArrayLike$7 = lengthOfArrayLike$c;
+  var arraySpeciesCreate$3 = arraySpeciesCreate$4;
 
   var push$9 = uncurryThis$q([].push);
 
@@ -3111,12 +3111,12 @@ var JoomlaMediaManager = (function () {
     var IS_FILTER_REJECT = TYPE == 7;
     var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
     return function ($this, callbackfn, that, specificCreate) {
-      var O = toObject$9($this);
+      var O = toObject$a($this);
       var self = IndexedObject$1(O);
-      var boundFunction = bind$6(callbackfn, that);
-      var length = lengthOfArrayLike$5(self);
+      var boundFunction = bind$7(callbackfn, that);
+      var length = lengthOfArrayLike$7(self);
       var index = 0;
-      var create = specificCreate || arraySpeciesCreate$2;
+      var create = specificCreate || arraySpeciesCreate$3;
       var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
       var value, result;
       for (;length > index; index++) if (NO_HOLES || index in self) {
@@ -3311,7 +3311,7 @@ var JoomlaMediaManager = (function () {
 
   var $Object = Object;
   // eslint-disable-next-line es/no-array-isarray -- safe
-  var isArray$6 = Array.isArray;
+  var isArray$7 = Array.isArray;
   // eslint-disable-next-line es/no-object-isextensible -- safe
   var isExtensible = $Object.isExtensible;
   // eslint-disable-next-line es/no-object-isfrozen -- safe
@@ -3394,7 +3394,7 @@ var JoomlaMediaManager = (function () {
     defineBuiltIns$1(WeakMapPrototype, {
       set: function set(key, value) {
         var arrayIntegrityLevel;
-        if (isArray$6(key)) {
+        if (isArray$7(key)) {
           if (isFrozen(key)) arrayIntegrityLevel = FROZEN;
           else if (isSealed(key)) arrayIntegrityLevel = SEALED;
         }
@@ -3449,7 +3449,7 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var $$O = _export;
+  var $$P = _export;
   var global$g = global$u;
   var call$j = functionCall;
   var uncurryThis$n = functionUncurryThis;
@@ -3657,7 +3657,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  $$O({ global: true, constructor: true, wrap: true, forced: !NATIVE_SYMBOL$4, sham: !NATIVE_SYMBOL$4 }, {
+  $$P({ global: true, constructor: true, wrap: true, forced: !NATIVE_SYMBOL$4, sham: !NATIVE_SYMBOL$4 }, {
     Symbol: $Symbol
   });
 
@@ -3665,12 +3665,12 @@ var JoomlaMediaManager = (function () {
     defineWellKnownSymbol$1(name);
   });
 
-  $$O({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$4 }, {
+  $$P({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$4 }, {
     useSetter: function () { USE_SETTER = true; },
     useSimple: function () { USE_SETTER = false; }
   });
 
-  $$O({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$4, sham: !DESCRIPTORS$9 }, {
+  $$P({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$4, sham: !DESCRIPTORS$9 }, {
     // `Object.create` method
     // https://tc39.es/ecma262/#sec-object.create
     create: $create,
@@ -3685,7 +3685,7 @@ var JoomlaMediaManager = (function () {
     getOwnPropertyDescriptor: $getOwnPropertyDescriptor
   });
 
-  $$O({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$4 }, {
+  $$P({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$4 }, {
     // `Object.getOwnPropertyNames` method
     // https://tc39.es/ecma262/#sec-object.getownpropertynames
     getOwnPropertyNames: $getOwnPropertyNames
@@ -3706,7 +3706,7 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable es/no-symbol -- safe */
   var symbolRegistryDetection = NATIVE_SYMBOL$3 && !!Symbol['for'] && !!Symbol.keyFor;
 
-  var $$N = _export;
+  var $$O = _export;
   var getBuiltIn$3 = getBuiltIn$a;
   var hasOwn$a = hasOwnProperty_1;
   var toString$f = toString$i;
@@ -3718,7 +3718,7 @@ var JoomlaMediaManager = (function () {
 
   // `Symbol.for` method
   // https://tc39.es/ecma262/#sec-symbol.for
-  $$N({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY$1 }, {
+  $$O({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY$1 }, {
     'for': function (key) {
       var string = toString$f(key);
       if (hasOwn$a(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
@@ -3729,7 +3729,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$M = _export;
+  var $$N = _export;
   var hasOwn$9 = hasOwnProperty_1;
   var isSymbol$3 = isSymbol$6;
   var tryToString$2 = tryToString$6;
@@ -3740,7 +3740,7 @@ var JoomlaMediaManager = (function () {
 
   // `Symbol.keyFor` method
   // https://tc39.es/ecma262/#sec-symbol.keyfor
-  $$M({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
+  $$N({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
     keyFor: function keyFor(sym) {
       if (!isSymbol$3(sym)) throw TypeError(tryToString$2(sym) + ' is not a symbol');
       if (hasOwn$9(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
@@ -3759,7 +3759,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var uncurryThis$m = functionUncurryThis;
-  var isArray$5 = isArray$9;
+  var isArray$6 = isArray$a;
   var isCallable$a = isCallable$t;
   var classof$4 = classofRaw$2;
   var toString$e = toString$i;
@@ -3768,7 +3768,7 @@ var JoomlaMediaManager = (function () {
 
   var getJsonReplacerFunction = function (replacer) {
     if (isCallable$a(replacer)) return replacer;
-    if (!isArray$5(replacer)) return;
+    if (!isArray$6(replacer)) return;
     var rawLength = replacer.length;
     var keys = [];
     for (var i = 0; i < rawLength; i++) {
@@ -3783,12 +3783,12 @@ var JoomlaMediaManager = (function () {
         root = false;
         return value;
       }
-      if (isArray$5(this)) return value;
+      if (isArray$6(this)) return value;
       for (var j = 0; j < keysLength; j++) if (keys[j] === key) return value;
     };
   };
 
-  var $$L = _export;
+  var $$M = _export;
   var getBuiltIn$2 = getBuiltIn$a;
   var apply$3 = functionApply;
   var call$h = functionCall;
@@ -3851,7 +3851,7 @@ var JoomlaMediaManager = (function () {
   if ($stringify$1) {
     // `JSON.stringify` method
     // https://tc39.es/ecma262/#sec-json.stringify
-    $$L({ target: 'JSON', stat: true, arity: 3, forced: WRONG_SYMBOLS_CONVERSION || ILL_FORMED_UNICODE }, {
+    $$M({ target: 'JSON', stat: true, arity: 3, forced: WRONG_SYMBOLS_CONVERSION || ILL_FORMED_UNICODE }, {
       // eslint-disable-next-line no-unused-vars -- required for `.length`
       stringify: function stringify(it, replacer, space) {
         var args = arraySlice$4(arguments);
@@ -3861,11 +3861,11 @@ var JoomlaMediaManager = (function () {
     });
   }
 
-  var $$K = _export;
+  var $$L = _export;
   var NATIVE_SYMBOL$1 = symbolConstructorDetection;
   var fails$n = fails$I;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
-  var toObject$8 = toObject$d;
+  var toObject$9 = toObject$e;
 
   // V8 ~ Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
   // https://bugs.chromium.org/p/v8/issues/detail?id=3443
@@ -3873,14 +3873,14 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertySymbols` method
   // https://tc39.es/ecma262/#sec-object.getownpropertysymbols
-  $$K({ target: 'Object', stat: true, forced: FORCED$5 }, {
+  $$L({ target: 'Object', stat: true, forced: FORCED$5 }, {
     getOwnPropertySymbols: function getOwnPropertySymbols(it) {
       var $getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
-      return $getOwnPropertySymbols ? $getOwnPropertySymbols(toObject$8(it)) : [];
+      return $getOwnPropertySymbols ? $getOwnPropertySymbols(toObject$9(it)) : [];
     }
   });
 
-  var $$J = _export;
+  var $$K = _export;
   var DESCRIPTORS$8 = descriptors;
   var global$f = global$u;
   var uncurryThis$k = functionUncurryThis;
@@ -3932,7 +3932,7 @@ var JoomlaMediaManager = (function () {
       }
     });
 
-    $$J({ global: true, constructor: true, forced: true }, {
+    $$K({ global: true, constructor: true, forced: true }, {
       Symbol: SymbolWrapper
     });
   }
@@ -3949,20 +3949,20 @@ var JoomlaMediaManager = (function () {
   var $TypeError$7 = TypeError;
   var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF; // 2 ** 53 - 1 == 9007199254740991
 
-  var doesNotExceedSafeInteger$2 = function (it) {
+  var doesNotExceedSafeInteger$3 = function (it) {
     if (it > MAX_SAFE_INTEGER) throw $TypeError$7('Maximum allowed index exceeded');
     return it;
   };
 
-  var $$I = _export;
+  var $$J = _export;
   var fails$m = fails$I;
-  var isArray$4 = isArray$9;
+  var isArray$5 = isArray$a;
   var isObject$b = isObject$q;
-  var toObject$7 = toObject$d;
-  var lengthOfArrayLike$4 = lengthOfArrayLike$a;
-  var doesNotExceedSafeInteger$1 = doesNotExceedSafeInteger$2;
+  var toObject$8 = toObject$e;
+  var lengthOfArrayLike$6 = lengthOfArrayLike$c;
+  var doesNotExceedSafeInteger$2 = doesNotExceedSafeInteger$3;
   var createProperty$2 = createProperty$5;
-  var arraySpeciesCreate$1 = arraySpeciesCreate$3;
+  var arraySpeciesCreate$2 = arraySpeciesCreate$4;
   var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$5;
   var wellKnownSymbol$8 = wellKnownSymbol$r;
   var V8_VERSION$1 = engineV8Version;
@@ -3981,7 +3981,7 @@ var JoomlaMediaManager = (function () {
   var isConcatSpreadable = function (O) {
     if (!isObject$b(O)) return false;
     var spreadable = O[IS_CONCAT_SPREADABLE];
-    return spreadable !== undefined ? !!spreadable : isArray$4(O);
+    return spreadable !== undefined ? !!spreadable : isArray$5(O);
   };
 
   var FORCED$4 = !IS_CONCAT_SPREADABLE_SUPPORT || !arrayMethodHasSpeciesSupport$3('concat');
@@ -3989,21 +3989,21 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.concat` method
   // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
-  $$I({ target: 'Array', proto: true, arity: 1, forced: FORCED$4 }, {
+  $$J({ target: 'Array', proto: true, arity: 1, forced: FORCED$4 }, {
     // eslint-disable-next-line no-unused-vars -- required for `.length`
     concat: function concat(arg) {
-      var O = toObject$7(this);
-      var A = arraySpeciesCreate$1(O, 0);
+      var O = toObject$8(this);
+      var A = arraySpeciesCreate$2(O, 0);
       var n = 0;
       var i, k, length, len, E;
       for (i = -1, length = arguments.length; i < length; i++) {
         E = i === -1 ? O : arguments[i];
         if (isConcatSpreadable(E)) {
-          len = lengthOfArrayLike$4(E);
-          doesNotExceedSafeInteger$1(n + len);
+          len = lengthOfArrayLike$6(E);
+          doesNotExceedSafeInteger$2(n + len);
           for (k = 0; k < len; k++, n++) if (k in E) createProperty$2(A, n, E[k]);
         } else {
-          doesNotExceedSafeInteger$1(n + 1);
+          doesNotExceedSafeInteger$2(n + 1);
           createProperty$2(A, n++, E);
         }
       }
@@ -4057,7 +4057,7 @@ var JoomlaMediaManager = (function () {
 
   handlePrototype(DOMTokenListPrototype);
 
-  var $$H = _export;
+  var $$I = _export;
   var $filter = arrayIteration.filter;
   var arrayMethodHasSpeciesSupport$2 = arrayMethodHasSpeciesSupport$5;
 
@@ -4066,13 +4066,13 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.filter` method
   // https://tc39.es/ecma262/#sec-array.prototype.filter
   // with adding support of @@species
-  $$H({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
+  $$I({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     filter: function filter(callbackfn /* , thisArg */) {
       return $filter(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$G = _export;
+  var $$H = _export;
   var $map = arrayIteration.map;
   var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$5;
 
@@ -4081,13 +4081,13 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.map` method
   // https://tc39.es/ecma262/#sec-array.prototype.map
   // with adding support of @@species
-  $$G({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
+  $$H({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
     map: function map(callbackfn /* , thisArg */) {
       return $map(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$F = _export;
+  var $$G = _export;
   var fails$k = fails$I;
   var getOwnPropertyNames$1 = objectGetOwnPropertyNamesExternal.f;
 
@@ -4096,7 +4096,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
-  $$F({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$3 }, {
+  $$G({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$3 }, {
     getOwnPropertyNames: getOwnPropertyNames$1
   });
 
@@ -4106,7 +4106,7 @@ var JoomlaMediaManager = (function () {
     return descriptor !== undefined && (hasOwn$7(descriptor, 'value') || hasOwn$7(descriptor, 'writable'));
   };
 
-  var $$E = _export;
+  var $$F = _export;
   var call$g = functionCall;
   var isObject$a = isObject$q;
   var anObject$g = anObject$r;
@@ -4127,15 +4127,15 @@ var JoomlaMediaManager = (function () {
     if (isObject$a(prototype = getPrototypeOf$1(target))) return get$2(prototype, propertyKey, receiver);
   }
 
-  $$E({ target: 'Reflect', stat: true }, {
+  $$F({ target: 'Reflect', stat: true }, {
     get: get$2
   });
 
-  var $$D = _export;
+  var $$E = _export;
   var global$d = global$u;
   var setToStringTag$3 = setToStringTag$8;
 
-  $$D({ global: true }, { Reflect: {} });
+  $$E({ global: true }, { Reflect: {} });
 
   // Reflect[@@toStringTag] property
   // https://tc39.es/ecma262/#sec-reflect-@@tostringtag
@@ -4182,7 +4182,7 @@ var JoomlaMediaManager = (function () {
     trim: createMethod$1(3)
   };
 
-  var $$C = _export;
+  var $$D = _export;
   var IS_PURE$1 = isPure;
   var DESCRIPTORS$7 = descriptors;
   var global$c = global$u;
@@ -4263,7 +4263,7 @@ var JoomlaMediaManager = (function () {
   NumberWrapper.prototype = NumberPrototype;
   if (FORCED$3 && !IS_PURE$1) NumberPrototype.constructor = NumberWrapper;
 
-  $$C({ global: true, constructor: true, wrap: true, forced: FORCED$3 }, {
+  $$D({ global: true, constructor: true, wrap: true, forced: FORCED$3 }, {
     Number: NumberWrapper
   });
 
@@ -4284,7 +4284,7 @@ var JoomlaMediaManager = (function () {
   };
   if (FORCED$3 || IS_PURE$1) copyConstructorProperties(path[NUMBER], NativeNumber);
 
-  var $$B = _export;
+  var $$C = _export;
   var call$f = functionCall;
   var anObject$f = anObject$r;
   var isObject$9 = isObject$q;
@@ -4330,50 +4330,50 @@ var JoomlaMediaManager = (function () {
     return Reflect.set(Constructor.prototype, 'a', 1, object) !== false;
   });
 
-  $$B({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
+  $$C({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
     set: set$4
   });
 
-  var $$A = _export;
+  var $$B = _export;
   var anObject$e = anObject$r;
   var getOwnPropertyDescriptor$5 = objectGetOwnPropertyDescriptor.f;
 
   // `Reflect.deleteProperty` method
   // https://tc39.es/ecma262/#sec-reflect.deleteproperty
-  $$A({ target: 'Reflect', stat: true }, {
+  $$B({ target: 'Reflect', stat: true }, {
     deleteProperty: function deleteProperty(target, propertyKey) {
       var descriptor = getOwnPropertyDescriptor$5(anObject$e(target), propertyKey);
       return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
     }
   });
 
-  var $$z = _export;
+  var $$A = _export;
 
   // `Reflect.has` method
   // https://tc39.es/ecma262/#sec-reflect.has
-  $$z({ target: 'Reflect', stat: true }, {
+  $$A({ target: 'Reflect', stat: true }, {
     has: function has(target, propertyKey) {
       return propertyKey in target;
     }
   });
 
-  var $$y = _export;
+  var $$z = _export;
   var ownKeys$1 = ownKeys$3;
 
   // `Reflect.ownKeys` method
   // https://tc39.es/ecma262/#sec-reflect.ownkeys
-  $$y({ target: 'Reflect', stat: true }, {
+  $$z({ target: 'Reflect', stat: true }, {
     ownKeys: ownKeys$1
   });
 
-  var $$x = _export;
+  var $$y = _export;
   var anObject$d = anObject$r;
   var objectGetPrototypeOf = objectGetPrototypeOf$1;
   var CORRECT_PROTOTYPE_GETTER$1 = correctPrototypeGetter;
 
   // `Reflect.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-reflect.getprototypeof
-  $$x({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER$1 }, {
+  $$y({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER$1 }, {
     getPrototypeOf: function getPrototypeOf(target) {
       return objectGetPrototypeOf(anObject$d(target));
     }
@@ -4385,13 +4385,13 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-symbol.iterator
   defineWellKnownSymbol('iterator');
 
-  var $$w = _export;
+  var $$x = _export;
   var $isExtensible = objectIsExtensible;
 
   // `Object.isExtensible` method
   // https://tc39.es/ecma262/#sec-object.isextensible
   // eslint-disable-next-line es/no-object-isextensible -- safe
-  $$w({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
+  $$x({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
     isExtensible: $isExtensible
   });
 
@@ -4584,12 +4584,12 @@ var JoomlaMediaManager = (function () {
 
   var regexpExec$3 = patchedExec;
 
-  var $$v = _export;
+  var $$w = _export;
   var exec$3 = regexpExec$3;
 
   // `RegExp.prototype.exec` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.exec
-  $$v({ target: 'RegExp', proto: true, forced: /./.exec !== exec$3 }, {
+  $$w({ target: 'RegExp', proto: true, forced: /./.exec !== exec$3 }, {
     exec: exec$3
   });
 
@@ -4893,7 +4893,7 @@ var JoomlaMediaManager = (function () {
   }, !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC, UNSUPPORTED_Y);
 
   var uncurryThis$d = functionUncurryThis;
-  var toObject$6 = toObject$d;
+  var toObject$7 = toObject$e;
 
   var floor$4 = Math.floor;
   var charAt$2 = uncurryThis$d(''.charAt);
@@ -4910,7 +4910,7 @@ var JoomlaMediaManager = (function () {
     var m = captures.length;
     var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
     if (namedCaptures !== undefined) {
-      namedCaptures = toObject$6(namedCaptures);
+      namedCaptures = toObject$7(namedCaptures);
       symbols = SUBSTITUTION_SYMBOLS;
     }
     return replace$4(replacement, symbols, function (match, ch) {
@@ -4946,7 +4946,7 @@ var JoomlaMediaManager = (function () {
   var anObject$8 = anObject$r;
   var isCallable$6 = isCallable$t;
   var isNullOrUndefined$2 = isNullOrUndefined$b;
-  var toIntegerOrInfinity$3 = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$4 = toIntegerOrInfinity$8;
   var toLength$3 = toLength$6;
   var toString$9 = toString$i;
   var requireObjectCoercible$7 = requireObjectCoercible$d;
@@ -5049,7 +5049,7 @@ var JoomlaMediaManager = (function () {
           result = results[i];
 
           var matched = toString$9(result[0]);
-          var position = max$1(min$3(toIntegerOrInfinity$3(result.index), S.length), 0);
+          var position = max$1(min$3(toIntegerOrInfinity$4(result.index), S.length), 0);
           var captures = [];
           // NOTE: This is equivalent to
           //   captures = result.slice(1).map(maybeToString)
@@ -5091,13 +5091,13 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$u = _export;
+  var $$v = _export;
   var $trim = stringTrim.trim;
   var forcedStringTrimMethod = stringTrimForced;
 
   // `String.prototype.trim` method
   // https://tc39.es/ecma262/#sec-string.prototype.trim
-  $$u({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  $$v({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
     trim: function trim() {
       return $trim(this);
     }
@@ -5144,7 +5144,7 @@ var JoomlaMediaManager = (function () {
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
-  var $$t = _export;
+  var $$u = _export;
   var call$9 = functionCall;
   var isCallable$5 = isCallable$t;
   var anObject$6 = anObject$r;
@@ -5164,7 +5164,7 @@ var JoomlaMediaManager = (function () {
 
   // `RegExp.prototype.test` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.test
-  $$t({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
+  $$u({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
     test: function (S) {
       var R = anObject$6(this);
       var string = toString$8(S);
@@ -5203,7 +5203,7 @@ var JoomlaMediaManager = (function () {
     } return false;
   };
 
-  var $$s = _export;
+  var $$t = _export;
   var uncurryThis$b = functionUncurryThisClause;
   var getOwnPropertyDescriptor$4 = objectGetOwnPropertyDescriptor.f;
   var toLength$2 = toLength$6;
@@ -5226,7 +5226,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.startsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.startswith
-  $$s({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
+  $$t({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
     startsWith: function startsWith(searchString /* , position = 0 */) {
       var that = toString$7(requireObjectCoercible$6(this));
       notARegExp$2(searchString);
@@ -5239,7 +5239,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var DESCRIPTORS$6 = descriptors;
-  var isArray$3 = isArray$9;
+  var isArray$4 = isArray$a;
 
   var $TypeError$3 = TypeError;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -5258,7 +5258,7 @@ var JoomlaMediaManager = (function () {
   }();
 
   var arraySetLength = SILENT_ON_NON_WRITABLE_LENGTH_SET ? function (O, length) {
-    if (isArray$3(O) && !getOwnPropertyDescriptor$3(O, 'length').writable) {
+    if (isArray$4(O) && !getOwnPropertyDescriptor$3(O, 'length').writable) {
       throw $TypeError$3('Cannot set read only .length');
     } return O.length = length;
   } : function (O, length) {
@@ -5273,14 +5273,14 @@ var JoomlaMediaManager = (function () {
     if (!delete O[P]) throw $TypeError$2('Cannot delete property ' + tryToString(P) + ' of ' + tryToString(O));
   };
 
-  var $$r = _export;
-  var toObject$5 = toObject$d;
+  var $$s = _export;
+  var toObject$6 = toObject$e;
   var toAbsoluteIndex$1 = toAbsoluteIndex$5;
-  var toIntegerOrInfinity$2 = toIntegerOrInfinity$7;
-  var lengthOfArrayLike$3 = lengthOfArrayLike$a;
+  var toIntegerOrInfinity$3 = toIntegerOrInfinity$8;
+  var lengthOfArrayLike$5 = lengthOfArrayLike$c;
   var setArrayLength = arraySetLength;
-  var doesNotExceedSafeInteger = doesNotExceedSafeInteger$2;
-  var arraySpeciesCreate = arraySpeciesCreate$3;
+  var doesNotExceedSafeInteger$1 = doesNotExceedSafeInteger$3;
+  var arraySpeciesCreate$1 = arraySpeciesCreate$4;
   var createProperty$1 = createProperty$5;
   var deletePropertyOrThrow$1 = deletePropertyOrThrow$2;
   var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$5;
@@ -5293,10 +5293,10 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.splice` method
   // https://tc39.es/ecma262/#sec-array.prototype.splice
   // with adding support of @@species
-  $$r({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  $$s({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     splice: function splice(start, deleteCount /* , ...items */) {
-      var O = toObject$5(this);
-      var len = lengthOfArrayLike$3(O);
+      var O = toObject$6(this);
+      var len = lengthOfArrayLike$5(O);
       var actualStart = toAbsoluteIndex$1(start, len);
       var argumentsLength = arguments.length;
       var insertCount, actualDeleteCount, A, k, from, to;
@@ -5307,10 +5307,10 @@ var JoomlaMediaManager = (function () {
         actualDeleteCount = len - actualStart;
       } else {
         insertCount = argumentsLength - 2;
-        actualDeleteCount = min$1(max(toIntegerOrInfinity$2(deleteCount), 0), len - actualStart);
+        actualDeleteCount = min$1(max(toIntegerOrInfinity$3(deleteCount), 0), len - actualStart);
       }
-      doesNotExceedSafeInteger(len + insertCount - actualDeleteCount);
-      A = arraySpeciesCreate(O, actualDeleteCount);
+      doesNotExceedSafeInteger$1(len + insertCount - actualDeleteCount);
+      A = arraySpeciesCreate$1(O, actualDeleteCount);
       for (k = 0; k < actualDeleteCount; k++) {
         from = actualStart + k;
         if (from in O) createProperty$1(A, k, O[from]);
@@ -5340,12 +5340,12 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$q = _export;
+  var $$r = _export;
   var global$8 = global$u;
 
   // `globalThis` object
   // https://tc39.es/ecma262/#sec-globalthis
-  $$q({ global: true, forced: global$8.globalThis !== global$8 }, {
+  $$r({ global: true, forced: global$8.globalThis !== global$8 }, {
     globalThis: global$8
   });
 
@@ -5367,7 +5367,7 @@ var JoomlaMediaManager = (function () {
 
   var global$7 = global$u;
   var apply = functionApply;
-  var bind$5 = functionBindContext;
+  var bind$6 = functionBindContext;
   var isCallable$4 = isCallable$t;
   var hasOwn$4 = hasOwnProperty_1;
   var fails$9 = fails$I;
@@ -5449,7 +5449,7 @@ var JoomlaMediaManager = (function () {
       channel = new MessageChannel();
       port = channel.port2;
       channel.port1.onmessage = eventListener;
-      defer = bind$5(port.postMessage, port);
+      defer = bind$6(port.postMessage, port);
     // Browsers with postMessage, skip WebWorkers
     // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
     } else if (
@@ -5516,7 +5516,7 @@ var JoomlaMediaManager = (function () {
   var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent$2);
 
   var global$6 = global$u;
-  var bind$4 = functionBindContext;
+  var bind$5 = functionBindContext;
   var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
   var macrotask = task$1.set;
   var Queue$1 = queue$2;
@@ -5565,7 +5565,7 @@ var JoomlaMediaManager = (function () {
       promise = Promise$1.resolve(undefined);
       // workaround of WebKit ~ iOS Safari 10.1 bug
       promise.constructor = Promise$1;
-      then = bind$4(promise.then, promise);
+      then = bind$5(promise.then, promise);
       notify$2 = function () {
         then(flush);
       };
@@ -5582,7 +5582,7 @@ var JoomlaMediaManager = (function () {
     // - setTimeout
     } else {
       // `webpack` dev server bug on IE global methods - use bind(fn, global)
-      macrotask = bind$4(macrotask, global$6);
+      macrotask = bind$5(macrotask, global$6);
       notify$2 = function () {
         macrotask(flush);
       };
@@ -5694,7 +5694,7 @@ var JoomlaMediaManager = (function () {
     return new PromiseCapability(C);
   };
 
-  var $$p = _export;
+  var $$q = _export;
   var IS_NODE = engineIsNode;
   var global$3 = global$u;
   var call$8 = functionCall;
@@ -5843,7 +5843,7 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var bind$3 = function (fn, state, unwrap) {
+  var bind$4 = function (fn, state, unwrap) {
     return function (value) {
       fn(state, value, unwrap);
     };
@@ -5870,8 +5870,8 @@ var JoomlaMediaManager = (function () {
           var wrapper = { done: false };
           try {
             call$8(then, value,
-              bind$3(internalResolve, wrapper, state),
-              bind$3(internalReject, wrapper, state)
+              bind$4(internalResolve, wrapper, state),
+              bind$4(internalReject, wrapper, state)
             );
           } catch (error) {
             internalReject(wrapper, error, state);
@@ -5896,7 +5896,7 @@ var JoomlaMediaManager = (function () {
       call$8(Internal, this);
       var state = getInternalPromiseState(this);
       try {
-        executor(bind$3(internalResolve, state), bind$3(internalReject, state));
+        executor(bind$4(internalResolve, state), bind$4(internalReject, state));
       } catch (error) {
         internalReject(state, error);
       }
@@ -5938,8 +5938,8 @@ var JoomlaMediaManager = (function () {
       var promise = new Internal();
       var state = getInternalPromiseState(promise);
       this.promise = promise;
-      this.resolve = bind$3(internalResolve, state);
-      this.reject = bind$3(internalReject, state);
+      this.resolve = bind$4(internalResolve, state);
+      this.reject = bind$4(internalReject, state);
     };
 
     newPromiseCapabilityModule$3.f = newPromiseCapability$1 = function (C) {
@@ -5974,7 +5974,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  $$p({ global: true, constructor: true, wrap: true, forced: FORCED_PROMISE_CONSTRUCTOR$4 }, {
+  $$q({ global: true, constructor: true, wrap: true, forced: FORCED_PROMISE_CONSTRUCTOR$4 }, {
     Promise: PromiseConstructor
   });
 
@@ -5989,7 +5989,7 @@ var JoomlaMediaManager = (function () {
     NativePromiseConstructor$1.all(iterable).then(undefined, function () { /* empty */ });
   });
 
-  var $$o = _export;
+  var $$p = _export;
   var call$7 = functionCall;
   var aCallable$2 = aCallable$9;
   var newPromiseCapabilityModule$2 = newPromiseCapability$2;
@@ -5999,7 +5999,7 @@ var JoomlaMediaManager = (function () {
 
   // `Promise.all` method
   // https://tc39.es/ecma262/#sec-promise.all
-  $$o({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION$1 }, {
+  $$p({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION$1 }, {
     all: function all(iterable) {
       var C = this;
       var capability = newPromiseCapabilityModule$2.f(C);
@@ -6028,7 +6028,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$n = _export;
+  var $$o = _export;
   var FORCED_PROMISE_CONSTRUCTOR$2 = promiseConstructorDetection.CONSTRUCTOR;
   var NativePromiseConstructor = promiseNativeConstructor;
   var getBuiltIn$1 = getBuiltIn$a;
@@ -6039,7 +6039,7 @@ var JoomlaMediaManager = (function () {
 
   // `Promise.prototype.catch` method
   // https://tc39.es/ecma262/#sec-promise.prototype.catch
-  $$n({ target: 'Promise', proto: true, forced: FORCED_PROMISE_CONSTRUCTOR$2, real: true }, {
+  $$o({ target: 'Promise', proto: true, forced: FORCED_PROMISE_CONSTRUCTOR$2, real: true }, {
     'catch': function (onRejected) {
       return this.then(undefined, onRejected);
     }
@@ -6053,7 +6053,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  var $$m = _export;
+  var $$n = _export;
   var call$6 = functionCall;
   var aCallable$1 = aCallable$9;
   var newPromiseCapabilityModule$1 = newPromiseCapability$2;
@@ -6063,7 +6063,7 @@ var JoomlaMediaManager = (function () {
 
   // `Promise.race` method
   // https://tc39.es/ecma262/#sec-promise.race
-  $$m({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
+  $$n({ target: 'Promise', stat: true, forced: PROMISE_STATICS_INCORRECT_ITERATION }, {
     race: function race(iterable) {
       var C = this;
       var capability = newPromiseCapabilityModule$1.f(C);
@@ -6079,14 +6079,14 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$l = _export;
+  var $$m = _export;
   var call$5 = functionCall;
   var newPromiseCapabilityModule = newPromiseCapability$2;
   var FORCED_PROMISE_CONSTRUCTOR$1 = promiseConstructorDetection.CONSTRUCTOR;
 
   // `Promise.reject` method
   // https://tc39.es/ecma262/#sec-promise.reject
-  $$l({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR$1 }, {
+  $$m({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR$1 }, {
     reject: function reject(r) {
       var capability = newPromiseCapabilityModule.f(this);
       call$5(capability.reject, undefined, r);
@@ -6107,7 +6107,7 @@ var JoomlaMediaManager = (function () {
     return promiseCapability.promise;
   };
 
-  var $$k = _export;
+  var $$l = _export;
   var getBuiltIn = getBuiltIn$a;
   var FORCED_PROMISE_CONSTRUCTOR = promiseConstructorDetection.CONSTRUCTOR;
   var promiseResolve = promiseResolve$1;
@@ -6116,16 +6116,16 @@ var JoomlaMediaManager = (function () {
 
   // `Promise.resolve` method
   // https://tc39.es/ecma262/#sec-promise.resolve
-  $$k({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR }, {
+  $$l({ target: 'Promise', stat: true, forced: FORCED_PROMISE_CONSTRUCTOR }, {
     resolve: function resolve(x) {
       return promiseResolve(this, x);
     }
   });
 
-  var $$j = _export;
+  var $$k = _export;
   var $includes = arrayIncludes.includes;
   var fails$8 = fails$I;
-  var addToUnscopables$3 = addToUnscopables$5;
+  var addToUnscopables$4 = addToUnscopables$6;
 
   // FF99+ bug
   var BROKEN_ON_SPARSE = fails$8(function () {
@@ -6135,16 +6135,16 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.includes` method
   // https://tc39.es/ecma262/#sec-array.prototype.includes
-  $$j({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+  $$k({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
     includes: function includes(el /* , fromIndex = 0 */) {
       return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$3('includes');
+  addToUnscopables$4('includes');
 
-  var $$i = _export;
+  var $$j = _export;
   var uncurryThis$a = functionUncurryThis;
   var notARegExp$1 = notARegexp;
   var requireObjectCoercible$5 = requireObjectCoercible$d;
@@ -6155,7 +6155,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.includes` method
   // https://tc39.es/ecma262/#sec-string.prototype.includes
-  $$i({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
+  $$j({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
     includes: function includes(searchString /* , position = 0 */) {
       return !!~stringIndexOf(
         toString$6(requireObjectCoercible$5(this)),
@@ -6226,11 +6226,11 @@ var JoomlaMediaManager = (function () {
 
   var engineWebkitVersion = !!webkit && +webkit[1];
 
-  var $$h = _export;
+  var $$i = _export;
   var uncurryThis$9 = functionUncurryThis;
   var aCallable = aCallable$9;
-  var toObject$4 = toObject$d;
-  var lengthOfArrayLike$2 = lengthOfArrayLike$a;
+  var toObject$5 = toObject$e;
+  var lengthOfArrayLike$4 = lengthOfArrayLike$c;
   var deletePropertyOrThrow = deletePropertyOrThrow$2;
   var toString$5 = toString$i;
   var fails$7 = fails$I;
@@ -6304,16 +6304,16 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.sort` method
   // https://tc39.es/ecma262/#sec-array.prototype.sort
-  $$h({ target: 'Array', proto: true, forced: FORCED$2 }, {
+  $$i({ target: 'Array', proto: true, forced: FORCED$2 }, {
     sort: function sort(comparefn) {
       if (comparefn !== undefined) aCallable(comparefn);
 
-      var array = toObject$4(this);
+      var array = toObject$5(this);
 
       if (STABLE_SORT) return comparefn === undefined ? nativeSort(array) : nativeSort(array, comparefn);
 
       var items = [];
-      var arrayLength = lengthOfArrayLike$2(array);
+      var arrayLength = lengthOfArrayLike$4(array);
       var itemsLength, index;
 
       for (index = 0; index < arrayLength; index++) {
@@ -6322,7 +6322,7 @@ var JoomlaMediaManager = (function () {
 
       internalSort(items, getSortCompare(comparefn));
 
-      itemsLength = lengthOfArrayLike$2(items);
+      itemsLength = lengthOfArrayLike$4(items);
       index = 0;
 
       while (index < itemsLength) array[index] = items[index++];
@@ -6332,8 +6332,8 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$g = _export;
-  var toObject$3 = toObject$d;
+  var $$h = _export;
+  var toObject$4 = toObject$e;
   var nativeKeys = objectKeys$4;
   var fails$6 = fails$I;
 
@@ -6341,21 +6341,21 @@ var JoomlaMediaManager = (function () {
 
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
-  $$g({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
+  $$h({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
     keys: function keys(it) {
-      return nativeKeys(toObject$3(it));
+      return nativeKeys(toObject$4(it));
     }
   });
 
-  var toObject$2 = toObject$d;
+  var toObject$3 = toObject$e;
   var toAbsoluteIndex = toAbsoluteIndex$5;
-  var lengthOfArrayLike$1 = lengthOfArrayLike$a;
+  var lengthOfArrayLike$3 = lengthOfArrayLike$c;
 
   // `Array.prototype.fill` method implementation
   // https://tc39.es/ecma262/#sec-array.prototype.fill
   var arrayFill = function fill(value /* , start = 0, end = @length */) {
-    var O = toObject$2(this);
-    var length = lengthOfArrayLike$1(O);
+    var O = toObject$3(this);
+    var length = lengthOfArrayLike$3(O);
     var argumentsLength = arguments.length;
     var index = toAbsoluteIndex(argumentsLength > 1 ? arguments[1] : undefined, length);
     var end = argumentsLength > 2 ? arguments[2] : undefined;
@@ -6364,18 +6364,18 @@ var JoomlaMediaManager = (function () {
     return O;
   };
 
-  var $$f = _export;
+  var $$g = _export;
   var fill = arrayFill;
-  var addToUnscopables$2 = addToUnscopables$5;
+  var addToUnscopables$3 = addToUnscopables$6;
 
   // `Array.prototype.fill` method
   // https://tc39.es/ecma262/#sec-array.prototype.fill
-  $$f({ target: 'Array', proto: true }, {
+  $$g({ target: 'Array', proto: true }, {
     fill: fill
   });
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$2('fill');
+  addToUnscopables$3('fill');
 
   var anObject$4 = anObject$r;
   var iteratorClose = iteratorClose$2;
@@ -6389,13 +6389,13 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var bind$2 = functionBindContext;
+  var bind$3 = functionBindContext;
   var call$4 = functionCall;
-  var toObject$1 = toObject$d;
+  var toObject$2 = toObject$e;
   var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
   var isArrayIteratorMethod = isArrayIteratorMethod$2;
   var isConstructor = isConstructor$4;
-  var lengthOfArrayLike = lengthOfArrayLike$a;
+  var lengthOfArrayLike$2 = lengthOfArrayLike$c;
   var createProperty = createProperty$5;
   var getIterator$1 = getIterator$3;
   var getIteratorMethod$1 = getIteratorMethod$4;
@@ -6405,12 +6405,12 @@ var JoomlaMediaManager = (function () {
   // `Array.from` method implementation
   // https://tc39.es/ecma262/#sec-array.from
   var arrayFrom$1 = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-    var O = toObject$1(arrayLike);
+    var O = toObject$2(arrayLike);
     var IS_CONSTRUCTOR = isConstructor(this);
     var argumentsLength = arguments.length;
     var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
     var mapping = mapfn !== undefined;
-    if (mapping) mapfn = bind$2(mapfn, argumentsLength > 2 ? arguments[2] : undefined);
+    if (mapping) mapfn = bind$3(mapfn, argumentsLength > 2 ? arguments[2] : undefined);
     var iteratorMethod = getIteratorMethod$1(O);
     var index = 0;
     var length, result, step, iterator, next, value;
@@ -6424,7 +6424,7 @@ var JoomlaMediaManager = (function () {
         createProperty(result, index, value);
       }
     } else {
-      length = lengthOfArrayLike(O);
+      length = lengthOfArrayLike$2(O);
       result = IS_CONSTRUCTOR ? new this(length) : $Array(length);
       for (;length > index; index++) {
         value = mapping ? mapfn(O[index], index) : O[index];
@@ -6435,7 +6435,7 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $$e = _export;
+  var $$f = _export;
   var from = arrayFrom$1;
   var checkCorrectnessOfIteration = checkCorrectnessOfIteration$3;
 
@@ -6446,7 +6446,7 @@ var JoomlaMediaManager = (function () {
 
   // `Array.from` method
   // https://tc39.es/ecma262/#sec-array.from
-  $$e({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
+  $$f({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
     from: from
   });
 
@@ -6476,7 +6476,7 @@ var JoomlaMediaManager = (function () {
     });
   }
 
-  var $$d = _export;
+  var $$e = _export;
   var DESCRIPTORS$4 = descriptors;
   var anObject$3 = anObject$r;
   var toPropertyKey = toPropertyKey$5;
@@ -6491,7 +6491,7 @@ var JoomlaMediaManager = (function () {
 
   // `Reflect.defineProperty` method
   // https://tc39.es/ecma262/#sec-reflect.defineproperty
-  $$d({ target: 'Reflect', stat: true, forced: ERROR_INSTEAD_OF_FALSE, sham: !DESCRIPTORS$4 }, {
+  $$e({ target: 'Reflect', stat: true, forced: ERROR_INSTEAD_OF_FALSE, sham: !DESCRIPTORS$4 }, {
     defineProperty: function defineProperty(target, propertyKey, attributes) {
       anObject$3(target);
       var key = toPropertyKey(propertyKey);
@@ -6553,9 +6553,9 @@ var JoomlaMediaManager = (function () {
     ];
   });
 
-  var $$c = _export;
+  var $$d = _export;
   var $findIndex = arrayIteration.findIndex;
-  var addToUnscopables$1 = addToUnscopables$5;
+  var addToUnscopables$2 = addToUnscopables$6;
 
   var FIND_INDEX = 'findIndex';
   var SKIPS_HOLES$1 = true;
@@ -6565,14 +6565,14 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.findIndex` method
   // https://tc39.es/ecma262/#sec-array.prototype.findindex
-  $$c({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
+  $$d({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
     findIndex: function findIndex(callbackfn /* , that = undefined */) {
       return $findIndex(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$1(FIND_INDEX);
+  addToUnscopables$2(FIND_INDEX);
 
   var uncurryThis$7 = functionUncurryThis;
   var requireObjectCoercible$3 = requireObjectCoercible$d;
@@ -6601,19 +6601,19 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$b = _export;
+  var $$c = _export;
   var createHTML = createHtml;
   var forcedStringHTMLMethod = stringHtmlForced;
 
   // `String.prototype.anchor` method
   // https://tc39.es/ecma262/#sec-string.prototype.anchor
-  $$b({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
+  $$c({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
     anchor: function anchor(name) {
       return createHTML(this, 'a', 'name', name);
     }
   });
 
-  var $$a = _export;
+  var $$b = _export;
   var uncurryThis$6 = functionUncurryThis;
   var IndexedObject = indexedObject;
   var toIndexedObject$1 = toIndexedObject$a;
@@ -6626,13 +6626,13 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.join` method
   // https://tc39.es/ecma262/#sec-array.prototype.join
-  $$a({ target: 'Array', proto: true, forced: FORCED$1 }, {
+  $$b({ target: 'Array', proto: true, forced: FORCED$1 }, {
     join: function join(separator) {
       return nativeJoin(toIndexedObject$1(this), separator === undefined ? ',' : separator);
     }
   });
 
-  var toIntegerOrInfinity$1 = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$2 = toIntegerOrInfinity$8;
   var toString$2 = toString$i;
   var requireObjectCoercible$2 = requireObjectCoercible$d;
 
@@ -6643,15 +6643,15 @@ var JoomlaMediaManager = (function () {
   var stringRepeat = function repeat(count) {
     var str = toString$2(requireObjectCoercible$2(this));
     var result = '';
-    var n = toIntegerOrInfinity$1(count);
+    var n = toIntegerOrInfinity$2(count);
     if (n < 0 || n == Infinity) throw $RangeError$2('Wrong number of repetitions');
     for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
     return result;
   };
 
-  var $$9 = _export;
+  var $$a = _export;
   var uncurryThis$5 = functionUncurryThis;
-  var toIntegerOrInfinity = toIntegerOrInfinity$7;
+  var toIntegerOrInfinity$1 = toIntegerOrInfinity$8;
   var thisNumberValue = thisNumberValue$2;
   var $repeat = stringRepeat;
   var fails$3 = fails$I;
@@ -6723,10 +6723,10 @@ var JoomlaMediaManager = (function () {
 
   // `Number.prototype.toFixed` method
   // https://tc39.es/ecma262/#sec-number.prototype.tofixed
-  $$9({ target: 'Number', proto: true, forced: FORCED }, {
+  $$a({ target: 'Number', proto: true, forced: FORCED }, {
     toFixed: function toFixed(fractionDigits) {
       var number = thisNumberValue(this);
-      var fractDigits = toIntegerOrInfinity(fractionDigits);
+      var fractDigits = toIntegerOrInfinity$1(fractionDigits);
       var data = [0, 0, 0, 0, 0, 0];
       var sign = '';
       var result = '0';
@@ -6780,203 +6780,14 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$8 = _export;
-  var $find = arrayIteration.find;
-  var addToUnscopables = addToUnscopables$5;
-
-  var FIND = 'find';
-  var SKIPS_HOLES = true;
-
-  // Shouldn't skip holes
-  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
-
-  // `Array.prototype.find` method
-  // https://tc39.es/ecma262/#sec-array.prototype.find
-  $$8({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
-    find: function find(callbackfn /* , that = undefined */) {
-      return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables(FIND);
-
-  var call$2 = functionCall;
-  var fixRegExpWellKnownSymbolLogic = fixRegexpWellKnownSymbolLogic;
-  var anObject$1 = anObject$r;
-  var isNullOrUndefined = isNullOrUndefined$b;
-  var requireObjectCoercible$1 = requireObjectCoercible$d;
-  var sameValue = sameValue$1;
-  var toString$1 = toString$i;
-  var getMethod = getMethod$7;
-  var regExpExec = regexpExecAbstract;
-
-  // @@search logic
-  fixRegExpWellKnownSymbolLogic('search', function (SEARCH, nativeSearch, maybeCallNative) {
-    return [
-      // `String.prototype.search` method
-      // https://tc39.es/ecma262/#sec-string.prototype.search
-      function search(regexp) {
-        var O = requireObjectCoercible$1(this);
-        var searcher = isNullOrUndefined(regexp) ? undefined : getMethod(regexp, SEARCH);
-        return searcher ? call$2(searcher, regexp, O) : new RegExp(regexp)[SEARCH](toString$1(O));
-      },
-      // `RegExp.prototype[@@search]` method
-      // https://tc39.es/ecma262/#sec-regexp.prototype-@@search
-      function (string) {
-        var rx = anObject$1(this);
-        var S = toString$1(string);
-        var res = maybeCallNative(nativeSearch, rx, S);
-
-        if (res.done) return res.value;
-
-        var previousLastIndex = rx.lastIndex;
-        if (!sameValue(previousLastIndex, 0)) rx.lastIndex = 0;
-        var result = regExpExec(rx, S);
-        if (!sameValue(rx.lastIndex, previousLastIndex)) rx.lastIndex = previousLastIndex;
-        return result === null ? -1 : result.index;
-      }
-    ];
-  });
-
-  var $$7 = _export;
   var fails$2 = fails$I;
-  var toObject = toObject$d;
-  var nativeGetPrototypeOf = objectGetPrototypeOf$1;
-  var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
-
-  var FAILS_ON_PRIMITIVES$1 = fails$2(function () { nativeGetPrototypeOf(1); });
-
-  // `Object.getPrototypeOf` method
-  // https://tc39.es/ecma262/#sec-object.getprototypeof
-  $$7({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1, sham: !CORRECT_PROTOTYPE_GETTER }, {
-    getPrototypeOf: function getPrototypeOf(it) {
-      return nativeGetPrototypeOf(toObject(it));
-    }
-  });
-
-  var $$6 = _export;
-
-  // `Number.isNaN` method
-  // https://tc39.es/ecma262/#sec-number.isnan
-  $$6({ target: 'Number', stat: true }, {
-    isNaN: function isNaN(number) {
-      // eslint-disable-next-line no-self-compare -- NaN check
-      return number != number;
-    }
-  });
-
-  var $$5 = _export;
-  var uncurryThis$4 = functionUncurryThisClause;
-  var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-  var toLength = toLength$6;
-  var toString = toString$i;
-  var notARegExp = notARegexp;
-  var requireObjectCoercible = requireObjectCoercible$d;
-  var correctIsRegExpLogic = correctIsRegexpLogic;
-
-  // eslint-disable-next-line es/no-string-prototype-endswith -- safe
-  var nativeEndsWith = uncurryThis$4(''.endsWith);
-  var slice = uncurryThis$4(''.slice);
-  var min = Math.min;
-
-  var CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic('endsWith');
-  // https://github.com/zloirock/core-js/pull/702
-  var MDN_POLYFILL_BUG = !CORRECT_IS_REGEXP_LOGIC && !!function () {
-    var descriptor = getOwnPropertyDescriptor$1(String.prototype, 'endsWith');
-    return descriptor && !descriptor.writable;
-  }();
-
-  // `String.prototype.endsWith` method
-  // https://tc39.es/ecma262/#sec-string.prototype.endswith
-  $$5({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
-    endsWith: function endsWith(searchString /* , endPosition = @length */) {
-      var that = toString(requireObjectCoercible(this));
-      notARegExp(searchString);
-      var endPosition = arguments.length > 1 ? arguments[1] : undefined;
-      var len = that.length;
-      var end = endPosition === undefined ? len : min(toLength(endPosition), len);
-      var search = toString(searchString);
-      return nativeEndsWith
-        ? nativeEndsWith(that, search, end)
-        : slice(that, end - search.length, end) === search;
-    }
-  });
-
-  var DESCRIPTORS$3 = descriptors;
-  var uncurryThis$3 = functionUncurryThis;
-  var objectKeys = objectKeys$4;
-  var toIndexedObject = toIndexedObject$a;
-  var $propertyIsEnumerable = objectPropertyIsEnumerable.f;
-
-  var propertyIsEnumerable = uncurryThis$3($propertyIsEnumerable);
-  var push$3 = uncurryThis$3([].push);
-
-  // `Object.{ entries, values }` methods implementation
-  var createMethod = function (TO_ENTRIES) {
-    return function (it) {
-      var O = toIndexedObject(it);
-      var keys = objectKeys(O);
-      var length = keys.length;
-      var i = 0;
-      var result = [];
-      var key;
-      while (length > i) {
-        key = keys[i++];
-        if (!DESCRIPTORS$3 || propertyIsEnumerable(O, key)) {
-          push$3(result, TO_ENTRIES ? [key, O[key]] : O[key]);
-        }
-      }
-      return result;
-    };
-  };
-
-  var objectToArray = {
-    // `Object.entries` method
-    // https://tc39.es/ecma262/#sec-object.entries
-    entries: createMethod(true),
-    // `Object.values` method
-    // https://tc39.es/ecma262/#sec-object.values
-    values: createMethod(false)
-  };
-
-  var $$4 = _export;
-  var $values = objectToArray.values;
-
-  // `Object.values` method
-  // https://tc39.es/ecma262/#sec-object.values
-  $$4({ target: 'Object', stat: true }, {
-    values: function values(O) {
-      return $values(O);
-    }
-  });
-
-  var $$3 = _export;
-  var FREEZING = freezing;
-  var fails$1 = fails$I;
-  var isObject$5 = isObject$q;
-  var onFreeze = internalMetadata.exports.onFreeze;
-
-  // eslint-disable-next-line es/no-object-freeze -- safe
-  var $freeze = Object.freeze;
-  var FAILS_ON_PRIMITIVES = fails$1(function () { $freeze(1); });
-
-  // `Object.freeze` method
-  // https://tc39.es/ecma262/#sec-object.freeze
-  $$3({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {
-    freeze: function freeze(it) {
-      return $freeze && isObject$5(it) ? $freeze(onFreeze(it)) : it;
-    }
-  });
-
-  var fails = fails$I;
   var wellKnownSymbol$1 = wellKnownSymbol$r;
-  var DESCRIPTORS$2 = descriptors;
+  var DESCRIPTORS$3 = descriptors;
   var IS_PURE = isPure;
 
   var ITERATOR$1 = wellKnownSymbol$1('iterator');
 
-  var urlConstructorDetection = !fails(function () {
+  var urlConstructorDetection = !fails$2(function () {
     // eslint-disable-next-line unicorn/relative-url-style -- required for testing
     var url = new URL('b?a=1&b=2&c=3', 'http://a');
     var searchParams = url.searchParams;
@@ -6987,7 +6798,7 @@ var JoomlaMediaManager = (function () {
       result += key + value;
     });
     return (IS_PURE && !url.toJSON)
-      || (!searchParams.size && (IS_PURE || !DESCRIPTORS$2))
+      || (!searchParams.size && (IS_PURE || !DESCRIPTORS$3))
       || !searchParams.sort
       || url.href !== 'http://a/c%20d?a=1&c=3'
       || searchParams.get('c') !== '3'
@@ -7007,7 +6818,7 @@ var JoomlaMediaManager = (function () {
   });
 
   // based on https://github.com/bestiejs/punycode.js/blob/master/punycode.js
-  var uncurryThis$2 = functionUncurryThis;
+  var uncurryThis$4 = functionUncurryThis;
 
   var maxInt = 2147483647; // aka. 0x7FFFFFFF or 2^31-1
   var base = 36;
@@ -7024,15 +6835,15 @@ var JoomlaMediaManager = (function () {
   var baseMinusTMin = base - tMin;
 
   var $RangeError = RangeError;
-  var exec$1 = uncurryThis$2(regexSeparators.exec);
+  var exec$1 = uncurryThis$4(regexSeparators.exec);
   var floor$1 = Math.floor;
   var fromCharCode = String.fromCharCode;
-  var charCodeAt = uncurryThis$2(''.charCodeAt);
-  var join$2 = uncurryThis$2([].join);
-  var push$2 = uncurryThis$2([].push);
-  var replace$2 = uncurryThis$2(''.replace);
-  var split$2 = uncurryThis$2(''.split);
-  var toLowerCase$1 = uncurryThis$2(''.toLowerCase);
+  var charCodeAt = uncurryThis$4(''.charCodeAt);
+  var join$2 = uncurryThis$4([].join);
+  var push$3 = uncurryThis$4([].push);
+  var replace$2 = uncurryThis$4(''.replace);
+  var split$2 = uncurryThis$4(''.split);
+  var toLowerCase$1 = uncurryThis$4(''.toLowerCase);
 
   /**
    * Creates an array containing the numeric code points of each Unicode
@@ -7051,15 +6862,15 @@ var JoomlaMediaManager = (function () {
         // It's a high surrogate, and there is a next character.
         var extra = charCodeAt(string, counter++);
         if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
-          push$2(output, ((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+          push$3(output, ((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
         } else {
           // It's an unmatched surrogate; only append this code unit, in case the
           // next code unit is the high surrogate of a surrogate pair.
-          push$2(output, value);
+          push$3(output, value);
           counter--;
         }
       } else {
-        push$2(output, value);
+        push$3(output, value);
       }
     }
     return output;
@@ -7112,7 +6923,7 @@ var JoomlaMediaManager = (function () {
     for (i = 0; i < input.length; i++) {
       currentValue = input[i];
       if (currentValue < 0x80) {
-        push$2(output, fromCharCode(currentValue));
+        push$3(output, fromCharCode(currentValue));
       }
     }
 
@@ -7121,7 +6932,7 @@ var JoomlaMediaManager = (function () {
 
     // Finish the basic string with a delimiter unless it's empty.
     if (basicLength) {
-      push$2(output, delimiter);
+      push$3(output, delimiter);
     }
 
     // Main encoding loop:
@@ -7158,12 +6969,12 @@ var JoomlaMediaManager = (function () {
             if (q < t) break;
             var qMinusT = q - t;
             var baseMinusT = base - t;
-            push$2(output, fromCharCode(digitToBasic(t + qMinusT % baseMinusT)));
+            push$3(output, fromCharCode(digitToBasic(t + qMinusT % baseMinusT)));
             q = floor$1(qMinusT / baseMinusT);
             k += base;
           }
 
-          push$2(output, fromCharCode(digitToBasic(q)));
+          push$3(output, fromCharCode(digitToBasic(q)));
           bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
           delta = 0;
           handledCPCount++;
@@ -7182,18 +6993,18 @@ var JoomlaMediaManager = (function () {
     var i, label;
     for (i = 0; i < labels.length; i++) {
       label = labels[i];
-      push$2(encoded, exec$1(regexNonASCII, label) ? 'xn--' + encode(label) : label);
+      push$3(encoded, exec$1(regexNonASCII, label) ? 'xn--' + encode(label) : label);
     }
     return join$2(encoded, '.');
   };
 
   // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
 
-  var $$2 = _export;
+  var $$9 = _export;
   var global$2 = global$u;
-  var call$1 = functionCall;
-  var uncurryThis$1 = functionUncurryThis;
-  var DESCRIPTORS$1 = descriptors;
+  var call$2 = functionCall;
+  var uncurryThis$3 = functionUncurryThis;
+  var DESCRIPTORS$2 = descriptors;
   var USE_NATIVE_URL$1 = urlConstructorDetection;
   var defineBuiltIn$1 = defineBuiltIn$e;
   var defineBuiltInAccessor$1 = defineBuiltInAccessor$7;
@@ -7204,10 +7015,10 @@ var JoomlaMediaManager = (function () {
   var anInstance$1 = anInstance$6;
   var isCallable = isCallable$t;
   var hasOwn$3 = hasOwnProperty_1;
-  var bind$1 = functionBindContext;
+  var bind$2 = functionBindContext;
   var classof = classof$c;
-  var anObject = anObject$r;
-  var isObject$4 = isObject$q;
+  var anObject$1 = anObject$r;
+  var isObject$5 = isObject$q;
   var $toString$1 = toString$i;
   var create = objectCreate;
   var createPropertyDescriptor = createPropertyDescriptor$7;
@@ -7224,12 +7035,12 @@ var JoomlaMediaManager = (function () {
   var getInternalParamsState = InternalStateModule$1.getterFor(URL_SEARCH_PARAMS);
   var getInternalIteratorState = InternalStateModule$1.getterFor(URL_SEARCH_PARAMS_ITERATOR);
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+  var getOwnPropertyDescriptor$1 = Object.getOwnPropertyDescriptor;
 
   // Avoid NodeJS experimental warning
   var safeGetBuiltIn = function (name) {
-    if (!DESCRIPTORS$1) return global$2[name];
-    var descriptor = getOwnPropertyDescriptor(global$2, name);
+    if (!DESCRIPTORS$2) return global$2[name];
+    var descriptor = getOwnPropertyDescriptor$1(global$2, name);
     return descriptor && descriptor.value;
   };
 
@@ -7242,14 +7053,14 @@ var JoomlaMediaManager = (function () {
   var TypeError$2 = global$2.TypeError;
   var decodeURIComponent = global$2.decodeURIComponent;
   var encodeURIComponent$1 = global$2.encodeURIComponent;
-  var charAt$1 = uncurryThis$1(''.charAt);
-  var join$1 = uncurryThis$1([].join);
-  var push$1 = uncurryThis$1([].push);
-  var replace$1 = uncurryThis$1(''.replace);
-  var shift$1 = uncurryThis$1([].shift);
-  var splice = uncurryThis$1([].splice);
-  var split$1 = uncurryThis$1(''.split);
-  var stringSlice$1 = uncurryThis$1(''.slice);
+  var charAt$1 = uncurryThis$3(''.charAt);
+  var join$1 = uncurryThis$3([].join);
+  var push$2 = uncurryThis$3([].push);
+  var replace$1 = uncurryThis$3(''.replace);
+  var shift$1 = uncurryThis$3([].shift);
+  var splice = uncurryThis$3([].splice);
+  var split$1 = uncurryThis$3(''.split);
+  var stringSlice$1 = uncurryThis$3(''.slice);
 
   var plus = /\+/g;
   var sequences = Array(4);
@@ -7319,7 +7130,7 @@ var JoomlaMediaManager = (function () {
     this.url = null;
 
     if (init !== undefined) {
-      if (isObject$4(init)) this.parseObject(init);
+      if (isObject$5(init)) this.parseObject(init);
       else this.parseQuery(typeof init == 'string' ? charAt$1(init, 0) === '?' ? stringSlice$1(init, 1) : init : $toString$1(init));
     }
   };
@@ -7337,18 +7148,18 @@ var JoomlaMediaManager = (function () {
       if (iteratorMethod) {
         iterator = getIterator(object, iteratorMethod);
         next = iterator.next;
-        while (!(step = call$1(next, iterator)).done) {
-          entryIterator = getIterator(anObject(step.value));
+        while (!(step = call$2(next, iterator)).done) {
+          entryIterator = getIterator(anObject$1(step.value));
           entryNext = entryIterator.next;
           if (
-            (first = call$1(entryNext, entryIterator)).done ||
-            (second = call$1(entryNext, entryIterator)).done ||
-            !call$1(entryNext, entryIterator).done
+            (first = call$2(entryNext, entryIterator)).done ||
+            (second = call$2(entryNext, entryIterator)).done ||
+            !call$2(entryNext, entryIterator).done
           ) throw TypeError$2('Expected sequence with length 2');
-          push$1(this.entries, { key: $toString$1(first.value), value: $toString$1(second.value) });
+          push$2(this.entries, { key: $toString$1(first.value), value: $toString$1(second.value) });
         }
       } else for (var key in object) if (hasOwn$3(object, key)) {
-        push$1(this.entries, { key: key, value: $toString$1(object[key]) });
+        push$2(this.entries, { key: key, value: $toString$1(object[key]) });
       }
     },
     parseQuery: function (query) {
@@ -7360,7 +7171,7 @@ var JoomlaMediaManager = (function () {
           attribute = attributes[index++];
           if (attribute.length) {
             entry = split$1(attribute, '=');
-            push$1(this.entries, {
+            push$2(this.entries, {
               key: deserialize(shift$1(entry)),
               value: deserialize(join$1(entry, '='))
             });
@@ -7375,7 +7186,7 @@ var JoomlaMediaManager = (function () {
       var entry;
       while (index < entries.length) {
         entry = entries[index++];
-        push$1(result, serialize(entry.key) + '=' + serialize(entry.value));
+        push$2(result, serialize(entry.key) + '=' + serialize(entry.value));
       } return join$1(result, '&');
     },
     update: function () {
@@ -7393,7 +7204,7 @@ var JoomlaMediaManager = (function () {
     anInstance$1(this, URLSearchParamsPrototype);
     var init = arguments.length > 0 ? arguments[0] : undefined;
     var state = setInternalState$1(this, new URLSearchParamsState(init));
-    if (!DESCRIPTORS$1) this.length = state.entries.length;
+    if (!DESCRIPTORS$2) this.length = state.entries.length;
   };
 
   var URLSearchParamsPrototype = URLSearchParamsConstructor.prototype;
@@ -7404,8 +7215,8 @@ var JoomlaMediaManager = (function () {
     append: function append(name, value) {
       validateArgumentsLength$1(arguments.length, 2);
       var state = getInternalParamsState(this);
-      push$1(state.entries, { key: $toString$1(name), value: $toString$1(value) });
-      if (!DESCRIPTORS$1) this.length++;
+      push$2(state.entries, { key: $toString$1(name), value: $toString$1(value) });
+      if (!DESCRIPTORS$2) this.length++;
       state.updateURL();
     },
     // `URLSearchParams.prototype.delete` method
@@ -7420,7 +7231,7 @@ var JoomlaMediaManager = (function () {
         if (entries[index].key === key) splice(entries, index, 1);
         else index++;
       }
-      if (!DESCRIPTORS$1) this.length = entries.length;
+      if (!DESCRIPTORS$2) this.length = entries.length;
       state.updateURL();
     },
     // `URLSearchParams.prototype.get` method
@@ -7444,7 +7255,7 @@ var JoomlaMediaManager = (function () {
       var result = [];
       var index = 0;
       for (; index < entries.length; index++) {
-        if (entries[index].key === key) push$1(result, entries[index].value);
+        if (entries[index].key === key) push$2(result, entries[index].value);
       }
       return result;
     },
@@ -7481,8 +7292,8 @@ var JoomlaMediaManager = (function () {
           }
         }
       }
-      if (!found) push$1(entries, { key: key, value: val });
-      if (!DESCRIPTORS$1) this.length = entries.length;
+      if (!found) push$2(entries, { key: key, value: val });
+      if (!DESCRIPTORS$2) this.length = entries.length;
       state.updateURL();
     },
     // `URLSearchParams.prototype.sort` method
@@ -7497,7 +7308,7 @@ var JoomlaMediaManager = (function () {
     // `URLSearchParams.prototype.forEach` method
     forEach: function forEach(callback /* , thisArg */) {
       var entries = getInternalParamsState(this).entries;
-      var boundFunction = bind$1(callback, arguments.length > 1 ? arguments[1] : undefined);
+      var boundFunction = bind$2(callback, arguments.length > 1 ? arguments[1] : undefined);
       var index = 0;
       var entry;
       while (index < entries.length) {
@@ -7530,7 +7341,7 @@ var JoomlaMediaManager = (function () {
 
   // `URLSearchParams.prototype.size` getter
   // https://github.com/whatwg/url/pull/734
-  if (DESCRIPTORS$1) defineBuiltInAccessor$1(URLSearchParamsPrototype, 'size', {
+  if (DESCRIPTORS$2) defineBuiltInAccessor$1(URLSearchParamsPrototype, 'size', {
     get: function size() {
       return getInternalParamsState(this).entries.length;
     },
@@ -7540,17 +7351,17 @@ var JoomlaMediaManager = (function () {
 
   setToStringTag$1(URLSearchParamsConstructor, URL_SEARCH_PARAMS);
 
-  $$2({ global: true, constructor: true, forced: !USE_NATIVE_URL$1 }, {
+  $$9({ global: true, constructor: true, forced: !USE_NATIVE_URL$1 }, {
     URLSearchParams: URLSearchParamsConstructor
   });
 
   // Wrap `fetch` and `Request` for correct work with polyfilled `URLSearchParams`
   if (!USE_NATIVE_URL$1 && isCallable(Headers)) {
-    var headersHas = uncurryThis$1(HeadersPrototype.has);
-    var headersSet = uncurryThis$1(HeadersPrototype.set);
+    var headersHas = uncurryThis$3(HeadersPrototype.has);
+    var headersSet = uncurryThis$3(HeadersPrototype.set);
 
     var wrapRequestOptions = function (init) {
-      if (isObject$4(init)) {
+      if (isObject$5(init)) {
         var body = init.body;
         var headers;
         if (classof(body) === URL_SEARCH_PARAMS) {
@@ -7567,7 +7378,7 @@ var JoomlaMediaManager = (function () {
     };
 
     if (isCallable(nativeFetch)) {
-      $$2({ global: true, enumerable: true, dontCallGetSet: true, forced: true }, {
+      $$9({ global: true, enumerable: true, dontCallGetSet: true, forced: true }, {
         fetch: function fetch(input /* , init */) {
           return nativeFetch(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {});
         }
@@ -7583,7 +7394,7 @@ var JoomlaMediaManager = (function () {
       RequestPrototype.constructor = RequestConstructor;
       RequestConstructor.prototype = RequestPrototype;
 
-      $$2({ global: true, constructor: true, dontCallGetSet: true, forced: true }, {
+      $$9({ global: true, constructor: true, dontCallGetSet: true, forced: true }, {
         Request: RequestConstructor
       });
     }
@@ -7596,12 +7407,12 @@ var JoomlaMediaManager = (function () {
 
   // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
 
-  var $$1 = _export;
-  var DESCRIPTORS = descriptors;
+  var $$8 = _export;
+  var DESCRIPTORS$1 = descriptors;
   var USE_NATIVE_URL = urlConstructorDetection;
   var global$1 = global$u;
-  var bind = functionBindContext;
-  var uncurryThis = functionUncurryThis;
+  var bind$1 = functionBindContext;
+  var uncurryThis$2 = functionUncurryThis;
   var defineBuiltIn = defineBuiltIn$e;
   var defineBuiltInAccessor = defineBuiltInAccessor$7;
   var anInstance = anInstance$6;
@@ -7627,18 +7438,18 @@ var JoomlaMediaManager = (function () {
   var parseInt$1 = global$1.parseInt;
   var floor = Math.floor;
   var pow = Math.pow;
-  var charAt = uncurryThis(''.charAt);
-  var exec = uncurryThis(/./.exec);
-  var join = uncurryThis([].join);
-  var numberToString = uncurryThis(1.0.toString);
-  var pop = uncurryThis([].pop);
-  var push = uncurryThis([].push);
-  var replace = uncurryThis(''.replace);
-  var shift = uncurryThis([].shift);
-  var split = uncurryThis(''.split);
-  var stringSlice = uncurryThis(''.slice);
-  var toLowerCase = uncurryThis(''.toLowerCase);
-  var unshift = uncurryThis([].unshift);
+  var charAt = uncurryThis$2(''.charAt);
+  var exec = uncurryThis$2(/./.exec);
+  var join = uncurryThis$2([].join);
+  var numberToString = uncurryThis$2(1.0.toString);
+  var pop = uncurryThis$2([].pop);
+  var push$1 = uncurryThis$2([].push);
+  var replace = uncurryThis$2(''.replace);
+  var shift = uncurryThis$2([].shift);
+  var split = uncurryThis$2(''.split);
+  var stringSlice = uncurryThis$2(''.slice);
+  var toLowerCase = uncurryThis$2(''.toLowerCase);
+  var unshift = uncurryThis$2([].unshift);
 
   var INVALID_AUTHORITY = 'Invalid authority';
   var INVALID_SCHEME = 'Invalid scheme';
@@ -7686,7 +7497,7 @@ var JoomlaMediaManager = (function () {
         if (!exec(radix == 10 ? DEC : radix == 8 ? OCT : HEX, part)) return input;
         number = parseInt$1(part, radix);
       }
-      push(numbers, number);
+      push$1(numbers, number);
     }
     for (index = 0; index < partsLength; index++) {
       number = numbers[index];
@@ -8000,7 +7811,7 @@ var JoomlaMediaManager = (function () {
                 pointer++;
               } else {
                 url.cannotBeABaseURL = true;
-                push(url.path, '');
+                push$1(url.path, '');
                 state = CANNOT_BE_A_BASE_URL_PATH;
               }
             } else if (!stateOverride) {
@@ -8224,7 +8035,7 @@ var JoomlaMediaManager = (function () {
               break;
             }
             if (base && base.scheme == 'file' && !startsWithWindowsDriveLetter(join(arraySlice(codePoints, pointer), ''))) {
-              if (isWindowsDriveLetter(base.path[0], true)) push(url.path, base.path[0]);
+              if (isWindowsDriveLetter(base.path[0], true)) push$1(url.path, base.path[0]);
               else url.host = base.host;
             }
             state = PATH;
@@ -8273,18 +8084,18 @@ var JoomlaMediaManager = (function () {
               if (isDoubleDot(buffer)) {
                 url.shortenPath();
                 if (chr != '/' && !(chr == '\\' && url.isSpecial())) {
-                  push(url.path, '');
+                  push$1(url.path, '');
                 }
               } else if (isSingleDot(buffer)) {
                 if (chr != '/' && !(chr == '\\' && url.isSpecial())) {
-                  push(url.path, '');
+                  push$1(url.path, '');
                 }
               } else {
                 if (url.scheme == 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
                   if (url.host) url.host = '';
                   buffer = charAt(buffer, 0) + ':'; // normalize windows drive letter
                 }
-                push(url.path, buffer);
+                push$1(url.path, buffer);
               }
               buffer = '';
               if (url.scheme == 'file' && (chr == EOF || chr == '?' || chr == '#')) {
@@ -8539,7 +8350,7 @@ var JoomlaMediaManager = (function () {
     var that = anInstance(this, URLPrototype);
     var base = validateArgumentsLength(arguments.length, 1) > 1 ? arguments[1] : undefined;
     var state = setInternalState(that, new URLState(url, false, base));
-    if (!DESCRIPTORS) {
+    if (!DESCRIPTORS$1) {
       that.href = state.serialize();
       that.origin = state.getOrigin();
       that.protocol = state.getProtocol();
@@ -8570,7 +8381,7 @@ var JoomlaMediaManager = (function () {
     };
   };
 
-  if (DESCRIPTORS) {
+  if (DESCRIPTORS$1) {
     // `URL.prototype.href` accessors pair
     // https://url.spec.whatwg.org/#dom-url-href
     defineBuiltInAccessor(URLPrototype, 'href', accessorDescriptor('serialize', 'setHref'));
@@ -8626,16 +8437,266 @@ var JoomlaMediaManager = (function () {
     var nativeRevokeObjectURL = NativeURL.revokeObjectURL;
     // `URL.createObjectURL` method
     // https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
-    if (nativeCreateObjectURL) defineBuiltIn(URLConstructor, 'createObjectURL', bind(nativeCreateObjectURL, NativeURL));
+    if (nativeCreateObjectURL) defineBuiltIn(URLConstructor, 'createObjectURL', bind$1(nativeCreateObjectURL, NativeURL));
     // `URL.revokeObjectURL` method
     // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL
-    if (nativeRevokeObjectURL) defineBuiltIn(URLConstructor, 'revokeObjectURL', bind(nativeRevokeObjectURL, NativeURL));
+    if (nativeRevokeObjectURL) defineBuiltIn(URLConstructor, 'revokeObjectURL', bind$1(nativeRevokeObjectURL, NativeURL));
   }
 
   setToStringTag(URLConstructor, 'URL');
 
-  $$1({ global: true, constructor: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS }, {
+  $$8({ global: true, constructor: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS$1 }, {
     URL: URLConstructor
+  });
+
+  var $$7 = _export;
+  var $find = arrayIteration.find;
+  var addToUnscopables$1 = addToUnscopables$6;
+
+  var FIND = 'find';
+  var SKIPS_HOLES = true;
+
+  // Shouldn't skip holes
+  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
+
+  // `Array.prototype.find` method
+  // https://tc39.es/ecma262/#sec-array.prototype.find
+  $$7({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+    find: function find(callbackfn /* , that = undefined */) {
+      return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables$1(FIND);
+
+  var call$1 = functionCall;
+  var fixRegExpWellKnownSymbolLogic = fixRegexpWellKnownSymbolLogic;
+  var anObject = anObject$r;
+  var isNullOrUndefined = isNullOrUndefined$b;
+  var requireObjectCoercible$1 = requireObjectCoercible$d;
+  var sameValue = sameValue$1;
+  var toString$1 = toString$i;
+  var getMethod = getMethod$7;
+  var regExpExec = regexpExecAbstract;
+
+  // @@search logic
+  fixRegExpWellKnownSymbolLogic('search', function (SEARCH, nativeSearch, maybeCallNative) {
+    return [
+      // `String.prototype.search` method
+      // https://tc39.es/ecma262/#sec-string.prototype.search
+      function search(regexp) {
+        var O = requireObjectCoercible$1(this);
+        var searcher = isNullOrUndefined(regexp) ? undefined : getMethod(regexp, SEARCH);
+        return searcher ? call$1(searcher, regexp, O) : new RegExp(regexp)[SEARCH](toString$1(O));
+      },
+      // `RegExp.prototype[@@search]` method
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@search
+      function (string) {
+        var rx = anObject(this);
+        var S = toString$1(string);
+        var res = maybeCallNative(nativeSearch, rx, S);
+
+        if (res.done) return res.value;
+
+        var previousLastIndex = rx.lastIndex;
+        if (!sameValue(previousLastIndex, 0)) rx.lastIndex = 0;
+        var result = regExpExec(rx, S);
+        if (!sameValue(rx.lastIndex, previousLastIndex)) rx.lastIndex = previousLastIndex;
+        return result === null ? -1 : result.index;
+      }
+    ];
+  });
+
+  var $$6 = _export;
+  var fails$1 = fails$I;
+  var toObject$1 = toObject$e;
+  var nativeGetPrototypeOf = objectGetPrototypeOf$1;
+  var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
+
+  var FAILS_ON_PRIMITIVES$1 = fails$1(function () { nativeGetPrototypeOf(1); });
+
+  // `Object.getPrototypeOf` method
+  // https://tc39.es/ecma262/#sec-object.getprototypeof
+  $$6({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1, sham: !CORRECT_PROTOTYPE_GETTER }, {
+    getPrototypeOf: function getPrototypeOf(it) {
+      return nativeGetPrototypeOf(toObject$1(it));
+    }
+  });
+
+  var $$5 = _export;
+
+  // `Number.isNaN` method
+  // https://tc39.es/ecma262/#sec-number.isnan
+  $$5({ target: 'Number', stat: true }, {
+    isNaN: function isNaN(number) {
+      // eslint-disable-next-line no-self-compare -- NaN check
+      return number != number;
+    }
+  });
+
+  var $$4 = _export;
+  var uncurryThis$1 = functionUncurryThisClause;
+  var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
+  var toLength = toLength$6;
+  var toString = toString$i;
+  var notARegExp = notARegexp;
+  var requireObjectCoercible = requireObjectCoercible$d;
+  var correctIsRegExpLogic = correctIsRegexpLogic;
+
+  // eslint-disable-next-line es/no-string-prototype-endswith -- safe
+  var nativeEndsWith = uncurryThis$1(''.endsWith);
+  var slice = uncurryThis$1(''.slice);
+  var min = Math.min;
+
+  var CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic('endsWith');
+  // https://github.com/zloirock/core-js/pull/702
+  var MDN_POLYFILL_BUG = !CORRECT_IS_REGEXP_LOGIC && !!function () {
+    var descriptor = getOwnPropertyDescriptor(String.prototype, 'endsWith');
+    return descriptor && !descriptor.writable;
+  }();
+
+  // `String.prototype.endsWith` method
+  // https://tc39.es/ecma262/#sec-string.prototype.endswith
+  $$4({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+    endsWith: function endsWith(searchString /* , endPosition = @length */) {
+      var that = toString(requireObjectCoercible(this));
+      notARegExp(searchString);
+      var endPosition = arguments.length > 1 ? arguments[1] : undefined;
+      var len = that.length;
+      var end = endPosition === undefined ? len : min(toLength(endPosition), len);
+      var search = toString(searchString);
+      return nativeEndsWith
+        ? nativeEndsWith(that, search, end)
+        : slice(that, end - search.length, end) === search;
+    }
+  });
+
+  var DESCRIPTORS = descriptors;
+  var uncurryThis = functionUncurryThis;
+  var objectKeys = objectKeys$4;
+  var toIndexedObject = toIndexedObject$a;
+  var $propertyIsEnumerable = objectPropertyIsEnumerable.f;
+
+  var propertyIsEnumerable = uncurryThis($propertyIsEnumerable);
+  var push = uncurryThis([].push);
+
+  // `Object.{ entries, values }` methods implementation
+  var createMethod = function (TO_ENTRIES) {
+    return function (it) {
+      var O = toIndexedObject(it);
+      var keys = objectKeys(O);
+      var length = keys.length;
+      var i = 0;
+      var result = [];
+      var key;
+      while (length > i) {
+        key = keys[i++];
+        if (!DESCRIPTORS || propertyIsEnumerable(O, key)) {
+          push(result, TO_ENTRIES ? [key, O[key]] : O[key]);
+        }
+      }
+      return result;
+    };
+  };
+
+  var objectToArray = {
+    // `Object.entries` method
+    // https://tc39.es/ecma262/#sec-object.entries
+    entries: createMethod(true),
+    // `Object.values` method
+    // https://tc39.es/ecma262/#sec-object.values
+    values: createMethod(false)
+  };
+
+  var $$3 = _export;
+  var $values = objectToArray.values;
+
+  // `Object.values` method
+  // https://tc39.es/ecma262/#sec-object.values
+  $$3({ target: 'Object', stat: true }, {
+    values: function values(O) {
+      return $values(O);
+    }
+  });
+
+  var isArray$3 = isArray$a;
+  var lengthOfArrayLike$1 = lengthOfArrayLike$c;
+  var doesNotExceedSafeInteger = doesNotExceedSafeInteger$3;
+  var bind = functionBindContext;
+
+  // `FlattenIntoArray` abstract operation
+  // https://tc39.github.io/proposal-flatMap/#sec-FlattenIntoArray
+  var flattenIntoArray$1 = function (target, original, source, sourceLen, start, depth, mapper, thisArg) {
+    var targetIndex = start;
+    var sourceIndex = 0;
+    var mapFn = mapper ? bind(mapper, thisArg) : false;
+    var element, elementLen;
+
+    while (sourceIndex < sourceLen) {
+      if (sourceIndex in source) {
+        element = mapFn ? mapFn(source[sourceIndex], sourceIndex, original) : source[sourceIndex];
+
+        if (depth > 0 && isArray$3(element)) {
+          elementLen = lengthOfArrayLike$1(element);
+          targetIndex = flattenIntoArray$1(target, original, element, elementLen, targetIndex, depth - 1) - 1;
+        } else {
+          doesNotExceedSafeInteger(targetIndex + 1);
+          target[targetIndex] = element;
+        }
+
+        targetIndex++;
+      }
+      sourceIndex++;
+    }
+    return targetIndex;
+  };
+
+  var flattenIntoArray_1 = flattenIntoArray$1;
+
+  var $$2 = _export;
+  var flattenIntoArray = flattenIntoArray_1;
+  var toObject = toObject$e;
+  var lengthOfArrayLike = lengthOfArrayLike$c;
+  var toIntegerOrInfinity = toIntegerOrInfinity$8;
+  var arraySpeciesCreate = arraySpeciesCreate$4;
+
+  // `Array.prototype.flat` method
+  // https://tc39.es/ecma262/#sec-array.prototype.flat
+  $$2({ target: 'Array', proto: true }, {
+    flat: function flat(/* depthArg = 1 */) {
+      var depthArg = arguments.length ? arguments[0] : undefined;
+      var O = toObject(this);
+      var sourceLen = lengthOfArrayLike(O);
+      var A = arraySpeciesCreate(O, 0);
+      A.length = flattenIntoArray(A, O, O, sourceLen, 0, depthArg === undefined ? 1 : toIntegerOrInfinity(depthArg));
+      return A;
+    }
+  });
+
+  // this method was added to unscopables after implementation
+  // in popular engines, so it's moved to a separate module
+  var addToUnscopables = addToUnscopables$6;
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables('flat');
+
+  var $$1 = _export;
+  var FREEZING = freezing;
+  var fails = fails$I;
+  var isObject$4 = isObject$q;
+  var onFreeze = internalMetadata.exports.onFreeze;
+
+  // eslint-disable-next-line es/no-object-freeze -- safe
+  var $freeze = Object.freeze;
+  var FAILS_ON_PRIMITIVES = fails(function () { $freeze(1); });
+
+  // `Object.freeze` method
+  // https://tc39.es/ecma262/#sec-object.freeze
+  $$1({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {
+    freeze: function freeze(it) {
+      return $freeze && isObject$4(it) ? $freeze(onFreeze(it)) : it;
+    }
   });
 
   var mediaManager = {};
@@ -15781,7 +15842,7 @@ var JoomlaMediaManager = (function () {
   var navigable = {
     methods: {
       navigateTo: function navigateTo(path) {
-        this.$store.dispatch('getContents', path);
+        this.$store.dispatch('getContents', path, false, false);
       }
     }
   };
@@ -16181,33 +16242,31 @@ var JoomlaMediaManager = (function () {
 
     /**
        * Get the contents of a directory from the server
-       * @param {string}  dir  The directory path
-       * @param {number}  full whether or not the persistent url should be returned
-       * @param {number}  content whether or not the content should be returned
+       * @param {string}   dir  The directory path
+       * @param {boolean}  full whether or not the persistent url should be returned
+       * @param {boolean}  content whether or not the content should be returned
        * @returns {Promise}
        */
     var _proto3 = Api.prototype;
     _proto3.getContents = function getContents(dir, full, content) {
       var _this4 = this;
+      if (full === void 0) {
+        full = false;
+      }
+      if (content === void 0) {
+        content = false;
+      }
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
-        // Do a check on full
-        if (['0', '1'].indexOf(full) !== -1) {
-          throw Error('Invalid parameter: full');
-        }
-        // Do a check on download
-        if (['0', '1'].indexOf(content) !== -1) {
-          throw Error('Invalid parameter: content');
-        }
-        var url = _this4.baseUrl + "&task=api.files&path=" + encodeURIComponent(dir);
+        var url = new URL(_this4.baseUrl + "&task=api.files&path=" + encodeURIComponent(dir));
         if (full) {
-          url += "&url=" + full;
+          url.searchParams.append('url', full);
         }
         if (content) {
-          url += "&content=" + content;
+          url.searchParams.append('content', content);
         }
         Joomla.request({
-          url: url,
+          url: url.toString(),
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -16233,10 +16292,10 @@ var JoomlaMediaManager = (function () {
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data;
-        var url = _this5.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent);
+        var url = new URL(_this5.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent));
         var data = (_data = {}, _data[_this5.csrfToken] = '1', _data.name = name, _data);
         Joomla.request({
-          url: url,
+          url: url.toString(),
           method: 'POST',
           data: JSON.stringify(data),
           headers: {
@@ -16267,7 +16326,7 @@ var JoomlaMediaManager = (function () {
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data2;
-        var url = _this6.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent);
+        var url = new URL(_this6.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent));
         var data = (_data2 = {}, _data2[_this6.csrfToken] = '1', _data2.name = name, _data2.content = content, _data2);
 
         // Append override
@@ -16275,7 +16334,7 @@ var JoomlaMediaManager = (function () {
           data.override = true;
         }
         Joomla.request({
-          url: url,
+          url: url.toString(),
           method: 'POST',
           data: JSON.stringify(data),
           headers: {
@@ -16303,10 +16362,10 @@ var JoomlaMediaManager = (function () {
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data3;
-        var url = _this7.baseUrl + "&task=api.files&path=" + encodeURIComponent(path);
+        var url = new URL(_this7.baseUrl + "&task=api.files&path=" + encodeURIComponent(path));
         var data = (_data3 = {}, _data3[_this7.csrfToken] = '1', _data3.newPath = newPath, _data3);
         Joomla.request({
-          url: url,
+          url: url.toString(),
           method: 'PUT',
           data: JSON.stringify(data),
           headers: {
@@ -16334,10 +16393,10 @@ var JoomlaMediaManager = (function () {
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data4;
-        var url = _this8.baseUrl + "&task=api.files&path=" + encodeURIComponent(path);
+        var url = new URL(_this8.baseUrl + "&task=api.files&path=" + encodeURIComponent(path));
         var data = (_data4 = {}, _data4[_this8.csrfToken] = '1', _data4);
         Joomla.request({
-          url: url,
+          url: url.toString(),
           method: 'DELETE',
           data: JSON.stringify(data),
           headers: {
@@ -17703,7 +17762,8 @@ var JoomlaMediaManager = (function () {
         onMouseleave: this.mouseleave
       }, [h(this.itemType(), {
         item: this.item,
-        onToggleSettings: this.toggleSettings
+        onToggleSettings: this.toggleSettings,
+        focused: false
       })]);
     }
   };
@@ -20368,7 +20428,7 @@ var JoomlaMediaManager = (function () {
       });
 
       // Initial load the data
-      this.$store.dispatch('getContents', this.$store.state.selectedDirectory);
+      this.$store.dispatch('getContents', this.$store.state.selectedDirectory, false, false);
     },
     beforeUnmount: function beforeUnmount() {
       // Remove the global resize event listener
@@ -20401,8 +20461,8 @@ var JoomlaMediaManager = (function () {
     var _component_MediaConfirmDeleteModal = resolveComponent("MediaConfirmDeleteModal");
     return openBlock(), createElementBlock("div", _hoisted_1, [createBaseVNode("div", _hoisted_2, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, function (disk, index) {
       return openBlock(), createBlock(_component_MediaDisk, {
-        key: index,
-        uid: index,
+        key: index.toString(),
+        uid: index.toString(),
         disk: disk
       }, null, 8 /* PROPS */, ["uid", "disk"]);
     }), 128 /* KEYED_FRAGMENT */))]), createBaseVNode("div", _hoisted_3, [createVNode(_component_MediaToolbar), createVNode(_component_MediaBrowser)]), createVNode(_component_MediaUpload), createVNode(_component_MediaCreateFolderModal), createVNode(_component_MediaPreviewModal), createVNode(_component_MediaRenameModal), createVNode(_component_MediaShareModal), createVNode(_component_MediaConfirmDeleteModal)]);
@@ -21965,35 +22025,60 @@ var JoomlaMediaManager = (function () {
   if (!defaultDisk) {
     throw new TypeError('No default media drive was found');
   }
-  var currentPath;
   var storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
+  function setSession(path) {
+    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(Object.assign({}, storedState, {
+      selectedDirectory: path
+    })));
+  }
 
   // Gracefully use the given path, the session storage state or fall back to sensible default
-  if (options.currentPath) {
-    var useDrive = false;
-    Object.values(loadedDisks).forEach(function (drive) {
-      return drive.drives.forEach(function (curDrive) {
-        if (options.currentPath.indexOf(curDrive.root) === 0) {
-          useDrive = true;
-        }
-      });
-    });
-    if (useDrive) {
-      if (storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath) {
-        storedState.selectedDirectory = options.currentPath;
-        persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
-        currentPath = options.currentPath;
-      } else {
-        currentPath = options.currentPath;
-      }
-    } else {
-      currentPath = defaultDisk.drives[0].root;
+  function getCurrentPath() {
+    // Nothing stored in the session, use the root of the first drive
+    if (!storedState || !storedState.selectedDirectory) {
+      setSession(defaultDisk.drives[0].root);
+      return defaultDisk.drives[0].root;
     }
-  } else if (storedState && storedState.selectedDirectory) {
-    currentPath = storedState.selectedDirectory;
-  }
-  if (!currentPath) {
-    currentPath = defaultDisk.drives[0].root;
+
+    // Check that we have a fragment
+    if (!options.currentPath) {
+      if (!(storedState || storedState.selectedDirectory)) {
+        setSession(defaultDisk.drives[0].root);
+        return defaultDisk.drives[0].root;
+      }
+      options.currentPath = '';
+    }
+
+    // Get the fragments
+    var fragment = options.currentPath.split(':/');
+
+    // Check that we have a fragment
+    if (!fragment.length) {
+      setSession(defaultDisk.drives[0].root);
+      return defaultDisk.drives[0].root;
+    }
+    var drivesTmp = Object.values(loadedDisks).map(function (drive) {
+      return drive.drives;
+    });
+    var useDrive = drivesTmp.flat().find(function (drive) {
+      return drive.root.startsWith(fragment[0]);
+    });
+
+    // Drive doesn't exist
+    if (!useDrive) {
+      setSession(defaultDisk.drives[0].root);
+      return defaultDisk.drives[0].root;
+    }
+
+    // Session match
+    if (storedState && storedState.selectedDirectory && storedState.selectedDirectory.startsWith(useDrive.root)) {
+      setSession(storedState.selectedDirectory);
+      return storedState.selectedDirectory;
+    }
+
+    // Session missmatch
+    setSession(options.currentPath);
+    return options.currentPath;
   }
 
   // The initial state
@@ -22016,7 +22101,7 @@ var JoomlaMediaManager = (function () {
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
     // in the list as the default provider and load first drive on it as default
-    selectedDirectory: currentPath,
+    selectedDirectory: getCurrentPath(),
     // The currently selected items
     selectedItems: [],
     // The state of the infobar
@@ -22123,7 +22208,7 @@ var JoomlaMediaManager = (function () {
     // Update the url
     updateUrlPath(payload);
     context.commit(SET_IS_LOADING, true);
-    api.getContents(payload, 0).then(function (contents) {
+    api.getContents(payload, false, false).then(function (contents) {
       context.commit(LOAD_CONTENTS_SUCCESS, contents);
       context.commit(UNSELECT_ALL_BROWSER_ITEMS);
       context.commit(SELECT_DIRECTORY, payload);
@@ -22142,7 +22227,7 @@ var JoomlaMediaManager = (function () {
    */
   var getFullContents = function getFullContents(context, payload) {
     context.commit(SET_IS_LOADING, true);
-    api.getContents(payload.path, 1).then(function (contents) {
+    api.getContents(payload.path, true, true).then(function (contents) {
       context.commit(LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
       context.commit(SET_IS_LOADING, false);
     }).catch(function (error) {
@@ -22158,7 +22243,7 @@ var JoomlaMediaManager = (function () {
    * @param payload
    */
   var download = function download(context, payload) {
-    api.getContents(payload.path, 0, 1).then(function (contents) {
+    api.getContents(payload.path, false, true).then(function (contents) {
       var file = contents.files[0];
 
       // Download file
