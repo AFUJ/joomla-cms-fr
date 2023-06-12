@@ -341,28 +341,21 @@
 
 /* =====  End of Choices  ====== */
 .choices {
-  border: 0;
+  border: 1px solid hsl(210, 14%, 83%);
   border-radius: 0.25rem;
 }
-.choices:hover {
-  cursor: pointer;
-}
 .choices.is-focused {
-  -webkit-box-shadow: 0 0 0 0.2rem hsla(0deg, 0%, 0%, 0.1);
-          box-shadow: 0 0 0 0.2rem hsla(0deg, 0%, 0%, 0.1);
+  border-color: #8894aa;
+  -webkit-box-shadow: 0 0 0 0.25rem rgba(1, 1, 86, 0.25);
+          box-shadow: 0 0 0 0.25rem rgba(1, 1, 86, 0.25);
 }
 
 .choices__inner {
   padding: 0.4rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
-  border: solid 1px #ced4da;
-  border-radius: 0.25rem;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-.is-focused .choices__inner {
-  border-color: #000;
+  border: none;
+  border-radius: 0;
 }
 
 .choices__input {
@@ -371,17 +364,29 @@
   font-size: 1rem;
   background-color: transparent;
 }
-.choices__input::-moz-placeholder {
-  color: #495057;
+.choices__input::-webkit-input-placeholder {
+  color: hsl(210, 9%, 31%);
   opacity: 1;
 }
-.choices__input::-webkit-input-placeholder {
-  color: #495057;
+.choices__input::-moz-placeholder {
+  color: hsl(210, 9%, 31%);
+  opacity: 1;
+}
+.choices__input:-ms-input-placeholder {
+  color: hsl(210, 9%, 31%);
+  opacity: 1;
+}
+.choices__input::-ms-input-placeholder {
+  color: hsl(210, 9%, 31%);
+  opacity: 1;
+}
+.choices__input::placeholder {
+  color: hsl(210, 9%, 31%);
   opacity: 1;
 }
 
 .choices__list--dropdown {
-  z-index: 1070;
+  z-index: 1060;
 }
 
 .choices__list--multiple .choices__item {
@@ -443,12 +448,12 @@
           padding-inline-end: 3rem;
   cursor: pointer;
   background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-  background-color: #fff;
+  background-color: hsl(210, 16%, 93%);
 }
 [dir=rtl] .choices[data-type*=select-one] .choices__inner,
 [dir=rtl] .choices[data-type*=select-multiple] .choices__inner {
   background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-  background-color: #fff;
+  background-color: hsl(210, 16%, 93%);
 }
 
 .choices[data-type*=select-one] .choices__item {

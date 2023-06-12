@@ -2,17 +2,15 @@
  * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-Joomla = window.Joomla || {};
 
+Joomla = window.Joomla || {};
 (() => {
 
   const options = Joomla.getOptions('menus-edit-modules');
-
   if (options) {
     window.viewLevels = options.viewLevels;
     window.menuId = parseInt(options.itemId, 10);
   }
-
   const baseLink = 'index.php?option=com_modules&client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
   const assigned1 = document.getElementById('jform_toggle_modules_assigned1');
   const assigned0 = document.getElementById('jform_toggle_modules_assigned0');
@@ -20,7 +18,6 @@ Joomla = window.Joomla || {};
   const published0 = document.getElementById('jform_toggle_modules_published0');
   const linkElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
   const elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
-
   if (assigned1) {
     assigned1.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('tr.no'));
@@ -30,7 +27,6 @@ Joomla = window.Joomla || {};
       });
     });
   }
-
   if (assigned0) {
     assigned0.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('tr.no'));
@@ -40,7 +36,6 @@ Joomla = window.Joomla || {};
       });
     });
   }
-
   if (published1) {
     published1.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
@@ -50,7 +45,6 @@ Joomla = window.Joomla || {};
       });
     });
   }
-
   if (published0) {
     published0.addEventListener('click', () => {
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
@@ -60,7 +54,6 @@ Joomla = window.Joomla || {};
       });
     });
   }
-
   if (linkElements.length) {
     linkElements.forEach(linkElement => {
       linkElement.addEventListener('click', ({
@@ -78,14 +71,12 @@ Joomla = window.Joomla || {};
       });
     });
   }
-
   if (elements.length) {
     elements.forEach(element => {
       element.addEventListener('click', ({
         target
       }) => {
         const dataTarget = target.getAttribute('data-bs-target');
-
         if (dataTarget) {
           const iframe = document.querySelector('#moduleEditModal iframe');
           const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;

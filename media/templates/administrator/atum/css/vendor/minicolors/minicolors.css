@@ -327,7 +327,6 @@
 
 [dir=rtl] .minicolors-theme-default .minicolors-input {
   text-align: right;
-  unicode-bidi: -moz-plaintext;
   unicode-bidi: plaintext;
   padding-left: 1px;
   padding-right: 26px;
@@ -390,7 +389,6 @@
 
 [dir=rtl] .minicolors-theme-bootstrap .minicolors-input {
   text-align: right;
-  unicode-bidi: -moz-plaintext;
   unicode-bidi: plaintext;
   padding-left: 12px;
   padding-right: 44px;

@@ -9,7 +9,6 @@
     var batchMenu = document.getElementById('batch-menu-id');
     var batchCopyMove = document.getElementById('batch-copy-move');
     var batchSelector;
-
     var onChange = function onChange() {
       if (batchSelector.value !== 0 || batchSelector.value !== '') {
         batchCopyMove.classList.remove('hidden');
@@ -17,11 +16,9 @@
         batchCopyMove.classList.add('hidden');
       }
     };
-
     if (batchMenu) {
       batchSelector = batchMenu;
     }
-
     if (batchCopyMove) {
       batchSelector.addEventListener('change', onChange);
     }

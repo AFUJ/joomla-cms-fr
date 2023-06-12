@@ -13,23 +13,20 @@
         document.getElementById('menuselect-group').classList.remove('hidden');
       }
     };
-
     var onBoot = function onBoot() {
       var element = document.getElementById('jform_assignment');
-
       if (element) {
         // Initialise the state
-        onChange(element.value); // Check for changes in the state
+        onChange(element.value);
 
+        // Check for changes in the state
         element.addEventListener('change', function (_ref) {
           var target = _ref.target;
           onChange(target.value);
         });
       }
-
       document.removeEventListener('DOMContentLoaded', onBoot);
     };
-
     document.addEventListener('DOMContentLoaded', onBoot);
   })();
 

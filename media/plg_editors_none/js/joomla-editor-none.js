@@ -4,67 +4,63 @@
  */
 window.customElements.define('joomla-editor-none', class extends HTMLElement {
   constructor() {
-    super(); // Properties
+    super();
 
-    this.editor = ''; // Bindings
+    // Properties
+    this.editor = '';
 
+    // Bindings
     this.unregisterEditor = this.unregisterEditor.bind(this);
     this.registerEditor = this.registerEditor.bind(this);
     this.childrenChange = this.childrenChange.bind(this);
-    this.getSelection = this.getSelection.bind(this); // Watch for children changes.
-    // eslint-disable-next-line no-return-assign
+    this.getSelection = this.getSelection.bind(this);
 
+    // Watch for children changes.
+    // eslint-disable-next-line no-return-assign
     new MutationObserver(() => this.childrenChange()).observe(this, {
       childList: true
     });
   }
+
   /**
    * Lifecycle
    */
-
-
   connectedCallback() {
     // Note the mutation observer won't fire for initial contents,
     // so childrenChange is also called here.
     this.childrenChange();
   }
+
   /**
    * Lifecycle
    */
-
-
   disconnectedCallback() {
     this.unregisterEditor();
   }
+
   /**
    * Get the selected text
    */
-
-
   getSelection() {
     if (document.selection) {
       // IE support
       this.editor.focus();
       return document.selection.createRange();
     }
-
     if (this.editor.selectionStart || this.editor.selectionStart === 0) {
       // MOZILLA/NETSCAPE support
       return this.editor.value.substring(this.editor.selectionStart, this.editor.selectionEnd);
     }
-
     return this.editor.value;
   }
+
   /**
    * Register the editor
    */
-
-
   registerEditor() {
     if (!window.Joomla || !window.Joomla.editors || typeof window.Joomla.editors !== 'object') {
       throw new Error('The Joomla API is not correctly registered.');
     }
-
     window.Joomla.editors.instances[this.editor.id] = {
       id: () => this.editor.id,
       element: () => this.editor,
@@ -90,21 +86,19 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       onSave: () => {}
     };
   }
+
   /**
    * Remove the editor from the Joomla API
    */
-
-
   unregisterEditor() {
     if (this.editor) {
       delete window.Joomla.editors.instances[this.editor.id];
     }
   }
+
   /**
    * Called when element's child list changes
    */
-
-
   childrenChange() {
     // Ensure the first child is an input with a textarea type.
     if (this.firstElementChild && this.firstElementChild.tagName && this.firstElementChild.tagName.toLowerCase() === 'textarea' && this.firstElementChild.getAttribute('id')) {
@@ -113,5 +107,4 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       this.registerEditor();
     }
   }
-
 });

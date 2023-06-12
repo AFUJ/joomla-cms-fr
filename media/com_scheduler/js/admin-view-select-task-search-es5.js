@@ -42,41 +42,39 @@
   var elSearchResults = document.getElementById('comSchedulerSelectResultsContainer');
   var alertElement = document.querySelector('.tasks-alert');
   var elCards = [].slice.call(document.querySelectorAll('.comSchedulerSelectCard'));
-
   if (elSearch && elSearchContainer) {
     // Add the keyboard event listener which performs the live search in the cards
     elSearch.addEventListener('keyup', function (_ref) {
       var target = _ref.target;
-
       /** @type {KeyboardEvent} event */
       var partialSearch = target.value;
       var hasSearchResults = false; // Save the search string into session storage
 
       if (typeof sessionStorage !== 'undefined') {
         sessionStorage.setItem('Joomla.com_scheduler.new.search', partialSearch);
-      } // Iterate over all the task cards
+      }
 
-
+      // Iterate over all the task cards
       elCards.forEach(function (card) {
         // First remove the class which hide the task cards
-        card.classList.remove('d-none'); // An empty search string means that we should show everything
+        card.classList.remove('d-none');
 
+        // An empty search string means that we should show everything
         if (!partialSearch) {
           return;
         }
-
         var cardHeader = card.querySelector('.new-task-title');
         var cardBody = card.querySelector('.card-body');
         var title = cardHeader ? cardHeader.textContent : '';
-        var description = cardBody ? cardBody.textContent : ''; // If the task title and description don’t match add a class to hide it.
+        var description = cardBody ? cardBody.textContent : '';
 
+        // If the task title and description don’t match add a class to hide it.
         if (title && !title.toLowerCase().includes(partialSearch.toLowerCase()) && description && !description.toLowerCase().includes(partialSearch.toLowerCase())) {
           card.classList.add('d-none');
         } else {
           hasSearchResults = true;
         }
       });
-
       if (hasSearchResults || !partialSearch) {
         alertElement.classList.add('d-none');
         elSearchHeader.classList.remove('d-none');
@@ -86,20 +84,23 @@
         elSearchHeader.classList.add('d-none');
         elSearchResults.classList.add('d-none');
       }
-    }); // For reasons of progressive enhancement the search box is hidden by default.
+    });
 
-    elSearchContainer.classList.remove('d-none'); // Focus the just show element
+    // For reasons of progressive enhancement the search box is hidden by default.
+    elSearchContainer.classList.remove('d-none');
 
+    // Focus the just show element
     elSearch.focus();
-
     try {
       if (typeof sessionStorage !== 'undefined') {
         // Load the search string from session storage
-        elSearch.value = sessionStorage.getItem('Joomla.com_scheduler.new.search') || ''; // Trigger the keyboard handler event manually to initiate the search
+        elSearch.value = sessionStorage.getItem('Joomla.com_scheduler.new.search') || '';
 
+        // Trigger the keyboard handler event manually to initiate the search
         elSearch.dispatchEvent(new KeyboardEvent('keyup'));
       }
-    } catch (e) {// This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
+    } catch (e) {
+      // This is probably Internet Explorer which doesn't support the KeyboardEvent constructor :(
     }
   }
 

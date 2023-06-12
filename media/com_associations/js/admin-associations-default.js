@@ -13,6 +13,5 @@ Joomla.submitbutton = pressbutton => {
   } else {
     Joomla.submitform(pressbutton);
   }
-
   return true;
 };

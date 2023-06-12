@@ -16,7 +16,6 @@
     } else {
       Joomla.submitform(pressbutton);
     }
-
     return true;
   };
 

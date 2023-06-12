@@ -29,6 +29,12 @@ class Connection extends AbstractConnection
     private const LDAP_INVALID_CREDENTIALS = 0x31;
     private const LDAP_TIMEOUT = 0x55;
     private const LDAP_ALREADY_EXISTS = 0x44;
+    private const PRECONNECT_OPTIONS = [
+        ConnectionOptions::DEBUG_LEVEL,
+        ConnectionOptions::X_TLS_CACERTDIR,
+        ConnectionOptions::X_TLS_CACERTFILE,
+        ConnectionOptions::X_TLS_REQUIRE_CERT,
+    ];
 
     /** @var bool */
     private $bound = false;
@@ -131,7 +137,7 @@ class Connection extends AbstractConnection
             }
 
             if (!isset($parent['network_timeout'])) {
-                $options->setDefault('network_timeout', ini_get('default_socket_timeout'));
+                $options->setDefault('network_timeout', \ini_get('default_socket_timeout'));
             }
 
             $options->setDefaults([
@@ -147,14 +153,22 @@ class Connection extends AbstractConnection
             return;
         }
 
-        $this->connection = ldap_connect($this->config['connection_string']);
-
         foreach ($this->config['options'] as $name => $value) {
-            $this->setOption($name, $value);
+            if (\in_array(ConnectionOptions::getOption($name), self::PRECONNECT_OPTIONS, true)) {
+                $this->setOption($name, $value);
+            }
         }
 
-        if (false === $this->connection) {
-            throw new LdapException('Could not connect to Ldap server: '.ldap_error($this->connection));
+        if (false === $connection = ldap_connect($this->config['connection_string'])) {
+            throw new LdapException('Invalid connection string: '.$this->config['connection_string']);
+        } else {
+            $this->connection = $connection;
+        }
+
+        foreach ($this->config['options'] as $name => $value) {
+            if (!\in_array(ConnectionOptions::getOption($name), self::PRECONNECT_OPTIONS, true)) {
+                $this->setOption($name, $value);
+            }
         }
 
         if ('tls' === $this->config['encryption'] && false === @ldap_start_tls($this->connection)) {

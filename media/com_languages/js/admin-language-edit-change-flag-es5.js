@@ -11,7 +11,6 @@
       var flagSelectedValue = currentTarget.value;
       var flagimage = document.getElementById('flag').querySelector('img');
       var src = Joomla.getOptions('system.paths').rootFull + "/media/mod_languages/images/" + flagSelectedValue + ".gif";
-
       if (flagSelectedValue) {
         flagimage.setAttribute('src', src);
         flagimage.setAttribute('alt', flagSelectedValue);

@@ -181,11 +181,11 @@
     yellow: '#ffff00',
     yellowgreen: '#9acd32'
   };
-
   class JoomlaFieldSimpleColor extends HTMLElement {
     constructor() {
-      super(); // Define some variables
+      super();
 
+      // Define some variables
       this.select = '';
       this.options = [];
       this.icon = '';
@@ -194,30 +194,25 @@
       this.focusableElements = null;
       this.focusableSelectors = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
     }
-
     connectedCallback() {
       this.select = this.querySelector('select');
-
       if (!this.select) {
         throw new Error('Simple color field requires a select element');
       }
-
       this.options = [].slice.call(this.select.querySelectorAll('option'));
-      this.select.classList.add('hidden'); // Build the pop up
+      this.select.classList.add('hidden');
 
+      // Build the pop up
       this.options.forEach(option => {
         let color = option.value;
         let clss = 'swatch';
-
         if (color === 'none') {
           clss += ' nocolor';
           color = 'transparent';
         }
-
         if (option.selected) {
           clss += ' active';
         }
-
         const el = document.createElement('button');
         el.setAttribute('class', clss);
         el.style.backgroundColor = color;
@@ -225,8 +220,9 @@
         const a11yColor = color === 'transparent' ? this.textTransp : this.getColorName(color);
         el.innerHTML = Joomla.sanitizeHtml(`<span class="visually-hidden">${a11yColor}</span>`);
         this.buttons.push(el);
-      }); // Add a close button
+      });
 
+      // Add a close button
       const close = document.createElement('button');
       close.setAttribute('class', 'btn-close');
       close.setAttribute('type', 'button');
@@ -234,18 +230,14 @@
       this.buttons.push(close);
       let color = this.select.value;
       let clss = '';
-
       if (color === 'none') {
         clss += ' nocolor';
         color = 'transparent';
       }
-
       this.icon = document.createElement('button');
-
       if (clss) {
         this.icon.setAttribute('class', clss);
       }
-
       const uniqueId = `simple-color-${Math.random().toString(36).substr(2, 10)}`;
       this.icon.setAttribute('type', 'button');
       this.icon.setAttribute('tabindex', '0');
@@ -265,7 +257,6 @@
         } else {
           el.addEventListener('click', this.colorSelect);
         }
-
         this.panel.insertAdjacentElement('beforeend', el);
       });
       this.appendChild(this.panel);
@@ -274,57 +265,47 @@
       this.hide = this.hide.bind(this);
       this.mousedown = this.mousedown.bind(this);
     }
-
     static get observedAttributes() {
       return ['text-select', 'text-color', 'text-close', 'text-transparent'];
     }
-
     get textSelect() {
       return this.getAttribute('text-select');
     }
-
     get textColor() {
       return this.getAttribute('text-color');
     }
-
     get textClose() {
       return this.getAttribute('text-close');
     }
-
     get textTransp() {
       return this.getAttribute('text-transparent');
-    } // Show the panel
+    }
 
-
+    // Show the panel
     show() {
       document.addEventListener('mousedown', this.hide);
       this.addEventListener('keydown', this.keys);
       this.panel.addEventListener('mousedown', this.mousedown);
       this.panel.setAttribute('data-open', '');
       const focused = this.panel.querySelector('button');
-
       if (focused) {
         focused.focus();
       }
-    } // Hide panel
+    }
 
-
+    // Hide panel
     hide() {
       document.removeEventListener('mousedown', this.hide, false);
       this.removeEventListener('keydown', this.keys);
-
       if (this.panel.hasAttribute('data-open')) {
         this.panel.removeAttribute('data-open');
       }
-
       this.icon.focus();
     }
-
     colorSelect(e) {
       let color = '';
       let bgcolor = '';
       let clss = '';
-
       if (e.target.classList.contains('nocolor')) {
         color = 'none';
         bgcolor = 'transparent';
@@ -332,104 +313,98 @@
       } else {
         color = this.rgb2hex(e.target.style.backgroundColor);
         bgcolor = color;
-      } // Reset the active class
+      }
 
-
+      // Reset the active class
       this.buttons.forEach(el => {
         if (el.classList.contains('active')) {
           el.classList.remove('active');
         }
-      }); // Add the active class to the selected button
+      });
 
+      // Add the active class to the selected button
       e.target.classList.add('active');
       this.icon.classList.remove('nocolor');
       this.icon.setAttribute('class', clss);
-      this.icon.style.backgroundColor = bgcolor; // trigger change event both on the select and on the custom element
+      this.icon.style.backgroundColor = bgcolor;
 
+      // trigger change event both on the select and on the custom element
       this.select.dispatchEvent(new Event('change'));
       this.dispatchEvent(new CustomEvent('change', {
         detail: {
           value: color
         },
         bubbles: true
-      })); // Hide the panel
+      }));
 
-      this.hide(); // Change select value
+      // Hide the panel
+      this.hide();
 
+      // Change select value
       this.options.forEach(el => {
         if (el.selected) {
           el.removeAttribute('selected');
         }
-
         if (el.value === bgcolor) {
           el.setAttribute('selected', '');
         }
       });
     }
-
     keys(e) {
       if (e.keyCode === KEYCODE.ESC) {
         this.hide();
       }
-
       if (e.keyCode === KEYCODE.TAB) {
         // Get the index of the current active element
-        const focusedIndex = this.focusableElements.indexOf(document.activeElement); // If first element is focused and shiftkey is in use, focus last item within modal
+        const focusedIndex = this.focusableElements.indexOf(document.activeElement);
 
+        // If first element is focused and shiftkey is in use, focus last item within modal
         if (e.shiftKey && (focusedIndex === 0 || focusedIndex === -1)) {
           this.focusableElements[this.focusableElements.length - 1].focus();
           e.preventDefault();
-        } // If last element is focused and shiftkey is not in use, focus first item within modal
-
-
+        }
+        // If last element is focused and shiftkey is not in use, focus first item within modal
         if (!e.shiftKey && focusedIndex === this.focusableElements.length - 1) {
           this.focusableElements[0].focus();
           e.preventDefault();
         }
       }
-    } // Prevents the mousedown event from "eating" the click event.
+    }
+
+    // Prevents the mousedown event from "eating" the click event.
     // eslint-disable-next-line class-methods-use-this
-
-
     mousedown(e) {
       e.stopPropagation();
       e.preventDefault();
     }
-
     getColorName(value) {
       // Expand any short code
       let newValue = value;
-
       if (value.length === 4) {
         const tmpValue = value.split('');
         newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
-      } // eslint-disable-next-line no-restricted-syntax
+      }
 
-
+      // eslint-disable-next-line no-restricted-syntax
       for (const color in colorNames) {
         // eslint-disable-next-line no-prototype-builtins
         if (colorNames.hasOwnProperty(color) && newValue.toLowerCase() === colorNames[color]) {
           return color;
         }
       }
-
       return `${this.textColor} ${value.replace('#', '').split('').join(', ')}`;
     }
+
     /**
      * Converts a RGB color to its hexadecimal value.
      * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
      */
     // eslint-disable-next-line class-methods-use-this
-
-
     rgb2hex(rgb) {
       const hex = x => `0${parseInt(x, 10).toString(16)}`.slice(-2);
-
       const matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
       return `#${hex(matches[1])}${hex(matches[2])}${hex(matches[3])}`;
     }
-
   }
-
   customElements.define('joomla-field-simple-color', JoomlaFieldSimpleColor);
 })(customElements);

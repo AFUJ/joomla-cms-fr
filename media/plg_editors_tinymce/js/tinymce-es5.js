@@ -5,21 +5,20 @@
    * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
    * @license    GNU General Public License version 2 or later; see LICENSE.txt
    */
-  (function (tinyMCE, Joomla, window, document) {
-    var reInitQueue = {};
 
+  (function (tinyMCE, Joomla, window, document) {
+    // Debounce ReInit per editor ID
+    var reInitQueue = {};
     var debounceReInit = function debounceReInit(editor, element, pluginOptions) {
       if (reInitQueue[element.id]) {
         clearTimeout(reInitQueue[element.id]);
       }
-
       reInitQueue[element.id] = setTimeout(function () {
         editor.remove();
         Joomla.editors.instances[element.id] = null;
         Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
       }, 500);
     };
-
     Joomla.JoomlaTinyMCE = {
       /**
        * Find all TinyMCE elements and initialize TinyMCE instance for each
@@ -35,10 +34,12 @@
         editors.forEach(function (editor) {
           var currentEditor = editor.querySelector('textarea');
           var toggleButton = editor.querySelector('.js-tiny-toggler-button');
-          var toggleIcon = editor.querySelector('.icon-eye'); // Setup the editor
+          var toggleIcon = editor.querySelector('.icon-eye');
 
-          Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions); // Setup the toggle button
+          // Setup the editor
+          Joomla.JoomlaTinyMCE.setupEditor(currentEditor, pluginOptions);
 
+          // Setup the toggle button
           if (toggleButton) {
             toggleButton.removeAttribute('disabled');
             toggleButton.addEventListener('click', function () {
@@ -47,7 +48,6 @@
               } else {
                 Joomla.editors.instances[currentEditor.id].instance.hide();
               }
-
               if (toggleIcon) {
                 toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
               }
@@ -55,7 +55,6 @@
           }
         });
       },
-
       /**
        * Initialize TinyMCE editor instance
        *
@@ -69,26 +68,23 @@
         if (Joomla.editors.instances[element.id]) {
           return;
         }
-
         var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default'; // Get Editor name
-
         var tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {};
-        var defaultOptions = tinyMCEOptions.default || {}; // Check specific options by the name
+        var defaultOptions = tinyMCEOptions.default || {};
+        // Check specific options by the name
+        var options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions;
 
-        var options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Avoid an unexpected changes, and copy the options object
-
+        // Avoid an unexpected changes, and copy the options object
         if (options.joomlaMergeDefaults) {
           options = Joomla.extend(Joomla.extend({}, defaultOptions), options);
         } else {
           options = Joomla.extend({}, options);
         }
-
         if (element) {
           // We already have the Target, so reset the selector and assign given element as target
           options.selector = null;
           options.target = element;
         }
-
         var buttonValues = [];
         var arr = Object.keys(options.joomlaExtButtons.names).map(function (key) {
           return options.joomlaExtButtons.names[key];
@@ -101,11 +97,9 @@
           tmp.text = xtdButton.name;
           tmp.icon = xtdButton.icon;
           tmp.type = 'menuitem';
-
           if (xtdButton.iconSVG) {
             icons[tmp.icon] = xtdButton.iconSVG;
           }
-
           if (xtdButton.href) {
             tmp.onAction = function () {
               document.getElementById(xtdButton.id + "_modal").open();
@@ -116,16 +110,14 @@
               new Function(xtdButton.click)();
             };
           }
-
           buttonValues.push(tmp);
-        }); // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
+        });
 
+        // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
         var readOnlyMode = false;
-
         if (element) {
           readOnlyMode = element.readOnly;
         }
-
         if (buttonValues.length) {
           options.setup = function (editor) {
             editor.settings.readonly = readOnlyMode;
@@ -144,54 +136,51 @@
           options.setup = function (editor) {
             editor.settings.readonly = readOnlyMode;
           };
-        } // We'll take over the onSubmit event
+        }
 
-
+        // We'll take over the onSubmit event
         options.init_instance_callback = function (editor) {
           editor.on('submit', function () {
             if (editor.isHidden()) {
               editor.show();
             }
           }, true);
-        }; // Create a new instance
+        };
+
+        // Create a new instance
         // eslint-disable-next-line no-undef
+        var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
 
-
-        var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager); // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+        // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
         // Re init editor when iframe is reloaded.
-
         if (!ed.inline) {
           var isReady = false;
           var isRendered = false;
-
           var listenIframeReload = function listenIframeReload() {
             var $iframe = ed.getContentAreaContainer().querySelector('iframe');
             $iframe.addEventListener('load', function () {
               debounceReInit(ed, element, pluginOptions);
             });
-          }; // Make sure iframe is fully loaded.
+          };
+
+          // Make sure iframe is fully loaded.
           // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
-
-
           ed.on('load', function () {
             isReady = true;
-
             if (isRendered) {
               listenIframeReload();
             }
           });
           ed.on('PostRender', function () {
             isRendered = true;
-
             if (isReady) {
               listenIframeReload();
             }
           });
         }
-
         ed.render();
-        /** Register the editor's instance to Joomla Object */
 
+        /** Register the editor's instance to Joomla Object */
         Joomla.editors.instances[element.id] = {
           // Required by Joomla's API for the XTD-Buttons
           getValue: function getValue() {
@@ -218,17 +207,17 @@
         };
       }
     };
+
     /**
      * Initialize at an initial page load
      */
-
     document.addEventListener('DOMContentLoaded', function () {
       Joomla.JoomlaTinyMCE.setupEditors(document);
     });
+
     /**
      * Initialize when a part of the page was updated
      */
-
     document.addEventListener('joomla:updated', function (_ref) {
       var target = _ref.target;
       return Joomla.JoomlaTinyMCE.setupEditors(target);

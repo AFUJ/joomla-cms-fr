@@ -9,17 +9,18 @@ allMenus.forEach(menu => {
 });
 const wrapper = document.getElementById('wrapper');
 const sidebar = document.getElementById('sidebar-wrapper');
-const menuToggleIcon = document.getElementById('menu-collapse-icon'); // If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
+const menuToggleIcon = document.getElementById('menu-collapse-icon');
 
+// If the sidebar doesn't exist, for example, on edit views, then remove the "closed" class
 if (!sidebar) {
   wrapper.classList.remove('closed');
 }
-
 if (sidebar && !sidebar.getAttribute('data-hidden')) {
   // Sidebar
   const menuToggle = document.getElementById('menu-collapse');
-  const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1')); // Apply 2nd level collapse
+  const firsts = [].slice.call(sidebar.querySelectorAll('.collapse-level-1'));
 
+  // Apply 2nd level collapse
   firsts.forEach(first => {
     const seconds = [].slice.call(first.querySelectorAll('.collapse-level-1'));
     seconds.forEach(second => {
@@ -28,8 +29,9 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
         second.classList.add('collapse-level-2');
       }
     });
-  }); // Toggle menu
+  });
 
+  // Toggle menu
   menuToggle.addEventListener('click', event => {
     event.preventDefault();
     wrapper.classList.toggle('closed');
@@ -40,29 +42,30 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
       item.classList.remove('open');
     });
     const elem = document.querySelector('.child-open');
-
     if (elem) {
       elem.classList.remove('child-open');
     }
-
     window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
       detail: wrapper.classList.contains('closed') ? 'closed' : 'open',
       bubbles: true,
       cancelable: true
     }));
-  }); // Sidebar Nav
+  });
 
+  // Sidebar Nav
   const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
   const currentUrl = window.location.href;
   const mainNav = document.querySelector('ul.main-nav');
   const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
-  const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close')); // Set active class
+  const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
 
+  // Set active class
   allLinks.forEach(link => {
     if (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0 || link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/)) {
       link.setAttribute('aria-current', 'page');
-      link.classList.add('mm-active'); // Auto Expand Levels
+      link.classList.add('mm-active');
 
+      // Auto Expand Levels
       if (!link.parentNode.classList.contains('parent')) {
         const firstLevel = link.closest('.collapse-level-1');
         const secondLevel = link.closest('.collapse-level-2');
@@ -72,17 +75,16 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
         if (secondLevel) secondLevel.classList.add('mm-show');
       }
     }
-  }); // Child open toggle
+  });
 
+  // Child open toggle
   const openToggle = ({
     currentTarget
   }) => {
     let menuItem = currentTarget.parentNode;
-
     if (menuItem.tagName.toLowerCase() === 'span') {
       menuItem = currentTarget.parentNode.parentNode;
     }
-
     if (menuItem.classList.contains('open')) {
       mainNav.classList.remove('child-open');
       menuItem.classList.remove('open');
@@ -92,31 +94,27 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
         sibling.classList.remove('open');
       });
       wrapper.classList.remove('closed');
-
       if (menuToggleIcon.classList.contains('icon-toggle-off')) {
         menuToggleIcon.classList.toggle('icon-toggle-off');
         menuToggleIcon.classList.toggle('icon-toggle-on');
       }
-
       mainNav.classList.add('child-open');
-
       if (menuItem.parentNode.classList.contains('main-nav')) {
         menuItem.classList.add('open');
       }
     }
-
     window.dispatchEvent(new CustomEvent('joomla:menu-toggle', {
       detail: 'open',
       bubbles: true,
       cancelable: true
     }));
   };
-
   menuParents.forEach(parent => {
     parent.addEventListener('click', openToggle);
     parent.addEventListener('keyup', openToggle);
-  }); // Menu close
+  });
 
+  // Menu close
   subMenusClose.forEach(subMenu => {
     subMenu.addEventListener('click', () => {
       const menuChildsOpen = [].slice.call(mainNav.querySelectorAll('.open'));

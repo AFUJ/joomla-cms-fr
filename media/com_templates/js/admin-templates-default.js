@@ -9,33 +9,34 @@
     const innerLists = [...document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul')];
     const openLists = [...document.querySelectorAll('.show > ul')];
     const fileModalFolders = [...document.querySelectorAll('#fileModal .folder-url')];
-    const folderModalFolders = [...document.querySelectorAll('#folderModal .folder-url')]; // Hide all the folders when the page loads
-
+    const folderModalFolders = [...document.querySelectorAll('#folderModal .folder-url')];
+    // Hide all the folders when the page loads
     innerLists.forEach(innerList => {
       innerList.classList.add('hidden');
-    }); // Show all the lists in the path of an open file
+    });
 
+    // Show all the lists in the path of an open file
     openLists.forEach(openList => {
       openList.classList.remove('hidden');
-    }); // Stop the default action of anchor tag on a click event and release the inner list
+    });
 
+    // Stop the default action of anchor tag on a click event and release the inner list
     folders.forEach(folder => {
       folder.addEventListener('click', event => {
         event.preventDefault();
         const list = event.currentTarget.parentNode.querySelector('ul');
-
         if (!list) {
           return;
         }
-
         if (!list.classList.contains('hidden')) {
           list.classList.add('hidden');
         } else {
           list.classList.remove('hidden');
         }
       });
-    }); // File modal tree selector
+    });
 
+    // File modal tree selector
     fileModalFolders.forEach(fileModalFolder => {
       fileModalFolder.addEventListener('click', event => {
         event.preventDefault();
@@ -51,8 +52,9 @@
           el.value = ismedia;
         });
       });
-    }); // Folder modal tree selector
+    });
 
+    // Folder modal tree selector
     folderModalFolders.forEach(folderModalFolder => {
       folderModalFolder.addEventListener('click', event => {
         event.preventDefault();
@@ -72,23 +74,19 @@
     const treeContainer = document.querySelector('#treeholder .treeselect');
     const listEls = [...treeContainer.querySelectorAll('.folder.show')];
     const filePathEl = document.querySelector('p.lead.hidden.path');
-
     if (filePathEl) {
       let filePathTmp = document.querySelector('p.lead.hidden.path').innerText;
-
       if (filePathTmp && filePathTmp.charAt(0) === '/') {
         filePathTmp = filePathTmp.slice(1);
         filePathTmp = filePathTmp.split('/');
         filePathTmp = filePathTmp[filePathTmp.length - 1];
         listEls.forEach((element, index) => {
           element.querySelector('a').classList.add('active');
-
           if (index === listEls.length - 1) {
             const parentUl = element.querySelector('ul');
             [...parentUl.querySelectorAll('li')].forEach(liElement => {
               const aEl = liElement.querySelector('a');
               const spanEl = aEl.querySelector('span');
-
               if (spanEl && spanEl.innerText.trim()) {
                 aEl.classList.add('active');
               }
@@ -96,15 +94,15 @@
           }
         });
       }
-    } // Image cropper
+    }
 
-
+    // Image cropper
     const image = document.getElementById('image-crop');
-
     if (image) {
       const width = document.getElementById('imageWidth').value;
-      const height = document.getElementById('imageHeight').value; // eslint-disable-next-line no-new
+      const height = document.getElementById('imageHeight').value;
 
+      // eslint-disable-next-line no-new
       new window.Cropper(image, {
         viewMode: 1,
         scalable: true,

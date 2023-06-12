@@ -11,23 +11,20 @@
       document.getElementById('menuselect-group').classList.remove('hidden');
     }
   };
-
   const onBoot = () => {
     const element = document.getElementById('jform_assignment');
-
     if (element) {
       // Initialise the state
-      onChange(element.value); // Check for changes in the state
+      onChange(element.value);
 
+      // Check for changes in the state
       element.addEventListener('change', ({
         target
       }) => {
         onChange(target.value);
       });
     }
-
     document.removeEventListener('DOMContentLoaded', onBoot);
   };
-
   document.addEventListener('DOMContentLoaded', onBoot);
 })();

@@ -2,10 +2,10 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 if (!Joomla) {
   throw new Error('Joomla API was not initialised properly');
 }
-
 Joomla.Update = window.Joomla.Update || {
   stat_total: 0,
   stat_files: 0,
@@ -23,11 +23,9 @@ Joomla.Update = window.Joomla.Update || {
     const errorDiv = document.getElementById('joomlaupdate-error');
     headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
     messageDiv.innerHTML = message;
-
     if (message.toLowerCase() === 'invalid login') {
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
     }
-
     progressDiv.classList.add('d-none');
     errorDiv.classList.remove('d-none');
   },
@@ -37,7 +35,6 @@ Joomla.Update = window.Joomla.Update || {
     const messageDiv = document.getElementById('errorDialogMessage');
     const progressDiv = document.getElementById('joomlaupdate-progress');
     const errorDiv = document.getElementById('joomlaupdate-error');
-
     if (isForbidden) {
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_FORBIDDEN');
@@ -45,7 +42,6 @@ Joomla.Update = window.Joomla.Update || {
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_SERVERERROR');
       messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
     }
-
     progressDiv.classList.add('d-none');
     errorDiv.classList.remove('d-none');
   },
@@ -60,8 +56,9 @@ Joomla.Update = window.Joomla.Update || {
     document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
     const postData = new FormData();
     postData.append('task', 'startExtract');
-    postData.append('password', Joomla.Update.password); // Make the initial request to the extraction script
+    postData.append('password', Joomla.Update.password);
 
+    // Make the initial request to the extraction script
     Joomla.request({
       url: Joomla.Update.ajax_url,
       data: postData,
@@ -86,17 +83,17 @@ Joomla.Update = window.Joomla.Update || {
       Joomla.Update.genericErrorMessage(data.message);
       return;
     }
-
     const progressDiv = document.getElementById('progress-bar');
-    const titleDiv = document.getElementById('update-title'); // Add data to variables
+    const titleDiv = document.getElementById('update-title');
 
+    // Add data to variables
     Joomla.Update.stat_inbytes = data.bytesIn;
     Joomla.Update.stat_percent = data.percent;
-    Joomla.Update.stat_percent = Joomla.Update.stat_percent || 100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize); // Update GUI
+    Joomla.Update.stat_percent = Joomla.Update.stat_percent || 100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize);
 
+    // Update GUI
     Joomla.Update.stat_outbytes = data.bytesOut;
     Joomla.Update.stat_files = data.files;
-
     if (Joomla.Update.stat_percent < 100) {
       progressDiv.classList.remove('bg-success');
       progressDiv.style.width = `${Joomla.Update.stat_percent}%`;
@@ -106,12 +103,12 @@ Joomla.Update = window.Joomla.Update || {
       progressDiv.style.width = '100%';
       progressDiv.setAttribute('aria-valuenow', 100);
     }
-
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files; // Are we done extracting?
+    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
 
+    // Are we done extracting?
     if (data.done) {
       progressDiv.classList.add('bg-success');
       progressDiv.style.width = '100%';
@@ -119,9 +116,9 @@ Joomla.Update = window.Joomla.Update || {
       titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
       Joomla.Update.finalizeUpdate();
       return;
-    } // This is required so we can get outside the scope of the previous XHR's success handler.
+    }
 
-
+    // This is required so we can get outside the scope of the previous XHR's success handler.
     window.setTimeout(() => {
       Joomla.Update.delayedStepExtract(data.instance);
     }, 50);
@@ -131,11 +128,9 @@ Joomla.Update = window.Joomla.Update || {
     const postData = new FormData();
     postData.append('task', 'stepExtract');
     postData.append('password', Joomla.Update.password);
-
     if (instance) {
       postData.append('instance', instance);
     }
-
     Joomla.request({
       url: Joomla.Update.ajax_url,
       data: postData,
@@ -179,7 +174,6 @@ Joomla.Update = window.Joomla.Update || {
     e.preventDefault();
     document.getElementById('joomlaupdate-progress').classList.remove('d-none');
     document.getElementById('joomlaupdate-error').classList.add('d-none');
-
     if (Joomla.Update.cached_instance === false) {
       Joomla.Update.startExtract();
     } else {
@@ -192,22 +186,20 @@ Joomla.Update = window.Joomla.Update || {
     document.getElementById('joomlaupdate-error').classList.add('d-none');
     Joomla.Update.startExtract();
   }
-}; // Add click handlers for the Resume and Restart Update buttons in the error pane.
+};
 
+// Add click handlers for the Resume and Restart Update buttons in the error pane.
 const elResume = document.getElementById('joomlaupdate-resume');
 const elRestart = document.getElementById('joomlaupdate-restart');
-
 if (elResume) {
   elResume.addEventListener('click', Joomla.Update.resumeButtonHandler);
 }
-
 if (elRestart) {
   elRestart.addEventListener('click', Joomla.Update.restartButtonHandler);
-} // Start the update
+}
 
-
+// Start the update
 const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
-
 if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) {
   Joomla.Update.password = JoomlaUpdateOptions.password;
   Joomla.Update.totalsize = JoomlaUpdateOptions.totalsize;

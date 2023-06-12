@@ -31,7 +31,6 @@ joomla-tab > div[role=tablist] > button[role=tab] {
           box-sizing: border-box;
   display: block;
   padding: 0.6rem 1rem;
-  color: var(--primary);
   text-decoration: none;
   background-color: var(--white);
   border: 0;
@@ -42,6 +41,7 @@ joomla-tab > div[role=tablist] > button[role=tab]:focus-visible {
   z-index: 1;
 }
 joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true], joomla-tab > div[role=tablist] > button[role=tab]:focus, joomla-tab > div[role=tablist] > button[role=tab]:hover {
+  color: var(--primary);
   border: 0;
   border-radius: 0;
   -webkit-box-shadow: none;
@@ -62,6 +62,7 @@ joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true] .text-mute
 }
 joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true] {
   font-weight: 700;
+  color: var(--primary);
   background: var(--template-bg-dark-3);
 }
 joomla-tab > div[role=tablist] > button[role=tab] .text-muted {

@@ -6,7 +6,6 @@
    * @license     GNU General Public License version 2 or later; see LICENSE.txt
    */
   Joomla = window.Joomla || {};
-
   (function (Joomla, document) {
     document.addEventListener('DOMContentLoaded', function () {
       var targetAssociation = window.parent.document.getElementById('target-association');

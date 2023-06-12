@@ -11,35 +11,36 @@
       var self = target;
       var value = parseInt(self.value, 10);
       self.classList.remove('form-select-success', 'form-select-danger');
-
       if (value === 1) {
         self.classList.add('form-select-success');
       } else if (value === 0 || value === -2) {
         self.classList.add('form-select-danger');
       }
     };
-
     var updateSelectboxColour = function updateSelectboxColour() {
       var colourSelects = [].slice.call(document.querySelectorAll('.form-select-color-state'));
       colourSelects.forEach(function (colourSelect) {
-        var value = parseInt(colourSelect.value, 10); // Add class on page load
+        var value = parseInt(colourSelect.value, 10);
 
+        // Add class on page load
         if (value === 1) {
           colourSelect.classList.add('form-select-success');
         } else if (value === 0 || value === -2) {
           colourSelect.classList.add('form-select-danger');
-        } // Add class when value is changed
+        }
 
-
+        // Add class when value is changed
         colourSelect.addEventListener('change', onChange);
-      }); // Cleanup
+      });
 
+      // Cleanup
       document.removeEventListener('DOMContentLoaded', updateSelectboxColour, true);
-    }; // On document loaded
+    };
 
+    // On document loaded
+    document.addEventListener('DOMContentLoaded', updateSelectboxColour, true);
 
-    document.addEventListener('DOMContentLoaded', updateSelectboxColour, true); // On Joomla updated
-
+    // On Joomla updated
     document.addEventListener('joomla:updated', updateSelectboxColour, true);
   })();
 

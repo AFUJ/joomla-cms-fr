@@ -6,14 +6,13 @@
 
   const init = () => {
     // Cleanup
-    window.removeEventListener('load', init); // Get the elements
+    window.removeEventListener('load', init);
 
+    // Get the elements
     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
-
     if (elements.length) {
       elements.forEach(element => {
         const badgeurl = element.getAttribute('data-url');
-
         if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
           Joomla.enqueueRequest({
             url: badgeurl,
@@ -22,13 +21,11 @@
           }).then(xhr => {
             const resp = xhr.responseText;
             let response;
-
             try {
               response = JSON.parse(resp);
             } catch (error) {
               throw new Error('Failed to parse JSON');
             }
-
             if (response.error || !response.success) {
               element.classList.remove('icon-spin');
               element.classList.remove('icon-spinner');
@@ -56,9 +53,9 @@
         }
       });
     }
-  }; // Give some times to the layout and other scripts to settle their stuff
+  };
 
-
+  // Give some times to the layout and other scripts to settle their stuff
   window.addEventListener('load', () => {
     setTimeout(init, 300);
   });

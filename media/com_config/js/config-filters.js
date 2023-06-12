@@ -10,14 +10,11 @@ const recursiveApplyChanges = id => {
     return child;
   });
 };
-
 const applyChanges = event => {
   const currentElement = event.currentTarget;
   const currentFilter = currentElement.options[currentElement.selectedIndex].value;
-
   if (currentFilter === 'NONE') {
     const childs = [].slice.call(document.querySelectorAll(`#filter-config select[data-parent="${currentElement.dataset.id}"]`));
-
     if (childs.length && window.confirm(Joomla.Text._('COM_CONFIG_TEXT_FILTERS_NOTE'))) {
       childs.map(child => {
         recursiveApplyChanges(child.dataset.id);
@@ -27,5 +24,4 @@ const applyChanges = event => {
     }
   }
 };
-
 [].slice.call(document.querySelectorAll('#filter-config select')).map(select => select.addEventListener('change', applyChanges));

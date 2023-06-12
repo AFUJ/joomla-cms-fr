@@ -799,7 +799,7 @@ html[dir=rtl] .infobar-leave-active {
 
 .media-infobar {
   position: absolute;
-  top: 47px;
+  top: 0;
   inset-inline-end: 0;
   bottom: 0;
   z-index: 4;
@@ -917,6 +917,13 @@ html[dir=rtl] .infobar-leave-active {
           border-inline-start: 1px solid var(--template-bg-dark-7);
   -webkit-box-shadow: 1px 0 #fefefe inset;
           box-shadow: 1px 0 #fefefe inset;
+}
+.media-toolbar-icon.active {
+  color: #fff;
+  background-color: var(--template-bg-dark-60);
+}
+.media-toolbar-icon.active:hover {
+  background-color: var(--template-bg-dark-80);
 }
 .media-toolbar-icon:hover {
   background-color: #f0f0f0;

@@ -5,8 +5,8 @@
    * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
    * @license     GNU General Public License version 2 or later; see LICENSE.txt
    */
-  Joomla = window.Joomla || {};
 
+  Joomla = window.Joomla || {};
   (function (Joomla) {
     document.addEventListener('DOMContentLoaded', function () {
       var modals = document.getElementsByClassName('changelogModal');
@@ -16,6 +16,7 @@
         });
       });
     });
+
     /**
      * Load the changelog data
      *
@@ -25,17 +26,14 @@
      *
      * @since   4.0.0
      */
-
     Joomla.loadChangelog = function (extensionId, view) {
       var modal = document.querySelector("#changelogModal" + extensionId + " .modal-body");
       Joomla.request({
         url: "index.php?option=com_installer&task=manage.loadChangelog&eid=" + extensionId + "&source=" + view + "&format=json",
         onSuccess: function onSuccess(response) {
           var message = '';
-
           try {
             var result = JSON.parse(response);
-
             if (result.error) {
               message = result[0];
             } else {
@@ -44,7 +42,6 @@
           } catch (exception) {
             message = exception;
           }
-
           modal.innerHTML = Joomla.sanitizeHtml(message);
         },
         onError: function onError(xhr) {

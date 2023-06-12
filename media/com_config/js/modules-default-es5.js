@@ -6,23 +6,23 @@
    * @license     GNU General Public License version 2 or later; see LICENSE.txt
    */
   (function (document, submitForm) {
+    // Selectors used by this script
     var buttonDataSelector = 'data-submit-task';
+
     /**
      * Submit the task
      * @param task
      * @param form
      */
-
     var submitTask = function submitTask(task, form) {
       if (task === 'modules.cancel' || document.formvalidator.isValid(form)) {
         submitForm(task, form);
       }
     };
+
     /**
      * Register events
      */
-
-
     var registerEvents = function registerEvents() {
       var buttons = [].slice.call(document.querySelectorAll("[" + buttonDataSelector + "]"));
       buttons.forEach(function (button) {
@@ -33,7 +33,6 @@
         });
       });
     };
-
     document.addEventListener('DOMContentLoaded', function () {
       registerEvents();
     });

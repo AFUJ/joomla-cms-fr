@@ -36,12 +36,9 @@
       this.special = parseInt(settings.special, 10) || 0;
       this.length = parseInt(settings.length, 10) || 12;
     }
-
     var _proto = PasswordStrength.prototype;
-
     _proto.getScore = function getScore(value) {
       var _this = this;
-
       var score = 0;
       var mods = 0;
       var sets = ['lowercase', 'uppercase', 'numbers', 'special', 'length'];
@@ -52,41 +49,32 @@
       });
       score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
       score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
-      score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods); // eslint-disable-next-line no-useless-escape
-
+      score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
+      // eslint-disable-next-line no-useless-escape
       score += this.constructor.calc(value, /[$!#?=;:*\-_€%&()`´]/g, this.special, mods);
-
       if (mods === 1) {
         score += value.length > this.length ? 100 : 100 / this.length * value.length;
       } else {
         score += value.length > this.length ? 100 / mods : 100 / mods / this.length * value.length;
       }
-
       return score;
     };
-
     PasswordStrength.calc = function calc(value, pattern, length, mods) {
       var count = value.match(pattern);
-
       if (count && count.length > length && length !== 0) {
         return 100 / mods;
       }
-
       if (count && length > 0) {
         return 100 / mods / length * count.length;
       }
-
       return 0;
     };
-
     return PasswordStrength;
   }();
   /**
    * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
    * @license    GNU General Public License version 2 or later; see LICENSE.txt
    */
-
-
   (function (Joomla, document) {
     // Method to check the input and set the meter
     var getMeter = function getMeter(element) {
@@ -106,32 +94,28 @@
       var score = strength.getScore(element.value);
       var i = meter.getAttribute('id').replace(/^\D+/g, '');
       var label = element.parentNode.parentNode.querySelector("#password-" + i);
-
       if (score === 100) {
         label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_COMPLETE');
       } else {
         label.innerText = Joomla.Text._('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
       }
-
       meter.value = score;
-
       if (!element.value.length) {
         label.innerText = '';
         element.setAttribute('required', '');
       }
     };
-
     document.addEventListener('DOMContentLoaded', function () {
-      var fields = [].slice.call(document.querySelectorAll('.js-password-strength')); // Loop  through the fields
+      var fields = [].slice.call(document.querySelectorAll('.js-password-strength'));
 
+      // Loop  through the fields
       fields.forEach(function (field, index) {
         var initialVal = '';
-
         if (!field.value.length) {
           initialVal = 0;
-        } // Create a progress meter and the label
+        }
 
-
+        // Create a progress meter and the label
         var meter = document.createElement('meter');
         meter.setAttribute('id', "progress-" + index);
         meter.setAttribute('min', 0);
@@ -145,19 +129,21 @@
         label.setAttribute('id', "password-" + index);
         label.setAttribute('aria-live', 'polite');
         field.parentNode.insertAdjacentElement('afterEnd', label);
-        field.parentNode.insertAdjacentElement('afterEnd', meter); // Add a data attribute for the required
+        field.parentNode.insertAdjacentElement('afterEnd', meter);
 
+        // Add a data attribute for the required
         if (field.value.length > 0) {
           field.setAttribute('required', true);
-        } // Add a listener for input data change
+        }
 
-
+        // Add a listener for input data change
         field.addEventListener('keyup', function (_ref) {
           var target = _ref.target;
           getMeter(target);
         });
-      }); // Set a handler for the validation script
+      });
 
+      // Set a handler for the validation script
       if (fields[0]) {
         document.formvalidator.setHandler('password-strength', function (value) {
           var strengthElements = document.querySelectorAll('.js-password-strength');
@@ -174,11 +160,9 @@
             length: minLength || 12
           });
           var score = strength.getScore(value);
-
           if (score === 100) {
             return true;
           }
-
           return false;
         });
       }

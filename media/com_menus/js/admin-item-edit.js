@@ -18,7 +18,6 @@
           item.value = type;
         });
       }
-
       Joomla.submitform('item.setType', document.getElementById('item-form'));
     } else if (task === 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
       Joomla.submitform(task, document.getElementById('item-form'));
@@ -33,7 +32,6 @@
       });
     }
   };
-
   const onChange = ({
     target
   }) => {
@@ -43,59 +41,53 @@
       headers: {
         'Content-Type': 'application/json'
       },
-
       onSuccess(response) {
         const data = JSON.parse(response);
-        const list = [].slice.call(document.querySelectorAll('#jform_parent_id option'));
-        list.forEach(item => {
-          if (item.value !== '1') {
-            item.parentNode.removeChild(item);
-          }
-        });
+        const fancySelect = document.getElementById('jform_parent_id').closest('joomla-field-fancy-select');
+        fancySelect.choicesInstance.clearChoices();
+        fancySelect.choicesInstance.setChoices([{
+          id: '1',
+          text: Joomla.Text._('JGLOBAL_ROOT_PARENT')
+        }], 'id', 'text', false);
         data.forEach(value => {
-          const option = document.createElement('option');
+          const option = {};
           option.innerText = value.title;
           option.id = value.id;
-          document.getElementById('jform_parent_id').appendChild(option);
+          fancySelect.choicesInstance.setChoices([option], 'id', 'innerText', false);
         });
+        fancySelect.choicesInstance.setChoiceByValue('1');
         const newEvent = document.createEvent('HTMLEvents');
         newEvent.initEvent('change', true, false);
         document.getElementById('jform_parent_id').dispatchEvent(newEvent);
       },
-
       onError: xhr => {
         Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
       }
     });
   };
-
   if (!Joomla || typeof Joomla.request !== 'function') {
     throw new Error('core.js was not properly initialised');
   }
-
   const element = document.getElementById('jform_menutype');
-
   if (element) {
     element.addEventListener('change', onChange);
-  } // Menu type Login Form specific
+  }
 
-
+  // Menu type Login Form specific
   document.getElementById('item-form').addEventListener('submit', () => {
     if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
       // Login
       if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
       }
-
       if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_url').value = '';
-      } // Logout
+      }
 
-
+      // Logout
       if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
       }
-
       if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_url').value = '';
       }

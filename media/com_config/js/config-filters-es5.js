@@ -13,14 +13,11 @@
       return child;
     });
   };
-
   var applyChanges = function applyChanges(event) {
     var currentElement = event.currentTarget;
     var currentFilter = currentElement.options[currentElement.selectedIndex].value;
-
     if (currentFilter === 'NONE') {
       var childs = [].slice.call(document.querySelectorAll("#filter-config select[data-parent=\"" + currentElement.dataset.id + "\"]"));
-
       if (childs.length && window.confirm(Joomla.Text._('COM_CONFIG_TEXT_FILTERS_NOTE'))) {
         childs.map(function (child) {
           recursiveApplyChanges(child.dataset.id);
@@ -30,7 +27,6 @@
       }
     }
   };
-
   [].slice.call(document.querySelectorAll('#filter-config select')).map(function (select) {
     return select.addEventListener('change', applyChanges);
   });

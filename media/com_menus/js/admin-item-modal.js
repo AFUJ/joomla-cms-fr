@@ -3,7 +3,6 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
-
 (Joomla => {
 
   Joomla.setMenuType = (type, tmpl) => {

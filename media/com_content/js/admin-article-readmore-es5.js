@@ -7,15 +7,12 @@
    */
   (function () {
     var options = window.Joomla.getOptions('xtd-readmore');
-
     window.insertReadmore = function (editor) {
       if (!options) {
         // Something went wrong!
         throw new Error('XTD Button \'read more\' not properly initialized');
       }
-
       var content = window.Joomla.editors.instances[editor].getValue();
-
       if (!content) {
         Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
       } else if (content && !content.match(/<hr\s+id=("|')system-readmore("|')\s*\/*>/i)) {
@@ -26,7 +23,6 @@
         });
         return false;
       }
-
       return true;
     };
   })();

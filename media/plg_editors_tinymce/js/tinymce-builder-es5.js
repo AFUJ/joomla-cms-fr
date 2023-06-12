@@ -8,13 +8,12 @@
   if (!Joomla) {
     throw new Error('Joomla API is not properly initialised');
   }
+
   /**
    * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
    *
    * @since  3.7.0
    */
-
-
   var tinymce = {
     langCode: 'en',
     langStrings: {},
@@ -203,12 +202,12 @@
     }
   };
   window.tinymce = tinymce;
-
   var TinyMCEBuilder = function TinyMCEBuilder(container, options) {
     var $sourceMenu = container.querySelector('.tinymce-builder-menu.source');
     var $sourceToolbar = container.querySelector('.tinymce-builder-toolbar.source');
     var $targetMenu = container.querySelectorAll('.tinymce-builder-menu.target');
     var $targetToolbar = container.querySelectorAll('.tinymce-builder-toolbar.target');
+
     /**
      * Append input to the button item
      * @param {HTMLElement} element
@@ -217,12 +216,12 @@
      *
      * @since  3.7.0
      */
-
     var appendInput = function appendInput(element, group, set) {
       var name = options.formControl + "[" + set + "][" + group + "][]";
       var value = element.getAttribute('data-name');
       element.innerHTML += Joomla.sanitizeHtml("<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">");
     };
+
     /**
      * Create the element needed for renderBar()
      * @param {String} name
@@ -233,13 +232,10 @@
      *
      * @since  3.7.0
      */
-
-
     var createButton = function createButton(name, info, type) {
       var title = tinymce.translate(info.label);
       var content = '';
       var bclass = 'tox-mbtn';
-
       if (type === 'menu') {
         content = title;
       } else if (info.text) {
@@ -250,9 +246,9 @@
       } else {
         content = tinymce.showIcon(name);
       }
-
       return "<button type=\"button\" data-name=\"" + name + "\" class=\"" + bclass + "\" data-toggle=\"tooltip\" title=\"" + title + "\">" + content + "</button>";
     };
+
     /**
      * Render the toolbar/menubar
      *
@@ -263,8 +259,6 @@
      *
      * @since  3.7.0
      */
-
-
     var renderBar = function renderBar(box, type, val, withInput) {
       var group = box.getAttribute('data-group');
       var set = box.getAttribute('data-set');
@@ -272,35 +266,33 @@
       var value = val || JSON.parse(box.getAttribute('data-value')) || [];
       var item;
       var name;
-
       for (var i = 0, l = value.length; i < l; i += 1) {
         name = value[i];
         item = items[name];
-
         if (item) {
           // Buttons are predefined in this file, so safe
           box.innerHTML += createButton(name, item, type);
-          var newbutton = box.querySelector('.tox-mbtn:last-child'); // Enable tooltip
+          var newbutton = box.querySelector('.tox-mbtn:last-child');
 
+          // Enable tooltip
           if (newbutton && newbutton.tooltip) {
             newbutton.tooltip({
               trigger: 'hover'
             });
-          } // Add input
+          }
 
-
+          // Add input
           if (withInput) {
             appendInput(newbutton, group, set);
           }
         }
       }
     };
+
     /**
      * Clear the pane for specific set
      * @param {Object} sets Options {set: 1}
      */
-
-
     var clearPane = function clearPane(sets) {
       var item = sets.set;
       $targetMenu.forEach(function (elem) {
@@ -314,24 +306,22 @@
         }
       });
     };
+
     /**
      * Set Selected preset to specific  set
      * @param {Object} attrib Options {set: 1, preset: 'presetName'}
      */
-
-
     var setPreset = function setPreset(attrib) {
       var item = attrib.set;
       var preset = options.toolbarPreset[attrib.preset] || null;
-
       if (!preset) {
         throw new Error("Unknown Preset \"" + attrib.preset + "\"");
       }
-
       clearPane(attrib);
       Object.keys(preset).forEach(function (group) {
-        var type = group === 'menu' ? 'menu' : 'toolbar'; // Find correct container for current set
+        var type = group === 'menu' ? 'menu' : 'toolbar';
 
+        // Find correct container for current set
         if (group === 'menu') {
           $targetMenu.forEach(function (target) {
             if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
@@ -346,14 +336,14 @@
           });
         }
       });
-    }; // Build menu + toolbar
+    };
 
-
+    // Build menu + toolbar
     renderBar($sourceMenu, 'menu');
-    renderBar($sourceToolbar, 'toolbar'); // Initialize drag & drop
+    renderBar($sourceToolbar, 'toolbar');
 
+    // Initialize drag & drop
     /* global dragula */
-
     var drakeMenu = dragula([$sourceMenu], {
       copy: function copy(el, source) {
         return source === $sourceMenu;
@@ -403,8 +393,9 @@
     $targetToolbar.forEach(function (target) {
       renderBar(target, 'toolbar', null, true);
       drakeToolbar.containers.push(target);
-    }); // Bind actions buttons
+    });
 
+    // Bind actions buttons
     var actionButtons = container.querySelectorAll('.button-action');
     actionButtons.forEach(function (elem) {
       elem.addEventListener('click', function (_ref) {
@@ -416,54 +407,53 @@
             var key = attrib.name.substr(5);
             actionoptions[key] = attrib.value;
           }
-        }); // Don't allow wild function calling
+        });
 
+        // Don't allow wild function calling
         switch (action) {
           case 'clearPane':
             clearPane(actionoptions);
             break;
-
           case 'setPreset':
             setPreset(actionoptions);
             break;
-
           default:
             throw new Error("Unsupported action: " + action);
         }
       });
     });
   };
-
   var options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {}) : Joomla.optionsStorage.plg_editors_tinymce_builder || {};
   var builder = document.getElementById('joomla-tinymce-builder');
   document.addEventListener('DOMContentLoaded', function () {
     return TinyMCEBuilder(builder, options);
   });
-  var selects = builder.querySelectorAll('.access-select'); // Allow to select the group only once per the set
+  var selects = builder.querySelectorAll('.access-select');
 
+  // Allow to select the group only once per the set
   var toggleAvailableOption = function toggleAvailableOption() {
     selects.forEach(function (select) {
       select.enableAllOptions();
-    }); // Disable already selected options in the other selects
+    });
 
+    // Disable already selected options in the other selects
     selects.forEach(function (select) {
       var values = select.value;
       selects.forEach(function (select1) {
         if (select === select1) {
           return;
         }
-
         values.forEach(function (value) {
           select1.disableByValue(value);
         });
       });
     });
   };
-
   window.addEventListener('load', function () {
     return toggleAvailableOption();
-  }); // Allow to select the group only once per the set
+  });
 
+  // Allow to select the group only once per the set
   selects.forEach(function (select) {
     select.addEventListener('change', function () {
       toggleAvailableOption();

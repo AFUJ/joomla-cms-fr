@@ -1,15 +1,14 @@
-import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.1.3';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.2.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.3): alert.js
+ * Bootstrap (v5.2.3): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 /**
- * ------------------------------------------------------------------------
  * Constants
- * ------------------------------------------------------------------------
  */
 
 const NAME = 'alert';
@@ -19,83 +18,68 @@ const EVENT_CLOSE = `close${EVENT_KEY}`;
 const EVENT_CLOSED = `closed${EVENT_KEY}`;
 const CLASS_NAME_FADE = 'fade';
 const CLASS_NAME_SHOW = 'show';
+
 /**
- * ------------------------------------------------------------------------
- * Class Definition
- * ------------------------------------------------------------------------
+ * Class definition
  */
 
 class Alert extends BaseComponent {
   // Getters
   static get NAME() {
     return NAME;
-  } // Public
+  }
 
-
+  // Public
   close() {
     const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
-
     if (closeEvent.defaultPrevented) {
       return;
     }
-
     this._element.classList.remove(CLASS_NAME_SHOW);
-
     const isAnimated = this._element.classList.contains(CLASS_NAME_FADE);
-
     this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
-  } // Private
+  }
 
-
+  // Private
   _destroyElement() {
     this._element.remove();
-
     EventHandler.trigger(this._element, EVENT_CLOSED);
     this.dispose();
-  } // Static
+  }
 
-
+  // Static
   static jQueryInterface(config) {
     return this.each(function () {
       const data = Alert.getOrCreateInstance(this);
-
       if (typeof config !== 'string') {
         return;
       }
-
       if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
         throw new TypeError(`No method named "${config}"`);
       }
-
       data[config](this);
     });
   }
-
 }
+
 /**
- * ------------------------------------------------------------------------
- * Data Api implementation
- * ------------------------------------------------------------------------
+ * Data API implementation
  */
 
-
 enableDismissTrigger(Alert, 'close');
+
 /**
- * ------------------------------------------------------------------------
  * jQuery
- * ------------------------------------------------------------------------
- * add .Alert to jQuery only if jQuery is present
  */
 
 defineJQueryPlugin(Alert);
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Alert = Alert;
-
 if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
-  const alerts = Joomla.getOptions('bootstrap.alert'); // Initialise the elements
-
+  const alerts = Joomla.getOptions('bootstrap.alert');
+  // Initialise the elements
   if (alerts && alerts.length) {
     alerts.forEach(selector => {
       Array.from(document.querySelectorAll(selector)).map(el => new window.bootstrap.Alert(el));

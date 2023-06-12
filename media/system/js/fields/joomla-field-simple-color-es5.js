@@ -7,10 +7,9 @@
       descriptor.enumerable = descriptor.enumerable || false;
       descriptor.configurable = true;
       if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
+      Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
     }
   }
-
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
@@ -19,35 +18,28 @@
     });
     return Constructor;
   }
-
   function _inheritsLoose(subClass, superClass) {
     subClass.prototype = Object.create(superClass.prototype);
     subClass.prototype.constructor = subClass;
-
     _setPrototypeOf(subClass, superClass);
   }
-
   function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
       return o.__proto__ || Object.getPrototypeOf(o);
     };
     return _getPrototypeOf(o);
   }
-
   function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
       o.__proto__ = p;
       return o;
     };
-
     return _setPrototypeOf(o, p);
   }
-
   function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
-
     try {
       Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
@@ -55,10 +47,9 @@
       return false;
     }
   }
-
   function _construct(Parent, args, Class) {
     if (_isNativeReflectConstruct()) {
-      _construct = Reflect.construct;
+      _construct = Reflect.construct.bind();
     } else {
       _construct = function _construct(Parent, args, Class) {
         var a = [null];
@@ -69,34 +60,25 @@
         return instance;
       };
     }
-
     return _construct.apply(null, arguments);
   }
-
   function _isNativeFunction(fn) {
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
   }
-
   function _wrapNativeSuper(Class) {
     var _cache = typeof Map === "function" ? new Map() : undefined;
-
     _wrapNativeSuper = function _wrapNativeSuper(Class) {
       if (Class === null || !_isNativeFunction(Class)) return Class;
-
       if (typeof Class !== "function") {
         throw new TypeError("Super expression must either be null or a function");
       }
-
       if (typeof _cache !== "undefined") {
         if (_cache.has(Class)) return _cache.get(Class);
-
         _cache.set(Class, Wrapper);
       }
-
       function Wrapper() {
         return _construct(Class, arguments, _getPrototypeOf(this).constructor);
       }
-
       Wrapper.prototype = Object.create(Class.prototype, {
         constructor: {
           value: Wrapper,
@@ -107,8 +89,21 @@
       });
       return _setPrototypeOf(Wrapper, Class);
     };
-
     return _wrapNativeSuper(Class);
+  }
+  function _toPrimitive(input, hint) {
+    if (typeof input !== "object" || input === null) return input;
+    var prim = input[Symbol.toPrimitive];
+    if (prim !== undefined) {
+      var res = prim.call(input, hint || "default");
+      if (typeof res !== "object") return res;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return (hint === "string" ? String : Number)(input);
+  }
+  function _toPropertyKey(arg) {
+    var key = _toPrimitive(arg, "string");
+    return typeof key === "symbol" ? key : String(key);
   }
 
   /**
@@ -294,15 +289,13 @@
       yellow: '#ffff00',
       yellowgreen: '#9acd32'
     };
-
     var JoomlaFieldSimpleColor = /*#__PURE__*/function (_HTMLElement) {
       _inheritsLoose(JoomlaFieldSimpleColor, _HTMLElement);
-
       function JoomlaFieldSimpleColor() {
         var _this;
+        _this = _HTMLElement.call(this) || this;
 
-        _this = _HTMLElement.call(this) || this; // Define some variables
-
+        // Define some variables
         _this.select = '';
         _this.options = [];
         _this.icon = '';
@@ -312,44 +305,37 @@
         _this.focusableSelectors = ['a[href]', 'area[href]', 'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'button:not([disabled])', 'iframe', 'object', 'embed', '[contenteditable]', '[tabindex]:not([tabindex^="-"])'];
         return _this;
       }
-
       var _proto = JoomlaFieldSimpleColor.prototype;
-
       _proto.connectedCallback = function connectedCallback() {
         var _this2 = this;
-
         this.select = this.querySelector('select');
-
         if (!this.select) {
           throw new Error('Simple color field requires a select element');
         }
-
         this.options = [].slice.call(this.select.querySelectorAll('option'));
-        this.select.classList.add('hidden'); // Build the pop up
+        this.select.classList.add('hidden');
 
+        // Build the pop up
         this.options.forEach(function (option) {
           var color = option.value;
           var clss = 'swatch';
-
           if (color === 'none') {
             clss += ' nocolor';
             color = 'transparent';
           }
-
           if (option.selected) {
             clss += ' active';
           }
-
           var el = document.createElement('button');
           el.setAttribute('class', clss);
           el.style.backgroundColor = color;
           el.setAttribute('type', 'button');
           var a11yColor = color === 'transparent' ? _this2.textTransp : _this2.getColorName(color);
           el.innerHTML = Joomla.sanitizeHtml("<span class=\"visually-hidden\">" + a11yColor + "</span>");
-
           _this2.buttons.push(el);
-        }); // Add a close button
+        });
 
+        // Add a close button
         var close = document.createElement('button');
         close.setAttribute('class', 'btn-close');
         close.setAttribute('type', 'button');
@@ -357,18 +343,14 @@
         this.buttons.push(close);
         var color = this.select.value;
         var clss = '';
-
         if (color === 'none') {
           clss += ' nocolor';
           color = 'transparent';
         }
-
         this.icon = document.createElement('button');
-
         if (clss) {
           this.icon.setAttribute('class', clss);
         }
-
         var uniqueId = "simple-color-" + Math.random().toString(36).substr(2, 10);
         this.icon.setAttribute('type', 'button');
         this.icon.setAttribute('tabindex', '0');
@@ -388,7 +370,6 @@
           } else {
             el.addEventListener('click', _this2.colorSelect);
           }
-
           _this2.panel.insertAdjacentElement('beforeend', el);
         });
         this.appendChild(this.panel);
@@ -397,7 +378,6 @@
         this.hide = this.hide.bind(this);
         this.mousedown = this.mousedown.bind(this);
       };
-
       // Show the panel
       _proto.show = function show() {
         document.addEventListener('mousedown', this.hide);
@@ -405,29 +385,25 @@
         this.panel.addEventListener('mousedown', this.mousedown);
         this.panel.setAttribute('data-open', '');
         var focused = this.panel.querySelector('button');
-
         if (focused) {
           focused.focus();
         }
-      } // Hide panel
-      ;
+      }
 
+      // Hide panel
+      ;
       _proto.hide = function hide() {
         document.removeEventListener('mousedown', this.hide, false);
         this.removeEventListener('keydown', this.keys);
-
         if (this.panel.hasAttribute('data-open')) {
           this.panel.removeAttribute('data-open');
         }
-
         this.icon.focus();
       };
-
       _proto.colorSelect = function colorSelect(e) {
         var color = '';
         var bgcolor = '';
         var clss = '';
-
         if (e.target.classList.contains('nocolor')) {
           color = 'none';
           bgcolor = 'transparent';
@@ -435,105 +411,102 @@
         } else {
           color = this.rgb2hex(e.target.style.backgroundColor);
           bgcolor = color;
-        } // Reset the active class
+        }
 
-
+        // Reset the active class
         this.buttons.forEach(function (el) {
           if (el.classList.contains('active')) {
             el.classList.remove('active');
           }
-        }); // Add the active class to the selected button
+        });
 
+        // Add the active class to the selected button
         e.target.classList.add('active');
         this.icon.classList.remove('nocolor');
         this.icon.setAttribute('class', clss);
-        this.icon.style.backgroundColor = bgcolor; // trigger change event both on the select and on the custom element
+        this.icon.style.backgroundColor = bgcolor;
 
+        // trigger change event both on the select and on the custom element
         this.select.dispatchEvent(new Event('change'));
         this.dispatchEvent(new CustomEvent('change', {
           detail: {
             value: color
           },
           bubbles: true
-        })); // Hide the panel
+        }));
 
-        this.hide(); // Change select value
+        // Hide the panel
+        this.hide();
 
+        // Change select value
         this.options.forEach(function (el) {
           if (el.selected) {
             el.removeAttribute('selected');
           }
-
           if (el.value === bgcolor) {
             el.setAttribute('selected', '');
           }
         });
       };
-
       _proto.keys = function keys(e) {
         if (e.keyCode === KEYCODE.ESC) {
           this.hide();
         }
-
         if (e.keyCode === KEYCODE.TAB) {
           // Get the index of the current active element
-          var focusedIndex = this.focusableElements.indexOf(document.activeElement); // If first element is focused and shiftkey is in use, focus last item within modal
+          var focusedIndex = this.focusableElements.indexOf(document.activeElement);
 
+          // If first element is focused and shiftkey is in use, focus last item within modal
           if (e.shiftKey && (focusedIndex === 0 || focusedIndex === -1)) {
             this.focusableElements[this.focusableElements.length - 1].focus();
             e.preventDefault();
-          } // If last element is focused and shiftkey is not in use, focus first item within modal
-
-
+          }
+          // If last element is focused and shiftkey is not in use, focus first item within modal
           if (!e.shiftKey && focusedIndex === this.focusableElements.length - 1) {
             this.focusableElements[0].focus();
             e.preventDefault();
           }
         }
-      } // Prevents the mousedown event from "eating" the click event.
+      }
+
+      // Prevents the mousedown event from "eating" the click event.
       // eslint-disable-next-line class-methods-use-this
       ;
-
       _proto.mousedown = function mousedown(e) {
         e.stopPropagation();
         e.preventDefault();
       };
-
       _proto.getColorName = function getColorName(value) {
         // Expand any short code
         var newValue = value;
-
         if (value.length === 4) {
           var tmpValue = value.split('');
           newValue = tmpValue[0] + tmpValue[1] + tmpValue[1] + tmpValue[2] + tmpValue[2] + tmpValue[3] + tmpValue[3];
-        } // eslint-disable-next-line no-restricted-syntax
+        }
 
-
+        // eslint-disable-next-line no-restricted-syntax
         for (var color in colorNames) {
           // eslint-disable-next-line no-prototype-builtins
           if (colorNames.hasOwnProperty(color) && newValue.toLowerCase() === colorNames[color]) {
             return color;
           }
         }
-
         return this.textColor + " " + value.replace('#', '').split('').join(', ');
       }
+
       /**
        * Converts a RGB color to its hexadecimal value.
        * See http://stackoverflow.com/questions/1740700/get-hex-value-rather-than-rgb-value-using-$
        */
       // eslint-disable-next-line class-methods-use-this
       ;
-
       _proto.rgb2hex = function rgb2hex(rgb) {
         var hex = function hex(x) {
           return ("0" + parseInt(x, 10).toString(16)).slice(-2);
         };
-
         var matches = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
         return "#" + hex(matches[1]) + hex(matches[2]) + hex(matches[3]);
       };
-
       _createClass(JoomlaFieldSimpleColor, [{
         key: "textSelect",
         get: function get() {
@@ -560,10 +533,8 @@
           return ['text-select', 'text-color', 'text-close', 'text-transparent'];
         }
       }]);
-
       return JoomlaFieldSimpleColor;
     }( /*#__PURE__*/_wrapNativeSuper(HTMLElement));
-
     customElements.define('joomla-field-simple-color', JoomlaFieldSimpleColor);
   })(customElements);
 

@@ -6,22 +6,22 @@
    * @license     GNU General Public License version 2 or later; see LICENSE.txt
    */
   (function (document, submitForm) {
+    // Selectors used by this script
     var buttonDataSelector = 'data-submit-task';
     var formId = 'adminForm';
+
     /**
      * Submit the task
      * @param task
      */
-
     var submitTask = function submitTask(task) {
       var form = document.getElementById(formId);
-
       if (task === 'article.cancel' || document.formvalidator.isValid(form)) {
         submitForm(task, form);
       }
-    }; // Register events
+    };
 
-
+    // Register events
     document.addEventListener('DOMContentLoaded', function () {
       var buttons = [].slice.call(document.querySelectorAll("[" + buttonDataSelector + "]"));
       buttons.forEach(function (button) {

@@ -3,78 +3,62 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v5.1.3): util/sanitizer.js
+   * Bootstrap (v5.2.3): util/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
   const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+
   /**
    * A pattern that recognizes a commonly useful subset of URLs that are safe.
    *
-   * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
+   * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
-
   const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
+
   /**
    * A pattern that matches safe data URLs. Only matches image, video and audio types.
    *
-   * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
+   * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
-
   const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
-
   const allowedAttribute = (attribute, allowedAttributeList) => {
     const attributeName = attribute.nodeName.toLowerCase();
-
     if (allowedAttributeList.includes(attributeName)) {
       if (uriAttributes.has(attributeName)) {
         return Boolean(SAFE_URL_PATTERN.test(attribute.nodeValue) || DATA_URL_PATTERN.test(attribute.nodeValue));
       }
-
       return true;
     }
 
-    const regExp = allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp); // Check if a regular expression validates the attribute.
-
-    for (let i = 0, len = regExp.length; i < len; i++) {
-      if (regExp[i].test(attributeName)) {
-        return true;
-      }
-    }
-
-    return false;
+    // Check if a regular expression validates the attribute.
+    return allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp).some(regex => regex.test(attributeName));
   };
-  function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
+  function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
     if (!unsafeHtml.length) {
       return unsafeHtml;
     }
-
-    if (sanitizeFn && typeof sanitizeFn === 'function') {
-      return sanitizeFn(unsafeHtml);
+    if (sanitizeFunction && typeof sanitizeFunction === 'function') {
+      return sanitizeFunction(unsafeHtml);
     }
-
     const domParser = new window.DOMParser();
     const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
     const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
-
-    for (let i = 0, len = elements.length; i < len; i++) {
-      const element = elements[i];
+    for (const element of elements) {
       const elementName = element.nodeName.toLowerCase();
-
       if (!Object.keys(allowList).includes(elementName)) {
         element.remove();
         continue;
       }
-
       const attributeList = [].concat(...element.attributes);
       const allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
-      attributeList.forEach(attribute => {
+      for (const attribute of attributeList) {
         if (!allowedAttribute(attribute, allowedAttributes)) {
           element.removeAttribute(attribute.nodeName);
         }
-      });
+      }
     }
-
     return createdDocument.body.innerHTML;
   }
 
@@ -121,12 +105,15 @@
     select: ['name'],
     textarea: ['name'],
     option: ['value', 'selected']
-  }; // Only define the Joomla namespace if not defined.
+  };
 
-  window.Joomla = window.Joomla || {}; // Only define editors if not defined
+  // Only define the Joomla namespace if not defined.
+  window.Joomla = window.Joomla || {};
 
-  window.Joomla.editors = window.Joomla.editors || {}; // An object to hold each editor instance on page, only define if not defined.
+  // Only define editors if not defined
+  window.Joomla.editors = window.Joomla.editors || {};
 
+  // An object to hold each editor instance on page, only define if not defined.
   window.Joomla.editors.instances = window.Joomla.editors.instances || {
     /**
      * *****************************************************************
@@ -197,8 +184,8 @@
     },
     getCurrent: () => window.Joomla.Modal.current
   };
-
   (Joomla => {
+
     /**
      * Method to Extend Objects
      *
@@ -207,7 +194,6 @@
      *
      * @return Object
      */
-
     Joomla.extend = (destination, source) => {
       let newDestination = destination;
       /**
@@ -215,16 +201,15 @@
        * context will error out.
        * So emulate jQuery.extend(), and treat a destination null as an empty object.
        */
-
       if (destination === null) {
         newDestination = {};
       }
-
       [].slice.call(Object.keys(source)).forEach(key => {
         newDestination[key] = source[key];
       });
       return destination;
     };
+
     /**
      * Joomla options storage
      *
@@ -232,9 +217,8 @@
      *
      * @since 3.7.0
      */
-
-
     Joomla.optionsStorage = Joomla.optionsStorage || null;
+
     /**
      * Get script(s) options
      *
@@ -245,15 +229,14 @@
      *
      * @since 3.7.0
      */
-
     Joomla.getOptions = (key, def) => {
       // Load options if they not exists
       if (!Joomla.optionsStorage) {
         Joomla.loadOptions();
       }
-
       return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
     };
+
     /**
      * Load new options from given options object or from Element
      *
@@ -262,8 +245,6 @@
      *
      * @since 3.7.0
      */
-
-
     Joomla.loadOptions = options => {
       // Load form the script container
       if (!options) {
@@ -272,21 +253,18 @@
         elements.forEach(element => {
           const str = element.text || element.textContent;
           const option = JSON.parse(str);
-
           if (option) {
             Joomla.loadOptions(option);
             counter += 1;
           }
-
           element.className = element.className.replace(' new', ' loaded');
         });
-
         if (counter) {
           return;
         }
-      } // Initial loading
+      }
 
-
+      // Initial loading
       if (!Joomla.optionsStorage) {
         Joomla.optionsStorage = options || {};
       } else if (options) {
@@ -307,6 +285,7 @@
         });
       }
     };
+
     /**
      * Custom behavior for JavaScript I18N in Joomla! 1.6
      *
@@ -315,11 +294,8 @@
      * Allows you to call Joomla.Text._() to get a translated JavaScript string
      * pushed in with Text::script() in Joomla.
      */
-
-
     Joomla.Text = {
       strings: {},
-
       /**
        * Translates a string into the current language.
        *
@@ -330,23 +306,21 @@
        */
       _: (key, def) => {
         let newKey = key;
-        let newDef = def; // Check for new strings in the optionsStorage, and load them
-
+        let newDef = def;
+        // Check for new strings in the optionsStorage, and load them
         const newStrings = Joomla.getOptions('joomla.jtext');
-
         if (newStrings) {
-          Joomla.Text.load(newStrings); // Clean up the optionsStorage from useless data
+          Joomla.Text.load(newStrings);
 
+          // Clean up the optionsStorage from useless data
           Joomla.loadOptions({
             'joomla.jtext': null
           });
         }
-
         newDef = newDef === undefined ? newKey : newDef;
         newKey = newKey.toUpperCase();
         return Joomla.Text.strings[newKey] !== undefined ? Joomla.Text.strings[newKey] : newDef;
       },
-
       /**
        * Load new strings in to Joomla.Text
        *
@@ -360,15 +334,18 @@
         return Joomla.Text;
       }
     };
+
     /**
      * For B/C we still support Joomla.JText
      *
      * @type {{}}
      *
-     * @deprecated 5.0
+     * @deprecated   4.0 will be removed in 6.0
+     *               Example: Joomla.Text._('...');
+     *                        Joomla.Text.load(...);
      */
-
     Joomla.JText = Joomla.Text;
+
     /**
      * Generic submit form
      *
@@ -378,38 +355,37 @@
      *
      * @returns  {void}
      */
-
     Joomla.submitform = (task, form, validate) => {
       let newForm = form;
       const newTask = task;
-
       if (!newForm) {
         newForm = document.getElementById('adminForm');
       }
-
       if (newTask) {
         newForm.task.value = newTask;
-      } // Toggle HTML5 validation
+      }
 
-
+      // Toggle HTML5 validation
       newForm.noValidate = !validate;
-
       if (!validate) {
         newForm.setAttribute('novalidate', '');
       } else if (newForm.hasAttribute('novalidate')) {
         newForm.removeAttribute('novalidate');
-      } // Submit the form.
+      }
+
+      // Submit the form.
       // Create the input type="submit"
-
-
       const button = document.createElement('input');
       button.classList.add('hidden');
-      button.type = 'submit'; // Append it and click it
+      button.type = 'submit';
 
-      newForm.appendChild(button).click(); // If "submit" was prevented, make sure we don't get a build up of buttons
+      // Append it and click it
+      newForm.appendChild(button).click();
 
+      // If "submit" was prevented, make sure we don't get a build up of buttons
       newForm.removeChild(button);
     };
+
     /**
      * Default function. Can be overridden by the component to add custom logic
      *
@@ -419,28 +395,21 @@
      *
      * @returns {void}
      */
-
-
     Joomla.submitbutton = (task, formSelector, validate) => {
       let form = document.querySelector(formSelector || 'form.form-validate');
       let newValidate = validate;
-
       if (typeof formSelector === 'string' && form === null) {
         form = document.querySelector(`#${formSelector}`);
       }
-
       if (form) {
         if (newValidate === undefined || newValidate === null) {
           const pressbutton = task.split('.');
           let cancelTask = form.getAttribute('data-cancel-task');
-
           if (!cancelTask) {
             cancelTask = `${pressbutton[0]}.cancel`;
           }
-
           newValidate = task !== cancelTask;
         }
-
         if (!newValidate || document.formvalidator.isValid(form)) {
           Joomla.submitform(task, form);
         }
@@ -448,6 +417,7 @@
         Joomla.submitform(task);
       }
     };
+
     /**
      * USED IN: all list forms.
      *
@@ -460,13 +430,10 @@
      *
      * @return {boolean}
      */
-
-
     Joomla.checkAll = (checkbox, stub) => {
       if (!checkbox.form) {
         return false;
       }
-
       const currentStab = stub || 'cb';
       const elements = [].slice.call(checkbox.form.elements);
       let state = 0;
@@ -476,7 +443,6 @@
           state += element.checked ? 1 : 0;
         }
       });
-
       if (checkbox.form.boxchecked) {
         checkbox.form.boxchecked.value = state;
         checkbox.form.boxchecked.dispatchEvent(new CustomEvent('change', {
@@ -484,9 +450,9 @@
           cancelable: true
         }));
       }
-
       return true;
     };
+
     /**
      * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
      * administrator/components/com_installer/views/discover/tmpl/default_item.php
@@ -499,44 +465,41 @@
      *
      * @return  {void}
      */
-
-
     Joomla.isChecked = (isitchecked, form) => {
       let newForm = form;
-
       if (typeof newForm === 'undefined') {
         newForm = document.getElementById('adminForm');
       } else if (typeof form === 'string') {
         newForm = document.getElementById(form);
       }
-
       newForm.boxchecked.value = isitchecked ? parseInt(newForm.boxchecked.value, 10) + 1 : parseInt(newForm.boxchecked.value, 10) - 1;
       newForm.boxchecked.dispatchEvent(new CustomEvent('change', {
         bubbles: true,
         cancelable: true
-      })); // If we don't have a checkall-toggle, done.
+      }));
 
+      // If we don't have a checkall-toggle, done.
       if (!newForm.elements['checkall-toggle']) {
         return;
-      } // Toggle main toggle checkbox depending on checkbox selection
+      }
 
-
+      // Toggle main toggle checkbox depending on checkbox selection
       let c = true;
       let i;
       let e;
-      let n; // eslint-disable-next-line no-plusplus
+      let n;
 
+      // eslint-disable-next-line no-plusplus
       for (i = 0, n = newForm.elements.length; i < n; i++) {
         e = newForm.elements[i];
-
         if (e.type === 'checkbox' && e.name !== 'checkall-toggle' && !e.checked) {
           c = false;
           break;
         }
       }
-
       newForm.elements['checkall-toggle'].checked = c;
     };
+
     /**
      * USED IN: libraries/joomla/html/html/grid.php
      * In other words, on any reorderable table
@@ -548,21 +511,18 @@
      *
      * return  {void}
      */
-
-
     Joomla.tableOrdering = (order, dir, task, form) => {
       let newForm = form;
-
       if (typeof newForm === 'undefined') {
         newForm = document.getElementById('adminForm');
       } else if (typeof form === 'string') {
         newForm = document.getElementById(form);
       }
-
       newForm.filter_order.value = order;
       newForm.filter_order_Dir.value = dir;
       Joomla.submitform(task, newForm);
     };
+
     /**
      * USED IN: all over :)
      *
@@ -572,42 +532,35 @@
      *
      * @return {boolean}
      */
-
-
     Joomla.listItemTask = (id, task, form = null) => {
       let newForm = form;
-
       if (form !== null) {
         newForm = document.getElementById(form);
       } else {
         newForm = document.adminForm;
       }
-
       const cb = newForm[id];
       let i = 0;
       let cbx;
-
       if (!cb) {
         return false;
-      } // eslint-disable-next-line no-constant-condition
+      }
 
-
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         cbx = newForm[`cb${i}`];
-
         if (!cbx) {
           break;
         }
-
         cbx.checked = false;
         i += 1;
       }
-
       cb.checked = true;
       newForm.boxchecked.value = 1;
       Joomla.submitform(task, newForm);
       return false;
     };
+
     /**
      * Method to replace all request tokens on the page with a new one.
      *
@@ -615,13 +568,10 @@
      *
      * Used in Joomla Installation
      */
-
-
     Joomla.replaceTokens = newToken => {
       if (!/^[0-9A-F]{32}$/i.test(newToken)) {
         return;
       }
-
       const elements = [].slice.call(document.getElementsByTagName('input'));
       elements.forEach(element => {
         if (element.type === 'hidden' && element.value === '1' && element.name.length === 32) {
@@ -629,6 +579,7 @@
         }
       });
     };
+
     /**
      * Method to perform AJAX request
      *
@@ -663,8 +614,6 @@
      *
      * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
      */
-
-
     Joomla.request = options => {
       // Prepare the options
       const newOptions = Joomla.extend({
@@ -673,28 +622,29 @@
         data: null,
         perform: true,
         promise: false
-      }, options); // Setup XMLHttpRequest instance
+      }, options);
 
+      // Setup XMLHttpRequest instance
       const createRequest = (onSuccess, onError) => {
         const xhr = new XMLHttpRequest();
-        xhr.open(newOptions.method, newOptions.url, true); // Set the headers
+        xhr.open(newOptions.method, newOptions.url, true);
 
+        // Set the headers
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
         xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
-
         if (newOptions.method !== 'GET') {
           const token = Joomla.getOptions('csrf.token', '');
 
-          if (token) {
+          // Use the CSRF only on the site's domain
+          if (token && (!newOptions.url.startsWith('http:') && !newOptions.url.startsWith('https:') || newOptions.url.startsWith(window.location.origin))) {
             xhr.setRequestHeader('X-CSRF-Token', token);
           }
-
           if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
           }
-        } // Custom headers
+        }
 
-
+        // Custom headers
         if (newOptions.headers) {
           [].slice.call(Object.keys(newOptions.headers)).forEach(key => {
             // Allow request without Content-Type
@@ -704,14 +654,13 @@
             }
           });
         }
-
         xhr.onreadystatechange = () => {
           // Request not finished
           if (xhr.readyState !== 4) {
             return;
-          } // Request finished and response is ready
+          }
 
-
+          // Request finished and response is ready
           if (xhr.status === 200) {
             if (newOptions.promise) {
               // A Promise accepts only one argument
@@ -722,38 +671,34 @@
           } else {
             onError.call(window, xhr);
           }
-
           if (newOptions.onComplete && !newOptions.promise) {
             newOptions.onComplete.call(window, xhr);
           }
-        }; // Do request
+        };
 
-
+        // Do request
         if (newOptions.perform) {
           if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
             // Request interrupted
             if (newOptions.promise) {
               onSuccess.call(window, xhr);
             }
-
             return xhr;
           }
-
           xhr.send(newOptions.data);
         }
-
         return xhr;
-      }; // Return a Promise
+      };
 
-
+      // Return a Promise
       if (newOptions.promise) {
         return new Promise((resolve, reject) => {
           newOptions.perform = true;
           createRequest(resolve, reject);
         });
-      } // Return a Request
+      }
 
-
+      // Return a Request
       try {
         return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
       } catch (error) {
@@ -762,8 +707,8 @@
         return false;
       }
     };
-
     let lastRequestPromise;
+
     /**
      * Joomla Request queue.
      *
@@ -773,20 +718,18 @@
      * @param {object} options Options for Joomla.request()
      * @returns {Promise}
      */
-
     Joomla.enqueueRequest = options => {
       if (!options.promise) {
         throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
       }
-
       if (!lastRequestPromise) {
         lastRequestPromise = Joomla.request(options);
       } else {
         lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
       }
-
       return lastRequestPromise;
     };
+
     /**
      *
      * @param {string} unsafeHtml The html for sanitization
@@ -795,14 +738,14 @@
      *
      * @return string
      */
-
-
     Joomla.sanitizeHtml = (unsafeHtml, allowList, sanitizeFn) => {
-      const allowed = allowList === undefined || allowList === null ? DefaultAllowlist : { ...DefaultAllowlist,
+      const allowed = allowList === undefined || allowList === null ? DefaultAllowlist : {
+        ...DefaultAllowlist,
         ...allowList
       };
       return sanitizeHtml(unsafeHtml, allowed, sanitizeFn);
     };
+
     /**
      * Treat AJAX errors.
      * Used by some javascripts such as sendtestmail.js and permissions.js
@@ -815,21 +758,19 @@
      *
      * @since  3.6.0
      */
-
-
     Joomla.ajaxErrorsMessages = (xhr, textStatus) => {
       const msg = {};
-
       if (textStatus === 'parsererror') {
         // For jQuery jqXHR
-        const buf = []; // Html entity encode.
+        const buf = [];
 
-        let encodedJson = xhr.responseText.trim(); // eslint-disable-next-line no-plusplus
+        // Html entity encode.
+        let encodedJson = xhr.responseText.trim();
 
+        // eslint-disable-next-line no-plusplus
         for (let i = encodedJson.length - 1; i >= 0; i--) {
           buf.unshift(['&#', encodedJson[i].charCodeAt(), ';'].join(''));
         }
-
         encodedJson = buf.join('');
         msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
       } else if (textStatus === 'nocontent') {
@@ -846,7 +787,6 @@
       } else {
         msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
       }
-
       return msg;
     };
   })(Joomla);

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
+class ComposerStaticInit2de8a7924ad4e0ac9cb35a9c27618c89
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -25,8 +25,9 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         '87465e33b7551b401bf051928f220e9a' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utils/validation.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '7e9bd612cc444b3eed788ebbe46263a0' => __DIR__ . '/..' . '/laminas/laminas-zendframework-bridge/src/autoload.php',
         '07d7f1a47144818725fd8d91a907ac57' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/create_uploaded_file.php',
         'da94ac5d3ca7d2dbab84ce561ce72bfd' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/marshal_headers_from_sapi.php',
         '3d97c8dcdfba8cb85d3b34f116bb248b' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/marshal_method_from_sapi.php',
@@ -43,22 +44,22 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'cc8e14526dc240491e17a838cb78508c' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/normalize_server.legacy.php',
         '786bf90caabc9e09b6ad4cc5ca8f0e30' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/normalize_uploaded_files.legacy.php',
         '751a5a3f463e4be759be31748b61737c' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/parse_cookie_header.legacy.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'a4ecaeafb8cfb009ad0e052c90355e98' => __DIR__ . '/..' . '/beberlei/assert/lib/Assert/functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
-        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'b45b351e6b6f7487d819961fef2fda77' => __DIR__ . '/..' . '/jakeasmith/http_build_url/src/http_build_url.php',
+        '45b89995831374eefdfc4161161938f6' => __DIR__ . '/..' . '/jfcherng/php-color-output/src/helpers.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'b46ad4fe52f4d1899a2951c7e6ea56b0' => __DIR__ . '/..' . '/voku/portable-utf8/bootstrap.php',
         '256c1545158fc915c75e51a931bdba60' => __DIR__ . '/..' . '/lcobucci/jwt/compat/class-aliases.php',
         '0d273777b2b0d96e49fb3d800c6b0e81' => __DIR__ . '/..' . '/lcobucci/jwt/compat/json-exception-polyfill.php',
         'd6b246ac924292702635bb2349f4a64b' => __DIR__ . '/..' . '/lcobucci/jwt/compat/lcobucci-clock-polyfill.php',
-        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         '56823cacd97af379eceaf82ad00b928f' => __DIR__ . '/..' . '/phpseclib/bcmath_compat/lib/bcmath.php',
         '23c18046f52bef3eea034657bafda50f' => __DIR__ . '/..' . '/symfony/polyfill-php81/bootstrap.php',
     );
@@ -167,6 +168,8 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
             'Joomla\\Authentication\\' => 22,
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
+            'Jfcherng\\Utility\\' => 17,
+            'Jfcherng\\Diff\\' => 14,
         ),
         'H' => 
         array (
@@ -482,6 +485,16 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
+        ),
+        'Jfcherng\\Utility\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jfcherng/php-color-output/src',
+            1 => __DIR__ . '/..' . '/jfcherng/php-mb-string/src',
+        ),
+        'Jfcherng\\Diff\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jfcherng/php-diff/src',
+            1 => __DIR__ . '/..' . '/jfcherng/php-sequence-matcher/src',
         ),
         'Http\\Message\\' => 
         array (
@@ -854,6 +867,38 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'Http\\Message\\ResponseFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/ResponseFactory.php',
         'Http\\Message\\StreamFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/StreamFactory.php',
         'Http\\Message\\UriFactory' => __DIR__ . '/..' . '/php-http/message-factory/src/UriFactory.php',
+        'Jfcherng\\Diff\\DiffHelper' => __DIR__ . '/..' . '/jfcherng/php-diff/src/DiffHelper.php',
+        'Jfcherng\\Diff\\Differ' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Differ.php',
+        'Jfcherng\\Diff\\Exception\\FileNotFoundException' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Exception/FileNotFoundException.php',
+        'Jfcherng\\Diff\\Exception\\UnsupportedFunctionException' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Exception/UnsupportedFunctionException.php',
+        'Jfcherng\\Diff\\Factory\\LineRendererFactory' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Factory/LineRendererFactory.php',
+        'Jfcherng\\Diff\\Factory\\RendererFactory' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Factory/RendererFactory.php',
+        'Jfcherng\\Diff\\Renderer\\AbstractRenderer' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/AbstractRenderer.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\AbstractHtml' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/AbstractHtml.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\Combined' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/Combined.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\Inline' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/Inline.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\Json' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/Json.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\JsonHtml' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/JsonHtml.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\AbstractLineRenderer' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/AbstractLineRenderer.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\Char' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/Char.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\Line' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/Line.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\LineRendererInterface' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/LineRendererInterface.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\None' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/None.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\LineRenderer\\Word' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/LineRenderer/Word.php',
+        'Jfcherng\\Diff\\Renderer\\Html\\SideBySide' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Html/SideBySide.php',
+        'Jfcherng\\Diff\\Renderer\\RendererConstant' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/RendererConstant.php',
+        'Jfcherng\\Diff\\Renderer\\RendererInterface' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/RendererInterface.php',
+        'Jfcherng\\Diff\\Renderer\\Text\\AbstractText' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Text/AbstractText.php',
+        'Jfcherng\\Diff\\Renderer\\Text\\Context' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Text/Context.php',
+        'Jfcherng\\Diff\\Renderer\\Text\\JsonText' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Text/JsonText.php',
+        'Jfcherng\\Diff\\Renderer\\Text\\Unified' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Renderer/Text/Unified.php',
+        'Jfcherng\\Diff\\SequenceMatcher' => __DIR__ . '/..' . '/jfcherng/php-sequence-matcher/src/SequenceMatcher.php',
+        'Jfcherng\\Diff\\Utility\\Arr' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Utility/Arr.php',
+        'Jfcherng\\Diff\\Utility\\Language' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Utility/Language.php',
+        'Jfcherng\\Diff\\Utility\\ReverseIterator' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Utility/ReverseIterator.php',
+        'Jfcherng\\Diff\\Utility\\Str' => __DIR__ . '/..' . '/jfcherng/php-diff/src/Utility/Str.php',
+        'Jfcherng\\Utility\\CliColor' => __DIR__ . '/..' . '/jfcherng/php-color-output/src/CliColor.php',
+        'Jfcherng\\Utility\\MbString' => __DIR__ . '/..' . '/jfcherng/php-mb-string/src/MbString.php',
         'Joomla\\Application\\AbstractApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractApplication.php',
         'Joomla\\Application\\AbstractWebApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractWebApplication.php',
         'Joomla\\Application\\ApplicationEvents' => __DIR__ . '/..' . '/joomla/application/src/ApplicationEvents.php',
@@ -1493,6 +1538,8 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'Joomla\\CMS\\Menu\\SiteMenu' => __DIR__ . '/../../..' . '/libraries/src/Menu/SiteMenu.php',
         'Joomla\\CMS\\Microdata\\Microdata' => __DIR__ . '/../../..' . '/libraries/src/Microdata/Microdata.php',
         'Joomla\\CMS\\Object\\CMSObject' => __DIR__ . '/../../..' . '/libraries/src/Object/CMSObject.php',
+        'Joomla\\CMS\\Object\\LegacyErrorHandlingTrait' => __DIR__ . '/../../..' . '/libraries/src/Object/LegacyErrorHandlingTrait.php',
+        'Joomla\\CMS\\Object\\LegacyPropertyManagementTrait' => __DIR__ . '/../../..' . '/libraries/src/Object/LegacyPropertyManagementTrait.php',
         'Joomla\\CMS\\Pagination\\Pagination' => __DIR__ . '/../../..' . '/libraries/src/Pagination/Pagination.php',
         'Joomla\\CMS\\Pagination\\PaginationObject' => __DIR__ . '/../../..' . '/libraries/src/Pagination/PaginationObject.php',
         'Joomla\\CMS\\Pathway\\Pathway' => __DIR__ . '/../../..' . '/libraries/src/Pathway/Pathway.php',
@@ -2019,6 +2066,7 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'Nyholm\\Psr7\\Stream' => __DIR__ . '/..' . '/nyholm/psr7/src/Stream.php',
         'Nyholm\\Psr7\\UploadedFile' => __DIR__ . '/..' . '/nyholm/psr7/src/UploadedFile.php',
         'Nyholm\\Psr7\\Uri' => __DIR__ . '/..' . '/nyholm/psr7/src/Uri.php',
+        'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
         'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
         'PHPMailer\\PHPMailer\\OAuthTokenProvider' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuthTokenProvider.php',
@@ -2565,6 +2613,7 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'phpseclib3\\Crypt\\ChaCha20' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/ChaCha20.php',
         'phpseclib3\\Crypt\\Common\\AsymmetricKey' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/AsymmetricKey.php',
         'phpseclib3\\Crypt\\Common\\BlockCipher' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/BlockCipher.php',
+        'phpseclib3\\Crypt\\Common\\Formats\\Keys\\JWK' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/Formats/Keys/JWK.php',
         'phpseclib3\\Crypt\\Common\\Formats\\Keys\\OpenSSH' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/Formats/Keys/OpenSSH.php',
         'phpseclib3\\Crypt\\Common\\Formats\\Keys\\PKCS' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/Formats/Keys/PKCS.php',
         'phpseclib3\\Crypt\\Common\\Formats\\Keys\\PKCS1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/Common/Formats/Keys/PKCS1.php',
@@ -2675,6 +2724,7 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'phpseclib3\\Crypt\\EC\\Curves\\sect571k1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Curves/sect571k1.php',
         'phpseclib3\\Crypt\\EC\\Curves\\sect571r1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Curves/sect571r1.php',
         'phpseclib3\\Crypt\\EC\\Formats\\Keys\\Common' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Formats/Keys/Common.php',
+        'phpseclib3\\Crypt\\EC\\Formats\\Keys\\JWK' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Formats/Keys/JWK.php',
         'phpseclib3\\Crypt\\EC\\Formats\\Keys\\MontgomeryPrivate' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Formats/Keys/MontgomeryPrivate.php',
         'phpseclib3\\Crypt\\EC\\Formats\\Keys\\MontgomeryPublic' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Formats/Keys/MontgomeryPublic.php',
         'phpseclib3\\Crypt\\EC\\Formats\\Keys\\OpenSSH' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/EC/Formats/Keys/OpenSSH.php',
@@ -2694,6 +2744,7 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
         'phpseclib3\\Crypt\\RC2' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RC2.php',
         'phpseclib3\\Crypt\\RC4' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RC4.php',
         'phpseclib3\\Crypt\\RSA' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA.php',
+        'phpseclib3\\Crypt\\RSA\\Formats\\Keys\\JWK' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA/Formats/Keys/JWK.php',
         'phpseclib3\\Crypt\\RSA\\Formats\\Keys\\MSBLOB' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA/Formats/Keys/MSBLOB.php',
         'phpseclib3\\Crypt\\RSA\\Formats\\Keys\\OpenSSH' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA/Formats/Keys/OpenSSH.php',
         'phpseclib3\\Crypt\\RSA\\Formats\\Keys\\PKCS1' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Crypt/RSA/Formats/Keys/PKCS1.php',
@@ -2896,9 +2947,9 @@ class ComposerStaticInit150a0a105745d13984aaca8caa2f6976
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit150a0a105745d13984aaca8caa2f6976::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit150a0a105745d13984aaca8caa2f6976::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit150a0a105745d13984aaca8caa2f6976::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2de8a7924ad4e0ac9cb35a9c27618c89::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2de8a7924ad4e0ac9cb35a9c27618c89::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2de8a7924ad4e0ac9cb35a9c27618c89::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -14,7 +14,7 @@
   padding: 0;
   margin-bottom: 0;
   color: var(--gray-dark);
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);
   border: 1px solid var(--alert-accent-color, transparent);
   border-radius: 0.25rem;
   -webkit-transition: opacity 0.15s linear;
@@ -86,25 +86,25 @@
   --alert-accent-color: var(--success);
   --alert-heading-text: hsla(0, 0%, 100%, .95);
   --alert-close-button: var(--success);
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);
 }
 #system-message-container joomla-alert[type=info], #system-message-container joomla-alert[type=notice] {
   --alert-accent-color: var(--info);
   --alert-heading-text: hsla(0, 0%, 100%, .95);
   --alert-close-button: var(--info);
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);
 }
 #system-message-container joomla-alert[type=warning] {
   --alert-accent-color: var(--warning);
   --alert-heading-text: hsla(0, 0%, 100%, .95);
   --alert-close-button: var(--warning);
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);
 }
 #system-message-container joomla-alert[type=error], #system-message-container joomla-alert[type=danger] {
   --alert-accent-color: var(--danger);
   --alert-heading-text: hsla(0, 0%, 100%, .95);
   --alert-close-button: var(--danger);
-  background-color: hsl(0deg, 0%, 100%);
+  background-color: hsl(0, 0%, 100%);
 }
 #system-message-container joomla-alert .joomla-alert--close,
 #system-message-container joomla-alert .joomla-alert-button--close {

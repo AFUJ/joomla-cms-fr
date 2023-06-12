@@ -29,44 +29,37 @@ var beforeWrite = 'beforeWrite';
 var write = 'write';
 var afterWrite = 'afterWrite';
 var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-
 function getNodeName(element) {
   return element ? (element.nodeName || '').toLowerCase() : null;
 }
-
 function getWindow(node) {
   if (node == null) {
     return window;
   }
-
   if (node.toString() !== '[object Window]') {
     var ownerDocument = node.ownerDocument;
     return ownerDocument ? ownerDocument.defaultView || window : window;
   }
-
   return node;
 }
-
 function isElement$1(node) {
   var OwnElement = getWindow(node).Element;
   return node instanceof OwnElement || node instanceof Element;
 }
-
 function isHTMLElement(node) {
   var OwnElement = getWindow(node).HTMLElement;
   return node instanceof OwnElement || node instanceof HTMLElement;
 }
-
 function isShadowRoot(node) {
   // IE 11 has no ShadowRoot
   if (typeof ShadowRoot === 'undefined') {
     return false;
   }
-
   var OwnElement = getWindow(node).ShadowRoot;
   return node instanceof OwnElement || node instanceof ShadowRoot;
-} // and applies them to the HTMLElements such as popper and arrow
+}
 
+// and applies them to the HTMLElements such as popper and arrow
 
 function applyStyles(_ref) {
   var state = _ref.state;
@@ -81,11 +74,9 @@ function applyStyles(_ref) {
     // effective way to apply styles to an HTMLElement
     // $FlowFixMe[cannot-write]
 
-
     Object.assign(element.style, style);
     Object.keys(attributes).forEach(function (name) {
       var value = attributes[name];
-
       if (value === false) {
         element.removeAttribute(name);
       } else {
@@ -94,7 +85,6 @@ function applyStyles(_ref) {
     });
   });
 }
-
 function effect$2(_ref2) {
   var state = _ref2.state;
   var initialStyles = {
@@ -111,11 +101,9 @@ function effect$2(_ref2) {
   };
   Object.assign(state.elements.popper.style, initialStyles.popper);
   state.styles = initialStyles;
-
   if (state.elements.arrow) {
     Object.assign(state.elements.arrow.style, initialStyles.arrow);
   }
-
   return function () {
     Object.keys(state.elements).forEach(function (name) {
       var element = state.elements[name];
@@ -130,7 +118,6 @@ function effect$2(_ref2) {
       if (!isHTMLElement(element) || !getNodeName(element)) {
         return;
       }
-
       Object.assign(element.style, style);
       Object.keys(attributes).forEach(function (attribute) {
         element.removeAttribute(attribute);
@@ -138,7 +125,6 @@ function effect$2(_ref2) {
     });
   };
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var applyStyles$1 = {
   name: 'applyStyles',
@@ -148,24 +134,19 @@ var applyStyles$1 = {
   effect: effect$2,
   requires: ['computeStyles']
 };
-
 function getBasePlacement$1(placement) {
   return placement.split('-')[0];
 }
-
 var max = Math.max;
 var min = Math.min;
 var round = Math.round;
-
 function getBoundingClientRect(element, includeScale) {
   if (includeScale === void 0) {
     includeScale = false;
   }
-
   var rect = element.getBoundingClientRect();
   var scaleX = 1;
   var scaleY = 1;
-
   if (isHTMLElement(element) && includeScale) {
     var offsetHeight = element.offsetHeight;
     var offsetWidth = element.offsetWidth; // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
@@ -174,12 +155,10 @@ function getBoundingClientRect(element, includeScale) {
     if (offsetWidth > 0) {
       scaleX = round(rect.width) / offsetWidth || 1;
     }
-
     if (offsetHeight > 0) {
       scaleY = round(rect.height) / offsetHeight || 1;
     }
   }
-
   return {
     width: rect.width / scaleX,
     height: rect.height / scaleY,
@@ -190,8 +169,9 @@ function getBoundingClientRect(element, includeScale) {
     x: rect.left / scaleX,
     y: rect.top / scaleY
   };
-} // means it doesn't take into account transforms.
+}
 
+// means it doesn't take into account transforms.
 
 function getLayoutRect(element) {
   var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
@@ -199,15 +179,12 @@ function getLayoutRect(element) {
 
   var width = element.offsetWidth;
   var height = element.offsetHeight;
-
   if (Math.abs(clientRect.width - width) <= 1) {
     width = clientRect.width;
   }
-
   if (Math.abs(clientRect.height - height) <= 1) {
     height = clientRect.height;
   }
-
   return {
     x: element.offsetLeft,
     y: element.offsetTop,
@@ -215,7 +192,6 @@ function getLayoutRect(element) {
     height: height
   };
 }
-
 function contains(parent, child) {
   var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
 
@@ -224,78 +200,69 @@ function contains(parent, child) {
   } // then fallback to custom implementation with Shadow DOM support
   else if (rootNode && isShadowRoot(rootNode)) {
     var next = child;
-
     do {
       if (next && parent.isSameNode(next)) {
         return true;
       } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
-
       next = next.parentNode || next.host;
     } while (next);
   } // Give up, the result is false
 
-
   return false;
 }
-
 function getComputedStyle$1(element) {
   return getWindow(element).getComputedStyle(element);
 }
-
 function isTableElement(element) {
   return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
 }
-
 function getDocumentElement(element) {
   // $FlowFixMe[incompatible-return]: assume body is always available
-  return ((isElement$1(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+  return ((isElement$1(element) ? element.ownerDocument :
+  // $FlowFixMe[prop-missing]
   element.document) || window.document).documentElement;
 }
-
 function getParentNode(element) {
   if (getNodeName(element) === 'html') {
     return element;
   }
-
-  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+  return (
+    // this is a quicker (but less type safe) way to save quite some bytes from the bundle
     // $FlowFixMe[incompatible-return]
     // $FlowFixMe[prop-missing]
-    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-    element.parentNode || ( // DOM Element detected
-    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+    element.assignedSlot ||
+    // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || (
+    // DOM Element detected
+    isShadowRoot(element) ? element.host : null) ||
+    // ShadowRoot detected
     // $FlowFixMe[incompatible-call]: HTMLElement is a Node
     getDocumentElement(element) // fallback
-
   );
 }
 
 function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+  if (!isHTMLElement(element) ||
+  // https://github.com/popperjs/popper-core/issues/837
   getComputedStyle$1(element).position === 'fixed') {
     return null;
   }
-
   return element.offsetParent;
 } // `.offsetParent` reports `null` for fixed elements, while absolute elements
 // return the containing block
 
-
 function getContainingBlock(element) {
   var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
   var isIE = navigator.userAgent.indexOf('Trident') !== -1;
-
   if (isIE && isHTMLElement(element)) {
     // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
     var elementCss = getComputedStyle$1(element);
-
     if (elementCss.position === 'fixed') {
       return null;
     }
   }
-
   var currentNode = getParentNode(element);
-
   while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
     var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
@@ -307,40 +274,31 @@ function getContainingBlock(element) {
       currentNode = currentNode.parentNode;
     }
   }
-
   return null;
 } // Gets the closest ancestor positioned element. Handles some edge cases,
 // such as table ancestors and cross browser bugs.
 
-
 function getOffsetParent(element) {
   var window = getWindow(element);
   var offsetParent = getTrueOffsetParent(element);
-
   while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === 'static') {
     offsetParent = getTrueOffsetParent(offsetParent);
   }
-
   if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static')) {
     return window;
   }
-
   return offsetParent || getContainingBlock(element) || window;
 }
-
 function getMainAxisFromPlacement(placement) {
   return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
 }
-
 function within(min$1, value, max$1) {
   return max(min$1, min(value, max$1));
 }
-
 function withinMaxClamp(min, value, max) {
   var v = within(min, value, max);
   return v > max ? max : v;
 }
-
 function getFreshSideObject() {
   return {
     top: 0,
@@ -349,42 +307,35 @@ function getFreshSideObject() {
     left: 0
   };
 }
-
 function mergePaddingObject(paddingObject) {
   return Object.assign({}, getFreshSideObject(), paddingObject);
 }
-
 function expandToHashMap(value, keys) {
   return keys.reduce(function (hashMap, key) {
     hashMap[key] = value;
     return hashMap;
   }, {});
 }
-
 var toPaddingObject = function toPaddingObject(padding, state) {
   padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
     placement: state.placement
   })) : padding;
   return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
-
 function arrow(_ref) {
   var _state$modifiersData$;
-
   var state = _ref.state,
-      name = _ref.name,
-      options = _ref.options;
+    name = _ref.name,
+    options = _ref.options;
   var arrowElement = state.elements.arrow;
   var popperOffsets = state.modifiersData.popperOffsets;
   var basePlacement = getBasePlacement$1(state.placement);
   var axis = getMainAxisFromPlacement(basePlacement);
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
-
   if (!arrowElement || !popperOffsets) {
     return;
   }
-
   var paddingObject = toPaddingObject(options.padding, state);
   var arrowRect = getLayoutRect(arrowElement);
   var minProp = axis === 'y' ? top : left;
@@ -404,33 +355,26 @@ function arrow(_ref) {
   var axisProp = axis;
   state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
 }
-
 function effect$1(_ref2) {
   var state = _ref2.state,
-      options = _ref2.options;
+    options = _ref2.options;
   var _options$element = options.element,
-      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
-
+    arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
   if (arrowElement == null) {
     return;
   } // CSS selector
 
-
   if (typeof arrowElement === 'string') {
     arrowElement = state.elements.popper.querySelector(arrowElement);
-
     if (!arrowElement) {
       return;
     }
   }
-
   if (!contains(state.elements.popper, arrowElement)) {
     return;
   }
-
   state.elements.arrow = arrowElement;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var arrow$1 = {
   name: 'arrow',
@@ -441,11 +385,9 @@ var arrow$1 = {
   requires: ['popperOffsets'],
   requiresIfExists: ['preventOverflow']
 };
-
 function getVariation(placement) {
   return placement.split('-')[1];
 }
-
 var unsetSides = {
   top: 'auto',
   right: 'auto',
@@ -457,7 +399,7 @@ var unsetSides = {
 
 function roundOffsetsByDPR(_ref) {
   var x = _ref.x,
-      y = _ref.y;
+    y = _ref.y;
   var win = window;
   var dpr = win.devicePixelRatio || 1;
   return {
@@ -465,25 +407,22 @@ function roundOffsetsByDPR(_ref) {
     y: round(y * dpr) / dpr || 0
   };
 }
-
 function mapToStyles(_ref2) {
   var _Object$assign2;
-
   var popper = _ref2.popper,
-      popperRect = _ref2.popperRect,
-      placement = _ref2.placement,
-      variation = _ref2.variation,
-      offsets = _ref2.offsets,
-      position = _ref2.position,
-      gpuAcceleration = _ref2.gpuAcceleration,
-      adaptive = _ref2.adaptive,
-      roundOffsets = _ref2.roundOffsets,
-      isFixed = _ref2.isFixed;
+    popperRect = _ref2.popperRect,
+    placement = _ref2.placement,
+    variation = _ref2.variation,
+    offsets = _ref2.offsets,
+    position = _ref2.position,
+    gpuAcceleration = _ref2.gpuAcceleration,
+    adaptive = _ref2.adaptive,
+    roundOffsets = _ref2.roundOffsets,
+    isFixed = _ref2.isFixed;
   var _offsets$x = offsets.x,
-      x = _offsets$x === void 0 ? 0 : _offsets$x,
-      _offsets$y = offsets.y,
-      y = _offsets$y === void 0 ? 0 : _offsets$y;
-
+    x = _offsets$x === void 0 ? 0 : _offsets$x,
+    _offsets$y = offsets.y,
+    y = _offsets$y === void 0 ? 0 : _offsets$y;
   var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
     x: x,
     y: y
@@ -491,7 +430,6 @@ function mapToStyles(_ref2) {
     x: x,
     y: y
   };
-
   x = _ref3.x;
   y = _ref3.y;
   var hasX = offsets.hasOwnProperty('x');
@@ -499,45 +437,39 @@ function mapToStyles(_ref2) {
   var sideX = left;
   var sideY = top;
   var win = window;
-
   if (adaptive) {
     var offsetParent = getOffsetParent(popper);
     var heightProp = 'clientHeight';
     var widthProp = 'clientWidth';
-
     if (offsetParent === getWindow(popper)) {
       offsetParent = getDocumentElement(popper);
-
       if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
         heightProp = 'scrollHeight';
         widthProp = 'scrollWidth';
       }
     } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
-
     offsetParent = offsetParent;
-
     if (placement === top || (placement === left || placement === right) && variation === end) {
       sideY = bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height :
+      // $FlowFixMe[prop-missing]
       offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
     }
-
     if (placement === left || (placement === top || placement === bottom) && variation === end) {
       sideX = right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width :
+      // $FlowFixMe[prop-missing]
       offsetParent[widthProp];
       x -= offsetX - popperRect.width;
       x *= gpuAcceleration ? 1 : -1;
     }
   }
-
   var commonStyles = Object.assign({
     position: position
   }, adaptive && unsetSides);
-
   var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
     x: x,
     y: y
@@ -545,28 +477,23 @@ function mapToStyles(_ref2) {
     x: x,
     y: y
   };
-
   x = _ref4.x;
   y = _ref4.y;
-
   if (gpuAcceleration) {
     var _Object$assign;
-
     return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
   }
-
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 }
-
 function computeStyles(_ref5) {
   var state = _ref5.state,
-      options = _ref5.options;
+    options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration,
-      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-      _options$adaptive = options.adaptive,
-      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-      _options$roundOffsets = options.roundOffsets,
-      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+    gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+    _options$adaptive = options.adaptive,
+    adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+    _options$roundOffsets = options.roundOffsets,
+    roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
   var commonStyles = {
     placement: getBasePlacement$1(state.placement),
     variation: getVariation(state.placement),
@@ -575,7 +502,6 @@ function computeStyles(_ref5) {
     gpuAcceleration: gpuAcceleration,
     isFixed: state.options.strategy === 'fixed'
   };
-
   if (state.modifiersData.popperOffsets != null) {
     state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
       offsets: state.modifiersData.popperOffsets,
@@ -584,7 +510,6 @@ function computeStyles(_ref5) {
       roundOffsets: roundOffsets
     })));
   }
-
   if (state.modifiersData.arrow != null) {
     state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
       offsets: state.modifiersData.arrow,
@@ -593,12 +518,10 @@ function computeStyles(_ref5) {
       roundOffsets: roundOffsets
     })));
   }
-
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
     'data-popper-placement': state.placement
   });
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var computeStyles$1 = {
   name: 'computeStyles',
@@ -610,41 +533,35 @@ var computeStyles$1 = {
 var passive = {
   passive: true
 };
-
 function effect(_ref) {
   var state = _ref.state,
-      instance = _ref.instance,
-      options = _ref.options;
+    instance = _ref.instance,
+    options = _ref.options;
   var _options$scroll = options.scroll,
-      scroll = _options$scroll === void 0 ? true : _options$scroll,
-      _options$resize = options.resize,
-      resize = _options$resize === void 0 ? true : _options$resize;
+    scroll = _options$scroll === void 0 ? true : _options$scroll,
+    _options$resize = options.resize,
+    resize = _options$resize === void 0 ? true : _options$resize;
   var window = getWindow(state.elements.popper);
   var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-
   if (scroll) {
     scrollParents.forEach(function (scrollParent) {
       scrollParent.addEventListener('scroll', instance.update, passive);
     });
   }
-
   if (resize) {
     window.addEventListener('resize', instance.update, passive);
   }
-
   return function () {
     if (scroll) {
       scrollParents.forEach(function (scrollParent) {
         scrollParent.removeEventListener('scroll', instance.update, passive);
       });
     }
-
     if (resize) {
       window.removeEventListener('resize', instance.update, passive);
     }
   };
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var eventListeners = {
   name: 'eventListeners',
@@ -660,24 +577,20 @@ var hash$1 = {
   bottom: 'top',
   top: 'bottom'
 };
-
 function getOppositePlacement(placement) {
   return placement.replace(/left|right|bottom|top/g, function (matched) {
     return hash$1[matched];
   });
 }
-
 var hash = {
   start: 'end',
   end: 'start'
 };
-
 function getOppositeVariationPlacement(placement) {
   return placement.replace(/start|end/g, function (matched) {
     return hash[matched];
   });
 }
-
 function getWindowScroll(node) {
   var win = getWindow(node);
   var scrollLeft = win.pageXOffset;
@@ -687,7 +600,6 @@ function getWindowScroll(node) {
     scrollTop: scrollTop
   };
 }
-
 function getWindowScrollBarX(element) {
   // If <html> has a CSS width greater than the viewport, then this will be
   // incorrect for RTL.
@@ -698,7 +610,6 @@ function getWindowScrollBarX(element) {
   // this (e.g. Edge 2019, IE11, Safari)
   return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
 }
-
 function getViewportRect(element) {
   var win = getWindow(element);
   var html = getDocumentElement(element);
@@ -728,19 +639,18 @@ function getViewportRect(element) {
       y = visualViewport.offsetTop;
     }
   }
-
   return {
     width: width,
     height: height,
     x: x + getWindowScrollBarX(element),
     y: y
   };
-} // of the `<html>` and `<body>` rect bounds if horizontally scrollable
+}
 
+// of the `<html>` and `<body>` rect bounds if horizontally scrollable
 
 function getDocumentRect(element) {
   var _element$ownerDocumen;
-
   var html = getDocumentElement(element);
   var winScroll = getWindowScroll(element);
   var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
@@ -748,11 +658,9 @@ function getDocumentRect(element) {
   var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
   var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
   var y = -winScroll.scrollTop;
-
   if (getComputedStyle$1(body || html).direction === 'rtl') {
     x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
   }
-
   return {
     width: width,
     height: height,
@@ -760,29 +668,25 @@ function getDocumentRect(element) {
     y: y
   };
 }
-
 function isScrollParent(element) {
   // Firefox wants us to check `-x` and `-y` variations as well
   var _getComputedStyle = getComputedStyle$1(element),
-      overflow = _getComputedStyle.overflow,
-      overflowX = _getComputedStyle.overflowX,
-      overflowY = _getComputedStyle.overflowY;
-
+    overflow = _getComputedStyle.overflow,
+    overflowX = _getComputedStyle.overflowX,
+    overflowY = _getComputedStyle.overflowY;
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
 }
-
 function getScrollParent(node) {
   if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
     // $FlowFixMe[incompatible-return]: assume body is always available
     return node.ownerDocument.body;
   }
-
   if (isHTMLElement(node) && isScrollParent(node)) {
     return node;
   }
-
   return getScrollParent(getParentNode(node));
 }
+
 /*
 given a DOM element, return the list of all scroll parents, up the list of ancesors
 until we get to the top window object. This list is what we attach scroll listeners
@@ -790,23 +694,20 @@ to, because if any of these parent elements scroll, we'll need to re-calculate t
 reference element's position.
 */
 
-
 function listScrollParents(element, list) {
   var _element$ownerDocumen;
-
   if (list === void 0) {
     list = [];
   }
-
   var scrollParent = getScrollParent(element);
   var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
   var win = getWindow(scrollParent);
   var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
   var updatedList = list.concat(target);
-  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+  return isBody ? updatedList :
+  // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
   updatedList.concat(listScrollParents(getParentNode(target)));
 }
-
 function rectToClientRect(rect) {
   return Object.assign({}, rect, {
     left: rect.x,
@@ -815,7 +716,6 @@ function rectToClientRect(rect) {
     bottom: rect.y + rect.height
   });
 }
-
 function getInnerBoundingClientRect(element) {
   var rect = getBoundingClientRect(element);
   rect.top = rect.top + element.clientTop;
@@ -828,30 +728,25 @@ function getInnerBoundingClientRect(element) {
   rect.y = rect.top;
   return rect;
 }
-
 function getClientRectFromMixedType(element, clippingParent) {
   return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement$1(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
 } // A "clipping parent" is an overflowable container with the characteristic of
 // clipping (or hiding) overflowing elements with a position different from
 // `initial`
 
-
 function getClippingParents(element) {
   var clippingParents = listScrollParents(getParentNode(element));
   var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
   var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-
   if (!isElement$1(clipperElement)) {
     return [];
   } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
-
 
   return clippingParents.filter(function (clippingParent) {
     return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
   });
 } // Gets the maximum area that the element is visible in due to any number of
 // clipping parents
-
 
 function getClippingRect(element, boundary, rootBoundary) {
   var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
@@ -871,17 +766,15 @@ function getClippingRect(element, boundary, rootBoundary) {
   clippingRect.y = clippingRect.top;
   return clippingRect;
 }
-
 function computeOffsets(_ref) {
   var reference = _ref.reference,
-      element = _ref.element,
-      placement = _ref.placement;
+    element = _ref.element,
+    placement = _ref.placement;
   var basePlacement = placement ? getBasePlacement$1(placement) : null;
   var variation = placement ? getVariation(placement) : null;
   var commonX = reference.x + reference.width / 2 - element.width / 2;
   var commonY = reference.y + reference.height / 2 - element.height / 2;
   var offsets;
-
   switch (basePlacement) {
     case top:
       offsets = {
@@ -889,72 +782,61 @@ function computeOffsets(_ref) {
         y: reference.y - element.height
       };
       break;
-
     case bottom:
       offsets = {
         x: commonX,
         y: reference.y + reference.height
       };
       break;
-
     case right:
       offsets = {
         x: reference.x + reference.width,
         y: commonY
       };
       break;
-
     case left:
       offsets = {
         x: reference.x - element.width,
         y: commonY
       };
       break;
-
     default:
       offsets = {
         x: reference.x,
         y: reference.y
       };
   }
-
   var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-
   if (mainAxis != null) {
     var len = mainAxis === 'y' ? 'height' : 'width';
-
     switch (variation) {
       case start:
         offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
         break;
-
       case end:
         offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
         break;
     }
   }
-
   return offsets;
 }
-
 function detectOverflow(state, options) {
   if (options === void 0) {
     options = {};
   }
-
   var _options = options,
-      _options$placement = _options.placement,
-      placement = _options$placement === void 0 ? state.placement : _options$placement,
-      _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-      _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-      _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-      _options$altBoundary = _options.altBoundary,
-      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-      _options$padding = _options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding;
+    _options$placement = _options.placement,
+    placement = _options$placement === void 0 ? state.placement : _options$placement,
+    _options$boundary = _options.boundary,
+    boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+    _options$rootBoundary = _options.rootBoundary,
+    rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+    _options$elementConte = _options.elementContext,
+    elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+    _options$altBoundary = _options.altBoundary,
+    altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+    _options$padding = _options.padding,
+    padding = _options$padding === void 0 ? 0 : _options$padding;
   var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
   var altContext = elementContext === popper ? reference : popper;
   var popperRect = state.rects.popper;
@@ -987,23 +869,20 @@ function detectOverflow(state, options) {
       overflowOffsets[key] += offset[axis] * multiply;
     });
   }
-
   return overflowOffsets;
 }
-
 function computeAutoPlacement(state, options) {
   if (options === void 0) {
     options = {};
   }
-
   var _options = options,
-      placement = _options.placement,
-      boundary = _options.boundary,
-      rootBoundary = _options.rootBoundary,
-      padding = _options.padding,
-      flipVariations = _options.flipVariations,
-      _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+    placement = _options.placement,
+    boundary = _options.boundary,
+    rootBoundary = _options.rootBoundary,
+    padding = _options.padding,
+    flipVariations = _options.flipVariations,
+    _options$allowedAutoP = _options.allowedAutoPlacements,
+    allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
   var variation = getVariation(placement);
   var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
     return getVariation(placement) === variation;
@@ -1011,11 +890,9 @@ function computeAutoPlacement(state, options) {
   var allowedPlacements = placements$1.filter(function (placement) {
     return allowedAutoPlacements.indexOf(placement) >= 0;
   });
-
   if (allowedPlacements.length === 0) {
     allowedPlacements = placements$1;
   } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
-
 
   var overflows = allowedPlacements.reduce(function (acc, placement) {
     acc[placement] = detectOverflow(state, {
@@ -1030,37 +907,32 @@ function computeAutoPlacement(state, options) {
     return overflows[a] - overflows[b];
   });
 }
-
 function getExpandedFallbackPlacements(placement) {
   if (getBasePlacement$1(placement) === auto) {
     return [];
   }
-
   var oppositePlacement = getOppositePlacement(placement);
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
-
 function flip(_ref) {
   var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-
+    options = _ref.options,
+    name = _ref.name;
   if (state.modifiersData[name]._skip) {
     return;
   }
-
   var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-      specifiedFallbackPlacements = options.fallbackPlacements,
-      padding = options.padding,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-      allowedAutoPlacements = options.allowedAutoPlacements;
+    checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+    _options$altAxis = options.altAxis,
+    checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+    specifiedFallbackPlacements = options.fallbackPlacements,
+    padding = options.padding,
+    boundary = options.boundary,
+    rootBoundary = options.rootBoundary,
+    altBoundary = options.altBoundary,
+    _options$flipVariatio = options.flipVariations,
+    flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+    allowedAutoPlacements = options.allowedAutoPlacements;
   var preferredPlacement = state.options.placement;
   var basePlacement = getBasePlacement$1(preferredPlacement);
   var isBasePlacement = basePlacement === preferredPlacement;
@@ -1080,12 +952,9 @@ function flip(_ref) {
   var checksMap = new Map();
   var makeFallbackChecks = true;
   var firstFittingPlacement = placements[0];
-
   for (var i = 0; i < placements.length; i++) {
     var placement = placements[i];
-
     var _basePlacement = getBasePlacement$1(placement);
-
     var isStartVariation = getVariation(placement) === start;
     var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
     var len = isVertical ? 'width' : 'height';
@@ -1097,22 +966,17 @@ function flip(_ref) {
       padding: padding
     });
     var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-
     if (referenceRect[len] > popperRect[len]) {
       mainVariationSide = getOppositePlacement(mainVariationSide);
     }
-
     var altVariationSide = getOppositePlacement(mainVariationSide);
     var checks = [];
-
     if (checkMainAxis) {
       checks.push(overflow[_basePlacement] <= 0);
     }
-
     if (checkAltAxis) {
       checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
     }
-
     if (checks.every(function (check) {
       return check;
     })) {
@@ -1120,45 +984,36 @@ function flip(_ref) {
       makeFallbackChecks = false;
       break;
     }
-
     checksMap.set(placement, checks);
   }
-
   if (makeFallbackChecks) {
     // `2` may be desired in some cases – research later
     var numberOfChecks = flipVariations ? 3 : 1;
-
     var _loop = function _loop(_i) {
       var fittingPlacement = placements.find(function (placement) {
         var checks = checksMap.get(placement);
-
         if (checks) {
           return checks.slice(0, _i).every(function (check) {
             return check;
           });
         }
       });
-
       if (fittingPlacement) {
         firstFittingPlacement = fittingPlacement;
         return "break";
       }
     };
-
     for (var _i = numberOfChecks; _i > 0; _i--) {
       var _ret = _loop(_i);
-
       if (_ret === "break") break;
     }
   }
-
   if (state.placement !== firstFittingPlacement) {
     state.modifiersData[name]._skip = true;
     state.placement = firstFittingPlacement;
     state.reset = true;
   }
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var flip$1 = {
   name: 'flip',
@@ -1170,7 +1025,6 @@ var flip$1 = {
     _skip: false
   }
 };
-
 function getSideOffsets(overflow, rect, preventedOffsets) {
   if (preventedOffsets === void 0) {
     preventedOffsets = {
@@ -1178,7 +1032,6 @@ function getSideOffsets(overflow, rect, preventedOffsets) {
       y: 0
     };
   }
-
   return {
     top: overflow.top - rect.height - preventedOffsets.y,
     right: overflow.right - rect.width + preventedOffsets.x,
@@ -1186,16 +1039,14 @@ function getSideOffsets(overflow, rect, preventedOffsets) {
     left: overflow.left - rect.width - preventedOffsets.x
   };
 }
-
 function isAnySideFullyClipped(overflow) {
   return [top, right, bottom, left].some(function (side) {
     return overflow[side] >= 0;
   });
 }
-
 function hide(_ref) {
   var state = _ref.state,
-      name = _ref.name;
+    name = _ref.name;
   var referenceRect = state.rects.reference;
   var popperRect = state.rects.popper;
   var preventedOffsets = state.modifiersData.preventOverflow;
@@ -1221,7 +1072,6 @@ function hide(_ref) {
   });
 } // eslint-disable-next-line import/no-unused-modules
 
-
 var hide$1 = {
   name: 'hide',
   enabled: true,
@@ -1229,17 +1079,14 @@ var hide$1 = {
   requiresIfExists: ['preventOverflow'],
   fn: hide
 };
-
 function distanceAndSkiddingToXY(placement, rects, offset) {
   var basePlacement = getBasePlacement$1(placement);
   var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-
   var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
-    placement: placement
-  })) : offset,
-      skidding = _ref[0],
-      distance = _ref[1];
-
+      placement: placement
+    })) : offset,
+    skidding = _ref[0],
+    distance = _ref[1];
   skidding = skidding || 0;
   distance = (distance || 0) * invertDistance;
   return [left, right].indexOf(basePlacement) >= 0 ? {
@@ -1250,29 +1097,25 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
     y: distance
   };
 }
-
 function offset(_ref2) {
   var state = _ref2.state,
-      options = _ref2.options,
-      name = _ref2.name;
+    options = _ref2.options,
+    name = _ref2.name;
   var _options$offset = options.offset,
-      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+    offset = _options$offset === void 0 ? [0, 0] : _options$offset;
   var data = placements.reduce(function (acc, placement) {
     acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
     return acc;
   }, {});
   var _data$state$placement = data[state.placement],
-      x = _data$state$placement.x,
-      y = _data$state$placement.y;
-
+    x = _data$state$placement.x,
+    y = _data$state$placement.y;
   if (state.modifiersData.popperOffsets != null) {
     state.modifiersData.popperOffsets.x += x;
     state.modifiersData.popperOffsets.y += y;
   }
-
   state.modifiersData[name] = data;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var offset$1 = {
   name: 'offset',
@@ -1281,14 +1124,13 @@ var offset$1 = {
   requires: ['popperOffsets'],
   fn: offset
 };
-
 function popperOffsets(_ref) {
   var state = _ref.state,
-      name = _ref.name; // Offsets are the actual position the popper needs to have to be
+    name = _ref.name;
+  // Offsets are the actual position the popper needs to have to be
   // properly positioned near its reference element
   // This is the most basic placement, and will be adjusted by
   // the modifiers in the next step
-
   state.modifiersData[name] = computeOffsets({
     reference: state.rects.reference,
     element: state.rects.popper,
@@ -1297,7 +1139,6 @@ function popperOffsets(_ref) {
   });
 } // eslint-disable-next-line import/no-unused-modules
 
-
 var popperOffsets$1 = {
   name: 'popperOffsets',
   enabled: true,
@@ -1305,27 +1146,25 @@ var popperOffsets$1 = {
   fn: popperOffsets,
   data: {}
 };
-
 function getAltAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
-
 function preventOverflow(_ref) {
   var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
+    options = _ref.options,
+    name = _ref.name;
   var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      padding = options.padding,
-      _options$tether = options.tether,
-      tether = _options$tether === void 0 ? true : _options$tether,
-      _options$tetherOffset = options.tetherOffset,
-      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+    checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+    _options$altAxis = options.altAxis,
+    checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+    boundary = options.boundary,
+    rootBoundary = options.rootBoundary,
+    altBoundary = options.altBoundary,
+    padding = options.padding,
+    _options$tether = options.tether,
+    tether = _options$tether === void 0 ? true : _options$tether,
+    _options$tetherOffset = options.tetherOffset,
+    tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
   var overflow = detectOverflow(state, {
     boundary: boundary,
     rootBoundary: rootBoundary,
@@ -1355,14 +1194,11 @@ function preventOverflow(_ref) {
     x: 0,
     y: 0
   };
-
   if (!popperOffsets) {
     return;
   }
-
   if (checkMainAxis) {
     var _offsetModifierState$;
-
     var mainSide = mainAxis === 'y' ? top : left;
     var altSide = mainAxis === 'y' ? bottom : right;
     var len = mainAxis === 'y' ? 'height' : 'width';
@@ -1399,39 +1235,24 @@ function preventOverflow(_ref) {
     popperOffsets[mainAxis] = preventedOffset;
     data[mainAxis] = preventedOffset - offset;
   }
-
   if (checkAltAxis) {
     var _offsetModifierState$2;
-
     var _mainSide = mainAxis === 'x' ? top : left;
-
     var _altSide = mainAxis === 'x' ? bottom : right;
-
     var _offset = popperOffsets[altAxis];
-
     var _len = altAxis === 'y' ? 'height' : 'width';
-
     var _min = _offset + overflow[_mainSide];
-
     var _max = _offset - overflow[_altSide];
-
     var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-
     var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-
     var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-
     var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-
     var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-
     popperOffsets[altAxis] = _preventedOffset;
     data[altAxis] = _preventedOffset - _offset;
   }
-
   state.modifiersData[name] = data;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var preventOverflow$1 = {
   name: 'preventOverflow',
@@ -1440,14 +1261,12 @@ var preventOverflow$1 = {
   fn: preventOverflow,
   requiresIfExists: ['offset']
 };
-
 function getHTMLElementScroll(element) {
   return {
     scrollLeft: element.scrollLeft,
     scrollTop: element.scrollTop
   };
 }
-
 function getNodeScroll(node) {
   if (node === getWindow(node) || !isHTMLElement(node)) {
     return getWindowScroll(node);
@@ -1455,7 +1274,6 @@ function getNodeScroll(node) {
     return getHTMLElementScroll(node);
   }
 }
-
 function isElementScaled(element) {
   var rect = element.getBoundingClientRect();
   var scaleX = round(rect.width) / element.offsetWidth || 1;
@@ -1464,12 +1282,10 @@ function isElementScaled(element) {
 } // Returns the composite rect of an element relative to its offsetParent.
 // Composite means it takes into account transforms as well as layout.
 
-
 function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
   if (isFixed === void 0) {
     isFixed = false;
   }
-
   var isOffsetParentAnElement = isHTMLElement(offsetParent);
   var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
   var documentElement = getDocumentElement(offsetParent);
@@ -1482,13 +1298,12 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     x: 0,
     y: 0
   };
-
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    if (getNodeName(offsetParent) !== 'body' ||
+    // https://github.com/popperjs/popper-core/issues/1078
     isScrollParent(documentElement)) {
       scroll = getNodeScroll(offsetParent);
     }
-
     if (isHTMLElement(offsetParent)) {
       offsets = getBoundingClientRect(offsetParent, true);
       offsets.x += offsetParent.clientLeft;
@@ -1497,7 +1312,6 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
       offsets.x = getWindowScrollBarX(documentElement);
     }
   }
-
   return {
     x: rect.left + scroll.scrollLeft - offsets.x,
     y: rect.top + scroll.scrollTop - offsets.y,
@@ -1505,7 +1319,6 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     height: rect.height
   };
 }
-
 function order(modifiers) {
   var map = new Map();
   var visited = new Set();
@@ -1520,7 +1333,6 @@ function order(modifiers) {
     requires.forEach(function (dep) {
       if (!visited.has(dep)) {
         var depModifier = map.get(dep);
-
         if (depModifier) {
           sort(depModifier);
         }
@@ -1528,7 +1340,6 @@ function order(modifiers) {
     });
     result.push(modifier);
   }
-
   modifiers.forEach(function (modifier) {
     if (!visited.has(modifier.name)) {
       // check for visited object
@@ -1537,7 +1348,6 @@ function order(modifiers) {
   });
   return result;
 }
-
 function orderModifiers(modifiers) {
   // order based on dependencies
   var orderedModifiers = order(modifiers); // order based on phase
@@ -1548,7 +1358,6 @@ function orderModifiers(modifiers) {
     }));
   }, []);
 }
-
 function debounce$1(fn) {
   var pending;
   return function () {
@@ -1560,11 +1369,9 @@ function debounce$1(fn) {
         });
       });
     }
-
     return pending;
   };
 }
-
 function mergeByName(modifiers) {
   var merged = modifiers.reduce(function (merged, current) {
     var existing = merged[current.name];
@@ -1579,38 +1386,32 @@ function mergeByName(modifiers) {
     return merged[key];
   });
 }
-
 var DEFAULT_OPTIONS = {
   placement: 'bottom',
   modifiers: [],
   strategy: 'absolute'
 };
-
 function areValidElements() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
-
   return !args.some(function (element) {
     return !(element && typeof element.getBoundingClientRect === 'function');
   });
 }
-
 function popperGenerator(generatorOptions) {
   if (generatorOptions === void 0) {
     generatorOptions = {};
   }
-
   var _generatorOptions = generatorOptions,
-      _generatorOptions$def = _generatorOptions.defaultModifiers,
-      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-      _generatorOptions$def2 = _generatorOptions.defaultOptions,
-      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+    _generatorOptions$def = _generatorOptions.defaultModifiers,
+    defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+    _generatorOptions$def2 = _generatorOptions.defaultOptions,
+    defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
   return function createPopper(reference, popper, options) {
     if (options === void 0) {
       options = defaultOptions;
     }
-
     var state = {
       placement: 'bottom',
       orderedModifiers: [],
@@ -1655,16 +1456,14 @@ function popperGenerator(generatorOptions) {
         if (isDestroyed) {
           return;
         }
-
         var _state$elements = state.elements,
-            reference = _state$elements.reference,
-            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+          reference = _state$elements.reference,
+          popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
         // anymore
 
         if (!areValidElements(reference, popper)) {
           return;
         } // Store the reference and popper rects to be read by modifiers
-
 
         state.rects = {
           reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
@@ -1684,20 +1483,17 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers.forEach(function (modifier) {
           return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
         });
-
         for (var index = 0; index < state.orderedModifiers.length; index++) {
           if (state.reset === true) {
             state.reset = false;
             index = -1;
             continue;
           }
-
           var _state$orderedModifie = state.orderedModifiers[index],
-              fn = _state$orderedModifie.fn,
-              _state$orderedModifie2 = _state$orderedModifie.options,
-              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-              name = _state$orderedModifie.name;
-
+            fn = _state$orderedModifie.fn,
+            _state$orderedModifie2 = _state$orderedModifie.options,
+            _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+            name = _state$orderedModifie.name;
           if (typeof fn === 'function') {
             state = fn({
               state: state,
@@ -1721,11 +1517,9 @@ function popperGenerator(generatorOptions) {
         isDestroyed = true;
       }
     };
-
     if (!areValidElements(reference, popper)) {
       return instance;
     }
-
     instance.setOptions(options).then(function (state) {
       if (!isDestroyed && options.onFirstUpdate) {
         options.onFirstUpdate(state);
@@ -1739,10 +1533,9 @@ function popperGenerator(generatorOptions) {
     function runModifierEffects() {
       state.orderedModifiers.forEach(function (_ref3) {
         var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
-
+          _ref3$options = _ref3.options,
+          options = _ref3$options === void 0 ? {} : _ref3$options,
+          effect = _ref3.effect;
         if (typeof effect === 'function') {
           var cleanupFn = effect({
             state: state,
@@ -1750,25 +1543,20 @@ function popperGenerator(generatorOptions) {
             instance: instance,
             options: options
           });
-
           var noopFn = function noopFn() {};
-
           effectCleanupFns.push(cleanupFn || noopFn);
         }
       });
     }
-
     function cleanupModifierEffects() {
       effectCleanupFns.forEach(function (fn) {
         return fn();
       });
       effectCleanupFns = [];
     }
-
     return instance;
   };
 }
-
 var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
 var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
@@ -1779,7 +1567,6 @@ var createPopper = /*#__PURE__*/popperGenerator({
 * (c) 2017-2021 atomiks
 * MIT License
 */
-
 var BOX_CLASS = "tippy-box";
 var CONTENT_CLASS = "tippy-content";
 var BACKDROP_CLASS = "tippy-backdrop";
@@ -1789,35 +1576,28 @@ var TOUCH_OPTIONS = {
   passive: true,
   capture: true
 };
-
 var TIPPY_DEFAULT_APPEND_TO = function TIPPY_DEFAULT_APPEND_TO() {
   return document.body;
 };
-
 function getValueAtIndexOrReturn(value, index, defaultValue) {
   if (Array.isArray(value)) {
     var v = value[index];
     return v == null ? Array.isArray(defaultValue) ? defaultValue[index] : defaultValue : v;
   }
-
   return value;
 }
-
 function isType(value, type) {
   var str = {}.toString.call(value);
   return str.indexOf('[object') === 0 && str.indexOf(type + "]") > -1;
 }
-
 function invokeWithArgsOrReturn(value, args) {
   return typeof value === 'function' ? value.apply(void 0, args) : value;
 }
-
 function debounce(fn, ms) {
   // Avoid wrapping in `setTimeout` if ms is 0 anyway
   if (ms === 0) {
     return fn;
   }
-
   var timeout;
   return function (arg) {
     clearTimeout(timeout);
@@ -1826,83 +1606,65 @@ function debounce(fn, ms) {
     }, ms);
   };
 }
-
 function splitBySpaces(value) {
   return value.split(/\s+/).filter(Boolean);
 }
-
 function normalizeToArray(value) {
   return [].concat(value);
 }
-
 function pushIfUnique(arr, value) {
   if (arr.indexOf(value) === -1) {
     arr.push(value);
   }
 }
-
 function unique(arr) {
   return arr.filter(function (item, index) {
     return arr.indexOf(item) === index;
   });
 }
-
 function getBasePlacement(placement) {
   return placement.split('-')[0];
 }
-
 function arrayFrom(value) {
   return [].slice.call(value);
 }
-
 function removeUndefinedProps(obj) {
   return Object.keys(obj).reduce(function (acc, key) {
     if (obj[key] !== undefined) {
       acc[key] = obj[key];
     }
-
     return acc;
   }, {});
 }
-
 function div() {
   return document.createElement('div');
 }
-
 function isElement(value) {
   return ['Element', 'Fragment'].some(function (type) {
     return isType(value, type);
   });
 }
-
 function isNodeList(value) {
   return isType(value, 'NodeList');
 }
-
 function isMouseEvent(value) {
   return isType(value, 'MouseEvent');
 }
-
 function isReferenceElement(value) {
   return !!(value && value._tippy && value._tippy.reference === value);
 }
-
 function getArrayOfElements(value) {
   if (isElement(value)) {
     return [value];
   }
-
   if (isNodeList(value)) {
     return arrayFrom(value);
   }
-
   if (Array.isArray(value)) {
     return value;
   }
-
   return arrayFrom(document.querySelectorAll(value));
 }
-
 function setTransitionDuration(els, value) {
   els.forEach(function (el) {
     if (el) {
@@ -1910,7 +1672,6 @@ function setTransitionDuration(els, value) {
     }
   });
 }
-
 function setVisibilityState(els, state) {
   els.forEach(function (el) {
     if (el) {
@@ -1918,32 +1679,26 @@ function setVisibilityState(els, state) {
     }
   });
 }
-
 function getOwnerDocument(elementOrElements) {
   var _element$ownerDocumen;
-
   var _normalizeToArray = normalizeToArray(elementOrElements),
-      element = _normalizeToArray[0]; // Elements created via a <template> have an ownerDocument with no reference to the body
-
+    element = _normalizeToArray[0]; // Elements created via a <template> have an ownerDocument with no reference to the body
 
   return element != null && (_element$ownerDocumen = element.ownerDocument) != null && _element$ownerDocumen.body ? element.ownerDocument : document;
 }
-
 function isCursorOutsideInteractiveBorder(popperTreeData, event) {
   var clientX = event.clientX,
-      clientY = event.clientY;
+    clientY = event.clientY;
   return popperTreeData.every(function (_ref) {
     var popperRect = _ref.popperRect,
-        popperState = _ref.popperState,
-        props = _ref.props;
+      popperState = _ref.popperState,
+      props = _ref.props;
     var interactiveBorder = props.interactiveBorder;
     var basePlacement = getBasePlacement(popperState.placement);
     var offsetData = popperState.modifiersData.offset;
-
     if (!offsetData) {
       return true;
     }
-
     var topDistance = basePlacement === 'bottom' ? offsetData.top.y : 0;
     var bottomDistance = basePlacement === 'top' ? offsetData.bottom.y : 0;
     var leftDistance = basePlacement === 'right' ? offsetData.left.x : 0;
@@ -1955,7 +1710,6 @@ function isCursorOutsideInteractiveBorder(popperTreeData, event) {
     return exceedsTop || exceedsBottom || exceedsLeft || exceedsRight;
   });
 }
-
 function updateTransitionEndListener(box, action, listener) {
   var method = action + "EventListener"; // some browsers apparently support `transition` (unprefixed) but only fire
   // `webkitTransitionEnd`...
@@ -1969,23 +1723,17 @@ function updateTransitionEndListener(box, action, listener) {
  * dom
  */
 
-
 function actualContains(parent, child) {
   var target = child;
-
   while (target) {
     var _target$getRootNode;
-
     if (parent.contains(target)) {
       return true;
     }
-
     target = target.getRootNode == null ? void 0 : (_target$getRootNode = target.getRootNode()) == null ? void 0 : _target$getRootNode.host;
   }
-
   return false;
 }
-
 var currentInput = {
   isTouch: false
 };
@@ -2001,9 +1749,7 @@ function onDocumentTouchStart() {
   if (currentInput.isTouch) {
     return;
   }
-
   currentInput.isTouch = true;
-
   if (window.performance) {
     document.addEventListener('mousemove', onDocumentMouseMove);
   }
@@ -2014,15 +1760,12 @@ function onDocumentTouchStart() {
  * well, but very rarely that quickly.
  */
 
-
 function onDocumentMouseMove() {
   var now = performance.now();
-
   if (now - lastMouseMoveTime < 20) {
     currentInput.isTouch = false;
     document.removeEventListener('mousemove', onDocumentMouseMove);
   }
-
   lastMouseMoveTime = now;
 }
 /**
@@ -2032,26 +1775,22 @@ function onDocumentMouseMove() {
  * TODO: find a better technique to solve this problem
  */
 
-
 function onWindowBlur() {
   var activeElement = document.activeElement;
-
   if (isReferenceElement(activeElement)) {
     var instance = activeElement._tippy;
-
     if (activeElement.blur && !instance.state.isVisible) {
       activeElement.blur();
     }
   }
 }
-
 function bindGlobalEventListeners() {
   document.addEventListener('touchstart', onDocumentTouchStart, TOUCH_OPTIONS);
   window.addEventListener('blur', onWindowBlur);
 }
-
 var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
-var isIE11 = isBrowser ? // @ts-ignore
+var isIE11 = isBrowser ?
+// @ts-ignore
 !!window.msCrypto : false;
 var pluginProps = {
   animateFill: false,
@@ -2108,42 +1847,34 @@ var defaultProps = Object.assign({
   triggerTarget: null
 }, pluginProps, renderProps);
 var defaultKeys = Object.keys(defaultProps);
-
 var setDefaultProps = function setDefaultProps(partialProps) {
   var keys = Object.keys(partialProps);
   keys.forEach(function (key) {
     defaultProps[key] = partialProps[key];
   });
 };
-
 function getExtendedPassedProps(passedProps) {
   var plugins = passedProps.plugins || [];
   var pluginProps = plugins.reduce(function (acc, plugin) {
     var name = plugin.name,
-        defaultValue = plugin.defaultValue;
-
+      defaultValue = plugin.defaultValue;
     if (name) {
       var _name;
-
       acc[name] = passedProps[name] !== undefined ? passedProps[name] : (_name = defaultProps[name]) != null ? _name : defaultValue;
     }
-
     return acc;
   }, {});
   return Object.assign({}, passedProps, pluginProps);
 }
-
 function getDataAttributeProps(reference, plugins) {
   var propKeys = plugins ? Object.keys(getExtendedPassedProps(Object.assign({}, defaultProps, {
     plugins: plugins
   }))) : defaultKeys;
   var props = propKeys.reduce(function (acc, key) {
     var valueAsString = (reference.getAttribute("data-tippy-" + key) || '').trim();
-
     if (!valueAsString) {
       return acc;
     }
-
     if (key === 'content') {
       acc[key] = valueAsString;
     } else {
@@ -2153,12 +1884,10 @@ function getDataAttributeProps(reference, plugins) {
         acc[key] = valueAsString;
       }
     }
-
     return acc;
   }, {});
   return props;
 }
-
 function evaluateProps(reference, props) {
   var out = Object.assign({}, props, {
     content: invokeWithArgsOrReturn(props.content, [reference])
@@ -2170,33 +1899,26 @@ function evaluateProps(reference, props) {
   };
   return out;
 }
-
 var innerHTML = function innerHTML() {
   return 'innerHTML';
 };
-
 function dangerouslySetInnerHTML(element, html) {
   element[innerHTML()] = html;
 }
-
 function createArrowElement(value) {
   var arrow = div();
-
   if (value === true) {
     arrow.className = ARROW_CLASS;
   } else {
     arrow.className = SVG_ARROW_CLASS;
-
     if (isElement(value)) {
       arrow.appendChild(value);
     } else {
       dangerouslySetInnerHTML(arrow, value);
     }
   }
-
   return arrow;
 }
-
 function setContent(content, props) {
   if (isElement(props.content)) {
     dangerouslySetInnerHTML(content, '');
@@ -2209,7 +1931,6 @@ function setContent(content, props) {
     }
   }
 }
-
 function getChildren(popper) {
   var box = popper.firstElementChild;
   var boxChildren = arrayFrom(box.children);
@@ -2226,7 +1947,6 @@ function getChildren(popper) {
     })
   };
 }
-
 function render(instance) {
   var popper = div();
   var box = div();
@@ -2240,43 +1960,35 @@ function render(instance) {
   popper.appendChild(box);
   box.appendChild(content);
   onUpdate(instance.props, instance.props);
-
   function onUpdate(prevProps, nextProps) {
     var _getChildren = getChildren(popper),
-        box = _getChildren.box,
-        content = _getChildren.content,
-        arrow = _getChildren.arrow;
-
+      box = _getChildren.box,
+      content = _getChildren.content,
+      arrow = _getChildren.arrow;
     if (nextProps.theme) {
       box.setAttribute('data-theme', nextProps.theme);
     } else {
       box.removeAttribute('data-theme');
     }
-
     if (typeof nextProps.animation === 'string') {
       box.setAttribute('data-animation', nextProps.animation);
     } else {
       box.removeAttribute('data-animation');
     }
-
     if (nextProps.inertia) {
       box.setAttribute('data-inertia', '');
     } else {
       box.removeAttribute('data-inertia');
     }
-
     box.style.maxWidth = typeof nextProps.maxWidth === 'number' ? nextProps.maxWidth + "px" : nextProps.maxWidth;
-
     if (nextProps.role) {
       box.setAttribute('role', nextProps.role);
     } else {
       box.removeAttribute('role');
     }
-
     if (prevProps.content !== nextProps.content || prevProps.allowHTML !== nextProps.allowHTML) {
       setContent(content, instance.props);
     }
-
     if (nextProps.arrow) {
       if (!arrow) {
         box.appendChild(createArrowElement(nextProps.arrow));
@@ -2288,7 +2000,6 @@ function render(instance) {
       box.removeChild(arrow);
     }
   }
-
   return {
     popper: popper,
     onUpdate: onUpdate
@@ -2296,13 +2007,11 @@ function render(instance) {
 } // Runtime check to identify if the render function is the default one; this
 // way we can apply default CSS transitions logic and it can be tree-shaken away
 
-
 render.$$tippy = true;
 var idCounter = 1;
 var mouseMoveListeners = []; // Used by `hideAll()`
 
 var mountedInstances = [];
-
 function createTippy(reference, passedProps) {
   var props = evaluateProps(reference, Object.assign({}, defaultProps, getExtendedPassedProps(removeUndefinedProps(passedProps)))); // ===========================================================================
   // 🔒 Private members
@@ -2370,11 +2079,9 @@ function createTippy(reference, passedProps) {
   // Initial mutations
   // ===========================================================================
 
-
   var _props$render = props.render(instance),
-      popper = _props$render.popper,
-      onUpdate = _props$render.onUpdate;
-
+    popper = _props$render.popper,
+    onUpdate = _props$render.onUpdate;
   popper.setAttribute('data-tippy-root', '');
   popper.id = "tippy-" + instance.id;
   instance.popper = popper;
@@ -2388,12 +2095,10 @@ function createTippy(reference, passedProps) {
   handleAriaExpandedAttribute();
   handleStyles();
   invokeHook('onCreate', [instance]);
-
   if (props.showOnCreate) {
     scheduleShow();
   } // Prevent a tippy with a delay from hiding if the cursor left then returned
   // before it started hiding
-
 
   popper.addEventListener('mouseenter', function () {
     if (instance.props.interactive && instance.state.isVisible) {
@@ -2413,31 +2118,25 @@ function createTippy(reference, passedProps) {
     var touch = instance.props.touch;
     return Array.isArray(touch) ? touch : [touch, 0];
   }
-
   function getIsCustomTouchBehavior() {
     return getNormalizedTouchSettings()[0] === 'hold';
   }
-
   function getIsDefaultRenderFn() {
-    var _instance$props$rende; // @ts-ignore
+    var _instance$props$rende;
 
-
+    // @ts-ignore
     return !!((_instance$props$rende = instance.props.render) != null && _instance$props$rende.$$tippy);
   }
-
   function getCurrentTarget() {
     return currentTarget || reference;
   }
-
   function getDocument() {
     var parent = getCurrentTarget().parentNode;
     return parent ? getOwnerDocument(parent) : document;
   }
-
   function getDefaultTemplateChildren() {
     return getChildren(popper);
   }
-
   function getDelay(isShow) {
     // For touch or keyboard input, force `0` delay for UX reasons
     // Also if the instance is mounted but not visible (transitioning out),
@@ -2445,55 +2144,43 @@ function createTippy(reference, passedProps) {
     if (instance.state.isMounted && !instance.state.isVisible || currentInput.isTouch || lastTriggerEvent && lastTriggerEvent.type === 'focus') {
       return 0;
     }
-
     return getValueAtIndexOrReturn(instance.props.delay, isShow ? 0 : 1, defaultProps.delay);
   }
-
   function handleStyles(fromHide) {
     if (fromHide === void 0) {
       fromHide = false;
     }
-
     popper.style.pointerEvents = instance.props.interactive && !fromHide ? '' : 'none';
     popper.style.zIndex = "" + instance.props.zIndex;
   }
-
   function invokeHook(hook, args, shouldInvokePropsHook) {
     if (shouldInvokePropsHook === void 0) {
       shouldInvokePropsHook = true;
     }
-
     pluginsHooks.forEach(function (pluginHooks) {
       if (pluginHooks[hook]) {
         pluginHooks[hook].apply(pluginHooks, args);
       }
     });
-
     if (shouldInvokePropsHook) {
       var _instance$props;
-
       (_instance$props = instance.props)[hook].apply(_instance$props, args);
     }
   }
-
   function handleAriaContentAttribute() {
     var aria = instance.props.aria;
-
     if (!aria.content) {
       return;
     }
-
     var attr = "aria-" + aria.content;
     var id = popper.id;
     var nodes = normalizeToArray(instance.props.triggerTarget || reference);
     nodes.forEach(function (node) {
       var currentValue = node.getAttribute(attr);
-
       if (instance.state.isVisible) {
         node.setAttribute(attr, currentValue ? currentValue + " " + id : id);
       } else {
         var nextValue = currentValue && currentValue.replace(id, '').trim();
-
         if (nextValue) {
           node.setAttribute(attr, nextValue);
         } else {
@@ -2502,12 +2189,10 @@ function createTippy(reference, passedProps) {
       }
     });
   }
-
   function handleAriaExpandedAttribute() {
     if (hasAriaExpanded || !instance.props.aria.expanded) {
       return;
     }
-
     var nodes = normalizeToArray(instance.props.triggerTarget || reference);
     nodes.forEach(function (node) {
       if (instance.props.interactive) {
@@ -2517,14 +2202,12 @@ function createTippy(reference, passedProps) {
       }
     });
   }
-
   function cleanupInteractiveMouseListeners() {
     getDocument().removeEventListener('mousemove', debouncedOnMouseMove);
     mouseMoveListeners = mouseMoveListeners.filter(function (listener) {
       return listener !== debouncedOnMouseMove;
     });
   }
-
   function onDocumentPress(event) {
     // Moved finger to scroll instead of an intentional tap outside
     if (currentInput.isTouch) {
@@ -2532,13 +2215,11 @@ function createTippy(reference, passedProps) {
         return;
       }
     }
-
     var actualTarget = event.composedPath && event.composedPath()[0] || event.target; // Clicked on interactive popper
 
     if (instance.props.interactive && actualContains(popper, actualTarget)) {
       return;
     } // Clicked on the event listeners target
-
 
     if (normalizeToArray(instance.props.triggerTarget || reference).some(function (el) {
       return actualContains(el, actualTarget);
@@ -2546,14 +2227,12 @@ function createTippy(reference, passedProps) {
       if (currentInput.isTouch) {
         return;
       }
-
       if (instance.state.isVisible && instance.props.trigger.indexOf('click') >= 0) {
         return;
       }
     } else {
       invokeHook('onClickOutside', [instance, event]);
     }
-
     if (instance.props.hideOnClick === true) {
       instance.clearDelayTimeouts();
       instance.hide(); // `mousedown` event is fired right before `focus` if pressing the
@@ -2572,15 +2251,12 @@ function createTippy(reference, passedProps) {
       }
     }
   }
-
   function onTouchMove() {
     didTouchMove = true;
   }
-
   function onTouchStart() {
     didTouchMove = false;
   }
-
   function addDocumentPress() {
     var doc = getDocument();
     doc.addEventListener('mousedown', onDocumentPress, true);
@@ -2588,7 +2264,6 @@ function createTippy(reference, passedProps) {
     doc.addEventListener('touchstart', onTouchStart, TOUCH_OPTIONS);
     doc.addEventListener('touchmove', onTouchMove, TOUCH_OPTIONS);
   }
-
   function removeDocumentPress() {
     var doc = getDocument();
     doc.removeEventListener('mousedown', onDocumentPress, true);
@@ -2596,7 +2271,6 @@ function createTippy(reference, passedProps) {
     doc.removeEventListener('touchstart', onTouchStart, TOUCH_OPTIONS);
     doc.removeEventListener('touchmove', onTouchMove, TOUCH_OPTIONS);
   }
-
   function onTransitionedOut(duration, callback) {
     onTransitionEnd(duration, function () {
       if (!instance.state.isVisible && popper.parentNode && popper.parentNode.contains(popper)) {
@@ -2604,14 +2278,11 @@ function createTippy(reference, passedProps) {
       }
     });
   }
-
   function onTransitionedIn(duration, callback) {
     onTransitionEnd(duration, callback);
   }
-
   function onTransitionEnd(duration, callback) {
     var box = getDefaultTemplateChildren().box;
-
     function listener(event) {
       if (event.target === box) {
         updateTransitionEndListener(box, 'remove', listener);
@@ -2620,21 +2291,17 @@ function createTippy(reference, passedProps) {
     } // Make callback synchronous if duration is 0
     // `transitionend` won't fire otherwise
 
-
     if (duration === 0) {
       return callback();
     }
-
     updateTransitionEndListener(box, 'remove', currentTransitionEndListener);
     updateTransitionEndListener(box, 'add', listener);
     currentTransitionEndListener = listener;
   }
-
   function on(eventType, handler, options) {
     if (options === void 0) {
       options = false;
     }
-
     var nodes = normalizeToArray(instance.props.triggerTarget || reference);
     nodes.forEach(function (node) {
       node.addEventListener(eventType, handler, options);
@@ -2646,7 +2313,6 @@ function createTippy(reference, passedProps) {
       });
     });
   }
-
   function addListeners() {
     if (getIsCustomTouchBehavior()) {
       on('touchstart', onTrigger, {
@@ -2656,55 +2322,44 @@ function createTippy(reference, passedProps) {
         passive: true
       });
     }
-
     splitBySpaces(instance.props.trigger).forEach(function (eventType) {
       if (eventType === 'manual') {
         return;
       }
-
       on(eventType, onTrigger);
-
       switch (eventType) {
         case 'mouseenter':
           on('mouseleave', onMouseLeave);
           break;
-
         case 'focus':
           on(isIE11 ? 'focusout' : 'blur', onBlurOrFocusOut);
           break;
-
         case 'focusin':
           on('focusout', onBlurOrFocusOut);
           break;
       }
     });
   }
-
   function removeListeners() {
     listeners.forEach(function (_ref) {
       var node = _ref.node,
-          eventType = _ref.eventType,
-          handler = _ref.handler,
-          options = _ref.options;
+        eventType = _ref.eventType,
+        handler = _ref.handler,
+        options = _ref.options;
       node.removeEventListener(eventType, handler, options);
     });
     listeners = [];
   }
-
   function onTrigger(event) {
     var _lastTriggerEvent;
-
     var shouldScheduleClickHide = false;
-
     if (!instance.state.isEnabled || isEventListenerStopped(event) || didHideDueToDocumentMouseDown) {
       return;
     }
-
     var wasFocused = ((_lastTriggerEvent = lastTriggerEvent) == null ? void 0 : _lastTriggerEvent.type) === 'focus';
     lastTriggerEvent = event;
     currentTarget = event.currentTarget;
     handleAriaExpandedAttribute();
-
     if (!instance.state.isVisible && isMouseEvent(event)) {
       // If scrolling, `mouseenter` events can be fired if the cursor lands
       // over a new target, but `mousemove` events don't get fired. This
@@ -2715,36 +2370,28 @@ function createTippy(reference, passedProps) {
       });
     } // Toggle show/hide when clicking click-triggered tooltips
 
-
     if (event.type === 'click' && (instance.props.trigger.indexOf('mouseenter') < 0 || isVisibleFromClick) && instance.props.hideOnClick !== false && instance.state.isVisible) {
       shouldScheduleClickHide = true;
     } else {
       scheduleShow(event);
     }
-
     if (event.type === 'click') {
       isVisibleFromClick = !shouldScheduleClickHide;
     }
-
     if (shouldScheduleClickHide && !wasFocused) {
       scheduleHide(event);
     }
   }
-
   function onMouseMove(event) {
     var target = event.target;
     var isCursorOverReferenceOrPopper = getCurrentTarget().contains(target) || popper.contains(target);
-
     if (event.type === 'mousemove' && isCursorOverReferenceOrPopper) {
       return;
     }
-
     var popperTreeData = getNestedPopperTree().concat(popper).map(function (popper) {
       var _instance$popperInsta;
-
       var instance = popper._tippy;
       var state = (_instance$popperInsta = instance.popperInstance) == null ? void 0 : _instance$popperInsta.state;
-
       if (state) {
         return {
           popperRect: popper.getBoundingClientRect(),
@@ -2752,56 +2399,45 @@ function createTippy(reference, passedProps) {
           props: props
         };
       }
-
       return null;
     }).filter(Boolean);
-
     if (isCursorOutsideInteractiveBorder(popperTreeData, event)) {
       cleanupInteractiveMouseListeners();
       scheduleHide(event);
     }
   }
-
   function onMouseLeave(event) {
     var shouldBail = isEventListenerStopped(event) || instance.props.trigger.indexOf('click') >= 0 && isVisibleFromClick;
-
     if (shouldBail) {
       return;
     }
-
     if (instance.props.interactive) {
       instance.hideWithInteractivity(event);
       return;
     }
-
     scheduleHide(event);
   }
-
   function onBlurOrFocusOut(event) {
     if (instance.props.trigger.indexOf('focusin') < 0 && event.target !== getCurrentTarget()) {
       return;
     } // If focus was moved to within the popper
 
-
     if (instance.props.interactive && event.relatedTarget && popper.contains(event.relatedTarget)) {
       return;
     }
-
     scheduleHide(event);
   }
-
   function isEventListenerStopped(event) {
     return currentInput.isTouch ? getIsCustomTouchBehavior() !== event.type.indexOf('touch') >= 0 : false;
   }
-
   function createPopperInstance() {
     destroyPopperInstance();
     var _instance$props2 = instance.props,
-        popperOptions = _instance$props2.popperOptions,
-        placement = _instance$props2.placement,
-        offset = _instance$props2.offset,
-        getReferenceClientRect = _instance$props2.getReferenceClientRect,
-        moveTransition = _instance$props2.moveTransition;
+      popperOptions = _instance$props2.popperOptions,
+      placement = _instance$props2.placement,
+      offset = _instance$props2.offset,
+      getReferenceClientRect = _instance$props2.getReferenceClientRect,
+      moveTransition = _instance$props2.moveTransition;
     var arrow = getIsDefaultRenderFn() ? getChildren(popper).arrow : null;
     var computedReference = getReferenceClientRect ? {
       getBoundingClientRect: getReferenceClientRect,
@@ -2814,11 +2450,9 @@ function createTippy(reference, passedProps) {
       requires: ['computeStyles'],
       fn: function fn(_ref2) {
         var state = _ref2.state;
-
         if (getIsDefaultRenderFn()) {
           var _getDefaultTemplateCh = getDefaultTemplateChildren(),
-              box = _getDefaultTemplateCh.box;
-
+            box = _getDefaultTemplateCh.box;
           ['placement', 'reference-hidden', 'escaped'].forEach(function (attr) {
             if (attr === 'placement') {
               box.setAttribute('data-placement', state.placement);
@@ -2860,7 +2494,6 @@ function createTippy(reference, passedProps) {
         adaptive: !moveTransition
       }
     }, tippyModifier];
-
     if (getIsDefaultRenderFn() && arrow) {
       modifiers.push({
         name: 'arrow',
@@ -2870,7 +2503,6 @@ function createTippy(reference, passedProps) {
         }
       });
     }
-
     modifiers.push.apply(modifiers, (popperOptions == null ? void 0 : popperOptions.modifiers) || []);
     instance.popperInstance = createPopper(computedReference, popper, Object.assign({}, popperOptions, {
       placement: placement,
@@ -2878,14 +2510,12 @@ function createTippy(reference, passedProps) {
       modifiers: modifiers
     }));
   }
-
   function destroyPopperInstance() {
     if (instance.popperInstance) {
       instance.popperInstance.destroy();
       instance.popperInstance = null;
     }
   }
-
   function mount() {
     var appendTo = instance.props.appendTo;
     var parentNode; // By default, we'll append the popper to the triggerTargets's parentNode so
@@ -2895,7 +2525,6 @@ function createTippy(reference, passedProps) {
     // and ensure focus management is handled correctly manually
 
     var node = getCurrentTarget();
-
     if (instance.props.interactive && appendTo === TIPPY_DEFAULT_APPEND_TO || appendTo === 'parent') {
       parentNode = node.parentNode;
     } else {
@@ -2903,37 +2532,28 @@ function createTippy(reference, passedProps) {
     } // The popper element needs to exist on the DOM before its position can be
     // updated as Popper needs to read its dimensions
 
-
     if (!parentNode.contains(popper)) {
       parentNode.appendChild(popper);
     }
-
     instance.state.isMounted = true;
     createPopperInstance();
   }
-
   function getNestedPopperTree() {
     return arrayFrom(popper.querySelectorAll('[data-tippy-root]'));
   }
-
   function scheduleShow(event) {
     instance.clearDelayTimeouts();
-
     if (event) {
       invokeHook('onTrigger', [instance, event]);
     }
-
     addDocumentPress();
     var delay = getDelay(true);
-
     var _getNormalizedTouchSe = getNormalizedTouchSettings(),
-        touchValue = _getNormalizedTouchSe[0],
-        touchDelay = _getNormalizedTouchSe[1];
-
+      touchValue = _getNormalizedTouchSe[0],
+      touchDelay = _getNormalizedTouchSe[1];
     if (currentInput.isTouch && touchValue === 'hold' && touchDelay) {
       delay = touchDelay;
     }
-
     if (delay) {
       showTimeout = setTimeout(function () {
         instance.show();
@@ -2942,11 +2562,9 @@ function createTippy(reference, passedProps) {
       instance.show();
     }
   }
-
   function scheduleHide(event) {
     instance.clearDelayTimeouts();
     invokeHook('onUntrigger', [instance, event]);
-
     if (!instance.state.isVisible) {
       removeDocumentPress();
       return;
@@ -2955,13 +2573,10 @@ function createTippy(reference, passedProps) {
     // events when trigger contains mouseenter and click, and the tip is
     // currently shown as a result of a click.
 
-
     if (instance.props.trigger.indexOf('mouseenter') >= 0 && instance.props.trigger.indexOf('click') >= 0 && ['mouseleave', 'mousemove'].indexOf(event.type) >= 0 && isVisibleFromClick) {
       return;
     }
-
     var delay = getDelay(false);
-
     if (delay) {
       hideTimeout = setTimeout(function () {
         if (instance.state.isVisible) {
@@ -2979,29 +2594,24 @@ function createTippy(reference, passedProps) {
   // 🔑 Public methods
   // ===========================================================================
 
-
   function enable() {
     instance.state.isEnabled = true;
   }
-
   function disable() {
     // Disabling the instance should also hide it
     // https://github.com/atomiks/tippy.js-react/issues/106
     instance.hide();
     instance.state.isEnabled = false;
   }
-
   function clearDelayTimeouts() {
     clearTimeout(showTimeout);
     clearTimeout(hideTimeout);
     cancelAnimationFrame(scheduleHideAnimationFrame);
   }
-
   function setProps(partialProps) {
     if (instance.state.isDestroyed) {
       return;
     }
-
     invokeHook('onBeforeUpdate', [instance, partialProps]);
     removeListeners();
     var prevProps = instance.props;
@@ -3010,12 +2620,10 @@ function createTippy(reference, passedProps) {
     }));
     instance.props = nextProps;
     addListeners();
-
     if (prevProps.interactiveDebounce !== nextProps.interactiveDebounce) {
       cleanupInteractiveMouseListeners();
       debouncedOnMouseMove = debounce(onMouseMove, nextProps.interactiveDebounce);
     } // Ensure stale aria-expanded attributes are removed
-
 
     if (prevProps.triggerTarget && !nextProps.triggerTarget) {
       normalizeToArray(prevProps.triggerTarget).forEach(function (node) {
@@ -3024,14 +2632,11 @@ function createTippy(reference, passedProps) {
     } else if (nextProps.triggerTarget) {
       reference.removeAttribute('aria-expanded');
     }
-
     handleAriaExpandedAttribute();
     handleStyles();
-
     if (onUpdate) {
       onUpdate(prevProps, nextProps);
     }
-
     if (instance.popperInstance) {
       createPopperInstance(); // Fixes an issue with nested tippies if they are all getting re-rendered,
       // and the nested ones get re-rendered first.
@@ -3044,84 +2649,65 @@ function createTippy(reference, passedProps) {
         requestAnimationFrame(nestedPopper._tippy.popperInstance.forceUpdate);
       });
     }
-
     invokeHook('onAfterUpdate', [instance, partialProps]);
   }
-
   function setContent(content) {
     instance.setProps({
       content: content
     });
   }
-
   function show() {
     var isAlreadyVisible = instance.state.isVisible;
     var isDestroyed = instance.state.isDestroyed;
     var isDisabled = !instance.state.isEnabled;
     var isTouchAndTouchDisabled = currentInput.isTouch && !instance.props.touch;
     var duration = getValueAtIndexOrReturn(instance.props.duration, 0, defaultProps.duration);
-
     if (isAlreadyVisible || isDestroyed || isDisabled || isTouchAndTouchDisabled) {
       return;
     } // Normalize `disabled` behavior across browsers.
     // Firefox allows events on disabled elements, but Chrome doesn't.
     // Using a wrapper element (i.e. <span>) is recommended.
 
-
     if (getCurrentTarget().hasAttribute('disabled')) {
       return;
     }
-
     invokeHook('onShow', [instance], false);
-
     if (instance.props.onShow(instance) === false) {
       return;
     }
-
     instance.state.isVisible = true;
-
     if (getIsDefaultRenderFn()) {
       popper.style.visibility = 'visible';
     }
-
     handleStyles();
     addDocumentPress();
-
     if (!instance.state.isMounted) {
       popper.style.transition = 'none';
     } // If flipping to the opposite side after hiding at least once, the
     // animation will use the wrong placement without resetting the duration
 
-
     if (getIsDefaultRenderFn()) {
       var _getDefaultTemplateCh2 = getDefaultTemplateChildren(),
-          box = _getDefaultTemplateCh2.box,
-          content = _getDefaultTemplateCh2.content;
-
+        box = _getDefaultTemplateCh2.box,
+        content = _getDefaultTemplateCh2.content;
       setTransitionDuration([box, content], 0);
     }
-
     onFirstUpdate = function onFirstUpdate() {
       var _instance$popperInsta2;
-
       if (!instance.state.isVisible || ignoreOnFirstUpdate) {
         return;
       }
-
       ignoreOnFirstUpdate = true; // reflow
 
       void popper.offsetHeight;
       popper.style.transition = instance.props.moveTransition;
-
       if (getIsDefaultRenderFn() && instance.props.animation) {
         var _getDefaultTemplateCh3 = getDefaultTemplateChildren(),
-            _box = _getDefaultTemplateCh3.box,
-            _content = _getDefaultTemplateCh3.content;
-
+          _box = _getDefaultTemplateCh3.box,
+          _content = _getDefaultTemplateCh3.content;
         setTransitionDuration([_box, _content], duration);
         setVisibilityState([_box, _content], 'visible');
       }
-
       handleAriaContentAttribute();
       handleAriaExpandedAttribute();
       pushIfUnique(mountedInstances, instance); // certain modifiers (e.g. `maxSize`) require a second update after the
@@ -3129,7 +2715,6 @@ function createTippy(reference, passedProps) {
 
       (_instance$popperInsta2 = instance.popperInstance) == null ? void 0 : _instance$popperInsta2.forceUpdate();
       invokeHook('onMount', [instance]);
-
       if (instance.props.animation && getIsDefaultRenderFn()) {
         onTransitionedIn(duration, function () {
           instance.state.isShown = true;
@@ -3137,53 +2722,41 @@ function createTippy(reference, passedProps) {
         });
       }
     };
-
     mount();
   }
-
   function hide() {
     var isAlreadyHidden = !instance.state.isVisible;
     var isDestroyed = instance.state.isDestroyed;
     var isDisabled = !instance.state.isEnabled;
     var duration = getValueAtIndexOrReturn(instance.props.duration, 1, defaultProps.duration);
-
     if (isAlreadyHidden || isDestroyed || isDisabled) {
       return;
     }
-
     invokeHook('onHide', [instance], false);
-
     if (instance.props.onHide(instance) === false) {
       return;
     }
-
     instance.state.isVisible = false;
     instance.state.isShown = false;
     ignoreOnFirstUpdate = false;
     isVisibleFromClick = false;
-
     if (getIsDefaultRenderFn()) {
       popper.style.visibility = 'hidden';
     }
-
     cleanupInteractiveMouseListeners();
     removeDocumentPress();
     handleStyles(true);
-
     if (getIsDefaultRenderFn()) {
       var _getDefaultTemplateCh4 = getDefaultTemplateChildren(),
-          box = _getDefaultTemplateCh4.box,
-          content = _getDefaultTemplateCh4.content;
-
+        box = _getDefaultTemplateCh4.box,
+        content = _getDefaultTemplateCh4.content;
       if (instance.props.animation) {
         setTransitionDuration([box, content], duration);
         setVisibilityState([box, content], 'hidden');
       }
     }
-
     handleAriaContentAttribute();
     handleAriaExpandedAttribute();
-
     if (instance.props.animation) {
       if (getIsDefaultRenderFn()) {
         onTransitionedOut(duration, instance.unmount);
@@ -3192,22 +2765,18 @@ function createTippy(reference, passedProps) {
       instance.unmount();
     }
   }
-
   function hideWithInteractivity(event) {
     getDocument().addEventListener('mousemove', debouncedOnMouseMove);
     pushIfUnique(mouseMoveListeners, debouncedOnMouseMove);
     debouncedOnMouseMove(event);
   }
-
   function unmount() {
     if (instance.state.isVisible) {
       instance.hide();
     }
-
     if (!instance.state.isMounted) {
       return;
     }
-
     destroyPopperInstance(); // If a popper is not interactive, it will be appended outside the popper
     // tree by default. This seems mainly for interactive tippies, but we should
     // find a workaround if possible
@@ -3215,23 +2784,19 @@ function createTippy(reference, passedProps) {
     getNestedPopperTree().forEach(function (nestedPopper) {
       nestedPopper._tippy.unmount();
     });
-
     if (popper.parentNode) {
       popper.parentNode.removeChild(popper);
     }
-
     mountedInstances = mountedInstances.filter(function (i) {
       return i !== instance;
     });
     instance.state.isMounted = false;
     invokeHook('onHidden', [instance]);
   }
-
   function destroy() {
     if (instance.state.isDestroyed) {
       return;
     }
-
     instance.clearDelayTimeouts();
     instance.unmount();
     removeListeners();
@@ -3240,12 +2805,10 @@ function createTippy(reference, passedProps) {
     invokeHook('onDestroy', [instance]);
   }
 }
-
 function tippy(targets, optionalProps) {
   if (optionalProps === void 0) {
     optionalProps = {};
   }
-
   var plugins = defaultProps.plugins.concat(optionalProps.plugins || []);
   bindGlobalEventListeners();
   var passedProps = Object.assign({}, optionalProps, {
@@ -3254,19 +2817,18 @@ function tippy(targets, optionalProps) {
   var elements = getArrayOfElements(targets);
   var instances = elements.reduce(function (acc, reference) {
     var instance = reference && createTippy(reference, passedProps);
-
     if (instance) {
       acc.push(instance);
     }
-
     return acc;
   }, []);
   return isElement(targets) ? instances[0] : instances;
 }
-
 tippy.defaultProps = defaultProps;
 tippy.setDefaultProps = setDefaultProps;
-tippy.currentInput = currentInput; // every time the popper is destroyed (i.e. a new target), removing the styles
+tippy.currentInput = currentInput;
+
+// every time the popper is destroyed (i.e. a new target), removing the styles
 // and causing transitions to break for singletons when the console is open, but
 // most notably for non-transform styles being used, `gpuAcceleration: false`.
 
@@ -3287,23 +2849,24 @@ Object.assign({}, applyStyles$1, {
     };
     Object.assign(state.elements.popper.style, initialStyles.popper);
     state.styles = initialStyles;
-
     if (state.elements.arrow) {
       Object.assign(state.elements.arrow.style, initialStyles.arrow);
     } // intentionally return no cleanup function
     // return () => { ... }
-
   }
 });
+
 tippy.setDefaultProps({
   render: render
-}); // import 'tippy.js/dist/tippy.css';
+});
+
+// import 'tippy.js/dist/tippy.css';
 
 /**
  * Utility methods
  */
-// Determine element visibility
 
+// Determine element visibility
 const isElementHidden = $el => {
   if ($el.getAttribute('hidden') || $el.offsetWidth === 0 && $el.offsetHeight === 0) {
     return true;
@@ -3311,19 +2874,18 @@ const isElementHidden = $el => {
     const compStyles = getComputedStyle($el);
     return compStyles.getPropertyValue('display') === 'none';
   }
-}; // Escape HTML, encode HTML symbols
+};
 
-
+// Escape HTML, encode HTML symbols
 const escapeHTML = text => {
   const $div = document.createElement('div');
   $div.textContent = text;
   return $div.innerHTML.replaceAll('"', '&quot;').replaceAll("'", '&#039;').replaceAll("`", '&#x60;');
 };
+
 /**
  * Jooa11y Translation object
  */
-
-
 const Lang = {
   langStrings: {},
   addI18n: function (strings) {
@@ -3334,28 +2896,27 @@ const Lang = {
   },
   sprintf: function (string, ...args) {
     let transString = this._(string);
-
     if (args && args.length) {
       args.forEach(arg => {
         transString = transString.replace(/%\([a-zA-z]+\)/, arg);
       });
     }
-
     return transString;
   },
   translate: function (string) {
     return this.langStrings[string] || string;
   }
 };
+
 /**
  * Jooa11y default options
  */
-
 const defaultOptions = {
   langCode: 'en',
   // Target area to scan.
   checkRoot: 'main',
   // A content container
+
   // Readability configuration.
   readabilityRoot: 'main',
   readabilityLang: 'en',
@@ -3374,6 +2935,7 @@ const defaultOptions = {
   // Ignore specific classes within links. Example: <a href="#">learn more <span class="sr-only-example">(opens new tab)</span></a>.
   linksToFlag: '',
   // Links you don't want your content editors pointing to (e.g. development environments).
+
   // Embedded content.
   videoContent: "video, [src*='youtube.com'], [src*='vimeo.com'], [src*='yuja.com'], [src*='panopto.com']",
   audioContent: "audio, [src*='soundcloud.com'], [src*='simplecast.com'], [src*='podbean.com'], [src*='buzzsprout.com'], [src*='blubrry.com'], [src*='transistor.fm'], [src*='fusebox.fm'], [src*='libsyn.com']",
@@ -3390,6 +2952,7 @@ const defaultOptions = {
   fileTypePhrases: ['document', 'pdf', 'doc', 'docx', 'word', 'mp3', 'ppt', 'text', 'pptx', 'powerpoint', 'txt', 'exe', 'dmg', 'rtf', 'install', 'windows', 'macos', 'spreadsheet', 'worksheet', 'csv', 'xls', 'xlsx', 'video', 'mp4', 'mov', 'avi']
 };
 defaultOptions.embeddedContent = `${defaultOptions.videoContent}, ${defaultOptions.audioContent}`;
+
 /**
  * Load and validate options
  *
@@ -3397,21 +2960,20 @@ defaultOptions.embeddedContent = `${defaultOptions.videoContent}, ${defaultOptio
  * @param {Object} customOptions
  * @returns {Object}
  */
-
 const loadOptions = (instance, customOptions) => {
-  const options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions; // Check required options
+  const options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
 
+  // Check required options
   ['langCode', 'checkRoot'].forEach(option => {
     if (!options[option]) {
       throw new Error(`Option [${option}] is required`);
     }
   });
-
   if (!options.readabilityRoot) {
     options.readabilityRoot = options.checkRoot;
-  } // Container ignores apply to self and children.
+  }
 
-
+  // Container ignores apply to self and children.
   if (options.containerIgnore) {
     let containerSelectors = options.containerIgnore.split(',').map(el => {
       return `${el} *, ${el}`;
@@ -3420,358 +2982,42 @@ const loadOptions = (instance, customOptions) => {
   } else {
     options.containerIgnore = '[aria-hidden="true"], #jooa11y-container *, .jooa11y-instance *';
   }
+  instance.containerIgnore = options.containerIgnore;
 
-  instance.containerIgnore = options.containerIgnore; // Images ignore
-
+  // Images ignore
   instance.imageIgnore = instance.containerIgnore + ', [role="presentation"], [src^="https://trck.youvisit.com"]';
-
   if (options.imageIgnore) {
     instance.imageIgnore = options.imageIgnore + ',' + instance.imageIgnore;
-  } // Ignore specific headings
+  }
 
-
+  // Ignore specific headings
   instance.headerIgnore = options.containerIgnore;
-
   if (options.headerIgnore) {
     instance.headerIgnore = options.headerIgnore + ',' + instance.headerIgnore;
-  } // Links ignore defaults plus jooa11y links.
+  }
 
-
+  // Links ignore defaults plus jooa11y links.
   instance.linkIgnore = instance.containerIgnore + ', [aria-hidden="true"], .anchorjs-link';
-
   if (options.linkIgnore) {
     instance.linkIgnore = options.linkIgnore + ',' + instance.linkIgnore;
   }
-
   return options;
 };
+
 /**
  * Jooa11y class
  */
-
-
 class Jooa11y {
   constructor(options) {
-    this.checkAll = async () => {
-      this.errorCount = 0;
-      this.warningCount = 0;
-      this.$root = document.querySelector(this.options.checkRoot);
-      this.findElements(); //Ruleset checks
-
-      this.checkHeaders();
-      this.checkLinkText();
-      this.checkUnderline();
-      this.checkAltText();
-
-      if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
-        this.checkContrast();
-      }
-
-      if (localStorage.getItem("jooa11y-remember-labels") === "On") {
-        this.checkLabels();
-      }
-
-      if (localStorage.getItem("jooa11y-remember-links-advanced") === "On") {
-        this.checkLinksAdvanced();
-      }
-
-      if (localStorage.getItem("jooa11y-remember-readability") === "On") {
-        this.checkReadability();
-      }
-
-      this.checkEmbeddedContent();
-      this.checkQA(); //Update panel
-
-      if (this.panelActive) {
-        this.resetAll();
-      } else {
-        this.updatePanel();
-      }
-
-      this.initializeTooltips();
-      this.detectOverflow();
-      this.nudge(); //Don't show badge when panel is opened.
-
-      if (!document.getElementsByClassName('jooa11y-on').length) {
-        this.updateBadge();
-      }
-    };
-
-    this.nudge = () => {
-      const jooa11yInstance = document.querySelectorAll('.jooa11y-instance, .jooa11y-instance-inline');
-      jooa11yInstance.forEach($el => {
-        const sibling = $el.nextElementSibling;
-
-        if (sibling !== null && (sibling.classList.contains("jooa11y-instance") || sibling.classList.contains("jooa11y-instance-inline"))) {
-          sibling.querySelector("button").setAttribute("style", "margin: -10px -20px !important;");
-        }
-      });
-    };
-
-    this.buildPanel = () => {
-      const $outlineToggle = document.getElementById("jooa11y-outline-toggle");
-      const $outlinePanel = document.getElementById("jooa11y-outline-panel");
-      const $outlineList = document.getElementById("jooa11y-outline-list");
-      const $settingsToggle = document.getElementById("jooa11y-settings-toggle");
-      const $settingsPanel = document.getElementById("jooa11y-settings-panel");
-      const $settingsContent = document.getElementById("jooa11y-settings-content");
-      const $headingAnnotations = document.querySelectorAll(".jooa11y-heading-label"); //Show outline panel
-
-      $outlineToggle.addEventListener('click', () => {
-        if ($outlineToggle.getAttribute("aria-expanded") === "true") {
-          $outlineToggle.classList.remove("jooa11y-outline-active");
-          $outlinePanel.classList.remove("jooa11y-active");
-          $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
-          $outlineToggle.setAttribute("aria-expanded", "false");
-          localStorage.setItem("jooa11y-remember-outline", "Closed");
-        } else {
-          $outlineToggle.classList.add("jooa11y-outline-active");
-          $outlinePanel.classList.add("jooa11y-active");
-          $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
-          $outlineToggle.setAttribute("aria-expanded", "true");
-          localStorage.setItem("jooa11y-remember-outline", "Opened");
-        } //Set focus on Page Outline heading for accessibility.
-
-
-        document.querySelector("#jooa11y-outline-header > h2").focus(); //Show heading level annotations.
-
-        $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible")); //Close Settings panel when Show Outline is active.
-
-        $settingsPanel.classList.remove("jooa11y-active");
-        $settingsToggle.classList.remove("jooa11y-settings-active");
-        $settingsToggle.setAttribute("aria-expanded", "false");
-        $settingsToggle.textContent = Lang._('SHOW_SETTINGS'); //Keyboard accessibility fix for scrollable panel content.
-
-        if ($outlineList.clientHeight > 250) {
-          $outlineList.setAttribute("tabindex", "0");
-        }
-      }); //Remember to leave outline open
-
-      if (localStorage.getItem("jooa11y-remember-outline") === "Opened") {
-        $outlineToggle.classList.add("jooa11y-outline-active");
-        $outlinePanel.classList.add("jooa11y-active");
-        $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
-        $outlineToggle.setAttribute("aria-expanded", "true");
-        $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible")); //Keyboard accessibility fix for scrollable panel content.
-
-        if ($outlineList.clientHeight > 250) {
-          $outlineList.setAttribute("tabindex", "0");
-        }
-      } //Show settings panel
-
-
-      $settingsToggle.addEventListener('click', () => {
-        if ($settingsToggle.getAttribute("aria-expanded") === "true") {
-          $settingsToggle.classList.remove("jooa11y-settings-active");
-          $settingsPanel.classList.remove("jooa11y-active");
-          $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
-          $settingsToggle.setAttribute("aria-expanded", "false");
-        } else {
-          $settingsToggle.classList.add("jooa11y-settings-active");
-          $settingsPanel.classList.add("jooa11y-active");
-          $settingsToggle.textContent = Lang._('HIDE_SETTINGS');
-          $settingsToggle.setAttribute("aria-expanded", "true");
-        } //Set focus on Settings heading for accessibility.
-
-
-        document.querySelector("#jooa11y-settings-header > h2").focus(); //Close Show Outline panel when Settings is active.
-
-        $outlinePanel.classList.remove("jooa11y-active");
-        $outlineToggle.classList.remove("jooa11y-outline-active");
-        $outlineToggle.setAttribute("aria-expanded", "false");
-        $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
-        $headingAnnotations.forEach($el => $el.classList.remove("jooa11y-label-visible"));
-        localStorage.setItem("jooa11y-remember-outline", "Closed"); //Keyboard accessibility fix for scrollable panel content.
-
-        if ($settingsContent.clientHeight > 350) {
-          $settingsContent.setAttribute("tabindex", "0");
-        }
-      }); //Enhanced keyboard accessibility for panel.
-
-      document.getElementById('jooa11y-panel-controls').addEventListener('keydown', function (e) {
-        const $tab = document.querySelectorAll('#jooa11y-outline-toggle[role=tab], #jooa11y-settings-toggle[role=tab]');
-
-        if (e.key === 'ArrowRight') {
-          for (let i = 0; i < $tab.length; i++) {
-            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-              $tab[i + 1].focus();
-              e.preventDefault();
-              break;
-            }
-          }
-        }
-
-        if (e.key === 'ArrowDown') {
-          for (let i = 0; i < $tab.length; i++) {
-            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-              $tab[i + 1].focus();
-              e.preventDefault();
-              break;
-            }
-          }
-        }
-
-        if (e.key === 'ArrowLeft') {
-          for (let i = $tab.length - 1; i > 0; i--) {
-            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-              $tab[i - 1].focus();
-              e.preventDefault();
-              break;
-            }
-          }
-        }
-
-        if (e.key === 'ArrowUp') {
-          for (let i = $tab.length - 1; i > 0; i--) {
-            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-              $tab[i - 1].focus();
-              e.preventDefault();
-              break;
-            }
-          }
-        }
-      });
-      const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
-      const $alertPanel = document.getElementById("jooa11y-panel-alert");
-      const $alertText = document.getElementById("jooa11y-panel-alert-text");
-      const $jooa11ySkipBtn = document.getElementById("jooa11y-cycle-toggle");
-      $closeAlertToggle.addEventListener('click', () => {
-        $alertPanel.classList.remove("jooa11y-active");
-
-        while ($alertText.firstChild) $alertText.removeChild($alertText.firstChild);
-
-        document.querySelectorAll('.jooa11y-pulse-border').forEach(el => el.classList.remove('jooa11y-pulse-border'));
-        $jooa11ySkipBtn.focus();
-      });
-    };
-
-    this.skipToIssue = () => {
-      /* Polyfill for scrollTo. scrollTo instead of .animate(), so Jooa11y could use jQuery slim build. Credit: https://stackoverflow.com/a/67108752 & https://github.com/iamdustan/smoothscroll */
-      //let reducedMotionQuery = false;
-      //let scrollBehavior = 'smooth';
-
-      /*
-      if (!('scrollBehavior' in document.documentElement.style)) {
-          var js = document.createElement('script');
-          js.src = "https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js";
-          document.head.appendChild(js);
-      }
-      if (!(document.documentMode)) {
-          if (typeof window.matchMedia === "function") {
-              reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-          }
-          if (!reducedMotionQuery || reducedMotionQuery.matches) {
-              scrollBehavior = "auto";
-          }
-      }
-      */
-      let jooa11yBtnLocation = 0;
-      const findJooa11yBtn = document.querySelectorAll('.jooa11y-btn').length; //Jump to issue using keyboard shortcut.
-
-      document.addEventListener('keyup', e => {
-        if (e.altKey && e.code === "Period" || e.code == "KeyS") {
-          skipToIssueToggle();
-          e.preventDefault();
-        }
-      }); //Jump to issue using click.
-
-      const $skipToggle = document.getElementById("jooa11y-cycle-toggle");
-      $skipToggle.addEventListener('click', e => {
-        skipToIssueToggle();
-        e.preventDefault();
-      });
-
-      const skipToIssueToggle = function () {
-        //Calculate location of both visible and hidden buttons.
-        const $findButtons = document.querySelectorAll('.jooa11y-btn');
-        const $alertPanel = document.getElementById("jooa11y-panel-alert");
-        const $alertText = document.getElementById("jooa11y-panel-alert-text");
-        const $alertPanelPreview = document.getElementById("jooa11y-panel-alert-preview"); //const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
-        //Mini function: Find visibible parent of hidden element.
-
-        const findVisibleParent = ($el, property, value) => {
-          while ($el !== null) {
-            const style = window.getComputedStyle($el);
-            const propValue = style.getPropertyValue(property);
-
-            if (propValue === value) {
-              return $el;
-            }
-
-            $el = $el.parentElement;
-          }
-
-          return null;
-        }; //Mini function: Calculate top of element.
-
-
-        const offset = $el => {
-          let rect = $el.getBoundingClientRect(),
-              scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          return {
-            top: rect.top + scrollTop
-          };
-        }; //'offsetTop' will always return 0 if element is hidden. We rely on offsetTop to determine if element is hidden, although we use 'getBoundingClientRect' to set the scroll position.
-
-
-        let scrollPosition;
-        let offsetTopPosition = $findButtons[jooa11yBtnLocation].offsetTop;
-
-        if (offsetTopPosition === 0) {
-          let visiblePosition = findVisibleParent($findButtons[jooa11yBtnLocation], 'display', 'none');
-          scrollPosition = offset(visiblePosition.previousElementSibling).top - 50;
-        } else {
-          scrollPosition = offset($findButtons[jooa11yBtnLocation]).top - 50;
-        } //Scroll to element if offsetTop is less than or equal to 0.
-
-
-        if (offsetTopPosition >= 0) {
-          setTimeout(function () {
-            window.scrollTo({
-              top: scrollPosition,
-              behavior: 'smooth'
-            });
-          }, 1); //Add pulsing border to visible parent of hidden element.
-
-          $findButtons.forEach(function ($el) {
-            const overflowing = findVisibleParent($el, 'display', 'none');
-
-            if (overflowing !== null) {
-              let hiddenparent = overflowing.previousElementSibling;
-              hiddenparent.classList.add("jooa11y-pulse-border");
-            }
-          });
-          $findButtons[jooa11yBtnLocation].focus();
-        } else {
-          $findButtons[jooa11yBtnLocation].focus();
-        } //Alert if element is hidden.
-
-
-        if (offsetTopPosition === 0) {
-          $alertPanel.classList.add("jooa11y-active");
-          $alertText.textContent = `${Lang._('PANEL_STATUS_HIDDEN')}`;
-          $alertPanelPreview.innerHTML = $findButtons[jooa11yBtnLocation].getAttribute('data-tippy-content');
-        } else if (offsetTopPosition < 1) {
-          $alertPanel.classList.remove("jooa11y-active");
-          document.querySelectorAll('.jooa11y-pulse-border').forEach($el => $el.classList.remove('jooa11y-pulse-border'));
-        } //Reset index so it scrolls back to top of page.
-
-
-        jooa11yBtnLocation += 1;
-
-        if (jooa11yBtnLocation >= findJooa11yBtn) {
-          jooa11yBtnLocation = 0;
-        }
-      };
-    };
-
     this.containerIgnore = '';
     this.imageIgnore = '';
     this.headerIgnore = '';
-    this.linkIgnore = ''; // Load options
+    this.linkIgnore = '';
 
-    this.options = loadOptions(this, options); //Icon on the main toggle. Easy to replace.
+    // Load options
+    this.options = loadOptions(this, options);
 
+    //Icon on the main toggle. Easy to replace.
     const MainToggleIcon = "<svg role='img' focusable='false' width='35px' height='35px' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='#ffffff' d='M256 48c114.953 0 208 93.029 208 208 0 114.953-93.029 208-208 208-114.953 0-208-93.029-208-208 0-114.953 93.029-208 208-208m0-40C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 56C149.961 64 64 149.961 64 256s85.961 192 192 192 192-85.961 192-192S362.039 64 256 64zm0 44c19.882 0 36 16.118 36 36s-16.118 36-36 36-36-16.118-36-36 16.118-36 36-36zm117.741 98.023c-28.712 6.779-55.511 12.748-82.14 15.807.851 101.023 12.306 123.052 25.037 155.621 3.617 9.26-.957 19.698-10.217 23.315-9.261 3.617-19.699-.957-23.316-10.217-8.705-22.308-17.086-40.636-22.261-78.549h-9.686c-5.167 37.851-13.534 56.208-22.262 78.549-3.615 9.255-14.05 13.836-23.315 10.217-9.26-3.617-13.834-14.056-10.217-23.315 12.713-32.541 24.185-54.541 25.037-155.621-26.629-3.058-53.428-9.027-82.141-15.807-8.6-2.031-13.926-10.648-11.895-19.249s10.647-13.926 19.249-11.895c96.686 22.829 124.283 22.783 220.775 0 8.599-2.03 17.218 3.294 19.249 11.895 2.029 8.601-3.297 17.219-11.897 19.249z'/></svg>";
     const jooa11ycontainer = document.createElement("div");
     jooa11ycontainer.setAttribute("id", "jooa11y-container");
@@ -3782,21 +3028,25 @@ class Jooa11y {
     let loadLabelsPreference = localStorage.getItem("jooa11y-remember-labels") === "On";
     let loadChangeRequestPreference = localStorage.getItem("jooa11y-remember-links-advanced") === "On";
     let loadReadabilityPreference = localStorage.getItem("jooa11y-remember-readability") === "On";
-    jooa11ycontainer.innerHTML = //Main toggle button.
+    jooa11ycontainer.innerHTML =
+    //Main toggle button.
     `<button type="button" aria-expanded="false" id="jooa11y-toggle" aria-describedby="jooa11y-notification-badge" aria-label="${Lang._('MAIN_TOGGLE_LABEL')}">
                     ${MainToggleIcon}
                     <div id="jooa11y-notification-badge">
                         <span id="jooa11y-notification-count"></span>
                     </div>
-                </button>` + //Start of main container.
-    `<div id="jooa11y-panel">` + //Page Outline tab.
+                </button>` +
+    //Start of main container.
+    `<div id="jooa11y-panel">` +
+    //Page Outline tab.
     `<div id="jooa11y-outline-panel" role="tabpanel" aria-labelledby="jooa11y-outline-header">
                 <div id="jooa11y-outline-header" class="jooa11y-header-text">
                     <h2 tabindex="-1">${Lang._('PAGE_OUTLINE')}</h2>
                 </div>
                 <div id="jooa11y-outline-content">
                     <ul id="jooa11y-outline-list"></ul>
-                </div>` + //Readability tab.
+                </div>` +
+    //Readability tab.
     `<div id="jooa11y-readability-panel">
                     <div id="jooa11y-readability-content">
                         <h2 class="jooa11y-header-text-inline">${Lang._('READABILITY')}</h2>
@@ -3804,7 +3054,9 @@ class Jooa11y {
                         <ul id="jooa11y-readability-details"></ul>
                     </div>
                 </div>
-            </div>` + //End of Page Outline tab.
+            </div>` +
+    //End of Page Outline tab.
+
     //Settings tab.
     `<div id="jooa11y-settings-panel" role="tabpanel" aria-labelledby="jooa11y-settings-header">
                 <div id="jooa11y-settings-header" class="jooa11y-header-text">
@@ -3840,7 +3092,8 @@ class Jooa11y {
                         </li>
                     </ul>
                 </div>
-            </div>` + //Console warning messages.
+            </div>` +
+    //Console warning messages.
     `<div id="jooa11y-panel-alert">
                 <div class="jooa11y-header-text">
                     <button id="jooa11y-close-alert" class="jooa11y-close-btn" aria-label="${Lang._('ALERT_CLOSE')}" aria-describedby="jooa11y-alert-heading jooa11y-panel-alert-text"></button>
@@ -3848,13 +3101,15 @@ class Jooa11y {
                 </div>
                 <p id="jooa11y-panel-alert-text"></p>
                 <div id="jooa11y-panel-alert-preview"></div>
-            </div>` + //Main panel that conveys state of page.
+            </div>` +
+    //Main panel that conveys state of page.
     `<div id="jooa11y-panel-content">
                 <button id="jooa11y-cycle-toggle" type="button" aria-label="${Lang._('SHORTCUT_SR')}">
                     <div class="jooa11y-panel-icon"></div>
                 </button>
                 <div id="jooa11y-panel-text"><p id="jooa11y-status" aria-live="polite"></p></div>
-            </div>` + //Show Outline & Show Settings button.
+            </div>` +
+    //Show Outline & Show Settings button.
     `<div id="jooa11y-panel-controls" role="tablist" aria-orientation="horizontal">
                 <button type="button" role="tab" aria-expanded="false" id="jooa11y-outline-toggle" aria-controls="jooa11y-outline-panel">
                     ${Lang._('SHOW_OUTLINE')}
@@ -3863,20 +3118,23 @@ class Jooa11y {
                     ${Lang._('SHOW_SETTINGS')}
                 </button>
                 <div style="width:35px"></div>
-            </div>` + //End of main container.
+            </div>` +
+    //End of main container.
     `</div>`;
-    document.body.append(jooa11ycontainer); //Put before document.ready because of CSS flicker when dark mode is enabled.
+    document.body.append(jooa11ycontainer);
 
-    this.settingPanelToggles(); // Preload before CheckAll function.
+    //Put before document.ready because of CSS flicker when dark mode is enabled.
+    this.settingPanelToggles();
 
+    // Preload before CheckAll function.
     this.jooa11yMainToggle();
     this.sanitizeHTMLandComputeARIA();
     this.initializeJumpToIssueTooltip();
-  } //----------------------------------------------------------------------
+  }
+
+  //----------------------------------------------------------------------
   // Main toggle button
   //----------------------------------------------------------------------
-
-
   jooa11yMainToggle() {
     //Keeps checker active when navigating between pages until it is toggled off.
     const jooa11yToggle = document.getElementById("jooa11y-toggle");
@@ -3892,45 +3150,45 @@ class Jooa11y {
         localStorage.setItem("jooa11y-remember-panel", "Opened");
         jooa11yToggle.classList.add("jooa11y-on");
         jooa11yToggle.setAttribute("aria-expanded", "true");
-        this.checkAll(); //Don't show badge when panel is opened.
-
+        this.checkAll();
+        //Don't show badge when panel is opened.
         document.getElementById("jooa11y-notification-badge").style.display = 'none';
         e.preventDefault();
       }
-    }); //Remember to leave it open
+    });
 
+    //Remember to leave it open
     if (localStorage.getItem("jooa11y-remember-panel") === "Opened") {
       jooa11yToggle.classList.add("jooa11y-on");
       jooa11yToggle.setAttribute("aria-expanded", "true");
-    } //Crudely give a little time to load any other content or slow post-rendered JS, iFrames, etc.
+    }
 
-
+    //Crudely give a little time to load any other content or slow post-rendered JS, iFrames, etc.
     if (jooa11yToggle.classList.contains("jooa11y-on")) {
       jooa11yToggle.classList.toggle("loading-jooa11y");
       jooa11yToggle.setAttribute("aria-expanded", "true");
       setTimeout(this.checkAll, 800);
-    } //Keyboard commands
+    }
 
-
+    //Keyboard commands
     document.onkeydown = evt => {
-      evt = evt || window.event; //Escape key to close accessibility checker panel
+      evt = evt || window.event;
 
+      //Escape key to close accessibility checker panel
       var isEscape = false;
-
       if ("key" in evt) {
         isEscape = evt.key === "Escape" || evt.key === "Esc";
       } else {
         isEscape = evt.keyCode === 27;
       }
-
       if (isEscape && document.getElementById("jooa11y-panel").classList.contains("jooa11y-active")) {
         jooa11yToggle.setAttribute("aria-expanded", "false");
         jooa11yToggle.classList.remove("jooa11y-on");
         jooa11yToggle.click();
         this.resetAll();
-      } //Alt + A to open accessibility checker panel
+      }
 
-
+      //Alt + A to open accessibility checker panel
       if (evt.altKey && evt.code == "KeyA") {
         const jooa11yToggle = document.getElementById("jooa11y-toggle");
         jooa11yToggle.click();
@@ -3938,29 +3196,30 @@ class Jooa11y {
         evt.preventDefault();
       }
     };
-  } // ============================================================
+  }
+
+  // ============================================================
   // Helpers: Sanitize HTML and compute ARIA for hyperlinks
   // ============================================================
-
-
   sanitizeHTMLandComputeARIA() {
     //Helper: Compute alt text on images within a text node.
     this.computeTextNodeWithImage = function ($el) {
       const imgArray = Array.from($el.querySelectorAll("img"));
-      let returnText = ""; //No image, has text.
-
+      let returnText = "";
+      //No image, has text.
       if (imgArray.length === 0 && $el.textContent.trim().length > 1) {
         returnText = $el.textContent.trim();
-      } //Has image, no text.
+      }
+      //Has image, no text.
       else if (imgArray.length && $el.textContent.trim().length === 0) {
         let imgalt = imgArray[0].getAttribute("alt");
-
         if (!imgalt || imgalt === " ") {
           returnText = " ";
         } else if (imgalt !== undefined) {
           returnText = imgalt;
         }
-      } //Has image and text.
+      }
+      //Has image and text.
       //To-do: This is a hack? Any way to do this better?
       else if (imgArray.length && $el.textContent.trim().length) {
         imgArray.forEach(element => {
@@ -3968,17 +3227,15 @@ class Jooa11y {
         });
         returnText = $el.textContent.trim();
       }
-
       return returnText;
-    }; //Helper: Handle ARIA labels for Link Text module.
+    };
 
-
+    //Helper: Handle ARIA labels for Link Text module.
     this.computeAriaLabel = function (el) {
       if (el.matches("[aria-label]")) {
         return el.getAttribute("aria-label");
       } else if (el.matches("[aria-labelledby]")) {
         let target = el.getAttribute("aria-labelledby").split(/\s+/);
-
         if (target.length > 0) {
           let returnText = "";
           target.forEach(x => {
@@ -3992,14 +3249,14 @@ class Jooa11y {
         } else {
           return "";
         }
-      } //Children of element.
+      }
+      //Children of element.
       else if (Array.from(el.children).filter(x => x.matches("[aria-label]")).length > 0) {
         return Array.from(el.children)[0].getAttribute("aria-label");
       } else if (Array.from(el.children).filter(x => x.matches("[title]")).length > 0) {
         return Array.from(el.children)[0].getAttribute("title");
       } else if (Array.from(el.children).filter(x => x.matches("[aria-labelledby]")).length > 0) {
         let target = Array.from(el.children)[0].getAttribute("aria-labelledby").split(/\s+/);
-
         if (target.length > 0) {
           let returnText = "";
           target.forEach(x => {
@@ -4017,15 +3274,14 @@ class Jooa11y {
         return "noAria";
       }
     };
-  } //----------------------------------------------------------------------
+  }
+
+  //----------------------------------------------------------------------
   // Setting's panel: Additional ruleset toggles.
   //----------------------------------------------------------------------
-
-
   settingPanelToggles() {
     //Toggle: Contrast
     const $jooa11yContrastCheck = document.getElementById("jooa11y-contrast-toggle");
-
     $jooa11yContrastCheck.onclick = async () => {
       if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
         localStorage.setItem("jooa11y-remember-contrast", "Off");
@@ -4040,11 +3296,10 @@ class Jooa11y {
         this.resetAll(false);
         await this.checkAll();
       }
-    }; //Toggle: Form labels
+    };
 
-
+    //Toggle: Form labels
     const $jooa11yLabelsCheck = document.getElementById("jooa11y-labels-toggle");
-
     $jooa11yLabelsCheck.onclick = async () => {
       if (localStorage.getItem("jooa11y-remember-labels") === "On") {
         localStorage.setItem("jooa11y-remember-labels", "Off");
@@ -4059,11 +3314,10 @@ class Jooa11y {
         this.resetAll(false);
         await this.checkAll();
       }
-    }; //Toggle: Links (Advanced)
+    };
 
-
+    //Toggle: Links (Advanced)
     const $jooa11yChangeRequestCheck = document.getElementById("jooa11y-links-advanced-toggle");
-
     $jooa11yChangeRequestCheck.onclick = async () => {
       if (localStorage.getItem("jooa11y-remember-links-advanced") === "On") {
         localStorage.setItem("jooa11y-remember-links-advanced", "Off");
@@ -4078,11 +3332,10 @@ class Jooa11y {
         this.resetAll(false);
         await this.checkAll();
       }
-    }; //Toggle: Readability
+    };
 
-
+    //Toggle: Readability
     const $jooa11yReadabilityCheck = document.getElementById("jooa11y-readability-toggle");
-
     $jooa11yReadabilityCheck.onclick = async () => {
       if (localStorage.getItem("jooa11y-remember-readability") === "On") {
         localStorage.setItem("jooa11y-remember-readability", "Off");
@@ -4100,17 +3353,16 @@ class Jooa11y {
         await this.checkAll();
       }
     };
-
     if (localStorage.getItem("jooa11y-remember-readability") === "On") {
       document.getElementById("jooa11y-readability-panel").classList.add("jooa11y-active");
-    } //Toggle: Dark mode. (Credits: https://derekkedziora.com/blog/dark-mode-revisited)
+    }
 
+    //Toggle: Dark mode. (Credits: https://derekkedziora.com/blog/dark-mode-revisited)
 
     let systemInitiatedDark = window.matchMedia("(prefers-color-scheme: dark)");
     const $jooa11yTheme = document.getElementById("jooa11y-theme-toggle");
     const html = document.querySelector("html");
     const theme = localStorage.getItem("jooa11y-remember-theme");
-
     if (systemInitiatedDark.matches) {
       $jooa11yTheme.textContent = Lang._('ON');
       $jooa11yTheme.setAttribute("aria-pressed", "true");
@@ -4118,7 +3370,6 @@ class Jooa11y {
       $jooa11yTheme.textContent = Lang._('OFF');
       $jooa11yTheme.setAttribute("aria-pressed", "false");
     }
-
     function prefersColorTest(systemInitiatedDark) {
       if (systemInitiatedDark.matches) {
         html.setAttribute("data-jooa11y-theme", "dark");
@@ -4132,12 +3383,9 @@ class Jooa11y {
         localStorage.setItem("jooa11y-remember-theme", "");
       }
     }
-
     systemInitiatedDark.addEventListener('change', prefersColorTest);
-
     $jooa11yTheme.onclick = async () => {
       const theme = localStorage.getItem("jooa11y-remember-theme");
-
       if (theme === "dark") {
         html.setAttribute("data-jooa11y-theme", "light");
         localStorage.setItem("jooa11y-remember-theme", "light");
@@ -4160,7 +3408,6 @@ class Jooa11y {
         $jooa11yTheme.setAttribute("aria-pressed", "true");
       }
     };
-
     if (theme === "dark") {
       html.setAttribute("data-jooa11y-theme", "dark");
       localStorage.setItem("jooa11y-remember-theme", "dark");
@@ -4172,11 +3419,11 @@ class Jooa11y {
       $jooa11yTheme.textContent = Lang._('OFF');
       $jooa11yTheme.setAttribute("aria-pressed", "false");
     }
-  } //----------------------------------------------------------------------
+  }
+
+  //----------------------------------------------------------------------
   // Tooltip for Jump-to-Issue button.
   //----------------------------------------------------------------------
-
-
   initializeJumpToIssueTooltip() {
     tippy('#jooa11y-cycle-toggle', {
       content: `<div style="text-align:center">${Lang._('SHORTCUT_TOOLTIP')} &raquo;<br><span class="jooa11y-shortcut-icon"></span></div>`,
@@ -4192,48 +3439,94 @@ class Jooa11y {
       },
       appendTo: document.body
     });
-  } // ----------------------------------------------------------------------
+  }
+
+  // ----------------------------------------------------------------------
   // Do Initial check
   // ----------------------------------------------------------------------
-
-
   doInitialCheck() {
     if (localStorage.getItem("jooa11y-remember-panel") === "Closed" || !localStorage.getItem("jooa11y-remember-panel")) {
       this.panelActive = true; // Prevent panel popping up after initial check
-
       this.checkAll();
     }
-  } // ----------------------------------------------------------------------
+  }
+
+  // ----------------------------------------------------------------------
   // Check all
   // ----------------------------------------------------------------------
+  checkAll = async () => {
+    this.errorCount = 0;
+    this.warningCount = 0;
+    this.$root = document.querySelector(this.options.checkRoot);
+    this.findElements();
 
+    //Ruleset checks
+    this.checkHeaders();
+    this.checkLinkText();
+    this.checkUnderline();
+    this.checkAltText();
+    if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
+      this.checkContrast();
+    }
+    if (localStorage.getItem("jooa11y-remember-labels") === "On") {
+      this.checkLabels();
+    }
+    if (localStorage.getItem("jooa11y-remember-links-advanced") === "On") {
+      this.checkLinksAdvanced();
+    }
+    if (localStorage.getItem("jooa11y-remember-readability") === "On") {
+      this.checkReadability();
+    }
+    this.checkEmbeddedContent();
+    this.checkQA();
+
+    //Update panel
+    if (this.panelActive) {
+      this.resetAll();
+    } else {
+      this.updatePanel();
+    }
+    this.initializeTooltips();
+    this.detectOverflow();
+    this.nudge();
+
+    //Don't show badge when panel is opened.
+    if (!document.getElementsByClassName('jooa11y-on').length) {
+      this.updateBadge();
+    }
+  };
 
   // ============================================================
   // Reset all
   // ============================================================
   resetAll(restartPanel = true) {
     this.panelActive = false;
-    this.clearEverything(); //Remove eventListeners on the Show Outline and Show Panel toggles.
+    this.clearEverything();
 
+    //Remove eventListeners on the Show Outline and Show Panel toggles.
     const $outlineToggle = document.getElementById("jooa11y-outline-toggle");
     const resetOutline = $outlineToggle.cloneNode(true);
     $outlineToggle.parentNode.replaceChild(resetOutline, $outlineToggle);
     const $settingsToggle = document.getElementById("jooa11y-settings-toggle");
     const resetSettings = $settingsToggle.cloneNode(true);
-    $settingsToggle.parentNode.replaceChild(resetSettings, $settingsToggle); //Errors
+    $settingsToggle.parentNode.replaceChild(resetSettings, $settingsToggle);
 
+    //Errors
     document.querySelectorAll('.jooa11y-error-border').forEach(el => el.classList.remove('jooa11y-error-border'));
-    document.querySelectorAll('.jooa11y-error-text').forEach(el => el.classList.remove('jooa11y-error-text')); //Warnings
+    document.querySelectorAll('.jooa11y-error-text').forEach(el => el.classList.remove('jooa11y-error-text'));
 
+    //Warnings
     document.querySelectorAll('.jooa11y-warning-border').forEach(el => el.classList.remove('jooa11y-warning-border'));
     document.querySelectorAll('.jooa11y-warning-text').forEach(el => el.classList.remove('jooa11y-warning-text'));
     document.querySelectorAll('p').forEach(el => el.classList.remove('jooa11y-fake-list'));
     let allcaps = document.querySelectorAll('.jooa11y-warning-uppercase');
-    allcaps.forEach(el => el.outerHTML = el.innerHTML); //Good
+    allcaps.forEach(el => el.outerHTML = el.innerHTML);
 
+    //Good
     document.querySelectorAll('.jooa11y-good-border').forEach(el => el.classList.remove('jooa11y-good-border'));
-    document.querySelectorAll('.jooa11y-good-text').forEach(el => el.classList.remove('jooa11y-good-text')); //Remove
+    document.querySelectorAll('.jooa11y-good-text').forEach(el => el.classList.remove('jooa11y-good-text'));
 
+    //Remove
     document.querySelectorAll(`
                 .jooa11y-instance,
                 .jooa11y-instance-inline,
@@ -4243,27 +3536,22 @@ class Jooa11y {
                 #jooa11y-readability-info span,
                 #jooa11y-readability-details li,
                 .jooa11y-clone-image-text
-            `).forEach(el => el.parentNode.removeChild(el)); //Etc
+            `).forEach(el => el.parentNode.removeChild(el));
 
+    //Etc
     document.querySelectorAll('.jooa11y-overflow').forEach(el => el.classList.remove('jooa11y-overflow'));
     document.querySelectorAll('.jooa11y-fake-heading').forEach(el => el.classList.remove('jooa11y-fake-heading'));
     document.querySelectorAll('.jooa11y-pulse-border').forEach(el => el.classList.remove('jooa11y-pulse-border'));
     document.querySelector('#jooa11y-panel-alert').classList.remove("jooa11y-active");
     var empty = document.querySelector('#jooa11y-panel-alert-text');
-
     while (empty.firstChild) empty.removeChild(empty.firstChild);
-
     var clearStatus = document.querySelector('#jooa11y-status');
-
     while (clearStatus.firstChild) clearStatus.removeChild(clearStatus.firstChild);
-
     if (restartPanel) {
       document.querySelector('#jooa11y-panel').classList.remove("jooa11y-active");
     }
   }
-
   clearEverything() {}
-
   // ============================================================
   // Initialize tooltips for error/warning/pass buttons: (Tippy.js)
   // Although you can also swap this with Bootstrap's tooltip library for example.
@@ -4284,39 +3572,44 @@ class Jooa11y {
       },
       appendTo: document.body
     });
-  } // ============================================================
+  }
+
+  // ============================================================
   // Detect parent containers that have hidden overflow.
   // ============================================================
-
-
   detectOverflow() {
     const findParentWithOverflow = ($el, property, value) => {
       while ($el !== null) {
         const style = window.getComputedStyle($el);
         const propValue = style.getPropertyValue(property);
-
         if (propValue === value) {
           return $el;
         }
-
         $el = $el.parentElement;
       }
-
       return null;
     };
-
     const $findButtons = document.querySelectorAll('.jooa11y-btn');
     $findButtons.forEach(function ($el) {
       const overflowing = findParentWithOverflow($el, 'overflow', 'hidden');
-
       if (overflowing !== null) {
         overflowing.classList.add('jooa11y-overflow');
       }
     });
-  } // ============================================================
+  }
+
+  // ============================================================
   // Nudge buttons if they overlap.
   // ============================================================
-
+  nudge = () => {
+    const jooa11yInstance = document.querySelectorAll('.jooa11y-instance, .jooa11y-instance-inline');
+    jooa11yInstance.forEach($el => {
+      const sibling = $el.nextElementSibling;
+      if (sibling !== null && (sibling.classList.contains("jooa11y-instance") || sibling.classList.contains("jooa11y-instance-inline"))) {
+        sibling.querySelector("button").setAttribute("style", "margin: -10px -20px !important;");
+      }
+    });
+  };
 
   // ============================================================
   // Update iOS style notification badge on icon.
@@ -4324,18 +3617,17 @@ class Jooa11y {
   updateBadge() {
     let totalCount = this.errorCount + this.warningCount;
     const notifBadge = document.getElementById("jooa11y-notification-badge");
-
     if (totalCount === 0) {
       notifBadge.style.display = "none";
     } else {
       notifBadge.style.display = "flex";
       document.getElementById('jooa11y-notification-count').innerHTML = Lang.sprintf('PANEL_STATUS_ICON', totalCount);
     }
-  } // ----------------------------------------------------------------------
+  }
+
+  // ----------------------------------------------------------------------
   // Main panel: Display and update panel.
   // ----------------------------------------------------------------------
-
-
   updatePanel() {
     this.panelActive = true;
     this.errorCount + this.warningCount;
@@ -4349,7 +3641,6 @@ class Jooa11y {
     const $panelContent = document.getElementById("jooa11y-panel-content");
     const $jooa11yStatus = document.getElementById("jooa11y-status");
     const $findButtons = document.querySelectorAll('.jooa11y-btn');
-
     if (this.errorCount > 0 && this.warningCount > 0) {
       $panelContent.setAttribute("class", "jooa11y-errors");
       $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_BOTH', this.errorCount, this.warningCount);
@@ -4362,13 +3653,274 @@ class Jooa11y {
     } else {
       $panelContent.setAttribute("class", "jooa11y-good");
       $jooa11yStatus.textContent = Lang._('PANEL_STATUS_NONE');
-
       if ($findButtons.length === 0) {
         $jooa11ySkipBtn.disabled = true;
         $jooa11ySkipBtn.setAttribute("style", "cursor: default !important;");
       }
     }
   }
+  // ----------------------------------------------------------------------
+  // Main panel: Build Show Outline and Settings tabs.
+  // ----------------------------------------------------------------------
+  buildPanel = () => {
+    const $outlineToggle = document.getElementById("jooa11y-outline-toggle");
+    const $outlinePanel = document.getElementById("jooa11y-outline-panel");
+    const $outlineList = document.getElementById("jooa11y-outline-list");
+    const $settingsToggle = document.getElementById("jooa11y-settings-toggle");
+    const $settingsPanel = document.getElementById("jooa11y-settings-panel");
+    const $settingsContent = document.getElementById("jooa11y-settings-content");
+    const $headingAnnotations = document.querySelectorAll(".jooa11y-heading-label");
+
+    //Show outline panel
+    $outlineToggle.addEventListener('click', () => {
+      if ($outlineToggle.getAttribute("aria-expanded") === "true") {
+        $outlineToggle.classList.remove("jooa11y-outline-active");
+        $outlinePanel.classList.remove("jooa11y-active");
+        $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
+        $outlineToggle.setAttribute("aria-expanded", "false");
+        localStorage.setItem("jooa11y-remember-outline", "Closed");
+      } else {
+        $outlineToggle.classList.add("jooa11y-outline-active");
+        $outlinePanel.classList.add("jooa11y-active");
+        $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
+        $outlineToggle.setAttribute("aria-expanded", "true");
+        localStorage.setItem("jooa11y-remember-outline", "Opened");
+      }
+
+      //Set focus on Page Outline heading for accessibility.
+      document.querySelector("#jooa11y-outline-header > h2").focus();
+
+      //Show heading level annotations.
+      $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
+
+      //Close Settings panel when Show Outline is active.
+      $settingsPanel.classList.remove("jooa11y-active");
+      $settingsToggle.classList.remove("jooa11y-settings-active");
+      $settingsToggle.setAttribute("aria-expanded", "false");
+      $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
+
+      //Keyboard accessibility fix for scrollable panel content.
+      if ($outlineList.clientHeight > 250) {
+        $outlineList.setAttribute("tabindex", "0");
+      }
+    });
+
+    //Remember to leave outline open
+    if (localStorage.getItem("jooa11y-remember-outline") === "Opened") {
+      $outlineToggle.classList.add("jooa11y-outline-active");
+      $outlinePanel.classList.add("jooa11y-active");
+      $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
+      $outlineToggle.setAttribute("aria-expanded", "true");
+      $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
+      //Keyboard accessibility fix for scrollable panel content.
+      if ($outlineList.clientHeight > 250) {
+        $outlineList.setAttribute("tabindex", "0");
+      }
+    }
+
+    //Show settings panel
+    $settingsToggle.addEventListener('click', () => {
+      if ($settingsToggle.getAttribute("aria-expanded") === "true") {
+        $settingsToggle.classList.remove("jooa11y-settings-active");
+        $settingsPanel.classList.remove("jooa11y-active");
+        $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
+        $settingsToggle.setAttribute("aria-expanded", "false");
+      } else {
+        $settingsToggle.classList.add("jooa11y-settings-active");
+        $settingsPanel.classList.add("jooa11y-active");
+        $settingsToggle.textContent = Lang._('HIDE_SETTINGS');
+        $settingsToggle.setAttribute("aria-expanded", "true");
+      }
+
+      //Set focus on Settings heading for accessibility.
+      document.querySelector("#jooa11y-settings-header > h2").focus();
+
+      //Close Show Outline panel when Settings is active.
+      $outlinePanel.classList.remove("jooa11y-active");
+      $outlineToggle.classList.remove("jooa11y-outline-active");
+      $outlineToggle.setAttribute("aria-expanded", "false");
+      $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
+      $headingAnnotations.forEach($el => $el.classList.remove("jooa11y-label-visible"));
+      localStorage.setItem("jooa11y-remember-outline", "Closed");
+
+      //Keyboard accessibility fix for scrollable panel content.
+      if ($settingsContent.clientHeight > 350) {
+        $settingsContent.setAttribute("tabindex", "0");
+      }
+    });
+
+    //Enhanced keyboard accessibility for panel.
+    document.getElementById('jooa11y-panel-controls').addEventListener('keydown', function (e) {
+      const $tab = document.querySelectorAll('#jooa11y-outline-toggle[role=tab], #jooa11y-settings-toggle[role=tab]');
+      if (e.key === 'ArrowRight') {
+        for (let i = 0; i < $tab.length; i++) {
+          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+            $tab[i + 1].focus();
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+      if (e.key === 'ArrowDown') {
+        for (let i = 0; i < $tab.length; i++) {
+          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+            $tab[i + 1].focus();
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+      if (e.key === 'ArrowLeft') {
+        for (let i = $tab.length - 1; i > 0; i--) {
+          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+            $tab[i - 1].focus();
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+      if (e.key === 'ArrowUp') {
+        for (let i = $tab.length - 1; i > 0; i--) {
+          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+            $tab[i - 1].focus();
+            e.preventDefault();
+            break;
+          }
+        }
+      }
+    });
+    const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
+    const $alertPanel = document.getElementById("jooa11y-panel-alert");
+    const $alertText = document.getElementById("jooa11y-panel-alert-text");
+    const $jooa11ySkipBtn = document.getElementById("jooa11y-cycle-toggle");
+    $closeAlertToggle.addEventListener('click', () => {
+      $alertPanel.classList.remove("jooa11y-active");
+      while ($alertText.firstChild) $alertText.removeChild($alertText.firstChild);
+      document.querySelectorAll('.jooa11y-pulse-border').forEach(el => el.classList.remove('jooa11y-pulse-border'));
+      $jooa11ySkipBtn.focus();
+    });
+  };
+
+  // ============================================================
+  // Main panel: Skip to issue button.
+  // ============================================================
+
+  skipToIssue = () => {
+    /* Polyfill for scrollTo. scrollTo instead of .animate(), so Jooa11y could use jQuery slim build. Credit: https://stackoverflow.com/a/67108752 & https://github.com/iamdustan/smoothscroll */
+    //let reducedMotionQuery = false;
+    //let scrollBehavior = 'smooth';
+    /*
+    if (!('scrollBehavior' in document.documentElement.style)) {
+        var js = document.createElement('script');
+        js.src = "https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js";
+        document.head.appendChild(js);
+    }
+    if (!(document.documentMode)) {
+        if (typeof window.matchMedia === "function") {
+            reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        }
+        if (!reducedMotionQuery || reducedMotionQuery.matches) {
+            scrollBehavior = "auto";
+        }
+    }
+    */
+
+    let jooa11yBtnLocation = 0;
+    const findJooa11yBtn = document.querySelectorAll('.jooa11y-btn').length;
+
+    //Jump to issue using keyboard shortcut.
+    document.addEventListener('keyup', e => {
+      if (e.altKey && e.code === "Period" || e.code == "KeyS") {
+        skipToIssueToggle();
+        e.preventDefault();
+      }
+    });
+
+    //Jump to issue using click.
+    const $skipToggle = document.getElementById("jooa11y-cycle-toggle");
+    $skipToggle.addEventListener('click', e => {
+      skipToIssueToggle();
+      e.preventDefault();
+    });
+    const skipToIssueToggle = function () {
+      //Calculate location of both visible and hidden buttons.
+      const $findButtons = document.querySelectorAll('.jooa11y-btn');
+      const $alertPanel = document.getElementById("jooa11y-panel-alert");
+      const $alertText = document.getElementById("jooa11y-panel-alert-text");
+      const $alertPanelPreview = document.getElementById("jooa11y-panel-alert-preview");
+      //const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
+
+      //Mini function: Find visibible parent of hidden element.
+      const findVisibleParent = ($el, property, value) => {
+        while ($el !== null) {
+          const style = window.getComputedStyle($el);
+          const propValue = style.getPropertyValue(property);
+          if (propValue === value) {
+            return $el;
+          }
+          $el = $el.parentElement;
+        }
+        return null;
+      };
+
+      //Mini function: Calculate top of element.
+      const offset = $el => {
+        let rect = $el.getBoundingClientRect(),
+          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        return {
+          top: rect.top + scrollTop
+        };
+      };
+
+      //'offsetTop' will always return 0 if element is hidden. We rely on offsetTop to determine if element is hidden, although we use 'getBoundingClientRect' to set the scroll position.
+      let scrollPosition;
+      let offsetTopPosition = $findButtons[jooa11yBtnLocation].offsetTop;
+      if (offsetTopPosition === 0) {
+        let visiblePosition = findVisibleParent($findButtons[jooa11yBtnLocation], 'display', 'none');
+        scrollPosition = offset(visiblePosition.previousElementSibling).top - 50;
+      } else {
+        scrollPosition = offset($findButtons[jooa11yBtnLocation]).top - 50;
+      }
+
+      //Scroll to element if offsetTop is less than or equal to 0.
+      if (offsetTopPosition >= 0) {
+        setTimeout(function () {
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }, 1);
+
+        //Add pulsing border to visible parent of hidden element.
+        $findButtons.forEach(function ($el) {
+          const overflowing = findVisibleParent($el, 'display', 'none');
+          if (overflowing !== null) {
+            let hiddenparent = overflowing.previousElementSibling;
+            hiddenparent.classList.add("jooa11y-pulse-border");
+          }
+        });
+        $findButtons[jooa11yBtnLocation].focus();
+      } else {
+        $findButtons[jooa11yBtnLocation].focus();
+      }
+
+      //Alert if element is hidden.
+      if (offsetTopPosition === 0) {
+        $alertPanel.classList.add("jooa11y-active");
+        $alertText.textContent = `${Lang._('PANEL_STATUS_HIDDEN')}`;
+        $alertPanelPreview.innerHTML = $findButtons[jooa11yBtnLocation].getAttribute('data-tippy-content');
+      } else if (offsetTopPosition < 1) {
+        $alertPanel.classList.remove("jooa11y-active");
+        document.querySelectorAll('.jooa11y-pulse-border').forEach($el => $el.classList.remove('jooa11y-pulse-border'));
+      }
+
+      //Reset index so it scrolls back to top of page.
+      jooa11yBtnLocation += 1;
+      if (jooa11yBtnLocation >= findJooa11yBtn) {
+        jooa11yBtnLocation = 0;
+      }
+    };
+  };
 
   // ============================================================
   // Finds all elements and caches them
@@ -4380,7 +3932,6 @@ class Jooa11y {
     this.$h = allHeadings.filter(heading => !this.$containerExclusions.includes(heading));
     this.$p = allPs.filter(p => !this.$containerExclusions.includes(p));
   }
-
   // ============================================================
   // Rulesets: Check Headings
   // ============================================================
@@ -4390,23 +3941,19 @@ class Jooa11y {
       let text = this.computeTextNodeWithImage(el);
       let htext = escapeHTML(text);
       let level;
-
       if (el.getAttribute("aria-level")) {
         level = +el.getAttribute("aria-level");
       } else {
         level = +el.tagName.slice(1);
       }
-
       let headingLength = el.textContent.trim().length;
       let error = null;
       let warning = null;
-
       if (level - prevLevel > 1 && i !== 0) {
         error = Lang.sprintf('HEADING_NON_CONSECUTIVE_LEVEL', prevLevel, level);
       } else if (el.textContent.trim().length === 0) {
         if (el.querySelectorAll("img").length) {
           const imgalt = el.querySelector("img").getAttribute("alt");
-
           if (imgalt === undefined || imgalt === " " || imgalt === "") {
             error = Lang.sprintf('HEADING_EMPTY_WITH_IMAGE', level);
             el.classList.add("jooa11y-error-text");
@@ -4420,7 +3967,6 @@ class Jooa11y {
       } else if (el.textContent.trim().length > 170) {
         warning = `${Lang._('HEADING_LONG')} . ${Lang.sprintf('HEADING_LONG_INFO', headingLength)}`;
       }
-
       prevLevel = level;
       let li = `<li class='jooa11y-outline-${level}'>
                 <span class='jooa11y-badge'>${level}</span>
@@ -4439,15 +3985,14 @@ class Jooa11y {
                 <span class='jooa11y-outline-list-item jooa11y-yellow-text jooa11y-bold'>${htext}</span>
             </li>`;
       let ignoreArray = [];
-
       if (this.options.outlineIgnore) {
         ignoreArray = Array.from(document.querySelectorAll(this.options.outlineIgnore));
       }
-
       if (!ignoreArray.includes(el)) {
         //Append heading labels.
-        el.insertAdjacentHTML("beforeend", `<span class='jooa11y-heading-label'>H${level}</span>`); //Heading errors
+        el.insertAdjacentHTML("beforeend", `<span class='jooa11y-heading-label'>H${level}</span>`);
 
+        //Heading errors
         if (error != null && el.closest("a")) {
           this.errorCount++;
           el.classList.add("jooa11y-error-border");
@@ -4458,7 +4003,9 @@ class Jooa11y {
           el.classList.add("jooa11y-error-border");
           el.insertAdjacentHTML("beforebegin", this.annotate(Lang._('ERROR'), error));
           document.querySelector("#jooa11y-outline-list").insertAdjacentHTML("beforeend", liError);
-        } //Heading warnings
+        }
+
+        //Heading warnings
         else if (warning != null && el.closest("a")) {
           this.warningCount++;
           el.closest("a").insertAdjacentHTML("afterend", this.annotate(Lang._('WARNING'), warning));
@@ -4466,15 +4013,17 @@ class Jooa11y {
         } else if (warning != null) {
           el.insertAdjacentHTML("beforebegin", this.annotate(Lang._('WARNING'), warning));
           document.querySelector("#jooa11y-outline-list").insertAdjacentHTML("beforeend", liWarning);
-        } //Not an error or warning
+        }
+
+        //Not an error or warning
         else if (error == null || warning == null) {
           document.querySelector("#jooa11y-outline-list").insertAdjacentHTML("beforeend", li);
         }
       }
-    }); //Check to see there is at least one H1 on the page.
+    });
 
+    //Check to see there is at least one H1 on the page.
     const $h1 = Array.from(this.$root.querySelectorAll('h1, [role="heading"][aria-level="1"]')).filter($h => !this.$containerExclusions.includes($h));
-
     if ($h1.length === 0) {
       this.errorCount++;
       document.querySelector('#jooa11y-outline-header').insertAdjacentHTML('afterend', `<div class='jooa11y-instance jooa11y-missing-h1'>
@@ -4484,29 +4033,31 @@ class Jooa11y {
       document.querySelector("#jooa11y-container").insertAdjacentHTML('afterend', this.annotateBanner(Lang._('ERROR'), Lang._('HEADING_MISSING_ONE')));
     }
   }
-
   // ============================================================
   // Rulesets: Link text
   // ============================================================
   checkLinkText() {
     const containsLinkTextStopWords = textContent => {
       let urlText = ["http", ".asp", ".htm", ".php", ".edu/", ".com/", ".net/", ".org/", ".us/", ".ca/", ".de/", ".icu/", ".uk/", ".ru/", ".info/", ".top/", ".xyz/", ".tk/", ".cn/", ".ga/", ".cf/", ".nl/", ".io/"];
-      let hit = [null, null, null]; // Flag partial stop words.
+      let hit = [null, null, null];
 
+      // Flag partial stop words.
       this.options.partialAltStopWords.forEach(word => {
         if (textContent.length === word.length && textContent.toLowerCase().indexOf(word) >= 0) {
           hit[0] = word;
           return false;
         }
-      }); // Other warnings we want to add.
+      });
 
+      // Other warnings we want to add.
       this.options.warningAltWords.forEach(word => {
         if (textContent.toLowerCase().indexOf(word) >= 0) {
           hit[1] = word;
           return false;
         }
-      }); // Flag link text containing URLs.
+      });
 
+      // Flag link text containing URLs.
       urlText.forEach(word => {
         if (textContent.toLowerCase().indexOf(word) >= 0) {
           hit[2] = word;
@@ -4515,6 +4066,7 @@ class Jooa11y {
       });
       return hit;
     };
+
     /* Mini function if you need to exclude any text contained with a span. We created this function to ignore automatically appended sr-only text for external links and document filetypes.
       $.fn.ignore = function(sel){
         return this.clone().find(sel||">*").remove().end();
@@ -4522,8 +4074,6 @@ class Jooa11y {
       $el.ignore("span.sr-only").text().trim();
       Example: <a href="#">learn more <span class="sr-only">(external)</span></a>
       This function will ignore the text "(external)", and correctly flag this link as an error for non descript link text. */
-
-
     const fnIgnore = (element, selector) => {
       const $clone = element.cloneNode(true);
       const $excluded = Array.from(selector ? $clone.querySelectorAll(selector) : $clone.children);
@@ -4532,7 +4082,6 @@ class Jooa11y {
       });
       return $clone;
     };
-
     const $linkIgnore = Array.from(this.$root.querySelectorAll(this.linkIgnore));
     const $links = Array.from(this.$root.querySelectorAll('a[href]')).filter($a => !$linkIgnore.includes($a));
     $links.forEach(el => {
@@ -4543,21 +4092,18 @@ class Jooa11y {
       let childAriaLabelledBy = null;
       let childAriaLabel = null;
       let childTitle = null;
-
       if (el.children.length) {
         let $firstChild = el.children[0];
         childAriaLabelledBy = $firstChild.getAttribute('aria-labelledby');
         childAriaLabel = $firstChild.getAttribute('aria-label');
         childTitle = $firstChild.getAttribute('title');
       }
-
       let error = containsLinkTextStopWords(fnIgnore(el, this.options.linkIgnoreSpan).textContent.trim());
-
       if (linkText === 'noAria') {
         linkText = el.textContent;
-      } //Flag empty hyperlinks
+      }
 
-
+      //Flag empty hyperlinks
       if (el.getAttribute('href') && !el.textContent.trim()) {
         if (el.querySelectorAll('img').length) ;else if (hasAriaLabelledBy || hasAriaLabel) {
           el.classList.add("jooa11y-good-border");
@@ -4603,7 +4149,6 @@ class Jooa11y {
       }
     });
   }
-
   // ============================================================
   // Rulesets: Links (Advanced)
   // ============================================================
@@ -4613,11 +4158,9 @@ class Jooa11y {
     let seen = {};
     $linksTargetBlank.forEach(el => {
       let linkText = this.computeAriaLabel(el);
-
       if (linkText === 'noAria') {
         linkText = el.textContent;
       }
-
       const fileTypeMatch = el.matches(`
                     a[href$='.pdf'],
                     a[href$='.doc'],
@@ -4635,16 +4178,18 @@ class Jooa11y {
                     a[href$='.mp4'],
                     a[href$='.mov'],
                     a[href$='.avi']
-                `); //Links with identical accessible names have equivalent purpose.
+                `);
+
+      //Links with identical accessible names have equivalent purpose.
+
       //If link has an image, process alt attribute,
       //To-do: Kinda hacky. Doesn't return accessible name of link in correct order.
-
       const $img = el.querySelector('img');
-      let alt = $img ? $img.getAttribute('alt') || '' : ''; //Return link text and image's alt text.
+      let alt = $img ? $img.getAttribute('alt') || '' : '';
 
+      //Return link text and image's alt text.
       let linkTextTrimmed = linkText.trim().toLowerCase() + " " + alt;
       let href = el.getAttribute("href");
-
       if (linkText.length !== 0) {
         if (seen[linkTextTrimmed] && linkTextTrimmed.length !== 0) {
           if (seen[href]) ;else {
@@ -4656,57 +4201,53 @@ class Jooa11y {
           seen[linkTextTrimmed] = true;
           seen[href] = true;
         }
-      } //New tab or new window.
+      }
 
-
+      //New tab or new window.
       const containsNewWindowPhrases = this.options.newWindowPhrases.some(function (pass) {
-        return linkText.toLowerCase().indexOf(pass) >= 0;
-      }); //Link that points to a file type indicates that it does.
-
-      const containsFileTypePhrases = this.options.fileTypePhrases.some(function (pass) {
         return linkText.toLowerCase().indexOf(pass) >= 0;
       });
 
+      //Link that points to a file type indicates that it does.
+      const containsFileTypePhrases = this.options.fileTypePhrases.some(function (pass) {
+        return linkText.toLowerCase().indexOf(pass) >= 0;
+      });
       if (el.getAttribute("target") === "_blank" && !fileTypeMatch && !containsNewWindowPhrases) {
         this.warningCount++;
         el.classList.add("jooa11y-warning-text");
         el.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), `${Lang._('NEW_TAB_WARNING')} <hr aria-hidden="true"> ${Lang._('NEW_TAB_WARNING_TIP')}`, true));
       }
-
       if (fileTypeMatch && !containsFileTypePhrases) {
         this.warningCount++;
         el.classList.add("jooa11y-warning-text");
         el.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), `${Lang._('FILE_TYPE_WARNING')} <hr aria-hidden="true"> ${Lang._('FILE_TYPE_WARNING_TIP')}`, true));
       }
     });
-  } // ============================================================
+  }
+  // ============================================================
   // Ruleset: Underlined text
   // ============================================================
   // check text for <u>  tags
-
-
   checkUnderline() {
     const underline = Array.from(this.$root.querySelectorAll('u'));
     underline.forEach($el => {
       this.warningCount++;
       $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('TEXT_UNDERLINE_WARNING')} <hr aria-hidden="true"> ${Lang._('TEXT_UNDERLINE_WARNING_TIP')}`, true));
-    }); // check for text-decoration-line: underline
-
+    });
+    // check for text-decoration-line: underline
     const computed = Array.from(this.$root.querySelectorAll('h1, h2, h3, h4, h5, h6, p, div, span, li, blockquote'));
     computed.forEach($el => {
       let style = getComputedStyle($el),
-          decoration = style.textDecorationLine;
-
+        decoration = style.textDecorationLine;
       if (decoration === 'underline') {
         this.warningCount++;
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('TEXT_UNDERLINE_WARNING')} <hr aria-hidden="true"> ${Lang._('TEXT_UNDERLINE_WARNING_TIP')}`, true));
       }
     });
-  } // ============================================================
+  }
+  // ============================================================
   // Ruleset: Alternative text
   // ============================================================
-
-
   checkAltText() {
     const containsAltTextStopWords = alt => {
       const altUrl = [".png", ".jpg", ".jpeg", ".gif", ".tiff", ".svg"];
@@ -4727,15 +4268,14 @@ class Jooa11y {
         }
       });
       return hit;
-    }; // Stores the corresponding issue text to alternative text
+    };
 
-
+    // Stores the corresponding issue text to alternative text
     const images = Array.from(this.$root.querySelectorAll("img"));
     const excludeimages = Array.from(this.$root.querySelectorAll(this.imageIgnore));
     const $img = images.filter($el => !excludeimages.includes($el));
     $img.forEach($el => {
       let alt = $el.getAttribute("alt");
-
       if (alt === null) {
         if ($el.closest('a[href]')) {
           if ($el.closest('a[href]').textContent.trim().length > 1) {
@@ -4745,18 +4285,20 @@ class Jooa11y {
             $el.classList.add("jooa11y-error-border");
             $el.closest('a[href]').insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_LINK_MESSAGE'), false, true));
           }
-        } // General failure message if image is missing alt.
+        }
+        // General failure message if image is missing alt.
         else {
           $el.classList.add("jooa11y-error-border");
           $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_MESSAGE'), false, true));
         }
-      } // If alt attribute is present, further tests are done.
+      }
+      // If alt attribute is present, further tests are done.
       else {
         let altText = escapeHTML(alt); //Prevent tooltip from breaking.
-
         let error = containsAltTextStopWords(altText);
-        let altLength = alt.length; // Image fails if a stop word was found.
+        let altLength = alt.length;
 
+        // Image fails if a stop word was found.
         if (error[0] != null && $el.closest("a[href]")) {
           this.errorCount++;
           $el.classList.add("jooa11y-error-border");
@@ -4793,26 +4335,33 @@ class Jooa11y {
           } else {
             $el.closest("a[href]").insertAdjacentHTML('beforebegin', this.annotate(Lang._('GOOD'), Lang._('LINK_LINK_HAS_ALT_MESSAGE'), false, true));
           }
-        } //Link and contains alt text.
+        }
+
+        //Link and contains alt text.
         else if (alt.length > 250 && $el.closest("a[href]")) {
           this.warningCount++;
           $el.classList.add("jooa11y-warning-border");
           $el.closest("a[href]").insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('HYPERLINK_ALT_LENGTH_MESSAGE')} <hr aria-hidden="true"> ${Lang.sprintf('HYPERLINK_ALT_LENGTH_MESSAGE_INFO', altText, altLength)}`, false));
-        } //Link and contains an alt text.
+        }
+
+        //Link and contains an alt text.
         else if (alt !== "" && $el.closest("a[href]") && $el.closest("a[href]").textContent.trim().length === 0) {
           this.warningCount++;
           $el.classList.add("jooa11y-warning-border");
           $el.closest("a[href]").insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE')} <hr aria-hidden="true"> ${Lang.sprintf('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE_INFO', altText)}`, false));
-        } //Contains alt text & surrounding link text.
+        }
+
+        //Contains alt text & surrounding link text.
         else if (alt !== "" && $el.closest("a[href]") && $el.closest("a[href]").textContent.trim().length > 1) {
           this.warningCount++;
           $el.classList.add("jooa11y-warning-border");
           $el.closest("a[href]").insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('LINK_ANCHOR_LINK_AND_ALT_MESSAGE')} <hr aria-hidden="true"> ${Lang.sprintf('LINK_ANCHOR_LINK_AND_ALT_MESSAGE_INFO', altText)}`, false));
-        } //Decorative alt and not a link.
+        }
+
+        //Decorative alt and not a link.
         else if (alt === "" || alt === " ") {
           if ($el.closest("figure")) {
             const figcaption = $el.closest("figure").querySelector("figcaption");
-
             if (figcaption !== null && figcaption.textContent.trim().length >= 1) {
               this.warningCount++;
               $el.classList.add("jooa11y-warning-border");
@@ -4831,13 +4380,13 @@ class Jooa11y {
           //Figure element has same alt and caption text.
           if ($el.closest("figure")) {
             const figcaption = $el.closest("figure").querySelector("figcaption");
-
             if (figcaption !== null && figcaption.textContent.trim().toLowerCase === altText.trim().toLowerCase) {
               this.warningCount++;
               $el.classList.add("jooa11y-warning-border");
               $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang.sprintf('IMAGE_FIGURE_DUPLICATE_ALT', altText)} <hr aria-hidden="true"> ${Lang._('IMAGE_FIGURE_DECORATIVE_INFO')}`, false, true));
             }
-          } //If image has alt text - pass!
+          }
+          //If image has alt text - pass!
           else {
             $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('GOOD'), `${Lang.sprintf('LINK_PASS_ALT', altText)}`, false, true));
           }
@@ -4845,7 +4394,6 @@ class Jooa11y {
       }
     });
   }
-
   // ============================================================
   // Rulesets: Labels
   // ============================================================
@@ -4855,12 +4403,13 @@ class Jooa11y {
     });
     $inputs.forEach(el => {
       let ariaLabel = this.computeAriaLabel(el);
-      const type = el.getAttribute('type'); //If button type is submit or button: pass
+      const type = el.getAttribute('type');
 
-      if (type === "submit" || type === "button" || type === "hidden") ; //Inputs where type="image".
+      //If button type is submit or button: pass
+      if (type === "submit" || type === "button" || type === "hidden") ;
+      //Inputs where type="image".
       else if (type === "image") {
         let imgalt = el.getAttribute("alt");
-
         if (!imgalt || imgalt === ' ') {
           if (el.getAttribute("aria-label")) ;else {
             this.errorCount++;
@@ -4868,12 +4417,14 @@ class Jooa11y {
             el.insertAdjacentHTML('afterend', this.annotate(Lang._('ERROR'), Lang._('LABELS_MISSING_IMAGE_INPUT_MESSAGE'), true));
           }
         }
-      } //Recommendation to remove reset buttons.
+      }
+      //Recommendation to remove reset buttons.
       else if (type === "reset") {
         this.warningCount++;
         el.classList.add("jooa11y-warning-border");
         el.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), `${Lang._('LABELS_INPUT_RESET_MESSAGE')} <hr aria-hidden="true"> ${Lang._('LABELS_INPUT_RESET_MESSAGE_TIP')}`, true));
-      } //Uses ARIA. Warn them to ensure there's a visible label.
+      }
+      //Uses ARIA. Warn them to ensure there's a visible label.
       else if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("title")) {
         if (el.getAttribute("title")) {
           let ariaLabel = el.getAttribute("title");
@@ -4885,19 +4436,19 @@ class Jooa11y {
           el.classList.add("jooa11y-warning-border");
           el.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), `${Lang._('LABELS_ARIA_LABEL_INPUT_MESSAGE')} <hr aria-hidden="true"> ${Lang.sprintf('LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO', ariaLabel)}`, true));
         }
-      } //Implicit labels.
-      else if (el.closest('label') && el.closest('label').textContent.trim()) ; //Has an ID but doesn't have a matching FOR attribute.
+      }
+      //Implicit labels.
+      else if (el.closest('label') && el.closest('label').textContent.trim()) ;
+      //Has an ID but doesn't have a matching FOR attribute.
       else if (el.getAttribute("id") && Array.from(el.parentElement.children).filter($c => $c.nodeName === 'LABEL').length) {
         const $labels = Array.from(el.parentElement.children).filter($c => $c.nodeName === 'LABEL');
         let hasFor = false;
         $labels.forEach($l => {
           if (hasFor) return;
-
           if ($l.getAttribute('for') === el.getAttribute('id')) {
             hasFor = true;
           }
         });
-
         if (!hasFor) {
           this.errorCount++;
           el.classList.add("jooa11y-error-border");
@@ -4910,14 +4461,14 @@ class Jooa11y {
       }
     });
   }
-
   // ============================================================
   // Rulesets: Embedded content.
   // ============================================================
   checkEmbeddedContent() {
     const $findiframes = Array.from(this.$root.querySelectorAll("iframe, audio, video"));
-    const $iframes = $findiframes.filter($el => !this.$containerExclusions.includes($el)); //Warning: Video content.
+    const $iframes = $findiframes.filter($el => !this.$containerExclusions.includes($el));
 
+    //Warning: Video content.
     const $videos = $iframes.filter($el => $el.matches(this.options.videoContent));
     $videos.forEach($el => {
       let track = $el.getElementsByTagName('TRACK');
@@ -4926,15 +4477,17 @@ class Jooa11y {
         $el.classList.add("jooa11y-warning-border");
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), Lang._('EMBED_VIDEO')));
       }
-    }); //Warning: Audio content.
+    });
 
+    //Warning: Audio content.
     const $audio = $iframes.filter($el => $el.matches(this.options.audioContent));
     $audio.forEach($el => {
       this.warningCount++;
       $el.classList.add("jooa11y-warning-border");
       $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), Lang._('EMBED_AUDIO')));
-    }); //Error: iFrame is missing accessible name.
+    });
 
+    //Error: iFrame is missing accessible name.
     $iframes.forEach($el => {
       if ($el.tagName === "VIDEO" || $el.tagName === "AUDIO" || $el.getAttribute("aria-hidden") === "true" || $el.getAttribute("hidden") !== null || $el.style.display === 'none' || $el.getAttribute("role") === "presentation") ;else if ($el.getAttribute("title") === null || $el.getAttribute("title") === '') {
         if ($el.getAttribute("aria-label") === null || $el.getAttribute("aria-label") === '') {
@@ -4943,7 +4496,6 @@ class Jooa11y {
             if ($el.classList.contains("jooa11y-warning-border")) {
               $el.classList.remove("jooa11y-warning-border");
             }
-
             this.errorCount++;
             $el.classList.add("jooa11y-error-border");
             $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), Lang._('EMBED_MISSING_TITLE')));
@@ -4959,11 +4511,11 @@ class Jooa11y {
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), Lang._('EMBED_GENERAL_WARNING')));
       }
     });
-  } // ============================================================
+  }
+
+  // ============================================================
   // Rulesets: QA
   // ============================================================
-
-
   checkQA() {
     //Error: Find all links pointing to development environment.
     const $findbadDevLinks = this.options.linksToFlag ? Array.from(this.$root.querySelectorAll(this.options.linksToFlag)) : [];
@@ -4972,25 +4524,24 @@ class Jooa11y {
       this.errorCount++;
       $el.classList.add("jooa11y-error-text");
       $el.insertAdjacentHTML('afterend', this.annotate(Lang._('ERROR'), Lang.sprintf('QA_BAD_LINK', $el.getAttribute('href')), true));
-    }); //Warning: Find all PDFs. Although only append warning icon to first PDF on page.
+    });
 
+    //Warning: Find all PDFs. Although only append warning icon to first PDF on page.
     let checkPDF = Array.from(this.$root.querySelectorAll('a[href$=".pdf"]')).filter(p => !this.$containerExclusions.includes(p));
     let firstPDF = checkPDF[0];
     let pdfCount = checkPDF.length;
-
     if (checkPDF.length > 0) {
       this.warningCount++;
       checkPDF.forEach($pdf => {
         $pdf.classList.add('jooa11y-warning-text');
-
         if ($pdf.querySelector('img')) {
           $pdf.classList.remove('jooa11y-warning-text');
         }
       });
       firstPDF.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), Lang.sprintf('QA_PDF_COUNT', pdfCount), true));
-    } //Warning: Detect uppercase.
+    }
 
-
+    //Warning: Detect uppercase.
     const $findallcaps = Array.from(this.$root.querySelectorAll("h1, h2, h3, h4, h5, h6, p, li:not([class^='jooa11y']), blockquote"));
     const $allcaps = $findallcaps.filter($el => !this.$containerExclusions.includes($el));
     $allcaps.forEach(function ($el) {
@@ -5002,24 +4553,21 @@ class Jooa11y {
     $warningUppercase.forEach($el => {
       $el.insertAdjacentHTML('afterend', this.annotate(Lang._('WARNING'), Lang._('QA_UPPERCASE_WARNING'), true));
     });
-
     if ($warningUppercase.length > 0) {
       this.warningCount++;
-    } //Tables check.
+    }
 
-
+    //Tables check.
     const $findtables = Array.from(this.$root.querySelectorAll("table:not([role='presentation'])"));
     const $tables = $findtables.filter($el => !this.$containerExclusions.includes($el));
     $tables.forEach($el => {
       let findTHeaders = $el.querySelectorAll("th");
       let findHeadingTags = $el.querySelectorAll("h1, h2, h3, h4, h5, h6");
-
       if (findTHeaders.length === 0) {
         this.errorCount++;
         $el.classList.add("jooa11y-error-border");
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), Lang._('TABLES_MISSING_HEADINGS')));
       }
-
       if (findHeadingTags.length > 0) {
         this.errorCount++;
         findHeadingTags.forEach($el => {
@@ -5027,7 +4575,6 @@ class Jooa11y {
           $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), `${Lang._('TABLES_SEMANTIC_HEADING')} <hr aria-hidden="true"> ${Lang._('TABLES_SEMANTIC_HEADING_INFO')}`));
         });
       }
-
       findTHeaders.forEach($el => {
         if ($el.textContent.trim().length === 0) {
           this.errorCount++;
@@ -5035,17 +4582,17 @@ class Jooa11y {
           $el.innerHTML = this.annotate(Lang._('ERROR'), `${Lang._('TABLES_EMPTY_HEADING')} <hr aria-hidden="true"> ${Lang._('TABLES_EMPTY_HEADING_INFO')}`);
         }
       });
-    }); //Error: Missing language tag. Lang should be at least 2 characters.
+    });
 
+    //Error: Missing language tag. Lang should be at least 2 characters.
     const lang = document.querySelector("html").getAttribute("lang");
-
     if (!lang || lang.length < 2) {
       this.errorCount++;
       const jooa11yContainer = document.getElementById("jooa11y-container");
       jooa11yContainer.insertAdjacentHTML('afterend', this.annotateBanner(Lang._('ERROR'), Lang._('QA_PAGE_LANGUAGE_MESSAGE')));
-    } //Excessive bolding or italics.
+    }
 
-
+    //Excessive bolding or italics.
     const $findstrongitalics = Array.from(this.$root.querySelectorAll("strong, em"));
     const $strongitalics = $findstrongitalics.filter($el => !this.$containerExclusions.includes($el));
     $strongitalics.forEach($el => {
@@ -5053,49 +4600,49 @@ class Jooa11y {
         this.warningCount++;
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), Lang._('QA_BAD_ITALICS')));
       }
-    }); //Find blockquotes used as headers.
+    });
 
+    //Find blockquotes used as headers.
     const $findblockquotes = Array.from(this.$root.querySelectorAll("blockquote"));
     const $blockquotes = $findblockquotes.filter($el => !this.$containerExclusions.includes($el));
     $blockquotes.forEach($el => {
       let bqHeadingText = $el.textContent;
-
       if (bqHeadingText.trim().length < 25) {
         this.warningCount++;
         $el.classList.add("jooa11y-warning-border");
         $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang.sprintf('QA_BLOCKQUOTE_MESSAGE', bqHeadingText)} <hr aria-hidden="true"> ${Lang._('QA_BLOCKQUOTE_MESSAGE_TIP')}`));
       }
-    }); // Warning: Detect fake headings.
+    });
 
+    // Warning: Detect fake headings.
     this.$p.forEach($el => {
       let brAfter = $el.innerHTML.indexOf("</strong><br>");
-      let brBefore = $el.innerHTML.indexOf("<br></strong>"); //Check paragraphs greater than x characters.
+      let brBefore = $el.innerHTML.indexOf("<br></strong>");
 
+      //Check paragraphs greater than x characters.
       if ($el && $el.textContent.trim().length >= 300) {
-        let firstChild = $el.firstChild; //If paragraph starts with <strong> tag and ends with <br>.
+        let firstChild = $el.firstChild;
 
+        //If paragraph starts with <strong> tag and ends with <br>.
         if (firstChild.tagName === "STRONG" && (brBefore !== -1 || brAfter !== -1)) {
           let boldtext = firstChild.textContent;
-
           if (!$el.closest("table") && boldtext.length <= 120) {
             firstChild.classList.add("jooa11y-fake-heading", "jooa11y-warning-border");
             $el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang.sprintf('QA_FAKE_HEADING', boldtext)} <hr aria-hidden="true"> ${Lang._('QA_FAKE_HEADING_INFO')}`));
           }
         }
-      } // If paragraph only contains <p><strong>...</strong></p>.
+      }
 
-
+      // If paragraph only contains <p><strong>...</strong></p>.
       if (/^<(strong)>.+<\/\1>$/.test($el.innerHTML.trim())) {
         //Although only flag if it:
         // 1) Has less than 120 characters (typical heading length).
         // 2) The previous element is not a heading.
         const prevElement = $el.previousElementSibling;
         let tagName = "";
-
         if (prevElement !== null) {
           tagName = prevElement.tagName;
         }
-
         if (!$el.closest("table") && $el.textContent.length <= 120 && tagName.charAt(0) !== "H") {
           let boldtext = $el.textContent;
           $el.classList.add("jooa11y-fake-heading", "jooa11y-warning-border");
@@ -5103,17 +4650,15 @@ class Jooa11y {
         }
       }
     });
-
     if (this.$root.querySelectorAll(".jooa11y-fake-heading").length > 0) {
       this.warningCount++;
-    } // Check duplicate ID
+    }
 
-
+    // Check duplicate ID
     const ids = this.$root.querySelectorAll('[id]');
     let allIds = {};
     ids.forEach($el => {
       let id = $el.id;
-
       if (id) {
         if (allIds[id] === undefined) {
           allIds[id] = 1;
@@ -5127,7 +4672,6 @@ class Jooa11y {
     });
     /* Thanks to John Jameson from PrincetonU for this ruleset! */
     // Detect paragraphs that should be lists.
-
     let activeMatch = "";
     let prefixDecrement = {
       b: "a",
@@ -5135,45 +4679,36 @@ class Jooa11y {
       2: "1"
     };
     let prefixMatch = /a\.|a\)|A\.|A\)|1\.|1\)|\*\s|-\s|--|•\s|→\s|✓\s|✔\s|✗\s|✖\s|✘\s|❯\s|›\s|»\s/;
-
     let decrement = function (el) {
       return el.replace(/^b|^B|^2/, function (match) {
         return prefixDecrement[match];
       });
     };
-
     this.$p.forEach(el => {
-      let hit = false; // Grab first two characters.
-
+      let hit = false;
+      // Grab first two characters.
       let firstPrefix = el.textContent.substring(0, 2);
-
       if (firstPrefix.trim().length > 0 && firstPrefix !== activeMatch && firstPrefix.match(prefixMatch)) {
         // We have a prefix and a possible hit
         // Split p by carriage return if present and compare.
         let hasBreak = el.innerHTML.indexOf("<br>");
-
         if (hasBreak !== -1) {
           let subParagraph = el.innerHTML.substring(hasBreak + 4).trim();
           let subPrefix = subParagraph.substring(0, 2);
-
           if (firstPrefix === decrement(subPrefix)) {
             hit = true;
           }
-        } // Decrement the second p prefix and compare .
-
-
+        }
+        // Decrement the second p prefix and compare .
         if (!hit) {
           let $second = el.nextElementSibling.nodeName === 'P' ? el.nextElementSibling : null;
-
           if ($second) {
             let secondPrefix = decrement(el.nextElementSibling.textContent.substring(0, 2));
-
             if (firstPrefix === secondPrefix) {
               hit = true;
             }
           }
         }
-
         if (hit) {
           this.warningCount++;
           el.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang.sprintf('QA_SHOULD_BE_LIST', firstPrefix)} <hr aria-hidden="true"> ${Lang._('QA_SHOULD_BE_LIST_TIP')}`));
@@ -5186,12 +4721,10 @@ class Jooa11y {
         activeMatch = "";
       }
     });
-
     if (this.$root.querySelectorAll('.jooa11y-fake-list').length > 0) {
       this.warningCount++;
     }
   }
-
   // ============================================================
   // Rulesets: Contrast
   // Color contrast plugin by jasonday: https://github.com/jasonday/color-contrast
@@ -5209,34 +4742,27 @@ class Jooa11y {
       // Adapted from https://github.com/gka/chroma.js
       parseRgb: function (css) {
         let i, m, rgb, _i, _j;
-
         if (m = css.match(/rgb\(\s*(\-?\d+),\s*(\-?\d+)\s*,\s*(\-?\d+)\s*\)/)) {
           rgb = m.slice(1, 4);
-
           for (i = _i = 0; _i <= 2; i = ++_i) {
             rgb[i] = +rgb[i];
           }
-
           rgb[3] = 1;
         } else if (m = css.match(/rgba\(\s*(\-?\d+),\s*(\-?\d+)\s*,\s*(\-?\d+)\s*,\s*([01]|[01]?\.\d+)\)/)) {
           rgb = m.slice(1, 5);
-
           for (i = _j = 0; _j <= 3; i = ++_j) {
             rgb[i] = +rgb[i];
           }
         }
-
         return rgb;
       },
       // Based on http://www.w3.org/TR/WCAG20/#relativeluminancedef
       relativeLuminance: function (c) {
         let lum = [];
-
         for (let i = 0; i < 3; i++) {
           let v = c[i] / 255;
           lum.push(v < 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
         }
-
         return 0.2126 * lum[0] + 0.7152 * lum[1] + 0.0722 * lum[2];
       },
       // Based on http://www.w3.org/TR/WCAG20/#contrast-ratiodef
@@ -5247,23 +4773,24 @@ class Jooa11y {
       },
       getBackground: function (el) {
         let styles = getComputedStyle(el),
-            bgColor = styles.backgroundColor,
-            bgImage = styles.backgroundImage,
-            rgb = contrast.parseRgb(bgColor) + '',
-            alpha = rgb.split(','); // if background has alpha transparency, flag manual check
+          bgColor = styles.backgroundColor,
+          bgImage = styles.backgroundImage,
+          rgb = contrast.parseRgb(bgColor) + '',
+          alpha = rgb.split(',');
 
+        // if background has alpha transparency, flag manual check
         if (alpha[3] < 1 && alpha[3] > 0) {
           return "alpha";
-        } // if element has no background image, or transparent background (alpha == 0) return bgColor
+        }
 
-
+        // if element has no background image, or transparent background (alpha == 0) return bgColor
         if (bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent' && bgImage === "none" && alpha[3] !== '0') {
           return bgColor;
         } else if (bgImage !== "none") {
           return "image";
-        } // retest if not returned above
+        }
 
-
+        // retest if not returned above
         if (el.tagName === 'HTML') {
           return 'rgb(255, 255, 255)';
         } else {
@@ -5280,32 +4807,27 @@ class Jooa11y {
           errors: [],
           warnings: []
         };
-
         for (let i = 0; i < elements.length; i++) {
           (function (elem) {
             // Test if visible. Although we want invisible too.
-            if (contrast
-            /* .isVisible(elem) */
-            ) {
+            if (contrast /* .isVisible(elem) */) {
               let style = getComputedStyle(elem),
-                  color = style.color,
-                  fill = style.fill,
-                  fontSize = parseInt(style.fontSize),
-                  pointSize = fontSize * 3 / 4,
-                  fontWeight = style.fontWeight,
-                  htmlTag = elem.tagName,
-                  background = contrast.getBackground(elem),
-                  textString = [].reduce.call(elem.childNodes, function (a, b) {
-                return a + (b.nodeType === 3 ? b.textContent : '');
-              }, ''),
-                  text = textString.trim(),
-                  ratio,
-                  error,
-                  warning;
-
+                color = style.color,
+                fill = style.fill,
+                fontSize = parseInt(style.fontSize),
+                pointSize = fontSize * 3 / 4,
+                fontWeight = style.fontWeight,
+                htmlTag = elem.tagName,
+                background = contrast.getBackground(elem),
+                textString = [].reduce.call(elem.childNodes, function (a, b) {
+                  return a + (b.nodeType === 3 ? b.textContent : '');
+                }, ''),
+                text = textString.trim(),
+                ratio,
+                error,
+                warning;
               if (htmlTag === "SVG") {
                 ratio = Math.round(contrast.contrastRatio(fill, background) * 100) / 100;
-
                 if (ratio < 3) {
                   error = {
                     elem: elem,
@@ -5327,7 +4849,6 @@ class Jooa11y {
                   contrastErrors.warnings.push(warning);
                 } else {
                   ratio = Math.round(contrast.contrastRatio(color, background) * 100) / 100;
-
                   if (pointSize >= 18 || pointSize >= 14 && fontWeight >= 700) {
                     if (ratio < 3) {
                       error = {
@@ -5350,25 +4871,22 @@ class Jooa11y {
             }
           })(elements[i]);
         }
-
         return contrastErrors;
       }
     };
-    contrast.check(); //const {errorMessage, warningMessage} = jooa11yIM["contrast"];
+    contrast.check();
+    //const {errorMessage, warningMessage} = jooa11yIM["contrast"];
 
     contrastErrors.errors.forEach(item => {
       let name = item.elem;
       let cratio = item.ratio;
       let clone = name.cloneNode(true);
       let removeJooa11yHeadingLabel = clone.querySelectorAll('.jooa11y-heading-label');
-
       for (let i = 0; i < removeJooa11yHeadingLabel.length; i++) {
         clone.removeChild(removeJooa11yHeadingLabel[i]);
       }
-
       let nodetext = clone.textContent;
       this.errorCount++;
-
       if (name.tagName === "INPUT") {
         name.insertAdjacentHTML('beforebegin', this.annotate(Lang._('ERROR'), `${Lang._('CONTRAST_ERROR_INPUT_MESSAGE')}
                          <hr aria-hidden="true">
@@ -5383,17 +4901,14 @@ class Jooa11y {
       let name = item.elem;
       let clone = name.cloneNode(true);
       let removeJooa11yHeadingLabel = clone.querySelectorAll('.jooa11y-heading-label');
-
       for (let i = 0; i < removeJooa11yHeadingLabel.length; i++) {
         clone.removeChild(removeJooa11yHeadingLabel[i]);
       }
-
       let nodetext = clone.textContent;
       this.warningCount++;
       name.insertAdjacentHTML('beforebegin', this.annotate(Lang._('WARNING'), `${Lang._('CONTRAST_WARNING_MESSAGE')} <hr aria-hidden="true"> ${Lang.sprintf('CONTRAST_WARNING_MESSAGE_INFO', nodetext)}`, true));
     });
   }
-
   // ============================================================
   // Rulesets: Readability
   // Adapted from Greg Kraus' readability script: https://accessibility.oit.ncsu.edu/it-accessibility-at-nc-state/developers/tools/readability-bookmarklet/
@@ -5401,91 +4916,76 @@ class Jooa11y {
   checkReadability() {
     const container = document.querySelector(this.options.readabilityRoot);
     const $findreadability = Array.from(container.querySelectorAll("p, li"));
-    const $readability = $findreadability.filter($el => !this.$containerExclusions.includes($el)); //Crude hack to add a period to the end of list items to make a complete sentence.
+    const $readability = $findreadability.filter($el => !this.$containerExclusions.includes($el));
 
+    //Crude hack to add a period to the end of list items to make a complete sentence.
     $readability.forEach($el => {
       let listText = $el.textContent;
-
       if (listText.length >= 120) {
         if (listText.charAt(listText.length - 1) !== ".") {
           $el.insertAdjacentHTML("beforeend", "<span class='jooa11y-readability-period jooa11y-visually-hidden'>.</span>");
         }
       }
-    }); // Compute syllables: http://stackoverflow.com/questions/5686483/how-to-compute-number-of-syllables-in-a-word-in-javascript
+    });
 
+    // Compute syllables: http://stackoverflow.com/questions/5686483/how-to-compute-number-of-syllables-in-a-word-in-javascript
     function number_of_syllables(wordCheck) {
       wordCheck = wordCheck.toLowerCase().replace('.', '').replace('\n', '');
-
       if (wordCheck.length <= 3) {
         return 1;
       }
-
       wordCheck = wordCheck.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
       wordCheck = wordCheck.replace(/^y/, '');
       let syllable_string = wordCheck.match(/[aeiouy]{1,2}/g);
       let syllables = 0;
-
       if (!!syllable_string) {
         syllables = syllable_string.length;
       }
-
       return syllables;
     }
-
     let readabilityarray = [];
-
     for (let i = 0; i < $readability.length; i++) {
       var current = $readability[i];
-
       if (current.textContent.replace(/ |\n/g, '') !== '') {
         readabilityarray.push(current.textContent);
       }
     }
-
     let paragraphtext = readabilityarray.join(' ').trim().toString();
     let words_raw = paragraphtext.replace(/[.!?-]+/g, ' ').split(' ');
     let words = 0;
-
     for (let i = 0; i < words_raw.length; i++) {
       if (words_raw[i] != 0) {
         words = words + 1;
       }
     }
-
     let sentences_raw = paragraphtext.split(/[.!?]+/);
     let sentences = 0;
-
     for (let i = 0; i < sentences_raw.length; i++) {
       if (sentences_raw[i] !== '') {
         sentences = sentences + 1;
       }
     }
-
     let total_syllables = 0;
     let syllables1 = 0;
     let syllables2 = 0;
-
     for (let i = 0; i < words_raw.length; i++) {
       if (words_raw[i] != 0) {
         var syllable_count = number_of_syllables(words_raw[i]);
-
         if (syllable_count === 1) {
           syllables1 = syllables1 + 1;
         }
-
         if (syllable_count === 2) {
           syllables2 = syllables2 + 1;
         }
-
         total_syllables = total_syllables + syllable_count;
       }
-    } //var characters = paragraphtext.replace(/[.!?|\s]+/g, '').length;
+    }
+
+    //var characters = paragraphtext.replace(/[.!?|\s]+/g, '').length;
     //Reference: https://core.ac.uk/download/pdf/6552422.pdf
     //Reference: https://github.com/Yoast/YoastSEO.js/issues/267
 
-
     let flesch_reading_ease;
-
     if (this.options.readabilityLang === 'en') {
       flesch_reading_ease = 206.835 - 1.015 * words / sentences - 84.6 * total_syllables / words;
     } else if (this.options.readabilityLang === 'fr') {
@@ -5494,22 +4994,20 @@ class Jooa11y {
     } else if (this.options.readabilityLang === 'es') {
       flesch_reading_ease = 206.84 - 1.02 * words / sentences - 0.60 * (100 * total_syllables / words);
     }
-
     if (flesch_reading_ease > 100) {
       flesch_reading_ease = 100;
     } else if (flesch_reading_ease < 0) {
       flesch_reading_ease = 0;
     }
-
     const $readabilityinfo = document.getElementById("jooa11y-readability-info");
-
     if (paragraphtext.length === 0) {
       $readabilityinfo.innerHTML = Lang._('READABILITY_NO_P_OR_LI_MESSAGE');
     } else if (words > 30) {
       let fleschScore = flesch_reading_ease.toFixed(1);
       let avgWordsPerSentence = (words / sentences).toFixed(1);
-      let complexWords = Math.round(100 * ((words - (syllables1 + syllables2)) / words)); //WCAG AAA pass if greater than 60
+      let complexWords = Math.round(100 * ((words - (syllables1 + syllables2)) / words));
 
+      //WCAG AAA pass if greater than 60
       if (fleschScore >= 0 && fleschScore < 30) {
         $readabilityinfo.innerHTML = `<span>${fleschScore}</span> <span class="jooa11y-readability-score">${Lang._('VERY_DIFFICULT_READABILITY')}</span>`;
       } else if (fleschScore > 31 && fleschScore < 49) {
@@ -5519,7 +5017,6 @@ class Jooa11y {
       } else {
         $readabilityinfo.innerHTML = `<span>${fleschScore}</span> <span class="jooa11y-readability-score">${Lang._('GOOD_READABILITY')}</span>`;
       }
-
       document.getElementById("jooa11y-readability-details").innerHTML = `<li><span class='jooa11y-bold'>${Lang._('AVG_WORD_PER_SENTENCE')}</span> ${avgWordsPerSentence}</li>
                 <li><span class='jooa11y-bold'>${Lang._('COMPLEX_WORDS')}</span> ${complexWords}%</li>
                 <li><span class='jooa11y-bold'>${Lang._('TOTAL_WORDS')}</span> ${words}</li>`;
@@ -5527,29 +5024,27 @@ class Jooa11y {
       $readabilityinfo.textContent = Lang._('READABILITY_NOT_ENOUGH_CONTENT_MESSAGE');
     }
   }
-
   //----------------------------------------------------------------------
   // Templating for Error, Warning and Pass buttons.
   //----------------------------------------------------------------------
   annotate(type, content, inline = false) {
     const validTypes = [Lang._('ERROR'), Lang._('WARNING'), Lang._('GOOD')];
-
     if (validTypes.indexOf(type) === -1) {
       throw Error(`Invalid type [${type}] for annotation`);
     }
-
     const CSSName = {
       [validTypes[0]]: "error",
       [validTypes[1]]: "warning",
       [validTypes[2]]: "good"
-    }; // Check if content is a function
+    };
 
+    // Check if content is a function
     if (content && {}.toString.call(content) === "[object Function]") {
       // if it is, call it and get the value.
       content = content();
-    } // Escape content, it is need because it used inside data-tippy-content=""
+    }
 
-
+    // Escape content, it is need because it used inside data-tippy-content=""
     content = escapeHTML(content);
     return `
         <div class=${inline ? "jooa11y-instance-inline" : "jooa11y-instance"}>
@@ -5565,45 +5060,38 @@ class Jooa11y {
         </button>
         </div>`;
   }
-
   //----------------------------------------------------------------------
   // Templating for full-width banners.
   //----------------------------------------------------------------------
   annotateBanner(type, content) {
     const validTypes = [Lang._('ERROR'), Lang._('WARNING'), Lang._('GOOD')];
-
     if (validTypes.indexOf(type) === -1) {
       throw Error(`Invalid type [${type}] for annotation`);
     }
-
     const CSSName = {
       [validTypes[0]]: "error",
       [validTypes[1]]: "warning",
       [validTypes[2]]: "good"
-    }; // Check if content is a function
+    };
 
+    // Check if content is a function
     if (content && {}.toString.call(content) === "[object Function]") {
       // if it is, call it and get the value.
       content = content();
     }
-
     return `<div class="jooa11y-instance jooa11y-${CSSName[type]}-message-container">
       <div role="region" aria-label="${[type]}" class="jooa11y-${CSSName[type]}-message" lang="${this.options.langCode}">
           ${content}
       </div>
   </div>`;
   }
-
 }
 
 if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
-
 const stringPrefix = 'PLG_SYSTEM_JOOA11Y_';
-
 Lang.translate = string => Joomla.Text._(stringPrefix + string, string);
-
 const options = Joomla.getOptions('jooa11yOptions');
 window.addEventListener('load', () => {
   // Instantiate

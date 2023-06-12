@@ -16,7 +16,6 @@
         };
       });
     }
-
     Array.from(document.querySelectorAll('.modal')).forEach(function (modalEl) {
       modalEl.addEventListener('hidden.bs.modal', function () {
         setTimeout(function () {
@@ -25,11 +24,9 @@
       });
     });
   })(Joomla);
-
   (function (originalFn) {
     Joomla.submitform = function (task, form) {
       originalFn(task, form);
-
       if (task === 'menu.exportXml') {
         document.adminForm.task.value = '';
       }

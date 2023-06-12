@@ -1,7 +1,8 @@
 class AlertElement extends HTMLElement {
   constructor() {
-    super(); // Bindings
+    super();
 
+    // Bindings
     this.close = this.close.bind(this);
     this.destroyCloseButton = this.destroyCloseButton.bind(this);
     this.createCloseButton = this.createCloseButton.bind(this);
@@ -11,15 +12,17 @@ class AlertElement extends HTMLElement {
       attributes: false,
       childList: true,
       subtree: true
-    }); // Handle the fade in animation
+    });
 
+    // Handle the fade in animation
     this.addEventListener('animationend', event => {
       if (event.animationName === 'joomla-alert-fade-in' && event.target === this) {
         this.dispatchEvent(new CustomEvent('joomla.alert.shown'));
         this.style.removeProperty('animationName');
       }
-    }); // Handle the fade out animation
+    });
 
+    // Handle the fade out animation
     this.addEventListener('animationend', event => {
       if (event.animationName === 'joomla-alert-fade-out' && event.target === this) {
         this.dispatchEvent(new CustomEvent('joomla.alert.closed'));
@@ -27,123 +30,100 @@ class AlertElement extends HTMLElement {
       }
     });
   }
+
   /* Attributes to monitor */
-
-
   static get observedAttributes() {
     return ['type', 'role', 'dismiss', 'auto-dismiss', 'close-text'];
   }
-
   get type() {
     return this.getAttribute('type');
   }
-
   set type(value) {
     this.setAttribute('type', value);
   }
-
   get role() {
     return this.getAttribute('role');
   }
-
   set role(value) {
     this.setAttribute('role', value);
   }
-
   get closeText() {
     return this.getAttribute('close-text');
   }
-
   set closeText(value) {
     this.setAttribute('close-text', value);
   }
-
   get dismiss() {
     return this.getAttribute('dismiss');
   }
-
   set dismiss(value) {
     this.setAttribute('dismiss', value);
   }
-
   get autodismiss() {
     return this.getAttribute('auto-dismiss');
   }
-
   set autodismiss(value) {
     this.setAttribute('auto-dismiss', value);
   }
+
   /* Lifecycle, element appended to the DOM */
-
-
   connectedCallback() {
     this.dispatchEvent(new CustomEvent('joomla.alert.show'));
-    this.style.animationName = 'joomla-alert-fade-in'; // Default to info
+    this.style.animationName = 'joomla-alert-fade-in';
 
+    // Default to info
     if (!this.type || !['info', 'warning', 'danger', 'success'].includes(this.type)) {
       this.setAttribute('type', 'info');
-    } // Default to alert
-
-
+    }
+    // Default to alert
     if (!this.role || !['alert', 'alertdialog'].includes(this.role)) {
       this.setAttribute('role', 'alert');
-    } // Hydrate the button
+    }
 
-
+    // Hydrate the button
     if (this.firstElementChild && this.firstElementChild.tagName === 'BUTTON') {
       this.button = this.firstElementChild;
-
       if (this.button.classList.contains('joomla-alert--close')) {
         this.button.classList.add('joomla-alert--close');
       }
-
       if (this.button.innerHTML === '') {
         this.button.innerHTML = '<span aria-hidden="true">&times;</span>';
       }
-
       if (!this.button.hasAttribute('aria-label')) {
         this.button.setAttribute('aria-label', this.closeText);
       }
-    } // Append button
+    }
 
-
+    // Append button
     if (this.hasAttribute('dismiss') && !this.button) {
       this.createCloseButton();
     }
-
     if (this.hasAttribute('auto-dismiss')) {
       this.autoDismiss();
     }
   }
+
   /* Lifecycle, element removed from the DOM */
-
-
   disconnectedCallback() {
     if (this.button) {
       this.button.removeEventListener('click', this.close);
     }
-
     this.observer.disconnect();
   }
+
   /* Respond to attribute changes */
-
-
   attributeChangedCallback(attr, oldValue, newValue) {
     switch (attr) {
       case 'type':
         if (!newValue || newValue && ['info', 'warning', 'danger', 'success'].indexOf(newValue) === -1) {
           this.type = 'info';
         }
-
         break;
-
       case 'role':
         if (!newValue || newValue && ['alert', 'alertdialog'].indexOf(newValue) === -1) {
           this.role = 'alert';
         }
-
         break;
-
       case 'dismiss':
         if ((!newValue || newValue === '') && (!oldValue || oldValue === '')) {
           if (this.button && !this.hasAttribute('dismiss')) {
@@ -156,26 +136,21 @@ class AlertElement extends HTMLElement {
         } else if (!this.button && newValue !== 'false') {
           this.createCloseButton();
         }
-
         break;
-
       case 'close-text':
         if (!newValue || newValue !== oldValue) {
           if (this.button) {
             this.button.setAttribute('aria-label', newValue);
           }
         }
-
         break;
-
       case 'auto-dismiss':
         this.autoDismiss();
         break;
     }
   }
+
   /* Observe added elements */
-
-
   onMutation(mutationsList) {
     // eslint-disable-next-line no-restricted-syntax
     for (const mutation of mutationsList) {
@@ -189,16 +164,14 @@ class AlertElement extends HTMLElement {
       }
     }
   }
+
   /* Method to close the alert */
-
-
   close() {
     this.dispatchEvent(new CustomEvent('joomla.alert.close'));
     this.style.animationName = 'joomla-alert-fade-out';
   }
+
   /* Method to create the close button */
-
-
   createCloseButton() {
     this.button = document.createElement('button');
     this.button.setAttribute('type', 'button');
@@ -206,13 +179,12 @@ class AlertElement extends HTMLElement {
     this.button.innerHTML = '<span aria-hidden="true">&times;</span>';
     this.button.setAttribute('aria-label', this.closeText);
     this.insertAdjacentElement('afterbegin', this.button);
-    /* Add the required listener */
 
+    /* Add the required listener */
     this.button.addEventListener('click', this.close);
   }
+
   /* Method to remove the close button */
-
-
   destroyCloseButton() {
     if (this.button) {
       this.button.removeEventListener('click', this.close);
@@ -220,16 +192,13 @@ class AlertElement extends HTMLElement {
       this.button = null;
     }
   }
+
   /* Method to auto-dismiss */
-
-
   autoDismiss() {
     const timer = parseInt(this.getAttribute('auto-dismiss'), 10);
     setTimeout(this.close, timer >= 10 ? timer : 3000);
   }
-
 }
-
 if (!customElements.get('joomla-alert')) {
   customElements.define('joomla-alert', AlertElement);
 }
@@ -238,6 +207,7 @@ if (!customElements.get('joomla-alert')) {
  * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 /**
  * Returns the container of the Messages
  *
@@ -245,22 +215,19 @@ if (!customElements.get('joomla-alert')) {
  *
  * @returns {HTMLElement}
  */
-
 const getMessageContainer = container => {
   let messageContainer;
-
   if (container instanceof HTMLElement) {
     return container;
   }
-
   if (typeof container === 'undefined' || container && container === '#system-message-container') {
     messageContainer = document.getElementById('system-message-container');
   } else {
     messageContainer = document.querySelector(container);
   }
-
   return messageContainer;
 };
+
 /**
  * Render messages send via JSON
  * Used by some javascripts such as validate.js
@@ -280,48 +247,42 @@ const getMessageContainer = container => {
  * @param  {int}    timeout  The milliseconds before the message self destruct
  * @return  void
  */
-
-
 Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
   const messageContainer = getMessageContainer(selector);
-
   if (typeof keepOld === 'undefined' || keepOld && keepOld === false) {
     Joomla.removeMessages(messageContainer);
   }
-
   [].slice.call(Object.keys(messages)).forEach(type => {
-    let alertClass = type; // Array of messages of this type
+    let alertClass = type;
 
+    // Array of messages of this type
     const typeMessages = messages[type];
     const messagesBox = document.createElement('joomla-alert');
-
     if (['success', 'info', 'danger', 'warning'].indexOf(type) < 0) {
       alertClass = type === 'notice' ? 'info' : type;
       alertClass = type === 'message' ? 'success' : alertClass;
       alertClass = type === 'error' ? 'danger' : alertClass;
       alertClass = type === 'warning' ? 'warning' : alertClass;
     }
-
     messagesBox.setAttribute('type', alertClass);
     messagesBox.setAttribute('close-text', Joomla.Text._('JCLOSE'));
     messagesBox.setAttribute('dismiss', true);
-
     if (timeout && parseInt(timeout, 10) > 0) {
       messagesBox.setAttribute('auto-dismiss', timeout);
-    } // Title
+    }
 
+    // Title
+    const title = Joomla.Text._(type);
 
-    const title = Joomla.Text._(type); // Skip titles with untranslated strings
-
-
+    // Skip titles with untranslated strings
     if (typeof title !== 'undefined') {
       const titleWrapper = document.createElement('div');
       titleWrapper.className = 'alert-heading';
       titleWrapper.innerHTML = Joomla.sanitizeHtml(`<span class="${type}"></span><span class="visually-hidden">${Joomla.Text._(type) ? Joomla.Text._(type) : type}</span>`);
       messagesBox.appendChild(titleWrapper);
-    } // Add messages to the message box
+    }
 
-
+    // Add messages to the message box
     const messageWrapper = document.createElement('div');
     messageWrapper.className = 'alert-wrapper';
     typeMessages.forEach(typeMessage => {
@@ -331,6 +292,7 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
     messageContainer.appendChild(messagesBox);
   });
 };
+
 /**
  * Remove messages
  *
@@ -339,22 +301,17 @@ Joomla.renderMessages = (messages, selector, keepOld, timeout) => {
  *
  * @return  {void}
  */
-
-
 Joomla.removeMessages = container => {
   const messageContainer = getMessageContainer(container);
   const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-
   if (alerts.length) {
     alerts.forEach(alert => {
       alert.close();
     });
   }
 };
-
 document.addEventListener('DOMContentLoaded', () => {
   const messages = Joomla.getOptions('joomla.messages');
-
   if (messages) {
     Object.keys(messages).map(message => Joomla.renderMessages(messages[message], undefined, true, undefined));
   }

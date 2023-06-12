@@ -1,5 +1,5 @@
 /**! 
- * hotkeys-js v3.9.3 
+ * hotkeys-js v3.10.1 
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies. 
  * 
  * Copyright (c) 2022 kenny wong <wowohoo@qq.com> 
@@ -69,9 +69,11 @@
 
   var _keyMap = {
     backspace: 8,
+    '⌫': 8,
     tab: 9,
     clear: 12,
     enter: 13,
+    '↩': 13,
     return: 13,
     esc: 27,
     escape: 27,
@@ -169,6 +171,18 @@
 
   var code = function code(x) {
     return _keyMap[x.toLowerCase()] || _modifier[x.toLowerCase()] || x.toUpperCase().charCodeAt(0);
+  };
+
+  var getKey = function getKey(x) {
+    return Object.keys(_keyMap).find(function (k) {
+      return _keyMap[k] === x;
+    });
+  };
+
+  var getModifier = function getModifier(x) {
+    return Object.keys(_modifier).find(function (k) {
+      return _modifier[k] === x;
+    });
   }; // 设置获取当前范围（默认为'所有'）
 
 
@@ -184,6 +198,12 @@
 
   function getPressedKeyCodes() {
     return _downKeys.slice(0);
+  }
+
+  function getPressedKeyString() {
+    return _downKeys.map(function (c) {
+      return getKey(c) || getModifier(c) || String.fromCharCode(c);
+    });
   } // 表单控件控件判断 返回 Boolean
   // hotkey is effective only when filter return true
 
@@ -260,7 +280,7 @@
 
   function unbind(keysInfo) {
     // unbind(), unbind all keys
-    if (!keysInfo) {
+    if (typeof keysInfo === 'undefined') {
       Object.keys(_handlers).forEach(function (key) {
         return delete _handlers[key];
       });
@@ -557,17 +577,20 @@
   function trigger(shortcut) {
     var scope = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'all';
     Object.keys(_handlers).forEach(function (key) {
-      var data = _handlers[key].find(function (item) {
+      var dataList = _handlers[key].filter(function (item) {
         return item.scope === scope && item.shortcut === shortcut;
       });
 
-      if (data && data.method) {
-        data.method();
-      }
+      dataList.forEach(function (data) {
+        if (data && data.method) {
+          data.method();
+        }
+      });
     });
   }
 
   var _api = {
+    getPressedKeyString: getPressedKeyString,
     setScope: setScope,
     getScope: getScope,
     deleteScope: deleteScope,

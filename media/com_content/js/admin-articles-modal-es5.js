@@ -18,25 +18,20 @@
           window.parent.Joomla.Modal.getCurrent().close();
         }
       }
-
       var _Joomla$getOptions = Joomla.getOptions('xtd-articles'),
-          editor = _Joomla$getOptions.editor;
-
+        editor = _Joomla$getOptions.editor;
       var tag = "<a href=\"" + link + "\"" + (lang !== '' ? " hreflang=\"" + lang + "\"" : '') + ">" + title + "</a>";
       window.parent.Joomla.editors.instances[editor].replaceSelection(tag);
-
       if (window.parent.Joomla.Modal) {
         window.parent.Joomla.Modal.getCurrent().close();
       }
     };
-
     document.querySelectorAll('.select-link').forEach(function (element) {
       // Listen for click event
       element.addEventListener('click', function (event) {
         event.preventDefault();
         var target = event.target;
         var functionName = target.getAttribute('data-function');
-
         if (functionName === 'jSelectArticle') {
           // Used in xtd_contacts
           window[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
@@ -44,7 +39,6 @@
           // Used in com_menus
           window.parent[functionName](target.getAttribute('data-id'), target.getAttribute('data-title'), target.getAttribute('data-cat-id'), null, target.getAttribute('data-uri'), target.getAttribute('data-language'));
         }
-
         if (window.parent.Joomla.Modal) {
           window.parent.Joomla.Modal.getCurrent().close();
         }

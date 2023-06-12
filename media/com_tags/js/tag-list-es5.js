@@ -11,18 +11,14 @@
       document.getElementById('filter-search').value = '';
       form.submit();
     };
-
     var onBoot = function onBoot() {
       var form = document.getElementById('adminForm');
       var element = form.querySelector('button[type="reset"]');
-
       if (element) {
         element.addEventListener('click', onClick);
       }
-
       document.removeEventListener('DOMContentLoaded', onBoot);
     };
-
     document.addEventListener('DOMContentLoaded', onBoot);
   })(document);
 

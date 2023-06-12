@@ -23,18 +23,18 @@
   width: 100%;
   max-width: 30em;
   margin: 60px auto;
-  background-color: hsl(0deg, 0%, 100%);
-  border: 1px solid hsla(0deg, 0%, 0%, 0.1);
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsla(0, 0%, 0%, 0.1);
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px hsla(0deg, 0%, 0%, 0.05);
-          box-shadow: 0 0 10px hsla(0deg, 0%, 0%, 0.05);
+  -webkit-box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.05);
+          box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.05);
 }
 
 .header {
   position: relative;
   padding: 1em 2em;
   margin: 0;
-  color: hsl(0deg, 0%, 100%);
+  color: hsl(0, 0%, 100%);
   text-align: center;
   background-color: var(--cassiopeia-color-primary);
   background-image: -o-linear-gradient(315deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
@@ -91,11 +91,11 @@ input {
   z-index: 1;
   padding: 12px;
   margin-top: 2px;
-  background-color: hsl(0deg, 0%, 100%);
-  border: 1px solid hsla(0deg, 0%, 0%, 0.05);
+  background-color: hsl(0, 0%, 100%);
+  border: 1px solid hsla(0, 0%, 0%, 0.05);
   border-radius: 50%;
-  -webkit-box-shadow: 0 0 5px hsla(0deg, 0%, 0%, 0.075);
-          box-shadow: 0 0 5px hsla(0deg, 0%, 0%, 0.075);
+  -webkit-box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.075);
+          box-shadow: 0 0 5px hsla(0, 0%, 0%, 0.075);
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
 }

@@ -5,13 +5,12 @@
 if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }
+
 /**
  * Fake TinyMCE object to allow to use TinyMCE translation for the button labels
  *
  * @since  3.7.0
  */
-
-
 const tinymce = {
   langCode: 'en',
   langStrings: {},
@@ -198,12 +197,12 @@ const tinymce = {
   }
 };
 window.tinymce = tinymce;
-
 const TinyMCEBuilder = (container, options) => {
   const $sourceMenu = container.querySelector('.tinymce-builder-menu.source');
   const $sourceToolbar = container.querySelector('.tinymce-builder-toolbar.source');
   const $targetMenu = container.querySelectorAll('.tinymce-builder-menu.target');
   const $targetToolbar = container.querySelectorAll('.tinymce-builder-toolbar.target');
+
   /**
    * Append input to the button item
    * @param {HTMLElement} element
@@ -212,12 +211,12 @@ const TinyMCEBuilder = (container, options) => {
    *
    * @since  3.7.0
    */
-
   const appendInput = (element, group, set) => {
     const name = `${options.formControl}[${set}][${group}][]`;
     const value = element.getAttribute('data-name');
     element.innerHTML += Joomla.sanitizeHtml(`<input type="hidden" name="${name}" value="${value}">`);
   };
+
   /**
    * Create the element needed for renderBar()
    * @param {String} name
@@ -228,13 +227,10 @@ const TinyMCEBuilder = (container, options) => {
    *
    * @since  3.7.0
    */
-
-
   const createButton = (name, info, type) => {
     const title = tinymce.translate(info.label);
     let content = '';
     let bclass = 'tox-mbtn';
-
     if (type === 'menu') {
       content = title;
     } else if (info.text) {
@@ -245,9 +241,9 @@ const TinyMCEBuilder = (container, options) => {
     } else {
       content = tinymce.showIcon(name);
     }
-
     return `<button type="button" data-name="${name}" class="${bclass}" data-toggle="tooltip" title="${title}">${content}</button>`;
   };
+
   /**
    * Render the toolbar/menubar
    *
@@ -258,8 +254,6 @@ const TinyMCEBuilder = (container, options) => {
    *
    * @since  3.7.0
    */
-
-
   const renderBar = (box, type, val, withInput) => {
     const group = box.getAttribute('data-group');
     const set = box.getAttribute('data-set');
@@ -267,35 +261,33 @@ const TinyMCEBuilder = (container, options) => {
     const value = val || JSON.parse(box.getAttribute('data-value')) || [];
     let item;
     let name;
-
     for (let i = 0, l = value.length; i < l; i += 1) {
       name = value[i];
       item = items[name];
-
       if (item) {
         // Buttons are predefined in this file, so safe
         box.innerHTML += createButton(name, item, type);
-        const newbutton = box.querySelector('.tox-mbtn:last-child'); // Enable tooltip
+        const newbutton = box.querySelector('.tox-mbtn:last-child');
 
+        // Enable tooltip
         if (newbutton && newbutton.tooltip) {
           newbutton.tooltip({
             trigger: 'hover'
           });
-        } // Add input
+        }
 
-
+        // Add input
         if (withInput) {
           appendInput(newbutton, group, set);
         }
       }
     }
   };
+
   /**
    * Clear the pane for specific set
    * @param {Object} sets Options {set: 1}
    */
-
-
   const clearPane = sets => {
     const {
       set: item
@@ -311,26 +303,24 @@ const TinyMCEBuilder = (container, options) => {
       }
     });
   };
+
   /**
    * Set Selected preset to specific  set
    * @param {Object} attrib Options {set: 1, preset: 'presetName'}
    */
-
-
   const setPreset = attrib => {
     const {
       set: item
     } = attrib;
     const preset = options.toolbarPreset[attrib.preset] || null;
-
     if (!preset) {
       throw new Error(`Unknown Preset "${attrib.preset}"`);
     }
-
     clearPane(attrib);
     Object.keys(preset).forEach(group => {
-      const type = group === 'menu' ? 'menu' : 'toolbar'; // Find correct container for current set
+      const type = group === 'menu' ? 'menu' : 'toolbar';
 
+      // Find correct container for current set
       if (group === 'menu') {
         $targetMenu.forEach(target => {
           if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
@@ -345,14 +335,14 @@ const TinyMCEBuilder = (container, options) => {
         });
       }
     });
-  }; // Build menu + toolbar
+  };
 
-
+  // Build menu + toolbar
   renderBar($sourceMenu, 'menu');
-  renderBar($sourceToolbar, 'toolbar'); // Initialize drag & drop
+  renderBar($sourceToolbar, 'toolbar');
 
+  // Initialize drag & drop
   /* global dragula */
-
   const drakeMenu = dragula([$sourceMenu], {
     copy: (el, source) => source === $sourceMenu,
     accepts: (el, target) => target !== $sourceMenu,
@@ -394,8 +384,9 @@ const TinyMCEBuilder = (container, options) => {
   $targetToolbar.forEach(target => {
     renderBar(target, 'toolbar', null, true);
     drakeToolbar.containers.push(target);
-  }); // Bind actions buttons
+  });
 
+  // Bind actions buttons
   const actionButtons = container.querySelectorAll('.button-action');
   actionButtons.forEach(elem => {
     elem.addEventListener('click', ({
@@ -408,50 +399,49 @@ const TinyMCEBuilder = (container, options) => {
           const key = attrib.name.substr(5);
           actionoptions[key] = attrib.value;
         }
-      }); // Don't allow wild function calling
+      });
 
+      // Don't allow wild function calling
       switch (action) {
         case 'clearPane':
           clearPane(actionoptions);
           break;
-
         case 'setPreset':
           setPreset(actionoptions);
           break;
-
         default:
           throw new Error(`Unsupported action: ${action}`);
       }
     });
   });
 };
-
 const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {}) : Joomla.optionsStorage.plg_editors_tinymce_builder || {};
 const builder = document.getElementById('joomla-tinymce-builder');
 document.addEventListener('DOMContentLoaded', () => TinyMCEBuilder(builder, options));
-const selects = builder.querySelectorAll('.access-select'); // Allow to select the group only once per the set
+const selects = builder.querySelectorAll('.access-select');
 
+// Allow to select the group only once per the set
 const toggleAvailableOption = () => {
   selects.forEach(select => {
     select.enableAllOptions();
-  }); // Disable already selected options in the other selects
+  });
 
+  // Disable already selected options in the other selects
   selects.forEach(select => {
     const values = select.value;
     selects.forEach(select1 => {
       if (select === select1) {
         return;
       }
-
       values.forEach(value => {
         select1.disableByValue(value);
       });
     });
   });
 };
+window.addEventListener('load', () => toggleAvailableOption());
 
-window.addEventListener('load', () => toggleAvailableOption()); // Allow to select the group only once per the set
-
+// Allow to select the group only once per the set
 selects.forEach(select => {
   select.addEventListener('change', () => {
     toggleAvailableOption();

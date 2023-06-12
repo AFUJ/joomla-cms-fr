@@ -341,15 +341,13 @@
 
 /* =====  End of Choices  ====== */
 .choices {
-  border: 0;
+  border: 1px solid var(--template-bg-dark-20);
   border-radius: 0.25rem;
 }
-.choices:hover {
-  cursor: pointer;
-}
 .choices.is-focused {
-  -webkit-box-shadow: 0 0 0 0.2rem #eaeaea;
-          box-shadow: 0 0 0 0.2rem #eaeaea;
+  border-color: var(--focus);
+  -webkit-box-shadow: 0 0 0 0.2rem var(--focus-shadow);
+          box-shadow: 0 0 0 0.2rem var(--focus-shadow);
 }
 
 .choices__inner {
@@ -357,11 +355,8 @@
   padding: 0.1rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
-  border: solid 1px var(--template-bg-dark-20);
-  border-radius: 0.25rem;
-}
-.is-focused .choices__inner {
-  border-color: #39f;
+  border: none;
+  border-radius: 0;
 }
 
 .choices__input {
@@ -370,11 +365,23 @@
   font-size: 1rem;
   background-color: transparent;
 }
+.choices__input::-webkit-input-placeholder {
+  color: #495057;
+  opacity: 1;
+}
 .choices__input::-moz-placeholder {
   color: #495057;
   opacity: 1;
 }
-.choices__input::-webkit-input-placeholder {
+.choices__input:-ms-input-placeholder {
+  color: #495057;
+  opacity: 1;
+}
+.choices__input::-ms-input-placeholder {
+  color: #495057;
+  opacity: 1;
+}
+.choices__input::placeholder {
   color: #495057;
   opacity: 1;
 }

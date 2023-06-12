@@ -8,6 +8,7 @@
    * @license     GNU General Public License version 2 or later; see LICENSE.txt
    * @since       4.0.0
    */
+
   document.addEventListener('DOMContentLoaded', function () {
     var allMenus = document.querySelectorAll('ul.mod-menu_dropdown-metismenu');
     allMenus.forEach(function (menu) {

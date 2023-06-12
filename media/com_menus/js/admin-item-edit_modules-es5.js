@@ -5,16 +5,14 @@
    * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
    * @license    GNU General Public License version 2 or later; see LICENSE.txt
    */
-  Joomla = window.Joomla || {};
 
+  Joomla = window.Joomla || {};
   (function () {
     var options = Joomla.getOptions('menus-edit-modules');
-
     if (options) {
       window.viewLevels = options.viewLevels;
       window.menuId = parseInt(options.itemId, 10);
     }
-
     var baseLink = 'index.php?option=com_modules&client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
     var assigned1 = document.getElementById('jform_toggle_modules_assigned1');
     var assigned0 = document.getElementById('jform_toggle_modules_assigned0');
@@ -22,7 +20,6 @@
     var published0 = document.getElementById('jform_toggle_modules_published0');
     var linkElements = [].slice.call(document.getElementsByClassName('module-edit-link'));
     var elements = [].slice.call(document.querySelectorAll('#moduleEditModal .modal-footer .btn'));
-
     if (assigned1) {
       assigned1.addEventListener('click', function () {
         var list = [].slice.call(document.querySelectorAll('tr.no'));
@@ -32,7 +29,6 @@
         });
       });
     }
-
     if (assigned0) {
       assigned0.addEventListener('click', function () {
         var list = [].slice.call(document.querySelectorAll('tr.no'));
@@ -42,7 +38,6 @@
         });
       });
     }
-
     if (published1) {
       published1.addEventListener('click', function () {
         var list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
@@ -52,7 +47,6 @@
         });
       });
     }
-
     if (published0) {
       published0.addEventListener('click', function () {
         var list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
@@ -62,7 +56,6 @@
         });
       });
     }
-
     if (linkElements.length) {
       linkElements.forEach(function (linkElement) {
         linkElement.addEventListener('click', function (_ref) {
@@ -79,13 +72,11 @@
         });
       });
     }
-
     if (elements.length) {
       elements.forEach(function (element) {
         element.addEventListener('click', function (_ref2) {
           var target = _ref2.target;
           var dataTarget = target.getAttribute('data-bs-target');
-
           if (dataTarget) {
             var iframe = document.querySelector('#moduleEditModal iframe');
             var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;

@@ -9,21 +9,18 @@
     if (!Joomla) {
       window.Joomla = {};
     }
-
     var onBoot = function onBoot() {
       Joomla.submitbutton = function (pressbutton) {
         if (pressbutton === 'filters.delete' && !window.confirm(Joomla.Text._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
           return false;
         }
-
         Joomla.submitform(pressbutton);
         return true;
-      }; // Cleanup
+      };
 
-
+      // Cleanup
       document.addEventListener('DOMContentLoaded', onBoot);
     };
-
     document.addEventListener('DOMContentLoaded', onBoot);
   })(Joomla);
 

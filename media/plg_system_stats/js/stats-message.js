@@ -3,8 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @since      3.5.0
  */
-Joomla = window.Joomla || {};
 
+Joomla = window.Joomla || {};
 ((Joomla, document) => {
 
   const allowed = {
@@ -19,34 +19,38 @@ Joomla = window.Joomla || {};
     tr: [],
     td: []
   };
-
   const initStatsEvents = callback => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
-    const detailsContainer = messageContainer.querySelector('#js-pstats-data-details'); // Show details about the information being sent
+    const detailsContainer = messageContainer.querySelector('#js-pstats-data-details');
 
+    // Show details about the information being sent
     document.addEventListener('click', event => {
       if (event.target.classList.contains('js-pstats-btn-details')) {
         event.preventDefault();
         detailsContainer.classList.toggle('d-none');
       }
-    }); // Always allow
+    });
 
+    // Always allow
     document.addEventListener('click', event => {
       if (event.target.classList.contains('js-pstats-btn-allow-always')) {
-        event.preventDefault(); // Remove message
+        event.preventDefault();
 
+        // Remove message
         joomlaAlert.close();
         callback({
           plugin: 'sendAlways'
         });
       }
-    }); // Never allow
+    });
 
+    // Never allow
     document.addEventListener('click', event => {
       if (event.target.classList.contains('js-pstats-btn-allow-never')) {
-        event.preventDefault(); // Remove message
+        event.preventDefault();
 
+        // Remove message
         joomlaAlert.close();
         callback({
           plugin: 'sendNever'
@@ -54,7 +58,6 @@ Joomla = window.Joomla || {};
       }
     });
   };
-
   const getJson = ({
     plugin = 'sendStats'
   } = {}) => {
@@ -68,7 +71,6 @@ Joomla = window.Joomla || {};
       onSuccess: response => {
         try {
           const json = JSON.parse(response);
-
           if (json && json.html) {
             messageContainer.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(json.html, allowed));
             messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
@@ -85,7 +87,6 @@ Joomla = window.Joomla || {};
       }
     });
   };
-
   document.addEventListener('DOMContentLoaded', () => {
     getJson();
   });

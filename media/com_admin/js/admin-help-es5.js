@@ -6,7 +6,6 @@
     * @license     GNU General Public License version 2 or later; see LICENSE.txt
     */
   var helpIndex = document.getElementById('help-index');
-
   if (helpIndex) {
     [].slice.call(helpIndex.querySelectorAll('a')).map(function (element) {
       return element.addEventListener('click', function () {

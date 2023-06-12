@@ -5,24 +5,20 @@
 if (!Joomla) {
   throw new Error('Joomla API is not properly initiated');
 }
+
 /**
  * Extract the extensions
  *
  * @param {*} path
  * @returns {string}
  */
-
-
 const getExtension = path => {
   const parts = path.split(/[#]/);
-
   if (parts.length > 1) {
     return parts[1].split(/[?]/)[0].split('.').pop().trim();
   }
-
   return path.split(/[#?]/)[0].split('.').pop().trim();
 };
-
 class JoomlaFieldMedia extends HTMLElement {
   constructor() {
     super();
@@ -37,127 +33,98 @@ class JoomlaFieldMedia extends HTMLElement {
     this.markInvalid = this.markInvalid.bind(this);
     this.mimeType = '';
   }
-
   static get observedAttributes() {
     return ['type', 'base-path', 'root-folder', 'url', 'modal-container', 'modal-width', 'modal-height', 'input', 'button-select', 'button-clear', 'button-save-selected', 'preview', 'preview-width', 'preview-height'];
   }
-
   get type() {
     return this.getAttribute('type');
   }
-
   set type(value) {
     this.setAttribute('type', value);
   }
-
   get basePath() {
     return this.getAttribute('base-path');
   }
-
   set basePath(value) {
     this.setAttribute('base-path', value);
   }
-
   get rootFolder() {
     return this.getAttribute('root-folder');
   }
-
   set rootFolder(value) {
     this.setAttribute('root-folder', value);
   }
-
   get url() {
     return this.getAttribute('url');
   }
-
   set url(value) {
     this.setAttribute('url', value);
   }
-
   get modalContainer() {
     return this.getAttribute('modal-container');
   }
-
   set modalContainer(value) {
     this.setAttribute('modal-container', value);
   }
-
   get input() {
     return this.getAttribute('input');
   }
-
   set input(value) {
     this.setAttribute('input', value);
   }
-
   get buttonSelect() {
     return this.getAttribute('button-select');
   }
-
   set buttonSelect(value) {
     this.setAttribute('button-select', value);
   }
-
   get buttonClear() {
     return this.getAttribute('button-clear');
   }
-
   set buttonClear(value) {
     this.setAttribute('button-clear', value);
   }
-
   get buttonSaveSelected() {
     return this.getAttribute('button-save-selected');
   }
-
   set buttonSaveSelected(value) {
     this.setAttribute('button-save-selected', value);
   }
-
   get modalWidth() {
     return parseInt(this.getAttribute('modal-width'), 10);
   }
-
   set modalWidth(value) {
     this.setAttribute('modal-width', value);
   }
-
   get modalHeight() {
     return parseInt(this.getAttribute('modal-height'), 10);
   }
-
   set modalHeight(value) {
     this.setAttribute('modal-height', value);
   }
-
   get previewWidth() {
     return parseInt(this.getAttribute('preview-width'), 10);
   }
-
   set previewWidth(value) {
     this.setAttribute('preview-width', value);
   }
-
   get previewHeight() {
     return parseInt(this.getAttribute('preview-height'), 10);
   }
-
   set previewHeight(value) {
     this.setAttribute('preview-height', value);
   }
-
   get preview() {
     return this.getAttribute('preview');
   }
-
   set preview(value) {
     this.setAttribute('preview', value);
   }
-
   get previewContainer() {
     return this.getAttribute('preview-container');
-  } // attributeChangedCallback(attr, oldValue, newValue) {}
+  }
 
+  // attributeChangedCallback(attr, oldValue, newValue) {}
 
   connectedCallback() {
     this.button = this.querySelector(this.buttonSelect);
@@ -166,61 +133,50 @@ class JoomlaFieldMedia extends HTMLElement {
     this.modalElement = this.querySelector('.joomla-modal');
     this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
     this.previewElement = this.querySelector('.field-media-preview');
-
     if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement || !this.buttonSaveSelectedElement) {
       throw new Error('Misconfiguaration...');
     }
+    this.button.addEventListener('click', this.show);
 
-    this.button.addEventListener('click', this.show); // Bootstrap modal init
-
+    // Bootstrap modal init
     if (this.modalElement && window.bootstrap && window.bootstrap.Modal && !window.bootstrap.Modal.getInstance(this.modalElement)) {
       Joomla.initialiseModal(this.modalElement, {
         isJoomla: true
       });
     }
-
     if (this.buttonClearEl) {
       this.buttonClearEl.addEventListener('click', this.clearValue);
     }
-
     this.supportedExtensions = Joomla.getOptions('media-picker', {});
-
     if (!Object.keys(this.supportedExtensions).length) {
       throw new Error('Joomla API is not properly initiated');
     }
-
     this.inputElement.removeAttribute('readonly');
     this.inputElement.addEventListener('change', this.validateValue);
     this.updatePreview();
   }
-
   disconnectedCallback() {
     if (this.button) {
       this.button.removeEventListener('click', this.show);
     }
-
     if (this.buttonClearEl) {
       this.buttonClearEl.removeEventListener('click', this.clearValue);
     }
-
     if (this.inputElement) {
       this.inputElement.removeEventListener('change', this.validateValue);
     }
   }
-
   onSelected(event) {
     event.preventDefault();
     event.stopPropagation();
     this.modalClose();
     return false;
   }
-
   show() {
     this.modalElement.open();
     Joomla.selectedMediaFile = {};
     this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
   }
-
   async modalClose() {
     try {
       await Joomla.getMedia(Joomla.selectedMediaFile, this.inputElement, this);
@@ -229,17 +185,16 @@ class JoomlaFieldMedia extends HTMLElement {
         error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')]
       });
     }
-
     Joomla.selectedMediaFile = {};
     Joomla.Modal.getCurrent().close();
   }
-
   setValue(value) {
     this.inputElement.value = value;
     this.validatedUrl = value;
     this.mimeType = Joomla.selectedMediaFile.fileType;
-    this.updatePreview(); // trigger change event both on the input and on the custom element
+    this.updatePreview();
 
+    // trigger change event both on the input and on the custom element
     this.inputElement.dispatchEvent(new Event('change'));
     this.dispatchEvent(new CustomEvent('change', {
       detail: {
@@ -248,13 +203,11 @@ class JoomlaFieldMedia extends HTMLElement {
       bubbles: true
     }));
   }
-
   async validateValue(event) {
     let {
       value
     } = event.target;
     if (this.validatedUrl === value || value === '') return;
-
     if (/^(http(s)?:\/\/).+$/.test(value)) {
       try {
         fetch(value).then(response => {
@@ -274,7 +227,6 @@ class JoomlaFieldMedia extends HTMLElement {
       if (/^\//.test(value)) {
         value = value.substring(1);
       }
-
       const hashedUrl = value.split('#');
       const urlParts = hashedUrl[0].split('/');
       const rest = urlParts.slice(1);
@@ -282,7 +234,6 @@ class JoomlaFieldMedia extends HTMLElement {
         if (blob.type.includes('image')) {
           const img = new Image();
           img.src = URL.createObjectURL(blob);
-
           img.onload = () => {
             this.inputElement.value = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
             this.validatedUrl = `${urlParts[0]}/${rest.join('/')}#joomlaImage://local-${urlParts[0]}/${rest.join('/')}?width=${img.width}&height=${img.height}`;
@@ -314,42 +265,35 @@ class JoomlaFieldMedia extends HTMLElement {
       });
     }
   }
-
   markValid() {
     this.inputElement.removeAttribute('required');
     this.inputElement.removeAttribute('pattern');
-
     if (document.formvalidator) {
       document.formvalidator.validate(this.inputElement);
     }
   }
-
   markInvalid() {
     this.inputElement.setAttribute('required', '');
     this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
-
     if (document.formvalidator) {
       document.formvalidator.validate(this.inputElement);
     }
   }
-
   clearValue() {
     this.setValue('');
     this.validatedUrl = '';
     this.inputElement.removeAttribute('required');
     this.inputElement.removeAttribute('pattern');
-
     if (document.formvalidator) {
       document.formvalidator.validate(this.inputElement);
     }
   }
-
   updatePreview() {
     if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
       return;
-    } // Reset preview
+    }
 
-
+    // Reset preview
     if (this.preview) {
       const {
         value
@@ -357,7 +301,6 @@ class JoomlaFieldMedia extends HTMLElement {
       const {
         supportedExtensions
       } = this;
-
       if (!value) {
         this.buttonClearEl.style.display = 'none';
         this.previewElement.innerHTML = Joomla.sanitizeHtml('<span class="field-media-preview-icon"></span>');
@@ -407,8 +350,9 @@ class JoomlaFieldMedia extends HTMLElement {
               previewElement.setAttribute('height', this.previewHeight);
             }
           }
-        }; // @todo more checks
+        };
 
+        // @todo more checks
         if (this.givenType && ['images', 'audios', 'videos', 'documents'].includes(this.givenType)) {
           mediaType[this.givenType]();
         } else if (type && ['images', 'audios', 'videos', 'documents'].includes(type)) {
@@ -416,13 +360,10 @@ class JoomlaFieldMedia extends HTMLElement {
         } else {
           return;
         }
-
         this.previewElement.style.width = this.previewWidth;
         this.previewElement.appendChild(previewElement);
       }
     }
   }
-
 }
-
 customElements.define('joomla-field-media', JoomlaFieldMedia);

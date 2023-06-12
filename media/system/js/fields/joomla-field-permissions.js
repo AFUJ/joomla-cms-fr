@@ -5,15 +5,12 @@
 window.customElements.define('joomla-field-permissions', class extends HTMLElement {
   constructor() {
     super();
-
     if (!Joomla) {
       throw new Error('Joomla API is not properly initiated');
     }
-
     if (!this.getAttribute('data-uri')) {
       throw new Error('No valid url for validation');
     }
-
     this.query = window.location.search.substring(1);
     this.buttons = '';
     this.buttonDataSelector = 'data-onchange-task';
@@ -26,25 +23,22 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
     this.asset = 'not';
     this.context = '';
   }
+
   /**
    * Lifecycle
    */
-
-
   connectedCallback() {
     this.buttons = [].slice.call(document.querySelectorAll(`[${this.buttonDataSelector}]`));
-
     if (this.buttons) {
       this.buttons.forEach(button => {
         button.addEventListener('change', this.onDropdownChange);
       });
     }
   }
+
   /**
    * Lifecycle
    */
-
-
   disconnectedCallback() {
     if (this.buttons) {
       this.buttons.forEach(button => {
@@ -52,38 +46,35 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       });
     }
   }
+
   /**
    * Lifecycle
    */
-
-
   onDropdownChange(event) {
     event.preventDefault();
     const task = event.target.getAttribute(this.buttonDataSelector);
-
     if (task === 'permissions.apply') {
       this.sendPermissions(event);
     }
   }
-
   sendPermissions(event) {
     const {
       target
-    } = event; // Set the icon while storing the values
+    } = event;
 
+    // Set the icon while storing the values
     const icon = document.getElementById(`icon_${target.id}`);
     icon.removeAttribute('class');
-    icon.setAttribute('class', 'joomla-icon joomla-field-permissions__spinner'); // Get values add prepare GET-Parameter
+    icon.setAttribute('class', 'joomla-icon joomla-field-permissions__spinner');
 
+    // Get values add prepare GET-Parameter
     const {
       value
     } = target;
-
     if (document.getElementById('jform_context')) {
       this.context = document.getElementById('jform_context').value;
       [this.context] = this.context.split('.');
     }
-
     if (this.option === 'com_config' && !this.component && !this.extension) {
       this.asset = 'root.1';
     } else if (!this.extension && this.view === 'component') {
@@ -94,7 +85,6 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       } else {
         this.asset = `${this.context}.field.{this.getUrlParam('id')}`;
       }
-
       this.title = document.getElementById('jform_title').value;
     } else if (this.extension && this.view) {
       this.asset = `${this.extension}.${this.view}.${this.getUrlParam('id')}`;
@@ -103,7 +93,6 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       this.asset = `${this.option}.${this.view}.${this.getUrlParam('id')}`;
       this.title = document.getElementById('jform_title').value;
     }
-
     const id = target.id.replace('jform_rules_', '');
     const lastUnderscoreIndex = id.lastIndexOf('_');
     const permissionData = {
@@ -112,10 +101,12 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       rule: id.substring(lastUnderscoreIndex + 1),
       value,
       title: this.title
-    }; // Remove JS messages, if they exist.
+    };
 
-    Joomla.removeMessages(); // Ajax request
+    // Remove JS messages, if they exist.
+    Joomla.removeMessages();
 
+    // Ajax request
     Joomla.request({
       url: this.getAttribute('data-uri'),
       method: 'POST',
@@ -126,28 +117,26 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       },
       onSuccess: data => {
         let response;
-
         try {
           response = JSON.parse(data);
         } catch (e) {
           // eslint-disable-next-line no-console
           console.error(e);
         }
+        icon.removeAttribute('class');
 
-        icon.removeAttribute('class'); // Check if everything is OK
-
+        // Check if everything is OK
         if (response.data && response.data.result) {
           icon.setAttribute('class', 'joomla-icon joomla-field-permissions__allowed');
           const badgeSpan = target.parentNode.parentNode.nextElementSibling.querySelector('span');
           badgeSpan.removeAttribute('class');
           badgeSpan.setAttribute('class', response.data.class);
           badgeSpan.innerHTML = Joomla.sanitizeHtml(response.data.text);
-        } // Render messages, if any. There are only message in case of errors.
+        }
 
-
+        // Render messages, if any. There are only message in case of errors.
         if (typeof response.messages === 'object' && response.messages !== null) {
           Joomla.renderMessages(response.messages);
-
           if (response.data && response.data.result) {
             icon.setAttribute('class', 'joomla-icon joomla-field-permissions__allowed');
           } else {
@@ -163,20 +152,15 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
       }
     });
   }
-
   getUrlParam(variable) {
     const vars = this.query.split('&');
     let i = 0;
-
     for (i; i < vars.length; i += 1) {
       const pair = vars[i].split('=');
-
       if (pair[0] === variable) {
         return pair[1];
       }
     }
-
     return false;
   }
-
 });

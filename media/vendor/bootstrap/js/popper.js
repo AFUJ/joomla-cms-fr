@@ -38,12 +38,10 @@ function getWindow(node) {
   if (node == null) {
     return window;
   }
-
   if (node.toString() !== '[object Window]') {
     var ownerDocument = node.ownerDocument;
     return ownerDocument ? ownerDocument.defaultView || window : window;
   }
-
   return node;
 }
 
@@ -51,18 +49,15 @@ function isElement(node) {
   var OwnElement = getWindow(node).Element;
   return node instanceof OwnElement || node instanceof Element;
 }
-
 function isHTMLElement(node) {
   var OwnElement = getWindow(node).HTMLElement;
   return node instanceof OwnElement || node instanceof HTMLElement;
 }
-
 function isShadowRoot(node) {
   // IE 11 has no ShadowRoot
   if (typeof ShadowRoot === 'undefined') {
     return false;
   }
-
   var OwnElement = getWindow(node).ShadowRoot;
   return node instanceof OwnElement || node instanceof ShadowRoot;
 }
@@ -82,11 +77,9 @@ function applyStyles(_ref) {
     // effective way to apply styles to an HTMLElement
     // $FlowFixMe[cannot-write]
 
-
     Object.assign(element.style, style);
     Object.keys(attributes).forEach(function (name) {
       var value = attributes[name];
-
       if (value === false) {
         element.removeAttribute(name);
       } else {
@@ -95,7 +88,6 @@ function applyStyles(_ref) {
     });
   });
 }
-
 function effect$2(_ref2) {
   var state = _ref2.state;
   var initialStyles = {
@@ -112,11 +104,9 @@ function effect$2(_ref2) {
   };
   Object.assign(state.elements.popper.style, initialStyles.popper);
   state.styles = initialStyles;
-
   if (state.elements.arrow) {
     Object.assign(state.elements.arrow.style, initialStyles.arrow);
   }
-
   return function () {
     Object.keys(state.elements).forEach(function (name) {
       var element = state.elements[name];
@@ -131,7 +121,6 @@ function effect$2(_ref2) {
       if (!isHTMLElement(element) || !getNodeName(element)) {
         return;
       }
-
       Object.assign(element.style, style);
       Object.keys(attributes).forEach(function (attribute) {
         element.removeAttribute(attribute);
@@ -139,7 +128,6 @@ function effect$2(_ref2) {
     });
   };
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var applyStyles$1 = {
   name: 'applyStyles',
@@ -158,38 +146,50 @@ var max = Math.max;
 var min = Math.min;
 var round = Math.round;
 
-function getBoundingClientRect(element, includeScale) {
+function getUAString() {
+  var uaData = navigator.userAgentData;
+  if (uaData != null && uaData.brands) {
+    return uaData.brands.map(function (item) {
+      return item.brand + "/" + item.version;
+    }).join(' ');
+  }
+  return navigator.userAgent;
+}
+
+function isLayoutViewport() {
+  return !/^((?!chrome|android).)*safari/i.test(getUAString());
+}
+
+function getBoundingClientRect(element, includeScale, isFixedStrategy) {
   if (includeScale === void 0) {
     includeScale = false;
   }
-
-  var rect = element.getBoundingClientRect();
+  if (isFixedStrategy === void 0) {
+    isFixedStrategy = false;
+  }
+  var clientRect = element.getBoundingClientRect();
   var scaleX = 1;
   var scaleY = 1;
-
-  if (isHTMLElement(element) && includeScale) {
-    var offsetHeight = element.offsetHeight;
-    var offsetWidth = element.offsetWidth; // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
-    // Fallback to 1 in case both values are `0`
-
-    if (offsetWidth > 0) {
-      scaleX = round(rect.width) / offsetWidth || 1;
-    }
-
-    if (offsetHeight > 0) {
-      scaleY = round(rect.height) / offsetHeight || 1;
-    }
+  if (includeScale && isHTMLElement(element)) {
+    scaleX = element.offsetWidth > 0 ? round(clientRect.width) / element.offsetWidth || 1 : 1;
+    scaleY = element.offsetHeight > 0 ? round(clientRect.height) / element.offsetHeight || 1 : 1;
   }
-
+  var _ref = isElement(element) ? getWindow(element) : window,
+    visualViewport = _ref.visualViewport;
+  var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
+  var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
+  var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
+  var width = clientRect.width / scaleX;
+  var height = clientRect.height / scaleY;
   return {
-    width: rect.width / scaleX,
-    height: rect.height / scaleY,
-    top: rect.top / scaleY,
-    right: rect.right / scaleX,
-    bottom: rect.bottom / scaleY,
-    left: rect.left / scaleX,
-    x: rect.left / scaleX,
-    y: rect.top / scaleY
+    width: width,
+    height: height,
+    top: y,
+    right: x + width,
+    bottom: y + height,
+    left: x,
+    x: x,
+    y: y
   };
 }
 
@@ -201,15 +201,12 @@ function getLayoutRect(element) {
 
   var width = element.offsetWidth;
   var height = element.offsetHeight;
-
   if (Math.abs(clientRect.width - width) <= 1) {
     width = clientRect.width;
   }
-
   if (Math.abs(clientRect.height - height) <= 1) {
     height = clientRect.height;
   }
-
   return {
     x: element.offsetLeft,
     y: element.offsetTop,
@@ -226,17 +223,14 @@ function contains(parent, child) {
   } // then fallback to custom implementation with Shadow DOM support
   else if (rootNode && isShadowRoot(rootNode)) {
     var next = child;
-
     do {
       if (next && parent.isSameNode(next)) {
         return true;
       } // $FlowFixMe[prop-missing]: need a better way to handle this...
 
-
       next = next.parentNode || next.host;
     } while (next);
   } // Give up, the result is false
-
 
   return false;
 }
@@ -251,7 +245,8 @@ function isTableElement(element) {
 
 function getDocumentElement(element) {
   // $FlowFixMe[incompatible-return]: assume body is always available
-  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+  return ((isElement(element) ? element.ownerDocument :
+  // $FlowFixMe[prop-missing]
   element.document) || window.document).documentElement;
 }
 
@@ -259,45 +254,45 @@ function getParentNode(element) {
   if (getNodeName(element) === 'html') {
     return element;
   }
-
-  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+  return (
+    // this is a quicker (but less type safe) way to save quite some bytes from the bundle
     // $FlowFixMe[incompatible-return]
     // $FlowFixMe[prop-missing]
-    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-    element.parentNode || ( // DOM Element detected
-    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+    element.assignedSlot ||
+    // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || (
+    // DOM Element detected
+    isShadowRoot(element) ? element.host : null) ||
+    // ShadowRoot detected
     // $FlowFixMe[incompatible-call]: HTMLElement is a Node
     getDocumentElement(element) // fallback
-
   );
 }
 
 function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+  if (!isHTMLElement(element) ||
+  // https://github.com/popperjs/popper-core/issues/837
   getComputedStyle(element).position === 'fixed') {
     return null;
   }
-
   return element.offsetParent;
 } // `.offsetParent` reports `null` for fixed elements, while absolute elements
 // return the containing block
 
-
 function getContainingBlock(element) {
-  var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
-  var isIE = navigator.userAgent.indexOf('Trident') !== -1;
-
+  var isFirefox = /firefox/i.test(getUAString());
+  var isIE = /Trident/i.test(getUAString());
   if (isIE && isHTMLElement(element)) {
     // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
     var elementCss = getComputedStyle(element);
-
     if (elementCss.position === 'fixed') {
       return null;
     }
   }
-
   var currentNode = getParentNode(element);
-
+  if (isShadowRoot(currentNode)) {
+    currentNode = currentNode.host;
+  }
   while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
     var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
@@ -309,24 +304,19 @@ function getContainingBlock(element) {
       currentNode = currentNode.parentNode;
     }
   }
-
   return null;
 } // Gets the closest ancestor positioned element. Handles some edge cases,
 // such as table ancestors and cross browser bugs.
 
-
 function getOffsetParent(element) {
   var window = getWindow(element);
   var offsetParent = getTrueOffsetParent(element);
-
   while (offsetParent && isTableElement(offsetParent) && getComputedStyle(offsetParent).position === 'static') {
     offsetParent = getTrueOffsetParent(offsetParent);
   }
-
   if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static')) {
     return window;
   }
-
   return offsetParent || getContainingBlock(element) || window;
 }
 
@@ -368,24 +358,20 @@ var toPaddingObject = function toPaddingObject(padding, state) {
   })) : padding;
   return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
-
 function arrow(_ref) {
   var _state$modifiersData$;
-
   var state = _ref.state,
-      name = _ref.name,
-      options = _ref.options;
+    name = _ref.name,
+    options = _ref.options;
   var arrowElement = state.elements.arrow;
   var popperOffsets = state.modifiersData.popperOffsets;
   var basePlacement = getBasePlacement(state.placement);
   var axis = getMainAxisFromPlacement(basePlacement);
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
   var len = isVertical ? 'height' : 'width';
-
   if (!arrowElement || !popperOffsets) {
     return;
   }
-
   var paddingObject = toPaddingObject(options.padding, state);
   var arrowRect = getLayoutRect(arrowElement);
   var minProp = axis === 'y' ? top : left;
@@ -405,34 +391,26 @@ function arrow(_ref) {
   var axisProp = axis;
   state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
 }
-
 function effect$1(_ref2) {
   var state = _ref2.state,
-      options = _ref2.options;
+    options = _ref2.options;
   var _options$element = options.element,
-      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
-
+    arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
   if (arrowElement == null) {
     return;
   } // CSS selector
 
-
   if (typeof arrowElement === 'string') {
     arrowElement = state.elements.popper.querySelector(arrowElement);
-
     if (!arrowElement) {
       return;
     }
   }
-
   if (!contains(state.elements.popper, arrowElement)) {
-
     return;
   }
-
   state.elements.arrow = arrowElement;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var arrow$1 = {
   name: 'arrow',
@@ -459,7 +437,7 @@ var unsetSides = {
 
 function roundOffsetsByDPR(_ref) {
   var x = _ref.x,
-      y = _ref.y;
+    y = _ref.y;
   var win = window;
   var dpr = win.devicePixelRatio || 1;
   return {
@@ -467,90 +445,93 @@ function roundOffsetsByDPR(_ref) {
     y: round(y * dpr) / dpr || 0
   };
 }
-
 function mapToStyles(_ref2) {
   var _Object$assign2;
-
   var popper = _ref2.popper,
-      popperRect = _ref2.popperRect,
-      placement = _ref2.placement,
-      variation = _ref2.variation,
-      offsets = _ref2.offsets,
-      position = _ref2.position,
-      gpuAcceleration = _ref2.gpuAcceleration,
-      adaptive = _ref2.adaptive,
-      roundOffsets = _ref2.roundOffsets,
-      isFixed = _ref2.isFixed;
-
-  var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets,
-      _ref3$x = _ref3.x,
-      x = _ref3$x === void 0 ? 0 : _ref3$x,
-      _ref3$y = _ref3.y,
-      y = _ref3$y === void 0 ? 0 : _ref3$y;
-
+    popperRect = _ref2.popperRect,
+    placement = _ref2.placement,
+    variation = _ref2.variation,
+    offsets = _ref2.offsets,
+    position = _ref2.position,
+    gpuAcceleration = _ref2.gpuAcceleration,
+    adaptive = _ref2.adaptive,
+    roundOffsets = _ref2.roundOffsets,
+    isFixed = _ref2.isFixed;
+  var _offsets$x = offsets.x,
+    x = _offsets$x === void 0 ? 0 : _offsets$x,
+    _offsets$y = offsets.y,
+    y = _offsets$y === void 0 ? 0 : _offsets$y;
+  var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
+    x: x,
+    y: y
+  }) : {
+    x: x,
+    y: y
+  };
+  x = _ref3.x;
+  y = _ref3.y;
   var hasX = offsets.hasOwnProperty('x');
   var hasY = offsets.hasOwnProperty('y');
   var sideX = left;
   var sideY = top;
   var win = window;
-
   if (adaptive) {
     var offsetParent = getOffsetParent(popper);
     var heightProp = 'clientHeight';
     var widthProp = 'clientWidth';
-
     if (offsetParent === getWindow(popper)) {
       offsetParent = getDocumentElement(popper);
-
       if (getComputedStyle(offsetParent).position !== 'static' && position === 'absolute') {
         heightProp = 'scrollHeight';
         widthProp = 'scrollWidth';
       }
     } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
-
     offsetParent = offsetParent;
-
     if (placement === top || (placement === left || placement === right) && variation === end) {
       sideY = bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height :
+      // $FlowFixMe[prop-missing]
       offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
     }
-
     if (placement === left || (placement === top || placement === bottom) && variation === end) {
       sideX = right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width :
+      // $FlowFixMe[prop-missing]
       offsetParent[widthProp];
       x -= offsetX - popperRect.width;
       x *= gpuAcceleration ? 1 : -1;
     }
   }
-
   var commonStyles = Object.assign({
     position: position
   }, adaptive && unsetSides);
-
+  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
+    x: x,
+    y: y
+  }) : {
+    x: x,
+    y: y
+  };
+  x = _ref4.x;
+  y = _ref4.y;
   if (gpuAcceleration) {
     var _Object$assign;
-
     return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
   }
-
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 }
-
-function computeStyles(_ref4) {
-  var state = _ref4.state,
-      options = _ref4.options;
+function computeStyles(_ref5) {
+  var state = _ref5.state,
+    options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration,
-      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-      _options$adaptive = options.adaptive,
-      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-      _options$roundOffsets = options.roundOffsets,
-      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
+    gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+    _options$adaptive = options.adaptive,
+    adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+    _options$roundOffsets = options.roundOffsets,
+    roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
   var commonStyles = {
     placement: getBasePlacement(state.placement),
     variation: getVariation(state.placement),
@@ -559,7 +540,6 @@ function computeStyles(_ref4) {
     gpuAcceleration: gpuAcceleration,
     isFixed: state.options.strategy === 'fixed'
   };
-
   if (state.modifiersData.popperOffsets != null) {
     state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
       offsets: state.modifiersData.popperOffsets,
@@ -568,7 +548,6 @@ function computeStyles(_ref4) {
       roundOffsets: roundOffsets
     })));
   }
-
   if (state.modifiersData.arrow != null) {
     state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
       offsets: state.modifiersData.arrow,
@@ -577,12 +556,10 @@ function computeStyles(_ref4) {
       roundOffsets: roundOffsets
     })));
   }
-
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
     'data-popper-placement': state.placement
   });
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var computeStyles$1 = {
   name: 'computeStyles',
@@ -595,41 +572,35 @@ var computeStyles$1 = {
 var passive = {
   passive: true
 };
-
 function effect(_ref) {
   var state = _ref.state,
-      instance = _ref.instance,
-      options = _ref.options;
+    instance = _ref.instance,
+    options = _ref.options;
   var _options$scroll = options.scroll,
-      scroll = _options$scroll === void 0 ? true : _options$scroll,
-      _options$resize = options.resize,
-      resize = _options$resize === void 0 ? true : _options$resize;
+    scroll = _options$scroll === void 0 ? true : _options$scroll,
+    _options$resize = options.resize,
+    resize = _options$resize === void 0 ? true : _options$resize;
   var window = getWindow(state.elements.popper);
   var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-
   if (scroll) {
     scrollParents.forEach(function (scrollParent) {
       scrollParent.addEventListener('scroll', instance.update, passive);
     });
   }
-
   if (resize) {
     window.addEventListener('resize', instance.update, passive);
   }
-
   return function () {
     if (scroll) {
       scrollParents.forEach(function (scrollParent) {
         scrollParent.removeEventListener('scroll', instance.update, passive);
       });
     }
-
     if (resize) {
       window.removeEventListener('resize', instance.update, passive);
     }
   };
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var eventListeners = {
   name: 'eventListeners',
@@ -683,36 +654,23 @@ function getWindowScrollBarX(element) {
   return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
 }
 
-function getViewportRect(element) {
+function getViewportRect(element, strategy) {
   var win = getWindow(element);
   var html = getDocumentElement(element);
   var visualViewport = win.visualViewport;
   var width = html.clientWidth;
   var height = html.clientHeight;
   var x = 0;
-  var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
-  // can be obscured underneath it.
-  // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
-  // if it isn't open, so if this isn't available, the popper will be detected
-  // to overflow the bottom of the screen too early.
-
+  var y = 0;
   if (visualViewport) {
     width = visualViewport.width;
-    height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
-    // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
-    // errors due to floating point numbers, so we need to check precision.
-    // Safari returns a number <= 0, usually < -1 when pinch-zoomed
-    // Feature detection fails in mobile emulation mode in Chrome.
-    // Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
-    // 0.001
-    // Fallback here: "Not Safari" userAgent
-
-    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+    height = visualViewport.height;
+    var layoutViewport = isLayoutViewport();
+    if (layoutViewport || !layoutViewport && strategy === 'fixed') {
       x = visualViewport.offsetLeft;
       y = visualViewport.offsetTop;
     }
   }
-
   return {
     width: width,
     height: height,
@@ -725,7 +683,6 @@ function getViewportRect(element) {
 
 function getDocumentRect(element) {
   var _element$ownerDocumen;
-
   var html = getDocumentElement(element);
   var winScroll = getWindowScroll(element);
   var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
@@ -733,11 +690,9 @@ function getDocumentRect(element) {
   var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
   var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
   var y = -winScroll.scrollTop;
-
   if (getComputedStyle(body || html).direction === 'rtl') {
     x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
   }
-
   return {
     width: width,
     height: height,
@@ -749,10 +704,9 @@ function getDocumentRect(element) {
 function isScrollParent(element) {
   // Firefox wants us to check `-x` and `-y` variations as well
   var _getComputedStyle = getComputedStyle(element),
-      overflow = _getComputedStyle.overflow,
-      overflowX = _getComputedStyle.overflowX,
-      overflowY = _getComputedStyle.overflowY;
-
+    overflow = _getComputedStyle.overflow,
+    overflowX = _getComputedStyle.overflowX,
+    overflowY = _getComputedStyle.overflowY;
   return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
 }
 
@@ -761,11 +715,9 @@ function getScrollParent(node) {
     // $FlowFixMe[incompatible-return]: assume body is always available
     return node.ownerDocument.body;
   }
-
   if (isHTMLElement(node) && isScrollParent(node)) {
     return node;
   }
-
   return getScrollParent(getParentNode(node));
 }
 
@@ -778,17 +730,16 @@ reference element's position.
 
 function listScrollParents(element, list) {
   var _element$ownerDocumen;
-
   if (list === void 0) {
     list = [];
   }
-
   var scrollParent = getScrollParent(element);
   var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
   var win = getWindow(scrollParent);
   var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
   var updatedList = list.concat(target);
-  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+  return isBody ? updatedList :
+  // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
   updatedList.concat(listScrollParents(getParentNode(target)));
 }
 
@@ -801,8 +752,8 @@ function rectToClientRect(rect) {
   });
 }
 
-function getInnerBoundingClientRect(element) {
-  var rect = getBoundingClientRect(element);
+function getInnerBoundingClientRect(element, strategy) {
+  var rect = getBoundingClientRect(element, false, strategy === 'fixed');
   rect.top = rect.top + element.clientTop;
   rect.left = rect.left + element.clientLeft;
   rect.bottom = rect.top + element.clientHeight;
@@ -813,43 +764,38 @@ function getInnerBoundingClientRect(element) {
   rect.y = rect.top;
   return rect;
 }
-
-function getClientRectFromMixedType(element, clippingParent) {
-  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+function getClientRectFromMixedType(element, clippingParent, strategy) {
+  return clippingParent === viewport ? rectToClientRect(getViewportRect(element, strategy)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
 } // A "clipping parent" is an overflowable container with the characteristic of
 // clipping (or hiding) overflowing elements with a position different from
 // `initial`
-
 
 function getClippingParents(element) {
   var clippingParents = listScrollParents(getParentNode(element));
   var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle(element).position) >= 0;
   var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-
   if (!isElement(clipperElement)) {
     return [];
   } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
 
-
   return clippingParents.filter(function (clippingParent) {
-    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body' && (canEscapeClipping ? getComputedStyle(clippingParent).position !== 'static' : true);
+    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
   });
 } // Gets the maximum area that the element is visible in due to any number of
 // clipping parents
 
-
-function getClippingRect(element, boundary, rootBoundary) {
+function getClippingRect(element, boundary, rootBoundary, strategy) {
   var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
   var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
   var firstClippingParent = clippingParents[0];
   var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
-    var rect = getClientRectFromMixedType(element, clippingParent);
+    var rect = getClientRectFromMixedType(element, clippingParent, strategy);
     accRect.top = max(rect.top, accRect.top);
     accRect.right = min(rect.right, accRect.right);
     accRect.bottom = min(rect.bottom, accRect.bottom);
     accRect.left = max(rect.left, accRect.left);
     return accRect;
-  }, getClientRectFromMixedType(element, firstClippingParent));
+  }, getClientRectFromMixedType(element, firstClippingParent, strategy));
   clippingRect.width = clippingRect.right - clippingRect.left;
   clippingRect.height = clippingRect.bottom - clippingRect.top;
   clippingRect.x = clippingRect.left;
@@ -859,14 +805,13 @@ function getClippingRect(element, boundary, rootBoundary) {
 
 function computeOffsets(_ref) {
   var reference = _ref.reference,
-      element = _ref.element,
-      placement = _ref.placement;
+    element = _ref.element,
+    placement = _ref.placement;
   var basePlacement = placement ? getBasePlacement(placement) : null;
   var variation = placement ? getVariation(placement) : null;
   var commonX = reference.x + reference.width / 2 - element.width / 2;
   var commonY = reference.y + reference.height / 2 - element.height / 2;
   var offsets;
-
   switch (basePlacement) {
     case top:
       offsets = {
@@ -874,51 +819,42 @@ function computeOffsets(_ref) {
         y: reference.y - element.height
       };
       break;
-
     case bottom:
       offsets = {
         x: commonX,
         y: reference.y + reference.height
       };
       break;
-
     case right:
       offsets = {
         x: reference.x + reference.width,
         y: commonY
       };
       break;
-
     case left:
       offsets = {
         x: reference.x - element.width,
         y: commonY
       };
       break;
-
     default:
       offsets = {
         x: reference.x,
         y: reference.y
       };
   }
-
   var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-
   if (mainAxis != null) {
     var len = mainAxis === 'y' ? 'height' : 'width';
-
     switch (variation) {
       case start:
         offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
         break;
-
       case end:
         offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
         break;
     }
   }
-
   return offsets;
 }
 
@@ -926,25 +862,26 @@ function detectOverflow(state, options) {
   if (options === void 0) {
     options = {};
   }
-
   var _options = options,
-      _options$placement = _options.placement,
-      placement = _options$placement === void 0 ? state.placement : _options$placement,
-      _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-      _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-      _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-      _options$altBoundary = _options.altBoundary,
-      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-      _options$padding = _options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding;
+    _options$placement = _options.placement,
+    placement = _options$placement === void 0 ? state.placement : _options$placement,
+    _options$strategy = _options.strategy,
+    strategy = _options$strategy === void 0 ? state.strategy : _options$strategy,
+    _options$boundary = _options.boundary,
+    boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+    _options$rootBoundary = _options.rootBoundary,
+    rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+    _options$elementConte = _options.elementContext,
+    elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+    _options$altBoundary = _options.altBoundary,
+    altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+    _options$padding = _options.padding,
+    padding = _options$padding === void 0 ? 0 : _options$padding;
   var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
   var altContext = elementContext === popper ? reference : popper;
   var popperRect = state.rects.popper;
   var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
+  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary, strategy);
   var referenceClientRect = getBoundingClientRect(state.elements.reference);
   var popperOffsets = computeOffsets({
     reference: referenceClientRect,
@@ -972,7 +909,6 @@ function detectOverflow(state, options) {
       overflowOffsets[key] += offset[axis] * multiply;
     });
   }
-
   return overflowOffsets;
 }
 
@@ -980,15 +916,14 @@ function computeAutoPlacement(state, options) {
   if (options === void 0) {
     options = {};
   }
-
   var _options = options,
-      placement = _options.placement,
-      boundary = _options.boundary,
-      rootBoundary = _options.rootBoundary,
-      padding = _options.padding,
-      flipVariations = _options.flipVariations,
-      _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+    placement = _options.placement,
+    boundary = _options.boundary,
+    rootBoundary = _options.rootBoundary,
+    padding = _options.padding,
+    flipVariations = _options.flipVariations,
+    _options$allowedAutoP = _options.allowedAutoPlacements,
+    allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
   var variation = getVariation(placement);
   var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
     return getVariation(placement) === variation;
@@ -996,11 +931,9 @@ function computeAutoPlacement(state, options) {
   var allowedPlacements = placements$1.filter(function (placement) {
     return allowedAutoPlacements.indexOf(placement) >= 0;
   });
-
   if (allowedPlacements.length === 0) {
     allowedPlacements = placements$1;
   } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
-
 
   var overflows = allowedPlacements.reduce(function (acc, placement) {
     acc[placement] = detectOverflow(state, {
@@ -1020,32 +953,28 @@ function getExpandedFallbackPlacements(placement) {
   if (getBasePlacement(placement) === auto) {
     return [];
   }
-
   var oppositePlacement = getOppositePlacement(placement);
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
-
 function flip(_ref) {
   var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-
+    options = _ref.options,
+    name = _ref.name;
   if (state.modifiersData[name]._skip) {
     return;
   }
-
   var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-      specifiedFallbackPlacements = options.fallbackPlacements,
-      padding = options.padding,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-      allowedAutoPlacements = options.allowedAutoPlacements;
+    checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+    _options$altAxis = options.altAxis,
+    checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+    specifiedFallbackPlacements = options.fallbackPlacements,
+    padding = options.padding,
+    boundary = options.boundary,
+    rootBoundary = options.rootBoundary,
+    altBoundary = options.altBoundary,
+    _options$flipVariatio = options.flipVariations,
+    flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+    allowedAutoPlacements = options.allowedAutoPlacements;
   var preferredPlacement = state.options.placement;
   var basePlacement = getBasePlacement(preferredPlacement);
   var isBasePlacement = basePlacement === preferredPlacement;
@@ -1065,12 +994,9 @@ function flip(_ref) {
   var checksMap = new Map();
   var makeFallbackChecks = true;
   var firstFittingPlacement = placements[0];
-
   for (var i = 0; i < placements.length; i++) {
     var placement = placements[i];
-
     var _basePlacement = getBasePlacement(placement);
-
     var isStartVariation = getVariation(placement) === start;
     var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
     var len = isVertical ? 'width' : 'height';
@@ -1082,22 +1008,17 @@ function flip(_ref) {
       padding: padding
     });
     var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-
     if (referenceRect[len] > popperRect[len]) {
       mainVariationSide = getOppositePlacement(mainVariationSide);
     }
-
     var altVariationSide = getOppositePlacement(mainVariationSide);
     var checks = [];
-
     if (checkMainAxis) {
       checks.push(overflow[_basePlacement] <= 0);
     }
-
     if (checkAltAxis) {
       checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
     }
-
     if (checks.every(function (check) {
       return check;
     })) {
@@ -1105,45 +1026,36 @@ function flip(_ref) {
       makeFallbackChecks = false;
       break;
     }
-
     checksMap.set(placement, checks);
   }
-
   if (makeFallbackChecks) {
     // `2` may be desired in some cases – research later
     var numberOfChecks = flipVariations ? 3 : 1;
-
     var _loop = function _loop(_i) {
       var fittingPlacement = placements.find(function (placement) {
         var checks = checksMap.get(placement);
-
         if (checks) {
           return checks.slice(0, _i).every(function (check) {
             return check;
           });
         }
       });
-
       if (fittingPlacement) {
         firstFittingPlacement = fittingPlacement;
         return "break";
       }
     };
-
     for (var _i = numberOfChecks; _i > 0; _i--) {
       var _ret = _loop(_i);
-
       if (_ret === "break") break;
     }
   }
-
   if (state.placement !== firstFittingPlacement) {
     state.modifiersData[name]._skip = true;
     state.placement = firstFittingPlacement;
     state.reset = true;
   }
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var flip$1 = {
   name: 'flip',
@@ -1163,7 +1075,6 @@ function getSideOffsets(overflow, rect, preventedOffsets) {
       y: 0
     };
   }
-
   return {
     top: overflow.top - rect.height - preventedOffsets.y,
     right: overflow.right - rect.width + preventedOffsets.x,
@@ -1171,16 +1082,14 @@ function getSideOffsets(overflow, rect, preventedOffsets) {
     left: overflow.left - rect.width - preventedOffsets.x
   };
 }
-
 function isAnySideFullyClipped(overflow) {
   return [top, right, bottom, left].some(function (side) {
     return overflow[side] >= 0;
   });
 }
-
 function hide(_ref) {
   var state = _ref.state,
-      name = _ref.name;
+    name = _ref.name;
   var referenceRect = state.rects.reference;
   var popperRect = state.rects.popper;
   var preventedOffsets = state.modifiersData.preventOverflow;
@@ -1206,7 +1115,6 @@ function hide(_ref) {
   });
 } // eslint-disable-next-line import/no-unused-modules
 
-
 var hide$1 = {
   name: 'hide',
   enabled: true,
@@ -1218,13 +1126,11 @@ var hide$1 = {
 function distanceAndSkiddingToXY(placement, rects, offset) {
   var basePlacement = getBasePlacement(placement);
   var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-
   var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
-    placement: placement
-  })) : offset,
-      skidding = _ref[0],
-      distance = _ref[1];
-
+      placement: placement
+    })) : offset,
+    skidding = _ref[0],
+    distance = _ref[1];
   skidding = skidding || 0;
   distance = (distance || 0) * invertDistance;
   return [left, right].indexOf(basePlacement) >= 0 ? {
@@ -1235,29 +1141,25 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
     y: distance
   };
 }
-
 function offset(_ref2) {
   var state = _ref2.state,
-      options = _ref2.options,
-      name = _ref2.name;
+    options = _ref2.options,
+    name = _ref2.name;
   var _options$offset = options.offset,
-      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+    offset = _options$offset === void 0 ? [0, 0] : _options$offset;
   var data = placements.reduce(function (acc, placement) {
     acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
     return acc;
   }, {});
   var _data$state$placement = data[state.placement],
-      x = _data$state$placement.x,
-      y = _data$state$placement.y;
-
+    x = _data$state$placement.x,
+    y = _data$state$placement.y;
   if (state.modifiersData.popperOffsets != null) {
     state.modifiersData.popperOffsets.x += x;
     state.modifiersData.popperOffsets.y += y;
   }
-
   state.modifiersData[name] = data;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var offset$1 = {
   name: 'offset',
@@ -1269,11 +1171,11 @@ var offset$1 = {
 
 function popperOffsets(_ref) {
   var state = _ref.state,
-      name = _ref.name; // Offsets are the actual position the popper needs to have to be
+    name = _ref.name;
+  // Offsets are the actual position the popper needs to have to be
   // properly positioned near its reference element
   // This is the most basic placement, and will be adjusted by
   // the modifiers in the next step
-
   state.modifiersData[name] = computeOffsets({
     reference: state.rects.reference,
     element: state.rects.popper,
@@ -1281,7 +1183,6 @@ function popperOffsets(_ref) {
     placement: state.placement
   });
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var popperOffsets$1 = {
   name: 'popperOffsets',
@@ -1297,20 +1198,20 @@ function getAltAxis(axis) {
 
 function preventOverflow(_ref) {
   var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
+    options = _ref.options,
+    name = _ref.name;
   var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      padding = options.padding,
-      _options$tether = options.tether,
-      tether = _options$tether === void 0 ? true : _options$tether,
-      _options$tetherOffset = options.tetherOffset,
-      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+    checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+    _options$altAxis = options.altAxis,
+    checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+    boundary = options.boundary,
+    rootBoundary = options.rootBoundary,
+    altBoundary = options.altBoundary,
+    padding = options.padding,
+    _options$tether = options.tether,
+    tether = _options$tether === void 0 ? true : _options$tether,
+    _options$tetherOffset = options.tetherOffset,
+    tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
   var overflow = detectOverflow(state, {
     boundary: boundary,
     rootBoundary: rootBoundary,
@@ -1340,14 +1241,11 @@ function preventOverflow(_ref) {
     x: 0,
     y: 0
   };
-
   if (!popperOffsets) {
     return;
   }
-
   if (checkMainAxis) {
     var _offsetModifierState$;
-
     var mainSide = mainAxis === 'y' ? top : left;
     var altSide = mainAxis === 'y' ? bottom : right;
     var len = mainAxis === 'y' ? 'height' : 'width';
@@ -1384,39 +1282,24 @@ function preventOverflow(_ref) {
     popperOffsets[mainAxis] = preventedOffset;
     data[mainAxis] = preventedOffset - offset;
   }
-
   if (checkAltAxis) {
     var _offsetModifierState$2;
-
     var _mainSide = mainAxis === 'x' ? top : left;
-
     var _altSide = mainAxis === 'x' ? bottom : right;
-
     var _offset = popperOffsets[altAxis];
-
     var _len = altAxis === 'y' ? 'height' : 'width';
-
     var _min = _offset + overflow[_mainSide];
-
     var _max = _offset - overflow[_altSide];
-
     var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-
     var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-
     var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-
     var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-
     var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-
     popperOffsets[altAxis] = _preventedOffset;
     data[altAxis] = _preventedOffset - _offset;
   }
-
   state.modifiersData[name] = data;
 } // eslint-disable-next-line import/no-unused-modules
-
 
 var preventOverflow$1 = {
   name: 'preventOverflow',
@@ -1449,16 +1332,14 @@ function isElementScaled(element) {
 } // Returns the composite rect of an element relative to its offsetParent.
 // Composite means it takes into account transforms as well as layout.
 
-
 function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
   if (isFixed === void 0) {
     isFixed = false;
   }
-
   var isOffsetParentAnElement = isHTMLElement(offsetParent);
   var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
   var documentElement = getDocumentElement(offsetParent);
-  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled);
+  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled, isFixed);
   var scroll = {
     scrollLeft: 0,
     scrollTop: 0
@@ -1467,13 +1348,12 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
     x: 0,
     y: 0
   };
-
   if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    if (getNodeName(offsetParent) !== 'body' ||
+    // https://github.com/popperjs/popper-core/issues/1078
     isScrollParent(documentElement)) {
       scroll = getNodeScroll(offsetParent);
     }
-
     if (isHTMLElement(offsetParent)) {
       offsets = getBoundingClientRect(offsetParent, true);
       offsets.x += offsetParent.clientLeft;
@@ -1482,7 +1362,6 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
       offsets.x = getWindowScrollBarX(documentElement);
     }
   }
-
   return {
     x: rect.left + scroll.scrollLeft - offsets.x,
     y: rect.top + scroll.scrollTop - offsets.y,
@@ -1505,7 +1384,6 @@ function order(modifiers) {
     requires.forEach(function (dep) {
       if (!visited.has(dep)) {
         var depModifier = map.get(dep);
-
         if (depModifier) {
           sort(depModifier);
         }
@@ -1513,7 +1391,6 @@ function order(modifiers) {
     });
     result.push(modifier);
   }
-
   modifiers.forEach(function (modifier) {
     if (!visited.has(modifier.name)) {
       // check for visited object
@@ -1522,7 +1399,6 @@ function order(modifiers) {
   });
   return result;
 }
-
 function orderModifiers(modifiers) {
   // order based on dependencies
   var orderedModifiers = order(modifiers); // order based on phase
@@ -1545,7 +1421,6 @@ function debounce(fn) {
         });
       });
     }
-
     return pending;
   };
 }
@@ -1570,32 +1445,27 @@ var DEFAULT_OPTIONS = {
   modifiers: [],
   strategy: 'absolute'
 };
-
 function areValidElements() {
   for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
     args[_key] = arguments[_key];
   }
-
   return !args.some(function (element) {
     return !(element && typeof element.getBoundingClientRect === 'function');
   });
 }
-
 function popperGenerator(generatorOptions) {
   if (generatorOptions === void 0) {
     generatorOptions = {};
   }
-
   var _generatorOptions = generatorOptions,
-      _generatorOptions$def = _generatorOptions.defaultModifiers,
-      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-      _generatorOptions$def2 = _generatorOptions.defaultOptions,
-      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+    _generatorOptions$def = _generatorOptions.defaultModifiers,
+    defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+    _generatorOptions$def2 = _generatorOptions.defaultOptions,
+    defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
   return function createPopper(reference, popper, options) {
     if (options === void 0) {
       options = defaultOptions;
     }
-
     var state = {
       placement: 'bottom',
       orderedModifiers: [],
@@ -1627,7 +1497,6 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers = orderedModifiers.filter(function (m) {
           return m.enabled;
         }); // Validate the provided modifiers so that the consumer will get warned
-
         runModifierEffects();
         return instance.update();
       },
@@ -1640,17 +1509,14 @@ function popperGenerator(generatorOptions) {
         if (isDestroyed) {
           return;
         }
-
         var _state$elements = state.elements,
-            reference = _state$elements.reference,
-            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+          reference = _state$elements.reference,
+          popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
         // anymore
 
         if (!areValidElements(reference, popper)) {
-
           return;
         } // Store the reference and popper rects to be read by modifiers
-
 
         state.rects = {
           reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
@@ -1670,21 +1536,17 @@ function popperGenerator(generatorOptions) {
         state.orderedModifiers.forEach(function (modifier) {
           return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
         });
-
         for (var index = 0; index < state.orderedModifiers.length; index++) {
-
           if (state.reset === true) {
             state.reset = false;
             index = -1;
             continue;
           }
-
           var _state$orderedModifie = state.orderedModifiers[index],
-              fn = _state$orderedModifie.fn,
-              _state$orderedModifie2 = _state$orderedModifie.options,
-              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-              name = _state$orderedModifie.name;
-
+            fn = _state$orderedModifie.fn,
+            _state$orderedModifie2 = _state$orderedModifie.options,
+            _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+            name = _state$orderedModifie.name;
           if (typeof fn === 'function') {
             state = fn({
               state: state,
@@ -1708,12 +1570,9 @@ function popperGenerator(generatorOptions) {
         isDestroyed = true;
       }
     };
-
     if (!areValidElements(reference, popper)) {
-
       return instance;
     }
-
     instance.setOptions(options).then(function (state) {
       if (!isDestroyed && options.onFirstUpdate) {
         options.onFirstUpdate(state);
@@ -1727,10 +1586,9 @@ function popperGenerator(generatorOptions) {
     function runModifierEffects() {
       state.orderedModifiers.forEach(function (_ref3) {
         var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
-
+          _ref3$options = _ref3.options,
+          options = _ref3$options === void 0 ? {} : _ref3$options,
+          effect = _ref3.effect;
         if (typeof effect === 'function') {
           var cleanupFn = effect({
             state: state,
@@ -1738,21 +1596,17 @@ function popperGenerator(generatorOptions) {
             instance: instance,
             options: options
           });
-
           var noopFn = function noopFn() {};
-
           effectCleanupFns.push(cleanupFn || noopFn);
         }
       });
     }
-
     function cleanupModifierEffects() {
       effectCleanupFns.forEach(function (fn) {
         return fn();
       });
       effectCleanupFns = [];
     }
-
     return instance;
   };
 }

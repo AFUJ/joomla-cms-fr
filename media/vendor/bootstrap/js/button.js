@@ -1,15 +1,14 @@
-import { E as EventHandler, d as defineJQueryPlugin, B as BaseComponent } from './dom.js?5.1.3';
+import { E as EventHandler, d as defineJQueryPlugin, B as BaseComponent } from './dom.js?5.2.3';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.3): button.js
+ * Bootstrap (v5.2.3): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 /**
- * ------------------------------------------------------------------------
  * Constants
- * ------------------------------------------------------------------------
  */
 
 const NAME = 'button';
@@ -19,42 +18,37 @@ const DATA_API_KEY = '.data-api';
 const CLASS_NAME_ACTIVE = 'active';
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="button"]';
 const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+
 /**
- * ------------------------------------------------------------------------
- * Class Definition
- * ------------------------------------------------------------------------
+ * Class definition
  */
 
 class Button extends BaseComponent {
   // Getters
   static get NAME() {
     return NAME;
-  } // Public
+  }
 
-
+  // Public
   toggle() {
     // Toggle class and sync the `aria-pressed` attribute with the return value of the `.toggle()` method
     this._element.setAttribute('aria-pressed', this._element.classList.toggle(CLASS_NAME_ACTIVE));
-  } // Static
+  }
 
-
+  // Static
   static jQueryInterface(config) {
     return this.each(function () {
       const data = Button.getOrCreateInstance(this);
-
       if (config === 'toggle') {
         data[config]();
       }
     });
   }
-
 }
-/**
- * ------------------------------------------------------------------------
- * Data Api implementation
- * ------------------------------------------------------------------------
- */
 
+/**
+ * Data API implementation
+ */
 
 EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, event => {
   event.preventDefault();
@@ -62,22 +56,19 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, event => {
   const data = Button.getOrCreateInstance(button);
   data.toggle();
 });
+
 /**
- * ------------------------------------------------------------------------
  * jQuery
- * ------------------------------------------------------------------------
- * add .Button to jQuery only if jQuery is present
  */
 
 defineJQueryPlugin(Button);
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Button = Button;
-
 if (Joomla && Joomla.getOptions) {
   // Get the elements/configurations from the PHP
-  const buttons = Joomla.getOptions('bootstrap.button'); // Initialise the elements
-
+  const buttons = Joomla.getOptions('bootstrap.button');
+  // Initialise the elements
   if (buttons && buttons.length) {
     buttons.forEach(selector => {
       Array.from(document.querySelectorAll(selector)).map(el => new window.bootstrap.Button(el));
