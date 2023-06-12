@@ -21,11 +21,10 @@
     var itemTask = item.dataset.itemTask;
     var itemFormId = item.dataset.itemFormId;
     if (itemFormId) {
-      Joomla.listItemTask(itemId, itemTask);
+      Joomla.listItemTask(itemId, itemTask, itemFormId);
     } else {
       Joomla.listItemTask(itemId, itemTask);
     }
-    Joomla.submitform(itemTask, item.form);
   }
 
   /*
@@ -43,11 +42,10 @@
     var itemFormId = item.dataset.itemFormId;
     item.form.transition_id.value = item.value;
     if (itemFormId) {
-      Joomla.listItemTask(itemId, itemTask);
+      Joomla.listItemTask(itemId, itemTask, itemFormId);
     } else {
       Joomla.listItemTask(itemId, itemTask);
     }
-    Joomla.submitform(itemTask, item.form);
   }
 
   /*

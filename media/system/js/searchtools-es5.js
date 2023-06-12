@@ -222,6 +222,7 @@
         }
       };
       _proto.clear = function clear(exceptElement) {
+        var _this2 = this;
         if (exceptElement === void 0) {
           exceptElement = null;
         }
@@ -230,7 +231,7 @@
           self.searchField.value = '';
         }
         self.getFilterFields().forEach(function (i) {
-          if (exceptElement && i === exceptElement) {
+          if (exceptElement && i === exceptElement || !i.closest(_this2.options.filterContainerSelector)) {
             return;
           }
           i.value = '';
@@ -268,8 +269,12 @@
       // eslint-disable-next-line class-methods-use-this
       ;
       _proto.checkActiveStatus = function checkActiveStatus(cont) {
+        var _this3 = this;
         var activeFilterCount = 0;
         this.getFilterFields().forEach(function (item) {
+          if (!item.closest(_this3.options.filterContainerSelector)) {
+            return;
+          }
           if (item.classList.contains('active')) {
             activeFilterCount += 1;
             if (cont.filterButton) {
@@ -411,7 +416,7 @@
         self.updateFieldValue(self.orderField, self.activeOrder);
       };
       _proto.createOrderField = function createOrderField() {
-        var _this2 = this;
+        var _this4 = this;
         var self = this;
         if (!this.orderField) {
           this.orderField = document.createElement('input');
@@ -444,7 +449,7 @@
                 }
 
                 // Append the option and repopulate the chosen field
-                _this2.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
+                _this4.orderFieldName.innerHTML += Joomla.sanitizeHtml($option);
               }
             }
           });

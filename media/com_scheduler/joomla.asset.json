@@ -31,6 +31,19 @@
       "version": "02047dda56dccdc2624e2a8361cd6cc69053b51c"
     },
     {
+      "name": "com_scheduler.admin-view-select-task-search.es5",
+      "type": "script",
+      "uri": "com_scheduler/admin-view-select-task-search-es5.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "b03f499724275407cf191bfeb9a61ac75b378b25"
+    },
+    {
       "name": "com_scheduler.admin-view-select-task-search",
       "type": "script",
       "uri": "com_scheduler/admin-view-select-task-search.js",
@@ -68,25 +81,6 @@
       "version": "61a21127cd4dfab80d37204b6f30960191062a56"
     },
     {
-      "name": "com_scheduler.admin-view-select-task-search.es5",
-      "type": "script",
-      "uri": "com_scheduler/admin-view-select-task-search-es5.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "b03f499724275407cf191bfeb9a61ac75b378b25"
-    },
-    {
-      "name": "com_scheduler.admin-view-select-task-css",
-      "type": "style",
-      "uri": "com_scheduler/admin-view-select-task.css",
-      "version": "612f22660bddd8deeb6c7e35583db51632982a50"
-    },
-    {
       "name": "com_scheduler.admin-view-task-css",
       "type": "style",
       "uri": "com_scheduler/admin-view-task.css",
@@ -97,6 +91,12 @@
       "type": "style",
       "uri": "com_scheduler/admin-view-tasks.css",
       "version": "6c2b706ab60432543c2d2307b455c16710b2db35"
+    },
+    {
+      "name": "com_scheduler.admin-view-select-task-css",
+      "type": "style",
+      "uri": "com_scheduler/admin-view-select-task.css",
+      "version": "612f22660bddd8deeb6c7e35583db51632982a50"
     }
   ]
 }

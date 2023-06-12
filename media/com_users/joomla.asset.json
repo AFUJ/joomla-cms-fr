@@ -31,6 +31,19 @@
       "version": "dd07390f9260824d16e37c950218d69c3627f48e"
     },
     {
+      "name": "com_users.admin-users-mail.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-mail-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "8aa5f18914bb8f0cbc9ec5e334945e70f0276659"
+    },
+    {
       "name": "com_users.admin-users-mail",
       "type": "script",
       "uri": "com_users/admin-users-mail.min.js",
@@ -54,19 +67,6 @@
         "defer": true
       },
       "version": "2cb6c3394dd729c5aea10efff909b2150810d5b8"
-    },
-    {
-      "name": "com_users.admin-users-mail.es5",
-      "type": "script",
-      "uri": "com_users/admin-users-mail-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "8aa5f18914bb8f0cbc9ec5e334945e70f0276659"
     },
     {
       "name": "com_users.two-factor-focus",

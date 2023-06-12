@@ -226,7 +226,7 @@ Joomla = window.Joomla || {};
         self.searchField.value = '';
       }
       self.getFilterFields().forEach(i => {
-        if (exceptElement && i === exceptElement) {
+        if (exceptElement && i === exceptElement || !i.closest(this.options.filterContainerSelector)) {
           return;
         }
         i.value = '';
@@ -264,6 +264,9 @@ Joomla = window.Joomla || {};
     checkActiveStatus(cont) {
       let activeFilterCount = 0;
       this.getFilterFields().forEach(item => {
+        if (!item.closest(this.options.filterContainerSelector)) {
+          return;
+        }
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
           if (cont.filterButton) {
