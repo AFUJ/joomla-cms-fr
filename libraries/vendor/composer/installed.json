@@ -2562,7 +2562,7 @@
                     "dev-master": "1.18-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "DebugBar\\": "src/DebugBar/"
@@ -5005,7 +5005,7 @@
                     "dev-master": "1.0-dev"
                 }
             },
-            "installation-source": "source",
+            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Tobscure\\JsonApi\\": "src/"

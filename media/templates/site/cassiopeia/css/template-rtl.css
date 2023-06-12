@@ -11884,6 +11884,14 @@ fieldset > * {
   margin-top: 2em;
 }
 
+.com-users-profile__edit #jform_privacyconsent_privacy .radio,
+.com-users-profile__edit #jform_terms_terms .radio,
+.com-users-registration #jform_privacyconsent_privacy .radio,
+.com-users-registration #jform_terms_terms .radio {
+  display: inline-flex;
+  gap: 1rem;
+}
+
 .btn.jmodedit {
   position: absolute;
   top: 0;
@@ -12617,7 +12625,7 @@ joomla-alert {
   z-index: 1000;
   width: auto;
   min-height: 43px;
-  padding: 10px 0;
+  padding: 0.25rem;
   color: #495057;
   background: white;
   box-shadow: -3px -2px 22px #ddd;
@@ -12776,7 +12784,7 @@ joomla-tab[view=accordion] .col-md-3 {
 
 .tag {
   display: inline-block;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.5rem 0.5rem 0;
 }
 
 body {

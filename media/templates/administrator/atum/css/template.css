@@ -12536,9 +12536,6 @@ fieldset .alert.alert-info {
 .spacer hr {
   width: 380px;
 }
-.spacer label {
-  width: 440px;
-}
 
 td .form-control {
   display: inline-block;
