@@ -16,20 +16,6 @@
       "version": "5.0.0"
     },
     {
-      "name": "wcpolyfill",
-      "type": "script",
-      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "core"
-      ],
-      "package": "@webcomponents/webcomponentsjs",
-      "version": "2.6.0"
-    },
-    {
       "name": "accessibility",
       "type": "script",
       "uri": "vendor/accessibility/accessibility.min.js",
@@ -102,6 +88,20 @@
       ],
       "package": "cropperjs",
       "version": "1.5.12"
+    },
+    {
+      "name": "wcpolyfill",
+      "type": "script",
+      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "package": "@webcomponents/webcomponentsjs",
+      "version": "2.6.0"
     },
     {
       "name": "choicesjs",

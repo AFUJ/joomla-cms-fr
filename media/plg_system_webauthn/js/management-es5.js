@@ -196,7 +196,7 @@
 
       var elTR = that.parentElement.parentElement;
       var credentialId = elTR.dataset.credential_id;
-      var elTDs = elTR.querySelectorAll('td');
+      var elTDs = elTR.querySelectorAll('.webauthnManagementCell');
       var elLabelTD = elTDs[0];
       var elButtonsTD = elTDs[1];
       var elButtons = elButtonsTD.querySelectorAll('button');
@@ -292,7 +292,7 @@
 
       var elTR = that.parentElement.parentElement;
       var credentialId = elTR.dataset.credential_id;
-      var elTDs = elTR.querySelectorAll('td');
+      var elTDs = elTR.querySelectorAll('.webauthnManagementCell');
       var elButtonsTD = elTDs[1];
       var elButtons = elButtonsTD.querySelectorAll('button');
       var elEdit = elButtons[0];

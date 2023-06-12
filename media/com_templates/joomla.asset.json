@@ -32,6 +32,18 @@
       "version": "22f26ac574bea945a0ac83e683f5391e730f7cc5"
     },
     {
+      "name": "com_templates.admin-template-toggle-assignment",
+      "type": "script",
+      "uri": "com_templates/admin-template-toggle-assignment.min.js",
+      "dependencies": [
+        "com_templates.admin-template-toggle-assignment.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "64349301646633757dc9092382b60b58d7e12d5c"
+    },
+    {
       "name": "com_templates.admin-template-toggle-assignment.es5",
       "type": "script",
       "uri": "com_templates/admin-template-toggle-assignment-es5.min.js",
@@ -43,18 +55,6 @@
         "defer": true
       },
       "version": "05c5f45c0a6391f15d4df27da9f4d136090cc1a4"
-    },
-    {
-      "name": "com_templates.admin-template-toggle-assignment",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-assignment.min.js",
-      "dependencies": [
-        "com_templates.admin-template-toggle-assignment.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "64349301646633757dc9092382b60b58d7e12d5c"
     },
     {
       "name": "com_templates.admin-template-toggle-switch.es5",

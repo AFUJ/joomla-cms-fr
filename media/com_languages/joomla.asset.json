@@ -27,6 +27,18 @@
       "version": "48d4b10b6d0d3f2f7fc5a74a87f85b13399a01e2"
     },
     {
+      "name": "com_languages.admin-language-edit-change-flag",
+      "type": "script",
+      "uri": "com_languages/admin-language-edit-change-flag.min.js",
+      "dependencies": [
+        "com_languages.admin-language-edit-change-flag.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "892d148c17eeb917af72a963fcc2b2975c04b34d"
+    },
+    {
       "name": "com_languages.admin-override-edit-refresh-searchstring.es5",
       "type": "script",
       "uri": "com_languages/admin-override-edit-refresh-searchstring-es5.min.js",
@@ -38,18 +50,6 @@
         "defer": true
       },
       "version": "d694b7e69a08d5dbbc34f04133bf2187292f970d"
-    },
-    {
-      "name": "com_languages.admin-language-edit-change-flag",
-      "type": "script",
-      "uri": "com_languages/admin-language-edit-change-flag.min.js",
-      "dependencies": [
-        "com_languages.admin-language-edit-change-flag.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "892d148c17eeb917af72a963fcc2b2975c04b34d"
     },
     {
       "name": "com_languages.admin-override-edit-refresh-searchstring",

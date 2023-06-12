@@ -105,7 +105,7 @@
       "dependencies": [
         "core"
       ],
-      "version": "d2f690ccf011b31bde5aba4a2691fb625c546ad0"
+      "version": "a5630c75bc6ae50f121ab45580cf50990eef9468"
     },
     {
       "name": "inlinehelp",
@@ -117,7 +117,7 @@
       "dependencies": [
         "inlinehelp-legacy"
       ],
-      "version": "6fffe551f353542f901235b3a6ac8f125e4d6586"
+      "version": "5e36e075be67c21b2439cfa452060ad3090af052"
     },
     {
       "name": "multiselect",
@@ -296,6 +296,12 @@
       "version": "2cf5ce06b5b33eeae7bfc9c13af12daa32ce7475"
     },
     {
+      "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css",
+      "version": "310d8eb8f7b2eeb6f82c417fe1d24271e32a8d95"
+    },
+    {
       "name": "webcomponent.field-fancy-select-legacy",
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select-es5.min.js",
@@ -310,10 +316,10 @@
       "version": "94b84a555f30d400bcc9a3ebbbe23fb2d7c384c2"
     },
     {
-      "name": "field.calendar",
+      "name": "field.calendar-rtl",
       "type": "style",
-      "uri": "system/fields/calendar.css",
-      "version": "310d8eb8f7b2eeb6f82c417fe1d24271e32a8d95"
+      "uri": "system/fields/calendar-rtl.css",
+      "version": "b2c0e5591d8e71ee353e507ee0d914d5713d383f"
     },
     {
       "name": "webcomponent.field-fancy-select",
@@ -327,12 +333,6 @@
         "webcomponent.field-fancy-select-legacy"
       ],
       "version": "cb7f653c510ddb6c629382e0e62b733f0f9487fa"
-    },
-    {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css",
-      "version": "b2c0e5591d8e71ee353e507ee0d914d5713d383f"
     },
     {
       "name": "webcomponent.field-media",

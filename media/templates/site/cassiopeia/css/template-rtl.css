@@ -11885,8 +11885,10 @@ fieldset > * {
 }
 
 .com-users-profile__edit #jform_privacyconsent_privacy .radio,
+.com-users-profile__edit #jform_profile_tos .radio,
 .com-users-profile__edit #jform_terms_terms .radio,
 .com-users-registration #jform_privacyconsent_privacy .radio,
+.com-users-registration #jform_profile_tos .radio,
 .com-users-registration #jform_terms_terms .radio {
   display: inline-flex;
   gap: 1rem;
@@ -12776,7 +12778,7 @@ joomla-tab[view=accordion] .col-md-3 {
 }
 
 .tags .list-inline-item {
-  margin-bottom: 0.5rem;
+  margin: 0.25rem 0.25rem 0.5rem;
 }
 .tags a.btn {
   font-weight: 700;

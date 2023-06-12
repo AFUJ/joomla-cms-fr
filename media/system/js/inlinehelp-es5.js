@@ -42,7 +42,14 @@
     var _elToggler$dataset$cl;
 
     // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
-    var toggleClass = (_elToggler$dataset$cl = elToggler.dataset.class) != null ? _elToggler$dataset$cl : 'hide-aware-inline-help'; // Add the click handler.
+    var toggleClass = (_elToggler$dataset$cl = elToggler.dataset.class) != null ? _elToggler$dataset$cl : 'hide-aware-inline-help';
+    var collection = document.getElementsByClassName(toggleClass); // no description => hide inlinehelp button
+
+    if (collection.length === 0) {
+      elToggler.classList.add('d-none');
+      return;
+    } // Add the click handler.
+
 
     elToggler.addEventListener('click', function (event) {
       event.preventDefault();
