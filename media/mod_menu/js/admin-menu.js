@@ -59,7 +59,7 @@ if (sidebar && !sidebar.getAttribute('data-hidden')) {
   const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close')); // Set active class
 
   allLinks.forEach(link => {
-    if (currentUrl.indexOf(link.href) === 0) {
+    if (!link.href.match(/index\.php$/) && currentUrl.indexOf(link.href) === 0 || link.href.match(/index\.php$/) && currentUrl.match(/index\.php$/)) {
       link.setAttribute('aria-current', 'page');
       link.classList.add('mm-active'); // Auto Expand Levels
 

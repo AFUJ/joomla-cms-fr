@@ -27102,6 +27102,7 @@ meter {
   width: 18rem;
   height: 100%;
   padding: 12px 5px;
+  overflow: hidden;
   background-color: var(--template-bg-dark-70);
   transition: all 0.3s ease-in-out;
 }

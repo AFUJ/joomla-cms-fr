@@ -12127,6 +12127,7 @@ fieldset .alert.alert-info {
   width: 18rem;
   height: 100%;
   padding: 12px 5px;
+  overflow: hidden;
   background-color: var(--template-bg-dark-70);
   transition: all 0.3s ease-in-out;
 }
@@ -13168,7 +13169,7 @@ label {
   .sidebar-wrapper {
     flex: 1 0 18rem;
     max-width: 18rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease-in-out;
   }
 }
 @media (max-width: 575.98px) {
