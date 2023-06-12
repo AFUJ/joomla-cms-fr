@@ -16,10 +16,10 @@
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * fr_FRLocalise class.
+ * fr-FR localise classe.
  *
- * @since  1.6
- */
+ * @since 1.6
+*/
 abstract class Fr_FRLocalise
 {
     /**

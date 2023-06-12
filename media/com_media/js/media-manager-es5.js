@@ -19279,10 +19279,13 @@ var JoomlaMediaManager = (function () {
         return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1 ? this.item.thumb_path + "?" + api.mediaVersion : "" + this.item.thumb_path;
       },
       width: function width() {
-        return this.item.width;
+        return this.item.width > 0 ? this.item.width : null;
       },
       height: function height() {
-        return this.item.height;
+        return this.item.height > 0 ? this.item.height : null;
+      },
+      loading: function loading() {
+        return this.item.width > 0 ? 'lazy' : null;
       },
       altTag: function altTag() {
         return this.item.name;
@@ -19319,7 +19322,7 @@ var JoomlaMediaManager = (function () {
   var _hoisted_2$c = {
     class: "image-background"
   };
-  var _hoisted_3$9 = ["src", "alt", "width", "height"];
+  var _hoisted_3$9 = ["src", "alt", "loading", "width", "height"];
   var _hoisted_4$7 = {
     key: 1,
     class: "icon-eye-slash image-placeholder",
@@ -19351,7 +19354,7 @@ var JoomlaMediaManager = (function () {
       class: "image-cropped",
       src: $options.getURL,
       alt: $options.altTag,
-      loading: "lazy",
+      loading: $options.loading,
       width: $options.width,
       height: $options.height
     }, null, 8

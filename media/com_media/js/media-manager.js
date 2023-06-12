@@ -9835,10 +9835,13 @@ var script$k = {
         : `${this.item.thumb_path}`;
     },
     width() {
-      return this.item.width;
+      return this.item.width > 0 ? this.item.width : null;
     },
     height() {
-      return this.item.height;
+      return this.item.height > 0 ? this.item.height : null;
+    },
+    loading() {
+      return this.item.width > 0 ? 'lazy' : null;
     },
     altTag() {
       return this.item.name;
@@ -9872,7 +9875,7 @@ var script$k = {
 
 const _hoisted_1$k = ["title"];
 const _hoisted_2$c = { class: "image-background" };
-const _hoisted_3$9 = ["src", "alt", "width", "height"];
+const _hoisted_3$9 = ["src", "alt", "loading", "width", "height"];
 const _hoisted_4$7 = {
   key: 1,
   class: "icon-eye-slash image-placeholder",
@@ -9902,7 +9905,7 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
               class: "image-cropped",
               src: $options.getURL,
               alt: $options.altTag,
-              loading: "lazy",
+              loading: $options.loading,
               width: $options.width,
               height: $options.height
             }, null, 8 /* PROPS */, _hoisted_3$9))
