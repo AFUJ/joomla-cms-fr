@@ -7,8 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     '6e3fae29631ef280660b3cdad06f25a8' => $vendorDir . '/symfony/deprecation-contracts/function.php',
-    'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
-    '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '2fb9d6f23c8e8faefc193a4cde0cab4f' => $vendorDir . '/joomla/string/src/phputf8/utf8.php',
     'e6851e0ae7328fe5412fcec73928f3d9' => $vendorDir . '/joomla/string/src/phputf8/ord.php',
     'd9ad1b7c85c100a18c404a13824b846e' => $vendorDir . '/joomla/string/src/phputf8/str_ireplace.php',
@@ -24,6 +22,8 @@ return array(
     '05d739a990f75f0c44ebe1f032b33148' => $vendorDir . '/joomla/string/src/phputf8/ucwords.php',
     '4292e2fa66516089e6006723267587b4' => $vendorDir . '/joomla/string/src/phputf8/utils/ascii.php',
     '87465e33b7551b401bf051928f220e9a' => $vendorDir . '/joomla/string/src/phputf8/utils/validation.php',
+    'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
+    '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => $vendorDir . '/symfony/polyfill-mbstring/bootstrap.php',
     '0d59ee240a4cd96ddbb4ff164fccea4d' => $vendorDir . '/symfony/polyfill-php73/bootstrap.php',
     '320cde22f66dd4f5d3fd621d3e88b98f' => $vendorDir . '/symfony/polyfill-ctype/bootstrap.php',
     '7e9bd612cc444b3eed788ebbe46263a0' => $vendorDir . '/laminas/laminas-zendframework-bridge/src/autoload.php',

@@ -12448,22 +12448,6 @@ fieldset .alert.alert-info {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
   }
-
-  .header-item-more.active .header-more-menu {
-    left: 0;
-  }
-  [dir=rtl] .header-item-more.active .header-more-menu {
-    right: 0;
-    left: auto;
-  }
-  .header-item-more .header-item-content {
-    background: transparent;
-  }
-
-  .header-more-menu {
-    top: auto;
-    bottom: 100%;
-  }
 }
 .form-control {
   max-width: 100%;
@@ -13273,12 +13257,7 @@ label {
 
 #content .menu-quicktask {
   position: absolute;
-}
-[dir=ltr] #content .menu-quicktask {
-  right: 1.25rem;
-}
-[dir=rtl] #content .menu-quicktask {
-  left: 1.25rem;
+  inset-inline-end: 1.25rem;
 }
 
 #content form .name.break-word {
@@ -13463,7 +13442,7 @@ label {
 }
 .closed .main-nav a:hover .sidebar-item-title {
   position: absolute;
-  left: 100%;
+  inset-inline-start: 100%;
   display: flex;
   align-items: center;
   height: 100%;
@@ -13471,12 +13450,10 @@ label {
   white-space: nowrap;
   pointer-events: none;
   background-color: var(--template-bg-dark-60);
-  border-radius: 0 0.25rem 0.25rem 0;
-}
-[dir=rtl] .closed .main-nav a:hover .sidebar-item-title {
-  right: 100%;
-  left: unset;
-  border-radius: 0.25rem 0 0 0.25rem;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0.25rem;
+  border-start-end-radius: 0.25rem;
+  border-start-start-radius: 0;
 }
 .closed .main-nav > li > ul {
   height: 0;
@@ -13786,31 +13763,22 @@ joomla-tab[view=accordion] .col-md-3 {
 .treeselect li::before {
   position: absolute;
   top: 14px;
-  left: 25px;
+  inset-inline-start: 25px;
   width: 10px;
   height: 1px;
   margin: auto;
   content: "";
   background-color: rgba(0, 0, 0, 0.2);
 }
-[dir=rtl] .treeselect li::before {
-  right: 25px;
-  left: 0;
-  margin: 0;
-}
 .treeselect li::after {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 25px;
+  inset-inline-start: 25px;
   width: 1px;
   height: 100%;
   content: "";
   background-color: rgba(0, 0, 0, 0.2);
-}
-[dir=rtl] .treeselect li::after {
-  right: 25px;
-  left: 0;
 }
 .treeselect li:last-child::after {
   height: 14px;
@@ -13864,14 +13832,8 @@ joomla-tab[view=accordion] .col-md-3 {
 
 .tree-holder ul ul li::before,
 .tree-holder ul ul li::after {
-  left: 8px;
+  inset-inline-start: 8px;
   display: block;
-}
-[dir=rtl] .tree-holder ul ul li::before,
-[dir=rtl] .tree-holder ul ul li::after {
-  right: 8px;
-  left: 0;
-  margin: 0;
 }
 .tree-holder ul ul li::before {
   top: 12px;
@@ -14088,6 +14050,10 @@ joomla-tab[view=accordion] .col-md-3 {
 .editor .mce-btn,
 .editor .mce-panel {
   background: var(--white-offset);
+}
+
+.tox-fullscreen {
+  z-index: 1039 !important;
 }
 
 .container-main .mce-panel {
@@ -14725,40 +14691,6 @@ ul {
   padding-right: 0;
 }
 
-.dropdown-menu-end::after {
-  right: auto;
-  left: 0.9rem;
-}
-
-.sidebar-wrapper {
-  right: 0;
-  left: auto;
-}
-
-.menu-collapse {
-  right: 0;
-  left: auto;
-  margin-right: -7.5px;
-  margin-left: 0;
-}
-
-.field-calendar {
-  float: none;
-}
-
-.form-text {
-  float: right;
-}
-
-.field-user-wrapper {
-  float: none;
-}
-
-.menu-quicktask,
-.menu-badge {
-  float: left;
-}
-
 #jform_new_url,
 #jform_old_url,
 #new_url {
@@ -14768,10 +14700,6 @@ ul {
 #jform_dbprefix {
   text-align: right;
   direction: ltr;
-}
-
-.skip-to [role=separator] {
-  text-align: right !important;
 }
 
 .input-group > .form-control:not(:last-child),

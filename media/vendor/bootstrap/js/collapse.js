@@ -1,4 +1,4 @@
-import { B as BaseComponent, S as SelectorEngine, f as getSelectorFromElement, E as EventHandler, D as Data, r as reflow, g as getElementFromSelector, M as Manipulator, h as getElement, b as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1635100342';
+import { B as BaseComponent, S as SelectorEngine, f as getSelectorFromElement, E as EventHandler, D as Data, r as reflow, c as getElementFromSelector, M as Manipulator, h as getElement, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------

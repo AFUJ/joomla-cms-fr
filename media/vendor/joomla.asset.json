@@ -6,16 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "short-and-sweet",
-      "type": "script",
-      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "short-and-sweet",
-      "version": "1.0.4"
-    },
-    {
       "name": "accessibility",
       "type": "script",
       "uri": "vendor/accessibility/accessibility.min.js",
@@ -24,6 +14,16 @@
       },
       "package": "accessibility",
       "version": "3.0.13"
+    },
+    {
+      "name": "short-and-sweet",
+      "type": "script",
+      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "short-and-sweet",
+      "version": "1.0.4"
     },
     {
       "name": "wcpolyfill",
@@ -67,6 +67,33 @@
       "version": "1.1.5"
     },
     {
+      "name": "dragula",
+      "type": "style",
+      "uri": "vendor/dragula/dragula.min.css",
+      "package": "dragula",
+      "version": "3.7.2"
+    },
+    {
+      "name": "dragula",
+      "type": "script",
+      "uri": "vendor/dragula/dragula.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "dragula",
+      "version": "3.7.2"
+    },
+    {
+      "name": "dragula",
+      "type": "preset",
+      "dependencies": [
+        "dragula#style",
+        "dragula#script"
+      ],
+      "package": "dragula",
+      "version": "3.7.2"
+    },
+    {
       "name": "diff",
       "type": "script",
       "uri": "vendor/diff/diff.js",
@@ -75,6 +102,13 @@
       },
       "package": "diff",
       "version": "4.0.2"
+    },
+    {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
     },
     {
       "name": "cropperjs",
@@ -104,65 +138,14 @@
       "version": "1.5.11"
     },
     {
-      "name": "focus-visible",
+      "name": "jquery-migrate",
       "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "style",
-      "uri": "vendor/choicesjs/choices.min.css",
-      "package": "choices.js",
-      "version": "9.0.1"
-    },
-    {
-      "name": "choicesjs",
-      "type": "script",
-      "uri": "vendor/choicesjs/choices.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "choices.js",
-      "version": "9.0.1"
-    },
-    {
-      "name": "choicesjs",
-      "type": "preset",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
       "dependencies": [
-        "choicesjs#style",
-        "choicesjs#script"
+        "jquery"
       ],
-      "package": "choices.js",
-      "version": "9.0.1"
-    },
-    {
-      "name": "dragula",
-      "type": "style",
-      "uri": "vendor/dragula/dragula.min.css",
-      "package": "dragula",
-      "version": "3.7.2"
-    },
-    {
-      "name": "dragula",
-      "type": "script",
-      "uri": "vendor/dragula/dragula.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "dragula",
-      "version": "3.7.2"
-    },
-    {
-      "name": "dragula",
-      "type": "preset",
-      "dependencies": [
-        "dragula#style",
-        "dragula#script"
-      ],
-      "package": "dragula",
-      "version": "3.7.2"
+      "package": "jquery-migrate",
+      "version": "3.3.2"
     },
     {
       "name": "jquery",
@@ -172,14 +155,71 @@
       "version": "3.6.0"
     },
     {
-      "name": "jquery-migrate",
+      "name": "chosen",
+      "type": "style",
+      "uri": "vendor/chosen/chosen.css",
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
       "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "uri": "vendor/chosen/chosen.jquery.js",
       "dependencies": [
         "jquery"
       ],
-      "package": "jquery-migrate",
-      "version": "3.3.2"
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "preset",
+      "dependencies": [
+        "chosen#style",
+        "chosen#script"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "script",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "preset",
+      "dependencies": [
+        "minicolors#style",
+        "minicolors#script"
+      ],
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "metismenujs",
+      "type": "script",
+      "uri": "vendor/metismenujs/metismenujs.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "metismenujs",
+      "version": "1.2.1"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -250,71 +290,41 @@
       "version": "0.2.0"
     },
     {
-      "name": "chosen",
+      "name": "choicesjs",
       "type": "style",
-      "uri": "vendor/chosen/chosen.css",
-      "package": "chosen-js",
-      "version": "1.8.7"
+      "uri": "vendor/choicesjs/choices.min.css",
+      "package": "choices.js",
+      "version": "9.0.1"
     },
     {
-      "name": "chosen",
+      "name": "choicesjs",
       "type": "script",
-      "uri": "vendor/chosen/chosen.jquery.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "preset",
-      "dependencies": [
-        "chosen#style",
-        "chosen#script"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "minicolors",
-      "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
+      "uri": "vendor/choicesjs/choices.min.js",
       "attributes": {
         "defer": true
       },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
+      "package": "choices.js",
+      "version": "9.0.1"
     },
     {
-      "name": "minicolors",
+      "name": "choicesjs",
       "type": "preset",
       "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
+        "choicesjs#style",
+        "choicesjs#script"
       ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
+      "package": "choices.js",
+      "version": "9.0.1"
     },
     {
-      "name": "metismenujs",
+      "name": "skipto",
       "type": "script",
-      "uri": "vendor/metismenujs/metismenujs.min.js",
+      "uri": "vendor/skipto/skipto.min.js",
       "attributes": {
         "defer": true
       },
-      "package": "metismenujs",
-      "version": "1.2.1"
+      "package": "skipto",
+      "version": "4.1.0"
     },
     {
       "name": "qrcode",
@@ -353,16 +363,6 @@
       ],
       "package": "qrcode-generator",
       "version": "1.4.4"
-    },
-    {
-      "name": "skipto",
-      "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "skipto",
-      "version": "4.1.0"
     },
     {
       "name": "fontawesome",

@@ -1,4 +1,4 @@
-import { B as BaseComponent, E as EventHandler, d as defineJQueryPlugin } from './dom.js?1635100342';
+import { B as BaseComponent, E as EventHandler, d as defineJQueryPlugin } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------

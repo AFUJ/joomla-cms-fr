@@ -8,17 +8,13 @@
 .switcher input {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   z-index: 2;
   width: 62px;
   height: 28px;
   margin: 0;
   cursor: pointer;
   opacity: 0;
-}
-[dir=rtl] .switcher input {
-  right: 0;
-  left: auto;
 }
 
 .switcher input:checked {
@@ -42,28 +38,22 @@
 
 .switcher label {
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   display: inline-block;
   width: auto;
   min-width: 6rem;
   height: 100%;
   margin-bottom: 0;
-  margin-left: 70px;
+  -webkit-margin-start: 70px;
+          margin-inline-start: 70px;
   line-height: 28px;
-  text-align: left;
+  text-align: start;
   transition: opacity 0.25s ease;
-}
-[dir=rtl] .switcher label {
-  right: 0;
-  left: auto;
-  margin-right: 70px;
-  margin-left: 0;
-  text-align: right;
 }
 
 .switcher .toggle-outside {
   position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   box-sizing: border-box;
   width: 58px;
   height: 100%;
@@ -73,10 +63,6 @@
   transition: 0.2s ease all;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
-}
-[dir=rtl] .switcher .toggle-outside {
-  right: 0;
-  left: auto;
 }
 
 .switcher input ~ input:checked ~ .toggle-outside {

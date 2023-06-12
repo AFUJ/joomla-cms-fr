@@ -7714,7 +7714,3 @@ readers do not read off random characters that represent icons */
 .icon-zoom-out:before {
   content: "\f010";
 }
-
-html[dir=rtl] .float-right {
-  float: left;
-}

@@ -6,20 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_contenthistory.admin-compare-compare.es5",
-      "type": "script",
-      "uri": "com_contenthistory/admin-compare-compare-es5.min.js",
-      "dependencies": [
-        "core",
-        "diff"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "1ed7354765d7e01a9e5103c96fab373e441ba895"
-    },
-    {
       "name": "com_contenthistory.admin-compare-compare",
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
@@ -42,7 +28,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "fb2f2f5bc7e454670d0ba240302e10b7b5900fd5"
+      "version": "7ea88509d38c5afa1c1c76fc391377b3d3be52c8"
     },
     {
       "name": "com_contenthistory.admin-history-modal",
@@ -54,7 +40,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "b30f8d758abf751d36300bf902c235512525380d"
+      "version": "dd43826c4c4bee883598ce6212a7567433ae8c93"
     },
     {
       "name": "com_contenthistory.admin-history-versions.es5",
@@ -80,6 +66,20 @@
         "type": "module"
       },
       "version": "8f9a51f762f8de8053efed6ce1af27696076cc4b"
+    },
+    {
+      "name": "com_contenthistory.admin-compare-compare.es5",
+      "type": "script",
+      "uri": "com_contenthistory/admin-compare-compare-es5.min.js",
+      "dependencies": [
+        "core",
+        "diff"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "1ed7354765d7e01a9e5103c96fab373e441ba895"
     }
   ]
 }

@@ -12,57 +12,69 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('toolbar-load').addEventListener('click', function () {
-        var ids = document.querySelectorAll('input[id*="cb"]:checked');
+        var toolbarLoad = document.getElementById('toolbar-load');
 
-        if (ids.length === 1) {
-          // Add version item id to URL
-          var url = document.getElementById('toolbar-load').childNodes[1].getAttribute('data-url') + "&version_id=" + ids[0].value;
+        if (!toolbarLoad.disabled) {
+          var ids = document.querySelectorAll('input[id*="cb"]:checked');
 
-          if (window.parent && url) {
-            window.parent.location = url;
+          if (ids.length === 1) {
+            // Add version item id to URL
+            var url = toolbarLoad.childNodes[1].getAttribute('data-url') + "&version_id=" + ids[0].value;
+
+            if (window.parent && url) {
+              window.parent.location = url;
+            }
+          } else {
+            // @todo use the CE Modal here
+            alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
           }
-        } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
         }
 
         return false;
       });
       document.getElementById('toolbar-preview').addEventListener('click', function () {
-        var windowSizeArray = ['width=800, height=600, resizable=yes, scrollbars=yes'];
-        var ids = document.querySelectorAll('input[id*="cb"]:checked');
+        var toolbarPreview = document.getElementById('toolbar-preview');
 
-        if (ids.length === 1) {
-          // Add version item id to URL
-          var url = document.getElementById('toolbar-preview').childNodes[1].getAttribute('data-url') + "&version_id=" + ids[0].value;
+        if (!toolbarPreview.disabled) {
+          var windowSizeArray = ['width=800, height=600, resizable=yes, scrollbars=yes'];
+          var ids = document.querySelectorAll('input[id*="cb"]:checked');
 
-          if (window.parent && url) {
-            window.open(url, '', windowSizeArray.toString());
+          if (ids.length === 1) {
+            // Add version item id to URL
+            var url = toolbarPreview.childNodes[1].getAttribute('data-url') + "&version_id=" + ids[0].value;
+
+            if (window.parent && url) {
+              window.open(url, '', windowSizeArray.toString());
+            }
+          } else {
+            // @todo use the CE Modal here
+            alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
           }
-        } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
         }
 
         return false;
       });
       document.getElementById('toolbar-compare').addEventListener('click', function () {
-        var windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'];
-        var ids = document.querySelectorAll('input[id*="cb"]:checked');
+        var toolbarCompare = document.getElementById('toolbar-compare');
 
-        if (ids.length === 0) {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
-        } else if (ids.length === 2) {
-          // Add version item ids to URL
-          var url = document.getElementById('toolbar-compare').childNodes[1].getAttribute('data-url') + "&id1=" + ids[0].value + "&id2=" + ids[1].value;
+        if (!toolbarCompare.disabled) {
+          var windowSizeArray = ['width=1000, height=600, resizable=yes, scrollbars=yes'];
+          var ids = document.querySelectorAll('input[id*="cb"]:checked');
 
-          if (window.parent && url) {
-            window.open(url, '', windowSizeArray.toString());
+          if (ids.length === 0) {
+            // @todo use the CE Modal here
+            alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
+          } else if (ids.length === 2) {
+            // Add version item ids to URL
+            var url = toolbarCompare.childNodes[1].getAttribute('data-url') + "&id1=" + ids[0].value + "&id2=" + ids[1].value;
+
+            if (window.parent && url) {
+              window.open(url, '', windowSizeArray.toString());
+            }
+          } else {
+            // @todo use the CE Modal here
+            alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'));
           }
-        } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'));
         }
 
         return false;

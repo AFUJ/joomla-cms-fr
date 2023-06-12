@@ -10399,7 +10399,6 @@ var bootstrap = (function (exports) {
 	      var options = {
 	        animation: opt.animation ? opt.animation : true,
 	        container: opt.container ? opt.container : false,
-	        content: opt.content ? opt.content : '',
 	        delay: opt.delay ? opt.delay : 0,
 	        html: opt.html ? opt.html : false,
 	        placement: opt.placement ? opt.placement : 'top',
@@ -10414,6 +10413,10 @@ var bootstrap = (function (exports) {
 	        sanitizeFn: opt.sanitizeFn ? opt.sanitizeFn : null,
 	        popperConfig: opt.popperConfig ? opt.popperConfig : null
 	      };
+
+	      if (opt.content) {
+	        options.content = opt.content;
+	      }
 
 	      if (opt.template) {
 	        options.template = opt.template;

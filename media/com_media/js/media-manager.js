@@ -8334,6 +8334,9 @@ var script$h = {
       // eslint-disable-next-line max-len
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
+    search() {
+      return this.$store.state.search;
+    },
   },
   watch: {
     // eslint-disable-next-line
@@ -8450,8 +8453,9 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
         class: "form-control",
         type: "text",
         placeholder: _ctx.translate('COM_MEDIA_SEARCH'),
+        value: $options.search,
         onInput: _cache[2] || (_cache[2] = (...args) => ($options.changeSearch && $options.changeSearch(...args)))
-      }, null, 40 /* PROPS, HYDRATE_EVENTS */, ["placeholder"])
+      }, null, 40 /* PROPS, HYDRATE_EVENTS */, ["placeholder", "value"])
     ]),
     createVNode("div", _hoisted_5$5, [
       ($options.isGridView)
@@ -12947,7 +12951,7 @@ function a(r) {
 // eslint-disable-next-line import/prefer-default-export
 const persistedStateOptions = {
   key: 'joomla.mediamanager',
-  paths: ['selectedDirectory', 'showInfoBar', 'listView', 'gridSize'],
+  paths: ['selectedDirectory', 'showInfoBar', 'listView', 'gridSize', 'search'],
   storage: window.sessionStorage
 };
 
@@ -13311,24 +13315,24 @@ var actions = /*#__PURE__*/Object.freeze({
 const gridItemSizes = ['sm', 'md', 'lg', 'xl'];
 var mutations = {
   /**
-     * Select a directory
-     * @param state
-     * @param payload
-     */
+   * Select a directory
+   * @param state
+   * @param payload
+   */
   [SELECT_DIRECTORY]: (state, payload) => {
     state.selectedDirectory = payload;
   },
 
   /**
-     * The load content success mutation
-     * @param state
-     * @param payload
-     */
+   * The load content success mutation
+   * @param state
+   * @param payload
+   */
   [LOAD_CONTENTS_SUCCESS]: (state, payload) => {
     /**
-         * Create the directory structure
-         * @param path
-         */
+     * Create the directory structure
+     * @param path
+     */
     function createDirectoryStructureFromPath(path) {
       const exists = state.directories.some(existing => existing.path === path);
 
@@ -13346,9 +13350,9 @@ var mutations = {
       }
     }
     /**
-         * Create a directory from a path
-         * @param path
-         */
+     * Create a directory from a path
+     * @param path
+     */
 
 
     function directoryFromPath(path) {
@@ -13370,10 +13374,10 @@ var mutations = {
       };
     }
     /**
-         * Add a directory
-         * @param state
-         * @param directory
-         */
+     * Add a directory
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
 
 
@@ -13396,10 +13400,10 @@ var mutations = {
       }
     }
     /**
-         * Add a file
-         * @param state
-         * @param directory
-         */
+     * Add a file
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
 
 
@@ -13435,10 +13439,10 @@ var mutations = {
   },
 
   /**
-     * The upload success mutation
-     * @param state
-     * @param payload
-     */
+   * The upload success mutation
+   * @param state
+   * @param payload
+   */
   [UPLOAD_SUCCESS]: (state, payload) => {
     const file = payload;
     const isNew = !state.files.some(existing => existing.path === file.path); // TODO handle file_exists
@@ -13456,10 +13460,10 @@ var mutations = {
   },
 
   /**
-     * The create directory success mutation
-     * @param state
-     * @param payload
-     */
+   * The create directory success mutation
+   * @param state
+   * @param payload
+   */
   [CREATE_DIRECTORY_SUCCESS]: (state, payload) => {
     const directory = payload;
     const isNew = !state.directories.some(existing => existing.path === directory.path);
@@ -13477,10 +13481,10 @@ var mutations = {
   },
 
   /**
-     * The rename success handler
-     * @param state
-     * @param payload
-     */
+   * The rename success handler
+   * @param state
+   * @param payload
+   */
   [RENAME_SUCCESS]: (state, payload) => {
     state.selectedItems[state.selectedItems.length - 1].name = payload.newName;
     const {
@@ -13500,10 +13504,10 @@ var mutations = {
   },
 
   /**
-     * The delete success mutation
-     * @param state
-     * @param payload
-     */
+   * The delete success mutation
+   * @param state
+   * @param payload
+   */
   [DELETE_SUCCESS]: (state, payload) => {
     const item = payload; // Delete file
 
@@ -13518,151 +13522,151 @@ var mutations = {
   },
 
   /**
-     * Select a browser item
-     * @param state
-     * @param payload the item
-     */
+   * Select a browser item
+   * @param state
+   * @param payload the item
+   */
   [SELECT_BROWSER_ITEM]: (state, payload) => {
     state.selectedItems.push(payload);
   },
 
   /**
-     * Select browser items
-     * @param state
-     * @param payload the items
-     */
+   * Select browser items
+   * @param state
+   * @param payload the items
+   */
   [SELECT_BROWSER_ITEMS]: (state, payload) => {
     state.selectedItems = payload;
   },
 
   /**
-     * Unselect a browser item
-     * @param state
-     * @param payload the item
-     */
+   * Unselect a browser item
+   * @param state
+   * @param payload the item
+   */
   [UNSELECT_BROWSER_ITEM]: (state, payload) => {
     const item = payload;
     state.selectedItems.splice(state.selectedItems.findIndex(selectedItem => selectedItem.path === item.path), 1);
   },
 
   /**
-     * Unselect all browser items
-     * @param state
-     * @param payload the item
-     */
+   * Unselect all browser items
+   * @param state
+   * @param payload the item
+   */
   [UNSELECT_ALL_BROWSER_ITEMS]: state => {
     state.selectedItems = [];
   },
 
   /**
-     * Show the create folder modal
-     * @param state
-     */
+   * Show the create folder modal
+   * @param state
+   */
   [SHOW_CREATE_FOLDER_MODAL]: state => {
     state.showCreateFolderModal = true;
   },
 
   /**
-     * Hide the create folder modal
-     * @param state
-     */
+   * Hide the create folder modal
+   * @param state
+   */
   [HIDE_CREATE_FOLDER_MODAL]: state => {
     state.showCreateFolderModal = false;
   },
 
   /**
-     * Show the info bar
-     * @param state
-     */
+   * Show the info bar
+   * @param state
+   */
   [SHOW_INFOBAR]: state => {
     state.showInfoBar = true;
   },
 
   /**
-     * Show the info bar
-     * @param state
-     */
+   * Show the info bar
+   * @param state
+   */
   [HIDE_INFOBAR]: state => {
     state.showInfoBar = false;
   },
 
   /**
-     * Define the list grid view
-     * @param state
-     */
+   * Define the list grid view
+   * @param state
+   */
   [CHANGE_LIST_VIEW]: (state, view) => {
     state.listView = view;
   },
 
   /**
-     * FUll content is loaded
-     * @param state
-     * @param payload
-     */
+   * FUll content is loaded
+   * @param state
+   * @param payload
+   */
   [LOAD_FULL_CONTENTS_SUCCESS]: (state, payload) => {
     state.previewItem = payload;
   },
 
   /**
-     * Show the preview modal
-     * @param state
-     */
+   * Show the preview modal
+   * @param state
+   */
   [SHOW_PREVIEW_MODAL]: state => {
     state.showPreviewModal = true;
   },
 
   /**
-     * Hide the preview modal
-     * @param state
-     */
+   * Hide the preview modal
+   * @param state
+   */
   [HIDE_PREVIEW_MODAL]: state => {
     state.showPreviewModal = false;
   },
 
   /**
-     * Set the is loading state
-     * @param state
-     */
+   * Set the is loading state
+   * @param state
+   */
   [SET_IS_LOADING]: (state, payload) => {
     state.isLoading = payload;
   },
 
   /**
-     * Show the rename modal
-     * @param state
-     */
+   * Show the rename modal
+   * @param state
+   */
   [SHOW_RENAME_MODAL]: state => {
     state.showRenameModal = true;
   },
 
   /**
-     * Hide the rename modal
-     * @param state
-     */
+   * Hide the rename modal
+   * @param state
+   */
   [HIDE_RENAME_MODAL]: state => {
     state.showRenameModal = false;
   },
 
   /**
-     * Show the share modal
-     * @param state
-     */
+   * Show the share modal
+   * @param state
+   */
   [SHOW_SHARE_MODAL]: state => {
     state.showShareModal = true;
   },
 
   /**
-     * Hide the share modal
-     * @param state
-     */
+   * Hide the share modal
+   * @param state
+   */
   [HIDE_SHARE_MODAL]: state => {
     state.showShareModal = false;
   },
 
   /**
-     * Increase the size of the grid items
-     * @param state
-     */
+   * Increase the size of the grid items
+   * @param state
+   */
   [INCREASE_GRID_SIZE]: state => {
     let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
 
@@ -13673,9 +13677,9 @@ var mutations = {
   },
 
   /**
-     * Increase the size of the grid items
-     * @param state
-     */
+   * Increase the size of the grid items
+   * @param state
+   */
   [DECREASE_GRID_SIZE]: state => {
     let currentSizeIndex = gridItemSizes.indexOf(state.gridSize);
 
@@ -13686,26 +13690,26 @@ var mutations = {
   },
 
   /**
-    * Set search query
-    * @param state
-    * @param query
-    */
+   * Set search query
+   * @param state
+   * @param query
+   */
   [SET_SEARCH_QUERY]: (state, query) => {
     state.search = query;
   },
 
   /**
-     * Show the confirm modal
-     * @param state
-     */
+   * Show the confirm modal
+   * @param state
+   */
   [SHOW_CONFIRM_DELETE_MODAL]: state => {
     state.showConfirmDeleteModal = true;
   },
 
   /**
-     * Hide the confirm modal
-     * @param state
-     */
+   * Hide the confirm modal
+   * @param state
+   */
   [HIDE_CONFIRM_DELETE_MODAL]: state => {
     state.showConfirmDeleteModal = false;
   }

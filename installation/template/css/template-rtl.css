@@ -7716,10 +7716,6 @@ readers do not read off random characters that represent icons */
   content: "\f010";
 }
 
-html[dir=rtl] .float-right {
-  float: left;
-}
-
 /*!
  * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -27200,22 +27196,6 @@ meter {
     -webkit-transform: rotate(180deg);
             transform: rotate(180deg);
   }
-
-  .header-item-more.active .header-more-menu {
-    left: 0;
-  }
-  [dir=rtl] .header-item-more.active .header-more-menu {
-    right: 0;
-    left: auto;
-  }
-  .header-item-more .header-item-content {
-    background: transparent;
-  }
-
-  .header-more-menu {
-    top: auto;
-    bottom: 100%;
-  }
 }
 .form-select, .custom-select {
   max-width: 100%;
@@ -27521,7 +27501,7 @@ html[dir=rtl] joomla-alert .joomla-alert-button--close {
 #system-message-container joomla-alert .joomla-alert-button--close {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   padding: 0.75rem 0.8rem;
   font-size: 2rem;
   line-height: 1rem;
@@ -27536,11 +27516,6 @@ html[dir=rtl] joomla-alert .joomla-alert-button--close {
   text-decoration: none;
   cursor: pointer;
   opacity: 0.75;
-}
-[dir=rtl] #system-message-container joomla-alert .joomla-alert--close,
-[dir=rtl] #system-message-container joomla-alert .joomla-alert-button--close {
-  right: auto;
-  left: 0;
 }
 #system-message-container joomla-alert div {
   font-size: 1rem;

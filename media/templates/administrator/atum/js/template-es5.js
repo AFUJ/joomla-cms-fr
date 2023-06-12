@@ -252,7 +252,7 @@
   reactToResize();
   subheadScrolling();
 
-  if (mobile.matches) {
+  if (small.matches) {
     changeLogo('closed');
 
     if (subhead) {

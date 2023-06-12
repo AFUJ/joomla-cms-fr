@@ -11650,8 +11650,8 @@ meter {
 * Back to Top
 */
 .back-to-top-link {
-  position: fixed;
-  right: 1rem;
+  position: absolute;
+  inset-inline-end: 1rem;
   bottom: 1rem;
   z-index: 10000;
   padding: 0.5em;
@@ -11662,10 +11662,6 @@ meter {
   border-radius: 0.25rem;
   opacity: 0;
   transition: opacity 200ms ease-in;
-}
-[dir=rtl] .back-to-top-link {
-  right: unset;
-  left: 1rem;
 }
 .back-to-top-link.visible {
   opacity: 1;
@@ -11917,17 +11913,10 @@ fieldset > * {
 .container-header .navbar-brand {
   position: relative;
   display: inline-block;
-  margin-right: auto;
+  -webkit-margin-end: auto;
+          margin-inline-end: auto;
   font-size: 2rem;
   color: white;
-}
-[dir=rtl] .container-header .navbar-brand {
-  margin-right: 0;
-  margin-left: auto;
-}
-.container-header .navbar-brand img {
-  width: 18rem;
-  min-width: 18rem;
 }
 .container-header .navbar-brand a {
   color: white;
@@ -13463,15 +13452,13 @@ body:not(.has-sidebar-right) .site-grid .container-component {
 .metismenu.mod-menu .mm-toggler:after {
   width: 0;
   height: 0;
-  margin: 0 0 0 0.5em;
+  -webkit-margin-start: 0.5em;
+          margin-inline-start: 0.5em;
   content: "";
   border-top: 0.5em solid currentColor;
   border-right: 0.5em solid transparent;
   border-left: 0.5em solid transparent;
   transition: all 0.3s ease-out;
-}
-[dir=rtl] .metismenu.mod-menu .mm-toggler:after {
-  margin: 0 0.5em 0 0;
 }
 .mm-active > .metismenu.mod-menu .mm-toggler:after {
   -webkit-transform: rotateX(-180deg);

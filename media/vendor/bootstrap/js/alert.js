@@ -1,30 +1,4 @@
-import { E as EventHandler, i as isDisabled, g as getElementFromSelector, B as BaseComponent, d as defineJQueryPlugin } from './dom.js?1635100342';
-
-/**
- * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/component-functions.js
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- * --------------------------------------------------------------------------
- */
-
-const enableDismissTrigger = (component, method = 'hide') => {
-  const clickEvent = `click.dismiss${component.EVENT_KEY}`;
-  const name = component.NAME;
-  EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
-    if (['A', 'AREA'].includes(this.tagName)) {
-      event.preventDefault();
-    }
-
-    if (isDisabled(this)) {
-      return;
-    }
-
-    const target = getElementFromSelector(this) || this.closest(`.${name}`);
-    const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
-
-    instance[method]();
-  });
-};
+import { B as BaseComponent, E as EventHandler, e as enableDismissTrigger, d as defineJQueryPlugin } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
@@ -129,4 +103,4 @@ if (Joomla && Joomla.getOptions) {
   }
 }
 
-export { Alert as A, enableDismissTrigger as e };
+export { Alert as A };

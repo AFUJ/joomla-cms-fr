@@ -16048,6 +16048,9 @@ var JoomlaMediaManager = (function () {
       allItemsSelected: function allItemsSelected() {
         // eslint-disable-next-line max-len
         return this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length;
+      },
+      search: function search() {
+        return this.$store.state.search;
       }
     },
     watch: {
@@ -16168,12 +16171,13 @@ var JoomlaMediaManager = (function () {
       class: "form-control",
       type: "text",
       placeholder: _ctx.translate('COM_MEDIA_SEARCH'),
+      value: $options.search,
       onInput: _cache[2] || (_cache[2] = function () {
         return $options.changeSearch && $options.changeSearch.apply($options, arguments);
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , ["placeholder"])]), createVNode("div", _hoisted_5$5, [$options.isGridView ? (openBlock(), createBlock("button", {
+    , ["placeholder", "value"])]), createVNode("div", _hoisted_5$5, [$options.isGridView ? (openBlock(), createBlock("button", {
       key: 0,
       type: "button",
       class: ["media-toolbar-icon media-toolbar-decrease-grid-size", {
@@ -21195,7 +21199,7 @@ var JoomlaMediaManager = (function () {
 
   var persistedStateOptions = {
     key: 'joomla.mediamanager',
-    paths: ['selectedDirectory', 'showInfoBar', 'listView', 'gridSize'],
+    paths: ['selectedDirectory', 'showInfoBar', 'listView', 'gridSize', 'search'],
     storage: window.sessionStorage
   };
   var options = Joomla.getOptions('com_media', {});
@@ -21587,9 +21591,9 @@ var JoomlaMediaManager = (function () {
     state.selectedDirectory = payload;
   }, _mutations[LOAD_CONTENTS_SUCCESS] = function (state, payload) {
     /**
-         * Create the directory structure
-         * @param path
-         */
+     * Create the directory structure
+     * @param path
+     */
     function createDirectoryStructureFromPath(path) {
       var exists = state.directories.some(function (existing) {
         return existing.path === path;
@@ -21613,9 +21617,9 @@ var JoomlaMediaManager = (function () {
       }
     }
     /**
-         * Create a directory from a path
-         * @param path
-         */
+     * Create a directory from a path
+     * @param path
+     */
 
 
     function directoryFromPath(path) {
@@ -21637,10 +21641,10 @@ var JoomlaMediaManager = (function () {
       };
     }
     /**
-         * Add a directory
-         * @param state
-         * @param directory
-         */
+     * Add a directory
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
 
 
@@ -21667,10 +21671,10 @@ var JoomlaMediaManager = (function () {
       }
     }
     /**
-         * Add a file
-         * @param state
-         * @param directory
-         */
+     * Add a file
+     * @param state
+     * @param directory
+     */
     // eslint-disable-next-line no-shadow
 
 

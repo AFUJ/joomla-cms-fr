@@ -454,20 +454,16 @@
 .choices[data-type*=select-one] .choices__button_joomla {
   position: absolute;
   top: 50%;
-  right: 0;
+  inset-inline-end: 0;
   width: 20px;
   height: 20px;
   padding: 0;
-  margin-top: -10px;
-  margin-right: 50px;
+  -webkit-margin-before: -10px;
+          margin-block-start: -10px;
+  -webkit-margin-end: 50px;
+          margin-inline-end: 50px;
   border-radius: 10em;
   opacity: 0.5;
-}
-[dir=rtl] .choices[data-type*=select-one] .choices__button_joomla {
-  right: auto;
-  left: 0;
-  margin-right: 0;
-  margin-left: 50px;
 }
 .choices[data-type*=select-one] .choices__button_joomla:hover, .choices[data-type*=select-one] .choices__button_joomla:focus {
   opacity: 1;
