@@ -14,6 +14,9 @@ var JoomlaMediaManager = (function () {
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -74,7 +77,7 @@ var JoomlaMediaManager = (function () {
 
   var objectGetOwnPropertyDescriptor = {};
 
-  var fails$H = function (exec) {
+  var fails$I = function (exec) {
     try {
       return !!exec();
     } catch (error) {
@@ -82,10 +85,10 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var fails$G = fails$H;
+  var fails$H = fails$I;
 
   // Detect IE8's incomplete defineProperty implementation
-  var descriptors = !fails$G(function () {
+  var descriptors = !fails$H(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
   });
@@ -145,14 +148,14 @@ var JoomlaMediaManager = (function () {
 
   var global$1d = global$1e;
   var uncurryThis$M = functionUncurryThis;
-  var fails$F = fails$H;
+  var fails$G = fails$I;
   var classof$e = classofRaw$1;
 
   var Object$5 = global$1d.Object;
   var split$3 = uncurryThis$M(''.split);
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
-  var indexedObject = fails$F(function () {
+  var indexedObject = fails$G(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins -- safe
     return !Object$5('z').propertyIsEnumerable(0);
@@ -241,10 +244,10 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable es/no-symbol -- required for testing */
 
   var V8_VERSION$3 = engineV8Version;
-  var fails$E = fails$H;
+  var fails$F = fails$I;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$E(function () {
+  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$F(function () {
     var symbol = Symbol();
     // Chrome 38 Symbol has incorrect toString conversion
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
@@ -333,11 +336,11 @@ var JoomlaMediaManager = (function () {
   var global$15 = global$1e;
 
   // eslint-disable-next-line es/no-object-defineproperty -- safe
-  var defineProperty$a = Object.defineProperty;
+  var defineProperty$b = Object.defineProperty;
 
   var setGlobal$3 = function (key, value) {
     try {
-      defineProperty$a(global$15, key, { value: value, configurable: true, writable: true });
+      defineProperty$b(global$15, key, { value: value, configurable: true, writable: true });
     } catch (error) {
       global$15[key] = value;
     } return value;
@@ -356,7 +359,7 @@ var JoomlaMediaManager = (function () {
   (shared$5.exports = function (key, value) {
     return store$3[key] || (store$3[key] = value !== undefined ? value : {});
   })('versions', []).push({
-    version: '3.19.3',
+    version: '3.20.1',
     mode: 'global',
     copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
   });
@@ -466,19 +469,19 @@ var JoomlaMediaManager = (function () {
     return EXISTS$1 ? document$3.createElement(it) : {};
   };
 
-  var DESCRIPTORS$g = descriptors;
-  var fails$D = fails$H;
+  var DESCRIPTORS$h = descriptors;
+  var fails$E = fails$I;
   var createElement$1 = documentCreateElement$2;
 
   // Thank's IE8 for his funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$g && !fails$D(function () {
-    // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
+  var ie8DomDefine = !DESCRIPTORS$h && !fails$E(function () {
+    // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
-  var DESCRIPTORS$f = descriptors;
+  var DESCRIPTORS$g = descriptors;
   var call$m = functionCall;
   var propertyIsEnumerableModule$2 = objectPropertyIsEnumerable;
   var createPropertyDescriptor$7 = createPropertyDescriptor$8;
@@ -492,7 +495,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$f ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$g ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
     O = toIndexedObject$9(O);
     P = toPropertyKey$4(P);
     if (IE8_DOM_DEFINE$1) try {
@@ -516,7 +519,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$_ = global$1e;
-  var DESCRIPTORS$e = descriptors;
+  var DESCRIPTORS$f = descriptors;
   var IE8_DOM_DEFINE = ie8DomDefine;
   var anObject$o = anObject$p;
   var toPropertyKey$3 = toPropertyKey$5;
@@ -527,7 +530,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.defineProperty` method
   // https://tc39.es/ecma262/#sec-object.defineproperty
-  objectDefineProperty.f = DESCRIPTORS$e ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
+  objectDefineProperty.f = DESCRIPTORS$f ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
     anObject$o(O);
     P = toPropertyKey$3(P);
     anObject$o(Attributes);
@@ -539,11 +542,11 @@ var JoomlaMediaManager = (function () {
     return O;
   };
 
-  var DESCRIPTORS$d = descriptors;
+  var DESCRIPTORS$e = descriptors;
   var definePropertyModule$8 = objectDefineProperty;
   var createPropertyDescriptor$6 = createPropertyDescriptor$8;
 
-  var createNonEnumerableProperty$a = DESCRIPTORS$d ? function (object, key, value) {
+  var createNonEnumerableProperty$a = DESCRIPTORS$e ? function (object, key, value) {
     return definePropertyModule$8.f(object, key, createPropertyDescriptor$6(1, value));
   } : function (object, key, value) {
     object[key] = value;
@@ -656,17 +659,17 @@ var JoomlaMediaManager = (function () {
     getterFor: getterFor
   };
 
-  var DESCRIPTORS$c = descriptors;
+  var DESCRIPTORS$d = descriptors;
   var hasOwn$i = hasOwnProperty_1;
 
   var FunctionPrototype$2 = Function.prototype;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getDescriptor = DESCRIPTORS$c && Object.getOwnPropertyDescriptor;
+  var getDescriptor = DESCRIPTORS$d && Object.getOwnPropertyDescriptor;
 
   var EXISTS = hasOwn$i(FunctionPrototype$2, 'name');
   // additional protection from minified / mangled / dropped function names
   var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$c || (DESCRIPTORS$c && getDescriptor(FunctionPrototype$2, 'name').configurable));
+  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$d || (DESCRIPTORS$d && getDescriptor(FunctionPrototype$2, 'name').configurable));
 
   var functionName = {
     EXISTS: EXISTS,
@@ -684,7 +687,7 @@ var JoomlaMediaManager = (function () {
   var CONFIGURABLE_FUNCTION_NAME$2 = functionName.CONFIGURABLE;
 
   var getInternalState$7 = InternalStateModule$a.get;
-  var enforceInternalState = InternalStateModule$a.enforce;
+  var enforceInternalState$1 = InternalStateModule$a.enforce;
   var TEMPLATE = String(String).split('String');
 
   (redefine$e.exports = function (O, key, value, options) {
@@ -700,7 +703,7 @@ var JoomlaMediaManager = (function () {
       if (!hasOwn$h(value, 'name') || (CONFIGURABLE_FUNCTION_NAME$2 && value.name !== name)) {
         createNonEnumerableProperty$8(value, 'name', name);
       }
-      state = enforceInternalState(value);
+      state = enforceInternalState$1(value);
       if (!state.source) {
         state.source = TEMPLATE.join(typeof name == 'string' ? name : '');
       }
@@ -761,19 +764,19 @@ var JoomlaMediaManager = (function () {
 
   // `LengthOfArrayLike` abstract operation
   // https://tc39.es/ecma262/#sec-lengthofarraylike
-  var lengthOfArrayLike$g = function (obj) {
+  var lengthOfArrayLike$h = function (obj) {
     return toLength$9(obj.length);
   };
 
   var toIndexedObject$8 = toIndexedObject$a;
   var toAbsoluteIndex$6 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$f = lengthOfArrayLike$g;
+  var lengthOfArrayLike$g = lengthOfArrayLike$h;
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
   var createMethod$4 = function (IS_INCLUDES) {
     return function ($this, el, fromIndex) {
       var O = toIndexedObject$8($this);
-      var length = lengthOfArrayLike$f(O);
+      var length = lengthOfArrayLike$g(O);
       var index = toAbsoluteIndex$6(fromIndex, length);
       var value;
       // Array#includes uses SameValueZero equality algorithm
@@ -867,17 +870,19 @@ var JoomlaMediaManager = (function () {
   var getOwnPropertyDescriptorModule$4 = objectGetOwnPropertyDescriptor;
   var definePropertyModule$7 = objectDefineProperty;
 
-  var copyConstructorProperties$2 = function (target, source) {
+  var copyConstructorProperties$2 = function (target, source, exceptions) {
     var keys = ownKeys$2(source);
     var defineProperty = definePropertyModule$7.f;
     var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule$4.f;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
-      if (!hasOwn$f(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+      if (!hasOwn$f(target, key) && !(exceptions && hasOwn$f(exceptions, key))) {
+        defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+      }
     }
   };
 
-  var fails$C = fails$H;
+  var fails$D = fails$I;
   var isCallable$h = isCallable$q;
 
   var replacement = /#|\.prototype\./;
@@ -886,7 +891,7 @@ var JoomlaMediaManager = (function () {
     var value = data[normalize(feature)];
     return value == POLYFILL ? true
       : value == NATIVE ? false
-      : isCallable$h(detection) ? fails$C(detection)
+      : isCallable$h(detection) ? fails$D(detection)
       : !!detection;
   };
 
@@ -1022,13 +1027,13 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var fails$B = fails$H;
+  var fails$C = fails$I;
   var global$T = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
   var $RegExp$2 = global$T.RegExp;
 
-  var UNSUPPORTED_Y$2 = fails$B(function () {
+  var UNSUPPORTED_Y$2 = fails$C(function () {
     var re = $RegExp$2('a', 'y');
     re.lastIndex = 2;
     return re.exec('abcd') != null;
@@ -1036,11 +1041,11 @@ var JoomlaMediaManager = (function () {
 
   // UC Browser bug
   // https://github.com/zloirock/core-js/issues/1008
-  var MISSED_STICKY = UNSUPPORTED_Y$2 || fails$B(function () {
+  var MISSED_STICKY = UNSUPPORTED_Y$2 || fails$C(function () {
     return !$RegExp$2('a', 'y').sticky;
   });
 
-  var BROKEN_CARET = UNSUPPORTED_Y$2 || fails$B(function () {
+  var BROKEN_CARET = UNSUPPORTED_Y$2 || fails$C(function () {
     // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
     var re = $RegExp$2('^r', 'gy');
     re.lastIndex = 2;
@@ -1063,7 +1068,7 @@ var JoomlaMediaManager = (function () {
     return internalObjectKeys(O, enumBugKeys$1);
   };
 
-  var DESCRIPTORS$b = descriptors;
+  var DESCRIPTORS$c = descriptors;
   var definePropertyModule$6 = objectDefineProperty;
   var anObject$l = anObject$p;
   var toIndexedObject$6 = toIndexedObject$a;
@@ -1072,7 +1077,7 @@ var JoomlaMediaManager = (function () {
   // `Object.defineProperties` method
   // https://tc39.es/ecma262/#sec-object.defineproperties
   // eslint-disable-next-line es/no-object-defineproperties -- safe
-  var objectDefineProperties = DESCRIPTORS$b ? Object.defineProperties : function defineProperties(O, Properties) {
+  var objectDefineProperties = DESCRIPTORS$c ? Object.defineProperties : function defineProperties(O, Properties) {
     anObject$l(O);
     var props = toIndexedObject$6(Properties);
     var keys = objectKeys$2(Properties);
@@ -1171,24 +1176,24 @@ var JoomlaMediaManager = (function () {
     return Properties === undefined ? result : defineProperties$1(result, Properties);
   };
 
-  var fails$A = fails$H;
+  var fails$B = fails$I;
   var global$S = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
   var $RegExp$1 = global$S.RegExp;
 
-  var regexpUnsupportedDotAll = fails$A(function () {
+  var regexpUnsupportedDotAll = fails$B(function () {
     var re = $RegExp$1('.', 's');
     return !(re.dotAll && re.exec('\n') && re.flags === 's');
   });
 
-  var fails$z = fails$H;
+  var fails$A = fails$I;
   var global$R = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
   var $RegExp = global$R.RegExp;
 
-  var regexpUnsupportedNcg = fails$z(function () {
+  var regexpUnsupportedNcg = fails$A(function () {
     var re = $RegExp('(?<a>b)', 'g');
     return re.exec('b').groups.a !== 'b' ||
       'b'.replace(re, '$<a>c') !== 'bc';
@@ -1335,7 +1340,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$D = functionUncurryThis;
   var redefine$c = redefine$e.exports;
   var regexpExec$2 = regexpExec$3;
-  var fails$y = fails$H;
+  var fails$z = fails$I;
   var wellKnownSymbol$o = wellKnownSymbol$s;
   var createNonEnumerableProperty$6 = createNonEnumerableProperty$a;
 
@@ -1345,14 +1350,14 @@ var JoomlaMediaManager = (function () {
   var fixRegexpWellKnownSymbolLogic = function (KEY, exec, FORCED, SHAM) {
     var SYMBOL = wellKnownSymbol$o(KEY);
 
-    var DELEGATES_TO_SYMBOL = !fails$y(function () {
+    var DELEGATES_TO_SYMBOL = !fails$z(function () {
       // String methods call symbol-named RegEp methods
       var O = {};
       O[SYMBOL] = function () { return 7; };
       return ''[KEY](O) != 7;
     });
 
-    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$y(function () {
+    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$z(function () {
       // Symbol-named RegExp methods call .exec
       var execCalled = false;
       var re = /a/;
@@ -1418,7 +1423,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var uncurryThis$C = functionUncurryThis;
-  var fails$x = fails$H;
+  var fails$y = fails$I;
   var isCallable$f = isCallable$q;
   var classof$a = classof$d;
   var getBuiltIn$5 = getBuiltIn$a;
@@ -1431,7 +1436,7 @@ var JoomlaMediaManager = (function () {
   var exec$4 = uncurryThis$C(constructorRegExp.exec);
   var INCORRECT_TO_STRING = !constructorRegExp.exec(noop);
 
-  var isConstructorModern = function (argument) {
+  var isConstructorModern = function isConstructor(argument) {
     if (!isCallable$f(argument)) return false;
     try {
       construct(noop, empty, argument);
@@ -1441,19 +1446,28 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var isConstructorLegacy = function (argument) {
+  var isConstructorLegacy = function isConstructor(argument) {
     if (!isCallable$f(argument)) return false;
     switch (classof$a(argument)) {
       case 'AsyncFunction':
       case 'GeneratorFunction':
       case 'AsyncGeneratorFunction': return false;
+    }
+    try {
       // we can't check .prototype since constructors produced by .bind haven't it
-    } return INCORRECT_TO_STRING || !!exec$4(constructorRegExp, inspectSource$1(argument));
+      // `Function#toString` throws on some built-it function in some legacy engines
+      // (for example, `DOMQuad` and similar in FF41-)
+      return INCORRECT_TO_STRING || !!exec$4(constructorRegExp, inspectSource$1(argument));
+    } catch (error) {
+      return true;
+    }
   };
+
+  isConstructorLegacy.sham = true;
 
   // `IsConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-isconstructor
-  var isConstructor$4 = !construct || fails$x(function () {
+  var isConstructor$4 = !construct || fails$y(function () {
     var called;
     return isConstructorModern(isConstructorModern.call)
       || !isConstructorModern(Object)
@@ -1544,14 +1558,14 @@ var JoomlaMediaManager = (function () {
 
   var global$P = global$1e;
   var toAbsoluteIndex$5 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$e = lengthOfArrayLike$g;
+  var lengthOfArrayLike$f = lengthOfArrayLike$h;
   var createProperty$4 = createProperty$5;
 
   var Array$8 = global$P.Array;
   var max$3 = Math.max;
 
   var arraySliceSimple = function (O, start, end) {
-    var length = lengthOfArrayLike$e(O);
+    var length = lengthOfArrayLike$f(O);
     var k = toAbsoluteIndex$5(start, length);
     var fin = toAbsoluteIndex$5(end === undefined ? length : end, length);
     var result = Array$8(max$3(fin - k, 0));
@@ -1598,7 +1612,7 @@ var JoomlaMediaManager = (function () {
   var callRegExpExec = regexpExecAbstract;
   var regexpExec = regexpExec$3;
   var stickyHelpers = regexpStickyHelpers;
-  var fails$w = fails$H;
+  var fails$x = fails$I;
 
   var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
   var MAX_UINT32 = 0xFFFFFFFF;
@@ -1610,7 +1624,7 @@ var JoomlaMediaManager = (function () {
 
   // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
   // Weex JS has frozen built-in prototypes, so use try / catch wrapper
-  var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$w(function () {
+  var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$x(function () {
     // eslint-disable-next-line regexp/no-empty-group -- required for testing
     var re = /(?:)/;
     var originalExec = re.exec;
@@ -1859,7 +1873,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$y = functionUncurryThis;
   var IndexedObject$3 = indexedObject;
   var toObject$e = toObject$g;
-  var lengthOfArrayLike$d = lengthOfArrayLike$g;
+  var lengthOfArrayLike$e = lengthOfArrayLike$h;
   var arraySpeciesCreate$2 = arraySpeciesCreate$3;
 
   var push$6 = uncurryThis$y([].push);
@@ -1877,7 +1891,7 @@ var JoomlaMediaManager = (function () {
       var O = toObject$e($this);
       var self = IndexedObject$3(O);
       var boundFunction = bind$9(callbackfn, that);
-      var length = lengthOfArrayLike$d(self);
+      var length = lengthOfArrayLike$e(self);
       var index = 0;
       var create = specificCreate || arraySpeciesCreate$2;
       var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
@@ -1929,11 +1943,11 @@ var JoomlaMediaManager = (function () {
     filterReject: createMethod$2(7)
   };
 
-  var fails$v = fails$H;
+  var fails$w = fails$I;
 
   var arrayMethodIsStrict$4 = function (METHOD_NAME, argument) {
     var method = [][METHOD_NAME];
-    return !!method && fails$v(function () {
+    return !!method && fails$w(function () {
       // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
       method.call(null, argument || function () { throw 1; }, 1);
     });
@@ -2010,8 +2024,8 @@ var JoomlaMediaManager = (function () {
     trim: createMethod$1(3)
   };
 
-  var PROPER_FUNCTION_NAME$4 = functionName.PROPER;
-  var fails$u = fails$H;
+  var PROPER_FUNCTION_NAME$3 = functionName.PROPER;
+  var fails$v = fails$I;
   var whitespaces = whitespaces$2;
 
   var non = '\u200B\u0085\u180E';
@@ -2019,10 +2033,10 @@ var JoomlaMediaManager = (function () {
   // check that a method works with the correct list
   // of whitespaces and has a correct name
   var stringTrimForced = function (METHOD_NAME) {
-    return fails$u(function () {
+    return fails$v(function () {
       return !!whitespaces[METHOD_NAME]()
         || non[METHOD_NAME]() !== non
-        || (PROPER_FUNCTION_NAME$4 && whitespaces[METHOD_NAME].name !== METHOD_NAME);
+        || (PROPER_FUNCTION_NAME$3 && whitespaces[METHOD_NAME].name !== METHOD_NAME);
     });
   };
 
@@ -2039,12 +2053,12 @@ var JoomlaMediaManager = (function () {
   });
 
   var uncurryThis$w = functionUncurryThis;
-  var PROPER_FUNCTION_NAME$3 = functionName.PROPER;
+  var PROPER_FUNCTION_NAME$2 = functionName.PROPER;
   var redefine$a = redefine$e.exports;
   var anObject$g = anObject$p;
   var isPrototypeOf$7 = objectIsPrototypeOf;
   var $toString$3 = toString$g;
-  var fails$t = fails$H;
+  var fails$u = fails$I;
   var regExpFlags = regexpFlags$1;
 
   var TO_STRING = 'toString';
@@ -2052,9 +2066,9 @@ var JoomlaMediaManager = (function () {
   var n$ToString = RegExpPrototype[TO_STRING];
   var getFlags = uncurryThis$w(regExpFlags);
 
-  var NOT_GENERIC = fails$t(function () { return n$ToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
+  var NOT_GENERIC = fails$u(function () { return n$ToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
   // FF44- RegExp#toString has a wrong name
-  var INCORRECT_NAME = PROPER_FUNCTION_NAME$3 && n$ToString.name != TO_STRING;
+  var INCORRECT_NAME = PROPER_FUNCTION_NAME$2 && n$ToString.name != TO_STRING;
 
   // `RegExp.prototype.toString` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
@@ -2073,7 +2087,7 @@ var JoomlaMediaManager = (function () {
   var getBuiltIn$4 = getBuiltIn$a;
   var apply$6 = functionApply;
   var uncurryThis$v = functionUncurryThis;
-  var fails$s = fails$H;
+  var fails$t = fails$I;
 
   var Array$6 = global$L.Array;
   var $stringify$1 = getBuiltIn$4('JSON', 'stringify');
@@ -2095,7 +2109,7 @@ var JoomlaMediaManager = (function () {
     } return match;
   };
 
-  var FORCED$8 = fails$s(function () {
+  var FORCED$8 = fails$t(function () {
     return $stringify$1('\uDF06\uD834') !== '"\\udf06\\ud834"'
       || $stringify$1('\uDEAD') !== '"\\udead"';
   });
@@ -2114,7 +2128,7 @@ var JoomlaMediaManager = (function () {
     });
   }
 
-  var fails$r = fails$H;
+  var fails$s = fails$I;
   var wellKnownSymbol$k = wellKnownSymbol$s;
   var V8_VERSION$2 = engineV8Version;
 
@@ -2124,7 +2138,7 @@ var JoomlaMediaManager = (function () {
     // We can't use this feature detection in V8 since it causes
     // deoptimization and serious performance degradation
     // https://github.com/zloirock/core-js/issues/677
-    return V8_VERSION$2 >= 51 || !fails$r(function () {
+    return V8_VERSION$2 >= 51 || !fails$s(function () {
       var array = [];
       var constructor = array.constructor = {};
       constructor[SPECIES$3] = function () {
@@ -2136,11 +2150,11 @@ var JoomlaMediaManager = (function () {
 
   var $$D = _export;
   var global$K = global$1e;
-  var fails$q = fails$H;
+  var fails$r = fails$I;
   var isArray$3 = isArray$5;
   var isObject$k = isObject$s;
   var toObject$d = toObject$g;
-  var lengthOfArrayLike$c = lengthOfArrayLike$g;
+  var lengthOfArrayLike$d = lengthOfArrayLike$h;
   var createProperty$3 = createProperty$5;
   var arraySpeciesCreate$1 = arraySpeciesCreate$3;
   var arrayMethodHasSpeciesSupport$4 = arrayMethodHasSpeciesSupport$5;
@@ -2155,7 +2169,7 @@ var JoomlaMediaManager = (function () {
   // We can't use this feature detection in V8 since it causes
   // deoptimization and serious performance degradation
   // https://github.com/zloirock/core-js/issues/679
-  var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION$1 >= 51 || !fails$q(function () {
+  var IS_CONCAT_SPREADABLE_SUPPORT = V8_VERSION$1 >= 51 || !fails$r(function () {
     var array = [];
     array[IS_CONCAT_SPREADABLE] = false;
     return array.concat()[0] !== array;
@@ -2184,7 +2198,7 @@ var JoomlaMediaManager = (function () {
       for (i = -1, length = arguments.length; i < length; i++) {
         E = i === -1 ? O : arguments[i];
         if (isConcatSpreadable(E)) {
-          len = lengthOfArrayLike$c(E);
+          len = lengthOfArrayLike$d(E);
           if (n + len > MAX_SAFE_INTEGER$1) throw TypeError$e(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
           for (k = 0; k < len; k++, n++) if (k in E) createProperty$3(A, n, E[k]);
         } else {
@@ -2220,9 +2234,9 @@ var JoomlaMediaManager = (function () {
 
   var iterators = {};
 
-  var fails$p = fails$H;
+  var fails$q = fails$I;
 
-  var correctPrototypeGetter = !fails$p(function () {
+  var correctPrototypeGetter = !fails$q(function () {
     function F() { /* empty */ }
     F.prototype.constructor = null;
     // eslint-disable-next-line es/no-object-getprototypeof -- required for testing
@@ -2251,7 +2265,7 @@ var JoomlaMediaManager = (function () {
     } return object instanceof Object$1 ? ObjectPrototype$3 : null;
   };
 
-  var fails$o = fails$H;
+  var fails$p = fails$I;
   var isCallable$c = isCallable$q;
   var getPrototypeOf$5 = objectGetPrototypeOf$1;
   var redefine$9 = redefine$e.exports;
@@ -2275,7 +2289,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$o(function () {
+  var NEW_ITERATOR_PROTOTYPE = IteratorPrototype$2 == undefined || fails$p(function () {
     var test = {};
     // FF44- legacy iterators case
     return IteratorPrototype$2[ITERATOR$8].call(test) !== test;
@@ -2296,15 +2310,16 @@ var JoomlaMediaManager = (function () {
     BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS$1
   };
 
-  var defineProperty$9 = objectDefineProperty.f;
+  var defineProperty$a = objectDefineProperty.f;
   var hasOwn$d = hasOwnProperty_1;
   var wellKnownSymbol$g = wellKnownSymbol$s;
 
   var TO_STRING_TAG$2 = wellKnownSymbol$g('toStringTag');
 
-  var setToStringTag$9 = function (it, TAG, STATIC) {
-    if (it && !hasOwn$d(it = STATIC ? it : it.prototype, TO_STRING_TAG$2)) {
-      defineProperty$9(it, TO_STRING_TAG$2, { configurable: true, value: TAG });
+  var setToStringTag$9 = function (target, TAG, STATIC) {
+    if (target && !STATIC) target = target.prototype;
+    if (target && !hasOwn$d(target, TO_STRING_TAG$2)) {
+      defineProperty$a(target, TO_STRING_TAG$2, { configurable: true, value: TAG });
     }
   };
 
@@ -2378,7 +2393,7 @@ var JoomlaMediaManager = (function () {
   var Iterators$3 = iterators;
   var IteratorsCore = iteratorsCore;
 
-  var PROPER_FUNCTION_NAME$2 = FunctionName$1.PROPER;
+  var PROPER_FUNCTION_NAME$1 = FunctionName$1.PROPER;
   var CONFIGURABLE_FUNCTION_NAME$1 = FunctionName$1.CONFIGURABLE;
   var IteratorPrototype = IteratorsCore.IteratorPrototype;
   var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
@@ -2429,7 +2444,7 @@ var JoomlaMediaManager = (function () {
     }
 
     // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
-    if (PROPER_FUNCTION_NAME$2 && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    if (PROPER_FUNCTION_NAME$1 && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
       if (CONFIGURABLE_FUNCTION_NAME$1) {
         createNonEnumerableProperty$4(IterablePrototype, 'name', VALUES);
       } else {
@@ -2465,7 +2480,9 @@ var JoomlaMediaManager = (function () {
   var addToUnscopables$3 = addToUnscopables$4;
   var Iterators$2 = iterators;
   var InternalStateModule$9 = internalState;
+  var defineProperty$9 = objectDefineProperty.f;
   var defineIterator$2 = defineIterator$3;
+  var DESCRIPTORS$b = descriptors;
 
   var ARRAY_ITERATOR = 'Array Iterator';
   var setInternalState$9 = InternalStateModule$9.set;
@@ -2507,12 +2524,17 @@ var JoomlaMediaManager = (function () {
   // argumentsList[@@iterator] is %ArrayProto_values%
   // https://tc39.es/ecma262/#sec-createunmappedargumentsobject
   // https://tc39.es/ecma262/#sec-createmappedargumentsobject
-  Iterators$2.Arguments = Iterators$2.Array;
+  var values = Iterators$2.Arguments = Iterators$2.Array;
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   addToUnscopables$3('keys');
   addToUnscopables$3('values');
   addToUnscopables$3('entries');
+
+  // V8 ~ Chrome 45- bug
+  if (DESCRIPTORS$b && values.name !== 'values') try {
+    defineProperty$9(values, 'name', { value: 'values' });
+  } catch (error) { /* empty */ }
 
   var global$H = global$1e;
   var DOMIterables = domIterables;
@@ -2654,7 +2676,7 @@ var JoomlaMediaManager = (function () {
   var DESCRIPTORS$a = descriptors;
   var uncurryThis$r = functionUncurryThis;
   var call$f = functionCall;
-  var fails$n = fails$H;
+  var fails$o = fails$I;
   var objectKeys$1 = objectKeys$3;
   var getOwnPropertySymbolsModule$1 = objectGetOwnPropertySymbols;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
@@ -2669,7 +2691,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
-  var objectAssign = !$assign || fails$n(function () {
+  var objectAssign = !$assign || fails$o(function () {
     // should have correct order of operations (Edge bug)
     if (DESCRIPTORS$a && $assign({ b: 1 }, $assign(defineProperty$8({}, 'a', {
       enumerable: true,
@@ -2722,7 +2744,7 @@ var JoomlaMediaManager = (function () {
   var global$E = global$1e;
   var toAbsoluteIndex$4 = toAbsoluteIndex$7;
   var toIntegerOrInfinity$8 = toIntegerOrInfinity$c;
-  var lengthOfArrayLike$b = lengthOfArrayLike$g;
+  var lengthOfArrayLike$c = lengthOfArrayLike$h;
   var toObject$a = toObject$g;
   var arraySpeciesCreate = arraySpeciesCreate$3;
   var createProperty$2 = createProperty$5;
@@ -2742,7 +2764,7 @@ var JoomlaMediaManager = (function () {
   $$y({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
     splice: function splice(start, deleteCount /* , ...items */) {
       var O = toObject$a(this);
-      var len = lengthOfArrayLike$b(O);
+      var len = lengthOfArrayLike$c(O);
       var actualStart = toAbsoluteIndex$4(start, len);
       var argumentsLength = arguments.length;
       var insertCount, actualDeleteCount, A, k, from, to;
@@ -2798,7 +2820,7 @@ var JoomlaMediaManager = (function () {
   var isConstructor$1 = isConstructor$4;
   var isObject$i = isObject$s;
   var toAbsoluteIndex$3 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$a = lengthOfArrayLike$g;
+  var lengthOfArrayLike$b = lengthOfArrayLike$h;
   var toIndexedObject$4 = toIndexedObject$a;
   var createProperty$1 = createProperty$5;
   var wellKnownSymbol$c = wellKnownSymbol$s;
@@ -2817,7 +2839,7 @@ var JoomlaMediaManager = (function () {
   $$x({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     slice: function slice(start, end) {
       var O = toIndexedObject$4(this);
-      var length = lengthOfArrayLike$a(O);
+      var length = lengthOfArrayLike$b(O);
       var k = toAbsoluteIndex$3(start, length);
       var fin = toAbsoluteIndex$3(end === undefined ? length : end, length);
       // inline `ArraySpeciesCreate` for usage native `Array#slice` where it's possible
@@ -2891,7 +2913,7 @@ var JoomlaMediaManager = (function () {
   var call$e = functionCall;
   var uncurryThis$o = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
-  var fails$m = fails$H;
+  var fails$n = fails$I;
   var anObject$e = anObject$p;
   var isCallable$8 = isCallable$q;
   var toIntegerOrInfinity$7 = toIntegerOrInfinity$c;
@@ -2931,7 +2953,7 @@ var JoomlaMediaManager = (function () {
     return false;
   })();
 
-  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$m(function () {
+  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$n(function () {
     var re = /./;
     re.exec = function () {
       var result = [];
@@ -3079,9 +3101,9 @@ var JoomlaMediaManager = (function () {
   };
 
   // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
-  var fails$l = fails$H;
+  var fails$m = fails$I;
 
-  var arrayBufferNonExtensible = fails$l(function () {
+  var arrayBufferNonExtensible = fails$m(function () {
     if (typeof ArrayBuffer == 'function') {
       var buffer = new ArrayBuffer(8);
       // eslint-disable-next-line es/no-object-isextensible, es/no-object-defineproperty -- safe
@@ -3089,14 +3111,14 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$k = fails$H;
+  var fails$l = fails$I;
   var isObject$h = isObject$s;
   var classof$5 = classofRaw$1;
   var ARRAY_BUFFER_NON_EXTENSIBLE = arrayBufferNonExtensible;
 
   // eslint-disable-next-line es/no-object-isextensible -- safe
   var $isExtensible$1 = Object.isExtensible;
-  var FAILS_ON_PRIMITIVES$3 = fails$k(function () { $isExtensible$1(1); });
+  var FAILS_ON_PRIMITIVES$3 = fails$l(function () { $isExtensible$1(1); });
 
   // `Object.isExtensible` method
   // https://tc39.es/ecma262/#sec-object.isextensible
@@ -3106,9 +3128,9 @@ var JoomlaMediaManager = (function () {
     return $isExtensible$1 ? $isExtensible$1(it) : true;
   } : $isExtensible$1;
 
-  var fails$j = fails$H;
+  var fails$k = fails$I;
 
-  var freezing = !fails$j(function () {
+  var freezing = !fails$k(function () {
     // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
     return Object.isExtensible(Object.preventExtensions({}));
   });
@@ -3272,7 +3294,7 @@ var JoomlaMediaManager = (function () {
   var anObject$b = anObject$p;
   var tryToString$1 = tryToString$5;
   var isArrayIteratorMethod$2 = isArrayIteratorMethod$3;
-  var lengthOfArrayLike$9 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$a = lengthOfArrayLike$h;
   var isPrototypeOf$6 = objectIsPrototypeOf;
   var getIterator$3 = getIterator$4;
   var getIteratorMethod$3 = getIteratorMethod$5;
@@ -3314,7 +3336,7 @@ var JoomlaMediaManager = (function () {
       if (!iterFn) throw TypeError$9(tryToString$1(iterable) + ' is not iterable');
       // optimisation for array iterators
       if (isArrayIteratorMethod$2(iterFn)) {
-        for (index = 0, length = lengthOfArrayLike$9(iterable); length > index; index++) {
+        for (index = 0, length = lengthOfArrayLike$a(iterable); length > index; index++) {
           result = callFn(iterable[index]);
           if (result && isPrototypeOf$6(ResultPrototype, result)) return result;
         } return new Result(false);
@@ -3411,7 +3433,7 @@ var JoomlaMediaManager = (function () {
   var anInstance$7 = anInstance$8;
   var isCallable$6 = isCallable$q;
   var isObject$e = isObject$s;
-  var fails$i = fails$H;
+  var fails$j = fails$I;
   var checkCorrectnessOfIteration$3 = checkCorrectnessOfIteration$4;
   var setToStringTag$6 = setToStringTag$9;
   var inheritIfRequired$2 = inheritIfRequired$3;
@@ -3446,7 +3468,7 @@ var JoomlaMediaManager = (function () {
 
     var REPLACE = isForced$2(
       CONSTRUCTOR_NAME,
-      !isCallable$6(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$i(function () {
+      !isCallable$6(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$j(function () {
         new NativeConstructor().entries().next();
       }))
     );
@@ -3460,12 +3482,12 @@ var JoomlaMediaManager = (function () {
       // early implementations not supports chaining
       var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
       // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
-      var THROWS_ON_PRIMITIVES = fails$i(function () { instance.has(1); });
+      var THROWS_ON_PRIMITIVES = fails$j(function () { instance.has(1); });
       // most early implementations doesn't supports iterables, most modern - not close it correctly
       // eslint-disable-next-line no-new -- required for testing
       var ACCEPT_ITERABLES = checkCorrectnessOfIteration$3(function (iterable) { new NativeConstructor(iterable); });
       // for early implementations -0 and +0 not the same
-      var BUGGY_ZERO = !IS_WEAK && fails$i(function () {
+      var BUGGY_ZERO = !IS_WEAK && fails$j(function () {
         // V8 ~ Chromium 42- fails only with 5+ elements
         var $instance = new NativeConstructor();
         var index = 5;
@@ -3913,7 +3935,7 @@ var JoomlaMediaManager = (function () {
   var collectionWeak = collectionWeak$1;
   var isObject$c = isObject$s;
   var isExtensible = objectIsExtensible;
-  var enforceIternalState = internalState.enforce;
+  var enforceInternalState = internalState.enforce;
   var NATIVE_WEAK_MAP = nativeWeakMap;
 
   var IS_IE11 = !global$x.ActiveXObject && 'ActiveXObject' in global$x;
@@ -3943,28 +3965,28 @@ var JoomlaMediaManager = (function () {
     redefineAll$3(WeakMapPrototype, {
       'delete': function (key) {
         if (isObject$c(key) && !isExtensible(key)) {
-          var state = enforceIternalState(this);
+          var state = enforceInternalState(this);
           if (!state.frozen) state.frozen = new InternalWeakMap();
           return nativeDelete(this, key) || state.frozen['delete'](key);
         } return nativeDelete(this, key);
       },
       has: function has(key) {
         if (isObject$c(key) && !isExtensible(key)) {
-          var state = enforceIternalState(this);
+          var state = enforceInternalState(this);
           if (!state.frozen) state.frozen = new InternalWeakMap();
           return nativeHas(this, key) || state.frozen.has(key);
         } return nativeHas(this, key);
       },
       get: function get(key) {
         if (isObject$c(key) && !isExtensible(key)) {
-          var state = enforceIternalState(this);
+          var state = enforceInternalState(this);
           if (!state.frozen) state.frozen = new InternalWeakMap();
           return nativeHas(this, key) ? nativeGet(this, key) : state.frozen.get(key);
         } return nativeGet(this, key);
       },
       set: function set(key, value) {
         if (isObject$c(key) && !isExtensible(key)) {
-          var state = enforceIternalState(this);
+          var state = enforceInternalState(this);
           if (!state.frozen) state.frozen = new InternalWeakMap();
           nativeHas(this, key) ? nativeSet(this, key, value) : state.frozen.set(key, value);
         } else nativeSet(this, key, value);
@@ -4003,7 +4025,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$j = functionUncurryThis;
   var DESCRIPTORS$7 = descriptors;
   var NATIVE_SYMBOL$1 = nativeSymbol;
-  var fails$h = fails$H;
+  var fails$i = fails$I;
   var hasOwn$9 = hasOwnProperty_1;
   var isArray$1 = isArray$5;
   var isCallable$5 = isCallable$q;
@@ -4067,7 +4089,7 @@ var JoomlaMediaManager = (function () {
   var USE_SETTER = !QObject || !QObject[PROTOTYPE$1] || !QObject[PROTOTYPE$1].findChild;
 
   // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-  var setSymbolDescriptor = DESCRIPTORS$7 && fails$h(function () {
+  var setSymbolDescriptor = DESCRIPTORS$7 && fails$i(function () {
     return nativeObjectCreate(nativeDefineProperty$1({}, 'a', {
       get: function () { return nativeDefineProperty$1(this, 'a', { value: 7 }).a; }
     })).a != 7;
@@ -4266,7 +4288,7 @@ var JoomlaMediaManager = (function () {
 
   // Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
   // https://bugs.chromium.org/p/v8/issues/detail?id=3443
-  $$s({ target: 'Object', stat: true, forced: fails$h(function () { getOwnPropertySymbolsModule.f(1); }) }, {
+  $$s({ target: 'Object', stat: true, forced: fails$i(function () { getOwnPropertySymbolsModule.f(1); }) }, {
     getOwnPropertySymbols: function getOwnPropertySymbols(it) {
       return getOwnPropertySymbolsModule.f(toObject$8(it));
     }
@@ -4275,7 +4297,7 @@ var JoomlaMediaManager = (function () {
   // `JSON.stringify` method behavior with symbols
   // https://tc39.es/ecma262/#sec-json.stringify
   if ($stringify) {
-    var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL$1 || fails$h(function () {
+    var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL$1 || fails$i(function () {
       var symbol = $Symbol();
       // MS Edge converts symbol values to JSON as {}
       return $stringify([symbol]) != '[null]'
@@ -4429,11 +4451,11 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$n = _export;
-  var fails$g = fails$H;
+  var fails$h = fails$I;
   var getOwnPropertyNames$3 = objectGetOwnPropertyNamesExternal.f;
 
   // eslint-disable-next-line es/no-object-getownpropertynames -- required for testing
-  var FAILS_ON_PRIMITIVES$2 = fails$g(function () { return !Object.getOwnPropertyNames(1); });
+  var FAILS_ON_PRIMITIVES$2 = fails$h(function () { return !Object.getOwnPropertyNames(1); });
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
@@ -4498,7 +4520,7 @@ var JoomlaMediaManager = (function () {
   var isPrototypeOf$2 = objectIsPrototypeOf;
   var isSymbol$2 = isSymbol$6;
   var toPrimitive = toPrimitive$2;
-  var fails$f = fails$H;
+  var fails$g = fails$I;
   var getOwnPropertyNames$2 = objectGetOwnPropertyNames.f;
   var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
   var defineProperty$3 = objectDefineProperty.f;
@@ -4556,7 +4578,7 @@ var JoomlaMediaManager = (function () {
       var n = arguments.length < 1 ? 0 : NativeNumber(toNumeric(value));
       var dummy = this;
       // check on 1..constructor(foo) case
-      return isPrototypeOf$2(NumberPrototype, dummy) && fails$f(function () { thisNumberValue$1(dummy); })
+      return isPrototypeOf$2(NumberPrototype, dummy) && fails$g(function () { thisNumberValue$1(dummy); })
         ? inheritIfRequired$1(Object(n), dummy, NumberWrapper) : n;
     };
     for (var keys$1 = DESCRIPTORS$5 ? getOwnPropertyNames$2(NativeNumber) : (
@@ -4581,7 +4603,7 @@ var JoomlaMediaManager = (function () {
   var anObject$7 = anObject$p;
   var isObject$9 = isObject$s;
   var isDataDescriptor = isDataDescriptor$2;
-  var fails$e = fails$H;
+  var fails$f = fails$I;
   var definePropertyModule$1 = objectDefineProperty;
   var getOwnPropertyDescriptorModule$1 = objectGetOwnPropertyDescriptor;
   var getPrototypeOf$2 = objectGetPrototypeOf$1;
@@ -4615,7 +4637,7 @@ var JoomlaMediaManager = (function () {
 
   // MS Edge 17-18 Reflect.set allows setting the property to object
   // with non-writable property on the prototype
-  var MS_EDGE_BUG = fails$e(function () {
+  var MS_EDGE_BUG = fails$f(function () {
     var Constructor = function () { /* empty */ };
     var object = definePropertyModule$1.f(new Constructor(), 'a', { configurable: true });
     // eslint-disable-next-line es/no-reflect -- required for testing
@@ -4705,7 +4727,7 @@ var JoomlaMediaManager = (function () {
   var bind$6 = functionBindContext;
   var isCallable$3 = isCallable$q;
   var hasOwn$5 = hasOwnProperty_1;
-  var fails$d = fails$H;
+  var fails$e = fails$I;
   var html = html$2;
   var arraySlice$5 = arraySlice$9;
   var createElement = documentCreateElement$2;
@@ -4720,7 +4742,7 @@ var JoomlaMediaManager = (function () {
   var MessageChannel = global$p.MessageChannel;
   var String$2 = global$p.String;
   var counter = 0;
-  var queue$1 = {};
+  var queue$2 = {};
   var ONREADYSTATECHANGE = 'onreadystatechange';
   var location, defer, channel, port;
 
@@ -4730,9 +4752,9 @@ var JoomlaMediaManager = (function () {
   } catch (error) { /* empty */ }
 
   var run = function (id) {
-    if (hasOwn$5(queue$1, id)) {
-      var fn = queue$1[id];
-      delete queue$1[id];
+    if (hasOwn$5(queue$2, id)) {
+      var fn = queue$2[id];
+      delete queue$2[id];
       fn();
     }
   };
@@ -4756,14 +4778,14 @@ var JoomlaMediaManager = (function () {
   if (!set$3 || !clear$1) {
     set$3 = function setImmediate(fn) {
       var args = arraySlice$5(arguments, 1);
-      queue$1[++counter] = function () {
+      queue$2[++counter] = function () {
         apply$3(isCallable$3(fn) ? fn : Function$1(fn), undefined, args);
       };
       defer(counter);
       return counter;
     };
     clear$1 = function clearImmediate(id) {
-      delete queue$1[id];
+      delete queue$2[id];
     };
     // Node.js 0.8-
     if (IS_NODE$2) {
@@ -4789,7 +4811,7 @@ var JoomlaMediaManager = (function () {
       isCallable$3(global$p.postMessage) &&
       !global$p.importScripts &&
       location && location.protocol !== 'file:' &&
-      !fails$d(post)
+      !fails$e(post)
     ) {
       defer = post;
       global$p.addEventListener('message', listener, false);
@@ -4960,6 +4982,30 @@ var JoomlaMediaManager = (function () {
     }
   };
 
+  var Queue$1 = function () {
+    this.head = null;
+    this.tail = null;
+  };
+
+  Queue$1.prototype = {
+    add: function (item) {
+      var entry = { item: item, next: null };
+      if (this.head) this.tail.next = entry;
+      else this.head = entry;
+      this.tail = entry;
+    },
+    get: function () {
+      var entry = this.head;
+      if (entry) {
+        this.head = entry.next;
+        if (this.tail === entry) this.tail = null;
+        return entry.item;
+      }
+    }
+  };
+
+  var queue$1 = Queue$1;
+
   var engineIsBrowser = typeof window == 'object';
 
   var $$e = _export;
@@ -4986,6 +5032,7 @@ var JoomlaMediaManager = (function () {
   var hostReportErrors = hostReportErrors$1;
   var newPromiseCapabilityModule = newPromiseCapability$2;
   var perform = perform$1;
+  var Queue = queue$1;
   var InternalStateModule$4 = internalState;
   var isForced = isForced_1;
   var wellKnownSymbol$4 = wellKnownSymbol$s;
@@ -5055,49 +5102,50 @@ var JoomlaMediaManager = (function () {
     return isObject$7(it) && isCallable$2(then = it.then) ? then : false;
   };
 
+  var callReaction = function (reaction, state) {
+    var value = state.value;
+    var ok = state.state == FULFILLED;
+    var handler = ok ? reaction.ok : reaction.fail;
+    var resolve = reaction.resolve;
+    var reject = reaction.reject;
+    var domain = reaction.domain;
+    var result, then, exited;
+    try {
+      if (handler) {
+        if (!ok) {
+          if (state.rejection === UNHANDLED) onHandleUnhandled(state);
+          state.rejection = HANDLED;
+        }
+        if (handler === true) result = value;
+        else {
+          if (domain) domain.enter();
+          result = handler(value); // can throw
+          if (domain) {
+            domain.exit();
+            exited = true;
+          }
+        }
+        if (result === reaction.promise) {
+          reject(TypeError$5('Promise-chain cycle'));
+        } else if (then = isThenable(result)) {
+          call$7(then, result, resolve, reject);
+        } else resolve(result);
+      } else reject(value);
+    } catch (error) {
+      if (domain && !exited) domain.exit();
+      reject(error);
+    }
+  };
+
   var notify = function (state, isReject) {
     if (state.notified) return;
     state.notified = true;
-    var chain = state.reactions;
     microtask(function () {
-      var value = state.value;
-      var ok = state.state == FULFILLED;
-      var index = 0;
-      // variable length - can't use forEach
-      while (chain.length > index) {
-        var reaction = chain[index++];
-        var handler = ok ? reaction.ok : reaction.fail;
-        var resolve = reaction.resolve;
-        var reject = reaction.reject;
-        var domain = reaction.domain;
-        var result, then, exited;
-        try {
-          if (handler) {
-            if (!ok) {
-              if (state.rejection === UNHANDLED) onHandleUnhandled(state);
-              state.rejection = HANDLED;
-            }
-            if (handler === true) result = value;
-            else {
-              if (domain) domain.enter();
-              result = handler(value); // can throw
-              if (domain) {
-                domain.exit();
-                exited = true;
-              }
-            }
-            if (result === reaction.promise) {
-              reject(TypeError$5('Promise-chain cycle'));
-            } else if (then = isThenable(result)) {
-              call$7(then, result, resolve, reject);
-            } else resolve(result);
-          } else reject(value);
-        } catch (error) {
-          if (domain && !exited) domain.exit();
-          reject(error);
-        }
+      var reactions = state.reactions;
+      var reaction;
+      while (reaction = reactions.get()) {
+        callReaction(reaction, state);
       }
-      state.reactions = [];
       state.notified = false;
       if (isReject && !state.rejection) onUnhandled(state);
     });
@@ -5214,7 +5262,7 @@ var JoomlaMediaManager = (function () {
         done: false,
         notified: false,
         parent: false,
-        reactions: [],
+        reactions: new Queue(),
         rejection: false,
         state: PENDING,
         value: undefined
@@ -5225,14 +5273,15 @@ var JoomlaMediaManager = (function () {
       // https://tc39.es/ecma262/#sec-promise.prototype.then
       then: function then(onFulfilled, onRejected) {
         var state = getInternalPromiseState(this);
-        var reactions = state.reactions;
         var reaction = newPromiseCapability(speciesConstructor$1(this, PromiseConstructor));
+        state.parent = true;
         reaction.ok = isCallable$2(onFulfilled) ? onFulfilled : true;
         reaction.fail = isCallable$2(onRejected) && onRejected;
         reaction.domain = IS_NODE ? process.domain : undefined;
-        state.parent = true;
-        reactions[reactions.length] = reaction;
-        if (state.state != PENDING) notify(state, false);
+        if (state.state == PENDING) state.reactions.add(reaction);
+        else microtask(function () {
+          callReaction(reaction, state);
+        });
         return reaction.promise;
       },
       // `Promise.prototype.catch` method
@@ -5381,9 +5430,9 @@ var JoomlaMediaManager = (function () {
   var $$c = _export;
   var toObject$7 = toObject$g;
   var nativeKeys = objectKeys$3;
-  var fails$c = fails$H;
+  var fails$d = fails$I;
 
-  var FAILS_ON_PRIMITIVES$1 = fails$c(function () { nativeKeys(1); });
+  var FAILS_ON_PRIMITIVES$1 = fails$d(function () { nativeKeys(1); });
 
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
@@ -5477,12 +5526,12 @@ var JoomlaMediaManager = (function () {
     return p1 + '>' + S + '</' + tag + '>';
   };
 
-  var fails$b = fails$H;
+  var fails$c = fails$I;
 
   // check the existence of a method, lowercase
   // of a tag and escaping quotes in arguments
   var stringHtmlForced = function (METHOD_NAME) {
-    return fails$b(function () {
+    return fails$c(function () {
       var test = ''[METHOD_NAME]('"');
       return test !== test.toLowerCase() || test.split('"').length > 3;
     });
@@ -5519,7 +5568,7 @@ var JoomlaMediaManager = (function () {
   var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
   var isArrayIteratorMethod$1 = isArrayIteratorMethod$3;
   var isConstructor = isConstructor$4;
-  var lengthOfArrayLike$8 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$9 = lengthOfArrayLike$h;
   var createProperty = createProperty$5;
   var getIterator$2 = getIterator$4;
   var getIteratorMethod$2 = getIteratorMethod$5;
@@ -5548,7 +5597,7 @@ var JoomlaMediaManager = (function () {
         createProperty(result, index, value);
       }
     } else {
-      length = lengthOfArrayLike$8(O);
+      length = lengthOfArrayLike$9(O);
       result = IS_CONSTRUCTOR ? new this(length) : Array$4(length);
       for (;length > index; index++) {
         value = mapping ? mapfn(O[index], index) : O[index];
@@ -5665,9 +5714,9 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$c = functionUncurryThis;
   var aCallable$2 = aCallable$8;
   var toObject$5 = toObject$g;
-  var lengthOfArrayLike$7 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$8 = lengthOfArrayLike$h;
   var toString$3 = toString$g;
-  var fails$a = fails$H;
+  var fails$b = fails$I;
   var internalSort$1 = arraySort$1;
   var arrayMethodIsStrict$2 = arrayMethodIsStrict$4;
   var FF$1 = engineFfVersion;
@@ -5680,17 +5729,17 @@ var JoomlaMediaManager = (function () {
   var push$3 = uncurryThis$c(test.push);
 
   // IE8-
-  var FAILS_ON_UNDEFINED = fails$a(function () {
+  var FAILS_ON_UNDEFINED = fails$b(function () {
     test.sort(undefined);
   });
   // V8 bug
-  var FAILS_ON_NULL = fails$a(function () {
+  var FAILS_ON_NULL = fails$b(function () {
     test.sort(null);
   });
   // Old WebKit
   var STRICT_METHOD$2 = arrayMethodIsStrict$2('sort');
 
-  var STABLE_SORT$1 = !fails$a(function () {
+  var STABLE_SORT$1 = !fails$b(function () {
     // feature detection can be too slow, so check engines versions
     if (V8$1) return V8$1 < 70;
     if (FF$1 && FF$1 > 3) return;
@@ -5747,7 +5796,7 @@ var JoomlaMediaManager = (function () {
       if (STABLE_SORT$1) return comparefn === undefined ? un$Sort$1(array) : un$Sort$1(array, comparefn);
 
       var items = [];
-      var arrayLength = lengthOfArrayLike$7(array);
+      var arrayLength = lengthOfArrayLike$8(array);
       var itemsLength, index;
 
       for (index = 0; index < arrayLength; index++) {
@@ -5822,27 +5871,6 @@ var JoomlaMediaManager = (function () {
     ];
   });
 
-  var $$6 = _export;
-  var $find$1 = arrayIteration.find;
-  var addToUnscopables = addToUnscopables$4;
-
-  var FIND = 'find';
-  var SKIPS_HOLES = true;
-
-  // Shouldn't skip holes
-  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
-
-  // `Array.prototype.find` method
-  // https://tc39.es/ecma262/#sec-array.prototype.find
-  $$6({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
-    find: function find(callbackfn /* , that = undefined */) {
-      return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables(FIND);
-
   var global$j = global$1e;
   var toIntegerOrInfinity$6 = toIntegerOrInfinity$c;
   var toString$1 = toString$g;
@@ -5861,13 +5889,13 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $$5 = _export;
+  var $$6 = _export;
   var global$i = global$1e;
   var uncurryThis$a = functionUncurryThis;
   var toIntegerOrInfinity$5 = toIntegerOrInfinity$c;
   var thisNumberValue = thisNumberValue$2;
   var $repeat = stringRepeat;
-  var fails$9 = fails$H;
+  var fails$a = fails$I;
 
   var RangeError$7 = global$i.RangeError;
   var String$1 = global$i.String;
@@ -5924,19 +5952,19 @@ var JoomlaMediaManager = (function () {
     } return s;
   };
 
-  var FORCED$4 = fails$9(function () {
+  var FORCED$4 = fails$a(function () {
     return un$ToFixed(0.00008, 3) !== '0.000' ||
       un$ToFixed(0.9, 0) !== '1' ||
       un$ToFixed(1.255, 2) !== '1.25' ||
       un$ToFixed(1000000000000000128.0, 0) !== '1000000000000000128';
-  }) || !fails$9(function () {
+  }) || !fails$a(function () {
     // V8 ~ Android 4.3-
     un$ToFixed({});
   });
 
   // `Number.prototype.toFixed` method
   // https://tc39.es/ecma262/#sec-number.prototype.tofixed
-  $$5({ target: 'Number', proto: true, forced: FORCED$4 }, {
+  $$6({ target: 'Number', proto: true, forced: FORCED$4 }, {
     toFixed: function toFixed(fractionDigits) {
       var number = thisNumberValue(this);
       var fractDigits = toIntegerOrInfinity$5(fractionDigits);
@@ -5945,6 +5973,7 @@ var JoomlaMediaManager = (function () {
       var result = '0';
       var e, z, j, k;
 
+      // TODO: ES2018 increased the maximum number of fraction digits to 100, need to improve the implementation
       if (fractDigits < 0 || fractDigits > 20) throw RangeError$7('Incorrect fraction digits');
       // eslint-disable-next-line no-self-compare -- NaN check
       if (number != number) return 'NaN';
@@ -5992,7 +6021,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$4 = _export;
+  var $$5 = _export;
   var uncurryThis$9 = functionUncurryThis;
   var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
   var toLength$4 = toLength$a;
@@ -6015,7 +6044,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.endsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.endswith
-  $$4({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+  $$5({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
     endsWith: function endsWith(searchString /* , endPosition = @length */) {
       var that = toString(requireObjectCoercible(this));
       notARegExp(searchString);
@@ -6029,15 +6058,36 @@ var JoomlaMediaManager = (function () {
     }
   });
 
+  var $$4 = _export;
+  var $find$1 = arrayIteration.find;
+  var addToUnscopables = addToUnscopables$4;
+
+  var FIND = 'find';
+  var SKIPS_HOLES = true;
+
+  // Shouldn't skip holes
+  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
+
+  // `Array.prototype.find` method
+  // https://tc39.es/ecma262/#sec-array.prototype.find
+  $$4({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+    find: function find(callbackfn /* , that = undefined */) {
+      return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables(FIND);
+
   var $$3 = _export;
   var FREEZING = freezing;
-  var fails$8 = fails$H;
+  var fails$9 = fails$I;
   var isObject$6 = isObject$s;
   var onFreeze = internalMetadata.exports.onFreeze;
 
   // eslint-disable-next-line es/no-object-freeze -- safe
   var $freeze = Object.freeze;
-  var FAILS_ON_PRIMITIVES = fails$8(function () { $freeze(1); });
+  var FAILS_ON_PRIMITIVES = fails$9(function () { $freeze(1); });
 
   // `Object.freeze` method
   // https://tc39.es/ecma262/#sec-object.freeze
@@ -6047,13 +6097,13 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$7 = fails$H;
+  var fails$8 = fails$I;
   var wellKnownSymbol$3 = wellKnownSymbol$s;
   var IS_PURE = isPure;
 
   var ITERATOR$2 = wellKnownSymbol$3('iterator');
 
-  var nativeUrl = !fails$7(function () {
+  var nativeUrl = !fails$8(function () {
     var url = new URL('b?a=1&b=2&c=3', 'http://a');
     var searchParams = url.searchParams;
     var result = '';
@@ -7719,7 +7769,7 @@ var JoomlaMediaManager = (function () {
   var Uint8ClampedArray = global$e.Uint8ClampedArray;
   var Uint8ClampedArrayPrototype = Uint8ClampedArray && Uint8ClampedArray.prototype;
   var TypedArray$1 = Int8Array$3 && getPrototypeOf$1(Int8Array$3);
-  var TypedArrayPrototype$1 = Int8ArrayPrototype && getPrototypeOf$1(Int8ArrayPrototype);
+  var TypedArrayPrototype$2 = Int8ArrayPrototype && getPrototypeOf$1(Int8ArrayPrototype);
   var ObjectPrototype$1 = Object.prototype;
   var TypeError$2 = global$e.TypeError;
 
@@ -7728,7 +7778,7 @@ var JoomlaMediaManager = (function () {
   var TYPED_ARRAY_CONSTRUCTOR$2 = uid$2('TYPED_ARRAY_CONSTRUCTOR');
   // Fixing native typed arrays in Opera Presto crashes the browser, see #595
   var NATIVE_ARRAY_BUFFER_VIEWS$2 = NATIVE_ARRAY_BUFFER$1 && !!setPrototypeOf$2 && classof$1(global$e.opera) !== 'Opera';
-  var TYPED_ARRAY_TAG_REQIRED = false;
+  var TYPED_ARRAY_TAG_REQUIRED = false;
   var NAME, Constructor, Prototype;
 
   var TypedArrayConstructorsList = {
@@ -7773,7 +7823,7 @@ var JoomlaMediaManager = (function () {
     throw TypeError$2(tryToString(C) + ' is not a typed array constructor');
   };
 
-  var exportTypedArrayMethod$o = function (KEY, property, forced) {
+  var exportTypedArrayMethod$o = function (KEY, property, forced, options) {
     if (!DESCRIPTORS$2) return;
     if (forced) for (var ARRAY in TypedArrayConstructorsList) {
       var TypedArrayConstructor = global$e[ARRAY];
@@ -7781,9 +7831,9 @@ var JoomlaMediaManager = (function () {
         delete TypedArrayConstructor.prototype[KEY];
       } catch (error) { /* empty */ }
     }
-    if (!TypedArrayPrototype$1[KEY] || forced) {
-      redefine(TypedArrayPrototype$1, KEY, forced ? property
-        : NATIVE_ARRAY_BUFFER_VIEWS$2 && Int8ArrayPrototype[KEY] || property);
+    if (!TypedArrayPrototype$2[KEY] || forced) {
+      redefine(TypedArrayPrototype$2, KEY, forced ? property
+        : NATIVE_ARRAY_BUFFER_VIEWS$2 && Int8ArrayPrototype[KEY] || property, options);
     }
   };
 
@@ -7836,21 +7886,21 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  if (!NATIVE_ARRAY_BUFFER_VIEWS$2 || !TypedArrayPrototype$1 || TypedArrayPrototype$1 === ObjectPrototype$1) {
-    TypedArrayPrototype$1 = TypedArray$1.prototype;
+  if (!NATIVE_ARRAY_BUFFER_VIEWS$2 || !TypedArrayPrototype$2 || TypedArrayPrototype$2 === ObjectPrototype$1) {
+    TypedArrayPrototype$2 = TypedArray$1.prototype;
     if (NATIVE_ARRAY_BUFFER_VIEWS$2) for (NAME in TypedArrayConstructorsList) {
-      if (global$e[NAME]) setPrototypeOf$2(global$e[NAME].prototype, TypedArrayPrototype$1);
+      if (global$e[NAME]) setPrototypeOf$2(global$e[NAME].prototype, TypedArrayPrototype$2);
     }
   }
 
   // WebKit bug - one more object in Uint8ClampedArray prototype chain
-  if (NATIVE_ARRAY_BUFFER_VIEWS$2 && getPrototypeOf$1(Uint8ClampedArrayPrototype) !== TypedArrayPrototype$1) {
-    setPrototypeOf$2(Uint8ClampedArrayPrototype, TypedArrayPrototype$1);
+  if (NATIVE_ARRAY_BUFFER_VIEWS$2 && getPrototypeOf$1(Uint8ClampedArrayPrototype) !== TypedArrayPrototype$2) {
+    setPrototypeOf$2(Uint8ClampedArrayPrototype, TypedArrayPrototype$2);
   }
 
-  if (DESCRIPTORS$2 && !hasOwn$2(TypedArrayPrototype$1, TO_STRING_TAG)) {
-    TYPED_ARRAY_TAG_REQIRED = true;
-    defineProperty$1(TypedArrayPrototype$1, TO_STRING_TAG, { get: function () {
+  if (DESCRIPTORS$2 && !hasOwn$2(TypedArrayPrototype$2, TO_STRING_TAG)) {
+    TYPED_ARRAY_TAG_REQUIRED = true;
+    defineProperty$1(TypedArrayPrototype$2, TO_STRING_TAG, { get: function () {
       return isObject$4(this) ? this[TYPED_ARRAY_TAG$1] : undefined;
     } });
     for (NAME in TypedArrayConstructorsList) if (global$e[NAME]) {
@@ -7861,7 +7911,7 @@ var JoomlaMediaManager = (function () {
   var arrayBufferViewCore = {
     NATIVE_ARRAY_BUFFER_VIEWS: NATIVE_ARRAY_BUFFER_VIEWS$2,
     TYPED_ARRAY_CONSTRUCTOR: TYPED_ARRAY_CONSTRUCTOR$2,
-    TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQIRED && TYPED_ARRAY_TAG$1,
+    TYPED_ARRAY_TAG: TYPED_ARRAY_TAG_REQUIRED && TYPED_ARRAY_TAG$1,
     aTypedArray: aTypedArray$n,
     aTypedArrayConstructor: aTypedArrayConstructor$3,
     exportTypedArrayMethod: exportTypedArrayMethod$o,
@@ -7869,29 +7919,29 @@ var JoomlaMediaManager = (function () {
     isView: isView,
     isTypedArray: isTypedArray$1,
     TypedArray: TypedArray$1,
-    TypedArrayPrototype: TypedArrayPrototype$1
+    TypedArrayPrototype: TypedArrayPrototype$2
   };
 
   /* eslint-disable no-new -- required for testing */
 
   var global$d = global$1e;
-  var fails$6 = fails$H;
+  var fails$7 = fails$I;
   var checkCorrectnessOfIteration = checkCorrectnessOfIteration$4;
   var NATIVE_ARRAY_BUFFER_VIEWS$1 = arrayBufferViewCore.NATIVE_ARRAY_BUFFER_VIEWS;
 
   var ArrayBuffer$2 = global$d.ArrayBuffer;
   var Int8Array$2 = global$d.Int8Array;
 
-  var typedArrayConstructorsRequireWrappers = !NATIVE_ARRAY_BUFFER_VIEWS$1 || !fails$6(function () {
+  var typedArrayConstructorsRequireWrappers = !NATIVE_ARRAY_BUFFER_VIEWS$1 || !fails$7(function () {
     Int8Array$2(1);
-  }) || !fails$6(function () {
+  }) || !fails$7(function () {
     new Int8Array$2(-1);
   }) || !checkCorrectnessOfIteration(function (iterable) {
     new Int8Array$2();
     new Int8Array$2(null);
     new Int8Array$2(1.5);
     new Int8Array$2(iterable);
-  }, true) || fails$6(function () {
+  }, true) || fails$7(function () {
     // Safari (11+) bug - a reason why even Safari 13 should load a typed array polyfill
     return new Int8Array$2(new ArrayBuffer$2(2), 1, undefined).length !== 1;
   });
@@ -8019,13 +8069,13 @@ var JoomlaMediaManager = (function () {
 
   var toObject$4 = toObject$g;
   var toAbsoluteIndex$2 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$6 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$7 = lengthOfArrayLike$h;
 
   // `Array.prototype.fill` method implementation
   // https://tc39.es/ecma262/#sec-array.prototype.fill
   var arrayFill$1 = function fill(value /* , start = 0, end = @length */) {
     var O = toObject$4(this);
-    var length = lengthOfArrayLike$6(O);
+    var length = lengthOfArrayLike$7(O);
     var argumentsLength = arguments.length;
     var index = toAbsoluteIndex$2(argumentsLength > 1 ? arguments[1] : undefined, length);
     var end = argumentsLength > 2 ? arguments[2] : undefined;
@@ -8041,7 +8091,7 @@ var JoomlaMediaManager = (function () {
   var FunctionName = functionName;
   var createNonEnumerableProperty$1 = createNonEnumerableProperty$a;
   var redefineAll = redefineAll$6;
-  var fails$5 = fails$H;
+  var fails$6 = fails$I;
   var anInstance$1 = anInstance$8;
   var toIntegerOrInfinity$3 = toIntegerOrInfinity$c;
   var toLength$2 = toLength$a;
@@ -8056,7 +8106,7 @@ var JoomlaMediaManager = (function () {
   var setToStringTag = setToStringTag$9;
   var InternalStateModule$1 = internalState;
 
-  var PROPER_FUNCTION_NAME$1 = FunctionName.PROPER;
+  var PROPER_FUNCTION_NAME = FunctionName.PROPER;
   var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
   var getInternalState$1 = InternalStateModule$1.get;
   var setInternalState$1 = InternalStateModule$1.set;
@@ -8222,13 +8272,13 @@ var JoomlaMediaManager = (function () {
       }
     });
   } else {
-    var INCORRECT_ARRAY_BUFFER_NAME = PROPER_FUNCTION_NAME$1 && NativeArrayBuffer.name !== ARRAY_BUFFER;
+    var INCORRECT_ARRAY_BUFFER_NAME = PROPER_FUNCTION_NAME && NativeArrayBuffer.name !== ARRAY_BUFFER;
     /* eslint-disable no-new -- required for testing */
-    if (!fails$5(function () {
+    if (!fails$6(function () {
       NativeArrayBuffer(1);
-    }) || !fails$5(function () {
+    }) || !fails$6(function () {
       new NativeArrayBuffer(-1);
-    }) || fails$5(function () {
+    }) || fails$6(function () {
       new NativeArrayBuffer();
       new NativeArrayBuffer(1.5);
       new NativeArrayBuffer(NaN);
@@ -8318,7 +8368,7 @@ var JoomlaMediaManager = (function () {
   var call$2 = functionCall;
   var aConstructor = aConstructor$2;
   var toObject$3 = toObject$g;
-  var lengthOfArrayLike$5 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$6 = lengthOfArrayLike$h;
   var getIterator = getIterator$4;
   var getIteratorMethod = getIteratorMethod$5;
   var isArrayIteratorMethod = isArrayIteratorMethod$3;
@@ -8343,7 +8393,7 @@ var JoomlaMediaManager = (function () {
     if (mapping && argumentsLength > 2) {
       mapfn = bind(mapfn, arguments[2]);
     }
-    length = lengthOfArrayLike$5(O);
+    length = lengthOfArrayLike$6(O);
     result = new (aTypedArrayConstructor$2(C))(length);
     for (i = 0; length > i; i++) {
       result[i] = mapping ? mapfn(O[i], i) : O[i];
@@ -8395,7 +8445,7 @@ var JoomlaMediaManager = (function () {
   var TYPED_ARRAY_CONSTRUCTOR$1 = ArrayBufferViewCore$o.TYPED_ARRAY_CONSTRUCTOR;
   var TYPED_ARRAY_TAG = ArrayBufferViewCore$o.TYPED_ARRAY_TAG;
   var TypedArray = ArrayBufferViewCore$o.TypedArray;
-  var TypedArrayPrototype = ArrayBufferViewCore$o.TypedArrayPrototype;
+  var TypedArrayPrototype$1 = ArrayBufferViewCore$o.TypedArrayPrototype;
   var aTypedArrayConstructor$1 = ArrayBufferViewCore$o.aTypedArrayConstructor;
   var isTypedArray = ArrayBufferViewCore$o.isTypedArray;
   var BYTES_PER_ELEMENT = 'BYTES_PER_ELEMENT';
@@ -8457,10 +8507,10 @@ var JoomlaMediaManager = (function () {
     if (!NATIVE_ARRAY_BUFFER_VIEWS) {
       getOwnPropertyDescriptorModule.f = wrappedGetOwnPropertyDescriptor;
       definePropertyModule.f = wrappedDefineProperty;
-      addGetter(TypedArrayPrototype, 'buffer');
-      addGetter(TypedArrayPrototype, 'byteOffset');
-      addGetter(TypedArrayPrototype, 'byteLength');
-      addGetter(TypedArrayPrototype, 'length');
+      addGetter(TypedArrayPrototype$1, 'buffer');
+      addGetter(TypedArrayPrototype$1, 'byteOffset');
+      addGetter(TypedArrayPrototype$1, 'byteLength');
+      addGetter(TypedArrayPrototype$1, 'length');
     }
 
     $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {
@@ -8540,7 +8590,7 @@ var JoomlaMediaManager = (function () {
         });
 
         if (setPrototypeOf) setPrototypeOf(TypedArrayConstructor, TypedArray);
-        TypedArrayConstructorPrototype = TypedArrayConstructor.prototype = create(TypedArrayPrototype);
+        TypedArrayConstructorPrototype = TypedArrayConstructor.prototype = create(TypedArrayPrototype$1);
       } else if (TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS) {
         TypedArrayConstructor = wrapper(function (dummy, data, typedArrayOffset, $length) {
           anInstance(dummy, TypedArrayConstructorPrototype);
@@ -8604,7 +8654,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var ArrayBufferViewCore$n = arrayBufferViewCore;
-  var lengthOfArrayLike$4 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$5 = lengthOfArrayLike$h;
   var toIntegerOrInfinity$1 = toIntegerOrInfinity$c;
 
   var aTypedArray$m = ArrayBufferViewCore$n.aTypedArray;
@@ -8614,7 +8664,7 @@ var JoomlaMediaManager = (function () {
   // https://github.com/tc39/proposal-relative-indexing-method
   exportTypedArrayMethod$n('at', function at(index) {
     var O = aTypedArray$m(this);
-    var len = lengthOfArrayLike$4(O);
+    var len = lengthOfArrayLike$5(O);
     var relativeIndex = toIntegerOrInfinity$1(index);
     var k = relativeIndex >= 0 ? relativeIndex : len + relativeIndex;
     return (k < 0 || k >= len) ? undefined : O[k];
@@ -8622,7 +8672,7 @@ var JoomlaMediaManager = (function () {
 
   var toObject$2 = toObject$g;
   var toAbsoluteIndex$1 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$3 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$4 = lengthOfArrayLike$h;
 
   var min$1 = Math.min;
 
@@ -8631,7 +8681,7 @@ var JoomlaMediaManager = (function () {
   // eslint-disable-next-line es/no-array-prototype-copywithin -- safe
   var arrayCopyWithin = [].copyWithin || function copyWithin(target /* = 0 */, start /* = 0, end = @length */) {
     var O = toObject$2(this);
-    var len = lengthOfArrayLike$3(O);
+    var len = lengthOfArrayLike$4(O);
     var to = toAbsoluteIndex$1(target, len);
     var from = toAbsoluteIndex$1(start, len);
     var end = arguments.length > 2 ? arguments[2] : undefined;
@@ -8696,9 +8746,11 @@ var JoomlaMediaManager = (function () {
     );
   });
 
+  var lengthOfArrayLike$3 = lengthOfArrayLike$h;
+
   var arrayFromConstructorAndList$1 = function (Constructor, list) {
     var index = 0;
-    var length = list.length;
+    var length = lengthOfArrayLike$3(list);
     var result = new Constructor(length);
     while (length > index) result[index] = list[index++];
     return result;
@@ -8798,8 +8850,8 @@ var JoomlaMediaManager = (function () {
   });
 
   var global$6 = global$1e;
+  var fails$5 = fails$I;
   var uncurryThis$3 = functionUncurryThis;
-  var PROPER_FUNCTION_NAME = functionName.PROPER;
   var ArrayBufferViewCore$c = arrayBufferViewCore;
   var ArrayIterators = es_array_iterator;
   var wellKnownSymbol = wellKnownSymbol$s;
@@ -8811,9 +8863,16 @@ var JoomlaMediaManager = (function () {
   var arrayEntries = uncurryThis$3(ArrayIterators.entries);
   var aTypedArray$c = ArrayBufferViewCore$c.aTypedArray;
   var exportTypedArrayMethod$d = ArrayBufferViewCore$c.exportTypedArrayMethod;
-  var nativeTypedArrayIterator = Uint8Array$2 && Uint8Array$2.prototype[ITERATOR];
+  var TypedArrayPrototype = Uint8Array$2 && Uint8Array$2.prototype;
 
-  var PROPER_ARRAY_VALUES_NAME = !!nativeTypedArrayIterator && nativeTypedArrayIterator.name === 'values';
+  var GENERIC = !fails$5(function () {
+    TypedArrayPrototype[ITERATOR].call([1]);
+  });
+
+  var ITERATOR_IS_VALUES = !!TypedArrayPrototype
+    && TypedArrayPrototype.values
+    && TypedArrayPrototype[ITERATOR] === TypedArrayPrototype.values
+    && TypedArrayPrototype.values.name === 'values';
 
   var typedArrayValues = function values() {
     return arrayValues(aTypedArray$c(this));
@@ -8823,18 +8882,18 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
   exportTypedArrayMethod$d('entries', function entries() {
     return arrayEntries(aTypedArray$c(this));
-  });
+  }, GENERIC);
   // `%TypedArray%.prototype.keys` method
   // https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys
   exportTypedArrayMethod$d('keys', function keys() {
     return arrayKeys(aTypedArray$c(this));
-  });
+  }, GENERIC);
   // `%TypedArray%.prototype.values` method
   // https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
-  exportTypedArrayMethod$d('values', typedArrayValues, PROPER_FUNCTION_NAME && !PROPER_ARRAY_VALUES_NAME);
+  exportTypedArrayMethod$d('values', typedArrayValues, GENERIC || !ITERATOR_IS_VALUES, { name: 'values' });
   // `%TypedArray%.prototype[@@iterator]` method
   // https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator
-  exportTypedArrayMethod$d(ITERATOR, typedArrayValues, PROPER_FUNCTION_NAME && !PROPER_ARRAY_VALUES_NAME);
+  exportTypedArrayMethod$d(ITERATOR, typedArrayValues, GENERIC || !ITERATOR_IS_VALUES, { name: 'values' });
 
   var ArrayBufferViewCore$b = arrayBufferViewCore;
   var uncurryThis$2 = functionUncurryThis;
@@ -8853,7 +8912,7 @@ var JoomlaMediaManager = (function () {
   var apply$2 = functionApply;
   var toIndexedObject = toIndexedObject$a;
   var toIntegerOrInfinity = toIntegerOrInfinity$c;
-  var lengthOfArrayLike$2 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$2 = lengthOfArrayLike$h;
   var arrayMethodIsStrict = arrayMethodIsStrict$4;
 
   var min = Math.min;
@@ -8909,7 +8968,7 @@ var JoomlaMediaManager = (function () {
   var aCallable$1 = aCallable$8;
   var toObject$1 = toObject$g;
   var IndexedObject = indexedObject;
-  var lengthOfArrayLike$1 = lengthOfArrayLike$g;
+  var lengthOfArrayLike$1 = lengthOfArrayLike$h;
 
   var TypeError$1 = global$5.TypeError;
 
@@ -8998,10 +9057,10 @@ var JoomlaMediaManager = (function () {
 
   var global$4 = global$1e;
   var ArrayBufferViewCore$5 = arrayBufferViewCore;
-  var lengthOfArrayLike = lengthOfArrayLike$g;
+  var lengthOfArrayLike = lengthOfArrayLike$h;
   var toOffset = toOffset$2;
   var toObject = toObject$g;
-  var fails$4 = fails$H;
+  var fails$4 = fails$I;
 
   var RangeError = global$4.RangeError;
   var aTypedArray$5 = ArrayBufferViewCore$5.aTypedArray;
@@ -9027,7 +9086,7 @@ var JoomlaMediaManager = (function () {
 
   var ArrayBufferViewCore$4 = arrayBufferViewCore;
   var typedArraySpeciesConstructor$1 = typedArraySpeciesConstructor$4;
-  var fails$3 = fails$H;
+  var fails$3 = fails$I;
   var arraySlice$1 = arraySlice$9;
 
   var aTypedArray$4 = ArrayBufferViewCore$4.aTypedArray;
@@ -9064,7 +9123,7 @@ var JoomlaMediaManager = (function () {
 
   var global$3 = global$1e;
   var uncurryThis$1 = functionUncurryThis;
-  var fails$2 = fails$H;
+  var fails$2 = fails$I;
   var aCallable = aCallable$8;
   var internalSort = arraySort$1;
   var ArrayBufferViewCore$2 = arrayBufferViewCore;
@@ -9158,7 +9217,7 @@ var JoomlaMediaManager = (function () {
   var global$2 = global$1e;
   var apply = functionApply;
   var ArrayBufferViewCore = arrayBufferViewCore;
-  var fails$1 = fails$H;
+  var fails$1 = fails$I;
   var arraySlice = arraySlice$9;
 
   var Int8Array$1 = global$2.Int8Array;
@@ -9188,7 +9247,7 @@ var JoomlaMediaManager = (function () {
   }, FORCED);
 
   var exportTypedArrayMethod = arrayBufferViewCore.exportTypedArrayMethod;
-  var fails = fails$H;
+  var fails = fails$I;
   var global$1 = global$1e;
   var uncurryThis = functionUncurryThis;
 
@@ -17681,7 +17740,7 @@ var JoomlaMediaManager = (function () {
 
 
   var notifications = new Notifications();
-  var script$m = {
+  var script$u = {
     name: 'MediaApp',
     data: function data() {
       return {
@@ -17733,17 +17792,17 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$m = {
+  var _hoisted_1$u = {
     class: "media-container"
   };
-  var _hoisted_2$k = {
+  var _hoisted_2$l = {
     class: "media-sidebar"
   };
-  var _hoisted_3$i = {
+  var _hoisted_3$g = {
     class: "media-main"
   };
 
-  function render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$u(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_disk = resolveComponent("media-disk");
 
     var _component_media_toolbar = resolveComponent("media-toolbar");
@@ -17762,7 +17821,7 @@ var JoomlaMediaManager = (function () {
 
     var _component_media_confirm_delete_modal = resolveComponent("media-confirm-delete-modal");
 
-    return openBlock(), createElementBlock("div", _hoisted_1$m, [createBaseVNode("div", _hoisted_2$k, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, function (disk, index) {
+    return openBlock(), createElementBlock("div", _hoisted_1$u, [createBaseVNode("div", _hoisted_2$l, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, function (disk, index) {
       return openBlock(), createBlock(_component_media_disk, {
         key: index,
         uid: index,
@@ -17772,12 +17831,12 @@ var JoomlaMediaManager = (function () {
       , ["uid", "disk"]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))]), createBaseVNode("div", _hoisted_3$i, [createVNode(_component_media_toolbar), createVNode(_component_media_browser)]), createVNode(_component_media_upload), createVNode(_component_media_create_folder_modal), createVNode(_component_media_preview_modal), createVNode(_component_media_rename_modal), createVNode(_component_media_share_modal), createVNode(_component_media_confirm_delete_modal)]);
+    ))]), createBaseVNode("div", _hoisted_3$g, [createVNode(_component_media_toolbar), createVNode(_component_media_browser)]), createVNode(_component_media_upload), createVNode(_component_media_create_folder_modal), createVNode(_component_media_preview_modal), createVNode(_component_media_rename_modal), createVNode(_component_media_share_modal), createVNode(_component_media_confirm_delete_modal)]);
   }
 
-  script$m.render = render$m;
-  script$m.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
-  var script$l = {
+  script$u.render = render$u;
+  script$u.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+  var script$t = {
     name: 'MediaDisk',
     // eslint-disable-next-line vue/require-prop-types
     props: ['disk', 'uid'],
@@ -17787,20 +17846,20 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$l = {
+  var _hoisted_1$t = {
     class: "media-disk"
   };
-  var _hoisted_2$j = ["id"];
+  var _hoisted_2$k = ["id"];
 
-  function render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$t(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_drive = resolveComponent("media-drive");
 
-    return openBlock(), createElementBlock("div", _hoisted_1$l, [createBaseVNode("h2", {
+    return openBlock(), createElementBlock("div", _hoisted_1$t, [createBaseVNode("h2", {
       id: $options.diskId,
       class: "media-disk-name"
     }, toDisplayString($props.disk.displayName), 9
     /* TEXT, PROPS */
-    , _hoisted_2$j), (openBlock(true), createElementBlock(Fragment, null, renderList($props.disk.drives, function (drive, index) {
+    , _hoisted_2$k), (openBlock(true), createElementBlock(Fragment, null, renderList($props.disk.drives, function (drive, index) {
       return openBlock(), createBlock(_component_media_drive, {
         key: index,
         "disk-id": $options.diskId,
@@ -17815,8 +17874,8 @@ var JoomlaMediaManager = (function () {
     ))]);
   }
 
-  script$l.render = render$l;
-  script$l.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+  script$t.render = render$t;
+  script$t.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
   var navigable = {
     methods: {
       navigateTo: function navigateTo(path) {
@@ -17824,7 +17883,7 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var script$k = {
+  var script$s = {
     name: 'MediaDrive',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -17845,13 +17904,13 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$k = ["aria-labelledby"];
-  var _hoisted_2$i = ["aria-setsize", "tabindex"];
-  var _hoisted_3$h = {
+  var _hoisted_1$s = ["aria-labelledby"];
+  var _hoisted_2$j = ["aria-setsize", "tabindex"];
+  var _hoisted_3$f = {
     class: "item-name"
   };
 
-  function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
     return openBlock(), createElementBlock("div", {
@@ -17874,7 +17933,7 @@ var JoomlaMediaManager = (function () {
       "aria-setsize": $props.counter,
       "aria-posinset": 1,
       tabindex: $options.getTabindex
-    }, [createBaseVNode("a", null, [createBaseVNode("span", _hoisted_3$h, toDisplayString($props.drive.displayName), 1
+    }, [createBaseVNode("a", null, [createBaseVNode("span", _hoisted_3$f, toDisplayString($props.drive.displayName), 1
     /* TEXT */
     )]), createVNode(_component_media_tree, {
       root: $props.drive.root,
@@ -17883,14 +17942,14 @@ var JoomlaMediaManager = (function () {
     /* PROPS */
     , ["root"])], 10
     /* CLASS, PROPS */
-    , _hoisted_2$i)], 8
+    , _hoisted_2$j)], 8
     /* PROPS */
-    , _hoisted_1$k)]);
+    , _hoisted_1$s)]);
   }
 
-  script$k.render = render$k;
-  script$k.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
-  var script$j = {
+  script$s.render = render$s;
+  script$s.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+  var script$r = {
     name: 'MediaTree',
     props: {
       root: {
@@ -17916,15 +17975,15 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$j = {
+  var _hoisted_1$r = {
     class: "media-tree",
     role: "group"
   };
 
-  function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$r(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree_item = resolveComponent("media-tree-item");
 
-    return openBlock(), createElementBlock("ul", _hoisted_1$j, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.directories, function (item, index) {
+    return openBlock(), createElementBlock("ul", _hoisted_1$r, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.directories, function (item, index) {
       return openBlock(), createBlock(_component_media_tree_item, {
         key: item.path,
         counter: index,
@@ -17939,9 +17998,9 @@ var JoomlaMediaManager = (function () {
     ))]);
   }
 
-  script$j.render = render$j;
-  script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
-  var script$i = {
+  script$r.render = render$r;
+  script$r.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
+  var script$q = {
     name: 'MediaTreeItem',
     mixins: [navigable],
     props: {
@@ -18004,15 +18063,15 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$i = ["aria-level", "aria-setsize", "aria-posinset", "tabindex"];
-  var _hoisted_2$h = {
+  var _hoisted_1$q = ["aria-level", "aria-setsize", "aria-posinset", "tabindex"];
+  var _hoisted_2$i = {
     class: "item-icon"
   };
-  var _hoisted_3$g = {
+  var _hoisted_3$e = {
     class: "item-name"
   };
 
-  function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$q(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
     return openBlock(), createElementBlock("li", {
@@ -18028,11 +18087,11 @@ var JoomlaMediaManager = (function () {
       onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
         return $options.onItemClick();
       }, ["stop", "prevent"]))
-    }, [createBaseVNode("span", _hoisted_2$h, [createBaseVNode("span", {
+    }, [createBaseVNode("span", _hoisted_2$i, [createBaseVNode("span", {
       class: normalizeClass($options.iconClass)
     }, null, 2
     /* CLASS */
-    )]), createBaseVNode("span", _hoisted_3$g, toDisplayString($props.item.name), 1
+    )]), createBaseVNode("span", _hoisted_3$e, toDisplayString($props.item.name), 1
     /* TEXT */
     )]), createVNode(Transition, {
       name: "slide-fade"
@@ -18052,12 +18111,12 @@ var JoomlaMediaManager = (function () {
 
     })], 10
     /* CLASS, PROPS */
-    , _hoisted_1$i);
+    , _hoisted_1$q);
   }
 
-  script$i.render = render$i;
-  script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
-  var script$h = {
+  script$q.render = render$q;
+  script$q.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
+  var script$p = {
     name: 'MediaToolbar',
     computed: {
       toggleListViewBtnIcon: function toggleListViewBtnIcon() {
@@ -18134,47 +18193,47 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$h = ["aria-label"];
-  var _hoisted_2$g = {
+  var _hoisted_1$p = ["aria-label"];
+  var _hoisted_2$h = {
     key: 0,
     class: "media-loader"
   };
-  var _hoisted_3$f = {
+  var _hoisted_3$d = {
     class: "media-view-icons"
   };
-  var _hoisted_4$e = ["aria-label"];
-  var _hoisted_5$e = {
+  var _hoisted_4$9 = ["aria-label"];
+  var _hoisted_5$8 = {
     class: "media-view-search-input",
     role: "search"
   };
-  var _hoisted_6$c = {
+  var _hoisted_6$6 = {
     for: "media_search",
     class: "visually-hidden"
   };
-  var _hoisted_7$a = ["placeholder", "value"];
-  var _hoisted_8$a = {
+  var _hoisted_7$4 = ["placeholder", "value"];
+  var _hoisted_8$4 = {
     class: "media-view-icons"
   };
-  var _hoisted_9$9 = ["aria-label"];
+  var _hoisted_9$4 = ["aria-label"];
 
-  var _hoisted_10$6 = /*#__PURE__*/createBaseVNode("span", {
+  var _hoisted_10$2 = /*#__PURE__*/createBaseVNode("span", {
     class: "icon-search-minus",
     "aria-hidden": "true"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_11$3 = [_hoisted_10$6];
-  var _hoisted_12$3 = ["aria-label"];
+  var _hoisted_11$2 = [_hoisted_10$2];
+  var _hoisted_12$2 = ["aria-label"];
 
-  var _hoisted_13$2 = /*#__PURE__*/createBaseVNode("span", {
+  var _hoisted_13$1 = /*#__PURE__*/createBaseVNode("span", {
     class: "icon-search-plus",
     "aria-hidden": "true"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_14 = [_hoisted_13$2];
+  var _hoisted_14 = [_hoisted_13$1];
   var _hoisted_15 = ["aria-label"];
   var _hoisted_16 = ["aria-label"];
 
@@ -18187,14 +18246,14 @@ var JoomlaMediaManager = (function () {
 
   var _hoisted_18 = [_hoisted_17];
 
-  function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$p(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_breadcrumb = resolveComponent("media-breadcrumb");
 
     return openBlock(), createElementBlock("div", {
       class: "media-toolbar",
       role: "toolbar",
       "aria-label": _ctx.translate('COM_MEDIA_TOOLBAR_LABEL')
-    }, [$options.isLoading ? (openBlock(), createElementBlock("div", _hoisted_2$g)) : createCommentVNode("v-if", true), createBaseVNode("div", _hoisted_3$f, [createBaseVNode("input", {
+    }, [$options.isLoading ? (openBlock(), createElementBlock("div", _hoisted_2$h)) : createCommentVNode("v-if", true), createBaseVNode("div", _hoisted_3$d, [createBaseVNode("input", {
       ref: "mediaToolbarSelectAll",
       type: "checkbox",
       class: "media-toolbar-icon media-toolbar-select-all",
@@ -18204,7 +18263,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop"]))
     }, null, 8
     /* PROPS */
-    , _hoisted_4$e)]), createVNode(_component_media_breadcrumb), createBaseVNode("div", _hoisted_5$e, [createBaseVNode("label", _hoisted_6$c, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
+    , _hoisted_4$9)]), createVNode(_component_media_breadcrumb), createBaseVNode("div", _hoisted_5$8, [createBaseVNode("label", _hoisted_6$6, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
     /* TEXT */
     ), createBaseVNode("input", {
       id: "media_search",
@@ -18217,7 +18276,7 @@ var JoomlaMediaManager = (function () {
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$a)]), createBaseVNode("div", _hoisted_8$a, [$options.isGridView ? (openBlock(), createElementBlock("button", {
+    , _hoisted_7$4)]), createBaseVNode("div", _hoisted_8$4, [$options.isGridView ? (openBlock(), createElementBlock("button", {
       key: 0,
       type: "button",
       class: normalizeClass(["media-toolbar-icon media-toolbar-decrease-grid-size", {
@@ -18227,9 +18286,9 @@ var JoomlaMediaManager = (function () {
       onClick: _cache[2] || (_cache[2] = withModifiers(function ($event) {
         return $options.decreaseGridSize();
       }, ["stop", "prevent"]))
-    }, _hoisted_11$3, 10
+    }, _hoisted_11$2, 10
     /* CLASS, PROPS */
-    , _hoisted_9$9)) : createCommentVNode("v-if", true), $options.isGridView ? (openBlock(), createElementBlock("button", {
+    , _hoisted_9$4)) : createCommentVNode("v-if", true), $options.isGridView ? (openBlock(), createElementBlock("button", {
       key: 1,
       type: "button",
       class: normalizeClass(["media-toolbar-icon media-toolbar-increase-grid-size", {
@@ -18241,7 +18300,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop", "prevent"]))
     }, _hoisted_14, 10
     /* CLASS, PROPS */
-    , _hoisted_12$3)) : createCommentVNode("v-if", true), createBaseVNode("button", {
+    , _hoisted_12$2)) : createCommentVNode("v-if", true), createBaseVNode("button", {
       type: "button",
       href: "#",
       class: "media-toolbar-icon media-toolbar-list-view",
@@ -18268,12 +18327,12 @@ var JoomlaMediaManager = (function () {
     /* PROPS */
     , _hoisted_16)])], 8
     /* PROPS */
-    , _hoisted_1$h);
+    , _hoisted_1$p);
   }
 
-  script$h.render = render$h;
-  script$h.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
-  var script$g = {
+  script$p.render = render$p;
+  script$p.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
+  var script$o = {
     name: 'MediaBreadcrumb',
     mixins: [navigable],
     computed: {
@@ -18335,10 +18394,10 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$g = ["aria-label"];
-  var _hoisted_2$f = ["aria-current", "onClick"];
+  var _hoisted_1$o = ["aria-label"];
+  var _hoisted_2$g = ["aria-current", "onClick"];
 
-  function render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$o(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("nav", {
       class: "media-breadcrumb",
       "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
@@ -18354,17 +18413,17 @@ var JoomlaMediaManager = (function () {
         }, ["stop", "prevent"])
       }, toDisplayString(val.name), 9
       /* TEXT, PROPS */
-      , _hoisted_2$f)]);
+      , _hoisted_2$g)]);
     }), 128
     /* KEYED_FRAGMENT */
     ))])], 8
     /* PROPS */
-    , _hoisted_1$g);
+    , _hoisted_1$o);
   }
 
-  script$g.render = render$g;
-  script$g.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
-  var script$f = {
+  script$o.render = render$o;
+  script$o.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
+  var script$n = {
     name: 'MediaBrowser',
     computed: {
       /* Get the contents of the currently selected directory */
@@ -18513,61 +18572,61 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$f = {
+  var _hoisted_1$n = {
     class: "media-dragoutline"
   };
 
-  var _hoisted_2$e = /*#__PURE__*/createBaseVNode("span", {
+  var _hoisted_2$f = /*#__PURE__*/createBaseVNode("span", {
     class: "icon-cloud-upload upload-icon",
     "aria-hidden": "true"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_3$e = {
+  var _hoisted_3$c = {
     key: 0,
     class: "table media-browser-table"
   };
-  var _hoisted_4$d = {
+  var _hoisted_4$8 = {
     class: "visually-hidden"
   };
-  var _hoisted_5$d = {
+  var _hoisted_5$7 = {
     class: "media-browser-table-head"
   };
 
-  var _hoisted_6$b = /*#__PURE__*/createBaseVNode("th", {
+  var _hoisted_6$5 = /*#__PURE__*/createBaseVNode("th", {
     class: "type",
     scope: "col"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_7$9 = {
+  var _hoisted_7$3 = {
     class: "name",
     scope: "col"
   };
-  var _hoisted_8$9 = {
+  var _hoisted_8$3 = {
     class: "size",
     scope: "col"
   };
-  var _hoisted_9$8 = {
+  var _hoisted_9$3 = {
     class: "dimension",
     scope: "col"
   };
-  var _hoisted_10$5 = {
+  var _hoisted_10$1 = {
     class: "created",
     scope: "col"
   };
-  var _hoisted_11$2 = {
+  var _hoisted_11$1 = {
     class: "modified",
     scope: "col"
   };
-  var _hoisted_12$2 = {
+  var _hoisted_12$1 = {
     key: 1,
     class: "media-browser-grid"
   };
 
-  function render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$n(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_browser_item_row = resolveComponent("media-browser-item-row");
 
     var _component_media_browser_item = resolveComponent("media-browser-item");
@@ -18590,19 +18649,19 @@ var JoomlaMediaManager = (function () {
       onDragleave: _cache[3] || (_cache[3] = function () {
         return $options.onDragLeave && $options.onDragLeave.apply($options, arguments);
       })
-    }, [createBaseVNode("div", _hoisted_1$f, [_hoisted_2$e, createBaseVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1
+    }, [createBaseVNode("div", _hoisted_1$n, [_hoisted_2$f, createBaseVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1
     /* TEXT */
-    )]), $options.listView === 'table' ? (openBlock(), createElementBlock("table", _hoisted_3$e, [createBaseVNode("caption", _hoisted_4$d, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1
+    )]), $options.listView === 'table' ? (openBlock(), createElementBlock("table", _hoisted_3$c, [createBaseVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1
     /* TEXT */
-    ), createBaseVNode("thead", _hoisted_5$d, [createBaseVNode("tr", null, [_hoisted_6$b, createBaseVNode("th", _hoisted_7$9, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1
+    ), createBaseVNode("thead", _hoisted_5$7, [createBaseVNode("tr", null, [_hoisted_6$5, createBaseVNode("th", _hoisted_7$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1
     /* TEXT */
-    ), createBaseVNode("th", _hoisted_8$9, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1
+    ), createBaseVNode("th", _hoisted_8$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1
     /* TEXT */
-    ), createBaseVNode("th", _hoisted_9$8, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1
+    ), createBaseVNode("th", _hoisted_9$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1
     /* TEXT */
-    ), createBaseVNode("th", _hoisted_10$5, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1
+    ), createBaseVNode("th", _hoisted_10$1, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1
     /* TEXT */
-    ), createBaseVNode("th", _hoisted_11$2, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_MODIFIED')), 1
+    ), createBaseVNode("th", _hoisted_11$1, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_MODIFIED')), 1
     /* TEXT */
     )])]), createBaseVNode("tbody", null, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.items, function (item) {
       return openBlock(), createBlock(_component_media_browser_item_row, {
@@ -18613,7 +18672,7 @@ var JoomlaMediaManager = (function () {
       , ["item"]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])) : $options.listView === 'grid' ? (openBlock(), createElementBlock("div", _hoisted_12$2, [createBaseVNode("div", {
+    ))])])) : $options.listView === 'grid' ? (openBlock(), createElementBlock("div", _hoisted_12$1, [createBaseVNode("div", {
       class: normalizeClass(["media-browser-items", $options.mediaBrowserGridItemsClass])
     }, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.items, function (item) {
       return openBlock(), createBlock(_component_media_browser_item, {
@@ -18635,9 +18694,9 @@ var JoomlaMediaManager = (function () {
     )]);
   }
 
-  script$f.render = render$f;
-  script$f.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
-  var script$e = {
+  script$n.render = render$n;
+  script$n.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
+  var script$m = {
     name: 'MediaBrowserItemDirectory',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -18647,66 +18706,20 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this8 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this8.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
       /* Handle the on preview double click event */
       onPreviewDblClick: function onPreviewDblClick() {
         this.navigateTo(this.item.path);
       },
 
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this9 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this9.$refs.actionRename.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this10 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this10.$refs.actionDelete.focus();
-        });
-      },
-
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
+        this.$refs.container.hideActions();
       }
     }
   };
 
-  var _hoisted_1$e = /*#__PURE__*/createBaseVNode("div", {
+  var _hoisted_1$m = /*#__PURE__*/createBaseVNode("div", {
     class: "file-background"
   }, [/*#__PURE__*/createBaseVNode("div", {
     class: "folder-icon"
@@ -18716,23 +18729,17 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$d = [_hoisted_1$e];
-  var _hoisted_3$d = {
+  var _hoisted_2$e = [_hoisted_1$m];
+  var _hoisted_3$b = {
     class: "media-browser-item-info"
   };
-  var _hoisted_4$c = ["aria-label", "title"];
-  var _hoisted_5$c = ["aria-label", "title"];
-  var _hoisted_6$a = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_7$8 = ["aria-label", "title"];
-  var _hoisted_8$8 = ["aria-label", "title"];
 
-  function render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$m(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-item-directory",
-      onMouseleave: _cache[24] || (_cache[24] = function ($event) {
+      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
       })
     }, [createBaseVNode("div", {
@@ -18740,121 +18747,24 @@ var JoomlaMediaManager = (function () {
       onDblclick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
         return $options.onPreviewDblClick();
       }, ["stop", "prevent"]))
-    }, _hoisted_2$d, 32
+    }, _hoisted_2$e, 32
     /* HYDRATE_EVENTS */
-    ), createBaseVNode("div", _hoisted_3$d, toDisplayString($props.item.name), 1
+    ), createBaseVNode("div", _hoisted_3$b, toDisplayString($props.item.name), 1
     /* TEXT */
-    ), createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    ), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item
     }, null, 8
     /* PROPS */
-    , _hoisted_4$c), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      class: "action-toggle",
-      type: "button",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[4] || (_cache[4] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[1] || (_cache[1] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_5$c), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_6$a, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[10] || (_cache[10] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[15] || (_cache[15] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[11] || (_cache[11] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[12] || (_cache[12] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[8] || (_cache[8] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$8)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[18] || (_cache[18] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[23] || (_cache[23] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))],
-      onFocus: _cache[19] || (_cache[19] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[20] || (_cache[20] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[16] || (_cache[16] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$8)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , ["focused", "item"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$e.render = render$e;
-  script$e.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
-  var script$d = {
+  script$m.render = render$m;
+  script$m.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
+  var script$l = {
     name: 'MediaBrowserItemFile',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -18863,72 +18773,20 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this11 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this11.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
-      /* Preview an item */
-      download: function download() {
-        this.$store.dispatch('download', this.item);
-      },
-
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Open modal for share url */
-      openShareUrlModal: function openShareUrlModal() {
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_SHARE_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this12 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this12.$refs.actionDownload.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this13 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this13.$refs.actionDelete.focus();
-        });
-      },
-
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
+        this.$refs.container.hideActions();
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$refs.container.openPreview();
       }
     }
   };
 
-  var _hoisted_1$d = /*#__PURE__*/createBaseVNode("div", {
+  var _hoisted_1$l = /*#__PURE__*/createBaseVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createBaseVNode("div", {
     class: "file-background"
@@ -18940,27 +18798,20 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$c = {
+  var _hoisted_2$d = {
     class: "media-browser-item-info"
   };
-  var _hoisted_3$c = ["aria-label", "title"];
-  var _hoisted_4$b = ["aria-label", "title"];
-  var _hoisted_5$b = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_6$9 = ["aria-label", "title"];
-  var _hoisted_7$7 = ["aria-label", "title"];
-  var _hoisted_8$7 = ["aria-label", "title"];
-  var _hoisted_9$7 = ["aria-label", "title"];
+  var _hoisted_3$a = ["aria-label", "title"];
 
-  function render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$l(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-item-file",
-      onMouseleave: _cache[36] || (_cache[36] = function ($event) {
+      onMouseleave: _cache[0] || (_cache[0] = function ($event) {
         return $options.hideActions();
       })
-    }, [_hoisted_1$d, createBaseVNode("div", _hoisted_2$c, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    }, [_hoisted_1$l, createBaseVNode("div", _hoisted_2$d, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
     ), createBaseVNode("span", {
       class: "media-browser-select",
@@ -18968,165 +18819,22 @@ var JoomlaMediaManager = (function () {
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
     }, null, 8
     /* PROPS */
-    , _hoisted_3$c), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      href: "#",
-      class: "action-toggle",
-      type: "button",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[2] || (_cache[2] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4$b), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_5$b, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDownload",
-      type: "button",
-      class: "action-download",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
-        return $options.download();
-      }, ["enter"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.download();
-      }, ["space"])), _cache[10] || (_cache[10] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[11] || (_cache[11] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))]
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-download",
-      "aria-hidden": "true",
-      onClick: _cache[7] || (_cache[7] = withModifiers(function ($event) {
-        return $options.download();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6$9)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[13] || (_cache[13] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[18] || (_cache[18] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["up"])), _cache[19] || (_cache[19] = withKeys(function ($event) {
-        return _ctx.$refs.actionUrl.focus();
-      }, ["down"]))],
-      onFocus: _cache[15] || (_cache[15] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[16] || (_cache[16] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[12] || (_cache[12] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$7)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionUrl",
-      type: "button",
-      class: "action-url",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      onKeyup: [_cache[21] || (_cache[21] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["space"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["enter"])), _cache[25] || (_cache[25] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[26] || (_cache[26] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[27] || (_cache[27] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[23] || (_cache[23] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[24] || (_cache[24] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-link",
-      "aria-hidden": "true",
-      onClick: _cache[20] || (_cache[20] = withModifiers(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$7)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[29] || (_cache[29] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[33] || (_cache[33] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[34] || (_cache[34] = withKeys(function ($event) {
-        return _ctx.$refs.actionUrl.focus();
-      }, ["up"])), _cache[35] || (_cache[35] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["down"]))],
-      onFocus: _cache[31] || (_cache[31] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[32] || (_cache[32] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[28] || (_cache[28] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9$7)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , _hoisted_3$a), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8
+    /* PROPS */
+    , ["focused", "item"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$d.render = render$d;
-  script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+  script$l.render = render$l;
+  script$l.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
 
   var dirname = function dirname(path) {
     if (typeof path !== 'string') {
@@ -19199,7 +18907,7 @@ var JoomlaMediaManager = (function () {
     var _proto5 = Api.prototype;
 
     _proto5.getContents = function getContents(dir, full, content) {
-      var _this14 = this;
+      var _this8 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
@@ -19214,7 +18922,7 @@ var JoomlaMediaManager = (function () {
         } // eslint-disable-next-line no-underscore-dangle
 
 
-        var url = _this14._baseUrl + "&task=api.files&path=" + dir;
+        var url = _this8._baseUrl + "&task=api.files&path=" + dir;
 
         if (full) {
           url += "&url=" + full;
@@ -19232,7 +18940,7 @@ var JoomlaMediaManager = (function () {
           },
           onSuccess: function onSuccess(response) {
             // eslint-disable-next-line no-underscore-dangle
-            resolve(_this14._normalizeArray(JSON.parse(response).data));
+            resolve(_this8._normalizeArray(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             reject(xhr);
@@ -19249,16 +18957,16 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto5.createDirectory = function createDirectory(name, parent) {
-      var _this15 = this;
+      var _this9 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this15._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
+        var url = _this9._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
 
-        var data = (_data = {}, _data[_this15._csrfToken] = '1', _data.name = name, _data);
+        var data = (_data = {}, _data[_this9._csrfToken] = '1', _data.name = name, _data);
         Joomla.request({
           url: url,
           method: 'POST',
@@ -19269,7 +18977,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this15._normalizeItem(JSON.parse(response).data));
+            resolve(_this9._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             notifications.error('COM_MEDIA_CREATE_NEW_FOLDER_ERROR');
@@ -19289,15 +18997,15 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto5.upload = function upload(name, parent, content, override) {
-      var _this16 = this;
+      var _this10 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data2;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this16._baseUrl + "&task=api.files&path=" + parent;
-        var data = (_data2 = {}, _data2[_this16._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
+        var url = _this10._baseUrl + "&task=api.files&path=" + parent;
+        var data = (_data2 = {}, _data2[_this10._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
 
         if (override === true) {
           data.override = true;
@@ -19313,7 +19021,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_UPLOAD_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this16._normalizeItem(JSON.parse(response).data));
+            resolve(_this10._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             reject(xhr);
@@ -19331,15 +19039,15 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto5.rename = function rename(path, newPath) {
-      var _this17 = this;
+      var _this11 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data3;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this17._baseUrl + "&task=api.files&path=" + path;
-        var data = (_data3 = {}, _data3[_this17._csrfToken] = '1', _data3.newPath = newPath, _data3);
+        var url = _this11._baseUrl + "&task=api.files&path=" + path;
+        var data = (_data3 = {}, _data3[_this11._csrfToken] = '1', _data3.newPath = newPath, _data3);
         Joomla.request({
           url: url,
           method: 'PUT',
@@ -19350,7 +19058,7 @@ var JoomlaMediaManager = (function () {
           onSuccess: function onSuccess(response) {
             notifications.success('COM_MEDIA_RENAME_SUCCESS'); // eslint-disable-next-line no-underscore-dangle
 
-            resolve(_this17._normalizeItem(JSON.parse(response).data));
+            resolve(_this11._normalizeItem(JSON.parse(response).data));
           },
           onError: function onError(xhr) {
             notifications.error('COM_MEDIA_RENAME_ERROR');
@@ -19368,16 +19076,16 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto5.delete = function _delete(path) {
-      var _this18 = this;
+      var _this12 = this;
 
       // Wrap the ajax call into a real promise
       return new Promise(function (resolve, reject) {
         var _data4;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this18._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
+        var url = _this12._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
 
-        var data = (_data4 = {}, _data4[_this18._csrfToken] = '1', _data4);
+        var data = (_data4 = {}, _data4[_this12._csrfToken] = '1', _data4);
         Joomla.request({
           url: url,
           method: 'DELETE',
@@ -19429,19 +19137,19 @@ var JoomlaMediaManager = (function () {
     ;
 
     _proto5._normalizeArray = function _normalizeArray(data) {
-      var _this19 = this;
+      var _this13 = this;
 
       var directories = data.filter(function (item) {
         return item.type === 'dir';
       }) // eslint-disable-next-line no-underscore-dangle
       .map(function (directory) {
-        return _this19._normalizeItem(directory);
+        return _this13._normalizeItem(directory);
       });
       var files = data.filter(function (item) {
         return item.type === 'file';
       }) // eslint-disable-next-line no-underscore-dangle
       .map(function (file) {
-        return _this19._normalizeItem(file);
+        return _this13._normalizeItem(file);
       });
       return {
         directories: directories,
@@ -19498,7 +19206,7 @@ var JoomlaMediaManager = (function () {
 
 
   var api = new Api();
-  var script$c = {
+  var script$k = {
     name: 'MediaBrowserItemImage',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -19508,11 +19216,6 @@ var JoomlaMediaManager = (function () {
       };
     },
     computed: {
-      /* Check if the item is an image to edit */
-      canEdit: function canEdit() {
-        return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
-      },
-
       /* Get the hashed URL */
       getHashedURL: function getHashedURL() {
         if (this.item.adapter.startsWith('local-')) {
@@ -19522,361 +19225,90 @@ var JoomlaMediaManager = (function () {
         return "url(" + this.item.thumb_path + ")";
       }
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this20 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this20.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
-      /* Preview an item */
-      openPreview: function openPreview() {
-        this.$store.commit(SHOW_PREVIEW_MODAL);
-        this.$store.dispatch('getFullContents', this.item);
-      },
-
-      /* Preview an item */
-      download: function download() {
-        this.$store.dispatch('download', this.item);
-      },
-
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Edit an item */
-      editItem: function editItem() {
-        // TODO should we use relative urls here?
-        var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + "&path=";
-        window.location.href = fileBaseUrl + this.item.path;
-      },
-
-      /* Open modal for share url */
-      openShareUrlModal: function openShareUrlModal() {
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_SHARE_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this21 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this21.$refs.actionPreview.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this22 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this22.$refs.actionDelete.focus();
-        });
+      /* Check if the item is a document to edit */
+      canEdit: function canEdit() {
+        return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
+        this.$refs.container.hideActions();
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$refs.container.openPreview();
+      },
+
+      /* Edit an item */
+      editItem: function editItem() {
+        // @todo should we use relative urls here?
+        var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + "&path=";
+        window.location.href = fileBaseUrl + this.item.path;
       }
     }
   };
-  var _hoisted_1$c = {
-    class: "media-browser-item-preview"
-  };
-  var _hoisted_2$b = {
+  var _hoisted_1$k = ["title"];
+  var _hoisted_2$c = {
     class: "image-background"
   };
-  var _hoisted_3$b = {
-    class: "media-browser-item-info"
-  };
-  var _hoisted_4$a = ["aria-label", "title"];
-  var _hoisted_5$a = ["aria-label", "title"];
-  var _hoisted_6$8 = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_7$6 = ["aria-label", "title"];
-  var _hoisted_8$6 = ["aria-label", "title"];
-  var _hoisted_9$6 = ["aria-label", "title"];
-  var _hoisted_10$4 = {
-    key: 0
-  };
-  var _hoisted_11$1 = ["aria-label", "title"];
-  var _hoisted_12$1 = ["aria-label", "title"];
-  var _hoisted_13$1 = ["aria-label", "title"];
+  var _hoisted_3$9 = ["title"];
+  var _hoisted_4$7 = ["aria-label", "title"];
 
-  function render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-image",
-      onDblclick: _cache[55] || (_cache[55] = function ($event) {
+      onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
-      onMouseleave: _cache[56] || (_cache[56] = function ($event) {
+      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
       })
-    }, [createBaseVNode("div", _hoisted_1$c, [createBaseVNode("div", _hoisted_2$b, [createBaseVNode("div", {
+    }, [createBaseVNode("div", {
+      class: "media-browser-item-preview",
+      title: $props.item.name
+    }, [createBaseVNode("div", _hoisted_2$c, [createBaseVNode("div", {
       class: "image-cropped",
       style: normalizeStyle({
         backgroundImage: $options.getHashedURL
       })
     }, null, 4
     /* STYLE */
-    )])]), createBaseVNode("div", _hoisted_3$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
-    /* TEXT */
-    ), createBaseVNode("span", {
+    )])], 8
+    /* PROPS */
+    , _hoisted_1$k), createBaseVNode("div", {
+      class: "media-browser-item-info",
+      title: $props.item.name
+    }, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 9
+    /* TEXT, PROPS */
+    , _hoisted_3$9), createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
     }, null, 8
     /* PROPS */
-    , _hoisted_4$a), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      type: "button",
-      class: "action-toggle",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[2] || (_cache[2] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_5$a), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_6$8, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionPreview",
-      type: "button",
-      class: "action-preview",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["enter"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["space"])), _cache[12] || (_cache[12] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["down"]))],
-      onFocus: _cache[10] || (_cache[10] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[11] || (_cache[11] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-search-plus",
-      "aria-hidden": "true",
-      onClick: _cache[7] || (_cache[7] = withModifiers(function ($event) {
-        return $options.openPreview();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$6)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDownload",
-      type: "button",
-      class: "action-download",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      onKeyup: [_cache[16] || (_cache[16] = withKeys(function ($event) {
-        return $options.download();
-      }, ["enter"])), _cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.download();
-      }, ["space"])), _cache[20] || (_cache[20] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["up"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))],
-      onFocus: _cache[18] || (_cache[18] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[19] || (_cache[19] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-download",
-      "aria-hidden": "true",
-      onClick: _cache[15] || (_cache[15] = withModifiers(function ($event) {
-        return $options.download();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$6)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[24] || (_cache[24] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[25] || (_cache[25] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[28] || (_cache[28] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["up"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
-        return $options.canEdit ? _ctx.$refs.actionEdit.focus() : _ctx.$refs.actionShare.focus();
-      }, ["down"]))],
-      onFocus: _cache[26] || (_cache[26] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[27] || (_cache[27] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[23] || (_cache[23] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9$6)]), $options.canEdit ? (openBlock(), createElementBlock("li", _hoisted_10$4, [createBaseVNode("button", {
-      ref: "actionEdit",
-      type: "button",
-      class: "action-edit",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_EDIT'),
-      title: _ctx.translate('COM_MEDIA_ACTION_EDIT'),
-      onKeyup: [_cache[32] || (_cache[32] = withKeys(function ($event) {
-        return $options.editItem();
-      }, ["enter"])), _cache[33] || (_cache[33] = withKeys(function ($event) {
-        return $options.editItem();
-      }, ["space"])), _cache[36] || (_cache[36] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["down"]))],
-      onFocus: _cache[34] || (_cache[34] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[35] || (_cache[35] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-pencil-alt",
-      "aria-hidden": "true",
-      onClick: _cache[31] || (_cache[31] = withModifiers(function ($event) {
-        return $options.editItem();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_11$1)])) : createCommentVNode("v-if", true), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionShare",
-      type: "button",
-      class: "action-url",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      onKeyup: [_cache[40] || (_cache[40] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["enter"])), _cache[41] || (_cache[41] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["space"])), _cache[44] || (_cache[44] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
-        return $options.canEdit ? _ctx.$refs.actionEdit.focus() : _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[42] || (_cache[42] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[43] || (_cache[43] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-link",
-      "aria-hidden": "true",
-      onClick: _cache[39] || (_cache[39] = withModifiers(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_12$1)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[48] || (_cache[48] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[49] || (_cache[49] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[52] || (_cache[52] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[53] || (_cache[53] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["up"])), _cache[54] || (_cache[54] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["down"]))],
-      onFocus: _cache[50] || (_cache[50] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[51] || (_cache[51] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[47] || (_cache[47] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_13$1)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , _hoisted_4$7), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      edit: $options.editItem,
+      editable: $options.canEdit,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8
+    /* PROPS */
+    , ["focused", "item", "edit", "editable"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$c.render = render$c;
-  script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
-  var script$b = {
+  script$k.render = render$k;
+  script$k.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+  var script$j = {
     name: 'MediaBrowserItemVideo',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -19885,78 +19317,20 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this23 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this23.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
-      /* Preview an item */
-      openPreview: function openPreview() {
-        this.$store.commit(SHOW_PREVIEW_MODAL);
-        this.$store.dispatch('getFullContents', this.item);
-      },
-
-      /* Preview an item */
-      download: function download() {
-        this.$store.dispatch('download', this.item);
-      },
-
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Open modal for share url */
-      openShareUrlModal: function openShareUrlModal() {
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_SHARE_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this24 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this24.$refs.actionPreview.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this25 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this25.$refs.actionDelete.focus();
-        });
-      },
-
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
+        this.$refs.container.hideActions();
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$refs.container.openPreview();
       }
     }
   };
 
-  var _hoisted_1$b = /*#__PURE__*/createBaseVNode("div", {
+  var _hoisted_1$j = /*#__PURE__*/createBaseVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createBaseVNode("div", {
     class: "file-background"
@@ -19968,236 +19342,40 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$a = {
+  var _hoisted_2$b = {
     class: "media-browser-item-info"
   };
-  var _hoisted_3$a = ["aria-label", "title"];
-  var _hoisted_4$9 = ["aria-label", "title"];
-  var _hoisted_5$9 = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_6$7 = ["aria-label", "title"];
-  var _hoisted_7$5 = ["aria-label", "title"];
-  var _hoisted_8$5 = ["aria-label", "title"];
-  var _hoisted_9$5 = ["aria-label", "title"];
-  var _hoisted_10$3 = ["aria-label", "title"];
 
-  function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-image",
-      onDblclick: _cache[47] || (_cache[47] = function ($event) {
+      onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
-      onMouseleave: _cache[48] || (_cache[48] = function ($event) {
+      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
       })
-    }, [_hoisted_1$b, createBaseVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    }, [_hoisted_1$j, createBaseVNode("div", _hoisted_2$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
-    ), createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    ), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
     }, null, 8
     /* PROPS */
-    , _hoisted_3$a), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      type: "button",
-      class: "action-toggle",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[2] || (_cache[2] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4$9), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_5$9, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionPreview",
-      type: "button",
-      class: "action-preview",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["enter"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["space"])), _cache[12] || (_cache[12] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["down"]))],
-      onFocus: _cache[10] || (_cache[10] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[11] || (_cache[11] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-search-plus",
-      "aria-hidden": "true",
-      onClick: _cache[7] || (_cache[7] = withModifiers(function ($event) {
-        return $options.openPreview();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6$7)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDownload",
-      type: "button",
-      class: "action-download",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      onKeyup: [_cache[16] || (_cache[16] = withKeys(function ($event) {
-        return $options.download();
-      }, ["enter"])), _cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.download();
-      }, ["space"])), _cache[20] || (_cache[20] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["up"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))],
-      onFocus: _cache[18] || (_cache[18] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[19] || (_cache[19] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-download",
-      "aria-hidden": "true",
-      onClick: _cache[15] || (_cache[15] = withModifiers(function ($event) {
-        return $options.download();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$5)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[24] || (_cache[24] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[25] || (_cache[25] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[28] || (_cache[28] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["up"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["down"]))],
-      onFocus: _cache[26] || (_cache[26] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[27] || (_cache[27] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[23] || (_cache[23] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$5)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionShare",
-      type: "button",
-      class: "action-url",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      onKeyup: [_cache[32] || (_cache[32] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["enter"])), _cache[33] || (_cache[33] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["space"])), _cache[36] || (_cache[36] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[34] || (_cache[34] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[35] || (_cache[35] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-link",
-      "aria-hidden": "true",
-      onClick: _cache[31] || (_cache[31] = withModifiers(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9$5)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[40] || (_cache[40] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[41] || (_cache[41] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[44] || (_cache[44] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["up"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["down"]))],
-      onFocus: _cache[42] || (_cache[42] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[43] || (_cache[43] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[39] || (_cache[39] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_10$3)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , ["focused", "item"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$b.render = render$b;
-  script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
-  var script$a = {
+  script$j.render = render$j;
+  script$j.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+  var script$i = {
     name: 'MediaBrowserItemAudio',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
@@ -20206,78 +19384,20 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this26 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this26.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
-      /* Preview an item */
-      openPreview: function openPreview() {
-        this.$store.commit(SHOW_PREVIEW_MODAL);
-        this.$store.dispatch('getFullContents', this.item);
-      },
-
-      /* Preview an item */
-      download: function download() {
-        this.$store.dispatch('download', this.item);
-      },
-
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Open modal for share url */
-      openShareUrlModal: function openShareUrlModal() {
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_SHARE_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this27 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this27.$refs.actionPreview.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this28 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this28.$refs.actionDelete.focus();
-        });
-      },
-
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
+        this.$refs.container.hideActions();
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$refs.container.openPreview();
       }
     }
   };
 
-  var _hoisted_1$a = /*#__PURE__*/createBaseVNode("div", {
+  var _hoisted_1$i = /*#__PURE__*/createBaseVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createBaseVNode("div", {
     class: "file-background"
@@ -20289,237 +19409,41 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$9 = {
+  var _hoisted_2$a = {
     class: "media-browser-item-info"
   };
-  var _hoisted_3$9 = ["aria-label", "title"];
-  var _hoisted_4$8 = ["aria-label", "title"];
-  var _hoisted_5$8 = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_6$6 = ["aria-label", "title"];
-  var _hoisted_7$4 = ["aria-label", "title"];
-  var _hoisted_8$4 = ["aria-label", "title"];
-  var _hoisted_9$4 = ["aria-label", "title"];
-  var _hoisted_10$2 = ["aria-label", "title"];
 
-  function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-audio",
-      onDblclick: _cache[47] || (_cache[47] = function ($event) {
+      onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
-      onMouseleave: _cache[48] || (_cache[48] = function ($event) {
+      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
       })
-    }, [_hoisted_1$a, createBaseVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    }, [_hoisted_1$i, createBaseVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
-    ), createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    ), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
     }, null, 8
     /* PROPS */
-    , _hoisted_3$9), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      type: "button",
-      class: "action-toggle",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[2] || (_cache[2] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4$8), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_5$8, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionPreview",
-      type: "button",
-      class: "action-preview",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["enter"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["space"])), _cache[12] || (_cache[12] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["down"]))],
-      onFocus: _cache[10] || (_cache[10] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[11] || (_cache[11] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-search-plus",
-      "aria-hidden": "true",
-      onClick: _cache[7] || (_cache[7] = withModifiers(function ($event) {
-        return $options.openPreview();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6$6)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDownload",
-      type: "button",
-      class: "action-download",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      onKeyup: [_cache[16] || (_cache[16] = withKeys(function ($event) {
-        return $options.download();
-      }, ["enter"])), _cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.download();
-      }, ["space"])), _cache[20] || (_cache[20] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["up"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))],
-      onFocus: _cache[18] || (_cache[18] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[19] || (_cache[19] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-download",
-      "aria-hidden": "true",
-      onClick: _cache[15] || (_cache[15] = withModifiers(function ($event) {
-        return $options.download();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$4)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[24] || (_cache[24] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[25] || (_cache[25] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[28] || (_cache[28] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["up"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["down"]))],
-      onFocus: _cache[26] || (_cache[26] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[27] || (_cache[27] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[23] || (_cache[23] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$4)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionShare",
-      type: "button",
-      class: "action-url",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      onKeyup: [_cache[32] || (_cache[32] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["enter"])), _cache[33] || (_cache[33] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["space"])), _cache[36] || (_cache[36] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[34] || (_cache[34] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[35] || (_cache[35] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-link",
-      "aria-hidden": "true",
-      onClick: _cache[31] || (_cache[31] = withModifiers(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9$4)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[40] || (_cache[40] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[41] || (_cache[41] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[44] || (_cache[44] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["up"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["down"]))],
-      onFocus: _cache[42] || (_cache[42] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[43] || (_cache[43] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[39] || (_cache[39] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_10$2)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , ["focused", "item"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$a.render = render$a;
-  script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
-  var script$9 = {
-    name: 'MediaBrowserItemAudio',
+  script$i.render = render$i;
+  script$i.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
+  var script$h = {
+    name: 'MediaBrowserItemDocument',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
     data: function data() {
@@ -20527,78 +19451,23 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
-    watch: {
-      // eslint-disable-next-line
-      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
-        var _this29 = this;
-
-        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this29.item.name;
-        }) !== undefined) {
-          this.$refs.actionToggle.focus();
-        }
-      }
-    },
     methods: {
-      /* Preview an item */
-      openPreview: function openPreview() {
-        this.$store.commit(SHOW_PREVIEW_MODAL);
-        this.$store.dispatch('getFullContents', this.item);
-      },
-
-      /* Preview an item */
-      download: function download() {
-        this.$store.dispatch('download', this.item);
-      },
-
-      /* Opening confirm delete modal */
-      openConfirmDeleteModal: function openConfirmDeleteModal() {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-      },
-
-      /* Rename an item */
-      openRenameModal: function openRenameModal() {
-        this.hideActions();
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_RENAME_MODAL);
-      },
-
-      /* Open modal for share url */
-      openShareUrlModal: function openShareUrlModal() {
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        this.$store.commit(SHOW_SHARE_MODAL);
-      },
-
-      /* Open actions dropdown */
-      openActions: function openActions() {
-        var _this30 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this30.$refs.actionPreview.focus();
-        });
-      },
-
-      /* Open actions dropdown and focus on last element */
-      openLastActions: function openLastActions() {
-        var _this31 = this;
-
-        this.showActions = true;
-        this.$nextTick(function () {
-          return _this31.$refs.actionDelete.focus();
-        });
-      },
-
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        this.showActions = false;
-      }
+        this.$refs.container.hideActions();
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$refs.container.openPreview();
+      },
+
+      /* Edit an item */
+      editItem: function editItem() {}
     }
   };
 
-  var _hoisted_1$9 = /*#__PURE__*/createBaseVNode("div", {
+  var _hoisted_1$h = /*#__PURE__*/createBaseVNode("div", {
     class: "media-browser-item-preview"
   }, [/*#__PURE__*/createBaseVNode("div", {
     class: "file-background"
@@ -20610,31 +19479,23 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_2$8 = {
+  var _hoisted_2$9 = {
     class: "media-browser-item-info"
   };
   var _hoisted_3$8 = ["aria-label", "title"];
-  var _hoisted_4$7 = ["aria-label", "title"];
-  var _hoisted_5$7 = {
-    key: 0,
-    class: "media-browser-actions-list"
-  };
-  var _hoisted_6$5 = ["aria-label", "title"];
-  var _hoisted_7$3 = ["aria-label", "title"];
-  var _hoisted_8$3 = ["aria-label", "title"];
-  var _hoisted_9$3 = ["aria-label", "title"];
-  var _hoisted_10$1 = ["aria-label", "title"];
 
-  function render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
     return openBlock(), createElementBlock("div", {
       class: "media-browser-doc",
-      onDblclick: _cache[47] || (_cache[47] = function ($event) {
+      onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
-      onMouseleave: _cache[48] || (_cache[48] = function ($event) {
+      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
       })
-    }, [_hoisted_1$9, createBaseVNode("div", _hoisted_2$8, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
+    }, [_hoisted_1$h, createBaseVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
     ), createBaseVNode("span", {
       class: "media-browser-select",
@@ -20642,203 +19503,24 @@ var JoomlaMediaManager = (function () {
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
     }, null, 8
     /* PROPS */
-    , _hoisted_3$8), createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {
-        'active': $data.showActions
-      }])
-    }, [createBaseVNode("button", {
-      ref: "actionToggle",
-      type: "button",
-      class: "action-toggle",
-      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return $options.openActions();
-      }, ["down"])), _cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $options.openLastActions();
-      }, ["up"]))],
-      onFocus: _cache[2] || (_cache[2] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[3] || (_cache[3] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-ellipsis-h",
-      "aria-hidden": "true",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.openActions();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_4$7), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_5$7, [createBaseVNode("ul", null, [createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionPreview",
-      type: "button",
-      class: "action-preview",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["enter"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return $options.openPreview();
-      }, ["space"])), _cache[12] || (_cache[12] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["up"])), _cache[14] || (_cache[14] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["down"]))],
-      onFocus: _cache[10] || (_cache[10] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[11] || (_cache[11] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-search-plus",
-      "aria-hidden": "true",
-      onClick: _cache[7] || (_cache[7] = withModifiers(function ($event) {
-        return $options.openPreview();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_6$5)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDownload",
-      type: "button",
-      class: "action-download",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-      onKeyup: [_cache[16] || (_cache[16] = withKeys(function ($event) {
-        return $options.download();
-      }, ["enter"])), _cache[17] || (_cache[17] = withKeys(function ($event) {
-        return $options.download();
-      }, ["space"])), _cache[20] || (_cache[20] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[21] || (_cache[21] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["up"])), _cache[22] || (_cache[22] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["down"]))],
-      onFocus: _cache[18] || (_cache[18] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[19] || (_cache[19] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-download",
-      "aria-hidden": "true",
-      onClick: _cache[15] || (_cache[15] = withModifiers(function ($event) {
-        return $options.download();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_7$3)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionRename",
-      type: "button",
-      class: "action-rename",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-      onKeyup: [_cache[24] || (_cache[24] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["enter"])), _cache[25] || (_cache[25] = withKeys(function ($event) {
-        return $options.openRenameModal();
-      }, ["space"])), _cache[28] || (_cache[28] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[29] || (_cache[29] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.focus();
-      }, ["up"])), _cache[30] || (_cache[30] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["down"]))],
-      onFocus: _cache[26] || (_cache[26] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[27] || (_cache[27] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-text-width",
-      "aria-hidden": "true",
-      onClick: _cache[23] || (_cache[23] = withModifiers(function ($event) {
-        return $options.openRenameModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_8$3)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionShare",
-      type: "button",
-      class: "action-url",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-      onKeyup: [_cache[32] || (_cache[32] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["enter"])), _cache[33] || (_cache[33] = withKeys(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["space"])), _cache[36] || (_cache[36] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[37] || (_cache[37] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.focus();
-      }, ["up"])), _cache[38] || (_cache[38] = withKeys(function ($event) {
-        return _ctx.$refs.actionDelete.focus();
-      }, ["down"]))],
-      onFocus: _cache[34] || (_cache[34] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[35] || (_cache[35] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-link",
-      "aria-hidden": "true",
-      onClick: _cache[31] || (_cache[31] = withModifiers(function ($event) {
-        return $options.openShareUrlModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_9$3)]), createBaseVNode("li", null, [createBaseVNode("button", {
-      ref: "actionDelete",
-      type: "button",
-      class: "action-delete",
-      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-      onKeyup: [_cache[40] || (_cache[40] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["enter"])), _cache[41] || (_cache[41] = withKeys(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["space"])), _cache[44] || (_cache[44] = withKeys(function ($event) {
-        return $options.hideActions();
-      }, ["esc"])), _cache[45] || (_cache[45] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.focus();
-      }, ["up"])), _cache[46] || (_cache[46] = withKeys(function ($event) {
-        return _ctx.$refs.actionPreview.focus();
-      }, ["down"]))],
-      onFocus: _cache[42] || (_cache[42] = function ($event) {
-        return $props.focused(true);
-      }),
-      onBlur: _cache[43] || (_cache[43] = function ($event) {
-        return $props.focused(false);
-      })
-    }, [createBaseVNode("span", {
-      class: "image-browser-action icon-trash",
-      "aria-hidden": "true",
-      onClick: _cache[39] || (_cache[39] = withModifiers(function ($event) {
-        return $options.openConfirmDeleteModal();
-      }, ["stop"]))
-    })], 40
-    /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_10$1)])])])) : createCommentVNode("v-if", true)], 2
-    /* CLASS */
-    )], 32
+    , _hoisted_3$8), createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      edit: $options.editItem,
+      "can-edit": _ctx.canEdit,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8
+    /* PROPS */
+    , ["focused", "item", "edit", "can-edit"])], 32
     /* HYDRATE_EVENTS */
     );
   }
 
-  script$9.render = render$9;
-  script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
+  script$h.render = render$h;
+  script$h.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
   var BrowserItem = {
     props: ['item'],
     data: function data() {
@@ -20852,29 +19534,29 @@ var JoomlaMediaManager = (function () {
        */
       itemType: function itemType() {
         // Render directory items
-        if (this.item.type === 'dir') return script$e; // Render image items
+        if (this.item.type === 'dir') return script$m; // Render image items
 
         if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
-          return script$c;
+          return script$k;
         } // Render video items
 
 
         if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
-          return script$b;
+          return script$j;
         } // Render audio items
 
 
         if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
-          return script$a;
+          return script$i;
         } // Render document items
 
 
         if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
-          return script$9;
+          return script$h;
         } // Default to file type
 
 
-        return script$d;
+        return script$l;
       },
 
       /**
@@ -20892,10 +19574,10 @@ var JoomlaMediaManager = (function () {
        * @returns {boolean}
        */
       isSelected: function isSelected() {
-        var _this32 = this;
+        var _this14 = this;
 
         return this.$store.state.selectedItems.some(function (selected) {
-          return selected.path === _this32.item.path;
+          return selected.path === _this14.item.path;
         });
       },
 
@@ -21001,7 +19683,7 @@ var JoomlaMediaManager = (function () {
       })]);
     }
   };
-  var script$8 = {
+  var script$g = {
     name: 'MediaBrowserItemRow',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -21053,10 +19735,10 @@ var JoomlaMediaManager = (function () {
        * @returns {boolean}
        */
       isSelected: function isSelected() {
-        var _this33 = this;
+        var _this15 = this;
 
         return this.$store.state.selectedItems.some(function (selected) {
-          return selected.path === _this33.item.path;
+          return selected.path === _this15.item.path;
         });
       },
 
@@ -21106,8 +19788,8 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$8 = ["data-type"];
-  var _hoisted_2$7 = {
+  var _hoisted_1$g = ["data-type"];
+  var _hoisted_2$8 = {
     scope: "row",
     class: "name"
   };
@@ -21124,7 +19806,7 @@ var JoomlaMediaManager = (function () {
     class: "modified"
   };
 
-  function render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("tr", {
       class: normalizeClass(["media-browser-item", {
         selected: $options.selected
@@ -21140,7 +19822,7 @@ var JoomlaMediaManager = (function () {
       "data-type": $props.item.extension
     }, null, 8
     /* PROPS */
-    , _hoisted_1$8), createBaseVNode("th", _hoisted_2$7, toDisplayString($props.item.name), 1
+    , _hoisted_1$g), createBaseVNode("th", _hoisted_2$8, toDisplayString($props.item.name), 1
     /* TEXT */
     ), createBaseVNode("td", _hoisted_3$7, toDisplayString($options.size), 1
     /* TEXT */
@@ -21155,9 +19837,9 @@ var JoomlaMediaManager = (function () {
     );
   }
 
-  script$8.render = render$8;
-  script$8.__file = "administrator/components/com_media/resources/scripts/components/browser/items/row.vue";
-  var script$7 = {
+  script$g.render = render$g;
+  script$g.__file = "administrator/components/com_media/resources/scripts/components/browser/items/row.vue";
+  var script$f = {
     name: 'MediaModal',
     props: {
       /* Whether or not the close button in the header should be shown */
@@ -21207,8 +19889,8 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$7 = ["aria-labelledby"];
-  var _hoisted_2$6 = {
+  var _hoisted_1$f = ["aria-labelledby"];
+  var _hoisted_2$7 = {
     class: "modal-content"
   };
   var _hoisted_3$6 = {
@@ -21221,7 +19903,7 @@ var JoomlaMediaManager = (function () {
     class: "modal-footer"
   };
 
-  function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$f(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_tab_lock = resolveComponent("tab-lock");
 
     return openBlock(), createElementBlock("div", {
@@ -21241,7 +19923,7 @@ var JoomlaMediaManager = (function () {
           class: normalizeClass(["modal-dialog", $options.modalClass]),
           role: "dialog",
           "aria-labelledby": $props.labelElement
-        }, [createBaseVNode("div", _hoisted_2$6, [createBaseVNode("div", _hoisted_3$6, [renderSlot(_ctx.$slots, "header"), renderSlot(_ctx.$slots, "backdrop-close"), $props.showClose ? (openBlock(), createElementBlock("button", {
+        }, [createBaseVNode("div", _hoisted_2$7, [createBaseVNode("div", _hoisted_3$6, [renderSlot(_ctx.$slots, "header"), renderSlot(_ctx.$slots, "backdrop-close"), $props.showClose ? (openBlock(), createElementBlock("button", {
           key: 0,
           type: "button",
           class: "btn-close",
@@ -21251,7 +19933,7 @@ var JoomlaMediaManager = (function () {
           })
         })) : createCommentVNode("v-if", true)]), createBaseVNode("div", _hoisted_4$5, [renderSlot(_ctx.$slots, "body")]), createBaseVNode("div", _hoisted_5$5, [renderSlot(_ctx.$slots, "footer")])])], 10
         /* CLASS, PROPS */
-        , _hoisted_1$7)];
+        , _hoisted_1$f)];
       }),
       _: 3
       /* FORWARDED */
@@ -21259,9 +19941,9 @@ var JoomlaMediaManager = (function () {
     })])]);
   }
 
-  script$7.render = render$7;
-  script$7.__file = "administrator/components/com_media/resources/scripts/components/modals/modal.vue";
-  var script$6 = {
+  script$f.render = render$f;
+  script$f.__file = "administrator/components/com_media/resources/scripts/components/modals/modal.vue";
+  var script$e = {
     name: 'MediaCreateFolderModal',
     data: function data() {
       return {
@@ -21284,8 +19966,8 @@ var JoomlaMediaManager = (function () {
       save: function save() {
         // Check if the form is valid
         if (!this.isValid()) {
-          // TODO show an error message to user for insert a folder name
-          // TODO mark the field as invalid
+          // @todo show an error message to user for insert a folder name
+          // @todo mark the field as invalid
           return;
         } // Create the directory
 
@@ -21303,11 +19985,11 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$6 = {
+  var _hoisted_1$e = {
     id: "createFolderTitle",
     class: "modal-title"
   };
-  var _hoisted_2$5 = {
+  var _hoisted_2$6 = {
     class: "p-3"
   };
   var _hoisted_3$5 = {
@@ -21318,7 +20000,7 @@ var JoomlaMediaManager = (function () {
   };
   var _hoisted_5$4 = ["disabled"];
 
-  function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$e(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_modal = resolveComponent("media-modal");
 
     return _ctx.$store.state.showCreateFolderModal ? (openBlock(), createBlock(_component_media_modal, {
@@ -21330,12 +20012,12 @@ var JoomlaMediaManager = (function () {
       })
     }, {
       header: withCtx(function () {
-        return [createBaseVNode("h3", _hoisted_1$6, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER')), 1
+        return [createBaseVNode("h3", _hoisted_1$e, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER')), 1
         /* TEXT */
         )];
       }),
       body: withCtx(function () {
-        return [createBaseVNode("div", _hoisted_2$5, [createBaseVNode("form", {
+        return [createBaseVNode("div", _hoisted_2$6, [createBaseVNode("form", {
           class: "form",
           novalidate: "",
           onSubmit: _cache[2] || (_cache[2] = withModifiers(function () {
@@ -21387,9 +20069,9 @@ var JoomlaMediaManager = (function () {
     })) : createCommentVNode("v-if", true);
   }
 
-  script$6.render = render$6;
-  script$6.__file = "administrator/components/com_media/resources/scripts/components/modals/create-folder-modal.vue";
-  var script$5 = {
+  script$e.render = render$e;
+  script$e.__file = "administrator/components/com_media/resources/scripts/components/modals/create-folder-modal.vue";
+  var script$d = {
     name: 'MediaPreviewModal',
     computed: {
       /* Get the item to show in the modal */
@@ -21426,11 +20108,11 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$5 = {
+  var _hoisted_1$d = {
     id: "previewTitle",
     class: "modal-title text-light"
   };
-  var _hoisted_2$4 = {
+  var _hoisted_2$5 = {
     class: "image-background"
   };
   var _hoisted_3$4 = ["src"];
@@ -21450,7 +20132,7 @@ var JoomlaMediaManager = (function () {
 
   var _hoisted_9$2 = [_hoisted_8$2];
 
-  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$d(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_modal = resolveComponent("media-modal");
 
     return _ctx.$store.state.showPreviewModal && $options.item ? (openBlock(), createBlock(_component_media_modal, {
@@ -21464,12 +20146,12 @@ var JoomlaMediaManager = (function () {
       })
     }, {
       header: withCtx(function () {
-        return [createBaseVNode("h3", _hoisted_1$5, toDisplayString($options.item.name), 1
+        return [createBaseVNode("h3", _hoisted_1$d, toDisplayString($options.item.name), 1
         /* TEXT */
         )];
       }),
       body: withCtx(function () {
-        return [createBaseVNode("div", _hoisted_2$4, [$options.isAudio() ? (openBlock(), createElementBlock("audio", {
+        return [createBaseVNode("div", _hoisted_2$5, [$options.isAudio() ? (openBlock(), createElementBlock("audio", {
           key: 0,
           controls: "",
           src: $options.item.url
@@ -21511,9 +20193,9 @@ var JoomlaMediaManager = (function () {
     })) : createCommentVNode("v-if", true);
   }
 
-  script$5.render = render$5;
-  script$5.__file = "administrator/components/com_media/resources/scripts/components/modals/preview-modal.vue";
-  var script$4 = {
+  script$d.render = render$d;
+  script$d.__file = "administrator/components/com_media/resources/scripts/components/modals/preview-modal.vue";
+  var script$c = {
     name: 'MediaRenameModal',
     computed: {
       item: function item() {
@@ -21527,10 +20209,10 @@ var JoomlaMediaManager = (function () {
       }
     },
     updated: function updated() {
-      var _this34 = this;
+      var _this16 = this;
 
       this.$nextTick(function () {
-        return _this34.$refs.nameField ? _this34.$refs.nameField.focus() : null;
+        return _this16.$refs.nameField ? _this16.$refs.nameField.focus() : null;
       });
     },
     methods: {
@@ -21548,7 +20230,7 @@ var JoomlaMediaManager = (function () {
       save: function save() {
         // Check if the form is valid
         if (!this.isValid()) {
-          // TODO mark the field as invalid
+          // @todo mark the field as invalid
           return;
         }
 
@@ -21573,11 +20255,11 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$4 = {
+  var _hoisted_1$c = {
     id: "renameTitle",
     class: "modal-title"
   };
-  var _hoisted_2$3 = {
+  var _hoisted_2$4 = {
     class: "form-group p-3"
   };
   var _hoisted_3$3 = {
@@ -21590,7 +20272,7 @@ var JoomlaMediaManager = (function () {
   };
   var _hoisted_6$2 = ["disabled"];
 
-  function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$c(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_modal = resolveComponent("media-modal");
 
     return _ctx.$store.state.showRenameModal ? (openBlock(), createBlock(_component_media_modal, {
@@ -21603,7 +20285,7 @@ var JoomlaMediaManager = (function () {
       })
     }, {
       header: withCtx(function () {
-        return [createBaseVNode("h3", _hoisted_1$4, toDisplayString(_ctx.translate('COM_MEDIA_RENAME')), 1
+        return [createBaseVNode("h3", _hoisted_1$c, toDisplayString(_ctx.translate('COM_MEDIA_RENAME')), 1
         /* TEXT */
         )];
       }),
@@ -21614,7 +20296,7 @@ var JoomlaMediaManager = (function () {
           onSubmit: _cache[0] || (_cache[0] = withModifiers(function () {
             return $options.save && $options.save.apply($options, arguments);
           }, ["prevent"]))
-        }, [createBaseVNode("div", _hoisted_2$3, [createBaseVNode("label", _hoisted_3$3, toDisplayString(_ctx.translate('COM_MEDIA_NAME')), 1
+        }, [createBaseVNode("div", _hoisted_2$4, [createBaseVNode("label", _hoisted_3$3, toDisplayString(_ctx.translate('COM_MEDIA_NAME')), 1
         /* TEXT */
         ), createBaseVNode("div", {
           class: normalizeClass({
@@ -21671,9 +20353,9 @@ var JoomlaMediaManager = (function () {
     })) : createCommentVNode("v-if", true);
   }
 
-  script$4.render = render$4;
-  script$4.__file = "administrator/components/com_media/resources/scripts/components/modals/rename-modal.vue";
-  var script$3 = {
+  script$c.render = render$c;
+  script$c.__file = "administrator/components/com_media/resources/scripts/components/modals/rename-modal.vue";
+  var script$b = {
     name: 'MediaShareModal',
     computed: {
       item: function item() {
@@ -21701,18 +20383,18 @@ var JoomlaMediaManager = (function () {
         try {
           document.execCommand('copy');
         } catch (err) {
-          // TODO Error handling in joomla way
+          // @todo Error handling in joomla way
           // eslint-disable-next-line no-undef
           alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
         }
       }
     }
   };
-  var _hoisted_1$3 = {
+  var _hoisted_1$b = {
     id: "shareTitle",
     class: "modal-title"
   };
-  var _hoisted_2$2 = {
+  var _hoisted_2$3 = {
     class: "p-3"
   };
   var _hoisted_3$2 = {
@@ -21740,7 +20422,7 @@ var JoomlaMediaManager = (function () {
 
   var _hoisted_9$1 = [_hoisted_8$1];
 
-  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$b(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_modal = resolveComponent("media-modal");
 
     return _ctx.$store.state.showShareModal ? (openBlock(), createBlock(_component_media_modal, {
@@ -21753,12 +20435,12 @@ var JoomlaMediaManager = (function () {
       })
     }, {
       header: withCtx(function () {
-        return [createBaseVNode("h3", _hoisted_1$3, toDisplayString(_ctx.translate('COM_MEDIA_SHARE')), 1
+        return [createBaseVNode("h3", _hoisted_1$b, toDisplayString(_ctx.translate('COM_MEDIA_SHARE')), 1
         /* TEXT */
         )];
       }),
       body: withCtx(function () {
-        return [createBaseVNode("div", _hoisted_2$2, [createBaseVNode("div", _hoisted_3$2, [createTextVNode(toDisplayString(_ctx.translate('COM_MEDIA_SHARE_DESC')) + " ", 1
+        return [createBaseVNode("div", _hoisted_2$3, [createBaseVNode("div", _hoisted_3$2, [createTextVNode(toDisplayString(_ctx.translate('COM_MEDIA_SHARE_DESC')) + " ", 1
         /* TEXT */
         ), !$options.url ? (openBlock(), createElementBlock("div", _hoisted_4$1, [createBaseVNode("button", {
           class: "btn btn-success w-100",
@@ -21808,9 +20490,9 @@ var JoomlaMediaManager = (function () {
     })) : createCommentVNode("v-if", true);
   }
 
-  script$3.render = render$3;
-  script$3.__file = "administrator/components/com_media/resources/scripts/components/modals/share-modal.vue";
-  var script$2 = {
+  script$b.render = render$b;
+  script$b.__file = "administrator/components/com_media/resources/scripts/components/modals/share-modal.vue";
+  var script$a = {
     name: 'MediaShareModal',
     computed: {
       item: function item() {
@@ -21830,18 +20512,18 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$2 = {
+  var _hoisted_1$a = {
     id: "confirmDeleteTitle",
     class: "modal-title"
   };
-  var _hoisted_2$1 = {
+  var _hoisted_2$2 = {
     class: "p-3"
   };
   var _hoisted_3$1 = {
     class: "desc"
   };
 
-  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$a(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_modal = resolveComponent("media-modal");
 
     return _ctx.$store.state.showConfirmDeleteModal ? (openBlock(), createBlock(_component_media_modal, {
@@ -21854,12 +20536,12 @@ var JoomlaMediaManager = (function () {
       })
     }, {
       header: withCtx(function () {
-        return [createBaseVNode("h3", _hoisted_1$2, toDisplayString(_ctx.translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING')), 1
+        return [createBaseVNode("h3", _hoisted_1$a, toDisplayString(_ctx.translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING')), 1
         /* TEXT */
         )];
       }),
       body: withCtx(function () {
-        return [createBaseVNode("div", _hoisted_2$1, [createBaseVNode("div", _hoisted_3$1, toDisplayString(_ctx.translate('JGLOBAL_CONFIRM_DELETE')), 1
+        return [createBaseVNode("div", _hoisted_2$2, [createBaseVNode("div", _hoisted_3$1, toDisplayString(_ctx.translate('JGLOBAL_CONFIRM_DELETE')), 1
         /* TEXT */
         )])];
       }),
@@ -21887,9 +20569,9 @@ var JoomlaMediaManager = (function () {
     })) : createCommentVNode("v-if", true);
   }
 
-  script$2.render = render$2;
-  script$2.__file = "administrator/components/com_media/resources/scripts/components/modals/confirm-delete-modal.vue";
-  var script$1 = {
+  script$a.render = render$a;
+  script$a.__file = "administrator/components/com_media/resources/scripts/components/modals/confirm-delete-modal.vue";
+  var script$9 = {
     name: 'MediaInfobar',
     computed: {
       /* Get the item to show in the infobar */
@@ -21921,11 +20603,11 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$1 = {
+  var _hoisted_1$9 = {
     key: 0,
     class: "media-infobar"
   };
-  var _hoisted_2 = {
+  var _hoisted_2$1 = {
     key: 0,
     class: "text-center"
   };
@@ -21964,19 +20646,19 @@ var JoomlaMediaManager = (function () {
     key: 6
   };
 
-  function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$9(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createBlock(Transition, {
       name: "infobar"
     }, {
       default: withCtx(function () {
-        return [$options.showInfoBar && $options.item ? (openBlock(), createElementBlock("div", _hoisted_1$1, [createBaseVNode("span", {
+        return [$options.showInfoBar && $options.item ? (openBlock(), createElementBlock("div", _hoisted_1$9, [createBaseVNode("span", {
           class: "infobar-close",
           onClick: _cache[0] || (_cache[0] = function ($event) {
             return $options.hideInfoBar();
           })
         }, "×"), createBaseVNode("h2", null, toDisplayString($options.item.name), 1
         /* TEXT */
-        ), $options.item.path === '/' ? (openBlock(), createElementBlock("div", _hoisted_2, _hoisted_5)) : (openBlock(), createElementBlock("dl", _hoisted_6, [createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
+        ), $options.item.path === '/' ? (openBlock(), createElementBlock("div", _hoisted_2$1, _hoisted_5)) : (openBlock(), createElementBlock("dl", _hoisted_6, [createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
         /* TEXT */
         ), createBaseVNode("dd", null, toDisplayString($options.item.directory), 1
         /* TEXT */
@@ -22018,9 +20700,9 @@ var JoomlaMediaManager = (function () {
     });
   }
 
-  script$1.render = render$1;
-  script$1.__file = "administrator/components/com_media/resources/scripts/components/infobar/infobar.vue";
-  var script = {
+  script$9.render = render$9;
+  script$9.__file = "administrator/components/com_media/resources/scripts/components/infobar/infobar.vue";
+  var script$8 = {
     name: 'MediaUpload',
     props: {
       // eslint-disable-next-line vue/require-default-prop
@@ -22043,11 +20725,11 @@ var JoomlaMediaManager = (function () {
       }
     },
     created: function created() {
-      var _this35 = this;
+      var _this17 = this;
 
       // Listen to the toolbar upload click event
       MediaManager.Event.listen('onClickUpload', function () {
-        return _this35.chooseFiles();
+        return _this17.chooseFiles();
       });
     },
     methods: {
@@ -22058,7 +20740,7 @@ var JoomlaMediaManager = (function () {
 
       /* Upload files */
       upload: function upload(e) {
-        var _this36 = this;
+        var _this18 = this;
 
         e.preventDefault();
         var files = e.target.files; // Loop through array of files and upload each file
@@ -22072,9 +20754,9 @@ var JoomlaMediaManager = (function () {
             var splitIndex = result.indexOf('base64') + 7;
             var content = result.slice(splitIndex, result.length); // Upload the file
 
-            _this36.$store.dispatch('uploadFile', {
+            _this18.$store.dispatch('uploadFile', {
               name: file.name,
-              parent: _this36.$store.state.selectedDirectory,
+              parent: _this18.$store.state.selectedDirectory,
               content: content
             });
           };
@@ -22084,9 +20766,9 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1 = ["name", "multiple", "accept"];
+  var _hoisted_1$8 = ["name", "multiple", "accept"];
 
-  function render(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$8(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("input", {
       ref: "fileInput",
       type: "file",
@@ -22099,11 +20781,11 @@ var JoomlaMediaManager = (function () {
       })
     }, null, 40
     /* PROPS, HYDRATE_EVENTS */
-    , _hoisted_1);
+    , _hoisted_1$8);
   }
 
-  script.render = render;
-  script.__file = "administrator/components/com_media/resources/scripts/components/upload/upload.vue";
+  script$8.render = render$8;
+  script$8.__file = "administrator/components/com_media/resources/scripts/components/upload/upload.vue";
   /**
    * Translate plugin
    */
@@ -23487,7 +22169,7 @@ var JoomlaMediaManager = (function () {
       context.commit(SELECT_DIRECTORY, payload);
       context.commit(SET_IS_LOADING, false);
     }).catch(function (error) {
-      // TODO error handling
+      // @todo error handling
       context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
       console.log('error', error);
@@ -23506,7 +22188,7 @@ var JoomlaMediaManager = (function () {
       context.commit(LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
       context.commit(SET_IS_LOADING, false);
     }).catch(function (error) {
-      // TODO error handling
+      // @todo error handling
       context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
       console.log('error', error);
@@ -23586,7 +22268,7 @@ var JoomlaMediaManager = (function () {
       context.commit(HIDE_CREATE_FOLDER_MODAL);
       context.commit(SET_IS_LOADING, false);
     }).catch(function (error) {
-      // TODO error handling
+      // @todo error handling
       context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
       console.log('error', error);
@@ -23633,7 +22315,7 @@ var JoomlaMediaManager = (function () {
       context.commit(HIDE_RENAME_MODAL);
       context.commit(SET_IS_LOADING, false);
     }).catch(function (error) {
-      // TODO error handling
+      // @todo error handling
       context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
       console.log('error', error);
@@ -23657,7 +22339,7 @@ var JoomlaMediaManager = (function () {
           context.commit(UNSELECT_ALL_BROWSER_ITEMS);
           context.commit(SET_IS_LOADING, false);
         }).catch(function (error) {
-          // TODO error handling
+          // @todo error handling
           context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
           console.log('error', error);
@@ -23811,7 +22493,7 @@ var JoomlaMediaManager = (function () {
     var file = payload;
     var isNew = !state.files.some(function (existing) {
       return existing.path === file.path;
-    }); // TODO handle file_exists
+    }); // @todo handle file_exists
 
     if (isNew) {
       var parentDirectory = state.directories.find(function (existing) {
@@ -23941,31 +22623,720 @@ var JoomlaMediaManager = (function () {
     plugins: [a(persistedStateOptions)],
     strict: "production" !== 'production'
   });
+  var script$7 = {
+    name: 'MediaBrowserActionItemRename',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openRenameModal: function openRenameModal() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.closingAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$7 = ["aria-label", "title"];
+
+  function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      ref: "actionRenameButton",
+      type: "button",
+      class: "action-rename",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openRenameModal();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-text-width",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.openRenameModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$7);
+  }
+
+  script$7.render = render$7;
+  script$7.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/rename.vue";
+  var script$6 = {
+    name: 'MediaBrowserActionItemToggle',
+    props: {
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openActions: function openActions() {
+        this.mainAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$6 = ["aria-label", "title"];
+
+  function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-toggle",
+      "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["space"]))],
+      onFocus: _cache[2] || (_cache[2] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-ellipsis-h",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.openActions();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$6);
+  }
+
+  script$6.render = render$6;
+  script$6.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/toggle.vue";
+  var script$5 = {
+    name: 'MediaBrowserActionItemPreview',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openPreview: function openPreview() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.closingAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$5 = ["aria-label", "title"];
+
+  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-preview",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-search-plus",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.openPreview();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$5);
+  }
+
+  script$5.render = render$5;
+  script$5.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/preview.vue";
+  var script$4 = {
+    name: 'MediaBrowserActionItemDownload',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      download: function download() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.closingAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$4 = ["aria-label", "title"];
+
+  function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-download",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.download();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.download();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-download",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.download();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$4);
+  }
+
+  script$4.render = render$4;
+  script$4.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/download.vue";
+  var script$3 = {
+    name: 'MediaBrowserActionItemShare',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openShareUrlModal: function openShareUrlModal() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.closingAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$3 = ["aria-label", "title"];
+
+  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-url",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-link",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.openShareUrlModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$3);
+  }
+
+  script$3.render = render$3;
+  script$3.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/share.vue";
+  var script$2 = {
+    name: 'MediaBrowserActionItemDelete',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openConfirmDeleteModal: function openConfirmDeleteModal() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.hideActions();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      }
+    }
+  };
+  var _hoisted_1$2 = ["aria-label", "title"];
+
+  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-delete",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-trash",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.openConfirmDeleteModal();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$2);
+  }
+
+  script$2.render = render$2;
+  script$2.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/delete.vue";
+  var script$1 = {
+    name: 'MediaBrowserActionItemEdit',
+    props: {
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      mainAction: {
+        type: Function,
+        default: function _default() {}
+      },
+      closingAction: {
+        type: Function,
+        default: function _default() {}
+      }
+    },
+    methods: {
+      openRenameModal: function openRenameModal() {
+        this.mainAction();
+      },
+      hideActions: function hideActions() {
+        this.closingAction();
+      },
+      focused: function focused(bool) {
+        this.onFocused(bool);
+      },
+      editItem: function editItem() {
+        this.mainAction();
+      }
+    }
+  };
+  var _hoisted_1$1 = ["aria-label", "title"];
+
+  function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    return openBlock(), createElementBlock("button", {
+      type: "button",
+      class: "action-edit",
+      "aria-label": _ctx.translate('COM_MEDIA_ACTION_EDIT'),
+      title: _ctx.translate('COM_MEDIA_ACTION_EDIT'),
+      onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.editItem();
+      }, ["enter"])), _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.editItem();
+      }, ["space"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return $options.hideActions();
+      }, ["esc"]))],
+      onFocus: _cache[3] || (_cache[3] = function ($event) {
+        return $options.focused(true);
+      }),
+      onBlur: _cache[4] || (_cache[4] = function ($event) {
+        return $options.focused(false);
+      })
+    }, [createBaseVNode("span", {
+      class: "image-browser-action icon-pencil-alt",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+        return $options.editItem();
+      }, ["stop"]))
+    })], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_1$1);
+  }
+
+  script$1.render = render$1;
+  script$1.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/edit.vue";
+  var script = {
+    name: 'MediaBrowserActionItemsContainer',
+    props: {
+      item: {
+        type: Object,
+        default: function _default() {}
+      },
+      onFocused: {
+        type: Function,
+        default: function _default() {}
+      },
+      edit: {
+        type: Function,
+        default: function _default() {}
+      },
+      editable: {
+        type: Function,
+        default: function _default() {
+          return false;
+        }
+      },
+      previewable: {
+        type: Boolean,
+        default: false
+      },
+      downloadable: {
+        type: Boolean,
+        default: false
+      },
+      shareable: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data: function data() {
+      return {
+        showActions: false
+      };
+    },
+    computed: {
+      /* Check if the item is an document to edit */
+      canEdit: function canEdit() {
+        return this.editable();
+      }
+    },
+    watch: {
+      // eslint-disable-next-line
+      "$store.state.showRenameModal": function $storeStateShowRenameModal(show) {
+        var _this19 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this19.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.$el.focus();
+        }
+      }
+    },
+    methods: {
+      /* Hide actions dropdown */
+      hideActions: function hideActions() {
+        this.showActions = false;
+      },
+
+      /* Preview an item */
+      openPreview: function openPreview() {
+        this.$store.commit(SHOW_PREVIEW_MODAL);
+        this.$store.dispatch('getFullContents', this.item);
+      },
+
+      /* Download an item */
+      download: function download() {
+        this.$store.dispatch('download', this.item);
+      },
+
+      /* Opening confirm delete modal */
+      openConfirmDeleteModal: function openConfirmDeleteModal() {
+        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+      },
+
+      /* Rename an item */
+      openRenameModal: function openRenameModal() {
+        this.hideActions();
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_RENAME_MODAL);
+      },
+
+      /* Open modal for share url */
+      openShareUrlModal: function openShareUrlModal() {
+        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+        this.$store.commit(SHOW_SHARE_MODAL);
+      },
+
+      /* Open actions dropdown */
+      openActions: function openActions() {
+        var _this20 = this;
+
+        this.showActions = true;
+
+        if (this.previewable) {
+          this.$nextTick(function () {
+            return _this20.$refs.actionPreview.$el.focus();
+          });
+        } else {
+          this.$nextTick(function () {
+            return _this20.$refs.actionRename.$el.focus();
+          });
+        }
+      },
+
+      /* Open actions dropdown and focus on last element */
+      openLastActions: function openLastActions() {
+        var _this21 = this;
+
+        this.showActions = true;
+        this.$nextTick(function () {
+          return _this21.$refs.actionDelete.$el.focus();
+        });
+      },
+      editItem: function editItem() {
+        this.edit();
+      }
+    }
+  };
+  var _hoisted_1 = ["aria-label", "title"];
+  var _hoisted_2 = {
+    key: 0,
+    class: "media-browser-actions-list"
+  };
+
+  function render(_ctx, _cache, $props, $setup, $data, $options) {
+    var _component_media_browser_action_item_toggle = resolveComponent("media-browser-action-item-toggle");
+
+    var _component_media_browser_action_item_preview = resolveComponent("media-browser-action-item-preview");
+
+    var _component_media_browser_action_item_download = resolveComponent("media-browser-action-item-download");
+
+    var _component_media_browser_action_item_rename = resolveComponent("media-browser-action-item-rename");
+
+    var _component_media_browser_action_item_edit = resolveComponent("media-browser-action-item-edit");
+
+    var _component_media_browser_action_item_share = resolveComponent("media-browser-action-item-share");
+
+    var _component_media_browser_action_item_delete = resolveComponent("media-browser-action-item-delete");
+
+    return openBlock(), createElementBlock(Fragment, null, [createBaseVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8
+    /* PROPS */
+    , _hoisted_1), createBaseVNode("div", {
+      class: normalizeClass(["media-browser-actions", {
+        active: $data.showActions
+      }])
+    }, [createVNode(_component_media_browser_action_item_toggle, {
+      ref: "actionToggle",
+      "on-focused": _ctx.focused,
+      "main-action": $options.openActions,
+      onKeyup: [_cache[0] || (_cache[0] = withKeys(function ($event) {
+        return $options.openLastActions();
+      }, ["up"])), _cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.openActions();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action"]), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_2, [createBaseVNode("ul", null, [createBaseVNode("li", null, [$props.previewable ? (openBlock(), createBlock(_component_media_browser_action_item_preview, {
+      key: 0,
+      ref: "actionPreview",
+      "on-focused": _ctx.focused,
+      "main-action": $options.openPreview,
+      "closing-action": $options.hideActions,
+      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.$el.focus();
+      }, ["up"])), _cache[3] || (_cache[3] = withKeys(function ($event) {
+        return _ctx.$refs.actionDownload.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.downloadable ? (openBlock(), createBlock(_component_media_browser_action_item_download, {
+      key: 0,
+      ref: "actionDownload",
+      "on-focused": _ctx.focused,
+      "main-action": $options.download,
+      "closing-action": $options.hideActions,
+      onKeyup: [_cache[4] || (_cache[4] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.$el.focus();
+      }, ["up"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [createVNode(_component_media_browser_action_item_rename, {
+      ref: "actionRename",
+      "on-focused": _ctx.focused,
+      "main-action": $options.openRenameModal,
+      "closing-action": $options.hideActions,
+      onKeyup: [_cache[6] || (_cache[6] = withKeys(function ($event) {
+        return $props.downloadable ? _ctx.$refs.actionDownload.$el.focus() : _ctx.$refs.actionDelete.$el.focus();
+      }, ["up"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
+        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionDelete.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "closing-action"])]), createBaseVNode("li", null, [$options.canEdit ? (openBlock(), createBlock(_component_media_browser_action_item_edit, {
+      key: 0,
+      ref: "actionEdit",
+      "on-focused": _ctx.focused,
+      "main-action": $options.editItem,
+      "closing-action": $options.hideActions,
+      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.$el.focus();
+      }, ["up"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
+        return _ctx.$refs.actionShare.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.shareable ? (openBlock(), createBlock(_component_media_browser_action_item_share, {
+      key: 0,
+      ref: "actionShare",
+      "on-focused": _ctx.focused,
+      "main-action": $options.openShareUrlModal,
+      "closing-action": $options.hideActions,
+      onKeyup: [_cache[10] || (_cache[10] = withKeys(function ($event) {
+        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : _ctx.$refs.actionRename.$el.focus();
+      }, ["up"])), _cache[11] || (_cache[11] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [createVNode(_component_media_browser_action_item_delete, {
+      ref: "actionDelete",
+      "on-focused": _ctx.focused,
+      "main-action": $options.openConfirmDeleteModal,
+      "hide-actions": $options.hideActions,
+      onKeyup: [_cache[12] || (_cache[12] = withKeys(function ($event) {
+        return $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionRename.$el.focus();
+      }, ["up"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
+        return $props.previewable ? _ctx.$refs.actionPreview.$el.focus() : _ctx.$refs.actionRename.$el.focus();
+      }, ["down"]))]
+    }, null, 8
+    /* PROPS */
+    , ["on-focused", "main-action", "hide-actions"])])])])) : createCommentVNode("v-if", true)], 2
+    /* CLASS */
+    )], 64
+    /* STABLE_FRAGMENT */
+    );
+  }
+
+  script.render = render;
+  script.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/actionItemsContainer.vue";
   window.MediaManager = window.MediaManager || {}; // Register the media manager event bus
 
   window.MediaManager.Event = new Event(); // Create the Vue app instance
 
-  var app = createApp(script$m);
+  var app = createApp(script$u);
   app.use(store);
   app.use(Translate); // Register the vue components
 
-  app.component('MediaDrive', script$k);
-  app.component('MediaDisk', script$l);
-  app.component('MediaTree', script$j);
-  app.component('MediaTreeItem', script$i);
-  app.component('MediaToolbar', script$h);
-  app.component('MediaBreadcrumb', script$g);
-  app.component('MediaBrowser', script$f);
+  app.component('MediaDrive', script$s);
+  app.component('MediaDisk', script$t);
+  app.component('MediaTree', script$r);
+  app.component('MediaTreeItem', script$q);
+  app.component('MediaToolbar', script$p);
+  app.component('MediaBreadcrumb', script$o);
+  app.component('MediaBrowser', script$n);
   app.component('MediaBrowserItem', BrowserItem);
-  app.component('MediaBrowserItemRow', script$8);
-  app.component('MediaModal', script$7);
-  app.component('MediaCreateFolderModal', script$6);
-  app.component('MediaPreviewModal', script$5);
-  app.component('MediaRenameModal', script$4);
-  app.component('MediaShareModal', script$3);
-  app.component('MediaConfirmDeleteModal', script$2);
-  app.component('MediaInfobar', script$1);
-  app.component('MediaUpload', script);
+  app.component('MediaBrowserItemRow', script$g);
+  app.component('MediaModal', script$f);
+  app.component('MediaCreateFolderModal', script$e);
+  app.component('MediaPreviewModal', script$d);
+  app.component('MediaRenameModal', script$c);
+  app.component('MediaShareModal', script$b);
+  app.component('MediaConfirmDeleteModal', script$a);
+  app.component('MediaInfobar', script$9);
+  app.component('MediaUpload', script$8);
+  app.component('MediaBrowserActionItemToggle', script$6);
+  app.component('MediaBrowserActionItemPreview', script$5);
+  app.component('MediaBrowserActionItemDownload', script$4);
+  app.component('MediaBrowserActionItemRename', script$7);
+  app.component('MediaBrowserActionItemShare', script$3);
+  app.component('MediaBrowserActionItemDelete', script$2);
+  app.component('MediaBrowserActionItemEdit', script$1);
+  app.component('MediaBrowserActionItemsContainer', script);
   app.mount('#com-media');
 
   return mediaManager;

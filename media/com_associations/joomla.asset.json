@@ -39,18 +39,6 @@
       "version": "7cca495365822d15723d7897c97b4dafccd47f5b"
     },
     {
-      "name": "com_associations.admin-associations-modal",
-      "type": "script",
-      "uri": "com_associations/admin-associations-modal.min.js",
-      "dependencies": [
-        "com_associations.admin-associations-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "4245ed11ab8ad661d68d219eda321b1ceaa18c99"
-    },
-    {
       "name": "com_associations.admin-associations-default.es5",
       "type": "script",
       "uri": "com_associations/admin-associations-default-es5.min.js",
@@ -64,17 +52,16 @@
       "version": "b2a0deb550210b10df4dcd29a75660f2d6488b6a"
     },
     {
-      "name": "com_associations.associations-edit.es5",
+      "name": "com_associations.admin-associations-modal",
       "type": "script",
-      "uri": "com_associations/associations-edit-es5.min.js",
+      "uri": "com_associations/admin-associations-modal.min.js",
       "dependencies": [
-        "core"
+        "com_associations.admin-associations-modal.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "4029d27c4196e1e98c429e8a80b765438d2b4452"
+      "version": "4245ed11ab8ad661d68d219eda321b1ceaa18c99"
     },
     {
       "name": "com_associations.associations-edit",
@@ -88,6 +75,19 @@
         "defer": true
       },
       "version": "4b5e9faa38307b6b3d098e7430e8ef3a488d9283"
+    },
+    {
+      "name": "com_associations.associations-edit.es5",
+      "type": "script",
+      "uri": "com_associations/associations-edit-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "4029d27c4196e1e98c429e8a80b765438d2b4452"
     },
     {
       "name": "com_associations.sidebyside",
@@ -106,7 +106,7 @@
       "attributes": {
         "defer": true
       },
-      "version": "0ab0fafb6a590999e680b9b1fb07e2bc3ee5fc66"
+      "version": "ae61b2455a60b4d99c4c41b820e62b00f4ea8a8f"
     }
   ]
 }

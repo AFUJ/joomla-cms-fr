@@ -23,11 +23,11 @@ var bootstrap = (function (exports) {
 	var global$T = global$U;
 
 	// eslint-disable-next-line es/no-object-defineproperty -- safe
-	var defineProperty$8 = Object.defineProperty;
+	var defineProperty$9 = Object.defineProperty;
 
 	var setGlobal$3 = function (key, value) {
 	  try {
-	    defineProperty$8(global$T, key, { value: value, configurable: true, writable: true });
+	    defineProperty$9(global$T, key, { value: value, configurable: true, writable: true });
 	  } catch (error) {
 	    global$T[key] = value;
 	  } return value;
@@ -46,7 +46,7 @@ var bootstrap = (function (exports) {
 	(shared$4.exports = function (key, value) {
 	  return store$2[key] || (store$2[key] = value !== undefined ? value : {});
 	})('versions', []).push({
-	  version: '3.19.3',
+	  version: '3.20.1',
 	  mode: 'global',
 	  copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
 	});
@@ -250,13 +250,13 @@ var bootstrap = (function (exports) {
 	  return EXISTS$1 ? document$3.createElement(it) : {};
 	};
 
-	var DESCRIPTORS$c = descriptors;
+	var DESCRIPTORS$d = descriptors;
 	var fails$t = fails$w;
 	var createElement$1 = documentCreateElement$2;
 
 	// Thank's IE8 for his funny defineProperty
-	var ie8DomDefine = !DESCRIPTORS$c && !fails$t(function () {
-	  // eslint-disable-next-line es/no-object-defineproperty -- requied for testing
+	var ie8DomDefine = !DESCRIPTORS$d && !fails$t(function () {
+	  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
 	  return Object.defineProperty(createElement$1('div'), 'a', {
 	    get: function () { return 7; }
 	  }).a != 7;
@@ -387,7 +387,7 @@ var bootstrap = (function (exports) {
 	};
 
 	var global$F = global$U;
-	var DESCRIPTORS$b = descriptors;
+	var DESCRIPTORS$c = descriptors;
 	var IE8_DOM_DEFINE$1 = ie8DomDefine;
 	var anObject$g = anObject$h;
 	var toPropertyKey$2 = toPropertyKey$3;
@@ -398,7 +398,7 @@ var bootstrap = (function (exports) {
 
 	// `Object.defineProperty` method
 	// https://tc39.es/ecma262/#sec-object.defineproperty
-	objectDefineProperty.f = DESCRIPTORS$b ? $defineProperty : function defineProperty(O, P, Attributes) {
+	objectDefineProperty.f = DESCRIPTORS$c ? $defineProperty : function defineProperty(O, P, Attributes) {
 	  anObject$g(O);
 	  P = toPropertyKey$2(P);
 	  anObject$g(Attributes);
@@ -419,11 +419,11 @@ var bootstrap = (function (exports) {
 	  };
 	};
 
-	var DESCRIPTORS$a = descriptors;
+	var DESCRIPTORS$b = descriptors;
 	var definePropertyModule$5 = objectDefineProperty;
 	var createPropertyDescriptor$3 = createPropertyDescriptor$4;
 
-	var createNonEnumerableProperty$8 = DESCRIPTORS$a ? function (object, key, value) {
+	var createNonEnumerableProperty$8 = DESCRIPTORS$b ? function (object, key, value) {
 	  return definePropertyModule$5.f(object, key, createPropertyDescriptor$3(1, value));
 	} : function (object, key, value) {
 	  object[key] = value;
@@ -534,17 +534,17 @@ var bootstrap = (function (exports) {
 	  getterFor: getterFor
 	};
 
-	var DESCRIPTORS$9 = descriptors;
+	var DESCRIPTORS$a = descriptors;
 	var hasOwn$a = hasOwnProperty_1;
 
 	var FunctionPrototype$2 = Function.prototype;
 	// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-	var getDescriptor = DESCRIPTORS$9 && Object.getOwnPropertyDescriptor;
+	var getDescriptor = DESCRIPTORS$a && Object.getOwnPropertyDescriptor;
 
 	var EXISTS = hasOwn$a(FunctionPrototype$2, 'name');
 	// additional protection from minified / mangled / dropped function names
 	var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-	var CONFIGURABLE = EXISTS && (!DESCRIPTORS$9 || (DESCRIPTORS$9 && getDescriptor(FunctionPrototype$2, 'name').configurable));
+	var CONFIGURABLE = EXISTS && (!DESCRIPTORS$a || (DESCRIPTORS$a && getDescriptor(FunctionPrototype$2, 'name').configurable));
 
 	var functionName = {
 	  EXISTS: EXISTS,
@@ -784,7 +784,7 @@ var bootstrap = (function (exports) {
 	var exec$4 = uncurryThis$r(constructorRegExp.exec);
 	var INCORRECT_TO_STRING = !constructorRegExp.exec(noop$1);
 
-	var isConstructorModern = function (argument) {
+	var isConstructorModern = function isConstructor(argument) {
 	  if (!isCallable$c(argument)) return false;
 	  try {
 	    construct(noop$1, empty, argument);
@@ -794,15 +794,24 @@ var bootstrap = (function (exports) {
 	  }
 	};
 
-	var isConstructorLegacy = function (argument) {
+	var isConstructorLegacy = function isConstructor(argument) {
 	  if (!isCallable$c(argument)) return false;
 	  switch (classof$8(argument)) {
 	    case 'AsyncFunction':
 	    case 'GeneratorFunction':
 	    case 'AsyncGeneratorFunction': return false;
+	  }
+	  try {
 	    // we can't check .prototype since constructors produced by .bind haven't it
-	  } return INCORRECT_TO_STRING || !!exec$4(constructorRegExp, inspectSource$1(argument));
+	    // `Function#toString` throws on some built-it function in some legacy engines
+	    // (for example, `DOMQuad` and similar in FF41-)
+	    return INCORRECT_TO_STRING || !!exec$4(constructorRegExp, inspectSource$1(argument));
+	  } catch (error) {
+	    return true;
+	  }
 	};
+
+	isConstructorLegacy.sham = true;
 
 	// `IsConstructor` abstract operation
 	// https://tc39.es/ecma262/#sec-isconstructor
@@ -991,7 +1000,7 @@ var bootstrap = (function (exports) {
 	  return IndexedObject$3(requireObjectCoercible$7(it));
 	};
 
-	var DESCRIPTORS$8 = descriptors;
+	var DESCRIPTORS$9 = descriptors;
 	var call$e = functionCall;
 	var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
 	var createPropertyDescriptor$2 = createPropertyDescriptor$4;
@@ -1005,7 +1014,7 @@ var bootstrap = (function (exports) {
 
 	// `Object.getOwnPropertyDescriptor` method
 	// https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-	objectGetOwnPropertyDescriptor.f = DESCRIPTORS$8 ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+	objectGetOwnPropertyDescriptor.f = DESCRIPTORS$9 ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
 	  O = toIndexedObject$7(O);
 	  P = toPropertyKey$1(P);
 	  if (IE8_DOM_DEFINE) try {
@@ -1131,13 +1140,15 @@ var bootstrap = (function (exports) {
 	var getOwnPropertyDescriptorModule = objectGetOwnPropertyDescriptor;
 	var definePropertyModule$4 = objectDefineProperty;
 
-	var copyConstructorProperties$1 = function (target, source) {
+	var copyConstructorProperties$1 = function (target, source, exceptions) {
 	  var keys = ownKeys(source);
 	  var defineProperty = definePropertyModule$4.f;
 	  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
 	  for (var i = 0; i < keys.length; i++) {
 	    var key = keys[i];
-	    if (!hasOwn$6(target, key)) defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+	    if (!hasOwn$6(target, key) && !(exceptions && hasOwn$6(exceptions, key))) {
+	      defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+	    }
 	  }
 	};
 
@@ -1500,7 +1511,7 @@ var bootstrap = (function (exports) {
 	  return internalObjectKeys(O, enumBugKeys$1);
 	};
 
-	var DESCRIPTORS$7 = descriptors;
+	var DESCRIPTORS$8 = descriptors;
 	var definePropertyModule$2 = objectDefineProperty;
 	var anObject$b = anObject$h;
 	var toIndexedObject$4 = toIndexedObject$8;
@@ -1509,7 +1520,7 @@ var bootstrap = (function (exports) {
 	// `Object.defineProperties` method
 	// https://tc39.es/ecma262/#sec-object.defineproperties
 	// eslint-disable-next-line es/no-object-defineproperties -- safe
-	var objectDefineProperties = DESCRIPTORS$7 ? Object.defineProperties : function defineProperties(O, Properties) {
+	var objectDefineProperties = DESCRIPTORS$8 ? Object.defineProperties : function defineProperties(O, Properties) {
 	  anObject$b(O);
 	  var props = toIndexedObject$4(Properties);
 	  var keys = objectKeys$1(Properties);
@@ -1684,15 +1695,16 @@ var bootstrap = (function (exports) {
 	  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS$1
 	};
 
-	var defineProperty$7 = objectDefineProperty.f;
+	var defineProperty$8 = objectDefineProperty.f;
 	var hasOwn$4 = hasOwnProperty_1;
 	var wellKnownSymbol$d = wellKnownSymbol$n;
 
 	var TO_STRING_TAG$1 = wellKnownSymbol$d('toStringTag');
 
-	var setToStringTag$4 = function (it, TAG, STATIC) {
-	  if (it && !hasOwn$4(it = STATIC ? it : it.prototype, TO_STRING_TAG$1)) {
-	    defineProperty$7(it, TO_STRING_TAG$1, { configurable: true, value: TAG });
+	var setToStringTag$4 = function (target, TAG, STATIC) {
+	  if (target && !STATIC) target = target.prototype;
+	  if (target && !hasOwn$4(target, TO_STRING_TAG$1)) {
+	    defineProperty$8(target, TO_STRING_TAG$1, { configurable: true, value: TAG });
 	  }
 	};
 
@@ -1892,6 +1904,9 @@ var bootstrap = (function (exports) {
 	function _createClass(Constructor, protoProps, staticProps) {
 	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
 	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  Object.defineProperty(Constructor, "prototype", {
+	    writable: false
+	  });
 	  return Constructor;
 	}
 
@@ -2722,7 +2737,7 @@ var bootstrap = (function (exports) {
 	// https://tc39.es/ecma262/#sec-thisnumbervalue
 	var thisNumberValue$1 = uncurryThis$e(1.0.valueOf);
 
-	var DESCRIPTORS$6 = descriptors;
+	var DESCRIPTORS$7 = descriptors;
 	var global$j = global$U;
 	var uncurryThis$d = functionUncurryThis;
 	var isForced$3 = isForced_1;
@@ -2735,7 +2750,7 @@ var bootstrap = (function (exports) {
 	var fails$e = fails$w;
 	var getOwnPropertyNames$2 = objectGetOwnPropertyNames.f;
 	var getOwnPropertyDescriptor$1 = objectGetOwnPropertyDescriptor.f;
-	var defineProperty$6 = objectDefineProperty.f;
+	var defineProperty$7 = objectDefineProperty.f;
 	var thisNumberValue = thisNumberValue$1;
 	var trim$1 = stringTrim.trim;
 
@@ -2793,7 +2808,7 @@ var bootstrap = (function (exports) {
 	    return isPrototypeOf$4(NumberPrototype, dummy) && fails$e(function () { thisNumberValue(dummy); })
 	      ? inheritIfRequired$2(Object(n), dummy, NumberWrapper) : n;
 	  };
-	  for (var keys$1 = DESCRIPTORS$6 ? getOwnPropertyNames$2(NativeNumber) : (
+	  for (var keys$1 = DESCRIPTORS$7 ? getOwnPropertyNames$2(NativeNumber) : (
 	    // ES3:
 	    'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
 	    // ES2015 (in case, if modules with ES2015 Number statics required before):
@@ -2802,7 +2817,7 @@ var bootstrap = (function (exports) {
 	    'fromString,range'
 	  ).split(','), j = 0, key; keys$1.length > j; j++) {
 	    if (hasOwn$3(NativeNumber, key = keys$1[j]) && !hasOwn$3(NumberWrapper, key)) {
-	      defineProperty$6(NumberWrapper, key, getOwnPropertyDescriptor$1(NativeNumber, key));
+	      defineProperty$7(NumberWrapper, key, getOwnPropertyDescriptor$1(NativeNumber, key));
 	    }
 	  }
 	  NumberWrapper.prototype = NumberPrototype;
@@ -2864,7 +2879,7 @@ var bootstrap = (function (exports) {
 	var getBuiltIn$1 = getBuiltIn$7;
 	var definePropertyModule = objectDefineProperty;
 	var wellKnownSymbol$6 = wellKnownSymbol$n;
-	var DESCRIPTORS$5 = descriptors;
+	var DESCRIPTORS$6 = descriptors;
 
 	var SPECIES$2 = wellKnownSymbol$6('species');
 
@@ -2872,7 +2887,7 @@ var bootstrap = (function (exports) {
 	  var Constructor = getBuiltIn$1(CONSTRUCTOR_NAME);
 	  var defineProperty = definePropertyModule.f;
 
-	  if (DESCRIPTORS$5 && Constructor && !Constructor[SPECIES$2]) {
+	  if (DESCRIPTORS$6 && Constructor && !Constructor[SPECIES$2]) {
 	    defineProperty(Constructor, SPECIES$2, {
 	      configurable: true,
 	      get: function () { return this; }
@@ -2880,13 +2895,13 @@ var bootstrap = (function (exports) {
 	  }
 	};
 
-	var DESCRIPTORS$4 = descriptors;
+	var DESCRIPTORS$5 = descriptors;
 	var global$h = global$U;
 	var uncurryThis$b = functionUncurryThis;
 	var isForced$2 = isForced_1;
 	var inheritIfRequired$1 = inheritIfRequired$3;
 	var createNonEnumerableProperty$1 = createNonEnumerableProperty$8;
-	var defineProperty$5 = objectDefineProperty.f;
+	var defineProperty$6 = objectDefineProperty.f;
 	var getOwnPropertyNames$1 = objectGetOwnPropertyNames.f;
 	var isPrototypeOf$3 = objectIsPrototypeOf;
 	var isRegExp = isRegexp;
@@ -2923,7 +2938,7 @@ var bootstrap = (function (exports) {
 	var MISSED_STICKY$1 = stickyHelpers.MISSED_STICKY;
 	var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
 
-	var BASE_FORCED = DESCRIPTORS$4 &&
+	var BASE_FORCED = DESCRIPTORS$5 &&
 	  (!CORRECT_NEW || MISSED_STICKY$1 || UNSUPPORTED_DOT_ALL || UNSUPPORTED_NCG || fails$c(function () {
 	    re2[MATCH] = false;
 	    // RegExp constructor can alter flags and IsRegExp works correct with @@match
@@ -3061,7 +3076,7 @@ var bootstrap = (function (exports) {
 	  };
 
 	  var proxy = function (key) {
-	    key in RegExpWrapper || defineProperty$5(RegExpWrapper, key, {
+	    key in RegExpWrapper || defineProperty$6(RegExpWrapper, key, {
 	      configurable: true,
 	      get: function () { return NativeRegExp[key]; },
 	      set: function (it) { NativeRegExp[key] = it; }
@@ -3081,10 +3096,10 @@ var bootstrap = (function (exports) {
 	setSpecies$2('RegExp');
 
 	var global$g = global$U;
-	var DESCRIPTORS$3 = descriptors;
+	var DESCRIPTORS$4 = descriptors;
 	var MISSED_STICKY = regexpStickyHelpers.MISSED_STICKY;
 	var classof$3 = classofRaw$1;
-	var defineProperty$4 = objectDefineProperty.f;
+	var defineProperty$5 = objectDefineProperty.f;
 	var getInternalState$2 = internalState.get;
 
 	var RegExpPrototype$1 = RegExp.prototype;
@@ -3092,8 +3107,8 @@ var bootstrap = (function (exports) {
 
 	// `RegExp.prototype.sticky` getter
 	// https://tc39.es/ecma262/#sec-get-regexp.prototype.sticky
-	if (DESCRIPTORS$3 && MISSED_STICKY) {
-	  defineProperty$4(RegExpPrototype$1, 'sticky', {
+	if (DESCRIPTORS$4 && MISSED_STICKY) {
+	  defineProperty$5(RegExpPrototype$1, 'sticky', {
 	    configurable: true,
 	    get: function () {
 	      if (this === RegExpPrototype$1) return undefined;
@@ -3459,7 +3474,9 @@ var bootstrap = (function (exports) {
 	var addToUnscopables$1 = addToUnscopables$3;
 	var Iterators = iterators;
 	var InternalStateModule$2 = internalState;
+	var defineProperty$4 = objectDefineProperty.f;
 	var defineIterator$1 = defineIterator$3;
+	var DESCRIPTORS$3 = descriptors;
 
 	var ARRAY_ITERATOR = 'Array Iterator';
 	var setInternalState$2 = InternalStateModule$2.set;
@@ -3501,12 +3518,17 @@ var bootstrap = (function (exports) {
 	// argumentsList[@@iterator] is %ArrayProto_values%
 	// https://tc39.es/ecma262/#sec-createunmappedargumentsobject
 	// https://tc39.es/ecma262/#sec-createmappedargumentsobject
-	Iterators.Arguments = Iterators.Array;
+	var values = Iterators.Arguments = Iterators.Array;
 
 	// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
 	addToUnscopables$1('keys');
 	addToUnscopables$1('values');
 	addToUnscopables$1('entries');
+
+	// V8 ~ Chrome 45- bug
+	if (DESCRIPTORS$3 && values.name !== 'values') try {
+	  defineProperty$4(values, 'name', { value: 'values' });
+	} catch (error) { /* empty */ }
 
 	var internalMetadata = {exports: {}};
 
@@ -8062,7 +8084,7 @@ var bootstrap = (function (exports) {
 	var MessageChannel = global$5.MessageChannel;
 	var String$1 = global$5.String;
 	var counter = 0;
-	var queue = {};
+	var queue$1 = {};
 	var ONREADYSTATECHANGE = 'onreadystatechange';
 	var location, defer, channel, port;
 
@@ -8072,9 +8094,9 @@ var bootstrap = (function (exports) {
 	} catch (error) { /* empty */ }
 
 	var run = function (id) {
-	  if (hasOwn(queue, id)) {
-	    var fn = queue[id];
-	    delete queue[id];
+	  if (hasOwn(queue$1, id)) {
+	    var fn = queue$1[id];
+	    delete queue$1[id];
 	    fn();
 	  }
 	};
@@ -8098,14 +8120,14 @@ var bootstrap = (function (exports) {
 	if (!set || !clear) {
 	  set = function setImmediate(fn) {
 	    var args = arraySlice(arguments, 1);
-	    queue[++counter] = function () {
+	    queue$1[++counter] = function () {
 	      apply(isCallable$1(fn) ? fn : Function$1(fn), undefined, args);
 	    };
 	    defer(counter);
 	    return counter;
 	  };
 	  clear = function clearImmediate(id) {
-	    delete queue[id];
+	    delete queue$1[id];
 	  };
 	  // Node.js 0.8-
 	  if (IS_NODE$2) {
@@ -8302,6 +8324,30 @@ var bootstrap = (function (exports) {
 	  }
 	};
 
+	var Queue$1 = function () {
+	  this.head = null;
+	  this.tail = null;
+	};
+
+	Queue$1.prototype = {
+	  add: function (item) {
+	    var entry = { item: item, next: null };
+	    if (this.head) this.tail.next = entry;
+	    else this.head = entry;
+	    this.tail = entry;
+	  },
+	  get: function () {
+	    var entry = this.head;
+	    if (entry) {
+	      this.head = entry.next;
+	      if (this.tail === entry) this.tail = null;
+	      return entry.item;
+	    }
+	  }
+	};
+
+	var queue = Queue$1;
+
 	var engineIsBrowser = typeof window == 'object';
 
 	var $ = _export;
@@ -8328,6 +8374,7 @@ var bootstrap = (function (exports) {
 	var hostReportErrors = hostReportErrors$1;
 	var newPromiseCapabilityModule = newPromiseCapability$2;
 	var perform = perform$1;
+	var Queue = queue;
 	var InternalStateModule = internalState;
 	var isForced = isForced_1;
 	var wellKnownSymbol = wellKnownSymbol$n;
@@ -8397,49 +8444,50 @@ var bootstrap = (function (exports) {
 	  return isObject(it) && isCallable(then = it.then) ? then : false;
 	};
 
+	var callReaction = function (reaction, state) {
+	  var value = state.value;
+	  var ok = state.state == FULFILLED;
+	  var handler = ok ? reaction.ok : reaction.fail;
+	  var resolve = reaction.resolve;
+	  var reject = reaction.reject;
+	  var domain = reaction.domain;
+	  var result, then, exited;
+	  try {
+	    if (handler) {
+	      if (!ok) {
+	        if (state.rejection === UNHANDLED) onHandleUnhandled(state);
+	        state.rejection = HANDLED;
+	      }
+	      if (handler === true) result = value;
+	      else {
+	        if (domain) domain.enter();
+	        result = handler(value); // can throw
+	        if (domain) {
+	          domain.exit();
+	          exited = true;
+	        }
+	      }
+	      if (result === reaction.promise) {
+	        reject(TypeError$1('Promise-chain cycle'));
+	      } else if (then = isThenable(result)) {
+	        call(then, result, resolve, reject);
+	      } else resolve(result);
+	    } else reject(value);
+	  } catch (error) {
+	    if (domain && !exited) domain.exit();
+	    reject(error);
+	  }
+	};
+
 	var notify = function (state, isReject) {
 	  if (state.notified) return;
 	  state.notified = true;
-	  var chain = state.reactions;
 	  microtask(function () {
-	    var value = state.value;
-	    var ok = state.state == FULFILLED;
-	    var index = 0;
-	    // variable length - can't use forEach
-	    while (chain.length > index) {
-	      var reaction = chain[index++];
-	      var handler = ok ? reaction.ok : reaction.fail;
-	      var resolve = reaction.resolve;
-	      var reject = reaction.reject;
-	      var domain = reaction.domain;
-	      var result, then, exited;
-	      try {
-	        if (handler) {
-	          if (!ok) {
-	            if (state.rejection === UNHANDLED) onHandleUnhandled(state);
-	            state.rejection = HANDLED;
-	          }
-	          if (handler === true) result = value;
-	          else {
-	            if (domain) domain.enter();
-	            result = handler(value); // can throw
-	            if (domain) {
-	              domain.exit();
-	              exited = true;
-	            }
-	          }
-	          if (result === reaction.promise) {
-	            reject(TypeError$1('Promise-chain cycle'));
-	          } else if (then = isThenable(result)) {
-	            call(then, result, resolve, reject);
-	          } else resolve(result);
-	        } else reject(value);
-	      } catch (error) {
-	        if (domain && !exited) domain.exit();
-	        reject(error);
-	      }
+	    var reactions = state.reactions;
+	    var reaction;
+	    while (reaction = reactions.get()) {
+	      callReaction(reaction, state);
 	    }
-	    state.reactions = [];
 	    state.notified = false;
 	    if (isReject && !state.rejection) onUnhandled(state);
 	  });
@@ -8556,7 +8604,7 @@ var bootstrap = (function (exports) {
 	      done: false,
 	      notified: false,
 	      parent: false,
-	      reactions: [],
+	      reactions: new Queue(),
 	      rejection: false,
 	      state: PENDING,
 	      value: undefined
@@ -8567,14 +8615,15 @@ var bootstrap = (function (exports) {
 	    // https://tc39.es/ecma262/#sec-promise.prototype.then
 	    then: function then(onFulfilled, onRejected) {
 	      var state = getInternalPromiseState(this);
-	      var reactions = state.reactions;
 	      var reaction = newPromiseCapability(speciesConstructor(this, PromiseConstructor));
+	      state.parent = true;
 	      reaction.ok = isCallable(onFulfilled) ? onFulfilled : true;
 	      reaction.fail = isCallable(onRejected) && onRejected;
 	      reaction.domain = IS_NODE ? process.domain : undefined;
-	      state.parent = true;
-	      reactions[reactions.length] = reaction;
-	      if (state.state != PENDING) notify(state, false);
+	      if (state.state == PENDING) state.reactions.add(reaction);
+	      else microtask(function () {
+	        callReaction(reaction, state);
+	      });
 	      return reaction.promise;
 	    },
 	    // `Promise.prototype.catch` method

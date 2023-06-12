@@ -8401,7 +8401,7 @@ class Notifications {
 
 let notifications = new Notifications();
 
-var script$m = {
+var script$u = {
   name: 'MediaApp',
   data() {
     return {
@@ -8448,11 +8448,11 @@ var script$m = {
   },
 };
 
-const _hoisted_1$m = { class: "media-container" };
-const _hoisted_2$k = { class: "media-sidebar" };
-const _hoisted_3$i = { class: "media-main" };
+const _hoisted_1$u = { class: "media-container" };
+const _hoisted_2$l = { class: "media-sidebar" };
+const _hoisted_3$g = { class: "media-main" };
 
-function render$m(_ctx, _cache, $props, $setup, $data, $options) {
+function render$u(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_disk = resolveComponent("media-disk");
   const _component_media_toolbar = resolveComponent("media-toolbar");
   const _component_media_browser = resolveComponent("media-browser");
@@ -8463,8 +8463,8 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_share_modal = resolveComponent("media-share-modal");
   const _component_media_confirm_delete_modal = resolveComponent("media-confirm-delete-modal");
 
-  return (openBlock(), createElementBlock("div", _hoisted_1$m, [
-    createBaseVNode("div", _hoisted_2$k, [
+  return (openBlock(), createElementBlock("div", _hoisted_1$u, [
+    createBaseVNode("div", _hoisted_2$l, [
       (openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, (disk, index) => {
         return (openBlock(), createBlock(_component_media_disk, {
           key: index,
@@ -8473,7 +8473,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8 /* PROPS */, ["uid", "disk"]))
       }), 128 /* KEYED_FRAGMENT */))
     ]),
-    createBaseVNode("div", _hoisted_3$i, [
+    createBaseVNode("div", _hoisted_3$g, [
       createVNode(_component_media_toolbar),
       createVNode(_component_media_browser)
     ]),
@@ -8486,10 +8486,10 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$m.render = render$m;
-script$m.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+script$u.render = render$u;
+script$u.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
 
-var script$l = {
+var script$t = {
   name: 'MediaDisk',
   // eslint-disable-next-line vue/require-prop-types
   props: ['disk', 'uid'],
@@ -8500,17 +8500,17 @@ var script$l = {
   },
 };
 
-const _hoisted_1$l = { class: "media-disk" };
-const _hoisted_2$j = ["id"];
+const _hoisted_1$t = { class: "media-disk" };
+const _hoisted_2$k = ["id"];
 
-function render$l(_ctx, _cache, $props, $setup, $data, $options) {
+function render$t(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_drive = resolveComponent("media-drive");
 
-  return (openBlock(), createElementBlock("div", _hoisted_1$l, [
+  return (openBlock(), createElementBlock("div", _hoisted_1$t, [
     createBaseVNode("h2", {
       id: $options.diskId,
       class: "media-disk-name"
-    }, toDisplayString($props.disk.displayName), 9 /* TEXT, PROPS */, _hoisted_2$j),
+    }, toDisplayString($props.disk.displayName), 9 /* TEXT, PROPS */, _hoisted_2$k),
     (openBlock(true), createElementBlock(Fragment, null, renderList($props.disk.drives, (drive, index) => {
       return (openBlock(), createBlock(_component_media_drive, {
         key: index,
@@ -8523,8 +8523,8 @@ function render$l(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$l.render = render$l;
-script$l.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+script$t.render = render$t;
+script$t.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
 
 var navigable = {
   methods: {
@@ -8535,7 +8535,7 @@ var navigable = {
   }
 };
 
-var script$k = {
+var script$s = {
   name: 'MediaDrive',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
@@ -8557,11 +8557,11 @@ var script$k = {
   },
 };
 
-const _hoisted_1$k = ["aria-labelledby"];
-const _hoisted_2$i = ["aria-setsize", "tabindex"];
-const _hoisted_3$h = { class: "item-name" };
+const _hoisted_1$s = ["aria-labelledby"];
+const _hoisted_2$j = ["aria-setsize", "tabindex"];
+const _hoisted_3$f = { class: "item-name" };
 
-function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+function render$s(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree = resolveComponent("media-tree");
 
   return (openBlock(), createElementBlock("div", {
@@ -8582,21 +8582,21 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
         tabindex: $options.getTabindex
       }, [
         createBaseVNode("a", null, [
-          createBaseVNode("span", _hoisted_3$h, toDisplayString($props.drive.displayName), 1 /* TEXT */)
+          createBaseVNode("span", _hoisted_3$f, toDisplayString($props.drive.displayName), 1 /* TEXT */)
         ]),
         createVNode(_component_media_tree, {
           root: $props.drive.root,
           level: 2
         }, null, 8 /* PROPS */, ["root"])
-      ], 10 /* CLASS, PROPS */, _hoisted_2$i)
-    ], 8 /* PROPS */, _hoisted_1$k)
+      ], 10 /* CLASS, PROPS */, _hoisted_2$j)
+    ], 8 /* PROPS */, _hoisted_1$s)
   ]))
 }
 
-script$k.render = render$k;
-script$k.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+script$s.render = render$s;
+script$s.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
 
-var script$j = {
+var script$r = {
   name: 'MediaTree',
   props: {
     root: {
@@ -8619,15 +8619,15 @@ var script$j = {
   },
 };
 
-const _hoisted_1$j = {
+const _hoisted_1$r = {
   class: "media-tree",
   role: "group"
 };
 
-function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+function render$r(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree_item = resolveComponent("media-tree-item");
 
-  return (openBlock(), createElementBlock("ul", _hoisted_1$j, [
+  return (openBlock(), createElementBlock("ul", _hoisted_1$r, [
     (openBlock(true), createElementBlock(Fragment, null, renderList($options.directories, (item, index) => {
       return (openBlock(), createBlock(_component_media_tree_item, {
         key: item.path,
@@ -8640,10 +8640,10 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$j.render = render$j;
-script$j.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
+script$r.render = render$r;
+script$r.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
 
-var script$i = {
+var script$q = {
   name: 'MediaTreeItem',
   mixins: [navigable],
   props: {
@@ -8710,11 +8710,11 @@ var script$i = {
   },
 };
 
-const _hoisted_1$i = ["aria-level", "aria-setsize", "aria-posinset", "tabindex"];
-const _hoisted_2$h = { class: "item-icon" };
-const _hoisted_3$g = { class: "item-name" };
+const _hoisted_1$q = ["aria-level", "aria-setsize", "aria-posinset", "tabindex"];
+const _hoisted_2$i = { class: "item-icon" };
+const _hoisted_3$e = { class: "item-name" };
 
-function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+function render$q(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_tree = resolveComponent("media-tree");
 
   return (openBlock(), createElementBlock("li", {
@@ -8728,12 +8728,12 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("a", {
       onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.onItemClick()), ["stop","prevent"]))
     }, [
-      createBaseVNode("span", _hoisted_2$h, [
+      createBaseVNode("span", _hoisted_2$i, [
         createBaseVNode("span", {
           class: normalizeClass($options.iconClass)
         }, null, 2 /* CLASS */)
       ]),
-      createBaseVNode("span", _hoisted_3$g, toDisplayString($props.item.name), 1 /* TEXT */)
+      createBaseVNode("span", _hoisted_3$e, toDisplayString($props.item.name), 1 /* TEXT */)
     ]),
     createVNode(Transition, { name: "slide-fade" }, {
       default: withCtx(() => [
@@ -8750,13 +8750,13 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       _: 1 /* STABLE */
     })
-  ], 10 /* CLASS, PROPS */, _hoisted_1$i))
+  ], 10 /* CLASS, PROPS */, _hoisted_1$q))
 }
 
-script$i.render = render$i;
-script$i.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
+script$q.render = render$q;
+script$q.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
 
-var script$h = {
+var script$p = {
   name: 'MediaToolbar',
   computed: {
     toggleListViewBtnIcon() {
@@ -8839,38 +8839,38 @@ var script$h = {
   },
 };
 
-const _hoisted_1$h = ["aria-label"];
-const _hoisted_2$g = {
+const _hoisted_1$p = ["aria-label"];
+const _hoisted_2$h = {
   key: 0,
   class: "media-loader"
 };
-const _hoisted_3$f = { class: "media-view-icons" };
-const _hoisted_4$e = ["aria-label"];
-const _hoisted_5$e = {
+const _hoisted_3$d = { class: "media-view-icons" };
+const _hoisted_4$9 = ["aria-label"];
+const _hoisted_5$8 = {
   class: "media-view-search-input",
   role: "search"
 };
-const _hoisted_6$c = {
+const _hoisted_6$6 = {
   for: "media_search",
   class: "visually-hidden"
 };
-const _hoisted_7$a = ["placeholder", "value"];
-const _hoisted_8$a = { class: "media-view-icons" };
-const _hoisted_9$9 = ["aria-label"];
-const _hoisted_10$6 = /*#__PURE__*/createBaseVNode("span", {
+const _hoisted_7$4 = ["placeholder", "value"];
+const _hoisted_8$4 = { class: "media-view-icons" };
+const _hoisted_9$4 = ["aria-label"];
+const _hoisted_10$2 = /*#__PURE__*/createBaseVNode("span", {
   class: "icon-search-minus",
   "aria-hidden": "true"
 }, null, -1 /* HOISTED */);
-const _hoisted_11$3 = [
-  _hoisted_10$6
+const _hoisted_11$2 = [
+  _hoisted_10$2
 ];
-const _hoisted_12$3 = ["aria-label"];
-const _hoisted_13$2 = /*#__PURE__*/createBaseVNode("span", {
+const _hoisted_12$2 = ["aria-label"];
+const _hoisted_13$1 = /*#__PURE__*/createBaseVNode("span", {
   class: "icon-search-plus",
   "aria-hidden": "true"
 }, null, -1 /* HOISTED */);
 const _hoisted_14 = [
-  _hoisted_13$2
+  _hoisted_13$1
 ];
 const _hoisted_15 = ["aria-label"];
 const _hoisted_16 = ["aria-label"];
@@ -8882,7 +8882,7 @@ const _hoisted_18 = [
   _hoisted_17
 ];
 
-function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function render$p(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_breadcrumb = resolveComponent("media-breadcrumb");
 
   return (openBlock(), createElementBlock("div", {
@@ -8891,20 +8891,20 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": _ctx.translate('COM_MEDIA_TOOLBAR_LABEL')
   }, [
     ($options.isLoading)
-      ? (openBlock(), createElementBlock("div", _hoisted_2$g))
+      ? (openBlock(), createElementBlock("div", _hoisted_2$h))
       : createCommentVNode("v-if", true),
-    createBaseVNode("div", _hoisted_3$f, [
+    createBaseVNode("div", _hoisted_3$d, [
       createBaseVNode("input", {
         ref: "mediaToolbarSelectAll",
         type: "checkbox",
         class: "media-toolbar-icon media-toolbar-select-all",
         "aria-label": _ctx.translate('COM_MEDIA_SELECT_ALL'),
         onClick: _cache[0] || (_cache[0] = withModifiers((...args) => ($options.toggleSelectAll && $options.toggleSelectAll(...args)), ["stop"]))
-      }, null, 8 /* PROPS */, _hoisted_4$e)
+      }, null, 8 /* PROPS */, _hoisted_4$9)
     ]),
     createVNode(_component_media_breadcrumb),
-    createBaseVNode("div", _hoisted_5$e, [
-      createBaseVNode("label", _hoisted_6$c, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1 /* TEXT */),
+    createBaseVNode("div", _hoisted_5$8, [
+      createBaseVNode("label", _hoisted_6$6, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1 /* TEXT */),
       createBaseVNode("input", {
         id: "media_search",
         class: "form-control",
@@ -8912,9 +8912,9 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
         placeholder: _ctx.translate('COM_MEDIA_SEARCH'),
         value: $options.search,
         onInput: _cache[1] || (_cache[1] = (...args) => ($options.changeSearch && $options.changeSearch(...args)))
-      }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$a)
+      }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$4)
     ]),
-    createBaseVNode("div", _hoisted_8$a, [
+    createBaseVNode("div", _hoisted_8$4, [
       ($options.isGridView)
         ? (openBlock(), createElementBlock("button", {
             key: 0,
@@ -8922,7 +8922,7 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
             class: normalizeClass(["media-toolbar-icon media-toolbar-decrease-grid-size", {disabled: $options.isGridSize('sm')}]),
             "aria-label": _ctx.translate('COM_MEDIA_DECREASE_GRID'),
             onClick: _cache[2] || (_cache[2] = withModifiers($event => ($options.decreaseGridSize()), ["stop","prevent"]))
-          }, _hoisted_11$3, 10 /* CLASS, PROPS */, _hoisted_9$9))
+          }, _hoisted_11$2, 10 /* CLASS, PROPS */, _hoisted_9$4))
         : createCommentVNode("v-if", true),
       ($options.isGridView)
         ? (openBlock(), createElementBlock("button", {
@@ -8931,7 +8931,7 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
             class: normalizeClass(["media-toolbar-icon media-toolbar-increase-grid-size", {disabled: $options.isGridSize('xl')}]),
             "aria-label": _ctx.translate('COM_MEDIA_INCREASE_GRID'),
             onClick: _cache[3] || (_cache[3] = withModifiers($event => ($options.increaseGridSize()), ["stop","prevent"]))
-          }, _hoisted_14, 10 /* CLASS, PROPS */, _hoisted_12$3))
+          }, _hoisted_14, 10 /* CLASS, PROPS */, _hoisted_12$2))
         : createCommentVNode("v-if", true),
       createBaseVNode("button", {
         type: "button",
@@ -8953,13 +8953,13 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[5] || (_cache[5] = withModifiers((...args) => ($options.toggleInfoBar && $options.toggleInfoBar(...args)), ["stop","prevent"]))
       }, _hoisted_18, 8 /* PROPS */, _hoisted_16)
     ])
-  ], 8 /* PROPS */, _hoisted_1$h))
+  ], 8 /* PROPS */, _hoisted_1$p))
 }
 
-script$h.render = render$h;
-script$h.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
+script$p.render = render$p;
+script$p.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
 
-var script$g = {
+var script$o = {
   name: 'MediaBreadcrumb',
   mixins: [navigable],
   computed: {
@@ -9026,10 +9026,10 @@ var script$g = {
   },
 };
 
-const _hoisted_1$g = ["aria-label"];
-const _hoisted_2$f = ["aria-current", "onClick"];
+const _hoisted_1$o = ["aria-label"];
+const _hoisted_2$g = ["aria-current", "onClick"];
 
-function render$g(_ctx, _cache, $props, $setup, $data, $options) {
+function render$o(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createElementBlock("nav", {
     class: "media-breadcrumb",
     "aria-label": _ctx.translate('COM_MEDIA_BREADCRUMB_LABEL')
@@ -9044,17 +9044,17 @@ function render$g(_ctx, _cache, $props, $setup, $data, $options) {
             href: "#",
             "aria-current": (index === Object.keys($options.crumbs).length - 1) ? 'page' : undefined,
             onClick: withModifiers($event => ($options.onCrumbClick(val)), ["stop","prevent"])
-          }, toDisplayString(val.name), 9 /* TEXT, PROPS */, _hoisted_2$f)
+          }, toDisplayString(val.name), 9 /* TEXT, PROPS */, _hoisted_2$g)
         ]))
       }), 128 /* KEYED_FRAGMENT */))
     ])
-  ], 8 /* PROPS */, _hoisted_1$g))
+  ], 8 /* PROPS */, _hoisted_1$o))
 }
 
-script$g.render = render$g;
-script$g.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
+script$o.render = render$o;
+script$o.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
 
-var script$f = {
+var script$n = {
   name: 'MediaBrowser',
   computed: {
     /* Get the contents of the currently selected directory */
@@ -9213,47 +9213,47 @@ var script$f = {
   },
 };
 
-const _hoisted_1$f = { class: "media-dragoutline" };
-const _hoisted_2$e = /*#__PURE__*/createBaseVNode("span", {
+const _hoisted_1$n = { class: "media-dragoutline" };
+const _hoisted_2$f = /*#__PURE__*/createBaseVNode("span", {
   class: "icon-cloud-upload upload-icon",
   "aria-hidden": "true"
 }, null, -1 /* HOISTED */);
-const _hoisted_3$e = {
+const _hoisted_3$c = {
   key: 0,
   class: "table media-browser-table"
 };
-const _hoisted_4$d = { class: "visually-hidden" };
-const _hoisted_5$d = { class: "media-browser-table-head" };
-const _hoisted_6$b = /*#__PURE__*/createBaseVNode("th", {
+const _hoisted_4$8 = { class: "visually-hidden" };
+const _hoisted_5$7 = { class: "media-browser-table-head" };
+const _hoisted_6$5 = /*#__PURE__*/createBaseVNode("th", {
   class: "type",
   scope: "col"
 }, null, -1 /* HOISTED */);
-const _hoisted_7$9 = {
+const _hoisted_7$3 = {
   class: "name",
   scope: "col"
 };
-const _hoisted_8$9 = {
+const _hoisted_8$3 = {
   class: "size",
   scope: "col"
 };
-const _hoisted_9$8 = {
+const _hoisted_9$3 = {
   class: "dimension",
   scope: "col"
 };
-const _hoisted_10$5 = {
+const _hoisted_10$1 = {
   class: "created",
   scope: "col"
 };
-const _hoisted_11$2 = {
+const _hoisted_11$1 = {
   class: "modified",
   scope: "col"
 };
-const _hoisted_12$2 = {
+const _hoisted_12$1 = {
   key: 1,
   class: "media-browser-grid"
 };
 
-function render$f(_ctx, _cache, $props, $setup, $data, $options) {
+function render$n(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_browser_item_row = resolveComponent("media-browser-item-row");
   const _component_media_browser_item = resolveComponent("media-browser-item");
   const _component_media_infobar = resolveComponent("media-infobar");
@@ -9268,21 +9268,21 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
       onDragover: _cache[2] || (_cache[2] = (...args) => ($options.onDragOver && $options.onDragOver(...args))),
       onDragleave: _cache[3] || (_cache[3] = (...args) => ($options.onDragLeave && $options.onDragLeave(...args)))
     }, [
-      createBaseVNode("div", _hoisted_1$f, [
-        _hoisted_2$e,
+      createBaseVNode("div", _hoisted_1$n, [
+        _hoisted_2$f,
         createBaseVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1 /* TEXT */)
       ]),
       ($options.listView === 'table')
-        ? (openBlock(), createElementBlock("table", _hoisted_3$e, [
-            createBaseVNode("caption", _hoisted_4$d, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1 /* TEXT */),
-            createBaseVNode("thead", _hoisted_5$d, [
+        ? (openBlock(), createElementBlock("table", _hoisted_3$c, [
+            createBaseVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1 /* TEXT */),
+            createBaseVNode("thead", _hoisted_5$7, [
               createBaseVNode("tr", null, [
-                _hoisted_6$b,
-                createBaseVNode("th", _hoisted_7$9, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1 /* TEXT */),
-                createBaseVNode("th", _hoisted_8$9, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1 /* TEXT */),
-                createBaseVNode("th", _hoisted_9$8, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1 /* TEXT */),
-                createBaseVNode("th", _hoisted_10$5, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1 /* TEXT */),
-                createBaseVNode("th", _hoisted_11$2, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_MODIFIED')), 1 /* TEXT */)
+                _hoisted_6$5,
+                createBaseVNode("th", _hoisted_7$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1 /* TEXT */),
+                createBaseVNode("th", _hoisted_8$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1 /* TEXT */),
+                createBaseVNode("th", _hoisted_9$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1 /* TEXT */),
+                createBaseVNode("th", _hoisted_10$1, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1 /* TEXT */),
+                createBaseVNode("th", _hoisted_11$1, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_MODIFIED')), 1 /* TEXT */)
               ])
             ]),
             createBaseVNode("tbody", null, [
@@ -9295,7 +9295,7 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ]))
         : ($options.listView === 'grid')
-          ? (openBlock(), createElementBlock("div", _hoisted_12$2, [
+          ? (openBlock(), createElementBlock("div", _hoisted_12$1, [
               createBaseVNode("div", {
                 class: normalizeClass(["media-browser-items", $options.mediaBrowserGridItemsClass])
               }, [
@@ -9313,10 +9313,10 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$f.render = render$f;
-script$f.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
+script$n.render = render$n;
+script$n.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
 
-var script$e = {
+var script$m = {
   name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
@@ -9326,167 +9326,52 @@ var script$e = {
       showActions: false,
     };
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
       this.navigateTo(this.item.path);
     },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionRename.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
     },
   },
 };
 
-const _hoisted_1$e = /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
+const _hoisted_1$m = /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
   /*#__PURE__*/createBaseVNode("div", { class: "folder-icon" }, [
     /*#__PURE__*/createBaseVNode("span", { class: "icon-folder" })
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$d = [
-  _hoisted_1$e
+const _hoisted_2$e = [
+  _hoisted_1$m
 ];
-const _hoisted_3$d = { class: "media-browser-item-info" };
-const _hoisted_4$c = ["aria-label", "title"];
-const _hoisted_5$c = ["aria-label", "title"];
-const _hoisted_6$a = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_7$8 = ["aria-label", "title"];
-const _hoisted_8$8 = ["aria-label", "title"];
+const _hoisted_3$b = { class: "media-browser-item-info" };
 
-function render$e(_ctx, _cache, $props, $setup, $data, $options) {
+function render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-item-directory",
-    onMouseleave: _cache[24] || (_cache[24] = $event => ($options.hideActions()))
+    onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
     createBaseVNode("div", {
       class: "media-browser-item-preview",
       onDblclick: _cache[0] || (_cache[0] = withModifiers($event => ($options.onPreviewDblClick()), ["stop","prevent"]))
-    }, _hoisted_2$d, 32 /* HYDRATE_EVENTS */),
-    createBaseVNode("div", _hoisted_3$d, toDisplayString($props.item.name), 1 /* TEXT */),
-    createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_4$c),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        class: "action-toggle",
-        type: "button",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[2] || (_cache[2] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[7] || (_cache[7] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[3] || (_cache[3] = $event => ($props.focused(true))),
-        onBlur: _cache[4] || (_cache[4] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[1] || (_cache[1] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_5$c),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_6$a, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[10] || (_cache[10] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[13] || (_cache[13] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[15] || (_cache[15] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[11] || (_cache[11] = $event => ($props.focused(true))),
-                  onBlur: _cache[12] || (_cache[12] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[8] || (_cache[8] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$8)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[18] || (_cache[18] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[21] || (_cache[21] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[23] || (_cache[23] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[19] || (_cache[19] = $event => ($props.focused(true))),
-                  onBlur: _cache[20] || (_cache[20] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[16] || (_cache[16] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$8)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    }, _hoisted_2$e, 32 /* HYDRATE_EVENTS */),
+    createBaseVNode("div", _hoisted_3$b, toDisplayString($props.item.name), 1 /* TEXT */),
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item
+    }, null, 8 /* PROPS */, ["focused", "item"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$e.render = render$e;
-script$e.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
+script$m.render = render$m;
+script$m.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
 
-var script$d = {
+var script$l = {
   name: 'MediaBrowserItemFile',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -9495,214 +9380,55 @@ var script$d = {
       showActions: false,
     };
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
-    /* Preview an item */
-    download() {
-      this.$store.dispatch('download', this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDownload.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
+    },
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
     },
   },
 };
 
-const _hoisted_1$d = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
+const _hoisted_1$l = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createBaseVNode("div", { class: "file-icon" }, [
       /*#__PURE__*/createBaseVNode("span", { class: "icon-file-alt" })
     ])
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$c = { class: "media-browser-item-info" };
-const _hoisted_3$c = ["aria-label", "title"];
-const _hoisted_4$b = ["aria-label", "title"];
-const _hoisted_5$b = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_6$9 = ["aria-label", "title"];
-const _hoisted_7$7 = ["aria-label", "title"];
-const _hoisted_8$7 = ["aria-label", "title"];
-const _hoisted_9$7 = ["aria-label", "title"];
+const _hoisted_2$d = { class: "media-browser-item-info" };
+const _hoisted_3$a = ["aria-label", "title"];
 
-function render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-item-file",
-    onMouseleave: _cache[36] || (_cache[36] = $event => ($options.hideActions()))
+    onMouseleave: _cache[0] || (_cache[0] = $event => ($options.hideActions()))
   }, [
-    _hoisted_1$d,
-    createBaseVNode("div", _hoisted_2$c, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    _hoisted_1$l,
+    createBaseVNode("div", _hoisted_2$d, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_3$c),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        href: "#",
-        class: "action-toggle",
-        type: "button",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[2] || (_cache[2] = $event => ($props.focused(true))),
-        onBlur: _cache[3] || (_cache[3] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_4$b),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_5$b, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDownload",
-                  type: "button",
-                  class: "action-download",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  onKeyup: [
-                    _cache[8] || (_cache[8] = withKeys($event => ($options.download()), ["enter"])),
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.download()), ["space"])),
-                    _cache[10] || (_cache[10] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[11] || (_cache[11] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ]
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-download",
-                    "aria-hidden": "true",
-                    onClick: _cache[7] || (_cache[7] = withModifiers($event => ($options.download()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_6$9)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[13] || (_cache[13] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[14] || (_cache[14] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[18] || (_cache[18] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
-                    _cache[19] || (_cache[19] = withKeys($event => (_ctx.$refs.actionUrl.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[15] || (_cache[15] = $event => ($props.focused(true))),
-                  onBlur: _cache[16] || (_cache[16] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[12] || (_cache[12] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$7)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionUrl",
-                  type: "button",
-                  class: "action-url",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  onKeyup: [
-                    _cache[21] || (_cache[21] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
-                    _cache[22] || (_cache[22] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
-                    _cache[25] || (_cache[25] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[26] || (_cache[26] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[27] || (_cache[27] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[23] || (_cache[23] = $event => ($props.focused(true))),
-                  onBlur: _cache[24] || (_cache[24] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-link",
-                    "aria-hidden": "true",
-                    onClick: _cache[20] || (_cache[20] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$7)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[29] || (_cache[29] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[30] || (_cache[30] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[33] || (_cache[33] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[34] || (_cache[34] = withKeys($event => (_ctx.$refs.actionUrl.focus()), ["up"])),
-                    _cache[35] || (_cache[35] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[31] || (_cache[31] = $event => ($props.focused(true))),
-                  onBlur: _cache[32] || (_cache[32] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[28] || (_cache[28] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_9$7)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    }, null, 8 /* PROPS */, _hoisted_3$a),
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8 /* PROPS */, ["focused", "item"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$d.render = render$d;
-script$d.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+script$l.render = render$l;
+script$l.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
 
 const dirname = path => {
   if (typeof path !== 'string') {
@@ -10058,7 +9784,7 @@ class Api {
 
 const api = new Api();
 
-var script$c = {
+var script$k = {
   name: 'MediaBrowserItemImage',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -10068,10 +9794,6 @@ var script$c = {
     };
   },
   computed: {
-    /* Check if the item is an image to edit */
-    canEdit() {
-      return ['jpg', 'jpeg', 'png'].indexOf(this.item.extension.toLowerCase()) > -1;
-    },
     /* Get the hashed URL */
     getHashedURL() {
       if (this.item.adapter.startsWith('local-')) {
@@ -10080,286 +9802,79 @@ var script$c = {
       return `url(${this.item.thumb_path})`;
     },
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
+    /* Check if the item is a document to edit */
+    canEdit() {
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
+    },
+    /* Hide actions dropdown */
+    hideActions() {
+      this.$refs.container.hideActions();
+    },
     /* Preview an item */
     openPreview() {
-      this.$store.commit(SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
-    },
-    /* Preview an item */
-    download() {
-      this.$store.dispatch('download', this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
+      this.$refs.container.openPreview();
     },
     /* Edit an item */
     editItem() {
-      // TODO should we use relative urls here?
+      // @todo should we use relative urls here?
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
     },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
-    /* Hide actions dropdown */
-    hideActions() {
-      this.showActions = false;
-    },
   },
 };
 
-const _hoisted_1$c = { class: "media-browser-item-preview" };
-const _hoisted_2$b = { class: "image-background" };
-const _hoisted_3$b = { class: "media-browser-item-info" };
-const _hoisted_4$a = ["aria-label", "title"];
-const _hoisted_5$a = ["aria-label", "title"];
-const _hoisted_6$8 = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_7$6 = ["aria-label", "title"];
-const _hoisted_8$6 = ["aria-label", "title"];
-const _hoisted_9$6 = ["aria-label", "title"];
-const _hoisted_10$4 = { key: 0 };
-const _hoisted_11$1 = ["aria-label", "title"];
-const _hoisted_12$1 = ["aria-label", "title"];
-const _hoisted_13$1 = ["aria-label", "title"];
+const _hoisted_1$k = ["title"];
+const _hoisted_2$c = { class: "image-background" };
+const _hoisted_3$9 = ["title"];
+const _hoisted_4$7 = ["aria-label", "title"];
 
-function render$c(_ctx, _cache, $props, $setup, $data, $options) {
+function render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-image",
-    onDblclick: _cache[55] || (_cache[55] = $event => ($options.openPreview())),
-    onMouseleave: _cache[56] || (_cache[56] = $event => ($options.hideActions()))
+    onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
+    onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    createBaseVNode("div", _hoisted_1$c, [
-      createBaseVNode("div", _hoisted_2$b, [
+    createBaseVNode("div", {
+      class: "media-browser-item-preview",
+      title: $props.item.name
+    }, [
+      createBaseVNode("div", _hoisted_2$c, [
         createBaseVNode("div", {
           class: "image-cropped",
           style: normalizeStyle({ backgroundImage: $options.getHashedURL })
         }, null, 4 /* STYLE */)
       ])
-    ]),
-    createBaseVNode("div", _hoisted_3$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    ], 8 /* PROPS */, _hoisted_1$k),
+    createBaseVNode("div", {
+      class: "media-browser-item-info",
+      title: $props.item.name
+    }, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 9 /* TEXT, PROPS */, _hoisted_3$9),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_4$a),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        type: "button",
-        class: "action-toggle",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[2] || (_cache[2] = $event => ($props.focused(true))),
-        onBlur: _cache[3] || (_cache[3] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_5$a),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_6$8, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionPreview",
-                  type: "button",
-                  class: "action-preview",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  onKeyup: [
-                    _cache[8] || (_cache[8] = withKeys($event => ($options.openPreview()), ["enter"])),
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["space"])),
-                    _cache[12] || (_cache[12] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[13] || (_cache[13] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[10] || (_cache[10] = $event => ($props.focused(true))),
-                  onBlur: _cache[11] || (_cache[11] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-search-plus",
-                    "aria-hidden": "true",
-                    onClick: _cache[7] || (_cache[7] = withModifiers($event => ($options.openPreview()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$6)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDownload",
-                  type: "button",
-                  class: "action-download",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  onKeyup: [
-                    _cache[16] || (_cache[16] = withKeys($event => ($options.download()), ["enter"])),
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["space"])),
-                    _cache[20] || (_cache[20] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[21] || (_cache[21] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
-                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[18] || (_cache[18] = $event => ($props.focused(true))),
-                  onBlur: _cache[19] || (_cache[19] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-download",
-                    "aria-hidden": "true",
-                    onClick: _cache[15] || (_cache[15] = withModifiers($event => ($options.download()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$6)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[24] || (_cache[24] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[28] || (_cache[28] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[29] || (_cache[29] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
-                    _cache[30] || (_cache[30] = withKeys($event => ($options.canEdit ? _ctx.$refs.actionEdit.focus() : _ctx.$refs.actionShare.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[26] || (_cache[26] = $event => ($props.focused(true))),
-                  onBlur: _cache[27] || (_cache[27] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[23] || (_cache[23] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_9$6)
-              ]),
-              ($options.canEdit)
-                ? (openBlock(), createElementBlock("li", _hoisted_10$4, [
-                    createBaseVNode("button", {
-                      ref: "actionEdit",
-                      type: "button",
-                      class: "action-edit",
-                      "aria-label": _ctx.translate('COM_MEDIA_ACTION_EDIT'),
-                      title: _ctx.translate('COM_MEDIA_ACTION_EDIT'),
-                      onKeyup: [
-                        _cache[32] || (_cache[32] = withKeys($event => ($options.editItem()), ["enter"])),
-                        _cache[33] || (_cache[33] = withKeys($event => ($options.editItem()), ["space"])),
-                        _cache[36] || (_cache[36] = withKeys($event => ($options.hideActions()), ["esc"])),
-                        _cache[37] || (_cache[37] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                        _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
-                      ],
-                      onFocus: _cache[34] || (_cache[34] = $event => ($props.focused(true))),
-                      onBlur: _cache[35] || (_cache[35] = $event => ($props.focused(false)))
-                    }, [
-                      createBaseVNode("span", {
-                        class: "image-browser-action icon-pencil-alt",
-                        "aria-hidden": "true",
-                        onClick: _cache[31] || (_cache[31] = withModifiers($event => ($options.editItem()), ["stop"]))
-                      })
-                    ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_11$1)
-                  ]))
-                : createCommentVNode("v-if", true),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionShare",
-                  type: "button",
-                  class: "action-url",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  onKeyup: [
-                    _cache[40] || (_cache[40] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
-                    _cache[41] || (_cache[41] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
-                    _cache[44] || (_cache[44] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[45] || (_cache[45] = withKeys($event => ($options.canEdit ? _ctx.$refs.actionEdit.focus() : _ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[42] || (_cache[42] = $event => ($props.focused(true))),
-                  onBlur: _cache[43] || (_cache[43] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-link",
-                    "aria-hidden": "true",
-                    onClick: _cache[39] || (_cache[39] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_12$1)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[48] || (_cache[48] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[49] || (_cache[49] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[52] || (_cache[52] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[53] || (_cache[53] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
-                    _cache[54] || (_cache[54] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[50] || (_cache[50] = $event => ($props.focused(true))),
-                  onBlur: _cache[51] || (_cache[51] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[47] || (_cache[47] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_13$1)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    }, null, 8 /* PROPS */, _hoisted_4$7),
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      edit: $options.editItem,
+      editable: $options.canEdit,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8 /* PROPS */, ["focused", "item", "edit", "editable"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$c.render = render$c;
-script$c.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+script$k.render = render$k;
+script$k.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
 
-var script$b = {
+var script$j = {
   name: 'MediaBrowserItemVideo',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -10368,249 +9883,52 @@ var script$b = {
       showActions: false,
     };
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
-    /* Preview an item */
-    openPreview() {
-      this.$store.commit(SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
-    },
-    /* Preview an item */
-    download() {
-      this.$store.dispatch('download', this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
+    },
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
     },
   },
 };
 
-const _hoisted_1$b = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
+const _hoisted_1$j = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createBaseVNode("div", { class: "file-icon" }, [
       /*#__PURE__*/createBaseVNode("span", { class: "fas fa-file-video" })
     ])
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$a = { class: "media-browser-item-info" };
-const _hoisted_3$a = ["aria-label", "title"];
-const _hoisted_4$9 = ["aria-label", "title"];
-const _hoisted_5$9 = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_6$7 = ["aria-label", "title"];
-const _hoisted_7$5 = ["aria-label", "title"];
-const _hoisted_8$5 = ["aria-label", "title"];
-const _hoisted_9$5 = ["aria-label", "title"];
-const _hoisted_10$3 = ["aria-label", "title"];
+const _hoisted_2$b = { class: "media-browser-item-info" };
 
-function render$b(_ctx, _cache, $props, $setup, $data, $options) {
+function render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-image",
-    onDblclick: _cache[47] || (_cache[47] = $event => ($options.openPreview())),
-    onMouseleave: _cache[48] || (_cache[48] = $event => ($options.hideActions()))
+    onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
+    onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    _hoisted_1$b,
-    createBaseVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
-    createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_3$a),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        type: "button",
-        class: "action-toggle",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[2] || (_cache[2] = $event => ($props.focused(true))),
-        onBlur: _cache[3] || (_cache[3] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_4$9),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_5$9, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionPreview",
-                  type: "button",
-                  class: "action-preview",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  onKeyup: [
-                    _cache[8] || (_cache[8] = withKeys($event => ($options.openPreview()), ["enter"])),
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["space"])),
-                    _cache[12] || (_cache[12] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[13] || (_cache[13] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[10] || (_cache[10] = $event => ($props.focused(true))),
-                  onBlur: _cache[11] || (_cache[11] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-search-plus",
-                    "aria-hidden": "true",
-                    onClick: _cache[7] || (_cache[7] = withModifiers($event => ($options.openPreview()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_6$7)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDownload",
-                  type: "button",
-                  class: "action-download",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  onKeyup: [
-                    _cache[16] || (_cache[16] = withKeys($event => ($options.download()), ["enter"])),
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["space"])),
-                    _cache[20] || (_cache[20] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[21] || (_cache[21] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
-                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[18] || (_cache[18] = $event => ($props.focused(true))),
-                  onBlur: _cache[19] || (_cache[19] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-download",
-                    "aria-hidden": "true",
-                    onClick: _cache[15] || (_cache[15] = withModifiers($event => ($options.download()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$5)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[24] || (_cache[24] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[28] || (_cache[28] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[29] || (_cache[29] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
-                    _cache[30] || (_cache[30] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[26] || (_cache[26] = $event => ($props.focused(true))),
-                  onBlur: _cache[27] || (_cache[27] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[23] || (_cache[23] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$5)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionShare",
-                  type: "button",
-                  class: "action-url",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  onKeyup: [
-                    _cache[32] || (_cache[32] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
-                    _cache[33] || (_cache[33] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
-                    _cache[36] || (_cache[36] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[37] || (_cache[37] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[34] || (_cache[34] = $event => ($props.focused(true))),
-                  onBlur: _cache[35] || (_cache[35] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-link",
-                    "aria-hidden": "true",
-                    onClick: _cache[31] || (_cache[31] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_9$5)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[40] || (_cache[40] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[41] || (_cache[41] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[44] || (_cache[44] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[45] || (_cache[45] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
-                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[42] || (_cache[42] = $event => ($props.focused(true))),
-                  onBlur: _cache[43] || (_cache[43] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[39] || (_cache[39] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_10$3)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    _hoisted_1$j,
+    createBaseVNode("div", _hoisted_2$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8 /* PROPS */, ["focused", "item"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$b.render = render$b;
-script$b.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+script$j.render = render$j;
+script$j.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
 
-var script$a = {
+var script$i = {
   name: 'MediaBrowserItemAudio',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
@@ -10619,250 +9937,53 @@ var script$a = {
       showActions: false,
     };
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
-    /* Preview an item */
-    openPreview() {
-      this.$store.commit(SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
-    },
-    /* Preview an item */
-    download() {
-      this.$store.dispatch('download', this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
+    },
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
     },
   },
 };
 
-const _hoisted_1$a = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
+const _hoisted_1$i = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createBaseVNode("div", { class: "file-icon" }, [
       /*#__PURE__*/createBaseVNode("span", { class: "fas fa-file-audio" })
     ])
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$9 = { class: "media-browser-item-info" };
-const _hoisted_3$9 = ["aria-label", "title"];
-const _hoisted_4$8 = ["aria-label", "title"];
-const _hoisted_5$8 = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_6$6 = ["aria-label", "title"];
-const _hoisted_7$4 = ["aria-label", "title"];
-const _hoisted_8$4 = ["aria-label", "title"];
-const _hoisted_9$4 = ["aria-label", "title"];
-const _hoisted_10$2 = ["aria-label", "title"];
+const _hoisted_2$a = { class: "media-browser-item-info" };
 
-function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+function render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-audio",
-    onDblclick: _cache[47] || (_cache[47] = $event => ($options.openPreview())),
-    onMouseleave: _cache[48] || (_cache[48] = $event => ($options.hideActions()))
+    onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
+    onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    _hoisted_1$a,
-    createBaseVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
-    createBaseVNode("span", {
-      class: "media-browser-select",
-      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_3$9),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        type: "button",
-        class: "action-toggle",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[2] || (_cache[2] = $event => ($props.focused(true))),
-        onBlur: _cache[3] || (_cache[3] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_4$8),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_5$8, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionPreview",
-                  type: "button",
-                  class: "action-preview",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  onKeyup: [
-                    _cache[8] || (_cache[8] = withKeys($event => ($options.openPreview()), ["enter"])),
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["space"])),
-                    _cache[12] || (_cache[12] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[13] || (_cache[13] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[10] || (_cache[10] = $event => ($props.focused(true))),
-                  onBlur: _cache[11] || (_cache[11] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-search-plus",
-                    "aria-hidden": "true",
-                    onClick: _cache[7] || (_cache[7] = withModifiers($event => ($options.openPreview()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_6$6)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDownload",
-                  type: "button",
-                  class: "action-download",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  onKeyup: [
-                    _cache[16] || (_cache[16] = withKeys($event => ($options.download()), ["enter"])),
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["space"])),
-                    _cache[20] || (_cache[20] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[21] || (_cache[21] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
-                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[18] || (_cache[18] = $event => ($props.focused(true))),
-                  onBlur: _cache[19] || (_cache[19] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-download",
-                    "aria-hidden": "true",
-                    onClick: _cache[15] || (_cache[15] = withModifiers($event => ($options.download()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$4)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[24] || (_cache[24] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[28] || (_cache[28] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[29] || (_cache[29] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
-                    _cache[30] || (_cache[30] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[26] || (_cache[26] = $event => ($props.focused(true))),
-                  onBlur: _cache[27] || (_cache[27] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[23] || (_cache[23] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$4)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionShare",
-                  type: "button",
-                  class: "action-url",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  onKeyup: [
-                    _cache[32] || (_cache[32] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
-                    _cache[33] || (_cache[33] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
-                    _cache[36] || (_cache[36] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[37] || (_cache[37] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[34] || (_cache[34] = $event => ($props.focused(true))),
-                  onBlur: _cache[35] || (_cache[35] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-link",
-                    "aria-hidden": "true",
-                    onClick: _cache[31] || (_cache[31] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_9$4)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[40] || (_cache[40] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[41] || (_cache[41] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[44] || (_cache[44] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[45] || (_cache[45] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
-                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[42] || (_cache[42] = $event => ($props.focused(true))),
-                  onBlur: _cache[43] || (_cache[43] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[39] || (_cache[39] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_10$2)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    _hoisted_1$i,
+    createBaseVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8 /* PROPS */, ["focused", "item"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$a.render = render$a;
-script$a.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
+script$i.render = render$i;
+script$i.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
 
-var script$9 = {
-  name: 'MediaBrowserItemAudio',
+var script$h = {
+  name: 'MediaBrowserItemDocument',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
   data() {
@@ -10870,247 +9991,60 @@ var script$9 = {
       showActions: false,
     };
   },
-  watch: {
-    // eslint-disable-next-line
-    '$store.state.showRenameModal'(show) {
-      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
-        this.$refs.actionToggle.focus();
-      }
-    },
-  },
   methods: {
-    /* Preview an item */
-    openPreview() {
-      this.$store.commit(SHOW_PREVIEW_MODAL);
-      this.$store.dispatch('getFullContents', this.item);
-    },
-    /* Preview an item */
-    download() {
-      this.$store.dispatch('download', this.item);
-    },
-    /* Opening confirm delete modal */
-    openConfirmDeleteModal() {
-      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
-    },
-    /* Rename an item */
-    openRenameModal() {
-      this.hideActions();
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_RENAME_MODAL);
-    },
-    /* Open modal for share url */
-    openShareUrlModal() {
-      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      this.$store.commit(SHOW_SHARE_MODAL);
-    },
-    /* Open actions dropdown */
-    openActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionPreview.focus());
-    },
-    /* Open actions dropdown and focus on last element */
-    openLastActions() {
-      this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.focus());
-    },
     /* Hide actions dropdown */
     hideActions() {
-      this.showActions = false;
+      this.$refs.container.hideActions();
     },
+    /* Preview an item */
+    openPreview() {
+      this.$refs.container.openPreview();
+    },
+    /* Edit an item */
+    editItem() {},
   },
 };
 
-const _hoisted_1$9 = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
+const _hoisted_1$h = /*#__PURE__*/createBaseVNode("div", { class: "media-browser-item-preview" }, [
   /*#__PURE__*/createBaseVNode("div", { class: "file-background" }, [
     /*#__PURE__*/createBaseVNode("div", { class: "file-icon" }, [
       /*#__PURE__*/createBaseVNode("span", { class: "fas fa-file-pdf" })
     ])
   ])
 ], -1 /* HOISTED */);
-const _hoisted_2$8 = { class: "media-browser-item-info" };
+const _hoisted_2$9 = { class: "media-browser-item-info" };
 const _hoisted_3$8 = ["aria-label", "title"];
-const _hoisted_4$7 = ["aria-label", "title"];
-const _hoisted_5$7 = {
-  key: 0,
-  class: "media-browser-actions-list"
-};
-const _hoisted_6$5 = ["aria-label", "title"];
-const _hoisted_7$3 = ["aria-label", "title"];
-const _hoisted_8$3 = ["aria-label", "title"];
-const _hoisted_9$3 = ["aria-label", "title"];
-const _hoisted_10$1 = ["aria-label", "title"];
 
-function render$9(_ctx, _cache, $props, $setup, $data, $options) {
+function render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
+
   return (openBlock(), createElementBlock("div", {
     class: "media-browser-doc",
-    onDblclick: _cache[47] || (_cache[47] = $event => ($options.openPreview())),
-    onMouseleave: _cache[48] || (_cache[48] = $event => ($options.hideActions()))
+    onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
+    onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    _hoisted_1$9,
-    createBaseVNode("div", _hoisted_2$8, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    _hoisted_1$h,
+    createBaseVNode("div", _hoisted_2$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
     }, null, 8 /* PROPS */, _hoisted_3$8),
-    createBaseVNode("div", {
-      class: normalizeClass(["media-browser-actions", {'active': $data.showActions}])
-    }, [
-      createBaseVNode("button", {
-        ref: "actionToggle",
-        type: "button",
-        class: "action-toggle",
-        "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
-        onKeyup: [
-          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
-          _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"])),
-          _cache[5] || (_cache[5] = withKeys($event => ($options.openActions()), ["down"])),
-          _cache[6] || (_cache[6] = withKeys($event => ($options.openLastActions()), ["up"]))
-        ],
-        onFocus: _cache[2] || (_cache[2] = $event => ($props.focused(true))),
-        onBlur: _cache[3] || (_cache[3] = $event => ($props.focused(false)))
-      }, [
-        createBaseVNode("span", {
-          class: "image-browser-action icon-ellipsis-h",
-          "aria-hidden": "true",
-          onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
-        })
-      ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_4$7),
-      ($data.showActions)
-        ? (openBlock(), createElementBlock("div", _hoisted_5$7, [
-            createBaseVNode("ul", null, [
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionPreview",
-                  type: "button",
-                  class: "action-preview",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
-                  onKeyup: [
-                    _cache[8] || (_cache[8] = withKeys($event => ($options.openPreview()), ["enter"])),
-                    _cache[9] || (_cache[9] = withKeys($event => ($options.openPreview()), ["space"])),
-                    _cache[12] || (_cache[12] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[13] || (_cache[13] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["up"])),
-                    _cache[14] || (_cache[14] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[10] || (_cache[10] = $event => ($props.focused(true))),
-                  onBlur: _cache[11] || (_cache[11] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-search-plus",
-                    "aria-hidden": "true",
-                    onClick: _cache[7] || (_cache[7] = withModifiers($event => ($options.openPreview()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_6$5)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDownload",
-                  type: "button",
-                  class: "action-download",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
-                  onKeyup: [
-                    _cache[16] || (_cache[16] = withKeys($event => ($options.download()), ["enter"])),
-                    _cache[17] || (_cache[17] = withKeys($event => ($options.download()), ["space"])),
-                    _cache[20] || (_cache[20] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[21] || (_cache[21] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["up"])),
-                    _cache[22] || (_cache[22] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[18] || (_cache[18] = $event => ($props.focused(true))),
-                  onBlur: _cache[19] || (_cache[19] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-download",
-                    "aria-hidden": "true",
-                    onClick: _cache[15] || (_cache[15] = withModifiers($event => ($options.download()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_7$3)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionRename",
-                  type: "button",
-                  class: "action-rename",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
-                  onKeyup: [
-                    _cache[24] || (_cache[24] = withKeys($event => ($options.openRenameModal()), ["enter"])),
-                    _cache[25] || (_cache[25] = withKeys($event => ($options.openRenameModal()), ["space"])),
-                    _cache[28] || (_cache[28] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[29] || (_cache[29] = withKeys($event => (_ctx.$refs.actionDownload.focus()), ["up"])),
-                    _cache[30] || (_cache[30] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[26] || (_cache[26] = $event => ($props.focused(true))),
-                  onBlur: _cache[27] || (_cache[27] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-text-width",
-                    "aria-hidden": "true",
-                    onClick: _cache[23] || (_cache[23] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_8$3)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionShare",
-                  type: "button",
-                  class: "action-url",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
-                  onKeyup: [
-                    _cache[32] || (_cache[32] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
-                    _cache[33] || (_cache[33] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
-                    _cache[36] || (_cache[36] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[37] || (_cache[37] = withKeys($event => (_ctx.$refs.actionRename.focus()), ["up"])),
-                    _cache[38] || (_cache[38] = withKeys($event => (_ctx.$refs.actionDelete.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[34] || (_cache[34] = $event => ($props.focused(true))),
-                  onBlur: _cache[35] || (_cache[35] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-link",
-                    "aria-hidden": "true",
-                    onClick: _cache[31] || (_cache[31] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_9$3)
-              ]),
-              createBaseVNode("li", null, [
-                createBaseVNode("button", {
-                  ref: "actionDelete",
-                  type: "button",
-                  class: "action-delete",
-                  "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
-                  onKeyup: [
-                    _cache[40] || (_cache[40] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
-                    _cache[41] || (_cache[41] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
-                    _cache[44] || (_cache[44] = withKeys($event => ($options.hideActions()), ["esc"])),
-                    _cache[45] || (_cache[45] = withKeys($event => (_ctx.$refs.actionShare.focus()), ["up"])),
-                    _cache[46] || (_cache[46] = withKeys($event => (_ctx.$refs.actionPreview.focus()), ["down"]))
-                  ],
-                  onFocus: _cache[42] || (_cache[42] = $event => ($props.focused(true))),
-                  onBlur: _cache[43] || (_cache[43] = $event => ($props.focused(false)))
-                }, [
-                  createBaseVNode("span", {
-                    class: "image-browser-action icon-trash",
-                    "aria-hidden": "true",
-                    onClick: _cache[39] || (_cache[39] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
-                  })
-                ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_10$1)
-              ])
-            ])
-          ]))
-        : createCommentVNode("v-if", true)
-    ], 2 /* CLASS */)
+    createVNode(_component_media_browser_action_items_container, {
+      ref: "container",
+      focused: $props.focused,
+      item: $props.item,
+      edit: $options.editItem,
+      "can-edit": _ctx.canEdit,
+      previewable: true,
+      downloadable: true,
+      shareable: true
+    }, null, 8 /* PROPS */, ["focused", "item", "edit", "can-edit"])
   ], 32 /* HYDRATE_EVENTS */))
 }
 
-script$9.render = render$9;
-script$9.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
+script$h.render = render$h;
+script$h.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
 
 var BrowserItem = {
   props: ['item'],
@@ -11127,29 +10061,29 @@ var BrowserItem = {
      */
     itemType() {
       // Render directory items
-      if (this.item.type === 'dir') return script$e; // Render image items
+      if (this.item.type === 'dir') return script$m; // Render image items
 
       if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
-        return script$c;
+        return script$k;
       } // Render video items
 
 
       if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
-        return script$b;
+        return script$j;
       } // Render audio items
 
 
       if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
-        return script$a;
+        return script$i;
       } // Render document items
 
 
       if (this.item.extension && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
-        return script$9;
+        return script$h;
       } // Default to file type
 
 
-      return script$d;
+      return script$l;
     },
 
     /**
@@ -11276,7 +10210,7 @@ var BrowserItem = {
 
 };
 
-var script$8 = {
+var script$g = {
   name: 'MediaBrowserItemRow',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
@@ -11384,8 +10318,8 @@ var script$8 = {
   },
 };
 
-const _hoisted_1$8 = ["data-type"];
-const _hoisted_2$7 = {
+const _hoisted_1$g = ["data-type"];
+const _hoisted_2$8 = {
   scope: "row",
   class: "name"
 };
@@ -11394,7 +10328,7 @@ const _hoisted_4$6 = { class: "dimension" };
 const _hoisted_5$6 = { class: "created" };
 const _hoisted_6$4 = { class: "modified" };
 
-function render$8(_ctx, _cache, $props, $setup, $data, $options) {
+function render$g(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createElementBlock("tr", {
     class: normalizeClass(["media-browser-item", {selected: $options.selected}]),
     onDblclick: _cache[0] || (_cache[0] = withModifiers($event => ($options.onDblClick()), ["stop","prevent"])),
@@ -11403,8 +10337,8 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("td", {
       class: "type",
       "data-type": $props.item.extension
-    }, null, 8 /* PROPS */, _hoisted_1$8),
-    createBaseVNode("th", _hoisted_2$7, toDisplayString($props.item.name), 1 /* TEXT */),
+    }, null, 8 /* PROPS */, _hoisted_1$g),
+    createBaseVNode("th", _hoisted_2$8, toDisplayString($props.item.name), 1 /* TEXT */),
     createBaseVNode("td", _hoisted_3$7, toDisplayString($options.size), 1 /* TEXT */),
     createBaseVNode("td", _hoisted_4$6, toDisplayString($options.dimension), 1 /* TEXT */),
     createBaseVNode("td", _hoisted_5$6, toDisplayString($props.item.create_date_formatted), 1 /* TEXT */),
@@ -11412,10 +10346,10 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
   ], 34 /* CLASS, HYDRATE_EVENTS */))
 }
 
-script$8.render = render$8;
-script$8.__file = "administrator/components/com_media/resources/scripts/components/browser/items/row.vue";
+script$g.render = render$g;
+script$g.__file = "administrator/components/com_media/resources/scripts/components/browser/items/row.vue";
 
-var script$7 = {
+var script$f = {
   name: 'MediaModal',
   props: {
     /* Whether or not the close button in the header should be shown */
@@ -11464,13 +10398,13 @@ var script$7 = {
   },
 };
 
-const _hoisted_1$7 = ["aria-labelledby"];
-const _hoisted_2$6 = { class: "modal-content" };
+const _hoisted_1$f = ["aria-labelledby"];
+const _hoisted_2$7 = { class: "modal-content" };
 const _hoisted_3$6 = { class: "modal-header" };
 const _hoisted_4$5 = { class: "modal-body" };
 const _hoisted_5$5 = { class: "modal-footer" };
 
-function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+function render$f(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_tab_lock = resolveComponent("tab-lock");
 
   return (openBlock(), createElementBlock("div", {
@@ -11489,7 +10423,7 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
             role: "dialog",
             "aria-labelledby": $props.labelElement
           }, [
-            createBaseVNode("div", _hoisted_2$6, [
+            createBaseVNode("div", _hoisted_2$7, [
               createBaseVNode("div", _hoisted_3$6, [
                 renderSlot(_ctx.$slots, "header"),
                 renderSlot(_ctx.$slots, "backdrop-close"),
@@ -11510,7 +10444,7 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
                 renderSlot(_ctx.$slots, "footer")
               ])
             ])
-          ], 10 /* CLASS, PROPS */, _hoisted_1$7)
+          ], 10 /* CLASS, PROPS */, _hoisted_1$f)
         ]),
         _: 3 /* FORWARDED */
       })
@@ -11518,10 +10452,10 @@ function render$7(_ctx, _cache, $props, $setup, $data, $options) {
   ]))
 }
 
-script$7.render = render$7;
-script$7.__file = "administrator/components/com_media/resources/scripts/components/modals/modal.vue";
+script$f.render = render$f;
+script$f.__file = "administrator/components/com_media/resources/scripts/components/modals/modal.vue";
 
-var script$6 = {
+var script$e = {
   name: 'MediaCreateFolderModal',
   data() {
     return {
@@ -11542,8 +10476,8 @@ var script$6 = {
     save() {
       // Check if the form is valid
       if (!this.isValid()) {
-        // TODO show an error message to user for insert a folder name
-        // TODO mark the field as invalid
+        // @todo show an error message to user for insert a folder name
+        // @todo mark the field as invalid
         return;
       }
 
@@ -11561,16 +10495,16 @@ var script$6 = {
   },
 };
 
-const _hoisted_1$6 = {
+const _hoisted_1$e = {
   id: "createFolderTitle",
   class: "modal-title"
 };
-const _hoisted_2$5 = { class: "p-3" };
+const _hoisted_2$6 = { class: "p-3" };
 const _hoisted_3$5 = { class: "form-group" };
 const _hoisted_4$4 = { for: "folder" };
 const _hoisted_5$4 = ["disabled"];
 
-function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+function render$e(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_modal = resolveComponent("media-modal");
 
   return (_ctx.$store.state.showCreateFolderModal)
@@ -11581,10 +10515,10 @@ function render$6(_ctx, _cache, $props, $setup, $data, $options) {
         onClose: _cache[5] || (_cache[5] = $event => ($options.close()))
       }, {
         header: withCtx(() => [
-          createBaseVNode("h3", _hoisted_1$6, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER')), 1 /* TEXT */)
+          createBaseVNode("h3", _hoisted_1$e, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER')), 1 /* TEXT */)
         ]),
         body: withCtx(() => [
-          createBaseVNode("div", _hoisted_2$5, [
+          createBaseVNode("div", _hoisted_2$6, [
             createBaseVNode("form", {
               class: "form",
               novalidate: "",
@@ -11630,10 +10564,10 @@ function render$6(_ctx, _cache, $props, $setup, $data, $options) {
     : createCommentVNode("v-if", true)
 }
 
-script$6.render = render$6;
-script$6.__file = "administrator/components/com_media/resources/scripts/components/modals/create-folder-modal.vue";
+script$e.render = render$e;
+script$e.__file = "administrator/components/com_media/resources/scripts/components/modals/create-folder-modal.vue";
 
-var script$5 = {
+var script$d = {
   name: 'MediaPreviewModal',
   computed: {
     /* Get the item to show in the modal */
@@ -11669,11 +10603,11 @@ var script$5 = {
   },
 };
 
-const _hoisted_1$5 = {
+const _hoisted_1$d = {
   id: "previewTitle",
   class: "modal-title text-light"
 };
-const _hoisted_2$4 = { class: "image-background" };
+const _hoisted_2$5 = { class: "image-background" };
 const _hoisted_3$4 = ["src"];
 const _hoisted_4$3 = {
   key: 1,
@@ -11687,7 +10621,7 @@ const _hoisted_9$2 = [
   _hoisted_8$2
 ];
 
-function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+function render$d(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_modal = resolveComponent("media-modal");
 
   return (_ctx.$store.state.showPreviewModal && $options.item)
@@ -11700,10 +10634,10 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
         onClose: _cache[1] || (_cache[1] = $event => ($options.close()))
       }, {
         header: withCtx(() => [
-          createBaseVNode("h3", _hoisted_1$5, toDisplayString($options.item.name), 1 /* TEXT */)
+          createBaseVNode("h3", _hoisted_1$d, toDisplayString($options.item.name), 1 /* TEXT */)
         ]),
         body: withCtx(() => [
-          createBaseVNode("div", _hoisted_2$4, [
+          createBaseVNode("div", _hoisted_2$5, [
             ($options.isAudio())
               ? (openBlock(), createElementBlock("audio", {
                   key: 0,
@@ -11749,10 +10683,10 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
     : createCommentVNode("v-if", true)
 }
 
-script$5.render = render$5;
-script$5.__file = "administrator/components/com_media/resources/scripts/components/modals/preview-modal.vue";
+script$d.render = render$d;
+script$d.__file = "administrator/components/com_media/resources/scripts/components/modals/preview-modal.vue";
 
-var script$4 = {
+var script$c = {
   name: 'MediaRenameModal',
   computed: {
     item() {
@@ -11781,7 +10715,7 @@ var script$4 = {
     save() {
       // Check if the form is valid
       if (!this.isValid()) {
-        // TODO mark the field as invalid
+        // @todo mark the field as invalid
         return;
       }
       let newName = this.$refs.nameField.value;
@@ -11804,11 +10738,11 @@ var script$4 = {
   },
 };
 
-const _hoisted_1$4 = {
+const _hoisted_1$c = {
   id: "renameTitle",
   class: "modal-title"
 };
-const _hoisted_2$3 = { class: "form-group p-3" };
+const _hoisted_2$4 = { class: "form-group p-3" };
 const _hoisted_3$3 = { for: "name" };
 const _hoisted_4$2 = ["placeholder", "value"];
 const _hoisted_5$2 = {
@@ -11817,7 +10751,7 @@ const _hoisted_5$2 = {
 };
 const _hoisted_6$2 = ["disabled"];
 
-function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+function render$c(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_modal = resolveComponent("media-modal");
 
   return (_ctx.$store.state.showRenameModal)
@@ -11829,7 +10763,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
         onClose: _cache[5] || (_cache[5] = $event => ($options.close()))
       }, {
         header: withCtx(() => [
-          createBaseVNode("h3", _hoisted_1$4, toDisplayString(_ctx.translate('COM_MEDIA_RENAME')), 1 /* TEXT */)
+          createBaseVNode("h3", _hoisted_1$c, toDisplayString(_ctx.translate('COM_MEDIA_RENAME')), 1 /* TEXT */)
         ]),
         body: withCtx(() => [
           createBaseVNode("div", null, [
@@ -11838,7 +10772,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
               novalidate: "",
               onSubmit: _cache[0] || (_cache[0] = withModifiers((...args) => ($options.save && $options.save(...args)), ["prevent"]))
             }, [
-              createBaseVNode("div", _hoisted_2$3, [
+              createBaseVNode("div", _hoisted_2$4, [
                 createBaseVNode("label", _hoisted_3$3, toDisplayString(_ctx.translate('COM_MEDIA_NAME')), 1 /* TEXT */),
                 createBaseVNode("div", {
                   class: normalizeClass({'input-group': $options.extension.length})
@@ -11883,10 +10817,10 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
     : createCommentVNode("v-if", true)
 }
 
-script$4.render = render$4;
-script$4.__file = "administrator/components/com_media/resources/scripts/components/modals/rename-modal.vue";
+script$c.render = render$c;
+script$c.__file = "administrator/components/com_media/resources/scripts/components/modals/rename-modal.vue";
 
-var script$3 = {
+var script$b = {
   name: 'MediaShareModal',
   computed: {
     item() {
@@ -11917,7 +10851,7 @@ var script$3 = {
       try {
         document.execCommand('copy');
       } catch (err) {
-        // TODO Error handling in joomla way
+        // @todo Error handling in joomla way
         // eslint-disable-next-line no-undef
         alert(translate('COM_MEDIA_SHARE_COPY_FAILED_ERROR'));
       }
@@ -11925,11 +10859,11 @@ var script$3 = {
   },
 };
 
-const _hoisted_1$3 = {
+const _hoisted_1$b = {
   id: "shareTitle",
   class: "modal-title"
 };
-const _hoisted_2$2 = { class: "p-3" };
+const _hoisted_2$3 = { class: "p-3" };
 const _hoisted_3$2 = { class: "desc" };
 const _hoisted_4$1 = {
   key: 0,
@@ -11949,7 +10883,7 @@ const _hoisted_9$1 = [
   _hoisted_8$1
 ];
 
-function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+function render$b(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_modal = resolveComponent("media-modal");
 
   return (_ctx.$store.state.showShareModal)
@@ -11961,10 +10895,10 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
         onClose: _cache[4] || (_cache[4] = $event => ($options.close()))
       }, {
         header: withCtx(() => [
-          createBaseVNode("h3", _hoisted_1$3, toDisplayString(_ctx.translate('COM_MEDIA_SHARE')), 1 /* TEXT */)
+          createBaseVNode("h3", _hoisted_1$b, toDisplayString(_ctx.translate('COM_MEDIA_SHARE')), 1 /* TEXT */)
         ]),
         body: withCtx(() => [
-          createBaseVNode("div", _hoisted_2$2, [
+          createBaseVNode("div", _hoisted_2$3, [
             createBaseVNode("div", _hoisted_3$2, [
               createTextVNode(toDisplayString(_ctx.translate('COM_MEDIA_SHARE_DESC')) + " ", 1 /* TEXT */),
               (!$options.url)
@@ -12013,10 +10947,10 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
     : createCommentVNode("v-if", true)
 }
 
-script$3.render = render$3;
-script$3.__file = "administrator/components/com_media/resources/scripts/components/modals/share-modal.vue";
+script$b.render = render$b;
+script$b.__file = "administrator/components/com_media/resources/scripts/components/modals/share-modal.vue";
 
-var script$2 = {
+var script$a = {
   name: 'MediaShareModal',
   computed: {
     item() {
@@ -12036,14 +10970,14 @@ var script$2 = {
   },
 };
 
-const _hoisted_1$2 = {
+const _hoisted_1$a = {
   id: "confirmDeleteTitle",
   class: "modal-title"
 };
-const _hoisted_2$1 = { class: "p-3" };
+const _hoisted_2$2 = { class: "p-3" };
 const _hoisted_3$1 = { class: "desc" };
 
-function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+function render$a(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_media_modal = resolveComponent("media-modal");
 
   return (_ctx.$store.state.showConfirmDeleteModal)
@@ -12055,10 +10989,10 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
         onClose: _cache[2] || (_cache[2] = $event => ($options.close()))
       }, {
         header: withCtx(() => [
-          createBaseVNode("h3", _hoisted_1$2, toDisplayString(_ctx.translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING')), 1 /* TEXT */)
+          createBaseVNode("h3", _hoisted_1$a, toDisplayString(_ctx.translate('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING')), 1 /* TEXT */)
         ]),
         body: withCtx(() => [
-          createBaseVNode("div", _hoisted_2$1, [
+          createBaseVNode("div", _hoisted_2$2, [
             createBaseVNode("div", _hoisted_3$1, toDisplayString(_ctx.translate('JGLOBAL_CONFIRM_DELETE')), 1 /* TEXT */)
           ])
         ]),
@@ -12080,10 +11014,10 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
     : createCommentVNode("v-if", true)
 }
 
-script$2.render = render$2;
-script$2.__file = "administrator/components/com_media/resources/scripts/components/modals/confirm-delete-modal.vue";
+script$a.render = render$a;
+script$a.__file = "administrator/components/com_media/resources/scripts/components/modals/confirm-delete-modal.vue";
 
-var script$1 = {
+var script$9 = {
   name: 'MediaInfobar',
   computed: {
     /* Get the item to show in the infobar */
@@ -12116,11 +11050,11 @@ var script$1 = {
   },
 };
 
-const _hoisted_1$1 = {
+const _hoisted_1$9 = {
   key: 0,
   class: "media-infobar"
 };
-const _hoisted_2 = {
+const _hoisted_2$1 = {
   key: 0,
   class: "text-center"
 };
@@ -12139,18 +11073,18 @@ const _hoisted_11 = { key: 4 };
 const _hoisted_12 = { key: 5 };
 const _hoisted_13 = { key: 6 };
 
-function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+function render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createBlock(Transition, { name: "infobar" }, {
     default: withCtx(() => [
       ($options.showInfoBar && $options.item)
-        ? (openBlock(), createElementBlock("div", _hoisted_1$1, [
+        ? (openBlock(), createElementBlock("div", _hoisted_1$9, [
             createBaseVNode("span", {
               class: "infobar-close",
               onClick: _cache[0] || (_cache[0] = $event => ($options.hideInfoBar()))
             }, "×"),
             createBaseVNode("h2", null, toDisplayString($options.item.name), 1 /* TEXT */),
             ($options.item.path === '/')
-              ? (openBlock(), createElementBlock("div", _hoisted_2, _hoisted_5))
+              ? (openBlock(), createElementBlock("div", _hoisted_2$1, _hoisted_5))
               : (openBlock(), createElementBlock("dl", _hoisted_6, [
                   createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1 /* TEXT */),
                   createBaseVNode("dd", null, toDisplayString($options.item.directory), 1 /* TEXT */),
@@ -12184,10 +11118,10 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
   }))
 }
 
-script$1.render = render$1;
-script$1.__file = "administrator/components/com_media/resources/scripts/components/infobar/infobar.vue";
+script$9.render = render$9;
+script$9.__file = "administrator/components/com_media/resources/scripts/components/infobar/infobar.vue";
 
-var script = {
+var script$8 = {
   name: 'MediaUpload',
   props: {
     // eslint-disable-next-line vue/require-default-prop
@@ -12246,9 +11180,9 @@ var script = {
   },
 };
 
-const _hoisted_1 = ["name", "multiple", "accept"];
+const _hoisted_1$8 = ["name", "multiple", "accept"];
 
-function render(_ctx, _cache, $props, $setup, $data, $options) {
+function render$8(_ctx, _cache, $props, $setup, $data, $options) {
   return (openBlock(), createElementBlock("input", {
     ref: "fileInput",
     type: "file",
@@ -12257,11 +11191,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     multiple: $props.multiple,
     accept: $props.accept,
     onChange: _cache[0] || (_cache[0] = (...args) => ($options.upload && $options.upload(...args)))
-  }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1))
+  }, null, 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$8))
 }
 
-script.render = render;
-script.__file = "administrator/components/com_media/resources/scripts/components/upload/upload.vue";
+script$8.render = render$8;
+script$8.__file = "administrator/components/com_media/resources/scripts/components/upload/upload.vue";
 
 /**
  * Translate plugin
@@ -13635,7 +12569,7 @@ const getContents = (context, payload) => {
     context.commit(SELECT_DIRECTORY, payload);
     context.commit(SET_IS_LOADING, false);
   }).catch(error => {
-    // TODO error handling
+    // @todo error handling
     context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
     console.log('error', error);
@@ -13653,7 +12587,7 @@ const getFullContents = (context, payload) => {
     context.commit(LOAD_FULL_CONTENTS_SUCCESS, contents.files[0]);
     context.commit(SET_IS_LOADING, false);
   }).catch(error => {
-    // TODO error handling
+    // @todo error handling
     context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
     console.log('error', error);
@@ -13728,7 +12662,7 @@ const createDirectory = (context, payload) => {
     context.commit(HIDE_CREATE_FOLDER_MODAL);
     context.commit(SET_IS_LOADING, false);
   }).catch(error => {
-    // TODO error handling
+    // @todo error handling
     context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
     console.log('error', error);
@@ -13773,7 +12707,7 @@ const renameItem = (context, payload) => {
     context.commit(HIDE_RENAME_MODAL);
     context.commit(SET_IS_LOADING, false);
   }).catch(error => {
-    // TODO error handling
+    // @todo error handling
     context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
     console.log('error', error);
@@ -13798,7 +12732,7 @@ const deleteSelectedItems = context => {
         context.commit(UNSELECT_ALL_BROWSER_ITEMS);
         context.commit(SET_IS_LOADING, false);
       }).catch(error => {
-        // TODO error handling
+        // @todo error handling
         context.commit(SET_IS_LOADING, false); // eslint-disable-next-line no-console
 
         console.log('error', error);
@@ -13958,7 +12892,7 @@ var mutations = {
    */
   [UPLOAD_SUCCESS]: (state, payload) => {
     const file = payload;
-    const isNew = !state.files.some(existing => existing.path === file.path); // TODO handle file_exists
+    const isNew = !state.files.some(existing => existing.path === file.path); // @todo handle file_exists
 
     if (isNew) {
       const parentDirectory = state.directories.find(existing => existing.path === file.directory);
@@ -14237,29 +13171,604 @@ var store = createStore({
   strict: "production" !== 'production'
 });
 
+var script$7 = {
+  name: 'MediaBrowserActionItemRename',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    openRenameModal() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.closingAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$7 = ["aria-label", "title"];
+
+function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    ref: "actionRenameButton",
+    type: "button",
+    class: "action-rename",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+    title: _ctx.translate('COM_MEDIA_ACTION_RENAME'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.openRenameModal()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.openRenameModal()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-text-width",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openRenameModal()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$7))
+}
+
+script$7.render = render$7;
+script$7.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/rename.vue";
+
+var script$6 = {
+  name: 'MediaBrowserActionItemToggle',
+  props: {
+    mainAction: { type: Function, default: () => {} },
+    onFocused: { type: Function, default: () => {} },
+  },
+  methods: {
+    openActions() {
+      this.mainAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$6 = ["aria-label", "title"];
+
+function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-toggle",
+    "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+    title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["enter"])),
+      _cache[4] || (_cache[4] = withKeys($event => ($options.openActions()), ["space"]))
+    ],
+    onFocus: _cache[2] || (_cache[2] = $event => ($options.focused(true))),
+    onBlur: _cache[3] || (_cache[3] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-ellipsis-h",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openActions()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$6))
+}
+
+script$6.render = render$6;
+script$6.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/toggle.vue";
+
+var script$5 = {
+  name: 'MediaBrowserActionItemPreview',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    openPreview() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.closingAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$5 = ["aria-label", "title"];
+
+function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-preview",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+    title: _ctx.translate('COM_MEDIA_ACTION_PREVIEW'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.openPreview()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.openPreview()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-search-plus",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openPreview()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$5))
+}
+
+script$5.render = render$5;
+script$5.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/preview.vue";
+
+var script$4 = {
+  name: 'MediaBrowserActionItemDownload',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    download() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.closingAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$4 = ["aria-label", "title"];
+
+function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-download",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+    title: _ctx.translate('COM_MEDIA_ACTION_DOWNLOAD'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.download()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.download()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-download",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.download()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$4))
+}
+
+script$4.render = render$4;
+script$4.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/download.vue";
+
+var script$3 = {
+  name: 'MediaBrowserActionItemShare',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    openShareUrlModal() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.closingAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$3 = ["aria-label", "title"];
+
+function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-url",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+    title: _ctx.translate('COM_MEDIA_ACTION_SHARE'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.openShareUrlModal()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.openShareUrlModal()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-link",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openShareUrlModal()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$3))
+}
+
+script$3.render = render$3;
+script$3.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/share.vue";
+
+var script$2 = {
+  name: 'MediaBrowserActionItemDelete',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    openConfirmDeleteModal() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.hideActions();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+  },
+};
+
+const _hoisted_1$2 = ["aria-label", "title"];
+
+function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-delete",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+    title: _ctx.translate('COM_MEDIA_ACTION_DELETE'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.openConfirmDeleteModal()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.openConfirmDeleteModal()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-trash",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.openConfirmDeleteModal()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$2))
+}
+
+script$2.render = render$2;
+script$2.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/delete.vue";
+
+var script$1 = {
+  name: 'MediaBrowserActionItemEdit',
+  props: {
+    onFocused: { type: Function, default: () => {} },
+    mainAction: { type: Function, default: () => {} },
+    closingAction: { type: Function, default: () => {} },
+  },
+  methods: {
+    openRenameModal() {
+      this.mainAction();
+    },
+    hideActions() {
+      this.closingAction();
+    },
+    focused(bool) {
+      this.onFocused(bool);
+    },
+    editItem() {
+      this.mainAction();
+    },
+  },
+};
+
+const _hoisted_1$1 = ["aria-label", "title"];
+
+function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return (openBlock(), createElementBlock("button", {
+    type: "button",
+    class: "action-edit",
+    "aria-label": _ctx.translate('COM_MEDIA_ACTION_EDIT'),
+    title: _ctx.translate('COM_MEDIA_ACTION_EDIT'),
+    onKeyup: [
+      _cache[1] || (_cache[1] = withKeys($event => ($options.editItem()), ["enter"])),
+      _cache[2] || (_cache[2] = withKeys($event => ($options.editItem()), ["space"])),
+      _cache[5] || (_cache[5] = withKeys($event => ($options.hideActions()), ["esc"]))
+    ],
+    onFocus: _cache[3] || (_cache[3] = $event => ($options.focused(true))),
+    onBlur: _cache[4] || (_cache[4] = $event => ($options.focused(false)))
+  }, [
+    createBaseVNode("span", {
+      class: "image-browser-action icon-pencil-alt",
+      "aria-hidden": "true",
+      onClick: _cache[0] || (_cache[0] = withModifiers($event => ($options.editItem()), ["stop"]))
+    })
+  ], 40 /* PROPS, HYDRATE_EVENTS */, _hoisted_1$1))
+}
+
+script$1.render = render$1;
+script$1.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/edit.vue";
+
+var script = {
+  name: 'MediaBrowserActionItemsContainer',
+  props: {
+    item: { type: Object, default: () => {} },
+    onFocused: { type: Function, default: () => {} },
+    edit: { type: Function, default: () => {} },
+    editable: { type: Function, default: () => false },
+    previewable: { type: Boolean, default: false },
+    downloadable: { type: Boolean, default: false },
+    shareable: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      showActions: false,
+    };
+  },
+  computed: {
+    /* Check if the item is an document to edit */
+    canEdit() {
+      return this.editable();
+    },
+  },
+  watch: {
+    // eslint-disable-next-line
+    "$store.state.showRenameModal"(show) {
+      if (
+        !show
+        && this.$refs.actionToggle
+        && this.$store.state.selectedItems.find(
+          (item) => item.name === this.item.name,
+        ) !== undefined
+      ) {
+        this.$refs.actionToggle.$el.focus();
+      }
+    },
+  },
+  methods: {
+    /* Hide actions dropdown */
+    hideActions() {
+      this.showActions = false;
+    },
+    /* Preview an item */
+    openPreview() {
+      this.$store.commit(SHOW_PREVIEW_MODAL);
+      this.$store.dispatch('getFullContents', this.item);
+    },
+    /* Download an item */
+    download() {
+      this.$store.dispatch('download', this.item);
+    },
+    /* Opening confirm delete modal */
+    openConfirmDeleteModal() {
+      this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_CONFIRM_DELETE_MODAL);
+    },
+    /* Rename an item */
+    openRenameModal() {
+      this.hideActions();
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_RENAME_MODAL);
+    },
+    /* Open modal for share url */
+    openShareUrlModal() {
+      this.$store.commit(SELECT_BROWSER_ITEM, this.item);
+      this.$store.commit(SHOW_SHARE_MODAL);
+    },
+    /* Open actions dropdown */
+    openActions() {
+      this.showActions = true;
+      if (this.previewable) {
+        this.$nextTick(() => this.$refs.actionPreview.$el.focus());
+      } else {
+        this.$nextTick(() => this.$refs.actionRename.$el.focus());
+      }
+    },
+    /* Open actions dropdown and focus on last element */
+    openLastActions() {
+      this.showActions = true;
+      this.$nextTick(() => this.$refs.actionDelete.$el.focus());
+    },
+    editItem() {
+      this.edit();
+    },
+  },
+};
+
+const _hoisted_1 = ["aria-label", "title"];
+const _hoisted_2 = {
+  key: 0,
+  class: "media-browser-actions-list"
+};
+
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_media_browser_action_item_toggle = resolveComponent("media-browser-action-item-toggle");
+  const _component_media_browser_action_item_preview = resolveComponent("media-browser-action-item-preview");
+  const _component_media_browser_action_item_download = resolveComponent("media-browser-action-item-download");
+  const _component_media_browser_action_item_rename = resolveComponent("media-browser-action-item-rename");
+  const _component_media_browser_action_item_edit = resolveComponent("media-browser-action-item-edit");
+  const _component_media_browser_action_item_share = resolveComponent("media-browser-action-item-share");
+  const _component_media_browser_action_item_delete = resolveComponent("media-browser-action-item-delete");
+
+  return (openBlock(), createElementBlock(Fragment, null, [
+    createBaseVNode("span", {
+      class: "media-browser-select",
+      "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
+    }, null, 8 /* PROPS */, _hoisted_1),
+    createBaseVNode("div", {
+      class: normalizeClass(["media-browser-actions", { active: $data.showActions }])
+    }, [
+      createVNode(_component_media_browser_action_item_toggle, {
+        ref: "actionToggle",
+        "on-focused": _ctx.focused,
+        "main-action": $options.openActions,
+        onKeyup: [
+          _cache[0] || (_cache[0] = withKeys($event => ($options.openLastActions()), ["up"])),
+          _cache[1] || (_cache[1] = withKeys($event => ($options.openActions()), ["down"]))
+        ]
+      }, null, 8 /* PROPS */, ["on-focused", "main-action"]),
+      ($data.showActions)
+        ? (openBlock(), createElementBlock("div", _hoisted_2, [
+            createBaseVNode("ul", null, [
+              createBaseVNode("li", null, [
+                ($props.previewable)
+                  ? (openBlock(), createBlock(_component_media_browser_action_item_preview, {
+                      key: 0,
+                      ref: "actionPreview",
+                      "on-focused": _ctx.focused,
+                      "main-action": $options.openPreview,
+                      "closing-action": $options.hideActions,
+                      onKeyup: [
+                        _cache[2] || (_cache[2] = withKeys($event => (_ctx.$refs.actionDelete.$el.focus()), ["up"])),
+                        _cache[3] || (_cache[3] = withKeys($event => (_ctx.$refs.actionDownload.$el.focus()), ["down"]))
+                      ]
+                    }, null, 8 /* PROPS */, ["on-focused", "main-action", "closing-action"]))
+                  : createCommentVNode("v-if", true)
+              ]),
+              createBaseVNode("li", null, [
+                ($props.downloadable)
+                  ? (openBlock(), createBlock(_component_media_browser_action_item_download, {
+                      key: 0,
+                      ref: "actionDownload",
+                      "on-focused": _ctx.focused,
+                      "main-action": $options.download,
+                      "closing-action": $options.hideActions,
+                      onKeyup: [
+                        _cache[4] || (_cache[4] = withKeys($event => (_ctx.$refs.actionPreview.$el.focus()), ["up"])),
+                        _cache[5] || (_cache[5] = withKeys($event => (_ctx.$refs.actionRename.$el.focus()), ["down"]))
+                      ]
+                    }, null, 8 /* PROPS */, ["on-focused", "main-action", "closing-action"]))
+                  : createCommentVNode("v-if", true)
+              ]),
+              createBaseVNode("li", null, [
+                createVNode(_component_media_browser_action_item_rename, {
+                  ref: "actionRename",
+                  "on-focused": _ctx.focused,
+                  "main-action": $options.openRenameModal,
+                  "closing-action": $options.hideActions,
+                  onKeyup: [
+                    _cache[6] || (_cache[6] = withKeys($event => (
+              $props.downloadable
+                ? _ctx.$refs.actionDownload.$el.focus()
+                : _ctx.$refs.actionDelete.$el.focus()
+            ), ["up"])),
+                    _cache[7] || (_cache[7] = withKeys($event => (
+              $options.canEdit
+                ? _ctx.$refs.actionEdit.$el.focus()
+                : $props.shareable
+                  ? _ctx.$refs.actionShare.$el.focus()
+                  : _ctx.$refs.actionDelete.$el.focus()
+            ), ["down"]))
+                  ]
+                }, null, 8 /* PROPS */, ["on-focused", "main-action", "closing-action"])
+              ]),
+              createBaseVNode("li", null, [
+                ($options.canEdit)
+                  ? (openBlock(), createBlock(_component_media_browser_action_item_edit, {
+                      key: 0,
+                      ref: "actionEdit",
+                      "on-focused": _ctx.focused,
+                      "main-action": $options.editItem,
+                      "closing-action": $options.hideActions,
+                      onKeyup: [
+                        _cache[8] || (_cache[8] = withKeys($event => (_ctx.$refs.actionRename.$el.focus()), ["up"])),
+                        _cache[9] || (_cache[9] = withKeys($event => (_ctx.$refs.actionShare.$el.focus()), ["down"]))
+                      ]
+                    }, null, 8 /* PROPS */, ["on-focused", "main-action", "closing-action"]))
+                  : createCommentVNode("v-if", true)
+              ]),
+              createBaseVNode("li", null, [
+                ($props.shareable)
+                  ? (openBlock(), createBlock(_component_media_browser_action_item_share, {
+                      key: 0,
+                      ref: "actionShare",
+                      "on-focused": _ctx.focused,
+                      "main-action": $options.openShareUrlModal,
+                      "closing-action": $options.hideActions,
+                      onKeyup: [
+                        _cache[10] || (_cache[10] = withKeys($event => (
+              $options.canEdit
+                ? _ctx.$refs.actionEdit.$el.focus()
+                : _ctx.$refs.actionRename.$el.focus()
+            ), ["up"])),
+                        _cache[11] || (_cache[11] = withKeys($event => (_ctx.$refs.actionDelete.$el.focus()), ["down"]))
+                      ]
+                    }, null, 8 /* PROPS */, ["on-focused", "main-action", "closing-action"]))
+                  : createCommentVNode("v-if", true)
+              ]),
+              createBaseVNode("li", null, [
+                createVNode(_component_media_browser_action_item_delete, {
+                  ref: "actionDelete",
+                  "on-focused": _ctx.focused,
+                  "main-action": $options.openConfirmDeleteModal,
+                  "hide-actions": $options.hideActions,
+                  onKeyup: [
+                    _cache[12] || (_cache[12] = withKeys($event => (
+              $props.shareable
+                ? _ctx.$refs.actionShare.$el.focus()
+                : _ctx.$refs.actionRename.$el.focus()
+            ), ["up"])),
+                    _cache[13] || (_cache[13] = withKeys($event => (
+              $props.previewable
+                ? _ctx.$refs.actionPreview.$el.focus()
+                : _ctx.$refs.actionRename.$el.focus()
+            ), ["down"]))
+                  ]
+                }, null, 8 /* PROPS */, ["on-focused", "main-action", "hide-actions"])
+              ])
+            ])
+          ]))
+        : createCommentVNode("v-if", true)
+    ], 2 /* CLASS */)
+  ], 64 /* STABLE_FRAGMENT */))
+}
+
+script.render = render;
+script.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/actionItemsContainer.vue";
+
 window.MediaManager = window.MediaManager || {}; // Register the media manager event bus
 
 window.MediaManager.Event = new Event(); // Create the Vue app instance
 
-const app = createApp(script$m);
+const app = createApp(script$u);
 app.use(store);
 app.use(Translate); // Register the vue components
 
-app.component('MediaDrive', script$k);
-app.component('MediaDisk', script$l);
-app.component('MediaTree', script$j);
-app.component('MediaTreeItem', script$i);
-app.component('MediaToolbar', script$h);
-app.component('MediaBreadcrumb', script$g);
-app.component('MediaBrowser', script$f);
+app.component('MediaDrive', script$s);
+app.component('MediaDisk', script$t);
+app.component('MediaTree', script$r);
+app.component('MediaTreeItem', script$q);
+app.component('MediaToolbar', script$p);
+app.component('MediaBreadcrumb', script$o);
+app.component('MediaBrowser', script$n);
 app.component('MediaBrowserItem', BrowserItem);
-app.component('MediaBrowserItemRow', script$8);
-app.component('MediaModal', script$7);
-app.component('MediaCreateFolderModal', script$6);
-app.component('MediaPreviewModal', script$5);
-app.component('MediaRenameModal', script$4);
-app.component('MediaShareModal', script$3);
-app.component('MediaConfirmDeleteModal', script$2);
-app.component('MediaInfobar', script$1);
-app.component('MediaUpload', script);
+app.component('MediaBrowserItemRow', script$g);
+app.component('MediaModal', script$f);
+app.component('MediaCreateFolderModal', script$e);
+app.component('MediaPreviewModal', script$d);
+app.component('MediaRenameModal', script$c);
+app.component('MediaShareModal', script$b);
+app.component('MediaConfirmDeleteModal', script$a);
+app.component('MediaInfobar', script$9);
+app.component('MediaUpload', script$8);
+app.component('MediaBrowserActionItemToggle', script$6);
+app.component('MediaBrowserActionItemPreview', script$5);
+app.component('MediaBrowserActionItemDownload', script$4);
+app.component('MediaBrowserActionItemRename', script$7);
+app.component('MediaBrowserActionItemShare', script$3);
+app.component('MediaBrowserActionItemDelete', script$2);
+app.component('MediaBrowserActionItemEdit', script$1);
+app.component('MediaBrowserActionItemsContainer', script);
 app.mount('#com-media');

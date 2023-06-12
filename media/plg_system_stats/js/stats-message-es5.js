@@ -43,17 +43,6 @@
             plugin: 'sendAlways'
           });
         }
-      }); // Allow once
-
-      document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('js-pstats-btn-allow-once')) {
-          event.preventDefault(); // Remove message
-
-          joomlaAlert.close();
-          callback({
-            plugin: 'sendOnce'
-          });
-        }
       }); // Never allow
 
       document.addEventListener('click', function (event) {

@@ -1,4 +1,4 @@
-import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig } from './dom.js?5.1.2';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------

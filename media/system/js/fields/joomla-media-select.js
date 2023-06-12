@@ -131,12 +131,14 @@ const getImageSize = url => new Promise((resolve, reject) => {
 
 const insertAsImage = async (media, editor, fieldClass) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const {
-        rootFull
-      } = Joomla.getOptions('system.paths'); // eslint-disable-next-line prefer-destructuring
+    const {
+      rootFull
+    } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
 
-      Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+    if (parts.length > 1) {
+      // eslint-disable-next-line prefer-destructuring
+      Joomla.selectedMediaFile.url = parts[1];
 
       if (media.thumb_path) {
         Joomla.selectedMediaFile.thumb = media.thumb_path;
@@ -218,12 +220,14 @@ const insertAsImage = async (media, editor, fieldClass) => {
 
 const insertAsOther = (media, editor, fieldClass, type) => {
   if (media.url) {
-    if (/local-/.test(media.adapter)) {
-      const {
-        rootFull
-      } = Joomla.getOptions('system.paths'); // eslint-disable-next-line prefer-destructuring
+    const {
+      rootFull
+    } = Joomla.getOptions('system.paths');
+    const parts = media.url.split(rootFull);
 
-      Joomla.selectedMediaFile.url = `${media.url.split(rootFull)[1]}`;
+    if (parts.length > 1) {
+      // eslint-disable-next-line prefer-destructuring
+      Joomla.selectedMediaFile.url = parts[1];
     } else {
       Joomla.selectedMediaFile.url = media.url;
     }

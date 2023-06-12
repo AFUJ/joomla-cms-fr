@@ -7,11 +7,11 @@
    */
   (function () {
     document.addEventListener('DOMContentLoaded', function () {
-      var folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
-      var innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
-      var openLists = [].slice.call(document.querySelectorAll('.show > ul'));
-      var fileModalFolders = [].slice.call(document.querySelectorAll('#fileModal .folder-url'));
-      var folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url')); // Hide all the folders when the page loads
+      var folders = [].concat(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
+      var innerLists = [].concat(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
+      var openLists = [].concat(document.querySelectorAll('.show > ul'));
+      var fileModalFolders = [].concat(document.querySelectorAll('#fileModal .folder-url'));
+      var folderModalFolders = [].concat(document.querySelectorAll('#folderModal .folder-url')); // Hide all the folders when the page loads
 
       innerLists.forEach(function (innerList) {
         innerList.classList.add('hidden');
@@ -25,6 +25,10 @@
         folder.addEventListener('click', function (event) {
           event.preventDefault();
           var list = event.currentTarget.parentNode.querySelector('ul');
+
+          if (!list) {
+            return;
+          }
 
           if (!list.classList.contains('hidden')) {
             list.classList.add('hidden');
@@ -41,9 +45,12 @@
             fileModalFold.classList.remove('selected');
           });
           event.currentTarget.classList.add('selected');
-          var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
-          listElsAddressToAdd.forEach(function (element) {
+          var ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
+          [].concat(document.querySelectorAll('#fileModal input.address')).forEach(function (element) {
             element.value = event.currentTarget.getAttribute('data-id');
+          });
+          [].concat(document.querySelectorAll('#fileModal input[name="isMedia"]')).forEach(function (el) {
+            el.value = ismedia;
           });
         });
       }); // Folder modal tree selector
@@ -55,14 +62,17 @@
             folderModalFldr.classList.remove('selected');
           });
           event.currentTarget.classList.add('selected');
-          var listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
-          listElsAddressToAdd.forEach(function (element) {
+          var ismedia = event.currentTarget.dataset.base === 'media' ? 1 : 0;
+          [].concat(document.querySelectorAll('#folderModal input.address')).forEach(function (element) {
             element.value = event.currentTarget.getAttribute('data-id');
+          });
+          [].concat(document.querySelectorAll('#folderModal input[name="isMedia"]')).forEach(function (el) {
+            el.value = ismedia;
           });
         });
       });
       var treeContainer = document.querySelector('#treeholder .treeselect');
-      var listEls = [].slice.call(treeContainer.querySelectorAll('.folder.show'));
+      var listEls = [].concat(treeContainer.querySelectorAll('.folder.show'));
       var filePathEl = document.querySelector('p.lead.hidden.path');
 
       if (filePathEl) {
@@ -77,8 +87,7 @@
 
             if (index === listEls.length - 1) {
               var parentUl = element.querySelector('ul');
-              var allLi = [].slice.call(parentUl.querySelectorAll('li'));
-              allLi.forEach(function (liElement) {
+              [].concat(parentUl.querySelectorAll('li')).forEach(function (liElement) {
                 var aEl = liElement.querySelector('a');
                 var spanEl = aEl.querySelector('span');
 

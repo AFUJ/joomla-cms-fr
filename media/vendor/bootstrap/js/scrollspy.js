@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, f as getSelectorFromElement, M as Manipulator, h as getElement, a as typeCheckConfig } from './dom.js?5.1.2';
+import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, f as getSelectorFromElement, M as Manipulator, h as getElement, a as typeCheckConfig } from './dom.js?5.1.3';
 
 /**
  * --------------------------------------------------------------------------

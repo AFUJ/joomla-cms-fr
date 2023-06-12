@@ -14,6 +14,9 @@
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -666,13 +669,14 @@
           var target = _ref3.target;
 
           // Make sure the target in the correct container
-          if (!item || that.rowsContainer && target.closest(that.rowsContainer) !== that.containerWithRows) {
+          if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
             return;
-          } // Find a hovered row, and replace it
+          } // Find a hovered row
 
 
-          var row = target.matches(that.repeatableElement) ? target : target.closest(that.repeatableElement);
-          if (!row) return;
+          var row = target.closest(that.repeatableElement); // One more check for correct parent
+
+          if (!row || row.closest('joomla-field-subform') !== that) return;
           switchRowPositions(item, row);
         }); // dragend event to clean-up after drop or abort
         // which fires whether or not the drop target was valid

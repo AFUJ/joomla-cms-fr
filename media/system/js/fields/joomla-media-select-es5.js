@@ -50,6 +50,9 @@
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -281,17 +284,19 @@
 
   var insertAsImage = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(media, editor, fieldClass) {
-      var _Joomla$getOptions, rootFull, attribs, isLazy, alt, appendAlt, classes, figClasses, figCaption, imageElement, currentModal;
+      var _Joomla$getOptions, rootFull, parts, attribs, isLazy, alt, appendAlt, classes, figClasses, figCaption, imageElement, currentModal;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               if (media.url) {
-                if (/local-/.test(media.adapter)) {
-                  _Joomla$getOptions = Joomla.getOptions('system.paths'), rootFull = _Joomla$getOptions.rootFull; // eslint-disable-next-line prefer-destructuring
+                _Joomla$getOptions = Joomla.getOptions('system.paths'), rootFull = _Joomla$getOptions.rootFull;
+                parts = media.url.split(rootFull);
 
-                  Joomla.selectedMediaFile.url = media.url.split(rootFull)[1];
+                if (parts.length > 1) {
+                  // eslint-disable-next-line prefer-destructuring
+                  Joomla.selectedMediaFile.url = parts[1];
 
                   if (media.thumb_path) {
                     Joomla.selectedMediaFile.thumb = media.thumb_path;
@@ -421,12 +426,14 @@
 
   var insertAsOther = function insertAsOther(media, editor, fieldClass, type) {
     if (media.url) {
-      if (/local-/.test(media.adapter)) {
-        var _Joomla$getOptions2 = Joomla.getOptions('system.paths'),
-            rootFull = _Joomla$getOptions2.rootFull; // eslint-disable-next-line prefer-destructuring
+      var _Joomla$getOptions2 = Joomla.getOptions('system.paths'),
+          rootFull = _Joomla$getOptions2.rootFull;
 
+      var parts = media.url.split(rootFull);
 
-        Joomla.selectedMediaFile.url = "" + media.url.split(rootFull)[1];
+      if (parts.length > 1) {
+        // eslint-disable-next-line prefer-destructuring
+        Joomla.selectedMediaFile.url = parts[1];
       } else {
         Joomla.selectedMediaFile.url = media.url;
       }

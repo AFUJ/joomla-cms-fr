@@ -7,6 +7,7 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku', $vendorDir . '/voku/portable-utf8/src/voku'),
+    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'Webauthn\\MetadataService\\' => array($vendorDir . '/web-auth/metadata-service/src'),
     'Webauthn\\' => array($vendorDir . '/web-auth/webauthn-lib/src'),
     'Wamania\\Snowball\\' => array($vendorDir . '/wamania/php-stemmer/src'),
@@ -71,6 +72,7 @@ return array(
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Defuse\\Crypto\\' => array($vendorDir . '/defuse/php-encryption/src'),
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
+    'Cron\\' => array($vendorDir . '/dragonmantank/cron-expression/src/Cron'),
     'Cose\\' => array($vendorDir . '/web-auth/cose-lib/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
     'CBOR\\' => array($vendorDir . '/spomky-labs/cbor-php/src'),
