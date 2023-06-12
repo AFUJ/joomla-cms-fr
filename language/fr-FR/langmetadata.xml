@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="site">
 	<name>French (fr-FR)</name>
-	<version>4.0.2.1</version>
-	<creationDate>2021-08-24</creationDate>
+	<version>4.0.2.2</version>
+	<creationDate>2021-08-25</creationDate>
 	<author>Joomla! Project - French translation team</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
@@ -11,7 +11,7 @@
 	<description><![CDATA[fr-FR site language]]></description>
 	<metadata>
 		<name>French (fr-FR)</name>
-		<nativeName>French (France)</nativeName>
+		<nativeName>Français (France)</nativeName>
 		<tag>fr-FR</tag>
 		<rtl>0</rtl>
 		<locale>fr_FR.utf8, fr_FR.UTF-8, fr_FR, fr, français, french-fr, france, francophone</locale>
