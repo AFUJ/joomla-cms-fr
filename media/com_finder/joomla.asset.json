@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_finder.filters",
+      "type": "script",
+      "uri": "com_finder/filters.min.js",
+      "dependencies": [
+        "com_finder.filters.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "db387bd9ba17068d590c9475b667efbec597c6ef"
+    },
+    {
       "name": "com_finder.dates",
       "type": "style",
       "uri": "com_finder/dates.min.css",
@@ -25,24 +37,6 @@
       "version": "306fd844307e82e0ff07cd95c7c7f608b6aa7462"
     },
     {
-      "name": "com_finder.filters",
-      "type": "script",
-      "uri": "com_finder/filters.min.js",
-      "dependencies": [
-        "com_finder.filters.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "db387bd9ba17068d590c9475b667efbec597c6ef"
-    },
-    {
-      "name": "com_finder.finder",
-      "type": "style",
-      "uri": "com_finder/finder.min.css",
-      "version": "82db75ef79016b68cc228ec00f8e660e5163c1ed"
-    },
-    {
       "name": "com_finder.finder.es5",
       "type": "script",
       "uri": "com_finder/finder-es5.min.js",
@@ -54,6 +48,12 @@
         "defer": true
       },
       "version": "bad573eb3c559a3e1070529bf0ccb8d8745ba5f3"
+    },
+    {
+      "name": "com_finder.finder",
+      "type": "style",
+      "uri": "com_finder/finder.min.css",
+      "version": "82db75ef79016b68cc228ec00f8e660e5163c1ed"
     },
     {
       "name": "com_finder.finder",
@@ -79,6 +79,31 @@
         "defer": true
       },
       "version": "2ad312f3f022664abf2d79c2270704ba4941c412"
+    },
+    {
+      "name": "com_finder.finder-edit",
+      "type": "script",
+      "uri": "com_finder/finder-edit.min.js",
+      "dependencies": [
+        "com_finder.finder-edit.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "8136efad79e2e979f422e821abbbddc2486a0a90"
+    },
+    {
+      "name": "com_finder.indexer.es5",
+      "type": "script",
+      "uri": "com_finder/indexer-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "5ad72d9f2f580a5d4916967fcfbdb0410e666897"
     },
     {
       "name": "com_finder.indexer",
@@ -122,31 +147,6 @@
         "type": "module"
       },
       "version": "07f0dd3a1d5c597c7a8a685ef5cd03638967032a"
-    },
-    {
-      "name": "com_finder.indexer.es5",
-      "type": "script",
-      "uri": "com_finder/indexer-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "5ad72d9f2f580a5d4916967fcfbdb0410e666897"
-    },
-    {
-      "name": "com_finder.finder-edit",
-      "type": "script",
-      "uri": "com_finder/finder-edit.min.js",
-      "dependencies": [
-        "com_finder.finder-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "8136efad79e2e979f422e821abbbddc2486a0a90"
     }
   ]
 }
