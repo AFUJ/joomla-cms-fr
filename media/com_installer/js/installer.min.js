@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(()=>{const e=document.getElementById("loading"),t=document.getElementById("installer-install");e&&t&&(e.style.top=parseInt(t.offsetTop-window.pageYOffset,10),e.style.left=0,e.style.width="100%",e.style.height="100%",e.classList.add("hidden"),e.style.marginTop="-10px")}));

@@ -6,7 +6,7 @@
 //---------------------------------------------------------------
 /**
 * UTF-8 aware alternative to strcasecmp
-* A case insensitive string comparison
+* A case insensivite string comparison
 * Note: requires utf8_strtolower
 * @param string
 * @param string

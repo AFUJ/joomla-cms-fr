@@ -14,13 +14,13 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm        $form    Form with extra options for the set
- * @var   JLayoutFile  $this    Context
+ * @var   JForm        $form  Form with extra options for the set
+ * @var   JLayoutFile  $this  Context
  */
 
 ?>
 <div class="setoptions-form-wrapper">
-<?php foreach ($form->getGroup(null) as $field) : ?>
+<?php foreach ($form->getFieldset('basic') as $field) : ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

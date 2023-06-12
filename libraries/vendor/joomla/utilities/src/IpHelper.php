@@ -31,7 +31,7 @@ final class IpHelper
 	 * @since  1.6.0
 	 * @note   The default value is false in version 2.0+
 	 */
-	private static $allowIpOverrides = true;
+	private static $allowIpOverrides = false;
 
 	/**
 	 * Private constructor to prevent instantiation of this class

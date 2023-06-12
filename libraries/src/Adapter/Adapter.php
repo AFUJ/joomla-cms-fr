@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 
 /**
@@ -57,7 +58,7 @@ class Adapter extends CMSObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  1.6
 	 */
 	protected $_db;
@@ -77,13 +78,13 @@ class Adapter extends CMSObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = \JFactory::getDbo();
+		$this->_db = Factory::getDbo();
 	}
 
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  \JDatabaseDriver  Database connector object
+	 * @return  \Joomla\Database\DatabaseDriver  Database connector object
 	 *
 	 * @since   1.6
 	 */
@@ -120,9 +121,9 @@ class Adapter extends CMSObject
 	/**
 	 * Set an adapter by name
 	 *
-	 * @param   string  $name      Adapter name
-	 * @param   object  &$adapter  Adapter object
-	 * @param   array   $options   Adapter options
+	 * @param   string  $name     Adapter name
+	 * @param   object  $adapter  Adapter object
+	 * @param   array   $options  Adapter options
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -157,7 +158,7 @@ class Adapter extends CMSObject
 
 		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
 
-		if (!file_exists($fullpath))
+		if (!is_file($fullpath))
 		{
 			return false;
 		}
@@ -190,7 +191,7 @@ class Adapter extends CMSObject
 	{
 		$files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($files as $file)
 		{
 			$fileName = $file->getFilename();

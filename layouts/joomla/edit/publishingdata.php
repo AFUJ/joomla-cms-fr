@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
 $form = $displayData->getForm();
 
 $fields = $displayData->get('fields') ?: array(
 	'publish_up',
 	'publish_down',
+	'featured_up',
+	'featured_down',
 	array('created', 'created_time'),
 	array('created_by', 'created_user_id'),
 	'created_by_alias',

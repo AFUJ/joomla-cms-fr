@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-\JLoader::import('joomla.filesystem.file');
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! Package Manifest File
@@ -115,7 +115,7 @@ abstract class Manifest
 
 		if (!$xml)
 		{
-			$this->_errors[] = \JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
+			$this->_errors[] = Text::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 
 			return false;
 		}
@@ -136,5 +136,5 @@ abstract class Manifest
 	 *
 	 * @since   3.1
 	 */
-	abstract protected function loadManifestFromData(\SimpleXmlElement $xml);
+	abstract protected function loadManifestFromData(\SimpleXMLElement $xml);
 }

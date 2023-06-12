@@ -1,53 +1,68 @@
 /**
- * @copyright	(C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+(document => {
 
-jQuery(document).ready(function() {
-	var variables  = Joomla.getOptions('js-privacy-check'),
-	    plg_quickicon_privacycheck_ajax_url = variables.plg_quickicon_privacycheck_ajax_url,
-	    plg_quickicon_privacycheck_url = variables.plg_quickicon_privacycheck_url,
-	    plg_quickicon_privacycheck_text = variables.plg_quickicon_privacycheck_text;
-	var ajax_structure = {
-		success: function(data, textStatus, jqXHR) {
-			var link = jQuery('#plg_quickicon_privacycheck').find('span.j-links-link');
+  const checkPrivacy = () => {
+    const variables = Joomla.getOptions('js-privacy-check');
+    const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
+    const url = variables.plg_quickicon_privacycheck_url;
+    const text = variables.plg_quickicon_privacycheck_text;
+    const quickicon = document.getElementById('plg_quickicon_privacycheck');
+    const link = quickicon.querySelector('span.j-links-link');
+    Joomla.request({
+      url: ajaxUrl,
+      method: 'GET',
+      data: '',
+      perform: true,
+      onSuccess: response => {
+        try {
+          const request = JSON.parse(response);
 
-			try {
-				var requestList = jQuery.parseJSON(data);
-			} catch (e) {
-				// An error occurred
-				link.html(plg_quickicon_privacycheck_text.ERROR);
-			}
+          if (request.data.number_urgent_requests) {
+            // Quickicon on dashboard shows message
+            const countBadge = document.createElement('span');
+            countBadge.classList.add('badge', 'text-dark', 'bg-light');
+            countBadge.textContent = request.data.number_urgent_requests;
+            link.textContent = `${text.REQUESTFOUND} `;
+            link.appendChild(countBadge); // Quickicon becomes red
 
-			if (requestList.data.number_urgent_requests == 0) {
-				// No requests
-				link.html(plg_quickicon_privacycheck_text.NOREQUEST);
-			} else {
-				// Requests
-				var msgString = '<span class="label label-important">'
-					+ requestList.data.number_urgent_requests + '</span>&nbsp;'
-					+ plg_quickicon_privacycheck_text.REQUESTFOUND_MESSAGE;
+            quickicon.classList.add('danger'); // Span in alert
 
-				jQuery('#system-message-container').prepend(
-					'<div class="alert alert-error alert-joomlaupdate">'
-					+ msgString
-					+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_privacycheck_url + '\'">'
-					+ plg_quickicon_privacycheck_text.REQUESTFOUND_BUTTON + '</button>'
-					+ '</div>'
-				);
+            const countSpan = document.createElement('span');
+            countSpan.classList.add('label', 'label-important');
+            countSpan.textContent = `${text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests)} `; // Button in alert to 'view requests'
 
-				var msgString = plg_quickicon_privacycheck_text.REQUESTFOUND
-					+ '&nbsp;<span class="label label-important">'
-					+ requestList.data.number_urgent_requests + '</span>'
+            const requestButton = document.createElement('button');
+            requestButton.classList.add('btn', 'btn-primary', 'btn-sm');
+            requestButton.setAttribute('onclick', `document.location='${url}'`);
+            requestButton.textContent = text.REQUESTFOUND_BUTTON;
+            const div = document.createElement('div');
+            div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
+            div.appendChild(countSpan);
+            div.appendChild(requestButton); // Add elements to container for alert messages
 
-				link.html(msgString);
-			}
-		},
-		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occurred
-			jQuery('#plg_quickicon_privacycheck').find('span.j-links-link').html(plg_quickicon_privacycheck_text.ERROR);
-		},
-		url: plg_quickicon_privacycheck_ajax_url
-	};
-	ajax_object = new jQuery.ajax(ajax_structure);
-});
+            const container = document.querySelector('#system-message-container');
+            container.insertBefore(div, container.firstChild);
+          } else {
+            quickicon.classList.add('success');
+            link.textContent = text.NOREQUEST;
+          }
+        } catch (e) {
+          quickicon.classList.add('danger');
+          link.textContent = text.ERROR;
+        }
+      },
+      onError: () => {
+        quickicon.classList.add('danger');
+        link.textContent = text.ERROR;
+      }
+    });
+  }; // Give some times to the layout and other scripts to settle their stuff
+
+
+  window.addEventListener('load', () => {
+    setTimeout(checkPrivacy, 360);
+  });
+})(document);

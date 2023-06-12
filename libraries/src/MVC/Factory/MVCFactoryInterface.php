@@ -8,7 +8,11 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects.
@@ -18,18 +22,34 @@ defined('JPATH_PLATFORM') or die;
 interface MVCFactoryInterface
 {
 	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the controller
+	 * @param   string                   $prefix  The controller prefix
+	 * @param   array                    $config  The configuration array for the controller
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   4.0.0
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input);
+
+	/**
 	 * Method to load and return a model object.
 	 *
 	 * @param   string  $name    The name of the model.
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
-	public function createModel($name, $prefix = '', array $config = array());
+	public function createModel($name, $prefix = '', array $config = []);
 
 	/**
 	 * Method to load and return a view object.
@@ -39,12 +59,12 @@ interface MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\View  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
 	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
-	public function createView($name, $prefix = '', $type = '', array $config = array());
+	public function createView($name, $prefix = '', $type = '', array $config = []);
 
 	/**
 	 * Method to load and return a table object.
@@ -58,5 +78,5 @@ interface MVCFactoryInterface
 	 * @since   3.10.0
 	 * @throws  \Exception
 	 */
-	public function createTable($name, $prefix = '', array $config = array());
+	public function createTable($name, $prefix = '', array $config = []);
 }

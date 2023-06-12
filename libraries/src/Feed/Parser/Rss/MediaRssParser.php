@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Feed\Parser\Rss;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -34,7 +34,6 @@ class MediaRssParser implements NamespaceParserInterface
 	 */
 	public function processElementForFeed(Feed $feed, \SimpleXMLElement $el)
 	{
-		return;
 	}
 
 	/**
@@ -49,6 +48,5 @@ class MediaRssParser implements NamespaceParserInterface
 	 */
 	public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
-		return;
 	}
 }
