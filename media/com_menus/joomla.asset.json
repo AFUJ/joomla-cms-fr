@@ -6,6 +6,12 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "style",
+      "uri": "com_menus/admin-item-edit_container.min.css",
+      "version": "2238a0b4db6315635f18e7c0fb672656fe33af89"
+    },
+    {
       "name": "com_menus.admin-item-edit.es5",
       "type": "script",
       "uri": "com_menus/admin-item-edit-es5.min.js",
@@ -44,6 +50,19 @@
       "version": "58e278276920545fa84c2fe4020e5dc50a23bef8"
     },
     {
+      "name": "com_menus.admin-item-edit-modules.es5",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "a4fb5e3c7dda4265aaf463a1e77732b8ce4e7c93"
+    },
+    {
       "name": "com_menus.admin-item-edit-container",
       "type": "script",
       "uri": "com_menus/admin-item-edit_container.min.js",
@@ -54,25 +73,6 @@
         "type": "module"
       },
       "version": "71a53ab845064ffa0bc42d9840613537454876ec"
-    },
-    {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "style",
-      "uri": "com_menus/admin-item-edit_container.min.css",
-      "version": "2238a0b4db6315635f18e7c0fb672656fe33af89"
-    },
-    {
-      "name": "com_menus.admin-item-modal.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-modal-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "8b8ab31c026e308b0ccd0089429fcaa9c52cf0ab"
     },
     {
       "name": "com_menus.admin-item-edit-modules",
@@ -93,19 +93,6 @@
       "version": "1c4025b6426f4abfc28c05e2b26b933368c6d2df"
     },
     {
-      "name": "com_menus.admin-item-edit-modules.es5",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "a4fb5e3c7dda4265aaf463a1e77732b8ce4e7c93"
-    },
-    {
       "name": "com_menus.admin-item-modal",
       "type": "script",
       "uri": "com_menus/admin-item-modal.min.js",
@@ -118,6 +105,19 @@
       "version": "3fcc87fe7da835c581b82b02f865999619424be2"
     },
     {
+      "name": "com_menus.admin-item-modal.es5",
+      "type": "script",
+      "uri": "com_menus/admin-item-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "8b8ab31c026e308b0ccd0089429fcaa9c52cf0ab"
+    },
+    {
       "name": "com_menus.admin-items-modal",
       "type": "script",
       "uri": "com_menus/admin-items-modal.min.js",
@@ -128,19 +128,6 @@
         "type": "module"
       },
       "version": "9fd9966464a66118f626e9e3ae70fa2408d12238"
-    },
-    {
-      "name": "com_menus.admin-menus.es5",
-      "type": "script",
-      "uri": "com_menus/admin-menus-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "16065c94872301a22c8f12b4961c3077e37685f2"
     },
     {
       "name": "com_menus.admin-items-modal.es5",
@@ -156,6 +143,19 @@
       "version": "0322fff3cf7b422ba8c21a35af2bdb6ebc5b4e25"
     },
     {
+      "name": "com_menus.admin-menus.es5",
+      "type": "script",
+      "uri": "com_menus/admin-menus-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "16065c94872301a22c8f12b4961c3077e37685f2"
+    },
+    {
       "name": "com_menus.admin-menus",
       "type": "script",
       "uri": "com_menus/admin-menus-default.min.js",
@@ -166,6 +166,18 @@
         "type": "module"
       },
       "version": "abcbc1912cdcfea136c0fc56437d5b7534ee9a3e"
+    },
+    {
+      "name": "com_menus.batch-body",
+      "type": "script",
+      "uri": "com_menus/default-batch-body.min.js",
+      "dependencies": [
+        "com_menus.batch-body.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "b30e22b8aff084622a6ca0d3a8d87b73b6f944d7"
     },
     {
       "name": "com_menus.batch-body.es5",
@@ -179,18 +191,6 @@
         "defer": true
       },
       "version": "8bc34bd9586a6f87eb8dbe7c40a4c31120d5409a"
-    },
-    {
-      "name": "com_menus.batch-body",
-      "type": "script",
-      "uri": "com_menus/default-batch-body.min.js",
-      "dependencies": [
-        "com_menus.batch-body.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "b30e22b8aff084622a6ca0d3a8d87b73b6f944d7"
     }
   ]
 }

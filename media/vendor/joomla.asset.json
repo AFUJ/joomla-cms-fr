@@ -16,6 +16,16 @@
       "version": "5.0.0"
     },
     {
+      "name": "short-and-sweet",
+      "type": "script",
+      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "short-and-sweet",
+      "version": "1.0.4"
+    },
+    {
       "name": "wcpolyfill",
       "type": "script",
       "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
@@ -38,16 +48,6 @@
       },
       "package": "accessibility",
       "version": "3.0.15"
-    },
-    {
-      "name": "short-and-sweet",
-      "type": "script",
-      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "short-and-sweet",
-      "version": "1.0.4"
     },
     {
       "name": "awesomplete",
@@ -104,33 +104,6 @@
       "version": "1.5.12"
     },
     {
-      "name": "dragula",
-      "type": "style",
-      "uri": "vendor/dragula/dragula.min.css",
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
-      "name": "dragula",
-      "type": "script",
-      "uri": "vendor/dragula/dragula.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
-      "name": "dragula",
-      "type": "preset",
-      "dependencies": [
-        "dragula#style",
-        "dragula#script"
-      ],
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
       "name": "choicesjs",
       "type": "style",
       "uri": "vendor/choicesjs/choices.min.css",
@@ -158,6 +131,40 @@
       "version": "9.1.0"
     },
     {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
+      "name": "dragula",
+      "type": "style",
+      "uri": "vendor/dragula/dragula.min.css",
+      "package": "dragula",
+      "version": "3.7.3"
+    },
+    {
+      "name": "dragula",
+      "type": "script",
+      "uri": "vendor/dragula/dragula.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "dragula",
+      "version": "3.7.3"
+    },
+    {
+      "name": "dragula",
+      "type": "preset",
+      "dependencies": [
+        "dragula#style",
+        "dragula#script"
+      ],
+      "package": "dragula",
+      "version": "3.7.3"
+    },
+    {
       "name": "jquery-migrate",
       "type": "script",
       "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
@@ -168,48 +175,11 @@
       "version": "3.3.2"
     },
     {
-      "name": "focus-visible",
-      "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
-    },
-    {
       "name": "jquery",
       "type": "script",
       "uri": "vendor/jquery/jquery.min.js",
       "package": "jquery",
       "version": "3.6.0"
-    },
-    {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "preset",
-      "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
-      ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -278,6 +248,36 @@
       ],
       "package": "joomla-ui-custom-elements",
       "version": "0.2.0"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
+    },
+    {
+      "name": "minicolors",
+      "type": "script",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
+    },
+    {
+      "name": "minicolors",
+      "type": "preset",
+      "dependencies": [
+        "minicolors#style",
+        "minicolors#script"
+      ],
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
     },
     {
       "name": "chosen",

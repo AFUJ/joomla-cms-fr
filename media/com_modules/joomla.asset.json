@@ -18,6 +18,19 @@
       "version": "24a1d698f07cb48fbc6156d4b37f9dc66ecca639"
     },
     {
+      "name": "com_modules.admin-module-edit.es5",
+      "type": "script",
+      "uri": "com_modules/admin-module-edit-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "fafc6e45dbc139683cecb2d5e473bafe85b64ee0"
+    },
+    {
       "name": "com_modules.admin-module-edit-assignment.es5",
       "type": "script",
       "uri": "com_modules/admin-module-edit_assignment-es5.min.js",
@@ -31,17 +44,16 @@
       "version": "8e1c4eca2354b006fffc5d00eaa44bba9738bac0"
     },
     {
-      "name": "com_modules.admin-module-edit.es5",
+      "name": "com_modules.admin-module-edit-assignment",
       "type": "script",
-      "uri": "com_modules/admin-module-edit-es5.min.js",
+      "uri": "com_modules/admin-module-edit_assignment.min.js",
       "dependencies": [
-        "core"
+        "com_modules.admin-module-edit-assignment.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "fafc6e45dbc139683cecb2d5e473bafe85b64ee0"
+      "version": "bed88beff75743fba929e5acd60335263679dcf4"
     },
     {
       "name": "com_modules.admin-modules-modal.es5",
@@ -70,16 +82,16 @@
       "version": "15edfa5fe0c26f4a96b1802fbb18e34683a1fb0e"
     },
     {
-      "name": "com_modules.admin-module-edit-assignment",
+      "name": "com_modules.admin-modules-modal",
       "type": "script",
-      "uri": "com_modules/admin-module-edit_assignment.min.js",
+      "uri": "com_modules/admin-modules-modal.min.js",
       "dependencies": [
-        "com_modules.admin-module-edit-assignment.es5"
+        "com_modules.admin-modules-modal.es5"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "bed88beff75743fba929e5acd60335263679dcf4"
+      "version": "d29c6b38afd2845dad5c4ddbea2d8168c9fdaf28"
     },
     {
       "name": "com_modules.admin-module-search",
@@ -92,18 +104,6 @@
         "type": "module"
       },
       "version": "719b36bb72c15b9dbfe9157e9bb2392f6239803d"
-    },
-    {
-      "name": "com_modules.admin-modules-modal",
-      "type": "script",
-      "uri": "com_modules/admin-modules-modal.min.js",
-      "dependencies": [
-        "com_modules.admin-modules-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "d29c6b38afd2845dad5c4ddbea2d8168c9fdaf28"
     },
     {
       "name": "com_modules.admin-select-modal",
