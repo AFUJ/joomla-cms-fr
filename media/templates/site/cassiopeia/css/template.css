@@ -6,45 +6,17 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 :root {
-  --card-bg: rgba(255, 255, 255, 0.7);
-  --bluegray: #b2bfcd;
-  --lightbluegray: #f6f9fc;
-  --toolbar-bg: white;
-  --success-border: var(--success);
-  --info-border: var(--info);
-  --warning-border: var(--warning);
-  --danger-border: var(--danger);
-  --border: #ced4da;
+  --blue: #010156;
+  --indigo: #6812f3;
+  --purple: #6f42c2;
+  --pink: #e93f8e;
+  --red: #a51f18;
+  --orange: #fd7e17;
+  --yellow: #ad6200;
+  --green: #448344;
+  --teal: #5abfdd;
+  --cyan: #30638d;
   --white: white;
-  --white-offset: #fefefe;
-  --focus: #39f;
-  --focus-shadow: 0 0 0 0.2rem #eaeaea;
-  --toggle-color: white;
-  --template-sidebar-bg: var(--template-bg-dark-80);
-  --template-sidebar-font-color: white;
-  --template-sidebar-link-color: white;
-  --template-bg-light: #f0f4fb;
-  --template-text-light: white;
-  --template-special-color: #132f53;
-  --template-link-color: #2a69b8;
-  --template-link-hover-color: #173a65;
-  --template-contrast: #2a69b8;
-  --template-bg-dark: hsl(var(--hue), 40%, 20%);
-  --template-bg-dark-3: hsl(var(--hue), 40%, 97%);
-  --template-bg-dark-5: hsl(var(--hue), 40%, 95%);
-  --template-bg-dark-7: hsl(var(--hue), 40%, 93%);
-  --template-bg-dark-10: hsl(var(--hue), 40%, 90%);
-  --template-bg-dark-15: hsl(var(--hue), 40%, 85%);
-  --template-bg-dark-20: hsl(var(--hue), 40%, 80%);
-  --template-bg-dark-30: hsl(var(--hue), 40%, 70%);
-  --template-bg-dark-40: hsl(var(--hue), 40%, 60%);
-  --template-bg-dark-50: hsl(var(--hue), 40%, 50%);
-  --template-bg-dark-60: hsl(var(--hue), 40%, 40%);
-  --template-bg-dark-65: hsl(var(--hue), 40%, 35%);
-  --template-bg-dark-70: hsl(var(--hue), 40%, 30%);
-  --template-bg-dark-75: hsl(var(--hue), 40%, 25%);
-  --template-bg-dark-80: hsl(var(--hue), 40%, 20%);
-  --template-bg-dark-90: hsl(var(--hue), 40%, 10%);
   --gray-100: #f9fafb;
   --gray-200: #eaedf0;
   --gray-300: #dfe3e7;
@@ -11873,6 +11845,9 @@ td .form-control {
           margin-inline-start: -10em;
 }
 [role=tooltip]:not(.show)[id^=id-skip-] {
+  right: auto;
+}
+[role=tooltip]:not(.show)[id^=cbunpublish] {
   right: auto;
 }
 

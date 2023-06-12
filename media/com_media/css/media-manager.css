@@ -147,7 +147,6 @@ html[dir=rtl] .infobar-leave-active {
 .media-sidebar {
   flex: 0 0 280px;
   padding: 1rem;
-  overflow-y: auto;
 }
 
 .media-breadcrumb {
@@ -744,7 +743,9 @@ html[dir=rtl] .infobar-leave-active {
 }
 
 .media-toolbar {
-  position: relative;
+  position: sticky;
+  top: 67px;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
@@ -752,7 +753,7 @@ html[dir=rtl] .infobar-leave-active {
   border-bottom: 1px solid var(--template-bg-dark-7);
   -webkit-border-start: 1px solid var(--template-bg-dark-7);
           border-inline-start: 1px solid var(--template-bg-dark-7);
-  border-radius: 0.25rem 0.25rem 0 0;
+  border-radius: 0 0.25rem 0 0;
   box-shadow: 0 -1px 0 0 var(--template-bg-dark-7);
 }
 .media-toolbar input {
@@ -841,6 +842,10 @@ ul.media-tree:empty {
 }
 
 .media-disk {
+  position: sticky;
+  top: 75px;
+  left: 0;
+  display: block;
   margin-bottom: 10px;
 }
 

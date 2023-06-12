@@ -728,6 +728,7 @@ return array(
     'Joomla\\CMS\\Form\\Rule\\CaptchaRule' => $baseDir . '/libraries/src/Form/Rule/CaptchaRule.php',
     'Joomla\\CMS\\Form\\Rule\\ColorRule' => $baseDir . '/libraries/src/Form/Rule/ColorRule.php',
     'Joomla\\CMS\\Form\\Rule\\CssIdentifierRule' => $baseDir . '/libraries/src/Form/Rule/CssIdentifierRule.php',
+    'Joomla\\CMS\\Form\\Rule\\CssIdentifierSubstringRule' => $baseDir . '/libraries/src/Form/Rule/CssIdentifierSubstringRule.php',
     'Joomla\\CMS\\Form\\Rule\\EmailRule' => $baseDir . '/libraries/src/Form/Rule/EmailRule.php',
     'Joomla\\CMS\\Form\\Rule\\EqualsRule' => $baseDir . '/libraries/src/Form/Rule/EqualsRule.php',
     'Joomla\\CMS\\Form\\Rule\\ExistsRule' => $baseDir . '/libraries/src/Form/Rule/ExistsRule.php',

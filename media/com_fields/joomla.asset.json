@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_fields.admin-field-changecontext.es5",
-      "type": "script",
-      "uri": "com_fields/admin-field-changecontext-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "5780779c6074b99b6fb29a4833c9309ebcd83609"
-    },
-    {
       "name": "com_fields.admin-field-edit.es5",
       "type": "script",
       "uri": "com_fields/admin-field-edit-es5.min.js",
@@ -42,6 +29,31 @@
         "type": "module"
       },
       "version": "65e13e836b42704a7893584291963600a20e5006"
+    },
+    {
+      "name": "com_fields.admin-field-changecontext.es5",
+      "type": "script",
+      "uri": "com_fields/admin-field-changecontext-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "5780779c6074b99b6fb29a4833c9309ebcd83609"
+    },
+    {
+      "name": "com_fields.admin-field-edit",
+      "type": "script",
+      "uri": "com_fields/admin-field-edit.min.js",
+      "dependencies": [
+        "com_fields.admin-field-edit.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "e75588fe93805cb6b8627b7736dbc2ac5849a14a"
     },
     {
       "name": "com_fields.admin-field-typehaschanged",
@@ -69,30 +81,6 @@
       "version": "c7f83928218202420a8940be8cf60d36638d187b"
     },
     {
-      "name": "com_fields.admin-field-edit",
-      "type": "script",
-      "uri": "com_fields/admin-field-edit.min.js",
-      "dependencies": [
-        "com_fields.admin-field-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "e75588fe93805cb6b8627b7736dbc2ac5849a14a"
-    },
-    {
-      "name": "com_fields.admin-fields-batch",
-      "type": "script",
-      "uri": "com_fields/admin-fields-default-batch.min.js",
-      "dependencies": [
-        "com_fields.admin-fields-batch.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "44eacfea3b23ae0d409b1c109e0ce33bf286d191"
-    },
-    {
       "name": "com_fields.admin-fields-batch.es5",
       "type": "script",
       "uri": "com_fields/admin-fields-default-batch-es5.min.js",
@@ -104,6 +92,19 @@
         "defer": true
       },
       "version": "6f05cd6110c8c8d7a6174c32fe9a5db3f3817b58"
+    },
+    {
+      "name": "com_fields.admin-fields-modal.es5",
+      "type": "script",
+      "uri": "com_fields/admin-fields-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "62d67a25063603ef2e07915c68d50b65f527b4d0"
     },
     {
       "name": "com_fields.admin-fields-modal",
@@ -118,17 +119,16 @@
       "version": "21cda0d5265712ca6fd9f6adb8c3fef71dec9cfe"
     },
     {
-      "name": "com_fields.admin-fields-modal.es5",
+      "name": "com_fields.admin-fields-batch",
       "type": "script",
-      "uri": "com_fields/admin-fields-modal-es5.min.js",
+      "uri": "com_fields/admin-fields-default-batch.min.js",
       "dependencies": [
-        "core"
+        "com_fields.admin-fields-batch.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "62d67a25063603ef2e07915c68d50b65f527b4d0"
+      "version": "44eacfea3b23ae0d409b1c109e0ce33bf286d191"
     }
   ]
 }

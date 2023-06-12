@@ -14,19 +14,6 @@
       ]
     },
     {
-      "name": "com_associations.admin-associations-modal.es5",
-      "type": "script",
-      "uri": "com_associations/admin-associations-modal-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "7cca495365822d15723d7897c97b4dafccd47f5b"
-    },
-    {
       "name": "com_associations.admin-associations-default",
       "type": "script",
       "uri": "com_associations/admin-associations-default.min.js",
@@ -37,19 +24,6 @@
         "type": "module"
       },
       "version": "7c1277a151388585ebe6d9281695102b6a230686"
-    },
-    {
-      "name": "com_associations.admin-associations-default.es5",
-      "type": "script",
-      "uri": "com_associations/admin-associations-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "b2a0deb550210b10df4dcd29a75660f2d6488b6a"
     },
     {
       "name": "com_associations.admin-associations-modal",
@@ -64,6 +38,19 @@
       "version": "4245ed11ab8ad661d68d219eda321b1ceaa18c99"
     },
     {
+      "name": "com_associations.admin-associations-modal.es5",
+      "type": "script",
+      "uri": "com_associations/admin-associations-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "7cca495365822d15723d7897c97b4dafccd47f5b"
+    },
+    {
       "name": "com_associations.associations-edit",
       "type": "script",
       "uri": "com_associations/associations-edit.min.js",
@@ -75,6 +62,19 @@
         "defer": true
       },
       "version": "4b5e9faa38307b6b3d098e7430e8ef3a488d9283"
+    },
+    {
+      "name": "com_associations.admin-associations-default.es5",
+      "type": "script",
+      "uri": "com_associations/admin-associations-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "b2a0deb550210b10df4dcd29a75660f2d6488b6a"
     },
     {
       "name": "com_associations.associations-edit.es5",

@@ -368,16 +368,16 @@
   background-color: transparent;
 }
 .choices__input::-moz-placeholder {
-  color: #484f56;
+  color: #495057;
   opacity: 1;
 }
 .choices__input::-webkit-input-placeholder {
-  color: #484f56;
+  color: #495057;
   opacity: 1;
 }
 
 .choices__list--dropdown {
-  z-index: 1060;
+  z-index: 1070;
 }
 
 .choices__list--multiple .choices__item {
@@ -439,12 +439,12 @@
           padding-inline-end: 3rem;
   cursor: pointer;
   background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
-  background-color: #eaedf0;
+  background-color: #fff;
 }
 [dir=rtl] .choices[data-type*=select-one] .choices__inner,
 [dir=rtl] .choices[data-type*=select-multiple] .choices__inner {
   background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
-  background-color: #eaedf0;
+  background-color: #fff;
 }
 
 .choices[data-type*=select-one] .choices__item {

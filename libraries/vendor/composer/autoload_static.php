@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca
+class ComposerStaticInit8f065e0894382d1ed3f3cfcda7013cfd
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -1211,6 +1211,7 @@ class ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca
         'Joomla\\CMS\\Form\\Rule\\CaptchaRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/CaptchaRule.php',
         'Joomla\\CMS\\Form\\Rule\\ColorRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/ColorRule.php',
         'Joomla\\CMS\\Form\\Rule\\CssIdentifierRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/CssIdentifierRule.php',
+        'Joomla\\CMS\\Form\\Rule\\CssIdentifierSubstringRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/CssIdentifierSubstringRule.php',
         'Joomla\\CMS\\Form\\Rule\\EmailRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/EmailRule.php',
         'Joomla\\CMS\\Form\\Rule\\EqualsRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/EqualsRule.php',
         'Joomla\\CMS\\Form\\Rule\\ExistsRule' => __DIR__ . '/../../..' . '/libraries/src/Form/Rule/ExistsRule.php',
@@ -2332,9 +2333,9 @@ class ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9410d469a6ca0080514d9a8d8d1a3bca::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8f065e0894382d1ed3f3cfcda7013cfd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8f065e0894382d1ed3f3cfcda7013cfd::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8f065e0894382d1ed3f3cfcda7013cfd::$classMap;
 
         }, null, ClassLoader::class);
     }

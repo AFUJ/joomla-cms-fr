@@ -1656,17 +1656,17 @@
         },
         {
             "name": "joomla/input",
-            "version": "2.0.2",
-            "version_normalized": "2.0.2.0",
+            "version": "2.0.3",
+            "version_normalized": "2.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "954ed4680299426a896401b6c9e148d1f539dd2a"
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/954ed4680299426a896401b6c9e148d1f539dd2a",
-                "reference": "954ed4680299426a896401b6c9e148d1f539dd2a",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/147229d2e0c5ac7db6f972d19c9faa922575e5c2",
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2",
                 "shasum": ""
             },
             "require": {
@@ -1679,7 +1679,7 @@
                 "joomla/test": "^2.0",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
-            "time": "2022-03-03T15:45:18+00:00",
+            "time": "2022-04-06T20:02:40+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1705,7 +1705,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/input/issues",
-                "source": "https://github.com/joomla-framework/input/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/input/tree/2.0.3"
             },
             "funding": [
                 {
@@ -2237,17 +2237,17 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.0",
-            "version_normalized": "2.0.0.0",
+            "version": "2.0.2",
+            "version_normalized": "2.0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270"
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/743136489c0f94c13ee2ab54aa14232063a98270",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/755f1cf80e2463d9a162563e607154c64083184b",
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b",
                 "shasum": ""
             },
             "require": {
@@ -2257,7 +2257,7 @@
                 "joomla/coding-standards": "^2.0@alpha",
                 "phpunit/phpunit": "^8.5|^9.0"
             },
-            "time": "2021-08-16T20:12:11+00:00",
+            "time": "2022-04-21T09:39:04+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -2283,7 +2283,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2527,17 +2527,17 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.18.0",
-            "version_normalized": "1.18.0.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6"
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/c2e310320b7751a959f1590bb76530abbcfd2ce6",
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6",
                 "shasum": ""
             },
             "require": {
@@ -2554,14 +2554,15 @@
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
-            "time": "2021-12-27T18:49:48+00:00",
+            "time": "2022-02-11T11:14:20+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
-            "installation-source": "dist",
+            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "DebugBar\\": "src/DebugBar/"
@@ -2590,7 +2591,7 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.18.0"
+                "source": "https://github.com/maximebf/php-debugbar/tree/master"
             },
             "install-path": "../maximebf/debugbar"
         },

@@ -31,19 +31,6 @@
       "version": "d67a4c5a62bf0f3324872b74c7012ff77375a41b"
     },
     {
-      "name": "com_config.config.es5",
-      "type": "script",
-      "uri": "com_config/config-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "6295287ced42dc2ca09ce03d6922ebe7ad41d89d"
-    },
-    {
       "name": "com_config.config",
       "type": "script",
       "uri": "com_config/config-default.min.js",
@@ -56,9 +43,9 @@
       "version": "27083290d09a19b33d9596fac69240c45a55656c"
     },
     {
-      "name": "com_config.filters.es5",
+      "name": "com_config.config.es5",
       "type": "script",
-      "uri": "com_config/config-filters-es5.min.js",
+      "uri": "com_config/config-default-es5.min.js",
       "dependencies": [
         "core"
       ],
@@ -66,7 +53,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "960855f7da30d595c1e4fd2b8692031ea4e1e852"
+      "version": "6295287ced42dc2ca09ce03d6922ebe7ad41d89d"
     },
     {
       "name": "com_config.templates.es5",
@@ -104,6 +91,19 @@
         "type": "module"
       },
       "version": "d3caf024b36d9003d3bedc1fe8b7c05efc335c4e"
+    },
+    {
+      "name": "com_config.filters.es5",
+      "type": "script",
+      "uri": "com_config/config-filters-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "960855f7da30d595c1e4fd2b8692031ea4e1e852"
     }
   ]
 }

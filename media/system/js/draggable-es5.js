@@ -12,6 +12,8 @@
   var dragElementIndex;
   var dropElementIndex;
   var container = document.querySelector('.js-draggable');
+  var form;
+  var formData;
 
   if (container) {
     /** The script expects a form with a class js-form
@@ -39,7 +41,12 @@
   }
 
   if (container) {
-    // IOS 10 BUG
+    // Get the form
+    form = container.closest('form'); // Get the form data
+
+    formData = new FormData(form);
+    formData.delete('task'); // IOS 10 BUG
+
     document.addEventListener('touchstart', function () {}, false);
 
     var getOrderData = function getOrderData(rows, inputRows, dragIndex, dropIndex) {
@@ -126,7 +133,7 @@
         var ajaxOptions = {
           url: url,
           method: 'POST',
-          data: getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
+          data: new URLSearchParams(formData).toString() + "&" + getOrderData(rows, inputRows, dragElementIndex, dropElementIndex).join('&'),
           perform: true
         };
         Joomla.request(ajaxOptions); // Re-Append original task field

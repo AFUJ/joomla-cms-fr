@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Uri Package
  *
- * @copyright  Copyright (C) 2005 - 2021 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2022 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,7 +133,7 @@ abstract class AbstractUri implements UriInterface
 	 *
 	 * @since   1.0
 	 */
-	public function toString(array $parts = ['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'])
+	public function toString($parts = ['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'])
 	{
 		$bitmask = 0;
 
@@ -376,7 +376,7 @@ abstract class AbstractUri implements UriInterface
 		$retval = ($parts) ? true : false;
 
 		// We need to replace &amp; with & for parse_str to work right...
-		if (isset($parts['query']) && strpos($parts['query'], '&amp;'))
+		if (isset($parts['query']) && strpos($parts['query'], '&amp;') !== false)
 		{
 			$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 		}
