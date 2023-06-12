@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,12 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Collects info about the request content while redacting potentially secret contents
+ * Collects info about the request content while redacting potentially secret content
  *
  * @since  4.2.4
  */
 class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 {
-    const PROTECTED_KEYS = "/password|passwd|pwd|secret|token/i";
-
     /**
      * Called by the DebugBar when data needs to be collected
      *
@@ -41,8 +39,8 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
-                array_walk_recursive($data, static function(&$value, $key) {
-                    if (!preg_match(self::PROTECTED_KEYS, $key)) {
+                array_walk_recursive($data, static function (&$value, $key) {
+                    if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
                         return;
                     }
 
