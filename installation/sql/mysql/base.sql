@@ -107,7 +107,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (87, 18, 124, 125, 2, 'com_modules.module.97', 'Recently Added Articles', '{}'),
 (88, 18, 126, 127, 2, 'com_modules.module.98', 'Logged-in Users', '{}'),
 (89, 18, 128, 129, 2, 'com_modules.module.90', 'Login Support', '{}'),
-(89, 11, 44, 45, 2, 'com_languages.language.2', 'French (France)', '{}');
+(90, 11, 44, 45, 2, 'com_languages.language.2', 'French (France)', '{}');
 
 -- --------------------------------------------------------
 
