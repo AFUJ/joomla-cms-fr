@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="administrator">
 	<name>French (fr-FR)</name>
-	<version>4.0.2.2</version>
-	<creationDate>2021-08-25</creationDate>
+	<version>4.0.3</version>
+	<creationDate>2021-09-14</creationDate>
 	<author>Joomla! Project - French translation team</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description><![CDATA[fr-FR administrator language]]></description>
+	<description><![CDATA[fr-FR Administrator language]]></description>
 	<metadata>
 		<name>French (fr-FR)</name>
 		<nativeName>Français (France)</nativeName>

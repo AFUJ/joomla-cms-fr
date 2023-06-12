@@ -19,6 +19,18 @@
       "version": "26cff6e5baf165bee4fd7d3124fe1199867e32b7"
     },
     {
+      "name": "com_cpanel.admin-addmodule",
+      "type": "script",
+      "uri": "com_cpanel/admin-add_module.min.js",
+      "dependencies": [
+        "com_cpanel.admin-addmodule.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "c9e73b44b91f436de58aa5eb543424e3a6a67661"
+    },
+    {
       "name": "com_cpanel.admin-cpanel.es5",
       "type": "script",
       "uri": "com_cpanel/admin-cpanel-default-es5.min.js",
@@ -55,18 +67,6 @@
         "defer": true
       },
       "version": "4cae1f21b7eda76e8739682c21e3c97a9554d3f2"
-    },
-    {
-      "name": "com_cpanel.admin-addmodule",
-      "type": "script",
-      "uri": "com_cpanel/admin-add_module.min.js",
-      "dependencies": [
-        "com_cpanel.admin-addmodule.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "c9e73b44b91f436de58aa5eb543424e3a6a67661"
     },
     {
       "name": "com_cpanel.admin-system-loader",

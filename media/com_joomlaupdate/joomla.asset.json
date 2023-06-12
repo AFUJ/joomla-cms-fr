@@ -19,19 +19,6 @@
       "version": "3d6c129acbaece9e88379bfb3adbb7c7e0c160c3"
     },
     {
-      "name": "com_joomlaupdate.default",
-      "type": "script",
-      "uri": "com_joomlaupdate/default.min.js",
-      "dependencies": [
-        "core",
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "version": "42247cf9a0151e0759bce17a644c0fdc80d8ee91"
-    },
-    {
       "name": "com_joomlaupdate.encryption",
       "type": "script",
       "uri": "com_joomlaupdate/encryption.min.js",
@@ -42,6 +29,19 @@
         "defer": true
       },
       "version": "a7dff7d44c6350fd0862533305561dbea34ad45c"
+    },
+    {
+      "name": "com_joomlaupdate.default",
+      "type": "script",
+      "uri": "com_joomlaupdate/default.min.js",
+      "dependencies": [
+        "core",
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "version": "18338f947cff76c0715b270d6a7cf58142e439de"
     },
     {
       "name": "com_joomlaupdate.update",

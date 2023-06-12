@@ -56,18 +56,6 @@
       "version": "eba792c39553aab62ee6b85f5a05a1fc8b1c25e6"
     },
     {
-      "name": "com_users.two-factor-switcher",
-      "type": "script",
-      "uri": "com_users/two-factor-switcher.min.js",
-      "dependencies": [
-        "com_users.two-factor-switcher.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "829f461d24cbeee7c3f0bd47bf458ad3d128d3cf"
-    },
-    {
       "name": "com_users.two-factor-switcher.es5",
       "type": "script",
       "uri": "com_users/two-factor-switcher-es5.min.js",
@@ -79,6 +67,18 @@
         "defer": true
       },
       "version": "a14e187223fa7dfd18176df5296c7b5961783c38"
+    },
+    {
+      "name": "com_users.two-factor-switcher",
+      "type": "script",
+      "uri": "com_users/two-factor-switcher.min.js",
+      "dependencies": [
+        "com_users.two-factor-switcher.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "829f461d24cbeee7c3f0bd47bf458ad3d128d3cf"
     }
   ]
 }

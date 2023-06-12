@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_menus.admin-item-edit",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit.min.js",
-      "dependencies": [
-        "com_menus.admin-item-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "58e278276920545fa84c2fe4020e5dc50a23bef8"
-    },
-    {
       "name": "com_menus.admin-item-edit.es5",
       "type": "script",
       "uri": "com_menus/admin-item-edit-es5.min.js",
@@ -31,22 +19,22 @@
       "version": "79da72fe92228a42d8f49e0464f8c9fa5f37bb47"
     },
     {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "style",
-      "uri": "com_menus/admin-item-edit_container.min.css",
-      "version": "2238a0b4db6315635f18e7c0fb672656fe33af89"
-    },
-    {
-      "name": "com_menus.admin-item-edit-container",
+      "name": "com_menus.admin-item-edit",
       "type": "script",
-      "uri": "com_menus/admin-item-edit_container.min.js",
+      "uri": "com_menus/admin-item-edit.min.js",
       "dependencies": [
-        "com_menus.admin-item-edit-container.es5"
+        "com_menus.admin-item-edit.es5"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "71a53ab845064ffa0bc42d9840613537454876ec"
+      "version": "58e278276920545fa84c2fe4020e5dc50a23bef8"
+    },
+    {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "style",
+      "uri": "com_menus/admin-item-edit_container.min.css",
+      "version": "2238a0b4db6315635f18e7c0fb672656fe33af89"
     },
     {
       "name": "com_menus.admin-item-edit-container.es5",
@@ -62,10 +50,35 @@
       "version": "99134bf56c5d3e1b306552940bcc45e67151dca9"
     },
     {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_container.min.js",
+      "dependencies": [
+        "com_menus.admin-item-edit-container.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "71a53ab845064ffa0bc42d9840613537454876ec"
+    },
+    {
       "name": "com_menus.admin-item-edit-modules",
       "type": "style",
       "uri": "com_menus/admin-item-edit_modules.min.css",
       "version": "2c02bc1b623c590f101a3cdf1f6a909ec622caec"
+    },
+    {
+      "name": "com_menus.admin-item-edit-modules.es5",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "a4fb5e3c7dda4265aaf463a1e77732b8ce4e7c93"
     },
     {
       "name": "com_menus.admin-item-edit-modules",
@@ -105,17 +118,16 @@
       "version": "3fcc87fe7da835c581b82b02f865999619424be2"
     },
     {
-      "name": "com_menus.admin-item-edit-modules.es5",
+      "name": "com_menus.admin-items-modal",
       "type": "script",
-      "uri": "com_menus/admin-item-edit_modules-es5.min.js",
+      "uri": "com_menus/admin-items-modal.min.js",
       "dependencies": [
-        "core"
+        "com_menus.admin-items-modal.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "a4fb5e3c7dda4265aaf463a1e77732b8ce4e7c93"
+      "version": "9fd9966464a66118f626e9e3ae70fa2408d12238"
     },
     {
       "name": "com_menus.admin-items-modal.es5",
@@ -129,18 +141,6 @@
         "defer": true
       },
       "version": "0322fff3cf7b422ba8c21a35af2bdb6ebc5b4e25"
-    },
-    {
-      "name": "com_menus.admin-items-modal",
-      "type": "script",
-      "uri": "com_menus/admin-items-modal.min.js",
-      "dependencies": [
-        "com_menus.admin-items-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "9fd9966464a66118f626e9e3ae70fa2408d12238"
     },
     {
       "name": "com_menus.admin-menus.es5",

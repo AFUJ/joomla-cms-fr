@@ -12456,6 +12456,44 @@ td .form-control {
   margin-right: 1px;
 }
 
+div.subform-repeatable-group {
+  position: relative;
+  padding: 32px 32px 16px 28px;
+  margin-top: 20px;
+  border: solid 1px var(--template-bg-dark-20);
+  border-radius: 0.25rem;
+}
+div.subform-repeatable-group > .btn-toolbar .btn-group {
+  position: static;
+}
+div.subform-repeatable-group > .btn-toolbar .btn {
+  position: absolute;
+}
+div.subform-repeatable-group > .btn-toolbar .btn.group-add {
+  right: -1px;
+  bottom: -1px;
+  border-radius: 0.25rem 0 0.25rem 0;
+}
+div.subform-repeatable-group > .btn-toolbar .btn.group-remove {
+  top: -1px;
+  right: -1px;
+  border-radius: 0 0.25rem 0 0.25rem;
+}
+div.subform-repeatable-group > .btn-toolbar .btn.group-move {
+  top: 50%;
+  right: 100%;
+  margin-top: -27px;
+  line-height: 52px;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.subform-repeatable-group[draggable=true] {
+  background-color: #20c997;
+}
+.subform-repeatable-group[draggable=true] > td {
+  background-color: #20c997;
+}
+
 .icon-white {
   color: #fff;
 }
@@ -13114,7 +13152,7 @@ label {
 
 .sidebar-wrapper {
   z-index: 1010;
-  min-height: calc(100vh - 69px);
+  min-height: calc(100vh - 66px);
   overflow: hidden;
   background-color: var(--template-sidebar-bg);
   box-shadow: 0 0 20px -10px var(--template-bg-dark-50);
@@ -14073,6 +14111,7 @@ joomla-tab[view=accordion] .col-md-3 {
 }
 .com_cpanel .card-header {
   display: flex;
+  align-items: center;
   padding: 1rem 1rem 0.75rem;
   font-weight: 700;
   color: var(--template-bg-dark);
@@ -14082,6 +14121,10 @@ joomla-tab[view=accordion] .col-md-3 {
 .com_cpanel .card-header > img {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
+}
+.com_cpanel .card-header .btn {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }
 .com_cpanel .card-body {
   padding: 0;
@@ -14096,7 +14139,6 @@ joomla-tab[view=accordion] .col-md-3 {
 }
 .com_cpanel .module-actions > * {
   padding: 0;
-  margin-top: -10px;
   color: var(--template-bg-dark-70);
 }
 .com_cpanel .cpanel-add-module {
