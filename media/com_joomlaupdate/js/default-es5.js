@@ -9,13 +9,14 @@
 
   (function (Joomla, document) {
     Joomla.submitbuttonUpload = function () {
-      var form = document.getElementById('uploadForm'); // do field validation
+      var form = document.getElementById('uploadForm');
+      var confirmBackup = document.getElementById('joomlaupdate-confirm-backup'); // do field validation
 
       if (form.install_package.value === '') {
         alert(Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
       } else if (form.install_package.files[0].size > form.max_upload_size.value) {
         alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
-      } else if (document.getElementById('joomlaupdate-confirm-backup').checked) {
+      } else if (confirmBackup && confirmBackup.checked) {
         form.submit();
       }
     };
@@ -53,14 +54,17 @@
       var task = form ? form.querySelector('[name=task]', form) : null;
 
       if (uploadButton) {
-        uploadButton.disabled = !updateCheck.checked;
         uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
-        updateCheck.addEventListener('change', function () {
-          uploadButton.disabled = !updateCheck.checked;
-        });
+        uploadButton.disabled = updateCheck && !updateCheck.checked;
+
+        if (updateCheck) {
+          updateCheck.addEventListener('change', function () {
+            uploadButton.disabled = !updateCheck.checked;
+          });
+        }
       }
 
-      if (confirmButton && !updateCheck.checked) {
+      if (confirmButton && updateCheck && !updateCheck.checked) {
         confirmButton.classList.add('disabled');
       }
 
@@ -76,23 +80,26 @@
 
       if (uploadField) {
         uploadField.addEventListener('change', Joomla.installpackageChange);
-        uploadField.addEventListener('change', function () {
-          var fileSize = uploadForm.install_package.files[0].size;
-          var allowedSize = uploadForm.max_upload_size.value;
 
-          if (fileSize <= allowedSize && updateCheck.disabled) {
-            updateCheck.disabled = !updateCheck.disabled;
-          } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
-            updateCheck.disabled = false;
-          } else if (fileSize <= allowedSize && updateCheck.checked) {
-            updateCheck.checked = updateCheck.classList.contains('d-none');
-            uploadButton.disabled = true;
-          } else if (fileSize > allowedSize && !updateCheck.disabled) {
-            updateCheck.disabled = !updateCheck.disabled;
-            updateCheck.checked = updateCheck.classList.contains('d-none');
-            uploadButton.disabled = true;
-          }
-        });
+        if (updateCheck) {
+          uploadField.addEventListener('change', function () {
+            var fileSize = uploadForm.install_package.files[0].size;
+            var allowedSize = uploadForm.max_upload_size.value;
+
+            if (fileSize <= allowedSize && updateCheck.disabled) {
+              updateCheck.disabled = !updateCheck.disabled;
+            } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
+              updateCheck.disabled = false;
+            } else if (fileSize <= allowedSize && updateCheck.checked) {
+              updateCheck.checked = updateCheck.classList.contains('d-none');
+              uploadButton.disabled = true;
+            } else if (fileSize > allowedSize && !updateCheck.disabled) {
+              updateCheck.disabled = !updateCheck.disabled;
+              updateCheck.checked = updateCheck.classList.contains('d-none');
+              uploadButton.disabled = true;
+            }
+          });
+        }
       } // Trigger (re-) install (including checkbox confirm if we update)
 
 

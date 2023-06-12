@@ -64,6 +64,12 @@
       "version": "d694b7e69a08d5dbbc34f04133bf2187292f970d"
     },
     {
+      "name": "com_languages.overrider",
+      "type": "style",
+      "uri": "com_languages/overrider.min.css",
+      "version": "8acf771398c9cec5afebd410727c1d393cbd9779"
+    },
+    {
       "name": "com_languages.overrider.es5",
       "type": "script",
       "uri": "com_languages/overrider-es5.min.js",
@@ -75,12 +81,6 @@
         "defer": true
       },
       "version": "75ee32f5129ea44d63b61ab321e40d90592d8c70"
-    },
-    {
-      "name": "com_languages.overrider",
-      "type": "style",
-      "uri": "com_languages/overrider.min.css",
-      "version": "8acf771398c9cec5afebd410727c1d393cbd9779"
     },
     {
       "name": "com_languages.overrider",

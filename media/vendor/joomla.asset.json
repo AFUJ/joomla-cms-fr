@@ -16,16 +16,6 @@
       "version": "5.0.0"
     },
     {
-      "name": "accessibility",
-      "type": "script",
-      "uri": "vendor/accessibility/accessibility.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "accessibility",
-      "version": "3.0.16"
-    },
-    {
       "name": "wcpolyfill",
       "type": "script",
       "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
@@ -48,6 +38,16 @@
       },
       "package": "short-and-sweet",
       "version": "1.0.4"
+    },
+    {
+      "name": "accessibility",
+      "type": "script",
+      "uri": "vendor/accessibility/accessibility.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "accessibility",
+      "version": "3.0.16"
     },
     {
       "name": "awesomplete",
@@ -327,16 +327,6 @@
       "version": "1.3.1"
     },
     {
-      "name": "skipto",
-      "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "skipto",
-      "version": "4.1.6"
-    },
-    {
       "name": "qrcode",
       "type": "script",
       "uri": "vendor/qrcode/qrcode.js",
@@ -373,6 +363,16 @@
       ],
       "package": "qrcode-generator",
       "version": "1.4.4"
+    },
+    {
+      "name": "skipto",
+      "type": "script",
+      "uri": "vendor/skipto/skipto.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "skipto",
+      "version": "4.1.6"
     },
     {
       "name": "fontawesome",

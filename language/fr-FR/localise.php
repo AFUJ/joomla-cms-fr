@@ -11,10 +11,12 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
- * fr_FRLocalise class.
+ * en-GB localise class.
  *
  * @since  1.6
  */

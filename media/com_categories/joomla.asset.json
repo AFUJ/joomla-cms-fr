@@ -14,19 +14,6 @@
       ]
     },
     {
-      "name": "com_categories.shared-categories-accordion.es5",
-      "type": "script",
-      "uri": "com_categories/shared-categories-accordion-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "c245aa3a31e900109edb9adf531e26911822a77c"
-    },
-    {
       "name": "com_categories.shared-categories-accordion",
       "type": "script",
       "uri": "com_categories/shared-categories-accordion.min.js",
@@ -43,6 +30,19 @@
       "type": "style",
       "uri": "com_categories/shared-categories-accordion.min.css",
       "version": "b9ad01318a9ef37832023f20e030a408968d38fd"
+    },
+    {
+      "name": "com_categories.shared-categories-accordion.es5",
+      "type": "script",
+      "uri": "com_categories/shared-categories-accordion-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "c245aa3a31e900109edb9adf531e26911822a77c"
     }
   ]
 }

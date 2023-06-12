@@ -6,19 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_cpanel.admin-cpanel.es5",
-      "type": "script",
-      "uri": "com_cpanel/admin-cpanel-default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "0c1123965d6d894951bb8e5a99c31308de282054"
-    },
-    {
       "name": "com_cpanel.admin-addmodule",
       "type": "script",
       "uri": "com_cpanel/admin-add_module.min.js",
@@ -67,6 +54,19 @@
         "defer": true
       },
       "version": "a21ca1e60b6547cdd2335229558a46b3cd535b7f"
+    },
+    {
+      "name": "com_cpanel.admin-cpanel.es5",
+      "type": "script",
+      "uri": "com_cpanel/admin-cpanel-default-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "0c1123965d6d894951bb8e5a99c31308de282054"
     },
     {
       "name": "com_cpanel.admin-system-loader.es5",

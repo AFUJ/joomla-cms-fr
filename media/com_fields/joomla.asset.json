@@ -44,6 +44,19 @@
       "version": "65e13e836b42704a7893584291963600a20e5006"
     },
     {
+      "name": "com_fields.admin-field-typehaschanged.es5",
+      "type": "script",
+      "uri": "com_fields/admin-field-typehaschanged-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "c7f83928218202420a8940be8cf60d36638d187b"
+    },
+    {
       "name": "com_fields.admin-field-edit",
       "type": "script",
       "uri": "com_fields/admin-field-edit.min.js",
@@ -56,30 +69,16 @@
       "version": "e75588fe93805cb6b8627b7736dbc2ac5849a14a"
     },
     {
-      "name": "com_fields.admin-fields-batch.es5",
+      "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
-      "uri": "com_fields/admin-fields-default-batch-es5.min.js",
+      "uri": "com_fields/admin-field-typehaschanged.min.js",
       "dependencies": [
-        "core"
+        "com_fields.admin-field-typehaschanged.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "6f05cd6110c8c8d7a6174c32fe9a5db3f3817b58"
-    },
-    {
-      "name": "com_fields.admin-field-typehaschanged.es5",
-      "type": "script",
-      "uri": "com_fields/admin-field-typehaschanged-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "c7f83928218202420a8940be8cf60d36638d187b"
+      "version": "dd981c7a811d35d7982f82cd4d10689fbc92f0ed"
     },
     {
       "name": "com_fields.admin-fields-batch",
@@ -94,16 +93,17 @@
       "version": "44eacfea3b23ae0d409b1c109e0ce33bf286d191"
     },
     {
-      "name": "com_fields.admin-field-typehaschanged",
+      "name": "com_fields.admin-fields-batch.es5",
       "type": "script",
-      "uri": "com_fields/admin-field-typehaschanged.min.js",
+      "uri": "com_fields/admin-fields-default-batch-es5.min.js",
       "dependencies": [
-        "com_fields.admin-field-typehaschanged.es5"
+        "core"
       ],
       "attributes": {
-        "type": "module"
+        "nomodule": true,
+        "defer": true
       },
-      "version": "dd981c7a811d35d7982f82cd4d10689fbc92f0ed"
+      "version": "6f05cd6110c8c8d7a6174c32fe9a5db3f3817b58"
     },
     {
       "name": "com_fields.admin-fields-modal.es5",
