@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="api">
 	<name>French (fr-FR)</name>
-	<version>4.0.1.1</version>
-	<creationDate>2021-08-23</creationDate>
+	<version>4.0.2.1</version>
+	<creationDate>2021-08-24</creationDate>
 	<author>Joomla! Project - French translation team</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
-	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description><![CDATA[fr-FR api language]]></description>
 	<metadata>

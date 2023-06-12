@@ -6,48 +6,48 @@
 je
 moi
 mon
-moi-même
+moi-mÃªme
 nous
 notre
-le nôtre
-nous-mêmes
+le nÃ´tre
+nous-mÃªmes
 vous
 votre
-le vôtre
-vous-même
-vous-mêmes
+le vÃ´tre
+vous-mÃªme
+vous-mÃªmes
 il
 lui
 son
-lui-même
+lui-mÃªme
 elle
 son
 ses
-elle-même
+elle-mÃªme
 le
 son
-lui-même
+lui-mÃªme
 ils
 les
 leur
 leurs
-eux-mêmes
+eux-mÃªmes
 ce que
 ce qui
 qui
 que
 ce
-ça
+Ã§a
 ces
 ceux
 suis
 est
 sont
-était
-étaient
+Ã©tait
+Ã©taient
 soit
-a été
-être
+a Ã©tÃ©
+Ãªtre
 ont
 a
 avait
@@ -85,8 +85,8 @@ nous allons
 ils vont
 n'est pas
 ne sont pas
-n'était pas
-n'étaient pas
+n'Ã©tait pas
+n'Ã©taient pas
 n'a pas
 n'ont pas
 n'avait pas
@@ -127,14 +127,14 @@ au
 par
 pour
 avec
-à propos
+Ã  propos
 contre
 entre
 dans
-à travers
+Ã  travers
 durant
 avant
-après
+aprÃ¨s
 au-dessus
 au-dessous
 au
@@ -143,8 +143,8 @@ en haut
 en bas
 en
 hors
-activé
-désactivé
+activÃ©
+dÃ©sactivÃ©
 sur
 sous
 encore
@@ -152,9 +152,9 @@ plus loin
 puis
 une fois
 ici
-là
+lÃ 
 quand
-où
+oÃ¹
 pourquoi
 comment
 tous
@@ -172,8 +172,8 @@ ni
 pas
 seulement
 propre
-même
+mÃªme
 donc
 que
 trop
-très
+trÃ¨s
