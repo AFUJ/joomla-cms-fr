@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_fields.admin-field-changecontext",
+      "type": "script",
+      "uri": "com_fields/admin-field-changecontext.min.js",
+      "dependencies": [
+        "com_fields.admin-field-changecontext.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "b311053eb3d548d522d5b0a7e63fdc9449cd9465"
+    },
+    {
       "name": "com_fields.admin-field-changecontext.es5",
       "type": "script",
       "uri": "com_fields/admin-field-changecontext-es5.min.js",
@@ -19,16 +31,16 @@
       "version": "7ef24817281a04a337833826c1eba0931cdb03b5"
     },
     {
-      "name": "com_fields.admin-field-changecontext",
+      "name": "com_fields.admin-field-edit",
       "type": "script",
-      "uri": "com_fields/admin-field-changecontext.min.js",
+      "uri": "com_fields/admin-field-edit.min.js",
       "dependencies": [
-        "com_fields.admin-field-changecontext.es5"
+        "com_fields.admin-field-edit.es5"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "b311053eb3d548d522d5b0a7e63fdc9449cd9465"
+      "version": "e75588fe93805cb6b8627b7736dbc2ac5849a14a"
     },
     {
       "name": "com_fields.admin-field-edit.es5",
@@ -42,18 +54,6 @@
         "defer": true
       },
       "version": "c76a0cb29034fb3e18659e450c5ceb782f0bc3cc"
-    },
-    {
-      "name": "com_fields.admin-field-edit",
-      "type": "script",
-      "uri": "com_fields/admin-field-edit.min.js",
-      "dependencies": [
-        "com_fields.admin-field-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "e75588fe93805cb6b8627b7736dbc2ac5849a14a"
     },
     {
       "name": "com_fields.admin-field-typehaschanged.es5",

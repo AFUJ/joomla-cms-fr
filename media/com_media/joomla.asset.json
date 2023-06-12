@@ -34,7 +34,7 @@
       "name": "com_media.mediamanager",
       "type": "style",
       "uri": "com_media/media-manager.min.css",
-      "version": "8322c58f894ff7aae0875654963b1eebedc455fc"
+      "version": "2469fbd38826c31d458fe42ab45c244444100723"
     },
     {
       "name": "com_media.mediamanager",
@@ -46,7 +46,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "12037111c61018c6c00648a1ff9b2ec932c74edf"
+      "version": "a69d4dfacc0780d544a137dcc995c878034a56f5"
     },
     {
       "name": "com_media.mediamanager.es5",
@@ -59,7 +59,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "58e5fa6e6b971c559da7581341b639e4ec0eb6a4"
+      "version": "07eac6c3415d25b3352d05bde1be3a3d957de538"
     }
   ]
 }

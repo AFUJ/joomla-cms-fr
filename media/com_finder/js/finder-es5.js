@@ -55,6 +55,15 @@
           }
         });
       }
+    }; // Submits the form programmatically
+
+
+    var submitForm = function submitForm(event) {
+      var form = event.target.closest('form');
+
+      if (form) {
+        form.submit();
+      }
     }; // The boot sequence
 
 
@@ -66,6 +75,11 @@
           searchword.awesomplete = new Awesomplete(searchword); // If the current value is empty, set the previous value.
 
           searchword.addEventListener('input', onInputChange);
+          var advanced = searchword.closest('form').querySelector('.js-finder-advanced'); // Do not submit the form on suggestion selection, in case of advanced form.
+
+          if (!advanced) {
+            searchword.addEventListener('awesomplete-selectcomplete', submitForm);
+          }
         }
       });
       var forms = [].slice.call(document.querySelectorAll('.js-finder-searchform'));

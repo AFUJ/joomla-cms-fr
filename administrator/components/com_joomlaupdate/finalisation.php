@@ -14,7 +14,7 @@
 namespace
 {
 	// Require the restoration environment or fail cold. Prevents direct web access.
-	\defined('_AKEEBA_RESTORATION') or die();
+	\defined('_JOOMLA_UPDATE') or die();
 
 	// Fake a miniature Joomla environment
 	if (!\defined('_JEXEC'))
@@ -25,34 +25,35 @@ namespace
 	if (!function_exists('jimport'))
 	{
 		/**
-		 * We don't use it but the post-update script is using it anyway, so LET'S FAKE IT!
+		 * This is deprecated but it may still be used in the update finalisation script.
 		 *
-		 * @param   string  $path  A dot syntax path.
-		 * @param   string  $base  Search this directory for the class.
+		 * @param   string  $path  Ignored.
+		 * @param   string  $base  Ignored.
 		 *
-		 * @return  boolean  True on success.
+		 * @return  boolean  Always true.
 		 *
 		 * @since   1.7.0
 		 */
-		function jimport($path, $base = null)
+		function jimport(string $path, ?string $base = null): bool
 		{
 			// Do nothing
+			return true;
 		}
 	}
 
-	if (!function_exists('finalizeRestore'))
+	if (!function_exists('finalizeUpdate'))
 	{
 		/**
 		 * Run part of the Joomla! finalisation script, namely the part that cleans up unused files/folders
 		 *
 		 * @param   string  $siteRoot     The root to the Joomla! site
-		 * @param   string  $restorePath  The base path to restore.php
+		 * @param   string  $restorePath  The base path to extract.php
 		 *
 		 * @return  void
 		 *
 		 * @since   3.5.1
 		 */
-		function finalizeRestore($siteRoot, $restorePath)
+		function finalizeUpdate(string $siteRoot, string $restorePath): void
 		{
 			if (!\defined('JPATH_ROOT'))
 			{
@@ -80,11 +81,11 @@ namespace
 
 namespace Joomla\CMS\Filesystem
 {
-	// Fake the JFile class, mapping it to Restore's post-processing class
+	// Fake the File class
 	if (!class_exists('\Joomla\CMS\Filesystem\File'))
 	{
 		/**
-		 * JFile mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * File mock class
 		 *
 		 * @since  3.5.1
 		 */
@@ -99,13 +100,13 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   3.5.1
 			 */
-			public static function exists($fileName)
+			public static function exists(string $fileName): bool
 			{
 				return @file_exists($fileName);
 			}
 
 			/**
-			 * Proxies deleting a file to the restore.php version
+			 * Delete a file and invalidate the PHP OPcache
 			 *
 			 * @param   string  $fileName  The path to the file to be deleted
 			 *
@@ -113,14 +114,15 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   3.5.1
 			 */
-			public static function delete($fileName)
+			public static function delete(string $fileName): bool
 			{
-				/** @var \AKPostprocDirect $postproc */
-				$postproc = \AKFactory::getPostProc();
-				$postproc->unlink($fileName);
+				self::invalidateFileCache($fileName);
+
+				return @unlink($fileName);
 			}
+
 			/**
-			 * Proxies moving a file to the restore.php version
+			 * Rename a file and invalidate the PHP OPcache
 			 *
 			 * @param   string  $src   The path to the source file
 			 * @param   string  $dest  The path to the destination file
@@ -129,11 +131,18 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   4.0.1
 			 */
-			public static function move($src, $dest)
+			public static function move(string $src, string $dest): bool
 			{
-				/** @var \AKPostprocDirect $postproc */
-				$postproc = \AKFactory::getPostProc();
-				$postproc->rename($src, $dest);
+				self::invalidateFileCache($src);
+
+				$result = @rename($src, $dest);
+
+				if ($result)
+				{
+					self::invalidateFileCache($dest);
+				}
+
+				return $result;
 			}
 
 			/**
@@ -150,13 +159,7 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function invalidateFileCache($filepath, $force = true)
 			{
-				if ('.php' === strtolower(substr($filepath, -4)))
-				{
-					$postproc = \AKFactory::getPostProc();
-					$postproc->clearFileInOPCache($filepath);
-				}
-
-				return false;
+				return \clearFileInOPCache($filepath);
 			}
 
 		}
@@ -166,7 +169,7 @@ namespace Joomla\CMS\Filesystem
 	if (!class_exists('\Joomla\CMS\Filesystem\Folder'))
 	{
 		/**
-		 * Folder mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Folder mock class
 		 *
 		 * @since  3.5.1
 		 */
@@ -181,23 +184,60 @@ namespace Joomla\CMS\Filesystem
 			 *
 			 * @since   3.5.1
 			 */
-			public static function exists($folderName)
+			public static function exists(string $folderName): bool
 			{
 				return @is_dir($folderName);
 			}
 
 			/**
-			 * Proxies deleting a folder to the restore.php version
+			 * Delete a folder recursively and invalidate the PHP OPcache
 			 *
 			 * @param   string  $folderName  The path to the folder to be deleted
 			 *
-			 * @return  void
+			 * @return  boolean
 			 *
 			 * @since   3.5.1
 			 */
-			public static function delete($folderName)
+			public static function delete(string $folderName): bool
 			{
-				recursive_remove_directory($folderName);
+				if (substr($folderName, -1) == '/')
+				{
+					$folderName = substr($folderName, 0, -1);
+				}
+
+				if (!@file_exists($folderName) || !@is_dir($folderName) || !is_readable($folderName))
+				{
+					return false;
+				}
+
+				$di = new \DirectoryIterator($folderName);
+
+				/** @var \DirectoryIterator $item */
+				foreach ($di as $item)
+				{
+					if ($item->isDot())
+					{
+						continue;
+					}
+
+					if ($item->isDir())
+					{
+						$status = self::delete($item->getPathname());
+
+						if (!$status)
+						{
+							return false;
+						}
+
+						continue;
+					}
+
+					\clearFileInOPCache($item->getPathname());
+
+					@unlink($item->getPathname());
+				}
+
+				return @rmdir($folderName);
 			}
 		}
 	}
@@ -209,7 +249,7 @@ namespace Joomla\CMS\Language
 	if (!class_exists('\Joomla\CMS\Language\Text'))
 	{
 		/**
-		 * Text mock class proxying behaviour in the post-upgrade script to that of either native PHP or restore.php
+		 * Text mock class
 		 *
 		 * @since  3.5.1
 		 */
@@ -224,7 +264,7 @@ namespace Joomla\CMS\Language
 			 *
 			 * @since   3.5.1
 			 */
-			public static function sprintf($text)
+			public static function sprintf(string $text): string
 			{
 				return '';
 			}

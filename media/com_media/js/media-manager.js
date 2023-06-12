@@ -8868,6 +8868,14 @@ var script$e = {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Handle the on preview double click event */
     onPreviewDblClick() {
@@ -8881,6 +8889,7 @@ var script$e = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -8897,8 +8906,6 @@ var script$e = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      // eslint-disable-next-line no-unused-expressions
-      this.$nextTick(() => { this.$refs.actionToggle ? this.$refs.actionToggle.focus() : false; });
     },
   },
 };
@@ -9025,6 +9032,14 @@ var script$d = {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     download() {
@@ -9038,6 +9053,7 @@ var script$d = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -9059,7 +9075,6 @@ var script$d = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };
@@ -9596,6 +9611,14 @@ var script$c = {
       return `url(${this.item.thumb_path})`;
     },
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     openPreview() {
@@ -9614,6 +9637,7 @@ var script$c = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -9642,7 +9666,6 @@ var script$c = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };
@@ -9868,6 +9891,14 @@ var script$b = {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     openPreview() {
@@ -9886,6 +9917,7 @@ var script$b = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -9907,7 +9939,6 @@ var script$b = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };
@@ -10104,6 +10135,14 @@ var script$a = {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     openPreview() {
@@ -10122,6 +10161,7 @@ var script$a = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -10143,7 +10183,6 @@ var script$a = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };
@@ -10340,6 +10379,14 @@ var script$9 = {
       showActions: false,
     };
   },
+  watch: {
+    // eslint-disable-next-line
+    '$store.state.showRenameModal'(show) {
+      if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find((item) => item.name === this.item.name) !== undefined) {
+        this.$refs.actionToggle.focus();
+      }
+    },
+  },
   methods: {
     /* Preview an item */
     openPreview() {
@@ -10358,6 +10405,7 @@ var script$9 = {
     },
     /* Rename an item */
     openRenameModal() {
+      this.hideActions();
       this.$store.commit(SELECT_BROWSER_ITEM, this.item);
       this.$store.commit(SHOW_RENAME_MODAL);
     },
@@ -10379,7 +10427,6 @@ var script$9 = {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
-      this.$nextTick(() => this.$refs.actionToggle.focus());
     },
   },
 };
@@ -11211,6 +11258,9 @@ var script$4 = {
     extension() {
       return this.item.extension;
     },
+  },
+  updated() {
+    this.$nextTick(() => (this.$refs.nameField ? this.$refs.nameField.focus() : null));
   },
   methods: {
     /* Check if the form is valid */

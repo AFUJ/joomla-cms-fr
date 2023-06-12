@@ -372,6 +372,11 @@
         // Filter out nested
 
         haveName = [].slice.call(haveName).filter(function (el) {
+          if (el.nodeName === 'JOOMLA-FIELD-SUBFORM') {
+            // Skip self in .closest() call
+            return el.parentElement.closest('joomla-field-subform') === _this3;
+          }
+
           return el.closest('joomla-field-subform') === _this3;
         });
         haveName.forEach(function (elem) {

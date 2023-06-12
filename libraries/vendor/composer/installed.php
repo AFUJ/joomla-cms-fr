@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => '27ffee6f90c409f96a385e4153cc43137c542124',
+        'reference' => '287c34d83417aabdd9011d6ba1910b21fba4fb4d',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -38,12 +38,12 @@
             'dev_requirement' => false,
         ),
         'composer/ca-bundle' => array(
-            'pretty_version' => '1.2.10',
-            'version' => '1.2.10.0',
+            'pretty_version' => '1.2.11',
+            'version' => '1.2.11.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/./ca-bundle',
             'aliases' => array(),
-            'reference' => '9fdb22c2e97a614657716178093cd1da90a64aa8',
+            'reference' => '0b072d51c5a9c6f3412f7ea3ab043d6603cb2582',
             'dev_requirement' => false,
         ),
         'defuse/php-encryption' => array(
@@ -223,7 +223,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => '27ffee6f90c409f96a385e4153cc43137c542124',
+            'reference' => '287c34d83417aabdd9011d6ba1910b21fba4fb4d',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(

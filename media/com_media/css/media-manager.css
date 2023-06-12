@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .slide-fade-enter-active {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -343,7 +342,7 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
   font-weight: 900;
   line-height: calc(1.3rem * 1.3);
   text-align: center;
-  content: "";
+  content: "\f00c";
   opacity: 0;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transform: scale(0.5);
@@ -605,25 +604,25 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
 }
 
 .type[data-type]::before {
-  content: "";
+  content: "\f016";
 }
 .type[data-type=""]::before {
-  content: "";
+  content: "\f07b";
 }
 .type[data-type=jpg i]::before, .type[data-type=png i]::before, .type[data-type=gif i]::before, .type[data-type=jpeg i]::before, .type[data-type=tiff i]::before, .type[data-type=bmp i]::before, .type[data-type=svg i]::before, .type[data-type=webp i]::before {
-  content: "";
+  content: "\f1c5";
 }
 .type[data-type=mov i]::before, .type[data-type=mkv i]::before, .type[data-type=mp4 i]::before, .type[data-type=mpg i]::before, .type[data-type=mpeg i]::before {
-  content: "";
+  content: "\f1c8";
 }
 .type[data-type=mp3 i]::before, .type[data-type=wav i]::before, .type[data-type=raw i]::before, .type[data-type=wma i]::before {
-  content: "";
+  content: "\f1c7";
 }
 .type[data-type=doc i]::before, .type[data-type=xls i]::before, .type[data-type=pdf i]::before, .type[data-type=txt i]::before {
-  content: "";
+  content: "\f1c1";
 }
 .type[data-type=html i]::before, .type[data-type=htm i]::before {
-  content: "";
+  content: "\f1c9";
 }
 
 .media-form joomla-tab > joomla-tab-element {
@@ -798,7 +797,7 @@ html[dir=rtl] .media-infobar h2 {
   width: 50px;
   font-size: 1.3rem;
   line-height: 46px;
-  color: var(--atum-bg-dark-60);
+  color: var(--template-bg-dark-60);
   text-align: center;
   background-color: transparent;
   border: 0;

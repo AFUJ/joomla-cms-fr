@@ -4308,6 +4308,26 @@ var JoomlaMediaManager = (function () {
     ];
   });
 
+  var $find$1 = arrayIteration.find;
+
+
+  var FIND = 'find';
+  var SKIPS_HOLES = true;
+
+  // Shouldn't skip holes
+  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
+
+  // `Array.prototype.find` method
+  // https://tc39.es/ecma262/#sec-array.prototype.find
+  _export({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+    find: function find(callbackfn /* , that = undefined */) {
+      return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables(FIND);
+
   // `thisNumberValue` abstract operation
   // https://tc39.es/ecma262/#sec-thisnumbervalue
   var thisNumberValue = function (value) {
@@ -4480,26 +4500,6 @@ var JoomlaMediaManager = (function () {
         : that.slice(end - search.length, end) === search;
     }
   });
-
-  var $find$1 = arrayIteration.find;
-
-
-  var FIND = 'find';
-  var SKIPS_HOLES = true;
-
-  // Shouldn't skip holes
-  if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
-
-  // `Array.prototype.find` method
-  // https://tc39.es/ecma262/#sec-array.prototype.find
-  _export({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
-    find: function find(callbackfn /* , that = undefined */) {
-      return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables(FIND);
 
   var onFreeze = internalMetadata.onFreeze;
 
@@ -16601,6 +16601,18 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this8 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this8.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Handle the on preview double click event */
       onPreviewDblClick: function onPreviewDblClick() {
@@ -16616,39 +16628,34 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this8 = this;
+        var _this9 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this8.$refs.actionRename.focus();
+          return _this9.$refs.actionRename.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this9 = this;
+        var _this10 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this9.$refs.actionDelete.focus();
+          return _this10.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this10 = this;
-
-        this.showActions = false; // eslint-disable-next-line no-unused-expressions
-
-        this.$nextTick(function () {
-          _this10.$refs.actionToggle ? _this10.$refs.actionToggle.focus() : false;
-        });
+        this.showActions = false;
       }
     }
   };
@@ -16805,6 +16812,18 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this11 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this11.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Preview an item */
       download: function download() {
@@ -16820,6 +16839,7 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
@@ -16832,32 +16852,27 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this11 = this;
+        var _this12 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this11.$refs.actionDownload.focus();
+          return _this12.$refs.actionDownload.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this12 = this;
+        var _this13 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this12.$refs.actionDelete.focus();
+          return _this13.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this13 = this;
-
         this.showActions = false;
-        this.$nextTick(function () {
-          return _this13.$refs.actionToggle.focus();
-        });
       }
     }
   };
@@ -17450,6 +17465,18 @@ var JoomlaMediaManager = (function () {
         return "url(" + this.item.thumb_path + ")";
       }
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this20 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this20.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Preview an item */
       openPreview: function openPreview() {
@@ -17471,6 +17498,7 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
@@ -17490,32 +17518,27 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this20 = this;
+        var _this21 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this20.$refs.actionPreview.focus();
+          return _this21.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this21 = this;
+        var _this22 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this21.$refs.actionDelete.focus();
+          return _this22.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this22 = this;
-
         this.showActions = false;
-        this.$nextTick(function () {
-          return _this22.$refs.actionToggle.focus();
-        });
       }
     }
   };
@@ -17797,6 +17820,18 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this23 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this23.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Preview an item */
       openPreview: function openPreview() {
@@ -17818,6 +17853,7 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
@@ -17830,32 +17866,27 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this23 = this;
+        var _this24 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this23.$refs.actionPreview.focus();
+          return _this24.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this24 = this;
+        var _this25 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this24.$refs.actionDelete.focus();
+          return _this25.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this25 = this;
-
         this.showActions = false;
-        this.$nextTick(function () {
-          return _this25.$refs.actionToggle.focus();
-        });
       }
     }
   };
@@ -18103,6 +18134,18 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this26 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this26.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Preview an item */
       openPreview: function openPreview() {
@@ -18124,6 +18167,7 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
@@ -18136,32 +18180,27 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this26 = this;
+        var _this27 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this26.$refs.actionPreview.focus();
+          return _this27.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this27 = this;
+        var _this28 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this27.$refs.actionDelete.focus();
+          return _this28.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this28 = this;
-
         this.showActions = false;
-        this.$nextTick(function () {
-          return _this28.$refs.actionToggle.focus();
-        });
       }
     }
   };
@@ -18409,6 +18448,18 @@ var JoomlaMediaManager = (function () {
         showActions: false
       };
     },
+    watch: {
+      // eslint-disable-next-line
+      '$store.state.showRenameModal': function $storeStateShowRenameModal(show) {
+        var _this29 = this;
+
+        if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
+          return item.name === _this29.item.name;
+        }) !== undefined) {
+          this.$refs.actionToggle.focus();
+        }
+      }
+    },
     methods: {
       /* Preview an item */
       openPreview: function openPreview() {
@@ -18430,6 +18481,7 @@ var JoomlaMediaManager = (function () {
 
       /* Rename an item */
       openRenameModal: function openRenameModal() {
+        this.hideActions();
         this.$store.commit(SELECT_BROWSER_ITEM, this.item);
         this.$store.commit(SHOW_RENAME_MODAL);
       },
@@ -18442,32 +18494,27 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this29 = this;
+        var _this30 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this29.$refs.actionPreview.focus();
+          return _this30.$refs.actionPreview.focus();
         });
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this30 = this;
+        var _this31 = this;
 
         this.showActions = true;
         this.$nextTick(function () {
-          return _this30.$refs.actionDelete.focus();
+          return _this31.$refs.actionDelete.focus();
         });
       },
 
       /* Hide actions dropdown */
       hideActions: function hideActions() {
-        var _this31 = this;
-
         this.showActions = false;
-        this.$nextTick(function () {
-          return _this31.$refs.actionToggle.focus();
-        });
       }
     }
   };
@@ -19384,6 +19431,13 @@ var JoomlaMediaManager = (function () {
         return this.item.extension;
       }
     },
+    updated: function updated() {
+      var _this34 = this;
+
+      this.$nextTick(function () {
+        return _this34.$refs.nameField ? _this34.$refs.nameField.focus() : null;
+      });
+    },
     methods: {
       /* Check if the form is valid */
       isValid: function isValid() {
@@ -19888,11 +19942,11 @@ var JoomlaMediaManager = (function () {
       }
     },
     created: function created() {
-      var _this34 = this;
+      var _this35 = this;
 
       // Listen to the toolbar upload click event
       MediaManager.Event.listen('onClickUpload', function () {
-        return _this34.chooseFiles();
+        return _this35.chooseFiles();
       });
     },
     methods: {
@@ -19903,7 +19957,7 @@ var JoomlaMediaManager = (function () {
 
       /* Upload files */
       upload: function upload(e) {
-        var _this35 = this;
+        var _this36 = this;
 
         e.preventDefault();
         var files = e.target.files; // Loop through array of files and upload each file
@@ -19917,9 +19971,9 @@ var JoomlaMediaManager = (function () {
             var splitIndex = result.indexOf('base64') + 7;
             var content = result.slice(splitIndex, result.length); // Upload the file
 
-            _this35.$store.dispatch('uploadFile', {
+            _this36.$store.dispatch('uploadFile', {
               name: file.name,
-              parent: _this35.$store.state.selectedDirectory,
+              parent: _this36.$store.state.selectedDirectory,
               content: content
             });
           };

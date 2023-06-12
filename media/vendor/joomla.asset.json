@@ -6,20 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "wcpolyfill",
-      "type": "script",
-      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "core"
-      ],
-      "package": "@webcomponents/webcomponentsjs",
-      "version": "2.5.0"
-    },
-    {
       "name": "short-and-sweet",
       "type": "script",
       "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
@@ -40,31 +26,18 @@
       "version": "3.0.13"
     },
     {
-      "name": "cropperjs",
-      "type": "style",
-      "uri": "vendor/cropperjs/cropper.min.css",
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
+      "name": "wcpolyfill",
       "type": "script",
-      "uri": "vendor/cropperjs/cropper.min.js",
+      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
       "attributes": {
+        "nomodule": true,
         "defer": true
       },
-      "package": "cropperjs",
-      "version": "1.5.11"
-    },
-    {
-      "name": "cropperjs",
-      "type": "preset",
       "dependencies": [
-        "cropperjs#style",
-        "cropperjs#script"
+        "core"
       ],
-      "package": "cropperjs",
-      "version": "1.5.11"
+      "package": "@webcomponents/webcomponentsjs",
+      "version": "2.5.0"
     },
     {
       "name": "awesomplete",
@@ -94,6 +67,50 @@
       "version": "1.1.5"
     },
     {
+      "name": "diff",
+      "type": "script",
+      "uri": "vendor/diff/diff.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "diff",
+      "version": "4.0.2"
+    },
+    {
+      "name": "cropperjs",
+      "type": "style",
+      "uri": "vendor/cropperjs/cropper.min.css",
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
+      "type": "script",
+      "uri": "vendor/cropperjs/cropper.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "cropperjs",
+      "type": "preset",
+      "dependencies": [
+        "cropperjs#style",
+        "cropperjs#script"
+      ],
+      "package": "cropperjs",
+      "version": "1.5.11"
+    },
+    {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
       "name": "choicesjs",
       "type": "style",
       "uri": "vendor/choicesjs/choices.min.css",
@@ -119,97 +136,6 @@
       ],
       "package": "choices.js",
       "version": "9.0.1"
-    },
-    {
-      "name": "focus-visible",
-      "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
-    },
-    {
-      "name": "jquery",
-      "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.6.0"
-    },
-    {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "minicolors",
-      "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "minicolors",
-      "type": "preset",
-      "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
-      ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.5"
-    },
-    {
-      "name": "chosen",
-      "type": "style",
-      "uri": "vendor/chosen/chosen.css",
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "script",
-      "uri": "vendor/chosen/chosen.jquery.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "preset",
-      "dependencies": [
-        "chosen#style",
-        "chosen#script"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "jquery-migrate",
-      "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "jquery-migrate",
-      "version": "3.3.2"
-    },
-    {
-      "name": "skipto",
-      "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "skipto",
-      "version": "4.1.0"
     },
     {
       "name": "dragula",
@@ -239,14 +165,21 @@
       "version": "3.7.2"
     },
     {
-      "name": "diff",
+      "name": "jquery",
       "type": "script",
-      "uri": "vendor/diff/diff.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "diff",
-      "version": "4.0.2"
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.6.0"
+    },
+    {
+      "name": "jquery-migrate",
+      "type": "script",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "jquery-migrate",
+      "version": "3.3.2"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -317,6 +250,63 @@
       "version": "0.2.0"
     },
     {
+      "name": "chosen",
+      "type": "style",
+      "uri": "vendor/chosen/chosen.css",
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "script",
+      "uri": "vendor/chosen/chosen.jquery.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "preset",
+      "dependencies": [
+        "chosen#style",
+        "chosen#script"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "minicolors",
+      "type": "style",
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "script",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "attributes": {
+        "defer": true
+      },
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
+      "name": "minicolors",
+      "type": "preset",
+      "dependencies": [
+        "minicolors#style",
+        "minicolors#script"
+      ],
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.5"
+    },
+    {
       "name": "metismenujs",
       "type": "script",
       "uri": "vendor/metismenujs/metismenujs.min.js",
@@ -365,6 +355,16 @@
       "version": "1.4.4"
     },
     {
+      "name": "skipto",
+      "type": "script",
+      "uri": "vendor/skipto/skipto.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "skipto",
+      "version": "4.1.0"
+    },
+    {
       "name": "fontawesome",
       "type": "style",
       "uri": "vendor/fontawesome-free/fontawesome.min.css",
@@ -376,7 +376,7 @@
       "type": "style",
       "uri": "vendor/bootstrap/bootstrap.min.css",
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.css.grid",
@@ -386,7 +386,7 @@
         "bootstrap.css"
       ],
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.es5",
@@ -400,7 +400,7 @@
         "defer": true
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.alert",
@@ -413,7 +413,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.button",
@@ -426,7 +426,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.carousel",
@@ -439,7 +439,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.collapse",
@@ -452,7 +452,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.dropdown",
@@ -465,7 +465,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.modal",
@@ -478,7 +478,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.offcanvas",
@@ -491,7 +491,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.popover",
@@ -504,7 +504,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.scrollspy",
@@ -517,7 +517,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.tab",
@@ -530,7 +530,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     },
     {
       "name": "bootstrap.toast",
@@ -543,7 +543,7 @@
         "type": "module"
       },
       "package": "bootstrap",
-      "version": "5.0.2"
+      "version": "5.1.2"
     }
   ]
 }

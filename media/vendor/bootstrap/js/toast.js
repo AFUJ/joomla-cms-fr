@@ -1,8 +1,9 @@
-import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1631567336';
+import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, b as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?1635100342';
+import { e as enableDismissTrigger } from './alert.js';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): toast.js
+ * Bootstrap (v5.1.2): toast.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -15,7 +16,6 @@ import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a
 const NAME = 'toast';
 const DATA_KEY = 'bs.toast';
 const EVENT_KEY = `.${DATA_KEY}`;
-const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY}`;
 const EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
 const EVENT_MOUSEOUT = `mouseout${EVENT_KEY}`;
 const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
@@ -25,7 +25,8 @@ const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
 const EVENT_SHOW = `show${EVENT_KEY}`;
 const EVENT_SHOWN = `shown${EVENT_KEY}`;
 const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_HIDE = 'hide';
+const CLASS_NAME_HIDE = 'hide'; // @deprecated - kept here only for backwards compatibility
+
 const CLASS_NAME_SHOW = 'show';
 const CLASS_NAME_SHOWING = 'showing';
 const DefaultType = {
@@ -38,7 +39,6 @@ const Default = {
   autohide: true,
   delay: 5000
 };
-const SELECTOR_DATA_DISMISS = '[data-bs-dismiss="toast"]';
 /**
  * ------------------------------------------------------------------------
  * Class Definition
@@ -86,16 +86,17 @@ class Toast extends BaseComponent {
     const complete = () => {
       this._element.classList.remove(CLASS_NAME_SHOWING);
 
-      this._element.classList.add(CLASS_NAME_SHOW);
-
       EventHandler.trigger(this._element, EVENT_SHOWN);
 
       this._maybeScheduleHide();
     };
 
-    this._element.classList.remove(CLASS_NAME_HIDE);
+    this._element.classList.remove(CLASS_NAME_HIDE); // @deprecated
+
 
     reflow(this._element);
+
+    this._element.classList.add(CLASS_NAME_SHOW);
 
     this._element.classList.add(CLASS_NAME_SHOWING);
 
@@ -114,12 +115,17 @@ class Toast extends BaseComponent {
     }
 
     const complete = () => {
-      this._element.classList.add(CLASS_NAME_HIDE);
+      this._element.classList.add(CLASS_NAME_HIDE); // @deprecated
+
+
+      this._element.classList.remove(CLASS_NAME_SHOWING);
+
+      this._element.classList.remove(CLASS_NAME_SHOW);
 
       EventHandler.trigger(this._element, EVENT_HIDDEN);
     };
 
-    this._element.classList.remove(CLASS_NAME_SHOW);
+    this._element.classList.add(CLASS_NAME_SHOWING);
 
     this._queueCallback(complete, this._element, this._config.animation);
   }
@@ -187,7 +193,6 @@ class Toast extends BaseComponent {
   }
 
   _setListeners() {
-    EventHandler.on(this._element, EVENT_CLICK_DISMISS, SELECTOR_DATA_DISMISS, () => this.hide());
     EventHandler.on(this._element, EVENT_MOUSEOVER, event => this._onInteraction(event, true));
     EventHandler.on(this._element, EVENT_MOUSEOUT, event => this._onInteraction(event, false));
     EventHandler.on(this._element, EVENT_FOCUSIN, event => this._onInteraction(event, true));
@@ -215,13 +220,14 @@ class Toast extends BaseComponent {
   }
 
 }
+
+enableDismissTrigger(Toast);
 /**
  * ------------------------------------------------------------------------
  * jQuery
  * ------------------------------------------------------------------------
  * add .Toast to jQuery only if jQuery is present
  */
-
 
 defineJQueryPlugin(Toast);
 

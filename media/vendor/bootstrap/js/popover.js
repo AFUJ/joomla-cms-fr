@@ -1,44 +1,44 @@
-import { c as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, o as getUID, D as Data, n as noop, S as SelectorEngine, j as isElement, f as getElement, M as Manipulator, a as typeCheckConfig } from './dom.js?1631567336';
-import { P as Popper, c as createPopper } from './popper.js?1631567336';
+import { e as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, o as getUID, D as Data, n as noop, S as SelectorEngine, j as isElement, h as getElement, M as Manipulator, b as typeCheckConfig } from './dom.js?1635100342';
+import { P as Popper, c as createPopper } from './popper.js?1635100342';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): util/sanitizer.js
+ * Bootstrap (v5.1.2): util/sanitizer.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
-const uriAttrs = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
 const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
 /**
  * A pattern that recognizes a commonly useful subset of URLs that are safe.
  *
- * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+ * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
  */
 
-const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^#&/:?]*(?:[#/?]|$))/i;
+const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
 /**
  * A pattern that matches safe data URLs. Only matches image, video and audio types.
  *
- * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+ * Shoutout to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
  */
 
 const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
 
-const allowedAttribute = (attr, allowedAttributeList) => {
-  const attrName = attr.nodeName.toLowerCase();
+const allowedAttribute = (attribute, allowedAttributeList) => {
+  const attributeName = attribute.nodeName.toLowerCase();
 
-  if (allowedAttributeList.includes(attrName)) {
-    if (uriAttrs.has(attrName)) {
-      return Boolean(SAFE_URL_PATTERN.test(attr.nodeValue) || DATA_URL_PATTERN.test(attr.nodeValue));
+  if (allowedAttributeList.includes(attributeName)) {
+    if (uriAttributes.has(attributeName)) {
+      return Boolean(SAFE_URL_PATTERN.test(attribute.nodeValue) || DATA_URL_PATTERN.test(attribute.nodeValue));
     }
 
     return true;
   }
 
-  const regExp = allowedAttributeList.filter(attrRegex => attrRegex instanceof RegExp); // Check if a regular expression validates the attribute.
+  const regExp = allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp); // Check if a regular expression validates the attribute.
 
   for (let i = 0, len = regExp.length; i < len; i++) {
-    if (regExp[i].test(attrName)) {
+    if (regExp[i].test(attributeName)) {
       return true;
     }
   }
@@ -90,23 +90,22 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
 
   const domParser = new window.DOMParser();
   const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
-  const allowlistKeys = Object.keys(allowList);
   const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
 
   for (let i = 0, len = elements.length; i < len; i++) {
-    const el = elements[i];
-    const elName = el.nodeName.toLowerCase();
+    const element = elements[i];
+    const elementName = element.nodeName.toLowerCase();
 
-    if (!allowlistKeys.includes(elName)) {
-      el.remove();
+    if (!Object.keys(allowList).includes(elementName)) {
+      element.remove();
       continue;
     }
 
-    const attributeList = [].concat(...el.attributes);
-    const allowedAttributes = [].concat(allowList['*'] || [], allowList[elName] || []);
-    attributeList.forEach(attr => {
-      if (!allowedAttribute(attr, allowedAttributes)) {
-        el.removeAttribute(attr.nodeName);
+    const attributeList = [].concat(...element.attributes);
+    const allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
+    attributeList.forEach(attribute => {
+      if (!allowedAttribute(attribute, allowedAttributes)) {
+        element.removeAttribute(attribute.nodeName);
       }
     });
   }
@@ -116,7 +115,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): tooltip.js
+ * Bootstrap (v5.1.2): tooltip.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -130,7 +129,6 @@ const NAME$1 = 'tooltip';
 const DATA_KEY$1 = 'bs.tooltip';
 const EVENT_KEY$1 = `.${DATA_KEY$1}`;
 const CLASS_PREFIX$1 = 'bs-tooltip';
-const BSCLS_PREFIX_REGEX$1 = new RegExp(`(^|\\s)${CLASS_PREFIX$1}\\S+`, 'g');
 const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
 const DefaultType$1 = {
   animation: 'boolean',
@@ -189,12 +187,14 @@ const Event$1 = {
   MOUSEENTER: `mouseenter${EVENT_KEY$1}`,
   MOUSELEAVE: `mouseleave${EVENT_KEY$1}`
 };
-const CLASS_NAME_FADE$1 = 'fade';
+const CLASS_NAME_FADE = 'fade';
 const CLASS_NAME_MODAL = 'modal';
-const CLASS_NAME_SHOW$1 = 'show';
+const CLASS_NAME_SHOW = 'show';
 const HOVER_STATE_SHOW = 'show';
 const HOVER_STATE_OUT = 'out';
 const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
+const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
+const EVENT_MODAL_HIDE = 'hide.bs.modal';
 const TRIGGER_HOVER = 'hover';
 const TRIGGER_FOCUS = 'focus';
 const TRIGGER_CLICK = 'click';
@@ -271,7 +271,7 @@ class Tooltip extends BaseComponent {
         context._leave(null, context);
       }
     } else {
-      if (this.getTipElement().classList.contains(CLASS_NAME_SHOW$1)) {
+      if (this.getTipElement().classList.contains(CLASS_NAME_SHOW)) {
         this._leave(null, this);
 
         return;
@@ -283,15 +283,13 @@ class Tooltip extends BaseComponent {
 
   dispose() {
     clearTimeout(this._timeout);
-    EventHandler.off(this._element.closest(`.${CLASS_NAME_MODAL}`), 'hide.bs.modal', this._hideModalHandler);
+    EventHandler.off(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
 
     if (this.tip) {
       this.tip.remove();
     }
 
-    if (this._popper) {
-      this._popper.destroy();
-    }
+    this._disposePopper();
 
     super.dispose();
   }
@@ -311,6 +309,15 @@ class Tooltip extends BaseComponent {
 
     if (showEvent.defaultPrevented || !isInTheDom) {
       return;
+    } // A trick to recreate a tooltip in case a new title is given by using the NOT documented `data-bs-original-title`
+    // This will be removed later in favor of a `setContent` method
+
+
+    if (this.constructor.NAME === 'tooltip' && this.tip && this.getTitle() !== this.tip.querySelector(SELECTOR_TOOLTIP_INNER).innerHTML) {
+      this._disposePopper();
+
+      this.tip.remove();
+      this.tip = null;
     }
 
     const tip = this.getTipElement();
@@ -319,10 +326,8 @@ class Tooltip extends BaseComponent {
 
     this._element.setAttribute('aria-describedby', tipId);
 
-    this.setContent();
-
     if (this._config.animation) {
-      tip.classList.add(CLASS_NAME_FADE$1);
+      tip.classList.add(CLASS_NAME_FADE);
     }
 
     const placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
@@ -337,7 +342,7 @@ class Tooltip extends BaseComponent {
     Data.set(tip, this.constructor.DATA_KEY, this);
 
     if (!this._element.ownerDocument.documentElement.contains(this.tip)) {
-      container.appendChild(tip);
+      container.append(tip);
       EventHandler.trigger(this._element, this.constructor.Event.INSERTED);
     }
 
@@ -347,8 +352,9 @@ class Tooltip extends BaseComponent {
       this._popper = createPopper(this._element, tip, this._getPopperConfig(attachment));
     }
 
-    tip.classList.add(CLASS_NAME_SHOW$1);
-    const customClass = typeof this._config.customClass === 'function' ? this._config.customClass() : this._config.customClass;
+    tip.classList.add(CLASS_NAME_SHOW);
+
+    const customClass = this._resolvePossibleFunction(this._config.customClass);
 
     if (customClass) {
       tip.classList.add(...customClass.split(' '));
@@ -374,7 +380,7 @@ class Tooltip extends BaseComponent {
       }
     };
 
-    const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE$1);
+    const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE);
 
     this._queueCallback(complete, this.tip, isAnimated);
   }
@@ -401,11 +407,7 @@ class Tooltip extends BaseComponent {
 
       EventHandler.trigger(this._element, this.constructor.Event.HIDDEN);
 
-      if (this._popper) {
-        this._popper.destroy();
-
-        this._popper = null;
-      }
+      this._disposePopper();
     };
 
     const hideEvent = EventHandler.trigger(this._element, this.constructor.Event.HIDE);
@@ -414,7 +416,7 @@ class Tooltip extends BaseComponent {
       return;
     }
 
-    tip.classList.remove(CLASS_NAME_SHOW$1); // If this is a touch-enabled device we remove the extra
+    tip.classList.remove(CLASS_NAME_SHOW); // If this is a touch-enabled device we remove the extra
     // empty mouseover listeners we added for iOS support
 
     if ('ontouchstart' in document.documentElement) {
@@ -424,7 +426,7 @@ class Tooltip extends BaseComponent {
     this._activeTrigger[TRIGGER_CLICK] = false;
     this._activeTrigger[TRIGGER_FOCUS] = false;
     this._activeTrigger[TRIGGER_HOVER] = false;
-    const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE$1);
+    const isAnimated = this.tip.classList.contains(CLASS_NAME_FADE);
 
     this._queueCallback(complete, this.tip, isAnimated);
 
@@ -449,14 +451,27 @@ class Tooltip extends BaseComponent {
 
     const element = document.createElement('div');
     element.innerHTML = this._config.template;
-    this.tip = element.children[0];
+    const tip = element.children[0];
+    this.setContent(tip);
+    tip.classList.remove(CLASS_NAME_FADE, CLASS_NAME_SHOW);
+    this.tip = tip;
     return this.tip;
   }
 
-  setContent() {
-    const tip = this.getTipElement();
-    this.setElementContent(SelectorEngine.findOne(SELECTOR_TOOLTIP_INNER, tip), this.getTitle());
-    tip.classList.remove(CLASS_NAME_FADE$1, CLASS_NAME_SHOW$1);
+  setContent(tip) {
+    this._sanitizeAndSetContent(tip, this.getTitle(), SELECTOR_TOOLTIP_INNER);
+  }
+
+  _sanitizeAndSetContent(template, content, selector) {
+    const templateElement = SelectorEngine.findOne(selector, template);
+
+    if (!content && templateElement) {
+      templateElement.remove();
+      return;
+    } // we use append for html objects to maintain js events
+
+
+    this.setElementContent(templateElement, content);
   }
 
   setElementContent(element, content) {
@@ -470,7 +485,7 @@ class Tooltip extends BaseComponent {
       if (this._config.html) {
         if (content.parentNode !== element) {
           element.innerHTML = '';
-          element.appendChild(content);
+          element.append(content);
         }
       } else {
         element.textContent = content.textContent;
@@ -491,13 +506,9 @@ class Tooltip extends BaseComponent {
   }
 
   getTitle() {
-    let title = this._element.getAttribute('data-bs-original-title');
+    const title = this._element.getAttribute('data-bs-original-title') || this._config.title;
 
-    if (!title) {
-      title = typeof this._config.title === 'function' ? this._config.title.call(this._element) : this._config.title;
-    }
-
-    return title;
+    return this._resolvePossibleFunction(title);
   }
 
   updateAttachment(attachment) {
@@ -514,15 +525,7 @@ class Tooltip extends BaseComponent {
 
 
   _initializeOnDelegatedTarget(event, context) {
-    const dataKey = this.constructor.DATA_KEY;
-    context = context || Data.get(event.delegateTarget, dataKey);
-
-    if (!context) {
-      context = new this.constructor(event.delegateTarget, this._getDelegateConfig());
-      Data.set(event.delegateTarget, dataKey, context);
-    }
-
-    return context;
+    return context || this.constructor.getOrCreateInstance(event.delegateTarget, this._getDelegateConfig());
   }
 
   _getOffset() {
@@ -539,6 +542,10 @@ class Tooltip extends BaseComponent {
     }
 
     return offset;
+  }
+
+  _resolvePossibleFunction(content) {
+    return typeof content === 'function' ? content.call(this._element) : content;
   }
 
   _getPopperConfig(attachment) {
@@ -582,7 +589,7 @@ class Tooltip extends BaseComponent {
   }
 
   _addAttachmentClass(attachment) {
-    this.getTipElement().classList.add(`${CLASS_PREFIX$1}-${this.updateAttachment(attachment)}`);
+    this.getTipElement().classList.add(`${this._getBasicClassPrefix()}-${this.updateAttachment(attachment)}`);
   }
 
   _getAttachment(placement) {
@@ -609,7 +616,7 @@ class Tooltip extends BaseComponent {
       }
     };
 
-    EventHandler.on(this._element.closest(`.${CLASS_NAME_MODAL}`), 'hide.bs.modal', this._hideModalHandler);
+    EventHandler.on(this._element.closest(SELECTOR_MODAL), EVENT_MODAL_HIDE, this._hideModalHandler);
 
     if (this._config.selector) {
       this._config = { ...this._config,
@@ -644,7 +651,7 @@ class Tooltip extends BaseComponent {
       context._activeTrigger[event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
     }
 
-    if (context.getTipElement().classList.contains(CLASS_NAME_SHOW$1) || context._hoverState === HOVER_STATE_SHOW) {
+    if (context.getTipElement().classList.contains(CLASS_NAME_SHOW) || context._hoverState === HOVER_STATE_SHOW) {
       context._hoverState = HOVER_STATE_SHOW;
       return;
     }
@@ -740,24 +747,30 @@ class Tooltip extends BaseComponent {
   _getDelegateConfig() {
     const config = {};
 
-    if (this._config) {
-      for (const key in this._config) {
-        if (this.constructor.Default[key] !== this._config[key]) {
-          config[key] = this._config[key];
-        }
+    for (const key in this._config) {
+      if (this.constructor.Default[key] !== this._config[key]) {
+        config[key] = this._config[key];
       }
-    }
+    } // In the future can be replaced with:
+    // const keysWithDifferentValues = Object.entries(this._config).filter(entry => this.constructor.Default[entry[0]] !== this._config[entry[0]])
+    // `Object.fromEntries(keysWithDifferentValues)`
+
 
     return config;
   }
 
   _cleanTipClass() {
     const tip = this.getTipElement();
-    const tabClass = tip.getAttribute('class').match(BSCLS_PREFIX_REGEX$1);
+    const basicClassPrefixRegex = new RegExp(`(^|\\s)${this._getBasicClassPrefix()}\\S+`, 'g');
+    const tabClass = tip.getAttribute('class').match(basicClassPrefixRegex);
 
     if (tabClass !== null && tabClass.length > 0) {
       tabClass.map(token => token.trim()).forEach(tClass => tip.classList.remove(tClass));
     }
+  }
+
+  _getBasicClassPrefix() {
+    return CLASS_PREFIX$1;
   }
 
   _handlePopperPlacementChange(popperData) {
@@ -774,6 +787,14 @@ class Tooltip extends BaseComponent {
     this._cleanTipClass();
 
     this._addAttachmentClass(this._getAttachment(state.placement));
+  }
+
+  _disposePopper() {
+    if (this._popper) {
+      this._popper.destroy();
+
+      this._popper = null;
+    }
   } // Static
 
 
@@ -804,7 +825,7 @@ defineJQueryPlugin(Tooltip);
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): popover.js
+ * Bootstrap (v5.1.2): popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -818,7 +839,6 @@ const NAME = 'popover';
 const DATA_KEY = 'bs.popover';
 const EVENT_KEY = `.${DATA_KEY}`;
 const CLASS_PREFIX = 'bs-popover';
-const BSCLS_PREFIX_REGEX = new RegExp(`(^|\\s)${CLASS_PREFIX}\\S+`, 'g');
 const Default = { ...Tooltip.Default,
   placement: 'right',
   offset: [0, 8],
@@ -841,8 +861,6 @@ const Event = {
   MOUSEENTER: `mouseenter${EVENT_KEY}`,
   MOUSELEAVE: `mouseleave${EVENT_KEY}`
 };
-const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_SHOW = 'show';
 const SELECTOR_TITLE = '.popover-header';
 const SELECTOR_CONTENT = '.popover-body';
 /**
@@ -874,55 +892,19 @@ class Popover extends Tooltip {
     return this.getTitle() || this._getContent();
   }
 
-  getTipElement() {
-    if (this.tip) {
-      return this.tip;
-    }
+  setContent(tip) {
+    this._sanitizeAndSetContent(tip, this.getTitle(), SELECTOR_TITLE);
 
-    this.tip = super.getTipElement();
-
-    if (!this.getTitle()) {
-      SelectorEngine.findOne(SELECTOR_TITLE, this.tip).remove();
-    }
-
-    if (!this._getContent()) {
-      SelectorEngine.findOne(SELECTOR_CONTENT, this.tip).remove();
-    }
-
-    return this.tip;
-  }
-
-  setContent() {
-    const tip = this.getTipElement(); // we use append for html objects to maintain js events
-
-    this.setElementContent(SelectorEngine.findOne(SELECTOR_TITLE, tip), this.getTitle());
-
-    let content = this._getContent();
-
-    if (typeof content === 'function') {
-      content = content.call(this._element);
-    }
-
-    this.setElementContent(SelectorEngine.findOne(SELECTOR_CONTENT, tip), content);
-    tip.classList.remove(CLASS_NAME_FADE, CLASS_NAME_SHOW);
+    this._sanitizeAndSetContent(tip, this._getContent(), SELECTOR_CONTENT);
   } // Private
 
 
-  _addAttachmentClass(attachment) {
-    this.getTipElement().classList.add(`${CLASS_PREFIX}-${this.updateAttachment(attachment)}`);
-  }
-
   _getContent() {
-    return this._element.getAttribute('data-bs-content') || this._config.content;
+    return this._resolvePossibleFunction(this._config.content);
   }
 
-  _cleanTipClass() {
-    const tip = this.getTipElement();
-    const tabClass = tip.getAttribute('class').match(BSCLS_PREFIX_REGEX);
-
-    if (tabClass !== null && tabClass.length > 0) {
-      tabClass.map(token => token.trim()).forEach(tClass => tip.classList.remove(tClass));
-    }
+  _getBasicClassPrefix() {
+    return CLASS_PREFIX;
   } // Static
 
 
