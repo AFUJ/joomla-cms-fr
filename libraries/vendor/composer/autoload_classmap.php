@@ -177,7 +177,6 @@ return array(
     'DebugBar\\DataFormatter\\DataFormatterInterface' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatterInterface.php',
     'DebugBar\\DataFormatter\\DebugBarVarDumper' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DataFormatter/DebugBarVarDumper.php',
     'DebugBar\\DataFormatter\\VarDumper\\DebugBarHtmlDumper' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/DebugBarHtmlDumper.php',
-    'DebugBar\\DataFormatter\\VarDumper\\SeekingData' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
     'DebugBar\\DebugBar' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DebugBar.php',
     'DebugBar\\DebugBarException' => $vendorDir . '/maximebf/debugbar/src/DebugBar/DebugBarException.php',
     'DebugBar\\HttpDriverInterface' => $vendorDir . '/maximebf/debugbar/src/DebugBar/HttpDriverInterface.php',

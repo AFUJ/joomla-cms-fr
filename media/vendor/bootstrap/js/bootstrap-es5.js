@@ -12482,7 +12482,7 @@ var bootstrap = (function (exports) {
 	/**
 	 * Initialise the Tabs interactivity
 	 *
-	 * @param {HTMLElement} el The element that will become an collapse
+	 * @param {HTMLElement} el The element that will become a collapse
 	 * @param {object} options The options for this collapse
 	 */
 

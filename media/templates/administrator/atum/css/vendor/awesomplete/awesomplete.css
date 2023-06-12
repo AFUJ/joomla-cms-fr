@@ -54,9 +54,8 @@
     -webkit-transform-origin: 1.43em -0.43em;
             transform-origin: 1.43em -0.43em;
   }
-
   .awesomplete > ul[hidden],
-.awesomplete > ul:empty {
+  .awesomplete > ul:empty {
     opacity: 0;
     -webkit-transform: scale(0);
             transform: scale(0);

@@ -179,7 +179,7 @@
      *
      * USAGE (assuming that exampleId is the modal id)
      * To get the current modal element:
-     *   Joomla.Modal.current; // Returns node element, eg: document.getElementById('exampleId')
+     *   Joomla.Modal.getCurrent(); // Returns node element, eg: document.getElementById('exampleId')
      * To set the current modal element:
      *   Joomla.Modal.setCurrent(document.getElementById('exampleId'));
      *
@@ -193,9 +193,9 @@
      */
     current: '',
     setCurrent: element => {
-      window.Joomla.current = element;
+      window.Joomla.Modal.current = element;
     },
-    getCurrent: () => window.Joomla.current
+    getCurrent: () => window.Joomla.Modal.current
   };
 
   (Joomla => {

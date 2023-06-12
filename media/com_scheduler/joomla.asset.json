@@ -56,18 +56,6 @@
       "version": "b48676be4034d18f8bf885520bf70f91c41bcb6f"
     },
     {
-      "name": "com_scheduler.scheduler-config.es5",
-      "type": "script",
-      "uri": "com_scheduler/scheduler-config-es5.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true
-      },
-      "version": "718be9dcea3b0dadd8e89028d9985c02a967c2c6"
-    },
-    {
       "name": "com_scheduler.scheduler-config",
       "type": "script",
       "uri": "com_scheduler/scheduler-config.js",
@@ -79,6 +67,18 @@
         "type": "module"
       },
       "version": "58d63d301adf5e6a021de44e2ec82666373245b2"
+    },
+    {
+      "name": "com_scheduler.scheduler-config.es5",
+      "type": "script",
+      "uri": "com_scheduler/scheduler-config-es5.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true
+      },
+      "version": "718be9dcea3b0dadd8e89028d9985c02a967c2c6"
     },
     {
       "name": "com_scheduler.admin-view-select-task-css",

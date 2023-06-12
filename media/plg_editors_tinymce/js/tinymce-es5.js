@@ -6,6 +6,20 @@
    * @license    GNU General Public License version 2 or later; see LICENSE.txt
    */
   (function (tinyMCE, Joomla, window, document) {
+    var reInitQueue = {};
+
+    var debounceReInit = function debounceReInit(editor, element, pluginOptions) {
+      if (reInitQueue[element.id]) {
+        clearTimeout(reInitQueue[element.id]);
+      }
+
+      reInitQueue[element.id] = setTimeout(function () {
+        editor.remove();
+        Joomla.editors.instances[element.id] = null;
+        Joomla.JoomlaTinyMCE.setupEditor(element, pluginOptions);
+      }, 500);
+    };
+
     Joomla.JoomlaTinyMCE = {
       /**
        * Find all TinyMCE elements and initialize TinyMCE instance for each
@@ -143,7 +157,38 @@
         // eslint-disable-next-line no-undef
 
 
-        var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+        var ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager); // Work around iframe behavior, when iframe element changes location in DOM and losing its content.
+        // Re init editor when iframe is reloaded.
+
+        if (!ed.inline) {
+          var isReady = false;
+          var isRendered = false;
+
+          var listenIframeReload = function listenIframeReload() {
+            var $iframe = ed.getContentAreaContainer().querySelector('iframe');
+            $iframe.addEventListener('load', function () {
+              debounceReInit(ed, element, pluginOptions);
+            });
+          }; // Make sure iframe is fully loaded.
+          // This works differently in different browsers, so have to listen both "load" and "PostRender" events.
+
+
+          ed.on('load', function () {
+            isReady = true;
+
+            if (isRendered) {
+              listenIframeReload();
+            }
+          });
+          ed.on('PostRender', function () {
+            isRendered = true;
+
+            if (isReady) {
+              listenIframeReload();
+            }
+          });
+        }
+
         ed.render();
         /** Register the editor's instance to Joomla Object */
 

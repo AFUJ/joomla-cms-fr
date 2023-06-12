@@ -65,7 +65,7 @@ html[data-jooa11y-theme=dark] {
 
 @media (prefers-color-scheme: dark) {
   html,
-html[data-jooa11y-theme=dark] {
+  html[data-jooa11y-theme=dark] {
     --jooa11y-red-text: #ff6c6f;
     --jooa11y-yellow-text: #ffc800;
     --jooa11y-panel-badge: #3500c4;
@@ -82,7 +82,6 @@ html[data-jooa11y-theme=dark] {
     --jooa11y-hyperlink: #64b2ff;
     --jooa11y-shortcut-hover: #093698;
   }
-
   html[data-jooa11y-theme=light] {
     --jooa11y-red-text: #d30017;
     --jooa11y-yellow-text: #966f0d;
@@ -1201,7 +1200,6 @@ span.jooa11y-heading-label {
     -webkit-animation: none;
             animation: none;
   }
-
   #jooa11y-container .loading-jooa11y::before {
     opacity: 0;
     -webkit-animation: none;

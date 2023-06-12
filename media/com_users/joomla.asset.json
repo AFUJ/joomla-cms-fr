@@ -19,19 +19,6 @@
       "version": "499a9068558e5a85a56f8b4cc3149b2ab3b4dd01"
     },
     {
-      "name": "com_users.admin-users-mail.es5",
-      "type": "script",
-      "uri": "com_users/admin-users-mail-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "8aa5f18914bb8f0cbc9ec5e334945e70f0276659"
-    },
-    {
       "name": "com_users.admin-users-groups",
       "type": "script",
       "uri": "com_users/admin-users-groups.min.js",
@@ -56,6 +43,19 @@
       "version": "eba792c39553aab62ee6b85f5a05a1fc8b1c25e6"
     },
     {
+      "name": "com_users.admin-users-mail.es5",
+      "type": "script",
+      "uri": "com_users/admin-users-mail-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "8aa5f18914bb8f0cbc9ec5e334945e70f0276659"
+    },
+    {
       "name": "com_users.two-factor-focus.es5",
       "type": "script",
       "uri": "com_users/two-factor-focus-es5.min.js",
@@ -69,6 +69,18 @@
       "version": "2cb6c3394dd729c5aea10efff909b2150810d5b8"
     },
     {
+      "name": "com_users.two-factor-focus",
+      "type": "script",
+      "uri": "com_users/two-factor-focus.min.js",
+      "dependencies": [
+        "com_users.two-factor-focus.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "1c9dcb20d1c3f3b1a4ec4cde31bec609011baf34"
+    },
+    {
       "name": "com_users.two-factor-list.es5",
       "type": "script",
       "uri": "com_users/two-factor-list-es5.min.js",
@@ -80,18 +92,6 @@
         "defer": true
       },
       "version": "9a94d6d3d100952553f71846c57e4e5fd9345401"
-    },
-    {
-      "name": "com_users.two-factor-focus",
-      "type": "script",
-      "uri": "com_users/two-factor-focus.min.js",
-      "dependencies": [
-        "com_users.two-factor-focus.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "1c9dcb20d1c3f3b1a4ec4cde31bec609011baf34"
     },
     {
       "name": "com_users.two-factor-list",

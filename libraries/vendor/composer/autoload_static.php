@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4
+class ComposerStaticInit39c7477e396a069741053d6c9219ce41
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -711,7 +711,6 @@ class ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4
         'DebugBar\\DataFormatter\\DataFormatterInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/DataFormatterInterface.php',
         'DebugBar\\DataFormatter\\DebugBarVarDumper' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/DebugBarVarDumper.php',
         'DebugBar\\DataFormatter\\VarDumper\\DebugBarHtmlDumper' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/DebugBarHtmlDumper.php',
-        'DebugBar\\DataFormatter\\VarDumper\\SeekingData' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DataFormatter/VarDumper/SeekingData.php',
         'DebugBar\\DebugBar' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DebugBar.php',
         'DebugBar\\DebugBarException' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/DebugBarException.php',
         'DebugBar\\HttpDriverInterface' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/HttpDriverInterface.php',
@@ -2889,9 +2888,9 @@ class ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit663aaee7438a5798bbdfa3bf01ac8ba4::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit39c7477e396a069741053d6c9219ce41::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit39c7477e396a069741053d6c9219ce41::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit39c7477e396a069741053d6c9219ce41::$classMap;
 
         }, null, ClassLoader::class);
     }

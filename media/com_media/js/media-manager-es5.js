@@ -77,7 +77,7 @@ var JoomlaMediaManager = (function () {
 
   var objectGetOwnPropertyDescriptor = {};
 
-  var fails$I = function (exec) {
+  var fails$J = function (exec) {
     try {
       return !!exec();
     } catch (error) {
@@ -85,18 +85,18 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var fails$H = fails$I;
+  var fails$I = fails$J;
 
   // Detect IE8's incomplete defineProperty implementation
-  var descriptors = !fails$H(function () {
+  var descriptors = !fails$I(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
   });
 
-  var call$q = Function.prototype.call;
+  var call$r = Function.prototype.call;
 
-  var functionCall = call$q.bind ? call$q.bind(call$q) : function () {
-    return call$q.apply(call$q, arguments);
+  var functionCall = call$r.bind ? call$r.bind(call$r) : function () {
+    return call$r.apply(call$r, arguments);
   };
 
   var objectPropertyIsEnumerable = {};
@@ -126,14 +126,14 @@ var JoomlaMediaManager = (function () {
 
   var FunctionPrototype$3 = Function.prototype;
   var bind$c = FunctionPrototype$3.bind;
-  var call$p = FunctionPrototype$3.call;
-  var callBind = bind$c && bind$c.bind(call$p);
+  var call$q = FunctionPrototype$3.call;
+  var callBind = bind$c && bind$c.bind(call$q);
 
   var functionUncurryThis = bind$c ? function (fn) {
-    return fn && callBind(call$p, fn);
+    return fn && callBind(call$q, fn);
   } : function (fn) {
     return fn && function () {
-      return call$p.apply(fn, arguments);
+      return call$q.apply(fn, arguments);
     };
   };
 
@@ -148,14 +148,14 @@ var JoomlaMediaManager = (function () {
 
   var global$1d = global$1e;
   var uncurryThis$N = functionUncurryThis;
-  var fails$G = fails$I;
+  var fails$H = fails$J;
   var classof$e = classofRaw$1;
 
   var Object$5 = global$1d.Object;
   var split$3 = uncurryThis$N(''.split);
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
-  var indexedObject = fails$G(function () {
+  var indexedObject = fails$H(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins -- safe
     return !Object$5('z').propertyIsEnumerable(0);
@@ -244,10 +244,10 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable es/no-symbol -- required for testing */
 
   var V8_VERSION$3 = engineV8Version;
-  var fails$F = fails$I;
+  var fails$G = fails$J;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$F(function () {
+  var nativeSymbol = !!Object.getOwnPropertySymbols && !fails$G(function () {
     var symbol = Symbol();
     // Chrome 38 Symbol has incorrect toString conversion
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
@@ -313,7 +313,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$16 = global$1e;
-  var call$o = functionCall;
+  var call$p = functionCall;
   var isCallable$l = isCallable$q;
   var isObject$r = isObject$s;
 
@@ -323,9 +323,9 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-ordinarytoprimitive
   var ordinaryToPrimitive$1 = function (input, pref) {
     var fn, val;
-    if (pref === 'string' && isCallable$l(fn = input.toString) && !isObject$r(val = call$o(fn, input))) return val;
-    if (isCallable$l(fn = input.valueOf) && !isObject$r(val = call$o(fn, input))) return val;
-    if (pref !== 'string' && isCallable$l(fn = input.toString) && !isObject$r(val = call$o(fn, input))) return val;
+    if (pref === 'string' && isCallable$l(fn = input.toString) && !isObject$r(val = call$p(fn, input))) return val;
+    if (isCallable$l(fn = input.valueOf) && !isObject$r(val = call$p(fn, input))) return val;
+    if (pref !== 'string' && isCallable$l(fn = input.toString) && !isObject$r(val = call$p(fn, input))) return val;
     throw TypeError$l("Can't convert object to primitive value");
   };
 
@@ -422,7 +422,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$11 = global$1e;
-  var call$n = functionCall;
+  var call$o = functionCall;
   var isObject$q = isObject$s;
   var isSymbol$5 = isSymbol$6;
   var getMethod$6 = getMethod$7;
@@ -440,7 +440,7 @@ var JoomlaMediaManager = (function () {
     var result;
     if (exoticToPrim) {
       if (pref === undefined) pref = 'default';
-      result = call$n(exoticToPrim, input, pref);
+      result = call$o(exoticToPrim, input, pref);
       if (!isObject$q(result) || isSymbol$5(result)) return result;
       throw TypeError$k("Can't convert object to primitive value");
     }
@@ -453,7 +453,7 @@ var JoomlaMediaManager = (function () {
 
   // `ToPropertyKey` abstract operation
   // https://tc39.es/ecma262/#sec-topropertykey
-  var toPropertyKey$5 = function (argument) {
+  var toPropertyKey$6 = function (argument) {
     var key = toPrimitive$1(argument, 'string');
     return isSymbol$4(key) ? key : key + '';
   };
@@ -469,24 +469,24 @@ var JoomlaMediaManager = (function () {
     return EXISTS$1 ? document$3.createElement(it) : {};
   };
 
-  var DESCRIPTORS$i = descriptors;
-  var fails$E = fails$I;
+  var DESCRIPTORS$j = descriptors;
+  var fails$F = fails$J;
   var createElement$1 = documentCreateElement$2;
 
   // Thank's IE8 for his funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$i && !fails$E(function () {
+  var ie8DomDefine = !DESCRIPTORS$j && !fails$F(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
-  var DESCRIPTORS$h = descriptors;
-  var call$m = functionCall;
+  var DESCRIPTORS$i = descriptors;
+  var call$n = functionCall;
   var propertyIsEnumerableModule$2 = objectPropertyIsEnumerable;
   var createPropertyDescriptor$7 = createPropertyDescriptor$8;
   var toIndexedObject$a = toIndexedObject$b;
-  var toPropertyKey$4 = toPropertyKey$5;
+  var toPropertyKey$5 = toPropertyKey$6;
   var hasOwn$k = hasOwnProperty_1;
   var IE8_DOM_DEFINE$1 = ie8DomDefine;
 
@@ -495,13 +495,13 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$h ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$i ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
     O = toIndexedObject$a(O);
-    P = toPropertyKey$4(P);
+    P = toPropertyKey$5(P);
     if (IE8_DOM_DEFINE$1) try {
       return $getOwnPropertyDescriptor$1(O, P);
     } catch (error) { /* empty */ }
-    if (hasOwn$k(O, P)) return createPropertyDescriptor$7(!call$m(propertyIsEnumerableModule$2.f, O, P), O[P]);
+    if (hasOwn$k(O, P)) return createPropertyDescriptor$7(!call$n(propertyIsEnumerableModule$2.f, O, P), O[P]);
   };
 
   var objectDefineProperty = {};
@@ -513,16 +513,16 @@ var JoomlaMediaManager = (function () {
   var TypeError$j = global$$.TypeError;
 
   // `Assert: Type(argument) is Object`
-  var anObject$p = function (argument) {
+  var anObject$q = function (argument) {
     if (isObject$o(argument)) return argument;
     throw TypeError$j(String$5(argument) + ' is not an object');
   };
 
   var global$_ = global$1e;
-  var DESCRIPTORS$g = descriptors;
+  var DESCRIPTORS$h = descriptors;
   var IE8_DOM_DEFINE = ie8DomDefine;
-  var anObject$o = anObject$p;
-  var toPropertyKey$3 = toPropertyKey$5;
+  var anObject$p = anObject$q;
+  var toPropertyKey$4 = toPropertyKey$6;
 
   var TypeError$i = global$_.TypeError;
   // eslint-disable-next-line es/no-object-defineproperty -- safe
@@ -530,10 +530,10 @@ var JoomlaMediaManager = (function () {
 
   // `Object.defineProperty` method
   // https://tc39.es/ecma262/#sec-object.defineproperty
-  objectDefineProperty.f = DESCRIPTORS$g ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
-    anObject$o(O);
-    P = toPropertyKey$3(P);
-    anObject$o(Attributes);
+  objectDefineProperty.f = DESCRIPTORS$h ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
+    anObject$p(O);
+    P = toPropertyKey$4(P);
+    anObject$p(Attributes);
     if (IE8_DOM_DEFINE) try {
       return $defineProperty$1(O, P, Attributes);
     } catch (error) { /* empty */ }
@@ -542,12 +542,12 @@ var JoomlaMediaManager = (function () {
     return O;
   };
 
-  var DESCRIPTORS$f = descriptors;
-  var definePropertyModule$8 = objectDefineProperty;
+  var DESCRIPTORS$g = descriptors;
+  var definePropertyModule$9 = objectDefineProperty;
   var createPropertyDescriptor$6 = createPropertyDescriptor$8;
 
-  var createNonEnumerableProperty$a = DESCRIPTORS$f ? function (object, key, value) {
-    return definePropertyModule$8.f(object, key, createPropertyDescriptor$6(1, value));
+  var createNonEnumerableProperty$a = DESCRIPTORS$g ? function (object, key, value) {
+    return definePropertyModule$9.f(object, key, createPropertyDescriptor$6(1, value));
   } : function (object, key, value) {
     object[key] = value;
     return object;
@@ -581,10 +581,10 @@ var JoomlaMediaManager = (function () {
   var shared$3 = shared$5.exports;
   var uid$5 = uid$7;
 
-  var keys$2 = shared$3('keys');
+  var keys$3 = shared$3('keys');
 
   var sharedKey$4 = function (key) {
-    return keys$2[key] || (keys$2[key] = uid$5(key));
+    return keys$3[key] || (keys$3[key] = uid$5(key));
   };
 
   var hiddenKeys$6 = {};
@@ -602,10 +602,10 @@ var JoomlaMediaManager = (function () {
   var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
   var TypeError$h = global$Y.TypeError;
   var WeakMap$1 = global$Y.WeakMap;
-  var set$5, get$4, has$2;
+  var set$6, get$4, has$2;
 
   var enforce = function (it) {
-    return has$2(it) ? get$4(it) : set$5(it, {});
+    return has$2(it) ? get$4(it) : set$6(it, {});
   };
 
   var getterFor = function (TYPE) {
@@ -622,7 +622,7 @@ var JoomlaMediaManager = (function () {
     var wmget = uncurryThis$I(store$1.get);
     var wmhas = uncurryThis$I(store$1.has);
     var wmset = uncurryThis$I(store$1.set);
-    set$5 = function (it, metadata) {
+    set$6 = function (it, metadata) {
       if (wmhas(store$1, it)) throw new TypeError$h(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
       wmset(store$1, it, metadata);
@@ -637,7 +637,7 @@ var JoomlaMediaManager = (function () {
   } else {
     var STATE = sharedKey$3('state');
     hiddenKeys$5[STATE] = true;
-    set$5 = function (it, metadata) {
+    set$6 = function (it, metadata) {
       if (hasOwn$j(it, STATE)) throw new TypeError$h(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
       createNonEnumerableProperty$9(it, STATE, metadata);
@@ -652,24 +652,24 @@ var JoomlaMediaManager = (function () {
   }
 
   var internalState = {
-    set: set$5,
+    set: set$6,
     get: get$4,
     has: has$2,
     enforce: enforce,
     getterFor: getterFor
   };
 
-  var DESCRIPTORS$e = descriptors;
+  var DESCRIPTORS$f = descriptors;
   var hasOwn$i = hasOwnProperty_1;
 
   var FunctionPrototype$2 = Function.prototype;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getDescriptor = DESCRIPTORS$e && Object.getOwnPropertyDescriptor;
+  var getDescriptor = DESCRIPTORS$f && Object.getOwnPropertyDescriptor;
 
   var EXISTS = hasOwn$i(FunctionPrototype$2, 'name');
   // additional protection from minified / mangled / dropped function names
   var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$e || (DESCRIPTORS$e && getDescriptor(FunctionPrototype$2, 'name').configurable));
+  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$f || (DESCRIPTORS$f && getDescriptor(FunctionPrototype$2, 'name').configurable));
 
   var functionName = {
     EXISTS: EXISTS,
@@ -854,13 +854,13 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$G = functionUncurryThis;
   var getOwnPropertyNamesModule$2 = objectGetOwnPropertyNames;
   var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols;
-  var anObject$n = anObject$p;
+  var anObject$o = anObject$q;
 
   var concat$2 = uncurryThis$G([].concat);
 
   // all object keys, includes non-enumerable and symbols
   var ownKeys$3 = getBuiltIn$7('Reflect', 'ownKeys') || function ownKeys(it) {
-    var keys = getOwnPropertyNamesModule$2.f(anObject$n(it));
+    var keys = getOwnPropertyNamesModule$2.f(anObject$o(it));
     var getOwnPropertySymbols = getOwnPropertySymbolsModule$2.f;
     return getOwnPropertySymbols ? concat$2(keys, getOwnPropertySymbols(it)) : keys;
   };
@@ -868,11 +868,11 @@ var JoomlaMediaManager = (function () {
   var hasOwn$f = hasOwnProperty_1;
   var ownKeys$2 = ownKeys$3;
   var getOwnPropertyDescriptorModule$4 = objectGetOwnPropertyDescriptor;
-  var definePropertyModule$7 = objectDefineProperty;
+  var definePropertyModule$8 = objectDefineProperty;
 
   var copyConstructorProperties$2 = function (target, source, exceptions) {
     var keys = ownKeys$2(source);
-    var defineProperty = definePropertyModule$7.f;
+    var defineProperty = definePropertyModule$8.f;
     var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule$4.f;
     for (var i = 0; i < keys.length; i++) {
       var key = keys[i];
@@ -882,7 +882,7 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var fails$D = fails$I;
+  var fails$E = fails$J;
   var isCallable$h = isCallable$q;
 
   var replacement = /#|\.prototype\./;
@@ -891,7 +891,7 @@ var JoomlaMediaManager = (function () {
     var value = data[normalize(feature)];
     return value == POLYFILL ? true
       : value == NATIVE ? false
-      : isCallable$h(detection) ? fails$D(detection)
+      : isCallable$h(detection) ? fails$E(detection)
       : !!detection;
   };
 
@@ -1011,12 +1011,12 @@ var JoomlaMediaManager = (function () {
     return String$4(argument);
   };
 
-  var anObject$m = anObject$p;
+  var anObject$n = anObject$q;
 
   // `RegExp.prototype.flags` getter implementation
   // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
   var regexpFlags$1 = function () {
-    var that = anObject$m(this);
+    var that = anObject$n(this);
     var result = '';
     if (that.global) result += 'g';
     if (that.ignoreCase) result += 'i';
@@ -1027,13 +1027,13 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var fails$C = fails$I;
+  var fails$D = fails$J;
   var global$T = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
   var $RegExp$2 = global$T.RegExp;
 
-  var UNSUPPORTED_Y$2 = fails$C(function () {
+  var UNSUPPORTED_Y$2 = fails$D(function () {
     var re = $RegExp$2('a', 'y');
     re.lastIndex = 2;
     return re.exec('abcd') != null;
@@ -1041,11 +1041,11 @@ var JoomlaMediaManager = (function () {
 
   // UC Browser bug
   // https://github.com/zloirock/core-js/issues/1008
-  var MISSED_STICKY = UNSUPPORTED_Y$2 || fails$C(function () {
+  var MISSED_STICKY = UNSUPPORTED_Y$2 || fails$D(function () {
     return !$RegExp$2('a', 'y').sticky;
   });
 
-  var BROKEN_CARET = UNSUPPORTED_Y$2 || fails$C(function () {
+  var BROKEN_CARET = UNSUPPORTED_Y$2 || fails$D(function () {
     // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
     var re = $RegExp$2('^r', 'gy');
     re.lastIndex = 2;
@@ -1068,23 +1068,23 @@ var JoomlaMediaManager = (function () {
     return internalObjectKeys(O, enumBugKeys$1);
   };
 
-  var DESCRIPTORS$d = descriptors;
-  var definePropertyModule$6 = objectDefineProperty;
-  var anObject$l = anObject$p;
+  var DESCRIPTORS$e = descriptors;
+  var definePropertyModule$7 = objectDefineProperty;
+  var anObject$m = anObject$q;
   var toIndexedObject$7 = toIndexedObject$b;
   var objectKeys$3 = objectKeys$4;
 
   // `Object.defineProperties` method
   // https://tc39.es/ecma262/#sec-object.defineproperties
   // eslint-disable-next-line es/no-object-defineproperties -- safe
-  var objectDefineProperties = DESCRIPTORS$d ? Object.defineProperties : function defineProperties(O, Properties) {
-    anObject$l(O);
+  var objectDefineProperties = DESCRIPTORS$e ? Object.defineProperties : function defineProperties(O, Properties) {
+    anObject$m(O);
     var props = toIndexedObject$7(Properties);
     var keys = objectKeys$3(Properties);
     var length = keys.length;
     var index = 0;
     var key;
-    while (length > index) definePropertyModule$6.f(O, key = keys[index++], props[key]);
+    while (length > index) definePropertyModule$7.f(O, key = keys[index++], props[key]);
     return O;
   };
 
@@ -1094,7 +1094,7 @@ var JoomlaMediaManager = (function () {
 
   /* global ActiveXObject -- old IE, WSH */
 
-  var anObject$k = anObject$p;
+  var anObject$l = anObject$q;
   var defineProperties$1 = objectDefineProperties;
   var enumBugKeys = enumBugKeys$3;
   var hiddenKeys$2 = hiddenKeys$6;
@@ -1167,7 +1167,7 @@ var JoomlaMediaManager = (function () {
   var objectCreate = Object.create || function create(O, Properties) {
     var result;
     if (O !== null) {
-      EmptyConstructor[PROTOTYPE$2] = anObject$k(O);
+      EmptyConstructor[PROTOTYPE$2] = anObject$l(O);
       result = new EmptyConstructor();
       EmptyConstructor[PROTOTYPE$2] = null;
       // add "__proto__" for Object.getPrototypeOf polyfill
@@ -1176,24 +1176,24 @@ var JoomlaMediaManager = (function () {
     return Properties === undefined ? result : defineProperties$1(result, Properties);
   };
 
-  var fails$B = fails$I;
+  var fails$C = fails$J;
   var global$S = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
   var $RegExp$1 = global$S.RegExp;
 
-  var regexpUnsupportedDotAll = fails$B(function () {
+  var regexpUnsupportedDotAll = fails$C(function () {
     var re = $RegExp$1('.', 's');
     return !(re.dotAll && re.exec('\n') && re.flags === 's');
   });
 
-  var fails$A = fails$I;
+  var fails$B = fails$J;
   var global$R = global$1e;
 
   // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
   var $RegExp = global$R.RegExp;
 
-  var regexpUnsupportedNcg = fails$A(function () {
+  var regexpUnsupportedNcg = fails$B(function () {
     var re = $RegExp('(?<a>b)', 'g');
     return re.exec('b').groups.a !== 'b' ||
       'b'.replace(re, '$<a>c') !== 'bc';
@@ -1201,7 +1201,7 @@ var JoomlaMediaManager = (function () {
 
   /* eslint-disable regexp/no-empty-capturing-group, regexp/no-empty-group, regexp/no-lazy-ends -- testing */
   /* eslint-disable regexp/no-useless-quantifier -- testing */
-  var call$l = functionCall;
+  var call$m = functionCall;
   var uncurryThis$F = functionUncurryThis;
   var toString$f = toString$g;
   var regexpFlags = regexpFlags$1;
@@ -1223,8 +1223,8 @@ var JoomlaMediaManager = (function () {
   var UPDATES_LAST_INDEX_WRONG = (function () {
     var re1 = /a/;
     var re2 = /b*/g;
-    call$l(nativeExec, re1, 'a');
-    call$l(nativeExec, re2, 'a');
+    call$m(nativeExec, re1, 'a');
+    call$m(nativeExec, re2, 'a');
     return re1.lastIndex !== 0 || re2.lastIndex !== 0;
   })();
 
@@ -1245,14 +1245,14 @@ var JoomlaMediaManager = (function () {
 
       if (raw) {
         raw.lastIndex = re.lastIndex;
-        result = call$l(patchedExec, raw, str);
+        result = call$m(patchedExec, raw, str);
         re.lastIndex = raw.lastIndex;
         return result;
       }
 
       var groups = state.groups;
       var sticky = UNSUPPORTED_Y$1 && re.sticky;
-      var flags = call$l(regexpFlags, re);
+      var flags = call$m(regexpFlags, re);
       var source = re.source;
       var charsAdded = 0;
       var strCopy = str;
@@ -1280,7 +1280,7 @@ var JoomlaMediaManager = (function () {
       }
       if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
-      match = call$l(nativeExec, sticky ? reCopy : re, strCopy);
+      match = call$m(nativeExec, sticky ? reCopy : re, strCopy);
 
       if (sticky) {
         if (match) {
@@ -1295,7 +1295,7 @@ var JoomlaMediaManager = (function () {
       if (NPCG_INCLUDED && match && match.length > 1) {
         // Fix browsers whose `exec` methods don't consistently return `undefined`
         // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
-        call$l(nativeReplace, match[0], reCopy, function () {
+        call$m(nativeReplace, match[0], reCopy, function () {
           for (i = 1; i < arguments.length - 2; i++) {
             if (arguments[i] === undefined) match[i] = undefined;
           }
@@ -1316,23 +1316,23 @@ var JoomlaMediaManager = (function () {
 
   var regexpExec$3 = patchedExec;
 
-  var $$H = _export;
+  var $$K = _export;
   var exec$5 = regexpExec$3;
 
   // `RegExp.prototype.exec` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.exec
-  $$H({ target: 'RegExp', proto: true, forced: /./.exec !== exec$5 }, {
+  $$K({ target: 'RegExp', proto: true, forced: /./.exec !== exec$5 }, {
     exec: exec$5
   });
 
   var FunctionPrototype$1 = Function.prototype;
   var apply$8 = FunctionPrototype$1.apply;
   var bind$b = FunctionPrototype$1.bind;
-  var call$k = FunctionPrototype$1.call;
+  var call$l = FunctionPrototype$1.call;
 
   // eslint-disable-next-line es/no-reflect -- safe
-  var functionApply = typeof Reflect == 'object' && Reflect.apply || (bind$b ? call$k.bind(apply$8) : function () {
-    return call$k.apply(apply$8, arguments);
+  var functionApply = typeof Reflect == 'object' && Reflect.apply || (bind$b ? call$l.bind(apply$8) : function () {
+    return call$l.apply(apply$8, arguments);
   });
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
@@ -1340,7 +1340,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$E = functionUncurryThis;
   var redefine$c = redefine$e.exports;
   var regexpExec$2 = regexpExec$3;
-  var fails$z = fails$I;
+  var fails$A = fails$J;
   var wellKnownSymbol$o = wellKnownSymbol$s;
   var createNonEnumerableProperty$6 = createNonEnumerableProperty$a;
 
@@ -1350,14 +1350,14 @@ var JoomlaMediaManager = (function () {
   var fixRegexpWellKnownSymbolLogic = function (KEY, exec, FORCED, SHAM) {
     var SYMBOL = wellKnownSymbol$o(KEY);
 
-    var DELEGATES_TO_SYMBOL = !fails$z(function () {
+    var DELEGATES_TO_SYMBOL = !fails$A(function () {
       // String methods call symbol-named RegEp methods
       var O = {};
       O[SYMBOL] = function () { return 7; };
       return ''[KEY](O) != 7;
     });
 
-    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$z(function () {
+    var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$A(function () {
       // Symbol-named RegExp methods call .exec
       var execCalled = false;
       var re = /a/;
@@ -1423,23 +1423,23 @@ var JoomlaMediaManager = (function () {
   };
 
   var uncurryThis$D = functionUncurryThis;
-  var fails$y = fails$I;
+  var fails$z = fails$J;
   var isCallable$f = isCallable$q;
   var classof$a = classof$d;
   var getBuiltIn$5 = getBuiltIn$a;
   var inspectSource$1 = inspectSource$4;
 
-  var noop = function () { /* empty */ };
+  var noop$1 = function () { /* empty */ };
   var empty = [];
   var construct = getBuiltIn$5('Reflect', 'construct');
   var constructorRegExp = /^\s*(?:class|function)\b/;
   var exec$4 = uncurryThis$D(constructorRegExp.exec);
-  var INCORRECT_TO_STRING = !constructorRegExp.exec(noop);
+  var INCORRECT_TO_STRING = !constructorRegExp.exec(noop$1);
 
   var isConstructorModern = function isConstructor(argument) {
     if (!isCallable$f(argument)) return false;
     try {
-      construct(noop, empty, argument);
+      construct(noop$1, empty, argument);
       return true;
     } catch (error) {
       return false;
@@ -1467,7 +1467,7 @@ var JoomlaMediaManager = (function () {
 
   // `IsConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-isconstructor
-  var isConstructor$4 = !construct || fails$y(function () {
+  var isConstructor$4 = !construct || fails$z(function () {
     var called;
     return isConstructorModern(isConstructorModern.call)
       || !isConstructorModern(Object)
@@ -1487,7 +1487,7 @@ var JoomlaMediaManager = (function () {
     throw TypeError$g(tryToString$3(argument) + ' is not a constructor');
   };
 
-  var anObject$j = anObject$p;
+  var anObject$k = anObject$q;
   var aConstructor$1 = aConstructor$2;
   var wellKnownSymbol$m = wellKnownSymbol$s;
 
@@ -1496,9 +1496,9 @@ var JoomlaMediaManager = (function () {
   // `SpeciesConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-speciesconstructor
   var speciesConstructor$3 = function (O, defaultConstructor) {
-    var C = anObject$j(O).constructor;
+    var C = anObject$k(O).constructor;
     var S;
-    return C === undefined || (S = anObject$j(C)[SPECIES$5]) == undefined ? defaultConstructor : aConstructor$1(S);
+    return C === undefined || (S = anObject$k(C)[SPECIES$5]) == undefined ? defaultConstructor : aConstructor$1(S);
   };
 
   var uncurryThis$C = functionUncurryThis;
@@ -1546,13 +1546,13 @@ var JoomlaMediaManager = (function () {
     return index + (unicode ? charAt$5(S, index).length : 1);
   };
 
-  var toPropertyKey$2 = toPropertyKey$5;
-  var definePropertyModule$5 = objectDefineProperty;
+  var toPropertyKey$3 = toPropertyKey$6;
+  var definePropertyModule$6 = objectDefineProperty;
   var createPropertyDescriptor$5 = createPropertyDescriptor$8;
 
   var createProperty$5 = function (object, key, value) {
-    var propertyKey = toPropertyKey$2(key);
-    if (propertyKey in object) definePropertyModule$5.f(object, propertyKey, createPropertyDescriptor$5(0, value));
+    var propertyKey = toPropertyKey$3(key);
+    if (propertyKey in object) definePropertyModule$6.f(object, propertyKey, createPropertyDescriptor$5(0, value));
     else object[propertyKey] = value;
   };
 
@@ -1575,8 +1575,8 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$O = global$1e;
-  var call$j = functionCall;
-  var anObject$i = anObject$p;
+  var call$k = functionCall;
+  var anObject$j = anObject$q;
   var isCallable$e = isCallable$q;
   var classof$9 = classofRaw$1;
   var regexpExec$1 = regexpExec$3;
@@ -1588,20 +1588,20 @@ var JoomlaMediaManager = (function () {
   var regexpExecAbstract = function (R, S) {
     var exec = R.exec;
     if (isCallable$e(exec)) {
-      var result = call$j(exec, R, S);
-      if (result !== null) anObject$i(result);
+      var result = call$k(exec, R, S);
+      if (result !== null) anObject$j(result);
       return result;
     }
-    if (classof$9(R) === 'RegExp') return call$j(regexpExec$1, R, S);
+    if (classof$9(R) === 'RegExp') return call$k(regexpExec$1, R, S);
     throw TypeError$f('RegExp#exec called on incompatible receiver');
   };
 
   var apply$7 = functionApply;
-  var call$i = functionCall;
+  var call$j = functionCall;
   var uncurryThis$B = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$3 = fixRegexpWellKnownSymbolLogic;
   var isRegExp$1 = isRegexp;
-  var anObject$h = anObject$p;
+  var anObject$i = anObject$q;
   var requireObjectCoercible$9 = requireObjectCoercible$d;
   var speciesConstructor$2 = speciesConstructor$3;
   var advanceStringIndex$2 = advanceStringIndex$3;
@@ -1612,7 +1612,7 @@ var JoomlaMediaManager = (function () {
   var callRegExpExec = regexpExecAbstract;
   var regexpExec = regexpExec$3;
   var stickyHelpers = regexpStickyHelpers;
-  var fails$x = fails$I;
+  var fails$y = fails$J;
 
   var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
   var MAX_UINT32 = 0xFFFFFFFF;
@@ -1624,7 +1624,7 @@ var JoomlaMediaManager = (function () {
 
   // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
   // Weex JS has frozen built-in prototypes, so use try / catch wrapper
-  var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$x(function () {
+  var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = !fails$y(function () {
     // eslint-disable-next-line regexp/no-empty-group -- required for testing
     var re = /(?:)/;
     var originalExec = re.exec;
@@ -1654,7 +1654,7 @@ var JoomlaMediaManager = (function () {
         if (separator === undefined) return [string];
         // If `separator` is not a regex, use native split
         if (!isRegExp$1(separator)) {
-          return call$i(nativeSplit, string, separator, lim);
+          return call$j(nativeSplit, string, separator, lim);
         }
         var output = [];
         var flags = (separator.ignoreCase ? 'i' : '') +
@@ -1665,7 +1665,7 @@ var JoomlaMediaManager = (function () {
         // Make `global` and avoid `lastIndex` issues by working with a copy
         var separatorCopy = new RegExp(separator.source, flags + 'g');
         var match, lastIndex, lastLength;
-        while (match = call$i(regexpExec, separatorCopy, string)) {
+        while (match = call$j(regexpExec, separatorCopy, string)) {
           lastIndex = separatorCopy.lastIndex;
           if (lastIndex > lastLastIndex) {
             push$8(output, stringSlice$7(string, lastLastIndex, match.index));
@@ -1684,7 +1684,7 @@ var JoomlaMediaManager = (function () {
     // Chakra, V8
     } else if ('0'.split(undefined, 0).length) {
       internalSplit = function (separator, limit) {
-        return separator === undefined && limit === 0 ? [] : call$i(nativeSplit, this, separator, limit);
+        return separator === undefined && limit === 0 ? [] : call$j(nativeSplit, this, separator, limit);
       };
     } else internalSplit = nativeSplit;
 
@@ -1695,8 +1695,8 @@ var JoomlaMediaManager = (function () {
         var O = requireObjectCoercible$9(this);
         var splitter = separator == undefined ? undefined : getMethod$5(separator, SPLIT);
         return splitter
-          ? call$i(splitter, separator, O, limit)
-          : call$i(internalSplit, toString$d(O), separator, limit);
+          ? call$j(splitter, separator, O, limit)
+          : call$j(internalSplit, toString$d(O), separator, limit);
       },
       // `RegExp.prototype[@@split]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
@@ -1704,7 +1704,7 @@ var JoomlaMediaManager = (function () {
       // NOTE: This cannot be properly polyfilled in engines that don't support
       // the 'y' flag.
       function (string, limit) {
-        var rx = anObject$h(this);
+        var rx = anObject$i(this);
         var S = toString$d(string);
         var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
 
@@ -1943,11 +1943,11 @@ var JoomlaMediaManager = (function () {
     filterReject: createMethod$3(7)
   };
 
-  var fails$w = fails$I;
+  var fails$x = fails$J;
 
   var arrayMethodIsStrict$4 = function (METHOD_NAME, argument) {
     var method = [][METHOD_NAME];
-    return !!method && fails$w(function () {
+    return !!method && fails$x(function () {
       // eslint-disable-next-line no-useless-call,no-throw-literal -- required for testing
       method.call(null, argument || function () { throw 1; }, 1);
     });
@@ -1988,16 +1988,197 @@ var JoomlaMediaManager = (function () {
 
   handlePrototype$1(DOMTokenListPrototype$1);
 
+  var uncurryThis$y = functionUncurryThis;
+  var toObject$d = toObject$g;
+
+  var floor$7 = Math.floor;
+  var charAt$4 = uncurryThis$y(''.charAt);
+  var replace$7 = uncurryThis$y(''.replace);
+  var stringSlice$6 = uncurryThis$y(''.slice);
+  var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
+  var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
+
+  // `GetSubstitution` abstract operation
+  // https://tc39.es/ecma262/#sec-getsubstitution
+  var getSubstitution$1 = function (matched, str, position, captures, namedCaptures, replacement) {
+    var tailPos = position + matched.length;
+    var m = captures.length;
+    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
+    if (namedCaptures !== undefined) {
+      namedCaptures = toObject$d(namedCaptures);
+      symbols = SUBSTITUTION_SYMBOLS;
+    }
+    return replace$7(replacement, symbols, function (match, ch) {
+      var capture;
+      switch (charAt$4(ch, 0)) {
+        case '$': return '$';
+        case '&': return matched;
+        case '`': return stringSlice$6(str, 0, position);
+        case "'": return stringSlice$6(str, tailPos);
+        case '<':
+          capture = namedCaptures[stringSlice$6(ch, 1, -1)];
+          break;
+        default: // \d\d?
+          var n = +ch;
+          if (n === 0) return match;
+          if (n > m) {
+            var f = floor$7(n / 10);
+            if (f === 0) return match;
+            if (f <= m) return captures[f - 1] === undefined ? charAt$4(ch, 1) : captures[f - 1] + charAt$4(ch, 1);
+            return match;
+          }
+          capture = captures[n - 1];
+      }
+      return capture === undefined ? '' : capture;
+    });
+  };
+
+  var apply$6 = functionApply;
+  var call$i = functionCall;
+  var uncurryThis$x = functionUncurryThis;
+  var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
+  var fails$w = fails$J;
+  var anObject$h = anObject$q;
+  var isCallable$d = isCallable$q;
+  var toIntegerOrInfinity$8 = toIntegerOrInfinity$c;
+  var toLength$7 = toLength$a;
+  var toString$b = toString$g;
+  var requireObjectCoercible$8 = requireObjectCoercible$d;
+  var advanceStringIndex$1 = advanceStringIndex$3;
+  var getMethod$4 = getMethod$7;
+  var getSubstitution = getSubstitution$1;
+  var regExpExec$3 = regexpExecAbstract;
+  var wellKnownSymbol$k = wellKnownSymbol$s;
+
+  var REPLACE = wellKnownSymbol$k('replace');
+  var max$2 = Math.max;
+  var min$5 = Math.min;
+  var concat$1 = uncurryThis$x([].concat);
+  var push$6 = uncurryThis$x([].push);
+  var stringIndexOf$1 = uncurryThis$x(''.indexOf);
+  var stringSlice$5 = uncurryThis$x(''.slice);
+
+  var maybeToString = function (it) {
+    return it === undefined ? it : String(it);
+  };
+
+  // IE <= 11 replaces $0 with the whole match, as if it was $&
+  // https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
+  var REPLACE_KEEPS_$0 = (function () {
+    // eslint-disable-next-line regexp/prefer-escape-replacement-dollar-char -- required for testing
+    return 'a'.replace(/./, '$0') === '$0';
+  })();
+
+  // Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
+  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
+    if (/./[REPLACE]) {
+      return /./[REPLACE]('a', '$0') === '';
+    }
+    return false;
+  })();
+
+  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$w(function () {
+    var re = /./;
+    re.exec = function () {
+      var result = [];
+      result.groups = { a: '7' };
+      return result;
+    };
+    // eslint-disable-next-line regexp/no-useless-dollar-replacements -- false positive
+    return ''.replace(re, '$<a>') !== '7';
+  });
+
+  // @@replace logic
+  fixRegExpWellKnownSymbolLogic$2('replace', function (_, nativeReplace, maybeCallNative) {
+    var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
+
+    return [
+      // `String.prototype.replace` method
+      // https://tc39.es/ecma262/#sec-string.prototype.replace
+      function replace(searchValue, replaceValue) {
+        var O = requireObjectCoercible$8(this);
+        var replacer = searchValue == undefined ? undefined : getMethod$4(searchValue, REPLACE);
+        return replacer
+          ? call$i(replacer, searchValue, O, replaceValue)
+          : call$i(nativeReplace, toString$b(O), searchValue, replaceValue);
+      },
+      // `RegExp.prototype[@@replace]` method
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
+      function (string, replaceValue) {
+        var rx = anObject$h(this);
+        var S = toString$b(string);
+
+        if (
+          typeof replaceValue == 'string' &&
+          stringIndexOf$1(replaceValue, UNSAFE_SUBSTITUTE) === -1 &&
+          stringIndexOf$1(replaceValue, '$<') === -1
+        ) {
+          var res = maybeCallNative(nativeReplace, rx, S, replaceValue);
+          if (res.done) return res.value;
+        }
+
+        var functionalReplace = isCallable$d(replaceValue);
+        if (!functionalReplace) replaceValue = toString$b(replaceValue);
+
+        var global = rx.global;
+        if (global) {
+          var fullUnicode = rx.unicode;
+          rx.lastIndex = 0;
+        }
+        var results = [];
+        while (true) {
+          var result = regExpExec$3(rx, S);
+          if (result === null) break;
+
+          push$6(results, result);
+          if (!global) break;
+
+          var matchStr = toString$b(result[0]);
+          if (matchStr === '') rx.lastIndex = advanceStringIndex$1(S, toLength$7(rx.lastIndex), fullUnicode);
+        }
+
+        var accumulatedResult = '';
+        var nextSourcePosition = 0;
+        for (var i = 0; i < results.length; i++) {
+          result = results[i];
+
+          var matched = toString$b(result[0]);
+          var position = max$2(min$5(toIntegerOrInfinity$8(result.index), S.length), 0);
+          var captures = [];
+          // NOTE: This is equivalent to
+          //   captures = result.slice(1).map(maybeToString)
+          // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
+          // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
+          // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
+          for (var j = 1; j < result.length; j++) push$6(captures, maybeToString(result[j]));
+          var namedCaptures = result.groups;
+          if (functionalReplace) {
+            var replacerArgs = concat$1([matched], captures, position, S);
+            if (namedCaptures !== undefined) push$6(replacerArgs, namedCaptures);
+            var replacement = toString$b(apply$6(replaceValue, undefined, replacerArgs));
+          } else {
+            replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
+          }
+          if (position >= nextSourcePosition) {
+            accumulatedResult += stringSlice$5(S, nextSourcePosition, position) + replacement;
+            nextSourcePosition = position + matched.length;
+          }
+        }
+        return accumulatedResult + stringSlice$5(S, nextSourcePosition);
+      }
+    ];
+  }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
+
   // a string of all valid unicode whitespaces
   var whitespaces$2 = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
     '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
-  var uncurryThis$y = functionUncurryThis;
-  var requireObjectCoercible$8 = requireObjectCoercible$d;
-  var toString$b = toString$g;
+  var uncurryThis$w = functionUncurryThis;
+  var requireObjectCoercible$7 = requireObjectCoercible$d;
+  var toString$a = toString$g;
   var whitespaces$1 = whitespaces$2;
 
-  var replace$7 = uncurryThis$y(''.replace);
+  var replace$6 = uncurryThis$w(''.replace);
   var whitespace = '[' + whitespaces$1 + ']';
   var ltrim = RegExp('^' + whitespace + whitespace + '*');
   var rtrim = RegExp(whitespace + whitespace + '*$');
@@ -2005,9 +2186,9 @@ var JoomlaMediaManager = (function () {
   // `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
   var createMethod$2 = function (TYPE) {
     return function ($this) {
-      var string = toString$b(requireObjectCoercible$8($this));
-      if (TYPE & 1) string = replace$7(string, ltrim, '');
-      if (TYPE & 2) string = replace$7(string, rtrim, '');
+      var string = toString$a(requireObjectCoercible$7($this));
+      if (TYPE & 1) string = replace$6(string, ltrim, '');
+      if (TYPE & 2) string = replace$6(string, rtrim, '');
       return string;
     };
   };
@@ -2025,7 +2206,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var PROPER_FUNCTION_NAME$3 = functionName.PROPER;
-  var fails$v = fails$I;
+  var fails$v = fails$J;
   var whitespaces = whitespaces$2;
 
   var non = '\u200B\u0085\u180E';
@@ -2040,31 +2221,31 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$G = _export;
+  var $$J = _export;
   var $trim = stringTrim.trim;
   var forcedStringTrimMethod = stringTrimForced;
 
   // `String.prototype.trim` method
   // https://tc39.es/ecma262/#sec-string.prototype.trim
-  $$G({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  $$J({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
     trim: function trim() {
       return $trim(this);
     }
   });
 
-  var uncurryThis$x = functionUncurryThis;
+  var uncurryThis$v = functionUncurryThis;
   var PROPER_FUNCTION_NAME$2 = functionName.PROPER;
   var redefine$a = redefine$e.exports;
-  var anObject$g = anObject$p;
+  var anObject$g = anObject$q;
   var isPrototypeOf$7 = objectIsPrototypeOf;
   var $toString$3 = toString$g;
-  var fails$u = fails$I;
+  var fails$u = fails$J;
   var regExpFlags = regexpFlags$1;
 
   var TO_STRING = 'toString';
   var RegExpPrototype = RegExp.prototype;
   var n$ToString = RegExpPrototype[TO_STRING];
-  var getFlags = uncurryThis$x(regExpFlags);
+  var getFlags = uncurryThis$v(regExpFlags);
 
   var NOT_GENERIC = fails$u(function () { return n$ToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
   // FF44- RegExp#toString has a wrong name
@@ -2082,57 +2263,57 @@ var JoomlaMediaManager = (function () {
     }, { unsafe: true });
   }
 
-  var $$F = _export;
+  var $$I = _export;
   var global$L = global$1e;
   var getBuiltIn$4 = getBuiltIn$a;
-  var apply$6 = functionApply;
-  var uncurryThis$w = functionUncurryThis;
-  var fails$t = fails$I;
+  var apply$5 = functionApply;
+  var uncurryThis$u = functionUncurryThis;
+  var fails$t = fails$J;
 
   var Array$6 = global$L.Array;
-  var $stringify$1 = getBuiltIn$4('JSON', 'stringify');
-  var exec$2 = uncurryThis$w(/./.exec);
-  var charAt$4 = uncurryThis$w(''.charAt);
-  var charCodeAt$2 = uncurryThis$w(''.charCodeAt);
-  var replace$6 = uncurryThis$w(''.replace);
-  var numberToString$1 = uncurryThis$w(1.0.toString);
+  var $stringify$2 = getBuiltIn$4('JSON', 'stringify');
+  var exec$2 = uncurryThis$u(/./.exec);
+  var charAt$3 = uncurryThis$u(''.charAt);
+  var charCodeAt$2 = uncurryThis$u(''.charCodeAt);
+  var replace$5 = uncurryThis$u(''.replace);
+  var numberToString$1 = uncurryThis$u(1.0.toString);
 
   var tester = /[\uD800-\uDFFF]/g;
   var low = /^[\uD800-\uDBFF]$/;
   var hi = /^[\uDC00-\uDFFF]$/;
 
   var fix = function (match, offset, string) {
-    var prev = charAt$4(string, offset - 1);
-    var next = charAt$4(string, offset + 1);
+    var prev = charAt$3(string, offset - 1);
+    var next = charAt$3(string, offset + 1);
     if ((exec$2(low, match) && !exec$2(hi, next)) || (exec$2(hi, match) && !exec$2(low, prev))) {
       return '\\u' + numberToString$1(charCodeAt$2(match, 0), 16);
     } return match;
   };
 
   var FORCED$8 = fails$t(function () {
-    return $stringify$1('\uDF06\uD834') !== '"\\udf06\\ud834"'
-      || $stringify$1('\uDEAD') !== '"\\udead"';
+    return $stringify$2('\uDF06\uD834') !== '"\\udf06\\ud834"'
+      || $stringify$2('\uDEAD') !== '"\\udead"';
   });
 
-  if ($stringify$1) {
+  if ($stringify$2) {
     // `JSON.stringify` method
     // https://tc39.es/ecma262/#sec-json.stringify
     // https://github.com/tc39/proposal-well-formed-stringify
-    $$F({ target: 'JSON', stat: true, forced: FORCED$8 }, {
+    $$I({ target: 'JSON', stat: true, forced: FORCED$8 }, {
       // eslint-disable-next-line no-unused-vars -- required for `.length`
       stringify: function stringify(it, replacer, space) {
         for (var i = 0, l = arguments.length, args = Array$6(l); i < l; i++) args[i] = arguments[i];
-        var result = apply$6($stringify$1, null, args);
-        return typeof result == 'string' ? replace$6(result, tester, fix) : result;
+        var result = apply$5($stringify$2, null, args);
+        return typeof result == 'string' ? replace$5(result, tester, fix) : result;
       }
     });
   }
 
-  var fails$s = fails$I;
-  var wellKnownSymbol$k = wellKnownSymbol$s;
+  var fails$s = fails$J;
+  var wellKnownSymbol$j = wellKnownSymbol$s;
   var V8_VERSION$2 = engineV8Version;
 
-  var SPECIES$3 = wellKnownSymbol$k('species');
+  var SPECIES$3 = wellKnownSymbol$j('species');
 
   var arrayMethodHasSpeciesSupport$5 = function (METHOD_NAME) {
     // We can't use this feature detection in V8 since it causes
@@ -2148,20 +2329,20 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$E = _export;
+  var $$H = _export;
   var global$K = global$1e;
-  var fails$r = fails$I;
+  var fails$r = fails$J;
   var isArray$3 = isArray$5;
   var isObject$k = isObject$s;
-  var toObject$d = toObject$g;
+  var toObject$c = toObject$g;
   var lengthOfArrayLike$d = lengthOfArrayLike$h;
   var createProperty$3 = createProperty$5;
   var arraySpeciesCreate$1 = arraySpeciesCreate$3;
   var arrayMethodHasSpeciesSupport$4 = arrayMethodHasSpeciesSupport$5;
-  var wellKnownSymbol$j = wellKnownSymbol$s;
+  var wellKnownSymbol$i = wellKnownSymbol$s;
   var V8_VERSION$1 = engineV8Version;
 
-  var IS_CONCAT_SPREADABLE = wellKnownSymbol$j('isConcatSpreadable');
+  var IS_CONCAT_SPREADABLE = wellKnownSymbol$i('isConcatSpreadable');
   var MAX_SAFE_INTEGER$1 = 0x1FFFFFFFFFFFFF;
   var MAXIMUM_ALLOWED_INDEX_EXCEEDED = 'Maximum allowed index exceeded';
   var TypeError$e = global$K.TypeError;
@@ -2188,10 +2369,10 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.concat` method
   // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
-  $$E({ target: 'Array', proto: true, forced: FORCED$7 }, {
+  $$H({ target: 'Array', proto: true, forced: FORCED$7 }, {
     // eslint-disable-next-line no-unused-vars -- required for `.length`
     concat: function concat(arg) {
-      var O = toObject$d(this);
+      var O = toObject$c(this);
       var A = arraySpeciesCreate$1(O, 0);
       var n = 0;
       var i, k, length, len, E;
@@ -2211,30 +2392,30 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var wellKnownSymbol$i = wellKnownSymbol$s;
+  var wellKnownSymbol$h = wellKnownSymbol$s;
   var create$4 = objectCreate;
-  var definePropertyModule$4 = objectDefineProperty;
+  var definePropertyModule$5 = objectDefineProperty;
 
-  var UNSCOPABLES = wellKnownSymbol$i('unscopables');
+  var UNSCOPABLES = wellKnownSymbol$h('unscopables');
   var ArrayPrototype$1 = Array.prototype;
 
   // Array.prototype[@@unscopables]
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   if (ArrayPrototype$1[UNSCOPABLES] == undefined) {
-    definePropertyModule$4.f(ArrayPrototype$1, UNSCOPABLES, {
+    definePropertyModule$5.f(ArrayPrototype$1, UNSCOPABLES, {
       configurable: true,
       value: create$4(null)
     });
   }
 
   // add a key to Array.prototype[@@unscopables]
-  var addToUnscopables$4 = function (key) {
+  var addToUnscopables$5 = function (key) {
     ArrayPrototype$1[UNSCOPABLES][key] = true;
   };
 
   var iterators = {};
 
-  var fails$q = fails$I;
+  var fails$q = fails$J;
 
   var correctPrototypeGetter = !fails$q(function () {
     function F() { /* empty */ }
@@ -2245,8 +2426,8 @@ var JoomlaMediaManager = (function () {
 
   var global$J = global$1e;
   var hasOwn$e = hasOwnProperty_1;
-  var isCallable$d = isCallable$q;
-  var toObject$c = toObject$g;
+  var isCallable$c = isCallable$q;
+  var toObject$b = toObject$g;
   var sharedKey$1 = sharedKey$4;
   var CORRECT_PROTOTYPE_GETTER$1 = correctPrototypeGetter;
 
@@ -2257,21 +2438,21 @@ var JoomlaMediaManager = (function () {
   // `Object.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.getprototypeof
   var objectGetPrototypeOf$1 = CORRECT_PROTOTYPE_GETTER$1 ? Object$1.getPrototypeOf : function (O) {
-    var object = toObject$c(O);
+    var object = toObject$b(O);
     if (hasOwn$e(object, IE_PROTO)) return object[IE_PROTO];
     var constructor = object.constructor;
-    if (isCallable$d(constructor) && object instanceof constructor) {
+    if (isCallable$c(constructor) && object instanceof constructor) {
       return constructor.prototype;
     } return object instanceof Object$1 ? ObjectPrototype$3 : null;
   };
 
-  var fails$p = fails$I;
-  var isCallable$c = isCallable$q;
+  var fails$p = fails$J;
+  var isCallable$b = isCallable$q;
   var getPrototypeOf$5 = objectGetPrototypeOf$1;
   var redefine$9 = redefine$e.exports;
-  var wellKnownSymbol$h = wellKnownSymbol$s;
+  var wellKnownSymbol$g = wellKnownSymbol$s;
 
-  var ITERATOR$8 = wellKnownSymbol$h('iterator');
+  var ITERATOR$8 = wellKnownSymbol$g('iterator');
   var BUGGY_SAFARI_ITERATORS$1 = false;
 
   // `%IteratorPrototype%` object
@@ -2299,7 +2480,7 @@ var JoomlaMediaManager = (function () {
 
   // `%IteratorPrototype%[@@iterator]()` method
   // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
-  if (!isCallable$c(IteratorPrototype$2[ITERATOR$8])) {
+  if (!isCallable$b(IteratorPrototype$2[ITERATOR$8])) {
     redefine$9(IteratorPrototype$2, ITERATOR$8, function () {
       return this;
     });
@@ -2312,9 +2493,9 @@ var JoomlaMediaManager = (function () {
 
   var defineProperty$a = objectDefineProperty.f;
   var hasOwn$d = hasOwnProperty_1;
-  var wellKnownSymbol$g = wellKnownSymbol$s;
+  var wellKnownSymbol$f = wellKnownSymbol$s;
 
-  var TO_STRING_TAG$2 = wellKnownSymbol$g('toStringTag');
+  var TO_STRING_TAG$2 = wellKnownSymbol$f('toStringTag');
 
   var setToStringTag$9 = function (target, TAG, STATIC) {
     if (target && !STATIC) target = target.prototype;
@@ -2340,20 +2521,20 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$I = global$1e;
-  var isCallable$b = isCallable$q;
+  var isCallable$a = isCallable$q;
 
   var String$3 = global$I.String;
   var TypeError$d = global$I.TypeError;
 
   var aPossiblePrototype$1 = function (argument) {
-    if (typeof argument == 'object' || isCallable$b(argument)) return argument;
+    if (typeof argument == 'object' || isCallable$a(argument)) return argument;
     throw TypeError$d("Can't set " + String$3(argument) + ' as a prototype');
   };
 
   /* eslint-disable no-proto -- safe */
 
-  var uncurryThis$v = functionUncurryThis;
-  var anObject$f = anObject$p;
+  var uncurryThis$t = functionUncurryThis;
+  var anObject$f = anObject$q;
   var aPossiblePrototype = aPossiblePrototype$1;
 
   // `Object.setPrototypeOf` method
@@ -2366,7 +2547,7 @@ var JoomlaMediaManager = (function () {
     var setter;
     try {
       // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-      setter = uncurryThis$v(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
+      setter = uncurryThis$t(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
       setter(test, []);
       CORRECT_SETTER = test instanceof Array;
     } catch (error) { /* empty */ }
@@ -2379,17 +2560,17 @@ var JoomlaMediaManager = (function () {
     };
   }() : undefined);
 
-  var $$D = _export;
+  var $$G = _export;
   var call$h = functionCall;
   var FunctionName$1 = functionName;
-  var isCallable$a = isCallable$q;
+  var isCallable$9 = isCallable$q;
   var createIteratorConstructor$1 = createIteratorConstructor$2;
   var getPrototypeOf$4 = objectGetPrototypeOf$1;
   var setPrototypeOf$5 = objectSetPrototypeOf;
   var setToStringTag$7 = setToStringTag$9;
   var createNonEnumerableProperty$4 = createNonEnumerableProperty$a;
   var redefine$8 = redefine$e.exports;
-  var wellKnownSymbol$f = wellKnownSymbol$s;
+  var wellKnownSymbol$e = wellKnownSymbol$s;
   var Iterators$3 = iterators;
   var IteratorsCore = iteratorsCore;
 
@@ -2397,7 +2578,7 @@ var JoomlaMediaManager = (function () {
   var CONFIGURABLE_FUNCTION_NAME$1 = FunctionName$1.CONFIGURABLE;
   var IteratorPrototype = IteratorsCore.IteratorPrototype;
   var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
-  var ITERATOR$7 = wellKnownSymbol$f('iterator');
+  var ITERATOR$7 = wellKnownSymbol$e('iterator');
   var KEYS = 'keys';
   var VALUES = 'values';
   var ENTRIES = 'entries';
@@ -2434,7 +2615,7 @@ var JoomlaMediaManager = (function () {
         if (getPrototypeOf$4(CurrentIteratorPrototype) !== IteratorPrototype) {
           if (setPrototypeOf$5) {
             setPrototypeOf$5(CurrentIteratorPrototype, IteratorPrototype);
-          } else if (!isCallable$a(CurrentIteratorPrototype[ITERATOR$7])) {
+          } else if (!isCallable$9(CurrentIteratorPrototype[ITERATOR$7])) {
             redefine$8(CurrentIteratorPrototype, ITERATOR$7, returnThis);
           }
         }
@@ -2464,7 +2645,7 @@ var JoomlaMediaManager = (function () {
         if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
           redefine$8(IterablePrototype, KEY, methods[KEY]);
         }
-      } else $$D({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+      } else $$G({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
@@ -2477,12 +2658,12 @@ var JoomlaMediaManager = (function () {
   };
 
   var toIndexedObject$6 = toIndexedObject$b;
-  var addToUnscopables$3 = addToUnscopables$4;
+  var addToUnscopables$4 = addToUnscopables$5;
   var Iterators$2 = iterators;
   var InternalStateModule$9 = internalState;
   var defineProperty$9 = objectDefineProperty.f;
   var defineIterator$2 = defineIterator$3;
-  var DESCRIPTORS$c = descriptors;
+  var DESCRIPTORS$d = descriptors;
 
   var ARRAY_ITERATOR = 'Array Iterator';
   var setInternalState$9 = InternalStateModule$9.set;
@@ -2527,12 +2708,12 @@ var JoomlaMediaManager = (function () {
   var values = Iterators$2.Arguments = Iterators$2.Array;
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$3('keys');
-  addToUnscopables$3('values');
-  addToUnscopables$3('entries');
+  addToUnscopables$4('keys');
+  addToUnscopables$4('values');
+  addToUnscopables$4('entries');
 
   // V8 ~ Chrome 45- bug
-  if (DESCRIPTORS$c && values.name !== 'values') try {
+  if (DESCRIPTORS$d && values.name !== 'values') try {
     defineProperty$9(values, 'name', { value: 'values' });
   } catch (error) { /* empty */ }
 
@@ -2541,10 +2722,10 @@ var JoomlaMediaManager = (function () {
   var DOMTokenListPrototype = domTokenListPrototype;
   var ArrayIteratorMethods = es_array_iterator;
   var createNonEnumerableProperty$3 = createNonEnumerableProperty$a;
-  var wellKnownSymbol$e = wellKnownSymbol$s;
+  var wellKnownSymbol$d = wellKnownSymbol$s;
 
-  var ITERATOR$6 = wellKnownSymbol$e('iterator');
-  var TO_STRING_TAG$1 = wellKnownSymbol$e('toStringTag');
+  var ITERATOR$6 = wellKnownSymbol$d('iterator');
+  var TO_STRING_TAG$1 = wellKnownSymbol$d('toStringTag');
   var ArrayValues = ArrayIteratorMethods.values;
 
   var handlePrototype = function (CollectionPrototype, COLLECTION_NAME) {
@@ -2577,11 +2758,11 @@ var JoomlaMediaManager = (function () {
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
-  var $$C = _export;
+  var $$F = _export;
   var global$G = global$1e;
   var call$g = functionCall;
-  var uncurryThis$u = functionUncurryThis;
-  var isCallable$9 = isCallable$q;
+  var uncurryThis$s = functionUncurryThis;
+  var isCallable$8 = isCallable$q;
   var isObject$j = isObject$s;
 
   var DELEGATES_TO_EXEC = function () {
@@ -2595,14 +2776,14 @@ var JoomlaMediaManager = (function () {
   }();
 
   var Error$1 = global$G.Error;
-  var un$Test = uncurryThis$u(/./.test);
+  var un$Test = uncurryThis$s(/./.test);
 
   // `RegExp.prototype.test` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.test
-  $$C({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
+  $$F({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
     test: function (str) {
       var exec = this.exec;
-      if (!isCallable$9(exec)) return un$Test(this, str);
+      if (!isCallable$8(exec)) return un$Test(this, str);
       var result = call$g(exec, this, str);
       if (result !== null && !isObject$j(result)) {
         throw new Error$1('RegExp exec method returned something other than an Object or null');
@@ -2622,9 +2803,9 @@ var JoomlaMediaManager = (function () {
     } return it;
   };
 
-  var wellKnownSymbol$d = wellKnownSymbol$s;
+  var wellKnownSymbol$c = wellKnownSymbol$s;
 
-  var MATCH = wellKnownSymbol$d('match');
+  var MATCH = wellKnownSymbol$c('match');
 
   var correctIsRegexpLogic = function (METHOD_NAME) {
     var regexp = /./;
@@ -2638,19 +2819,19 @@ var JoomlaMediaManager = (function () {
     } return false;
   };
 
-  var $$B = _export;
-  var uncurryThis$t = functionUncurryThis;
+  var $$E = _export;
+  var uncurryThis$r = functionUncurryThis;
   var getOwnPropertyDescriptor$4 = objectGetOwnPropertyDescriptor.f;
-  var toLength$7 = toLength$a;
-  var toString$a = toString$g;
+  var toLength$6 = toLength$a;
+  var toString$9 = toString$g;
   var notARegExp$2 = notARegexp;
-  var requireObjectCoercible$7 = requireObjectCoercible$d;
+  var requireObjectCoercible$6 = requireObjectCoercible$d;
   var correctIsRegExpLogic$2 = correctIsRegexpLogic;
 
   // eslint-disable-next-line es/no-string-prototype-startswith -- safe
-  var un$StartsWith = uncurryThis$t(''.startsWith);
-  var stringSlice$6 = uncurryThis$t(''.slice);
-  var min$5 = Math.min;
+  var un$StartsWith = uncurryThis$r(''.startsWith);
+  var stringSlice$4 = uncurryThis$r(''.slice);
+  var min$4 = Math.min;
 
   var CORRECT_IS_REGEXP_LOGIC$1 = correctIsRegExpLogic$2('startsWith');
   // https://github.com/zloirock/core-js/pull/702
@@ -2661,39 +2842,39 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.startsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.startswith
-  $$B({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
+  $$E({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
     startsWith: function startsWith(searchString /* , position = 0 */) {
-      var that = toString$a(requireObjectCoercible$7(this));
+      var that = toString$9(requireObjectCoercible$6(this));
       notARegExp$2(searchString);
-      var index = toLength$7(min$5(arguments.length > 1 ? arguments[1] : undefined, that.length));
-      var search = toString$a(searchString);
+      var index = toLength$6(min$4(arguments.length > 1 ? arguments[1] : undefined, that.length));
+      var search = toString$9(searchString);
       return un$StartsWith
         ? un$StartsWith(that, search, index)
-        : stringSlice$6(that, index, index + search.length) === search;
+        : stringSlice$4(that, index, index + search.length) === search;
     }
   });
 
-  var DESCRIPTORS$b = descriptors;
-  var uncurryThis$s = functionUncurryThis;
+  var DESCRIPTORS$c = descriptors;
+  var uncurryThis$q = functionUncurryThis;
   var call$f = functionCall;
-  var fails$o = fails$I;
+  var fails$o = fails$J;
   var objectKeys$2 = objectKeys$4;
   var getOwnPropertySymbolsModule$1 = objectGetOwnPropertySymbols;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
-  var toObject$b = toObject$g;
+  var toObject$a = toObject$g;
   var IndexedObject$2 = indexedObject;
 
   // eslint-disable-next-line es/no-object-assign -- safe
   var $assign = Object.assign;
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   var defineProperty$8 = Object.defineProperty;
-  var concat$1 = uncurryThis$s([].concat);
+  var concat = uncurryThis$q([].concat);
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
   var objectAssign = !$assign || fails$o(function () {
     // should have correct order of operations (Edge bug)
-    if (DESCRIPTORS$b && $assign({ b: 1 }, $assign(defineProperty$8({}, 'a', {
+    if (DESCRIPTORS$c && $assign({ b: 1 }, $assign(defineProperty$8({}, 'a', {
       enumerable: true,
       get: function () {
         defineProperty$8(this, 'b', {
@@ -2712,40 +2893,40 @@ var JoomlaMediaManager = (function () {
     alphabet.split('').forEach(function (chr) { B[chr] = chr; });
     return $assign({}, A)[symbol] != 7 || objectKeys$2($assign({}, B)).join('') != alphabet;
   }) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
-    var T = toObject$b(target);
+    var T = toObject$a(target);
     var argumentsLength = arguments.length;
     var index = 1;
     var getOwnPropertySymbols = getOwnPropertySymbolsModule$1.f;
     var propertyIsEnumerable = propertyIsEnumerableModule$1.f;
     while (argumentsLength > index) {
       var S = IndexedObject$2(arguments[index++]);
-      var keys = getOwnPropertySymbols ? concat$1(objectKeys$2(S), getOwnPropertySymbols(S)) : objectKeys$2(S);
+      var keys = getOwnPropertySymbols ? concat(objectKeys$2(S), getOwnPropertySymbols(S)) : objectKeys$2(S);
       var length = keys.length;
       var j = 0;
       var key;
       while (length > j) {
         key = keys[j++];
-        if (!DESCRIPTORS$b || call$f(propertyIsEnumerable, S, key)) T[key] = S[key];
+        if (!DESCRIPTORS$c || call$f(propertyIsEnumerable, S, key)) T[key] = S[key];
       }
     } return T;
   } : $assign;
 
-  var $$A = _export;
+  var $$D = _export;
   var assign$1 = objectAssign;
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
   // eslint-disable-next-line es/no-object-assign -- required for testing
-  $$A({ target: 'Object', stat: true, forced: Object.assign !== assign$1 }, {
+  $$D({ target: 'Object', stat: true, forced: Object.assign !== assign$1 }, {
     assign: assign$1
   });
 
-  var $$z = _export;
+  var $$C = _export;
   var global$E = global$1e;
   var toAbsoluteIndex$4 = toAbsoluteIndex$7;
-  var toIntegerOrInfinity$8 = toIntegerOrInfinity$c;
+  var toIntegerOrInfinity$7 = toIntegerOrInfinity$c;
   var lengthOfArrayLike$c = lengthOfArrayLike$h;
-  var toObject$a = toObject$g;
+  var toObject$9 = toObject$g;
   var arraySpeciesCreate = arraySpeciesCreate$3;
   var createProperty$2 = createProperty$5;
   var arrayMethodHasSpeciesSupport$3 = arrayMethodHasSpeciesSupport$5;
@@ -2753,17 +2934,17 @@ var JoomlaMediaManager = (function () {
   var HAS_SPECIES_SUPPORT$3 = arrayMethodHasSpeciesSupport$3('splice');
 
   var TypeError$b = global$E.TypeError;
-  var max$2 = Math.max;
-  var min$4 = Math.min;
+  var max$1 = Math.max;
+  var min$3 = Math.min;
   var MAX_SAFE_INTEGER = 0x1FFFFFFFFFFFFF;
   var MAXIMUM_ALLOWED_LENGTH_EXCEEDED = 'Maximum allowed length exceeded';
 
   // `Array.prototype.splice` method
   // https://tc39.es/ecma262/#sec-array.prototype.splice
   // with adding support of @@species
-  $$z({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
+  $$C({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
     splice: function splice(start, deleteCount /* , ...items */) {
-      var O = toObject$a(this);
+      var O = toObject$9(this);
       var len = lengthOfArrayLike$c(O);
       var actualStart = toAbsoluteIndex$4(start, len);
       var argumentsLength = arguments.length;
@@ -2775,7 +2956,7 @@ var JoomlaMediaManager = (function () {
         actualDeleteCount = len - actualStart;
       } else {
         insertCount = argumentsLength - 2;
-        actualDeleteCount = min$4(max$2(toIntegerOrInfinity$8(deleteCount), 0), len - actualStart);
+        actualDeleteCount = min$3(max$1(toIntegerOrInfinity$7(deleteCount), 0), len - actualStart);
       }
       if (len + insertCount - actualDeleteCount > MAX_SAFE_INTEGER) {
         throw TypeError$b(MAXIMUM_ALLOWED_LENGTH_EXCEEDED);
@@ -2810,11 +2991,11 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var uncurryThis$r = functionUncurryThis;
+  var uncurryThis$p = functionUncurryThis;
 
-  var arraySlice$9 = uncurryThis$r([].slice);
+  var arraySlice$9 = uncurryThis$p([].slice);
 
-  var $$y = _export;
+  var $$B = _export;
   var global$D = global$1e;
   var isArray$2 = isArray$5;
   var isConstructor$1 = isConstructor$4;
@@ -2823,20 +3004,20 @@ var JoomlaMediaManager = (function () {
   var lengthOfArrayLike$b = lengthOfArrayLike$h;
   var toIndexedObject$5 = toIndexedObject$b;
   var createProperty$1 = createProperty$5;
-  var wellKnownSymbol$c = wellKnownSymbol$s;
+  var wellKnownSymbol$b = wellKnownSymbol$s;
   var arrayMethodHasSpeciesSupport$2 = arrayMethodHasSpeciesSupport$5;
   var un$Slice = arraySlice$9;
 
   var HAS_SPECIES_SUPPORT$2 = arrayMethodHasSpeciesSupport$2('slice');
 
-  var SPECIES$2 = wellKnownSymbol$c('species');
+  var SPECIES$2 = wellKnownSymbol$b('species');
   var Array$5 = global$D.Array;
-  var max$1 = Math.max;
+  var max = Math.max;
 
   // `Array.prototype.slice` method
   // https://tc39.es/ecma262/#sec-array.prototype.slice
   // fallback for not array-like ES3 strings and DOM objects
-  $$y({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
+  $$B({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     slice: function slice(start, end) {
       var O = toIndexedObject$5(this);
       var length = lengthOfArrayLike$b(O);
@@ -2857,193 +3038,12 @@ var JoomlaMediaManager = (function () {
           return un$Slice(O, k, fin);
         }
       }
-      result = new (Constructor === undefined ? Array$5 : Constructor)(max$1(fin - k, 0));
+      result = new (Constructor === undefined ? Array$5 : Constructor)(max(fin - k, 0));
       for (n = 0; k < fin; k++, n++) if (k in O) createProperty$1(result, n, O[k]);
       result.length = n;
       return result;
     }
   });
-
-  var uncurryThis$q = functionUncurryThis;
-  var toObject$9 = toObject$g;
-
-  var floor$7 = Math.floor;
-  var charAt$3 = uncurryThis$q(''.charAt);
-  var replace$5 = uncurryThis$q(''.replace);
-  var stringSlice$5 = uncurryThis$q(''.slice);
-  var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
-  var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
-
-  // `GetSubstitution` abstract operation
-  // https://tc39.es/ecma262/#sec-getsubstitution
-  var getSubstitution$1 = function (matched, str, position, captures, namedCaptures, replacement) {
-    var tailPos = position + matched.length;
-    var m = captures.length;
-    var symbols = SUBSTITUTION_SYMBOLS_NO_NAMED;
-    if (namedCaptures !== undefined) {
-      namedCaptures = toObject$9(namedCaptures);
-      symbols = SUBSTITUTION_SYMBOLS;
-    }
-    return replace$5(replacement, symbols, function (match, ch) {
-      var capture;
-      switch (charAt$3(ch, 0)) {
-        case '$': return '$';
-        case '&': return matched;
-        case '`': return stringSlice$5(str, 0, position);
-        case "'": return stringSlice$5(str, tailPos);
-        case '<':
-          capture = namedCaptures[stringSlice$5(ch, 1, -1)];
-          break;
-        default: // \d\d?
-          var n = +ch;
-          if (n === 0) return match;
-          if (n > m) {
-            var f = floor$7(n / 10);
-            if (f === 0) return match;
-            if (f <= m) return captures[f - 1] === undefined ? charAt$3(ch, 1) : captures[f - 1] + charAt$3(ch, 1);
-            return match;
-          }
-          capture = captures[n - 1];
-      }
-      return capture === undefined ? '' : capture;
-    });
-  };
-
-  var apply$5 = functionApply;
-  var call$e = functionCall;
-  var uncurryThis$p = functionUncurryThis;
-  var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
-  var fails$n = fails$I;
-  var anObject$e = anObject$p;
-  var isCallable$8 = isCallable$q;
-  var toIntegerOrInfinity$7 = toIntegerOrInfinity$c;
-  var toLength$6 = toLength$a;
-  var toString$9 = toString$g;
-  var requireObjectCoercible$6 = requireObjectCoercible$d;
-  var advanceStringIndex$1 = advanceStringIndex$3;
-  var getMethod$4 = getMethod$7;
-  var getSubstitution = getSubstitution$1;
-  var regExpExec$3 = regexpExecAbstract;
-  var wellKnownSymbol$b = wellKnownSymbol$s;
-
-  var REPLACE = wellKnownSymbol$b('replace');
-  var max = Math.max;
-  var min$3 = Math.min;
-  var concat = uncurryThis$p([].concat);
-  var push$6 = uncurryThis$p([].push);
-  var stringIndexOf$1 = uncurryThis$p(''.indexOf);
-  var stringSlice$4 = uncurryThis$p(''.slice);
-
-  var maybeToString = function (it) {
-    return it === undefined ? it : String(it);
-  };
-
-  // IE <= 11 replaces $0 with the whole match, as if it was $&
-  // https://stackoverflow.com/questions/6024666/getting-ie-to-replace-a-regex-with-the-literal-string-0
-  var REPLACE_KEEPS_$0 = (function () {
-    // eslint-disable-next-line regexp/prefer-escape-replacement-dollar-char -- required for testing
-    return 'a'.replace(/./, '$0') === '$0';
-  })();
-
-  // Safari <= 13.0.3(?) substitutes nth capture where n>m with an empty string
-  var REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = (function () {
-    if (/./[REPLACE]) {
-      return /./[REPLACE]('a', '$0') === '';
-    }
-    return false;
-  })();
-
-  var REPLACE_SUPPORTS_NAMED_GROUPS = !fails$n(function () {
-    var re = /./;
-    re.exec = function () {
-      var result = [];
-      result.groups = { a: '7' };
-      return result;
-    };
-    // eslint-disable-next-line regexp/no-useless-dollar-replacements -- false positive
-    return ''.replace(re, '$<a>') !== '7';
-  });
-
-  // @@replace logic
-  fixRegExpWellKnownSymbolLogic$2('replace', function (_, nativeReplace, maybeCallNative) {
-    var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? '$' : '$0';
-
-    return [
-      // `String.prototype.replace` method
-      // https://tc39.es/ecma262/#sec-string.prototype.replace
-      function replace(searchValue, replaceValue) {
-        var O = requireObjectCoercible$6(this);
-        var replacer = searchValue == undefined ? undefined : getMethod$4(searchValue, REPLACE);
-        return replacer
-          ? call$e(replacer, searchValue, O, replaceValue)
-          : call$e(nativeReplace, toString$9(O), searchValue, replaceValue);
-      },
-      // `RegExp.prototype[@@replace]` method
-      // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
-      function (string, replaceValue) {
-        var rx = anObject$e(this);
-        var S = toString$9(string);
-
-        if (
-          typeof replaceValue == 'string' &&
-          stringIndexOf$1(replaceValue, UNSAFE_SUBSTITUTE) === -1 &&
-          stringIndexOf$1(replaceValue, '$<') === -1
-        ) {
-          var res = maybeCallNative(nativeReplace, rx, S, replaceValue);
-          if (res.done) return res.value;
-        }
-
-        var functionalReplace = isCallable$8(replaceValue);
-        if (!functionalReplace) replaceValue = toString$9(replaceValue);
-
-        var global = rx.global;
-        if (global) {
-          var fullUnicode = rx.unicode;
-          rx.lastIndex = 0;
-        }
-        var results = [];
-        while (true) {
-          var result = regExpExec$3(rx, S);
-          if (result === null) break;
-
-          push$6(results, result);
-          if (!global) break;
-
-          var matchStr = toString$9(result[0]);
-          if (matchStr === '') rx.lastIndex = advanceStringIndex$1(S, toLength$6(rx.lastIndex), fullUnicode);
-        }
-
-        var accumulatedResult = '';
-        var nextSourcePosition = 0;
-        for (var i = 0; i < results.length; i++) {
-          result = results[i];
-
-          var matched = toString$9(result[0]);
-          var position = max(min$3(toIntegerOrInfinity$7(result.index), S.length), 0);
-          var captures = [];
-          // NOTE: This is equivalent to
-          //   captures = result.slice(1).map(maybeToString)
-          // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
-          // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
-          // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-          for (var j = 1; j < result.length; j++) push$6(captures, maybeToString(result[j]));
-          var namedCaptures = result.groups;
-          if (functionalReplace) {
-            var replacerArgs = concat([matched], captures, position, S);
-            if (namedCaptures !== undefined) push$6(replacerArgs, namedCaptures);
-            var replacement = toString$9(apply$5(replaceValue, undefined, replacerArgs));
-          } else {
-            replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
-          }
-          if (position >= nextSourcePosition) {
-            accumulatedResult += stringSlice$4(S, nextSourcePosition, position) + replacement;
-            nextSourcePosition = position + matched.length;
-          }
-        }
-        return accumulatedResult + stringSlice$4(S, nextSourcePosition);
-      }
-    ];
-  }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
 
   // `SameValue` abstract operation
   // https://tc39.es/ecma262/#sec-samevalue
@@ -3053,21 +3053,21 @@ var JoomlaMediaManager = (function () {
     return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
   };
 
-  var $$x = _export;
+  var $$A = _export;
   var is = sameValue$1;
 
   // `Object.is` method
   // https://tc39.es/ecma262/#sec-object.is
-  $$x({ target: 'Object', stat: true }, {
+  $$A({ target: 'Object', stat: true }, {
     is: is
   });
 
-  var $$w = _export;
+  var $$z = _export;
   var global$C = global$1e;
 
   // `globalThis` object
   // https://tc39.es/ecma262/#sec-globalthis
-  $$w({ global: true }, {
+  $$z({ global: true }, {
     globalThis: global$C
   });
 
@@ -3101,9 +3101,9 @@ var JoomlaMediaManager = (function () {
   };
 
   // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
-  var fails$m = fails$I;
+  var fails$n = fails$J;
 
-  var arrayBufferNonExtensible = fails$m(function () {
+  var arrayBufferNonExtensible = fails$n(function () {
     if (typeof ArrayBuffer == 'function') {
       var buffer = new ArrayBuffer(8);
       // eslint-disable-next-line es/no-object-isextensible, es/no-object-defineproperty -- safe
@@ -3111,14 +3111,14 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$l = fails$I;
+  var fails$m = fails$J;
   var isObject$h = isObject$s;
   var classof$5 = classofRaw$1;
   var ARRAY_BUFFER_NON_EXTENSIBLE = arrayBufferNonExtensible;
 
   // eslint-disable-next-line es/no-object-isextensible -- safe
   var $isExtensible$1 = Object.isExtensible;
-  var FAILS_ON_PRIMITIVES$3 = fails$l(function () { $isExtensible$1(1); });
+  var FAILS_ON_PRIMITIVES$3 = fails$m(function () { $isExtensible$1(1); });
 
   // `Object.isExtensible` method
   // https://tc39.es/ecma262/#sec-object.isextensible
@@ -3128,14 +3128,14 @@ var JoomlaMediaManager = (function () {
     return $isExtensible$1 ? $isExtensible$1(it) : true;
   } : $isExtensible$1;
 
-  var fails$k = fails$I;
+  var fails$l = fails$J;
 
-  var freezing = !fails$k(function () {
+  var freezing = !fails$l(function () {
     // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
     return Object.isExtensible(Object.preventExtensions({}));
   });
 
-  var $$v = _export;
+  var $$y = _export;
   var uncurryThis$o = functionUncurryThis;
   var hiddenKeys$1 = hiddenKeys$6;
   var isObject$g = isObject$s;
@@ -3210,7 +3210,7 @@ var JoomlaMediaManager = (function () {
         } return result;
       };
 
-      $$v({ target: 'Object', stat: true, forced: true }, {
+      $$y({ target: 'Object', stat: true, forced: true }, {
         getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
       });
     }
@@ -3250,9 +3250,9 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$B = global$1e;
-  var call$d = functionCall;
+  var call$e = functionCall;
   var aCallable$5 = aCallable$8;
-  var anObject$d = anObject$p;
+  var anObject$e = anObject$q;
   var tryToString$2 = tryToString$5;
   var getIteratorMethod$4 = getIteratorMethod$5;
 
@@ -3260,38 +3260,38 @@ var JoomlaMediaManager = (function () {
 
   var getIterator$4 = function (argument, usingIterator) {
     var iteratorMethod = arguments.length < 2 ? getIteratorMethod$4(argument) : usingIterator;
-    if (aCallable$5(iteratorMethod)) return anObject$d(call$d(iteratorMethod, argument));
+    if (aCallable$5(iteratorMethod)) return anObject$e(call$e(iteratorMethod, argument));
     throw TypeError$a(tryToString$2(argument) + ' is not iterable');
   };
 
-  var call$c = functionCall;
-  var anObject$c = anObject$p;
+  var call$d = functionCall;
+  var anObject$d = anObject$q;
   var getMethod$2 = getMethod$7;
 
   var iteratorClose$2 = function (iterator, kind, value) {
     var innerResult, innerError;
-    anObject$c(iterator);
+    anObject$d(iterator);
     try {
       innerResult = getMethod$2(iterator, 'return');
       if (!innerResult) {
         if (kind === 'throw') throw value;
         return value;
       }
-      innerResult = call$c(innerResult, iterator);
+      innerResult = call$d(innerResult, iterator);
     } catch (error) {
       innerError = true;
       innerResult = error;
     }
     if (kind === 'throw') throw value;
     if (innerError) throw innerResult;
-    anObject$c(innerResult);
+    anObject$d(innerResult);
     return value;
   };
 
   var global$A = global$1e;
   var bind$8 = functionBindContext;
-  var call$b = functionCall;
-  var anObject$b = anObject$p;
+  var call$c = functionCall;
+  var anObject$c = anObject$q;
   var tryToString$1 = tryToString$5;
   var isArrayIteratorMethod$2 = isArrayIteratorMethod$3;
   var lengthOfArrayLike$a = lengthOfArrayLike$h;
@@ -3324,7 +3324,7 @@ var JoomlaMediaManager = (function () {
 
     var callFn = function (value) {
       if (AS_ENTRIES) {
-        anObject$b(value);
+        anObject$c(value);
         return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
       } return INTERRUPTED ? fn(value, stop) : fn(value);
     };
@@ -3345,7 +3345,7 @@ var JoomlaMediaManager = (function () {
     }
 
     next = iterator.next;
-    while (!(step = call$b(next, iterator)).done) {
+    while (!(step = call$c(next, iterator)).done) {
       try {
         result = callFn(step.value);
       } catch (error) {
@@ -3423,7 +3423,7 @@ var JoomlaMediaManager = (function () {
     return $this;
   };
 
-  var $$u = _export;
+  var $$x = _export;
   var global$y = global$1e;
   var uncurryThis$n = functionUncurryThis;
   var isForced$2 = isForced_1;
@@ -3433,7 +3433,7 @@ var JoomlaMediaManager = (function () {
   var anInstance$7 = anInstance$8;
   var isCallable$6 = isCallable$q;
   var isObject$e = isObject$s;
-  var fails$j = fails$I;
+  var fails$k = fails$J;
   var checkCorrectnessOfIteration$3 = checkCorrectnessOfIteration$4;
   var setToStringTag$6 = setToStringTag$9;
   var inheritIfRequired$2 = inheritIfRequired$3;
@@ -3468,7 +3468,7 @@ var JoomlaMediaManager = (function () {
 
     var REPLACE = isForced$2(
       CONSTRUCTOR_NAME,
-      !isCallable$6(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$j(function () {
+      !isCallable$6(NativeConstructor) || !(IS_WEAK || NativePrototype.forEach && !fails$k(function () {
         new NativeConstructor().entries().next();
       }))
     );
@@ -3482,12 +3482,12 @@ var JoomlaMediaManager = (function () {
       // early implementations not supports chaining
       var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
       // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
-      var THROWS_ON_PRIMITIVES = fails$j(function () { instance.has(1); });
+      var THROWS_ON_PRIMITIVES = fails$k(function () { instance.has(1); });
       // most early implementations doesn't supports iterables, most modern - not close it correctly
       // eslint-disable-next-line no-new -- required for testing
       var ACCEPT_ITERABLES = checkCorrectnessOfIteration$3(function (iterable) { new NativeConstructor(iterable); });
       // for early implementations -0 and +0 not the same
-      var BUGGY_ZERO = !IS_WEAK && fails$j(function () {
+      var BUGGY_ZERO = !IS_WEAK && fails$k(function () {
         // V8 ~ Chromium 42- fails only with 5+ elements
         var $instance = new NativeConstructor();
         var index = 5;
@@ -3519,7 +3519,7 @@ var JoomlaMediaManager = (function () {
     }
 
     exported[CONSTRUCTOR_NAME] = Constructor;
-    $$u({ global: true, forced: Constructor != NativeConstructor }, exported);
+    $$x({ global: true, forced: Constructor != NativeConstructor }, exported);
 
     setToStringTag$6(Constructor, CONSTRUCTOR_NAME);
 
@@ -3536,17 +3536,17 @@ var JoomlaMediaManager = (function () {
   };
 
   var getBuiltIn$3 = getBuiltIn$a;
-  var definePropertyModule$3 = objectDefineProperty;
+  var definePropertyModule$4 = objectDefineProperty;
   var wellKnownSymbol$7 = wellKnownSymbol$s;
-  var DESCRIPTORS$a = descriptors;
+  var DESCRIPTORS$b = descriptors;
 
   var SPECIES$1 = wellKnownSymbol$7('species');
 
   var setSpecies$3 = function (CONSTRUCTOR_NAME) {
     var Constructor = getBuiltIn$3(CONSTRUCTOR_NAME);
-    var defineProperty = definePropertyModule$3.f;
+    var defineProperty = definePropertyModule$4.f;
 
-    if (DESCRIPTORS$a && Constructor && !Constructor[SPECIES$1]) {
+    if (DESCRIPTORS$b && Constructor && !Constructor[SPECIES$1]) {
       defineProperty(Constructor, SPECIES$1, {
         configurable: true,
         get: function () { return this; }
@@ -3562,7 +3562,7 @@ var JoomlaMediaManager = (function () {
   var iterate$2 = iterate$4;
   var defineIterator$1 = defineIterator$3;
   var setSpecies$2 = setSpecies$3;
-  var DESCRIPTORS$9 = descriptors;
+  var DESCRIPTORS$a = descriptors;
   var fastKey = internalMetadata.exports.fastKey;
   var InternalStateModule$8 = internalState;
 
@@ -3580,7 +3580,7 @@ var JoomlaMediaManager = (function () {
           last: undefined,
           size: 0
         });
-        if (!DESCRIPTORS$9) that.size = 0;
+        if (!DESCRIPTORS$a) that.size = 0;
         if (iterable != undefined) iterate$2(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
       });
 
@@ -3607,7 +3607,7 @@ var JoomlaMediaManager = (function () {
           };
           if (!state.first) state.first = entry;
           if (previous) previous.next = entry;
-          if (DESCRIPTORS$9) state.size++;
+          if (DESCRIPTORS$a) state.size++;
           else that.size++;
           // add to index
           if (index !== 'F') state.index[index] = entry;
@@ -3642,7 +3642,7 @@ var JoomlaMediaManager = (function () {
             entry = entry.next;
           }
           state.first = state.last = undefined;
-          if (DESCRIPTORS$9) state.size = 0;
+          if (DESCRIPTORS$a) state.size = 0;
           else that.size = 0;
         },
         // `{ Map, Set }.prototype.delete(key)` methods
@@ -3661,7 +3661,7 @@ var JoomlaMediaManager = (function () {
             if (next) next.previous = prev;
             if (state.first == entry) state.first = next;
             if (state.last == entry) state.last = prev;
-            if (DESCRIPTORS$9) state.size--;
+            if (DESCRIPTORS$a) state.size--;
             else that.size--;
           } return !!entry;
         },
@@ -3705,7 +3705,7 @@ var JoomlaMediaManager = (function () {
           return define(this, value = value === 0 ? 0 : value, value);
         }
       });
-      if (DESCRIPTORS$9) defineProperty$6(Prototype, 'size', {
+      if (DESCRIPTORS$a) defineProperty$6(Prototype, 'size', {
         get: function () {
           return getInternalState(this).size;
         }
@@ -3800,7 +3800,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$m = functionUncurryThis;
   var redefineAll$4 = redefineAll$6;
   var getWeakData = internalMetadata.exports.getWeakData;
-  var anObject$a = anObject$p;
+  var anObject$b = anObject$q;
   var isObject$d = isObject$s;
   var anInstance$5 = anInstance$8;
   var iterate$1 = iterate$4;
@@ -3870,7 +3870,7 @@ var JoomlaMediaManager = (function () {
 
       var define = function (that, key, value) {
         var state = getInternalState(that);
-        var data = getWeakData(anObject$a(key), true);
+        var data = getWeakData(anObject$b(key), true);
         if (data === true) uncaughtFrozenStore(state).set(key, value);
         else data[state.id] = value;
         return that;
@@ -4017,25 +4017,25 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$t = _export;
+  var $$w = _export;
   var global$v = global$1e;
   var getBuiltIn$2 = getBuiltIn$a;
   var apply$4 = functionApply;
-  var call$a = functionCall;
+  var call$b = functionCall;
   var uncurryThis$k = functionUncurryThis;
-  var DESCRIPTORS$8 = descriptors;
+  var DESCRIPTORS$9 = descriptors;
   var NATIVE_SYMBOL$1 = nativeSymbol;
-  var fails$i = fails$I;
+  var fails$j = fails$J;
   var hasOwn$9 = hasOwnProperty_1;
   var isArray$1 = isArray$5;
   var isCallable$5 = isCallable$q;
   var isObject$b = isObject$s;
   var isPrototypeOf$4 = objectIsPrototypeOf;
   var isSymbol$3 = isSymbol$6;
-  var anObject$9 = anObject$p;
+  var anObject$a = anObject$q;
   var toObject$8 = toObject$g;
   var toIndexedObject$3 = toIndexedObject$b;
-  var toPropertyKey$1 = toPropertyKey$5;
+  var toPropertyKey$2 = toPropertyKey$6;
   var $toString$2 = toString$g;
   var createPropertyDescriptor$3 = createPropertyDescriptor$8;
   var nativeObjectCreate = objectCreate;
@@ -4044,7 +4044,7 @@ var JoomlaMediaManager = (function () {
   var getOwnPropertyNamesExternal = objectGetOwnPropertyNamesExternal;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
   var getOwnPropertyDescriptorModule$3 = objectGetOwnPropertyDescriptor;
-  var definePropertyModule$2 = objectDefineProperty;
+  var definePropertyModule$3 = objectDefineProperty;
   var propertyIsEnumerableModule = objectPropertyIsEnumerable;
   var arraySlice$7 = arraySlice$9;
   var redefine$5 = redefine$e.exports;
@@ -4072,9 +4072,9 @@ var JoomlaMediaManager = (function () {
   var SymbolPrototype$1 = $Symbol && $Symbol[PROTOTYPE$1];
   var TypeError$7 = global$v.TypeError;
   var QObject = global$v.QObject;
-  var $stringify = getBuiltIn$2('JSON', 'stringify');
+  var $stringify$1 = getBuiltIn$2('JSON', 'stringify');
   var nativeGetOwnPropertyDescriptor$1 = getOwnPropertyDescriptorModule$3.f;
-  var nativeDefineProperty$1 = definePropertyModule$2.f;
+  var nativeDefineProperty$1 = definePropertyModule$3.f;
   var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
   var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
   var push$5 = uncurryThis$k([].push);
@@ -4089,7 +4089,7 @@ var JoomlaMediaManager = (function () {
   var USE_SETTER = !QObject || !QObject[PROTOTYPE$1] || !QObject[PROTOTYPE$1].findChild;
 
   // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-  var setSymbolDescriptor = DESCRIPTORS$8 && fails$i(function () {
+  var setSymbolDescriptor = DESCRIPTORS$9 && fails$j(function () {
     return nativeObjectCreate(nativeDefineProperty$1({}, 'a', {
       get: function () { return nativeDefineProperty$1(this, 'a', { value: 7 }).a; }
     })).a != 7;
@@ -4109,15 +4109,15 @@ var JoomlaMediaManager = (function () {
       tag: tag,
       description: description
     });
-    if (!DESCRIPTORS$8) symbol.description = description;
+    if (!DESCRIPTORS$9) symbol.description = description;
     return symbol;
   };
 
   var $defineProperty = function defineProperty(O, P, Attributes) {
     if (O === ObjectPrototype$2) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
-    anObject$9(O);
-    var key = toPropertyKey$1(P);
-    anObject$9(Attributes);
+    anObject$a(O);
+    var key = toPropertyKey$2(P);
+    anObject$a(Attributes);
     if (hasOwn$9(AllSymbols, key)) {
       if (!Attributes.enumerable) {
         if (!hasOwn$9(O, HIDDEN)) nativeDefineProperty$1(O, HIDDEN, createPropertyDescriptor$3(1, {}));
@@ -4130,11 +4130,11 @@ var JoomlaMediaManager = (function () {
   };
 
   var $defineProperties = function defineProperties(O, Properties) {
-    anObject$9(O);
+    anObject$a(O);
     var properties = toIndexedObject$3(Properties);
     var keys = objectKeys$1(properties).concat($getOwnPropertySymbols(properties));
     $forEach$1(keys, function (key) {
-      if (!DESCRIPTORS$8 || call$a($propertyIsEnumerable$1, properties, key)) $defineProperty(O, key, properties[key]);
+      if (!DESCRIPTORS$9 || call$b($propertyIsEnumerable$1, properties, key)) $defineProperty(O, key, properties[key]);
     });
     return O;
   };
@@ -4144,8 +4144,8 @@ var JoomlaMediaManager = (function () {
   };
 
   var $propertyIsEnumerable$1 = function propertyIsEnumerable(V) {
-    var P = toPropertyKey$1(V);
-    var enumerable = call$a(nativePropertyIsEnumerable, this, P);
+    var P = toPropertyKey$2(V);
+    var enumerable = call$b(nativePropertyIsEnumerable, this, P);
     if (this === ObjectPrototype$2 && hasOwn$9(AllSymbols, P) && !hasOwn$9(ObjectPrototypeSymbols, P)) return false;
     return enumerable || !hasOwn$9(this, P) || !hasOwn$9(AllSymbols, P) || hasOwn$9(this, HIDDEN) && this[HIDDEN][P]
       ? enumerable : true;
@@ -4153,7 +4153,7 @@ var JoomlaMediaManager = (function () {
 
   var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
     var it = toIndexedObject$3(O);
-    var key = toPropertyKey$1(P);
+    var key = toPropertyKey$2(P);
     if (it === ObjectPrototype$2 && hasOwn$9(AllSymbols, key) && !hasOwn$9(ObjectPrototypeSymbols, key)) return;
     var descriptor = nativeGetOwnPropertyDescriptor$1(it, key);
     if (descriptor && hasOwn$9(AllSymbols, key) && !(hasOwn$9(it, HIDDEN) && it[HIDDEN][key])) {
@@ -4191,11 +4191,11 @@ var JoomlaMediaManager = (function () {
       var description = !arguments.length || arguments[0] === undefined ? undefined : $toString$2(arguments[0]);
       var tag = uid$3(description);
       var setter = function (value) {
-        if (this === ObjectPrototype$2) call$a(setter, ObjectPrototypeSymbols, value);
+        if (this === ObjectPrototype$2) call$b(setter, ObjectPrototypeSymbols, value);
         if (hasOwn$9(this, HIDDEN) && hasOwn$9(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
         setSymbolDescriptor(this, tag, createPropertyDescriptor$3(1, value));
       };
-      if (DESCRIPTORS$8 && USE_SETTER) setSymbolDescriptor(ObjectPrototype$2, tag, { configurable: true, set: setter });
+      if (DESCRIPTORS$9 && USE_SETTER) setSymbolDescriptor(ObjectPrototype$2, tag, { configurable: true, set: setter });
       return wrap(tag, description);
     };
 
@@ -4210,7 +4210,7 @@ var JoomlaMediaManager = (function () {
     });
 
     propertyIsEnumerableModule.f = $propertyIsEnumerable$1;
-    definePropertyModule$2.f = $defineProperty;
+    definePropertyModule$3.f = $defineProperty;
     getOwnPropertyDescriptorModule$3.f = $getOwnPropertyDescriptor;
     getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
     getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
@@ -4219,7 +4219,7 @@ var JoomlaMediaManager = (function () {
       return wrap(wellKnownSymbol$5(name), name);
     };
 
-    if (DESCRIPTORS$8) {
+    if (DESCRIPTORS$9) {
       // https://github.com/tc39/proposal-Symbol-description
       nativeDefineProperty$1(SymbolPrototype$1, 'description', {
         configurable: true,
@@ -4233,7 +4233,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  $$t({ global: true, wrap: true, forced: !NATIVE_SYMBOL$1, sham: !NATIVE_SYMBOL$1 }, {
+  $$w({ global: true, wrap: true, forced: !NATIVE_SYMBOL$1, sham: !NATIVE_SYMBOL$1 }, {
     Symbol: $Symbol
   });
 
@@ -4241,7 +4241,7 @@ var JoomlaMediaManager = (function () {
     defineWellKnownSymbol$1(name);
   });
 
-  $$t({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$1 }, {
+  $$w({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$1 }, {
     // `Symbol.for` method
     // https://tc39.es/ecma262/#sec-symbol.for
     'for': function (key) {
@@ -4262,7 +4262,7 @@ var JoomlaMediaManager = (function () {
     useSimple: function () { USE_SETTER = false; }
   });
 
-  $$t({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1, sham: !DESCRIPTORS$8 }, {
+  $$w({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1, sham: !DESCRIPTORS$9 }, {
     // `Object.create` method
     // https://tc39.es/ecma262/#sec-object.create
     create: $create,
@@ -4277,7 +4277,7 @@ var JoomlaMediaManager = (function () {
     getOwnPropertyDescriptor: $getOwnPropertyDescriptor
   });
 
-  $$t({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1 }, {
+  $$w({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1 }, {
     // `Object.getOwnPropertyNames` method
     // https://tc39.es/ecma262/#sec-object.getownpropertynames
     getOwnPropertyNames: $getOwnPropertyNames,
@@ -4288,7 +4288,7 @@ var JoomlaMediaManager = (function () {
 
   // Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
   // https://bugs.chromium.org/p/v8/issues/detail?id=3443
-  $$t({ target: 'Object', stat: true, forced: fails$i(function () { getOwnPropertySymbolsModule.f(1); }) }, {
+  $$w({ target: 'Object', stat: true, forced: fails$j(function () { getOwnPropertySymbolsModule.f(1); }) }, {
     getOwnPropertySymbols: function getOwnPropertySymbols(it) {
       return getOwnPropertySymbolsModule.f(toObject$8(it));
     }
@@ -4296,29 +4296,29 @@ var JoomlaMediaManager = (function () {
 
   // `JSON.stringify` method behavior with symbols
   // https://tc39.es/ecma262/#sec-json.stringify
-  if ($stringify) {
-    var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL$1 || fails$i(function () {
+  if ($stringify$1) {
+    var FORCED_JSON_STRINGIFY = !NATIVE_SYMBOL$1 || fails$j(function () {
       var symbol = $Symbol();
       // MS Edge converts symbol values to JSON as {}
-      return $stringify([symbol]) != '[null]'
+      return $stringify$1([symbol]) != '[null]'
         // WebKit converts symbol values to JSON as null
-        || $stringify({ a: symbol }) != '{}'
+        || $stringify$1({ a: symbol }) != '{}'
         // V8 throws on boxed symbols
-        || $stringify(Object(symbol)) != '{}';
+        || $stringify$1(Object(symbol)) != '{}';
     });
 
-    $$t({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
+    $$w({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
       // eslint-disable-next-line no-unused-vars -- required for `.length`
       stringify: function stringify(it, replacer, space) {
         var args = arraySlice$7(arguments);
         var $replacer = replacer;
         if (!isObject$b(replacer) && it === undefined || isSymbol$3(it)) return; // IE8 returns string on undefined
         if (!isArray$1(replacer)) replacer = function (key, value) {
-          if (isCallable$5($replacer)) value = call$a($replacer, this, key, value);
+          if (isCallable$5($replacer)) value = call$b($replacer, this, key, value);
           if (!isSymbol$3(value)) return value;
         };
         args[1] = replacer;
-        return apply$4($stringify, null, args);
+        return apply$4($stringify$1, null, args);
       }
     });
   }
@@ -4330,7 +4330,7 @@ var JoomlaMediaManager = (function () {
     // eslint-disable-next-line no-unused-vars -- required for .length
     redefine$5(SymbolPrototype$1, TO_PRIMITIVE, function (hint) {
       // TODO: improve hint logic
-      return call$a(valueOf, this);
+      return call$b(valueOf, this);
     });
   }
   // `Symbol.prototype[@@toStringTag]` property
@@ -4339,8 +4339,8 @@ var JoomlaMediaManager = (function () {
 
   hiddenKeys[HIDDEN] = true;
 
-  var $$s = _export;
-  var DESCRIPTORS$7 = descriptors;
+  var $$v = _export;
+  var DESCRIPTORS$8 = descriptors;
   var global$u = global$1e;
   var uncurryThis$j = functionUncurryThis;
   var hasOwn$8 = hasOwnProperty_1;
@@ -4353,7 +4353,7 @@ var JoomlaMediaManager = (function () {
   var NativeSymbol = global$u.Symbol;
   var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
 
-  if (DESCRIPTORS$7 && isCallable$4(NativeSymbol) && (!('description' in SymbolPrototype) ||
+  if (DESCRIPTORS$8 && isCallable$4(NativeSymbol) && (!('description' in SymbolPrototype) ||
     // Safari 12 bug
     NativeSymbol().description !== undefined
   )) {
@@ -4391,25 +4391,10 @@ var JoomlaMediaManager = (function () {
       }
     });
 
-    $$s({ global: true, forced: true }, {
+    $$v({ global: true, forced: true }, {
       Symbol: SymbolWrapper
     });
   }
-
-  var $$r = _export;
-  var $includes$1 = arrayIncludes.includes;
-  var addToUnscopables$2 = addToUnscopables$4;
-
-  // `Array.prototype.includes` method
-  // https://tc39.es/ecma262/#sec-array.prototype.includes
-  $$r({ target: 'Array', proto: true }, {
-    includes: function includes(el /* , fromIndex = 0 */) {
-      return $includes$1(this, el, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$2('includes');
 
   var collection = collection$3;
   var collectionStrong = collectionStrong$2;
@@ -4420,7 +4405,7 @@ var JoomlaMediaManager = (function () {
     return function Map() { return init(this, arguments.length ? arguments[0] : undefined); };
   }, collectionStrong);
 
-  var $$q = _export;
+  var $$u = _export;
   var $filter$1 = arrayIteration.filter;
   var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$5;
 
@@ -4429,13 +4414,13 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.filter` method
   // https://tc39.es/ecma262/#sec-array.prototype.filter
   // with adding support of @@species
-  $$q({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
+  $$u({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
     filter: function filter(callbackfn /* , thisArg */) {
       return $filter$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$p = _export;
+  var $$t = _export;
   var $map$1 = arrayIteration.map;
   var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$5;
 
@@ -4444,22 +4429,22 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.map` method
   // https://tc39.es/ecma262/#sec-array.prototype.map
   // with adding support of @@species
-  $$p({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  $$t({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     map: function map(callbackfn /* , thisArg */) {
       return $map$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$o = _export;
-  var fails$h = fails$I;
+  var $$s = _export;
+  var fails$i = fails$J;
   var getOwnPropertyNames$3 = objectGetOwnPropertyNamesExternal.f;
 
   // eslint-disable-next-line es/no-object-getownpropertynames -- required for testing
-  var FAILS_ON_PRIMITIVES$2 = fails$h(function () { return !Object.getOwnPropertyNames(1); });
+  var FAILS_ON_PRIMITIVES$2 = fails$i(function () { return !Object.getOwnPropertyNames(1); });
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
-  $$o({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
+  $$s({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
     getOwnPropertyNames: getOwnPropertyNames$3
   });
 
@@ -4469,10 +4454,10 @@ var JoomlaMediaManager = (function () {
     return descriptor !== undefined && (hasOwn$7(descriptor, 'value') || hasOwn$7(descriptor, 'writable'));
   };
 
-  var $$n = _export;
-  var call$9 = functionCall;
+  var $$r = _export;
+  var call$a = functionCall;
   var isObject$a = isObject$s;
-  var anObject$8 = anObject$p;
+  var anObject$9 = anObject$q;
   var isDataDescriptor$1 = isDataDescriptor$2;
   var getOwnPropertyDescriptorModule$2 = objectGetOwnPropertyDescriptor;
   var getPrototypeOf$3 = objectGetPrototypeOf$1;
@@ -4482,23 +4467,23 @@ var JoomlaMediaManager = (function () {
   function get$3(target, propertyKey /* , receiver */) {
     var receiver = arguments.length < 3 ? target : arguments[2];
     var descriptor, prototype;
-    if (anObject$8(target) === receiver) return target[propertyKey];
+    if (anObject$9(target) === receiver) return target[propertyKey];
     descriptor = getOwnPropertyDescriptorModule$2.f(target, propertyKey);
     if (descriptor) return isDataDescriptor$1(descriptor)
       ? descriptor.value
-      : descriptor.get === undefined ? undefined : call$9(descriptor.get, receiver);
+      : descriptor.get === undefined ? undefined : call$a(descriptor.get, receiver);
     if (isObject$a(prototype = getPrototypeOf$3(target))) return get$3(prototype, propertyKey, receiver);
   }
 
-  $$n({ target: 'Reflect', stat: true }, {
+  $$r({ target: 'Reflect', stat: true }, {
     get: get$3
   });
 
-  var $$m = _export;
+  var $$q = _export;
   var global$t = global$1e;
   var setToStringTag$4 = setToStringTag$9;
 
-  $$m({ global: true }, { Reflect: {} });
+  $$q({ global: true }, { Reflect: {} });
 
   // Reflect[@@toStringTag] property
   // https://tc39.es/ecma262/#sec-reflect-@@tostringtag
@@ -4510,7 +4495,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-thisnumbervalue
   var thisNumberValue$2 = uncurryThis$i(1.0.valueOf);
 
-  var DESCRIPTORS$6 = descriptors;
+  var DESCRIPTORS$7 = descriptors;
   var global$s = global$1e;
   var uncurryThis$h = functionUncurryThis;
   var isForced$1 = isForced_1;
@@ -4520,7 +4505,7 @@ var JoomlaMediaManager = (function () {
   var isPrototypeOf$2 = objectIsPrototypeOf;
   var isSymbol$2 = isSymbol$6;
   var toPrimitive = toPrimitive$2;
-  var fails$g = fails$I;
+  var fails$h = fails$J;
   var getOwnPropertyNames$2 = objectGetOwnPropertyNames.f;
   var getOwnPropertyDescriptor$3 = objectGetOwnPropertyDescriptor.f;
   var defineProperty$3 = objectDefineProperty.f;
@@ -4578,18 +4563,18 @@ var JoomlaMediaManager = (function () {
       var n = arguments.length < 1 ? 0 : NativeNumber(toNumeric(value));
       var dummy = this;
       // check on 1..constructor(foo) case
-      return isPrototypeOf$2(NumberPrototype, dummy) && fails$g(function () { thisNumberValue$1(dummy); })
+      return isPrototypeOf$2(NumberPrototype, dummy) && fails$h(function () { thisNumberValue$1(dummy); })
         ? inheritIfRequired$1(Object(n), dummy, NumberWrapper) : n;
     };
-    for (var keys$1 = DESCRIPTORS$6 ? getOwnPropertyNames$2(NativeNumber) : (
+    for (var keys$2 = DESCRIPTORS$7 ? getOwnPropertyNames$2(NativeNumber) : (
       // ES3:
       'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
       // ES2015 (in case, if modules with ES2015 Number statics required before):
       'EPSILON,MAX_SAFE_INTEGER,MIN_SAFE_INTEGER,isFinite,isInteger,isNaN,isSafeInteger,parseFloat,parseInt,' +
       // ESNext
       'fromString,range'
-    ).split(','), j$1 = 0, key$1; keys$1.length > j$1; j$1++) {
-      if (hasOwn$6(NativeNumber, key$1 = keys$1[j$1]) && !hasOwn$6(NumberWrapper, key$1)) {
+    ).split(','), j$1 = 0, key$1; keys$2.length > j$1; j$1++) {
+      if (hasOwn$6(NativeNumber, key$1 = keys$2[j$1]) && !hasOwn$6(NumberWrapper, key$1)) {
         defineProperty$3(NumberWrapper, key$1, getOwnPropertyDescriptor$3(NativeNumber, key$1));
       }
     }
@@ -4598,26 +4583,26 @@ var JoomlaMediaManager = (function () {
     redefine$4(global$s, NUMBER, NumberWrapper);
   }
 
-  var $$l = _export;
-  var call$8 = functionCall;
-  var anObject$7 = anObject$p;
+  var $$p = _export;
+  var call$9 = functionCall;
+  var anObject$8 = anObject$q;
   var isObject$9 = isObject$s;
   var isDataDescriptor = isDataDescriptor$2;
-  var fails$f = fails$I;
-  var definePropertyModule$1 = objectDefineProperty;
+  var fails$g = fails$J;
+  var definePropertyModule$2 = objectDefineProperty;
   var getOwnPropertyDescriptorModule$1 = objectGetOwnPropertyDescriptor;
   var getPrototypeOf$2 = objectGetPrototypeOf$1;
   var createPropertyDescriptor$2 = createPropertyDescriptor$8;
 
   // `Reflect.set` method
   // https://tc39.es/ecma262/#sec-reflect.set
-  function set$4(target, propertyKey, V /* , receiver */) {
+  function set$5(target, propertyKey, V /* , receiver */) {
     var receiver = arguments.length < 4 ? target : arguments[3];
-    var ownDescriptor = getOwnPropertyDescriptorModule$1.f(anObject$7(target), propertyKey);
+    var ownDescriptor = getOwnPropertyDescriptorModule$1.f(anObject$8(target), propertyKey);
     var existingDescriptor, prototype, setter;
     if (!ownDescriptor) {
       if (isObject$9(prototype = getPrototypeOf$2(target))) {
-        return set$4(prototype, propertyKey, V, receiver);
+        return set$5(prototype, propertyKey, V, receiver);
       }
       ownDescriptor = createPropertyDescriptor$2(0);
     }
@@ -4626,70 +4611,70 @@ var JoomlaMediaManager = (function () {
       if (existingDescriptor = getOwnPropertyDescriptorModule$1.f(receiver, propertyKey)) {
         if (existingDescriptor.get || existingDescriptor.set || existingDescriptor.writable === false) return false;
         existingDescriptor.value = V;
-        definePropertyModule$1.f(receiver, propertyKey, existingDescriptor);
-      } else definePropertyModule$1.f(receiver, propertyKey, createPropertyDescriptor$2(0, V));
+        definePropertyModule$2.f(receiver, propertyKey, existingDescriptor);
+      } else definePropertyModule$2.f(receiver, propertyKey, createPropertyDescriptor$2(0, V));
     } else {
       setter = ownDescriptor.set;
       if (setter === undefined) return false;
-      call$8(setter, receiver, V);
+      call$9(setter, receiver, V);
     } return true;
   }
 
   // MS Edge 17-18 Reflect.set allows setting the property to object
   // with non-writable property on the prototype
-  var MS_EDGE_BUG = fails$f(function () {
+  var MS_EDGE_BUG = fails$g(function () {
     var Constructor = function () { /* empty */ };
-    var object = definePropertyModule$1.f(new Constructor(), 'a', { configurable: true });
+    var object = definePropertyModule$2.f(new Constructor(), 'a', { configurable: true });
     // eslint-disable-next-line es/no-reflect -- required for testing
     return Reflect.set(Constructor.prototype, 'a', 1, object) !== false;
   });
 
-  $$l({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
-    set: set$4
+  $$p({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
+    set: set$5
   });
 
-  var $$k = _export;
-  var anObject$6 = anObject$p;
+  var $$o = _export;
+  var anObject$7 = anObject$q;
   var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
 
   // `Reflect.deleteProperty` method
   // https://tc39.es/ecma262/#sec-reflect.deleteproperty
-  $$k({ target: 'Reflect', stat: true }, {
+  $$o({ target: 'Reflect', stat: true }, {
     deleteProperty: function deleteProperty(target, propertyKey) {
-      var descriptor = getOwnPropertyDescriptor$2(anObject$6(target), propertyKey);
+      var descriptor = getOwnPropertyDescriptor$2(anObject$7(target), propertyKey);
       return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
     }
   });
 
-  var $$j = _export;
+  var $$n = _export;
 
   // `Reflect.has` method
   // https://tc39.es/ecma262/#sec-reflect.has
-  $$j({ target: 'Reflect', stat: true }, {
+  $$n({ target: 'Reflect', stat: true }, {
     has: function has(target, propertyKey) {
       return propertyKey in target;
     }
   });
 
-  var $$i = _export;
+  var $$m = _export;
   var ownKeys$1 = ownKeys$3;
 
   // `Reflect.ownKeys` method
   // https://tc39.es/ecma262/#sec-reflect.ownkeys
-  $$i({ target: 'Reflect', stat: true }, {
+  $$m({ target: 'Reflect', stat: true }, {
     ownKeys: ownKeys$1
   });
 
-  var $$h = _export;
-  var anObject$5 = anObject$p;
+  var $$l = _export;
+  var anObject$6 = anObject$q;
   var objectGetPrototypeOf = objectGetPrototypeOf$1;
   var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
 
   // `Reflect.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-reflect.getprototypeof
-  $$h({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {
+  $$l({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {
     getPrototypeOf: function getPrototypeOf(target) {
-      return objectGetPrototypeOf(anObject$5(target));
+      return objectGetPrototypeOf(anObject$6(target));
     }
   });
 
@@ -4699,13 +4684,13 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-symbol.iterator
   defineWellKnownSymbol('iterator');
 
-  var $$g = _export;
+  var $$k = _export;
   var $isExtensible = objectIsExtensible;
 
   // `Object.isExtensible` method
   // https://tc39.es/ecma262/#sec-object.isextensible
   // eslint-disable-next-line es/no-object-isextensible -- safe
-  $$g({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
+  $$k({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
     isExtensible: $isExtensible
   });
 
@@ -4727,14 +4712,14 @@ var JoomlaMediaManager = (function () {
   var bind$6 = functionBindContext;
   var isCallable$3 = isCallable$q;
   var hasOwn$5 = hasOwnProperty_1;
-  var fails$e = fails$I;
+  var fails$f = fails$J;
   var html = html$2;
   var arraySlice$5 = arraySlice$9;
   var createElement = documentCreateElement$2;
   var IS_IOS$1 = engineIsIos;
   var IS_NODE$2 = engineIsNode;
 
-  var set$3 = global$p.setImmediate;
+  var set$4 = global$p.setImmediate;
   var clear$1 = global$p.clearImmediate;
   var process$2 = global$p.process;
   var Dispatch = global$p.Dispatch;
@@ -4775,8 +4760,8 @@ var JoomlaMediaManager = (function () {
   };
 
   // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
-  if (!set$3 || !clear$1) {
-    set$3 = function setImmediate(fn) {
+  if (!set$4 || !clear$1) {
+    set$4 = function setImmediate(fn) {
       var args = arraySlice$5(arguments, 1);
       queue$2[++counter] = function () {
         apply$3(isCallable$3(fn) ? fn : Function$1(fn), undefined, args);
@@ -4811,7 +4796,7 @@ var JoomlaMediaManager = (function () {
       isCallable$3(global$p.postMessage) &&
       !global$p.importScripts &&
       location && location.protocol !== 'file:' &&
-      !fails$e(post)
+      !fails$f(post)
     ) {
       defer = post;
       global$p.addEventListener('message', listener, false);
@@ -4832,7 +4817,7 @@ var JoomlaMediaManager = (function () {
   }
 
   var task$1 = {
-    set: set$3,
+    set: set$4,
     clear: clear$1
   };
 
@@ -4952,12 +4937,12 @@ var JoomlaMediaManager = (function () {
     return new PromiseCapability(C);
   };
 
-  var anObject$4 = anObject$p;
+  var anObject$5 = anObject$q;
   var isObject$8 = isObject$s;
   var newPromiseCapability$1 = newPromiseCapability$2;
 
   var promiseResolve$1 = function (C, x) {
-    anObject$4(C);
+    anObject$5(C);
     if (isObject$8(x) && x.constructor === C) return x;
     var promiseCapability = newPromiseCapability$1.f(C);
     var resolve = promiseCapability.resolve;
@@ -5008,10 +4993,10 @@ var JoomlaMediaManager = (function () {
 
   var engineIsBrowser = typeof window == 'object';
 
-  var $$f = _export;
+  var $$j = _export;
   var global$l = global$1e;
   var getBuiltIn$1 = getBuiltIn$a;
-  var call$7 = functionCall;
+  var call$8 = functionCall;
   var NativePromise = nativePromiseConstructor;
   var redefine$3 = redefine$e.exports;
   var redefineAll$2 = redefineAll$6;
@@ -5128,7 +5113,7 @@ var JoomlaMediaManager = (function () {
         if (result === reaction.promise) {
           reject(TypeError$5('Promise-chain cycle'));
         } else if (then = isThenable(result)) {
-          call$7(then, result, resolve, reject);
+          call$8(then, result, resolve, reject);
         } else resolve(result);
       } else reject(value);
     } catch (error) {
@@ -5165,7 +5150,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var onUnhandled = function (state) {
-    call$7(task, global$l, function () {
+    call$8(task, global$l, function () {
       var promise = state.facade;
       var value = state.value;
       var IS_UNHANDLED = isUnhandled(state);
@@ -5188,7 +5173,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var onHandleUnhandled = function (state) {
-    call$7(task, global$l, function () {
+    call$8(task, global$l, function () {
       var promise = state.facade;
       if (IS_NODE) {
         process.emit('rejectionHandled', promise);
@@ -5222,7 +5207,7 @@ var JoomlaMediaManager = (function () {
         microtask(function () {
           var wrapper = { done: false };
           try {
-            call$7(then, value,
+            call$8(then, value,
               bind$4(internalResolve, wrapper, state),
               bind$4(internalReject, wrapper, state)
             );
@@ -5246,7 +5231,7 @@ var JoomlaMediaManager = (function () {
     PromiseConstructor = function Promise(executor) {
       anInstance$4(this, PromisePrototype);
       aCallable$3(executor);
-      call$7(Internal, this);
+      call$8(Internal, this);
       var state = getInternalState$2(this);
       try {
         executor(bind$4(internalResolve, state), bind$4(internalReject, state));
@@ -5311,7 +5296,7 @@ var JoomlaMediaManager = (function () {
         redefine$3(NativePromisePrototype, 'then', function then(onFulfilled, onRejected) {
           var that = this;
           return new PromiseConstructor(function (resolve, reject) {
-            call$7(nativeThen, that, resolve, reject);
+            call$8(nativeThen, that, resolve, reject);
           }).then(onFulfilled, onRejected);
         // https://github.com/zloirock/core-js/issues/640
         }, { unsafe: true });
@@ -5332,7 +5317,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  $$f({ global: true, wrap: true, forced: FORCED$6 }, {
+  $$j({ global: true, wrap: true, forced: FORCED$6 }, {
     Promise: PromiseConstructor
   });
 
@@ -5342,17 +5327,17 @@ var JoomlaMediaManager = (function () {
   PromiseWrapper = getBuiltIn$1(PROMISE);
 
   // statics
-  $$f({ target: PROMISE, stat: true, forced: FORCED$6 }, {
+  $$j({ target: PROMISE, stat: true, forced: FORCED$6 }, {
     // `Promise.reject` method
     // https://tc39.es/ecma262/#sec-promise.reject
     reject: function reject(r) {
       var capability = newPromiseCapability(this);
-      call$7(capability.reject, undefined, r);
+      call$8(capability.reject, undefined, r);
       return capability.promise;
     }
   });
 
-  $$f({ target: PROMISE, stat: true, forced: FORCED$6 }, {
+  $$j({ target: PROMISE, stat: true, forced: FORCED$6 }, {
     // `Promise.resolve` method
     // https://tc39.es/ecma262/#sec-promise.resolve
     resolve: function resolve(x) {
@@ -5360,7 +5345,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  $$f({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION$1 }, {
+  $$j({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION$1 }, {
     // `Promise.all` method
     // https://tc39.es/ecma262/#sec-promise.all
     all: function all(iterable) {
@@ -5377,7 +5362,7 @@ var JoomlaMediaManager = (function () {
           var index = counter++;
           var alreadyCalled = false;
           remaining++;
-          call$7($promiseResolve, C, promise).then(function (value) {
+          call$8($promiseResolve, C, promise).then(function (value) {
             if (alreadyCalled) return;
             alreadyCalled = true;
             values[index] = value;
@@ -5398,7 +5383,7 @@ var JoomlaMediaManager = (function () {
       var result = perform(function () {
         var $promiseResolve = aCallable$3(C.resolve);
         iterate(iterable, function (promise) {
-          call$7($promiseResolve, C, promise).then(capability.resolve, reject);
+          call$8($promiseResolve, C, promise).then(capability.resolve, reject);
         });
       });
       if (result.error) reject(result.value);
@@ -5406,7 +5391,22 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$e = _export;
+  var $$i = _export;
+  var $includes$1 = arrayIncludes.includes;
+  var addToUnscopables$3 = addToUnscopables$5;
+
+  // `Array.prototype.includes` method
+  // https://tc39.es/ecma262/#sec-array.prototype.includes
+  $$i({ target: 'Array', proto: true }, {
+    includes: function includes(el /* , fromIndex = 0 */) {
+      return $includes$1(this, el, arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables$3('includes');
+
+  var $$h = _export;
   var uncurryThis$g = functionUncurryThis;
   var notARegExp$1 = notARegexp;
   var requireObjectCoercible$5 = requireObjectCoercible$d;
@@ -5417,7 +5417,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.includes` method
   // https://tc39.es/ecma262/#sec-string.prototype.includes
-  $$e({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
+  $$h({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
     includes: function includes(searchString /* , position = 0 */) {
       return !!~stringIndexOf(
         toString$6(requireObjectCoercible$5(this)),
@@ -5427,228 +5427,6 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$d = _export;
-  var toObject$7 = toObject$g;
-  var nativeKeys = objectKeys$4;
-  var fails$d = fails$I;
-
-  var FAILS_ON_PRIMITIVES$1 = fails$d(function () { nativeKeys(1); });
-
-  // `Object.keys` method
-  // https://tc39.es/ecma262/#sec-object.keys
-  $$d({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1 }, {
-    keys: function keys(it) {
-      return nativeKeys(toObject$7(it));
-    }
-  });
-
-  var call$6 = functionCall;
-  var fixRegExpWellKnownSymbolLogic$1 = fixRegexpWellKnownSymbolLogic;
-  var anObject$3 = anObject$p;
-  var toLength$5 = toLength$a;
-  var toString$5 = toString$g;
-  var requireObjectCoercible$4 = requireObjectCoercible$d;
-  var getMethod$1 = getMethod$7;
-  var advanceStringIndex = advanceStringIndex$3;
-  var regExpExec$2 = regexpExecAbstract;
-
-  // @@match logic
-  fixRegExpWellKnownSymbolLogic$1('match', function (MATCH, nativeMatch, maybeCallNative) {
-    return [
-      // `String.prototype.match` method
-      // https://tc39.es/ecma262/#sec-string.prototype.match
-      function match(regexp) {
-        var O = requireObjectCoercible$4(this);
-        var matcher = regexp == undefined ? undefined : getMethod$1(regexp, MATCH);
-        return matcher ? call$6(matcher, regexp, O) : new RegExp(regexp)[MATCH](toString$5(O));
-      },
-      // `RegExp.prototype[@@match]` method
-      // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
-      function (string) {
-        var rx = anObject$3(this);
-        var S = toString$5(string);
-        var res = maybeCallNative(nativeMatch, rx, S);
-
-        if (res.done) return res.value;
-
-        if (!rx.global) return regExpExec$2(rx, S);
-
-        var fullUnicode = rx.unicode;
-        rx.lastIndex = 0;
-        var A = [];
-        var n = 0;
-        var result;
-        while ((result = regExpExec$2(rx, S)) !== null) {
-          var matchStr = toString$5(result[0]);
-          A[n] = matchStr;
-          if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength$5(rx.lastIndex), fullUnicode);
-          n++;
-        }
-        return n === 0 ? null : A;
-      }
-    ];
-  });
-
-  var $$c = _export;
-  var $findIndex$1 = arrayIteration.findIndex;
-  var addToUnscopables$1 = addToUnscopables$4;
-
-  var FIND_INDEX = 'findIndex';
-  var SKIPS_HOLES$1 = true;
-
-  // Shouldn't skip holes
-  if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES$1 = false; });
-
-  // `Array.prototype.findIndex` method
-  // https://tc39.es/ecma262/#sec-array.prototype.findindex
-  $$c({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
-    findIndex: function findIndex(callbackfn /* , that = undefined */) {
-      return $findIndex$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
-    }
-  });
-
-  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  addToUnscopables$1(FIND_INDEX);
-
-  var uncurryThis$f = functionUncurryThis;
-  var requireObjectCoercible$3 = requireObjectCoercible$d;
-  var toString$4 = toString$g;
-
-  var quot = /"/g;
-  var replace$3 = uncurryThis$f(''.replace);
-
-  // `CreateHTML` abstract operation
-  // https://tc39.es/ecma262/#sec-createhtml
-  var createHtml = function (string, tag, attribute, value) {
-    var S = toString$4(requireObjectCoercible$3(string));
-    var p1 = '<' + tag;
-    if (attribute !== '') p1 += ' ' + attribute + '="' + replace$3(toString$4(value), quot, '&quot;') + '"';
-    return p1 + '>' + S + '</' + tag + '>';
-  };
-
-  var fails$c = fails$I;
-
-  // check the existence of a method, lowercase
-  // of a tag and escaping quotes in arguments
-  var stringHtmlForced = function (METHOD_NAME) {
-    return fails$c(function () {
-      var test = ''[METHOD_NAME]('"');
-      return test !== test.toLowerCase() || test.split('"').length > 3;
-    });
-  };
-
-  var $$b = _export;
-  var createHTML = createHtml;
-  var forcedStringHTMLMethod = stringHtmlForced;
-
-  // `String.prototype.anchor` method
-  // https://tc39.es/ecma262/#sec-string.prototype.anchor
-  $$b({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
-    anchor: function anchor(name) {
-      return createHTML(this, 'a', 'name', name);
-    }
-  });
-
-  var anObject$2 = anObject$p;
-  var iteratorClose = iteratorClose$2;
-
-  // call something on iterator step with safe closing on error
-  var callWithSafeIterationClosing$1 = function (iterator, fn, value, ENTRIES) {
-    try {
-      return ENTRIES ? fn(anObject$2(value)[0], value[1]) : fn(value);
-    } catch (error) {
-      iteratorClose(iterator, 'throw', error);
-    }
-  };
-
-  var global$k = global$1e;
-  var bind$3 = functionBindContext;
-  var call$5 = functionCall;
-  var toObject$6 = toObject$g;
-  var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
-  var isArrayIteratorMethod$1 = isArrayIteratorMethod$3;
-  var isConstructor = isConstructor$4;
-  var lengthOfArrayLike$9 = lengthOfArrayLike$h;
-  var createProperty = createProperty$5;
-  var getIterator$2 = getIterator$4;
-  var getIteratorMethod$2 = getIteratorMethod$5;
-
-  var Array$4 = global$k.Array;
-
-  // `Array.from` method implementation
-  // https://tc39.es/ecma262/#sec-array.from
-  var arrayFrom$1 = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-    var O = toObject$6(arrayLike);
-    var IS_CONSTRUCTOR = isConstructor(this);
-    var argumentsLength = arguments.length;
-    var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
-    var mapping = mapfn !== undefined;
-    if (mapping) mapfn = bind$3(mapfn, argumentsLength > 2 ? arguments[2] : undefined);
-    var iteratorMethod = getIteratorMethod$2(O);
-    var index = 0;
-    var length, result, step, iterator, next, value;
-    // if the target is not iterable or it's an array with the default iterator - use a simple case
-    if (iteratorMethod && !(this == Array$4 && isArrayIteratorMethod$1(iteratorMethod))) {
-      iterator = getIterator$2(O, iteratorMethod);
-      next = iterator.next;
-      result = IS_CONSTRUCTOR ? new this() : [];
-      for (;!(step = call$5(next, iterator)).done; index++) {
-        value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
-        createProperty(result, index, value);
-      }
-    } else {
-      length = lengthOfArrayLike$9(O);
-      result = IS_CONSTRUCTOR ? new this(length) : Array$4(length);
-      for (;length > index; index++) {
-        value = mapping ? mapfn(O[index], index) : O[index];
-        createProperty(result, index, value);
-      }
-    }
-    result.length = index;
-    return result;
-  };
-
-  var $$a = _export;
-  var from = arrayFrom$1;
-  var checkCorrectnessOfIteration$1 = checkCorrectnessOfIteration$4;
-
-  var INCORRECT_ITERATION = !checkCorrectnessOfIteration$1(function (iterable) {
-    // eslint-disable-next-line es/no-array-from -- required for testing
-    Array.from(iterable);
-  });
-
-  // `Array.from` method
-  // https://tc39.es/ecma262/#sec-array.from
-  $$a({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
-    from: from
-  });
-
-  var DESCRIPTORS$5 = descriptors;
-  var FUNCTION_NAME_EXISTS = functionName.EXISTS;
-  var uncurryThis$e = functionUncurryThis;
-  var defineProperty$2 = objectDefineProperty.f;
-
-  var FunctionPrototype = Function.prototype;
-  var functionToString = uncurryThis$e(FunctionPrototype.toString);
-  var nameRE = /function\b(?:\s|\/\*[\S\s]*?\*\/|\/\/[^\n\r]*[\n\r]+)*([^\s(/]*)/;
-  var regExpExec$1 = uncurryThis$e(nameRE.exec);
-  var NAME$1 = 'name';
-
-  // Function instances `.name` property
-  // https://tc39.es/ecma262/#sec-function-instances-name
-  if (DESCRIPTORS$5 && !FUNCTION_NAME_EXISTS) {
-    defineProperty$2(FunctionPrototype, NAME$1, {
-      configurable: true,
-      get: function () {
-        try {
-          return regExpExec$1(nameRE, functionToString(this))[1];
-        } catch (error) {
-          return '';
-        }
-      }
-    });
-  }
-
   var arraySlice$4 = arraySliceSimple;
 
   var floor$6 = Math.floor;
@@ -5656,7 +5434,7 @@ var JoomlaMediaManager = (function () {
   var mergeSort = function (array, comparefn) {
     var length = array.length;
     var middle = floor$6(length / 2);
-    return length < 8 ? insertionSort(array, comparefn) : merge(
+    return length < 8 ? insertionSort(array, comparefn) : merge$1(
       array,
       mergeSort(arraySlice$4(array, 0, middle), comparefn),
       mergeSort(arraySlice$4(array, middle), comparefn),
@@ -5679,7 +5457,7 @@ var JoomlaMediaManager = (function () {
     } return array;
   };
 
-  var merge = function (array, left, right, comparefn) {
+  var merge$1 = function (array, left, right, comparefn) {
     var llength = left.length;
     var rlength = right.length;
     var lindex = 0;
@@ -5710,13 +5488,13 @@ var JoomlaMediaManager = (function () {
 
   var engineWebkitVersion = !!webkit && +webkit[1];
 
-  var $$9 = _export;
-  var uncurryThis$d = functionUncurryThis;
+  var $$g = _export;
+  var uncurryThis$f = functionUncurryThis;
   var aCallable$2 = aCallable$8;
-  var toObject$5 = toObject$g;
-  var lengthOfArrayLike$8 = lengthOfArrayLike$h;
-  var toString$3 = toString$g;
-  var fails$b = fails$I;
+  var toObject$7 = toObject$g;
+  var lengthOfArrayLike$9 = lengthOfArrayLike$h;
+  var toString$5 = toString$g;
+  var fails$e = fails$J;
   var internalSort$1 = arraySort$1;
   var arrayMethodIsStrict$2 = arrayMethodIsStrict$4;
   var FF$1 = engineFfVersion;
@@ -5725,21 +5503,21 @@ var JoomlaMediaManager = (function () {
   var WEBKIT$1 = engineWebkitVersion;
 
   var test = [];
-  var un$Sort$1 = uncurryThis$d(test.sort);
-  var push$4 = uncurryThis$d(test.push);
+  var un$Sort$1 = uncurryThis$f(test.sort);
+  var push$4 = uncurryThis$f(test.push);
 
   // IE8-
-  var FAILS_ON_UNDEFINED = fails$b(function () {
+  var FAILS_ON_UNDEFINED = fails$e(function () {
     test.sort(undefined);
   });
   // V8 bug
-  var FAILS_ON_NULL = fails$b(function () {
+  var FAILS_ON_NULL = fails$e(function () {
     test.sort(null);
   });
   // Old WebKit
   var STRICT_METHOD$2 = arrayMethodIsStrict$2('sort');
 
-  var STABLE_SORT$1 = !fails$b(function () {
+  var STABLE_SORT$1 = !fails$e(function () {
     // feature detection can be too slow, so check engines versions
     if (V8$1) return V8$1 < 70;
     if (FF$1 && FF$1 > 3) return;
@@ -5781,22 +5559,22 @@ var JoomlaMediaManager = (function () {
       if (y === undefined) return -1;
       if (x === undefined) return 1;
       if (comparefn !== undefined) return +comparefn(x, y) || 0;
-      return toString$3(x) > toString$3(y) ? 1 : -1;
+      return toString$5(x) > toString$5(y) ? 1 : -1;
     };
   };
 
   // `Array.prototype.sort` method
   // https://tc39.es/ecma262/#sec-array.prototype.sort
-  $$9({ target: 'Array', proto: true, forced: FORCED$5 }, {
+  $$g({ target: 'Array', proto: true, forced: FORCED$5 }, {
     sort: function sort(comparefn) {
       if (comparefn !== undefined) aCallable$2(comparefn);
 
-      var array = toObject$5(this);
+      var array = toObject$7(this);
 
       if (STABLE_SORT$1) return comparefn === undefined ? un$Sort$1(array) : un$Sort$1(array, comparefn);
 
       var items = [];
-      var arrayLength = lengthOfArrayLike$8(array);
+      var arrayLength = lengthOfArrayLike$9(array);
       var itemsLength, index;
 
       for (index = 0; index < arrayLength; index++) {
@@ -5815,7 +5593,288 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$8 = _export;
+  var $$f = _export;
+  var toObject$6 = toObject$g;
+  var nativeKeys = objectKeys$4;
+  var fails$d = fails$J;
+
+  var FAILS_ON_PRIMITIVES$1 = fails$d(function () { nativeKeys(1); });
+
+  // `Object.keys` method
+  // https://tc39.es/ecma262/#sec-object.keys
+  $$f({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1 }, {
+    keys: function keys(it) {
+      return nativeKeys(toObject$6(it));
+    }
+  });
+
+  var toObject$5 = toObject$g;
+  var toAbsoluteIndex$2 = toAbsoluteIndex$7;
+  var lengthOfArrayLike$8 = lengthOfArrayLike$h;
+
+  // `Array.prototype.fill` method implementation
+  // https://tc39.es/ecma262/#sec-array.prototype.fill
+  var arrayFill$1 = function fill(value /* , start = 0, end = @length */) {
+    var O = toObject$5(this);
+    var length = lengthOfArrayLike$8(O);
+    var argumentsLength = arguments.length;
+    var index = toAbsoluteIndex$2(argumentsLength > 1 ? arguments[1] : undefined, length);
+    var end = argumentsLength > 2 ? arguments[2] : undefined;
+    var endPos = end === undefined ? length : toAbsoluteIndex$2(end, length);
+    while (endPos > index) O[index++] = value;
+    return O;
+  };
+
+  var $$e = _export;
+  var fill$1 = arrayFill$1;
+  var addToUnscopables$2 = addToUnscopables$5;
+
+  // `Array.prototype.fill` method
+  // https://tc39.es/ecma262/#sec-array.prototype.fill
+  $$e({ target: 'Array', proto: true }, {
+    fill: fill$1
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables$2('fill');
+
+  var anObject$4 = anObject$q;
+  var iteratorClose = iteratorClose$2;
+
+  // call something on iterator step with safe closing on error
+  var callWithSafeIterationClosing$1 = function (iterator, fn, value, ENTRIES) {
+    try {
+      return ENTRIES ? fn(anObject$4(value)[0], value[1]) : fn(value);
+    } catch (error) {
+      iteratorClose(iterator, 'throw', error);
+    }
+  };
+
+  var global$k = global$1e;
+  var bind$3 = functionBindContext;
+  var call$7 = functionCall;
+  var toObject$4 = toObject$g;
+  var callWithSafeIterationClosing = callWithSafeIterationClosing$1;
+  var isArrayIteratorMethod$1 = isArrayIteratorMethod$3;
+  var isConstructor = isConstructor$4;
+  var lengthOfArrayLike$7 = lengthOfArrayLike$h;
+  var createProperty = createProperty$5;
+  var getIterator$2 = getIterator$4;
+  var getIteratorMethod$2 = getIteratorMethod$5;
+
+  var Array$4 = global$k.Array;
+
+  // `Array.from` method implementation
+  // https://tc39.es/ecma262/#sec-array.from
+  var arrayFrom$1 = function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+    var O = toObject$4(arrayLike);
+    var IS_CONSTRUCTOR = isConstructor(this);
+    var argumentsLength = arguments.length;
+    var mapfn = argumentsLength > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    if (mapping) mapfn = bind$3(mapfn, argumentsLength > 2 ? arguments[2] : undefined);
+    var iteratorMethod = getIteratorMethod$2(O);
+    var index = 0;
+    var length, result, step, iterator, next, value;
+    // if the target is not iterable or it's an array with the default iterator - use a simple case
+    if (iteratorMethod && !(this == Array$4 && isArrayIteratorMethod$1(iteratorMethod))) {
+      iterator = getIterator$2(O, iteratorMethod);
+      next = iterator.next;
+      result = IS_CONSTRUCTOR ? new this() : [];
+      for (;!(step = call$7(next, iterator)).done; index++) {
+        value = mapping ? callWithSafeIterationClosing(iterator, mapfn, [step.value, index], true) : step.value;
+        createProperty(result, index, value);
+      }
+    } else {
+      length = lengthOfArrayLike$7(O);
+      result = IS_CONSTRUCTOR ? new this(length) : Array$4(length);
+      for (;length > index; index++) {
+        value = mapping ? mapfn(O[index], index) : O[index];
+        createProperty(result, index, value);
+      }
+    }
+    result.length = index;
+    return result;
+  };
+
+  var $$d = _export;
+  var from = arrayFrom$1;
+  var checkCorrectnessOfIteration$1 = checkCorrectnessOfIteration$4;
+
+  var INCORRECT_ITERATION = !checkCorrectnessOfIteration$1(function (iterable) {
+    // eslint-disable-next-line es/no-array-from -- required for testing
+    Array.from(iterable);
+  });
+
+  // `Array.from` method
+  // https://tc39.es/ecma262/#sec-array.from
+  $$d({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
+    from: from
+  });
+
+  var DESCRIPTORS$6 = descriptors;
+  var FUNCTION_NAME_EXISTS = functionName.EXISTS;
+  var uncurryThis$e = functionUncurryThis;
+  var defineProperty$2 = objectDefineProperty.f;
+
+  var FunctionPrototype = Function.prototype;
+  var functionToString = uncurryThis$e(FunctionPrototype.toString);
+  var nameRE = /function\b(?:\s|\/\*[\S\s]*?\*\/|\/\/[^\n\r]*[\n\r]+)*([^\s(/]*)/;
+  var regExpExec$2 = uncurryThis$e(nameRE.exec);
+  var NAME$1 = 'name';
+
+  // Function instances `.name` property
+  // https://tc39.es/ecma262/#sec-function-instances-name
+  if (DESCRIPTORS$6 && !FUNCTION_NAME_EXISTS) {
+    defineProperty$2(FunctionPrototype, NAME$1, {
+      configurable: true,
+      get: function () {
+        try {
+          return regExpExec$2(nameRE, functionToString(this))[1];
+        } catch (error) {
+          return '';
+        }
+      }
+    });
+  }
+
+  var $$c = _export;
+  var DESCRIPTORS$5 = descriptors;
+  var anObject$3 = anObject$q;
+  var toPropertyKey$1 = toPropertyKey$6;
+  var definePropertyModule$1 = objectDefineProperty;
+  var fails$c = fails$J;
+
+  // MS Edge has broken Reflect.defineProperty - throwing instead of returning false
+  var ERROR_INSTEAD_OF_FALSE = fails$c(function () {
+    // eslint-disable-next-line es/no-reflect -- required for testing
+    Reflect.defineProperty(definePropertyModule$1.f({}, 1, { value: 1 }), 1, { value: 2 });
+  });
+
+  // `Reflect.defineProperty` method
+  // https://tc39.es/ecma262/#sec-reflect.defineproperty
+  $$c({ target: 'Reflect', stat: true, forced: ERROR_INSTEAD_OF_FALSE, sham: !DESCRIPTORS$5 }, {
+    defineProperty: function defineProperty(target, propertyKey, attributes) {
+      anObject$3(target);
+      var key = toPropertyKey$1(propertyKey);
+      anObject$3(attributes);
+      try {
+        definePropertyModule$1.f(target, key, attributes);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+  });
+
+  var call$6 = functionCall;
+  var fixRegExpWellKnownSymbolLogic$1 = fixRegexpWellKnownSymbolLogic;
+  var anObject$2 = anObject$q;
+  var toLength$5 = toLength$a;
+  var toString$4 = toString$g;
+  var requireObjectCoercible$4 = requireObjectCoercible$d;
+  var getMethod$1 = getMethod$7;
+  var advanceStringIndex = advanceStringIndex$3;
+  var regExpExec$1 = regexpExecAbstract;
+
+  // @@match logic
+  fixRegExpWellKnownSymbolLogic$1('match', function (MATCH, nativeMatch, maybeCallNative) {
+    return [
+      // `String.prototype.match` method
+      // https://tc39.es/ecma262/#sec-string.prototype.match
+      function match(regexp) {
+        var O = requireObjectCoercible$4(this);
+        var matcher = regexp == undefined ? undefined : getMethod$1(regexp, MATCH);
+        return matcher ? call$6(matcher, regexp, O) : new RegExp(regexp)[MATCH](toString$4(O));
+      },
+      // `RegExp.prototype[@@match]` method
+      // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
+      function (string) {
+        var rx = anObject$2(this);
+        var S = toString$4(string);
+        var res = maybeCallNative(nativeMatch, rx, S);
+
+        if (res.done) return res.value;
+
+        if (!rx.global) return regExpExec$1(rx, S);
+
+        var fullUnicode = rx.unicode;
+        rx.lastIndex = 0;
+        var A = [];
+        var n = 0;
+        var result;
+        while ((result = regExpExec$1(rx, S)) !== null) {
+          var matchStr = toString$4(result[0]);
+          A[n] = matchStr;
+          if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength$5(rx.lastIndex), fullUnicode);
+          n++;
+        }
+        return n === 0 ? null : A;
+      }
+    ];
+  });
+
+  var $$b = _export;
+  var $findIndex$1 = arrayIteration.findIndex;
+  var addToUnscopables$1 = addToUnscopables$5;
+
+  var FIND_INDEX = 'findIndex';
+  var SKIPS_HOLES$1 = true;
+
+  // Shouldn't skip holes
+  if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES$1 = false; });
+
+  // `Array.prototype.findIndex` method
+  // https://tc39.es/ecma262/#sec-array.prototype.findindex
+  $$b({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
+    findIndex: function findIndex(callbackfn /* , that = undefined */) {
+      return $findIndex$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+    }
+  });
+
+  // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+  addToUnscopables$1(FIND_INDEX);
+
+  var uncurryThis$d = functionUncurryThis;
+  var requireObjectCoercible$3 = requireObjectCoercible$d;
+  var toString$3 = toString$g;
+
+  var quot = /"/g;
+  var replace$3 = uncurryThis$d(''.replace);
+
+  // `CreateHTML` abstract operation
+  // https://tc39.es/ecma262/#sec-createhtml
+  var createHtml = function (string, tag, attribute, value) {
+    var S = toString$3(requireObjectCoercible$3(string));
+    var p1 = '<' + tag;
+    if (attribute !== '') p1 += ' ' + attribute + '="' + replace$3(toString$3(value), quot, '&quot;') + '"';
+    return p1 + '>' + S + '</' + tag + '>';
+  };
+
+  var fails$b = fails$J;
+
+  // check the existence of a method, lowercase
+  // of a tag and escaping quotes in arguments
+  var stringHtmlForced = function (METHOD_NAME) {
+    return fails$b(function () {
+      var test = ''[METHOD_NAME]('"');
+      return test !== test.toLowerCase() || test.split('"').length > 3;
+    });
+  };
+
+  var $$a = _export;
+  var createHTML = createHtml;
+  var forcedStringHTMLMethod = stringHtmlForced;
+
+  // `String.prototype.anchor` method
+  // https://tc39.es/ecma262/#sec-string.prototype.anchor
+  $$a({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
+    anchor: function anchor(name) {
+      return createHTML(this, 'a', 'name', name);
+    }
+  });
+
+  var $$9 = _export;
   var uncurryThis$c = functionUncurryThis;
   var IndexedObject$1 = indexedObject;
   var toIndexedObject$2 = toIndexedObject$b;
@@ -5828,15 +5887,15 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.join` method
   // https://tc39.es/ecma262/#sec-array.prototype.join
-  $$8({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD$1 }, {
+  $$9({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD$1 }, {
     join: function join(separator) {
       return un$Join(toIndexedObject$2(this), separator === undefined ? ',' : separator);
     }
   });
 
-  var call$4 = functionCall;
+  var call$5 = functionCall;
   var fixRegExpWellKnownSymbolLogic = fixRegexpWellKnownSymbolLogic;
-  var anObject$1 = anObject$p;
+  var anObject$1 = anObject$q;
   var requireObjectCoercible$2 = requireObjectCoercible$d;
   var sameValue = sameValue$1;
   var toString$2 = toString$g;
@@ -5851,7 +5910,7 @@ var JoomlaMediaManager = (function () {
       function search(regexp) {
         var O = requireObjectCoercible$2(this);
         var searcher = regexp == undefined ? undefined : getMethod(regexp, SEARCH);
-        return searcher ? call$4(searcher, regexp, O) : new RegExp(regexp)[SEARCH](toString$2(O));
+        return searcher ? call$5(searcher, regexp, O) : new RegExp(regexp)[SEARCH](toString$2(O));
       },
       // `RegExp.prototype[@@search]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@search
@@ -5889,13 +5948,13 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $$7 = _export;
+  var $$8 = _export;
   var global$i = global$1e;
   var uncurryThis$b = functionUncurryThis;
   var toIntegerOrInfinity$5 = toIntegerOrInfinity$c;
   var thisNumberValue = thisNumberValue$2;
   var $repeat = stringRepeat;
-  var fails$a = fails$I;
+  var fails$a = fails$J;
 
   var RangeError$7 = global$i.RangeError;
   var String$1 = global$i.String;
@@ -5964,7 +6023,7 @@ var JoomlaMediaManager = (function () {
 
   // `Number.prototype.toFixed` method
   // https://tc39.es/ecma262/#sec-number.prototype.tofixed
-  $$7({ target: 'Number', proto: true, forced: FORCED$4 }, {
+  $$8({ target: 'Number', proto: true, forced: FORCED$4 }, {
     toFixed: function toFixed(fractionDigits) {
       var number = thisNumberValue(this);
       var fractDigits = toIntegerOrInfinity$5(fractionDigits);
@@ -6021,7 +6080,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$6 = _export;
+  var $$7 = _export;
   var uncurryThis$a = functionUncurryThis;
   var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
   var toLength$4 = toLength$a;
@@ -6044,7 +6103,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.endsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.endswith
-  $$6({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+  $$7({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
     endsWith: function endsWith(searchString /* , endPosition = @length */) {
       var that = toString(requireObjectCoercible(this));
       notARegExp(searchString);
@@ -6058,9 +6117,9 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$5 = _export;
+  var $$6 = _export;
   var $find$1 = arrayIteration.find;
-  var addToUnscopables = addToUnscopables$4;
+  var addToUnscopables = addToUnscopables$5;
 
   var FIND = 'find';
   var SKIPS_HOLES = true;
@@ -6070,7 +6129,7 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.find` method
   // https://tc39.es/ecma262/#sec-array.prototype.find
-  $$5({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+  $$6({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
     find: function find(callbackfn /* , that = undefined */) {
       return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
@@ -6116,20 +6175,20 @@ var JoomlaMediaManager = (function () {
     values: createMethod$1(false)
   };
 
-  var $$4 = _export;
+  var $$5 = _export;
   var $values = objectToArray.values;
 
   // `Object.values` method
   // https://tc39.es/ecma262/#sec-object.values
-  $$4({ target: 'Object', stat: true }, {
+  $$5({ target: 'Object', stat: true }, {
     values: function values(O) {
       return $values(O);
     }
   });
 
-  var $$3 = _export;
+  var $$4 = _export;
   var FREEZING = freezing;
-  var fails$9 = fails$I;
+  var fails$9 = fails$J;
   var isObject$6 = isObject$s;
   var onFreeze = internalMetadata.exports.onFreeze;
 
@@ -6139,13 +6198,13 @@ var JoomlaMediaManager = (function () {
 
   // `Object.freeze` method
   // https://tc39.es/ecma262/#sec-object.freeze
-  $$3({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {
+  $$4({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {
     freeze: function freeze(it) {
       return $freeze && isObject$6(it) ? $freeze(onFreeze(it)) : it;
     }
   });
 
-  var fails$8 = fails$I;
+  var fails$8 = fails$J;
   var wellKnownSymbol$3 = wellKnownSymbol$s;
   var IS_PURE = isPure;
 
@@ -6363,10 +6422,10 @@ var JoomlaMediaManager = (function () {
 
   // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
 
-  var $$2 = _export;
+  var $$3 = _export;
   var global$g = global$1e;
   var getBuiltIn = getBuiltIn$a;
-  var call$3 = functionCall;
+  var call$4 = functionCall;
   var uncurryThis$7 = functionUncurryThis;
   var USE_NATIVE_URL$1 = nativeUrl;
   var redefine$2 = redefine$e.exports;
@@ -6379,7 +6438,7 @@ var JoomlaMediaManager = (function () {
   var hasOwn$4 = hasOwnProperty_1;
   var bind$2 = functionBindContext;
   var classof$2 = classof$d;
-  var anObject = anObject$p;
+  var anObject = anObject$q;
   var isObject$5 = isObject$s;
   var $toString$1 = toString$g;
   var create$1 = objectCreate;
@@ -6504,13 +6563,13 @@ var JoomlaMediaManager = (function () {
       if (iteratorMethod) {
         iterator = getIterator$1(object, iteratorMethod);
         next = iterator.next;
-        while (!(step = call$3(next, iterator)).done) {
+        while (!(step = call$4(next, iterator)).done) {
           entryIterator = getIterator$1(anObject(step.value));
           entryNext = entryIterator.next;
           if (
-            (first = call$3(entryNext, entryIterator)).done ||
-            (second = call$3(entryNext, entryIterator)).done ||
-            !call$3(entryNext, entryIterator).done
+            (first = call$4(entryNext, entryIterator)).done ||
+            (second = call$4(entryNext, entryIterator)).done ||
+            !call$4(entryNext, entryIterator).done
           ) throw TypeError$4('Expected sequence with length 2');
           push$1(this.entries, { key: $toString$1(first.value), value: $toString$1(second.value) });
         }
@@ -6693,7 +6752,7 @@ var JoomlaMediaManager = (function () {
 
   setToStringTag$2(URLSearchParamsConstructor, URL_SEARCH_PARAMS);
 
-  $$2({ global: true, forced: !USE_NATIVE_URL$1 }, {
+  $$3({ global: true, forced: !USE_NATIVE_URL$1 }, {
     URLSearchParams: URLSearchParamsConstructor
   });
 
@@ -6720,7 +6779,7 @@ var JoomlaMediaManager = (function () {
     };
 
     if (isCallable$1(n$Fetch)) {
-      $$2({ global: true, enumerable: true, forced: true }, {
+      $$3({ global: true, enumerable: true, forced: true }, {
         fetch: function fetch(input /* , init */) {
           return n$Fetch(input, arguments.length > 1 ? wrapRequestOptions(arguments[1]) : {});
         }
@@ -6736,7 +6795,7 @@ var JoomlaMediaManager = (function () {
       RequestPrototype.constructor = RequestConstructor;
       RequestConstructor.prototype = RequestPrototype;
 
-      $$2({ global: true, forced: true }, {
+      $$3({ global: true, forced: true }, {
         Request: RequestConstructor
       });
     }
@@ -6749,7 +6808,7 @@ var JoomlaMediaManager = (function () {
 
   // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
 
-  var $$1 = _export;
+  var $$2 = _export;
   var DESCRIPTORS$3 = descriptors;
   var USE_NATIVE_URL = nativeUrl;
   var global$f = global$1e;
@@ -7786,7 +7845,7 @@ var JoomlaMediaManager = (function () {
 
   setToStringTag$1(URLConstructor, 'URL');
 
-  $$1({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS$3 }, {
+  $$2({ global: true, forced: !USE_NATIVE_URL, sham: !DESCRIPTORS$3 }, {
     URL: URLConstructor
   });
 
@@ -7973,7 +8032,7 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable no-new -- required for testing */
 
   var global$d = global$1e;
-  var fails$7 = fails$I;
+  var fails$7 = fails$J;
   var checkCorrectnessOfIteration = checkCorrectnessOfIteration$4;
   var NATIVE_ARRAY_BUFFER_VIEWS$1 = arrayBufferViewCore.NATIVE_ARRAY_BUFFER_VIEWS;
 
@@ -8115,23 +8174,6 @@ var JoomlaMediaManager = (function () {
     unpack: unpack
   };
 
-  var toObject$4 = toObject$g;
-  var toAbsoluteIndex$2 = toAbsoluteIndex$7;
-  var lengthOfArrayLike$7 = lengthOfArrayLike$h;
-
-  // `Array.prototype.fill` method implementation
-  // https://tc39.es/ecma262/#sec-array.prototype.fill
-  var arrayFill$1 = function fill(value /* , start = 0, end = @length */) {
-    var O = toObject$4(this);
-    var length = lengthOfArrayLike$7(O);
-    var argumentsLength = arguments.length;
-    var index = toAbsoluteIndex$2(argumentsLength > 1 ? arguments[1] : undefined, length);
-    var end = argumentsLength > 2 ? arguments[2] : undefined;
-    var endPos = end === undefined ? length : toAbsoluteIndex$2(end, length);
-    while (endPos > index) O[index++] = value;
-    return O;
-  };
-
   var global$a = global$1e;
   var uncurryThis$5 = functionUncurryThis;
   var DESCRIPTORS$1 = descriptors;
@@ -8139,7 +8181,7 @@ var JoomlaMediaManager = (function () {
   var FunctionName = functionName;
   var createNonEnumerableProperty$1 = createNonEnumerableProperty$a;
   var redefineAll = redefineAll$6;
-  var fails$6 = fails$I;
+  var fails$6 = fails$J;
   var anInstance$1 = anInstance$8;
   var toIntegerOrInfinity$3 = toIntegerOrInfinity$c;
   var toLength$2 = toLength$a;
@@ -8215,7 +8257,7 @@ var JoomlaMediaManager = (function () {
     return isLittleEndian ? pack : reverse(pack);
   };
 
-  var set$2 = function (view, count, index, conversion, value, isLittleEndian) {
+  var set$3 = function (view, count, index, conversion, value, isLittleEndian) {
     var intIndex = toIndex$1(index);
     var store = getInternalState$1(view);
     if (intIndex + count > store.byteLength) throw RangeError$4(WRONG_INDEX);
@@ -8295,28 +8337,28 @@ var JoomlaMediaManager = (function () {
         return unpackIEEE754(get$2(this, 8, byteOffset, arguments.length > 1 ? arguments[1] : undefined), 52);
       },
       setInt8: function setInt8(byteOffset, value) {
-        set$2(this, 1, byteOffset, packInt8, value);
+        set$3(this, 1, byteOffset, packInt8, value);
       },
       setUint8: function setUint8(byteOffset, value) {
-        set$2(this, 1, byteOffset, packInt8, value);
+        set$3(this, 1, byteOffset, packInt8, value);
       },
       setInt16: function setInt16(byteOffset, value /* , littleEndian */) {
-        set$2(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
       },
       setUint16: function setUint16(byteOffset, value /* , littleEndian */) {
-        set$2(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 2, byteOffset, packInt16, value, arguments.length > 2 ? arguments[2] : undefined);
       },
       setInt32: function setInt32(byteOffset, value /* , littleEndian */) {
-        set$2(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
       },
       setUint32: function setUint32(byteOffset, value /* , littleEndian */) {
-        set$2(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 4, byteOffset, packInt32, value, arguments.length > 2 ? arguments[2] : undefined);
       },
       setFloat32: function setFloat32(byteOffset, value /* , littleEndian */) {
-        set$2(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 4, byteOffset, packFloat32, value, arguments.length > 2 ? arguments[2] : undefined);
       },
       setFloat64: function setFloat64(byteOffset, value /* , littleEndian */) {
-        set$2(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : undefined);
+        set$3(this, 8, byteOffset, packFloat64, value, arguments.length > 2 ? arguments[2] : undefined);
       }
     });
   } else {
@@ -8340,8 +8382,8 @@ var JoomlaMediaManager = (function () {
 
       $ArrayBuffer[PROTOTYPE] = ArrayBufferPrototype$1;
 
-      for (var keys = getOwnPropertyNames$1(NativeArrayBuffer), j = 0, key; keys.length > j;) {
-        if (!((key = keys[j++]) in $ArrayBuffer)) {
+      for (var keys$1 = getOwnPropertyNames$1(NativeArrayBuffer), j = 0, key; keys$1.length > j;) {
+        if (!((key = keys$1[j++]) in $ArrayBuffer)) {
           createNonEnumerableProperty$1($ArrayBuffer, key, NativeArrayBuffer[key]);
         }
       }
@@ -8413,7 +8455,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var bind = functionBindContext;
-  var call$2 = functionCall;
+  var call$3 = functionCall;
   var aConstructor = aConstructor$2;
   var toObject$3 = toObject$g;
   var lengthOfArrayLike$6 = lengthOfArrayLike$h;
@@ -8434,7 +8476,7 @@ var JoomlaMediaManager = (function () {
       iterator = getIterator(O, iteratorMethod);
       next = iterator.next;
       O = [];
-      while (!(step = call$2(next, iterator)).done) {
+      while (!(step = call$3(next, iterator)).done) {
         O.push(step.value);
       }
     }
@@ -8449,9 +8491,9 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $ = _export;
+  var $$1 = _export;
   var global$7 = global$1e;
-  var call$1 = functionCall;
+  var call$2 = functionCall;
   var DESCRIPTORS = descriptors;
   var TYPED_ARRAYS_CONSTRUCTORS_REQUIRES_WRAPPERS = typedArrayConstructorsRequireWrappers;
   var ArrayBufferViewCore$o = arrayBufferViewCore;
@@ -8463,7 +8505,7 @@ var JoomlaMediaManager = (function () {
   var toLength$1 = toLength$a;
   var toIndex = toIndex$2;
   var toOffset$1 = toOffset$2;
-  var toPropertyKey = toPropertyKey$5;
+  var toPropertyKey = toPropertyKey$6;
   var hasOwn$1 = hasOwnProperty_1;
   var classof = classof$d;
   var isObject$2 = isObject$s;
@@ -8561,7 +8603,7 @@ var JoomlaMediaManager = (function () {
       addGetter(TypedArrayPrototype$1, 'length');
     }
 
-    $({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {
+    $$1({ target: 'Object', stat: true, forced: !NATIVE_ARRAY_BUFFER_VIEWS }, {
       getOwnPropertyDescriptor: wrappedGetOwnPropertyDescriptor,
       defineProperty: wrappedDefineProperty
     });
@@ -8625,7 +8667,7 @@ var JoomlaMediaManager = (function () {
           } else if (isTypedArray(data)) {
             return fromList(TypedArrayConstructor, data);
           } else {
-            return call$1(typedArrayFrom, TypedArrayConstructor, data);
+            return call$2(typedArrayFrom, TypedArrayConstructor, data);
           }
           setInternalState(that, {
             buffer: buffer,
@@ -8650,7 +8692,7 @@ var JoomlaMediaManager = (function () {
                 ? new NativeTypedArrayConstructor(data, toOffset$1(typedArrayOffset, BYTES))
                 : new NativeTypedArrayConstructor(data);
             if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
-            return call$1(typedArrayFrom, TypedArrayConstructor, data);
+            return call$2(typedArrayFrom, TypedArrayConstructor, data);
           }(), dummy, TypedArrayConstructor);
         });
 
@@ -8675,7 +8717,7 @@ var JoomlaMediaManager = (function () {
 
       exported[CONSTRUCTOR_NAME] = TypedArrayConstructor;
 
-      $({
+      $$1({
         global: true, forced: TypedArrayConstructor != NativeTypedArrayConstructor, sham: !NATIVE_ARRAY_BUFFER_VIEWS
       }, exported);
 
@@ -8775,7 +8817,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var ArrayBufferViewCore$k = arrayBufferViewCore;
-  var call = functionCall;
+  var call$1 = functionCall;
   var $fill = arrayFill$1;
 
   var aTypedArray$j = ArrayBufferViewCore$k.aTypedArray;
@@ -8785,7 +8827,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill
   exportTypedArrayMethod$k('fill', function fill(value /* , start, end */) {
     var length = arguments.length;
-    return call(
+    return call$1(
       $fill,
       aTypedArray$j(this),
       value,
@@ -8898,7 +8940,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var global$6 = global$1e;
-  var fails$5 = fails$I;
+  var fails$5 = fails$J;
   var uncurryThis$3 = functionUncurryThis;
   var ArrayBufferViewCore$c = arrayBufferViewCore;
   var ArrayIterators = es_array_iterator;
@@ -9108,7 +9150,7 @@ var JoomlaMediaManager = (function () {
   var lengthOfArrayLike = lengthOfArrayLike$h;
   var toOffset = toOffset$2;
   var toObject = toObject$g;
-  var fails$4 = fails$I;
+  var fails$4 = fails$J;
 
   var RangeError = global$4.RangeError;
   var aTypedArray$5 = ArrayBufferViewCore$5.aTypedArray;
@@ -9134,7 +9176,7 @@ var JoomlaMediaManager = (function () {
 
   var ArrayBufferViewCore$4 = arrayBufferViewCore;
   var typedArraySpeciesConstructor$1 = typedArraySpeciesConstructor$4;
-  var fails$3 = fails$I;
+  var fails$3 = fails$J;
   var arraySlice$1 = arraySlice$9;
 
   var aTypedArray$4 = ArrayBufferViewCore$4.aTypedArray;
@@ -9171,7 +9213,7 @@ var JoomlaMediaManager = (function () {
 
   var global$3 = global$1e;
   var uncurryThis$1 = functionUncurryThis;
-  var fails$2 = fails$I;
+  var fails$2 = fails$J;
   var aCallable = aCallable$8;
   var internalSort = arraySort$1;
   var ArrayBufferViewCore$2 = arrayBufferViewCore;
@@ -9265,7 +9307,7 @@ var JoomlaMediaManager = (function () {
   var global$2 = global$1e;
   var apply = functionApply;
   var ArrayBufferViewCore = arrayBufferViewCore;
-  var fails$1 = fails$I;
+  var fails$1 = fails$J;
   var arraySlice = arraySlice$9;
 
   var Int8Array$1 = global$2.Int8Array;
@@ -9295,7 +9337,7 @@ var JoomlaMediaManager = (function () {
   }, FORCED);
 
   var exportTypedArrayMethod = arrayBufferViewCore.exportTypedArrayMethod;
-  var fails = fails$I;
+  var fails = fails$J;
   var global$1 = global$1e;
   var uncurryThis = functionUncurryThis;
 
@@ -9318,14 +9360,154 @@ var JoomlaMediaManager = (function () {
 
   var mediaManager = {};
 
+  var $ = _export;
+  var call = functionCall;
+
+  // `URL.prototype.toJSON` method
+  // https://url.spec.whatwg.org/#dom-url-tojson
+  $({ target: 'URL', proto: true, enumerable: true }, {
+    toJSON: function toJSON() {
+      return call(URL.prototype.toString, this);
+    }
+  });
+
+  var cjs$1 = {};
+
+  /*! (c) 2020 Andrea Giammarchi */
+
+
+  var $parse = JSON.parse,
+      $stringify = JSON.stringify;
+  var keys = Object.keys;
+  var Primitive = String; // it could be Number
+
+  var primitive = 'string'; // it could be 'number'
+
+  var ignore = {};
+  var object = 'object';
+
+  var noop = function noop(_, value) {
+    return value;
+  };
+
+  var primitives = function primitives(value) {
+    return value instanceof Primitive ? Primitive(value) : value;
+  };
+
+  var Primitives = function Primitives(_, value) {
+    return typeof value === primitive ? new Primitive(value) : value;
+  };
+
+  var revive = function revive(input, parsed, output, $) {
+    var lazy = [];
+
+    for (var ke = keys(output), length = ke.length, y = 0; y < length; y++) {
+      var k = ke[y];
+      var value = output[k];
+
+      if (value instanceof Primitive) {
+        var tmp = input[value];
+
+        if (typeof tmp === object && !parsed.has(tmp)) {
+          parsed.add(tmp);
+          output[k] = ignore;
+          lazy.push({
+            k: k,
+            a: [input, parsed, tmp, $]
+          });
+        } else output[k] = $.call(output, k, tmp);
+      } else if (output[k] !== ignore) output[k] = $.call(output, k, value);
+    }
+
+    for (var _length = lazy.length, i = 0; i < _length; i++) {
+      var _lazy$i = lazy[i],
+          _k = _lazy$i.k,
+          a = _lazy$i.a;
+      output[_k] = $.call(output, _k, revive.apply(null, a));
+    }
+
+    return output;
+  };
+
+  var set$2 = function set(known, input, value) {
+    var index = Primitive(input.push(value) - 1);
+    known.set(value, index);
+    return index;
+  };
+
+  var parse = function parse(text, reviver) {
+    var input = $parse(text, Primitives).map(primitives);
+    var value = input[0];
+    var $ = reviver || noop;
+    var tmp = typeof value === object && value ? revive(input, new Set(), value, $) : value;
+    return $.call({
+      '': tmp
+    }, '', tmp);
+  };
+
+  cjs$1.parse = parse;
+
+  var stringify = function stringify(value, replacer, space) {
+    var $ = replacer && typeof replacer === object ? function (k, v) {
+      return k === '' || -1 < replacer.indexOf(k) ? v : void 0;
+    } : replacer || noop;
+    var known = new Map();
+    var input = [];
+    var output = [];
+    var i = +set$2(known, input, $.call({
+      '': value
+    }, '', value));
+    var firstRun = !i;
+
+    while (i < input.length) {
+      firstRun = true;
+      output[i] = $stringify(input[i++], replace, space);
+    }
+
+    return '[' + output.join(',') + ']';
+
+    function replace(key, value) {
+      if (firstRun) {
+        firstRun = !firstRun;
+        return value;
+      }
+
+      var after = $.call(this, key, value);
+
+      switch (typeof after) {
+        case object:
+          if (after === null) return after;
+
+        case primitive:
+          return known.get(after) || set$2(known, input, after);
+      }
+
+      return after;
+    }
+  };
+
+  cjs$1.stringify = stringify;
+
+  var toJSON = function toJSON(any) {
+    return $parse(stringify(any));
+  };
+
+  cjs$1.toJSON = toJSON;
+
+  var fromJSON = function fromJSON(any) {
+    return parse($stringify(any));
+  };
+
+  cjs$1.fromJSON = fromJSON;
+
   var _mutations;
 
   function makeMap(str, expectsLowerCase) {
     var map = Object.create(null);
     var list = str.split(',');
 
-    for (var _i = 0; _i < list.length; _i++) {
-      map[list[_i]] = true;
+    for (var i = 0; i < list.length; i++) {
+      map[list[i]] = true;
     }
 
     return expectsLowerCase ? function (val) {
@@ -9333,6 +9515,68 @@ var JoomlaMediaManager = (function () {
     } : function (val) {
       return !!map[val];
     };
+  }
+
+  function normalizeStyle(value) {
+    if (isArray(value)) {
+      var res = {};
+
+      for (var i = 0; i < value.length; i++) {
+        var item = value[i];
+        var normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
+
+        if (normalized) {
+          for (var key in normalized) {
+            res[key] = normalized[key];
+          }
+        }
+      }
+
+      return res;
+    } else if (isString(value)) {
+      return value;
+    } else if (isObject$1(value)) {
+      return value;
+    }
+  }
+
+  var listDelimiterRE = /;(?![^(]*\))/g;
+  var propertyDelimiterRE = /:([^]+)/;
+  var styleCommentRE = /\/\*[\s\S]*?\*\//g;
+
+  function parseStringStyle(cssText) {
+    var ret = {};
+    cssText.replace(styleCommentRE, '').split(listDelimiterRE).forEach(function (item) {
+      if (item) {
+        var tmp = item.split(propertyDelimiterRE);
+        tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
+      }
+    });
+    return ret;
+  }
+
+  function normalizeClass(value) {
+    var res = '';
+
+    if (isString(value)) {
+      res = value;
+    } else if (isArray(value)) {
+      for (var i = 0; i < value.length; i++) {
+        var normalized = normalizeClass(value[i]);
+
+        if (normalized) {
+          res += normalized + ' ';
+        }
+      }
+    } else if (isObject$1(value)) {
+      for (var name in value) {
+        if (value[name]) {
+          res += name + ' ';
+        }
+      }
+    }
+
+    return res.trim();
   }
   /**
    * On the client we only need to offer special cases for boolean attributes that
@@ -9357,67 +9601,6 @@ var JoomlaMediaManager = (function () {
   function includeBooleanAttr(value) {
     return !!value || value === '';
   }
-
-  function normalizeStyle(value) {
-    if (isArray(value)) {
-      var res = {};
-
-      for (var _i2 = 0; _i2 < value.length; _i2++) {
-        var item = value[_i2];
-        var normalized = isString(item) ? parseStringStyle(item) : normalizeStyle(item);
-
-        if (normalized) {
-          for (var key in normalized) {
-            res[key] = normalized[key];
-          }
-        }
-      }
-
-      return res;
-    } else if (isString(value)) {
-      return value;
-    } else if (isObject$1(value)) {
-      return value;
-    }
-  }
-
-  var listDelimiterRE = /;(?![^(]*\))/g;
-  var propertyDelimiterRE = /:(.+)/;
-
-  function parseStringStyle(cssText) {
-    var ret = {};
-    cssText.split(listDelimiterRE).forEach(function (item) {
-      if (item) {
-        var tmp = item.split(propertyDelimiterRE);
-        tmp.length > 1 && (ret[tmp[0].trim()] = tmp[1].trim());
-      }
-    });
-    return ret;
-  }
-
-  function normalizeClass(value) {
-    var res = '';
-
-    if (isString(value)) {
-      res = value;
-    } else if (isArray(value)) {
-      for (var _i3 = 0; _i3 < value.length; _i3++) {
-        var normalized = normalizeClass(value[_i3]);
-
-        if (normalized) {
-          res += normalized + ' ';
-        }
-      }
-    } else if (isObject$1(value)) {
-      for (var name in value) {
-        if (value[name]) {
-          res += name + ' ';
-        }
-      }
-    }
-
-    return res.trim();
-  }
   /**
    * For converting {{ interpolation }} values to displayed strings.
    * @private
@@ -9425,7 +9608,7 @@ var JoomlaMediaManager = (function () {
 
 
   var toDisplayString = function toDisplayString(val) {
-    return val == null ? '' : isArray(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
+    return isString(val) ? val : val == null ? '' : isArray(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
   };
 
   var replacer = function replacer(_key, val) {
@@ -9433,14 +9616,14 @@ var JoomlaMediaManager = (function () {
     if (val && val.__v_isRef) {
       return replacer(_key, val.value);
     } else if (isMap(val)) {
-      var _ref6;
+      var _ref2;
 
-      return _ref6 = {}, _ref6["Map(" + val.size + ")"] = [].concat(val.entries()).reduce(function (entries, _ref) {
+      return _ref2 = {}, _ref2["Map(" + val.size + ")"] = [].concat(val.entries()).reduce(function (entries, _ref) {
         var key = _ref[0],
             val = _ref[1];
         entries[key + " =>"] = val;
         return entries;
-      }, {}), _ref6;
+      }, {}), _ref2;
     } else if (isSet(val)) {
       var _ref7;
 
@@ -9589,8 +9772,8 @@ var JoomlaMediaManager = (function () {
   };
 
   var invokeArrayFns = function invokeArrayFns(fns, arg) {
-    for (var _i4 = 0; _i4 < fns.length; _i4++) {
-      fns[_i4](arg);
+    for (var i = 0; i < fns.length; i++) {
+      fns[i](arg);
     }
   };
 
@@ -9614,7 +9797,6 @@ var JoomlaMediaManager = (function () {
   };
 
   var activeEffectScope;
-  var effectScopeStack = [];
 
   var EffectScope = /*#__PURE__*/function () {
     function EffectScope(detached) {
@@ -9622,12 +9804,25 @@ var JoomlaMediaManager = (function () {
         detached = false;
       }
 
+      this.detached = detached;
+      /**
+       * @internal
+       */
+
       this.active = true;
+      /**
+       * @internal
+       */
+
       this.effects = [];
+      /**
+       * @internal
+       */
+
       this.cleanups = [];
+      this.parent = activeEffectScope;
 
       if (!detached && activeEffectScope) {
-        this.parent = activeEffectScope;
         this.index = (activeEffectScope.scopes || (activeEffectScope.scopes = [])).push(this) - 1;
       }
     }
@@ -9636,46 +9831,55 @@ var JoomlaMediaManager = (function () {
 
     _proto.run = function run(fn) {
       if (this.active) {
+        var currentEffectScope = activeEffectScope;
+
         try {
-          this.on();
+          activeEffectScope = this;
           return fn();
         } finally {
-          this.off();
+          activeEffectScope = currentEffectScope;
         }
       }
-    };
+    }
+    /**
+     * This should only be called on non-detached scopes
+     * @internal
+     */
+    ;
 
     _proto.on = function on() {
-      if (this.active) {
-        effectScopeStack.push(this);
-        activeEffectScope = this;
-      }
-    };
+      activeEffectScope = this;
+    }
+    /**
+     * This should only be called on non-detached scopes
+     * @internal
+     */
+    ;
 
     _proto.off = function off() {
-      if (this.active) {
-        effectScopeStack.pop();
-        activeEffectScope = effectScopeStack[effectScopeStack.length - 1];
-      }
+      activeEffectScope = this.parent;
     };
 
     _proto.stop = function stop(fromParent) {
       if (this.active) {
-        this.effects.forEach(function (e) {
-          return e.stop();
-        });
-        this.cleanups.forEach(function (cleanup) {
-          return cleanup();
-        });
+        var i, l;
+
+        for (i = 0, l = this.effects.length; i < l; i++) {
+          this.effects[i].stop();
+        }
+
+        for (i = 0, l = this.cleanups.length; i < l; i++) {
+          this.cleanups[i]();
+        }
 
         if (this.scopes) {
-          this.scopes.forEach(function (e) {
-            return e.stop(true);
-          });
+          for (i = 0, l = this.scopes.length; i < l; i++) {
+            this.scopes[i].stop(true);
+          }
         } // nested scope, dereference from parent to avoid memory leaks
 
 
-        if (this.parent && !fromParent) {
+        if (!this.detached && this.parent && !fromParent) {
           // optimized O(1) removal
           var last = this.parent.scopes.pop();
 
@@ -9685,6 +9889,7 @@ var JoomlaMediaManager = (function () {
           }
         }
 
+        this.parent = undefined;
         this.active = false;
       }
     };
@@ -9693,7 +9898,9 @@ var JoomlaMediaManager = (function () {
   }();
 
   function recordEffectScope(effect, scope) {
-    scope = scope || activeEffectScope;
+    if (scope === void 0) {
+      scope = activeEffectScope;
+    }
 
     if (scope && scope.active) {
       scope.effects.push(effect);
@@ -9719,8 +9926,8 @@ var JoomlaMediaManager = (function () {
     var deps = _ref.deps;
 
     if (deps.length) {
-      for (var _i5 = 0; _i5 < deps.length; _i5++) {
-        deps[_i5].w |= trackOpBit; // set was tracked
+      for (var i = 0; i < deps.length; i++) {
+        deps[i].w |= trackOpBit; // set was tracked
       }
     }
   };
@@ -9731,8 +9938,8 @@ var JoomlaMediaManager = (function () {
     if (deps.length) {
       var ptr = 0;
 
-      for (var _i6 = 0; _i6 < deps.length; _i6++) {
-        var dep = deps[_i6];
+      for (var i = 0; i < deps.length; i++) {
+        var dep = deps[i];
 
         if (wasTracked(dep) && !newTracked(dep)) {
           dep.delete(effect);
@@ -9760,7 +9967,6 @@ var JoomlaMediaManager = (function () {
    */
 
   var maxMarkerBits = 30;
-  var effectStack = [];
   var activeEffect;
   var ITERATE_KEY = Symbol('');
   var MAP_KEY_ITERATE_KEY = Symbol('');
@@ -9775,6 +9981,7 @@ var JoomlaMediaManager = (function () {
       this.scheduler = scheduler;
       this.active = true;
       this.deps = [];
+      this.parent = undefined;
       recordEffectScope(this, scope);
     }
 
@@ -9785,35 +9992,51 @@ var JoomlaMediaManager = (function () {
         return this.fn();
       }
 
-      if (!effectStack.includes(this)) {
-        try {
-          effectStack.push(activeEffect = this);
-          enableTracking();
-          trackOpBit = 1 << ++effectTrackDepth;
+      var parent = activeEffect;
+      var lastShouldTrack = shouldTrack;
 
-          if (effectTrackDepth <= maxMarkerBits) {
-            initDepMarkers(this);
-          } else {
-            cleanupEffect(this);
-          }
+      while (parent) {
+        if (parent === this) {
+          return;
+        }
 
-          return this.fn();
-        } finally {
-          if (effectTrackDepth <= maxMarkerBits) {
-            finalizeDepMarkers(this);
-          }
+        parent = parent.parent;
+      }
 
-          trackOpBit = 1 << --effectTrackDepth;
-          resetTracking();
-          effectStack.pop();
-          var _n = effectStack.length;
-          activeEffect = _n > 0 ? effectStack[_n - 1] : undefined;
+      try {
+        this.parent = activeEffect;
+        activeEffect = this;
+        shouldTrack = true;
+        trackOpBit = 1 << ++effectTrackDepth;
+
+        if (effectTrackDepth <= maxMarkerBits) {
+          initDepMarkers(this);
+        } else {
+          cleanupEffect(this);
+        }
+
+        return this.fn();
+      } finally {
+        if (effectTrackDepth <= maxMarkerBits) {
+          finalizeDepMarkers(this);
+        }
+
+        trackOpBit = 1 << --effectTrackDepth;
+        activeEffect = this.parent;
+        shouldTrack = lastShouldTrack;
+        this.parent = undefined;
+
+        if (this.deferStop) {
+          this.stop();
         }
       }
     };
 
     _proto2.stop = function stop() {
-      if (this.active) {
+      // stopped while running itself - defer the cleanup
+      if (activeEffect === this) {
+        this.deferStop = true;
+      } else if (this.active) {
         cleanupEffect(this);
 
         if (this.onStop) {
@@ -9831,8 +10054,8 @@ var JoomlaMediaManager = (function () {
     var deps = effect.deps;
 
     if (deps.length) {
-      for (var _i7 = 0; _i7 < deps.length; _i7++) {
-        deps[_i7].delete(effect);
+      for (var i = 0; i < deps.length; i++) {
+        deps[i].delete(effect);
       }
 
       deps.length = 0;
@@ -9847,38 +10070,27 @@ var JoomlaMediaManager = (function () {
     shouldTrack = false;
   }
 
-  function enableTracking() {
-    trackStack.push(shouldTrack);
-    shouldTrack = true;
-  }
-
   function resetTracking() {
     var last = trackStack.pop();
     shouldTrack = last === undefined ? true : last;
   }
 
   function track(target, type, key) {
-    if (!isTracking()) {
-      return;
+    if (shouldTrack && activeEffect) {
+      var depsMap = targetMap.get(target);
+
+      if (!depsMap) {
+        targetMap.set(target, depsMap = new Map());
+      }
+
+      var dep = depsMap.get(key);
+
+      if (!dep) {
+        depsMap.set(key, dep = createDep());
+      }
+
+      trackEffects(dep);
     }
-
-    var depsMap = targetMap.get(target);
-
-    if (!depsMap) {
-      targetMap.set(target, depsMap = new Map());
-    }
-
-    var dep = depsMap.get(key);
-
-    if (!dep) {
-      depsMap.set(key, dep = createDep());
-    }
-
-    trackEffects(dep);
-  }
-
-  function isTracking() {
-    return shouldTrack && activeEffect !== undefined;
   }
 
   function trackEffects(dep, debuggerEventExtraInfo) {
@@ -9901,7 +10113,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
+  function trigger(target, type, key, newValue, oldValue, oldTarget) {
     var depsMap = targetMap.get(target);
 
     if (!depsMap) {
@@ -9912,14 +10124,15 @@ var JoomlaMediaManager = (function () {
     var deps = [];
 
     if (type === "clear"
-    /* CLEAR */
+    /* TriggerOpTypes.CLEAR */
     ) {
       // collection being cleared
       // trigger all effects for target
       deps = [].concat(depsMap.values());
     } else if (key === 'length' && isArray(target)) {
+      var newLength = toNumber(newValue);
       depsMap.forEach(function (dep, key) {
-        if (key === 'length' || key >= newValue) {
+        if (key === 'length' || key >= newLength) {
           deps.push(dep);
         }
       });
@@ -9932,7 +10145,7 @@ var JoomlaMediaManager = (function () {
 
       switch (type) {
         case "add"
-        /* ADD */
+        /* TriggerOpTypes.ADD */
         :
           if (!isArray(target)) {
             deps.push(depsMap.get(ITERATE_KEY));
@@ -9948,7 +10161,7 @@ var JoomlaMediaManager = (function () {
           break;
 
         case "delete"
-        /* DELETE */
+        /* TriggerOpTypes.DELETE */
         :
           if (!isArray(target)) {
             deps.push(depsMap.get(ITERATE_KEY));
@@ -9961,7 +10174,7 @@ var JoomlaMediaManager = (function () {
           break;
 
         case "set"
-        /* SET */
+        /* TriggerOpTypes.SET */
         :
           if (isMap(target)) {
             deps.push(depsMap.get(ITERATE_KEY));
@@ -9996,21 +10209,42 @@ var JoomlaMediaManager = (function () {
 
   function triggerEffects(dep, debuggerEventExtraInfo) {
     // spread into array for stabilization
-    for (var _iterator2 = _createForOfIteratorHelperLoose(isArray(dep) ? dep : [].concat(dep)), _step2; !(_step2 = _iterator2()).done;) {
+    var effects = isArray(dep) ? dep : [].concat(dep);
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose(effects), _step2; !(_step2 = _iterator2()).done;) {
       var effect = _step2.value;
 
-      if (effect !== activeEffect || effect.allowRecurse) {
-        if (effect.scheduler) {
-          effect.scheduler();
-        } else {
-          effect.run();
-        }
+      if (effect.computed) {
+        triggerEffect(effect);
+      }
+    }
+
+    for (var _iterator3 = _createForOfIteratorHelperLoose(effects), _step3; !(_step3 = _iterator3()).done;) {
+      var _effect = _step3.value;
+
+      if (!_effect.computed) {
+        triggerEffect(_effect);
+      }
+    }
+  }
+
+  function triggerEffect(effect, debuggerEventExtraInfo) {
+    if (effect !== activeEffect || effect.allowRecurse) {
+      if (effect.scheduler) {
+        effect.scheduler();
+      } else {
+        effect.run();
       }
     }
   }
 
   var isNonTrackableKeys = /*#__PURE__*/makeMap("__proto__,__v_isRef,__isVue");
-  var builtInSymbols = new Set(Object.getOwnPropertyNames(Symbol).map(function (key) {
+  var builtInSymbols = new Set( /*#__PURE__*/Object.getOwnPropertyNames(Symbol) // ios10.x Object.getOwnPropertyNames(Symbol) can enumerate 'arguments' and 'caller'
+  // but accessing them on Symbol leads to TypeError because Symbol is a strict mode
+  // function
+  .filter(function (key) {
+    return key !== 'arguments' && key !== 'caller';
+  }).map(function (key) {
     return Symbol[key];
   }).filter(isSymbol));
   var get = /*#__PURE__*/createGetter();
@@ -10024,10 +10258,10 @@ var JoomlaMediaManager = (function () {
       instrumentations[key] = function () {
         var arr = toRaw(this);
 
-        for (var _i8 = 0, l = this.length; _i8 < l; _i8++) {
+        for (var i = 0, l = this.length; i < l; i++) {
           track(arr, "get"
-          /* GET */
-          , _i8 + '');
+          /* TrackOpTypes.GET */
+          , i + '');
         } // we run the method using the original args first (which may be reactive)
 
 
@@ -10072,15 +10306,19 @@ var JoomlaMediaManager = (function () {
 
     return function get(target, key, receiver) {
       if (key === "__v_isReactive"
-      /* IS_REACTIVE */
+      /* ReactiveFlags.IS_REACTIVE */
       ) {
         return !isReadonly;
       } else if (key === "__v_isReadonly"
-      /* IS_READONLY */
+      /* ReactiveFlags.IS_READONLY */
       ) {
         return isReadonly;
+      } else if (key === "__v_isShallow"
+      /* ReactiveFlags.IS_SHALLOW */
+      ) {
+        return shallow;
       } else if (key === "__v_raw"
-      /* RAW */
+      /* ReactiveFlags.RAW */
       && receiver === (isReadonly ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target)) {
         return target;
       }
@@ -10099,7 +10337,7 @@ var JoomlaMediaManager = (function () {
 
       if (!isReadonly) {
         track(target, "get"
-        /* GET */
+        /* TrackOpTypes.GET */
         , key);
       }
 
@@ -10108,9 +10346,8 @@ var JoomlaMediaManager = (function () {
       }
 
       if (isRef(res)) {
-        // ref unwrapping - does not apply for Array + integer key.
-        var shouldUnwrap = !targetIsArray || !isIntegerKey(key);
-        return shouldUnwrap ? res.value : res;
+        // ref unwrapping - skip unwrap for Array + integer key.
+        return targetIsArray && isIntegerKey(key) ? res : res.value;
       }
 
       if (isObject$1(res)) {
@@ -10135,9 +10372,15 @@ var JoomlaMediaManager = (function () {
     return function set(target, key, value, receiver) {
       var oldValue = target[key];
 
-      if (!shallow && !isReadonly(value)) {
-        value = toRaw(value);
-        oldValue = toRaw(oldValue);
+      if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
+        return false;
+      }
+
+      if (!shallow) {
+        if (!isShallow(value) && !isReadonly(value)) {
+          oldValue = toRaw(oldValue);
+          value = toRaw(value);
+        }
 
         if (!isArray(target) && isRef(oldValue) && !isRef(value)) {
           oldValue.value = value;
@@ -10150,12 +10393,12 @@ var JoomlaMediaManager = (function () {
 
       if (target === toRaw(receiver)) {
         if (!hadKey) {
-          trigger$1(target, "add"
-          /* ADD */
+          trigger(target, "add"
+          /* TriggerOpTypes.ADD */
           , key, value);
         } else if (hasChanged(value, oldValue)) {
-          trigger$1(target, "set"
-          /* SET */
+          trigger(target, "set"
+          /* TriggerOpTypes.SET */
           , key, value);
         }
       }
@@ -10170,8 +10413,8 @@ var JoomlaMediaManager = (function () {
     var result = Reflect.deleteProperty(target, key);
 
     if (result && hadKey) {
-      trigger$1(target, "delete"
-      /* DELETE */
+      trigger(target, "delete"
+      /* TriggerOpTypes.DELETE */
       , key, undefined);
     }
 
@@ -10183,7 +10426,7 @@ var JoomlaMediaManager = (function () {
 
     if (!isSymbol(key) || !builtInSymbols.has(key)) {
       track(target, "has"
-      /* HAS */
+      /* TrackOpTypes.HAS */
       , key);
     }
 
@@ -10192,7 +10435,7 @@ var JoomlaMediaManager = (function () {
 
   function ownKeys(target) {
     track(target, "iterate"
-    /* ITERATE */
+    /* TrackOpTypes.ITERATE */
     , isArray(target) ? 'length' : ITERATE_KEY);
     return Reflect.ownKeys(target);
   }
@@ -10238,20 +10481,22 @@ var JoomlaMediaManager = (function () {
 
 
     target = target["__v_raw"
-    /* RAW */
+    /* ReactiveFlags.RAW */
     ];
     var rawTarget = toRaw(target);
     var rawKey = toRaw(key);
 
-    if (key !== rawKey) {
-      !isReadonly && track(rawTarget, "get"
-      /* GET */
-      , key);
-    }
+    if (!isReadonly) {
+      if (key !== rawKey) {
+        track(rawTarget, "get"
+        /* TrackOpTypes.GET */
+        , key);
+      }
 
-    !isReadonly && track(rawTarget, "get"
-    /* GET */
-    , rawKey);
+      track(rawTarget, "get"
+      /* TrackOpTypes.GET */
+      , rawKey);
+    }
 
     var _getProto = getProto(rawTarget),
         has = _getProto.has;
@@ -10275,20 +10520,23 @@ var JoomlaMediaManager = (function () {
     }
 
     var target = this["__v_raw"
-    /* RAW */
+    /* ReactiveFlags.RAW */
     ];
     var rawTarget = toRaw(target);
     var rawKey = toRaw(key);
 
-    if (key !== rawKey) {
-      !isReadonly && track(rawTarget, "has"
-      /* HAS */
-      , key);
+    if (!isReadonly) {
+      if (key !== rawKey) {
+        track(rawTarget, "has"
+        /* TrackOpTypes.HAS */
+        , key);
+      }
+
+      track(rawTarget, "has"
+      /* TrackOpTypes.HAS */
+      , rawKey);
     }
 
-    !isReadonly && track(rawTarget, "has"
-    /* HAS */
-    , rawKey);
     return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
   }
 
@@ -10298,10 +10546,10 @@ var JoomlaMediaManager = (function () {
     }
 
     target = target["__v_raw"
-    /* RAW */
+    /* ReactiveFlags.RAW */
     ];
     !isReadonly && track(toRaw(target), "iterate"
-    /* ITERATE */
+    /* TrackOpTypes.ITERATE */
     , ITERATE_KEY);
     return Reflect.get(target, 'size', target);
   }
@@ -10314,8 +10562,8 @@ var JoomlaMediaManager = (function () {
 
     if (!hadKey) {
       target.add(value);
-      trigger$1(target, "add"
-      /* ADD */
+      trigger(target, "add"
+      /* TriggerOpTypes.ADD */
       , value, value);
     }
 
@@ -10341,12 +10589,12 @@ var JoomlaMediaManager = (function () {
     target.set(key, value);
 
     if (!hadKey) {
-      trigger$1(target, "add"
-      /* ADD */
+      trigger(target, "add"
+      /* TriggerOpTypes.ADD */
       , key, value);
     } else if (hasChanged(value, oldValue)) {
-      trigger$1(target, "set"
-      /* SET */
+      trigger(target, "set"
+      /* TriggerOpTypes.SET */
       , key, value);
     }
 
@@ -10372,8 +10620,8 @@ var JoomlaMediaManager = (function () {
     var result = target.delete(key);
 
     if (hadKey) {
-      trigger$1(target, "delete"
-      /* DELETE */
+      trigger(target, "delete"
+      /* TriggerOpTypes.DELETE */
       , key, undefined);
     }
 
@@ -10386,8 +10634,8 @@ var JoomlaMediaManager = (function () {
     var result = target.clear();
 
     if (hadItems) {
-      trigger$1(target, "clear"
-      /* CLEAR */
+      trigger(target, "clear"
+      /* TriggerOpTypes.CLEAR */
       , undefined, undefined);
     }
 
@@ -10398,12 +10646,12 @@ var JoomlaMediaManager = (function () {
     return function forEach(callback, thisArg) {
       var observed = this;
       var target = observed["__v_raw"
-      /* RAW */
+      /* ReactiveFlags.RAW */
       ];
       var rawTarget = toRaw(target);
       var wrap = isShallow ? toShallow : isReadonly ? toReadonly : toReactive;
       !isReadonly && track(rawTarget, "iterate"
-      /* ITERATE */
+      /* TrackOpTypes.ITERATE */
       , ITERATE_KEY);
       return target.forEach(function (value, key) {
         // important: make sure the callback is
@@ -10416,10 +10664,10 @@ var JoomlaMediaManager = (function () {
 
   function createIterableMethod(method, isReadonly, isShallow) {
     return function () {
-      var _ref11;
+      var _ref8;
 
       var target = this["__v_raw"
-      /* RAW */
+      /* ReactiveFlags.RAW */
       ];
       var rawTarget = toRaw(target);
       var targetIsMap = isMap(rawTarget);
@@ -10428,11 +10676,11 @@ var JoomlaMediaManager = (function () {
       var innerIterator = target[method].apply(target, arguments);
       var wrap = isShallow ? toShallow : isReadonly ? toReadonly : toReactive;
       !isReadonly && track(rawTarget, "iterate"
-      /* ITERATE */
+      /* TrackOpTypes.ITERATE */
       , isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY); // return a wrapped iterator which returns observed versions of the
       // values emitted from the real iterator
 
-      return _ref11 = {
+      return _ref8 = {
         // iterator protocol
         next: function next() {
           var _innerIterator$next = innerIterator.next(),
@@ -10447,16 +10695,16 @@ var JoomlaMediaManager = (function () {
             done: done
           };
         }
-      }, _ref11[Symbol.iterator] = function () {
+      }, _ref8[Symbol.iterator] = function () {
         return this;
-      }, _ref11;
+      }, _ref8;
     };
   }
 
   function createReadonlyMethod(type) {
     return function () {
       return type === "delete"
-      /* DELETE */
+      /* TriggerOpTypes.DELETE */
       ? false : this;
     };
   }
@@ -10507,16 +10755,16 @@ var JoomlaMediaManager = (function () {
         return has$1.call(this, key, true);
       },
       add: createReadonlyMethod("add"
-      /* ADD */
+      /* TriggerOpTypes.ADD */
       ),
       set: createReadonlyMethod("set"
-      /* SET */
+      /* TriggerOpTypes.SET */
       ),
       delete: createReadonlyMethod("delete"
-      /* DELETE */
+      /* TriggerOpTypes.DELETE */
       ),
       clear: createReadonlyMethod("clear"
-      /* CLEAR */
+      /* TriggerOpTypes.CLEAR */
       ),
       forEach: createForEach(true, false)
     };
@@ -10533,16 +10781,16 @@ var JoomlaMediaManager = (function () {
         return has$1.call(this, key, true);
       },
       add: createReadonlyMethod("add"
-      /* ADD */
+      /* TriggerOpTypes.ADD */
       ),
       set: createReadonlyMethod("set"
-      /* SET */
+      /* TriggerOpTypes.SET */
       ),
       delete: createReadonlyMethod("delete"
-      /* DELETE */
+      /* TriggerOpTypes.DELETE */
       ),
       clear: createReadonlyMethod("clear"
-      /* CLEAR */
+      /* TriggerOpTypes.CLEAR */
       ),
       forEach: createForEach(true, true)
     };
@@ -10566,15 +10814,15 @@ var JoomlaMediaManager = (function () {
     var instrumentations = shallow ? isReadonly ? shallowReadonlyInstrumentations : shallowInstrumentations : isReadonly ? readonlyInstrumentations : mutableInstrumentations;
     return function (target, key, receiver) {
       if (key === "__v_isReactive"
-      /* IS_REACTIVE */
+      /* ReactiveFlags.IS_REACTIVE */
       ) {
         return !isReadonly;
       } else if (key === "__v_isReadonly"
-      /* IS_READONLY */
+      /* ReactiveFlags.IS_READONLY */
       ) {
         return isReadonly;
       } else if (key === "__v_raw"
-      /* RAW */
+      /* ReactiveFlags.RAW */
       ) {
         return target;
       }
@@ -10602,7 +10850,7 @@ var JoomlaMediaManager = (function () {
       case 'Object':
       case 'Array':
         return 1
-        /* COMMON */
+        /* TargetType.COMMON */
         ;
 
       case 'Map':
@@ -10610,29 +10858,27 @@ var JoomlaMediaManager = (function () {
       case 'WeakMap':
       case 'WeakSet':
         return 2
-        /* COLLECTION */
+        /* TargetType.COLLECTION */
         ;
 
       default:
         return 0
-        /* INVALID */
+        /* TargetType.INVALID */
         ;
     }
   }
 
   function getTargetType(value) {
     return value["__v_skip"
-    /* SKIP */
+    /* ReactiveFlags.SKIP */
     ] || !Object.isExtensible(value) ? 0
-    /* INVALID */
+    /* TargetType.INVALID */
     : targetTypeMap(toRawType(value));
   }
 
   function reactive(target) {
     // if trying to observe a readonly proxy, return the readonly version.
-    if (target && target["__v_isReadonly"
-    /* IS_READONLY */
-    ]) {
+    if (isReadonly(target)) {
       return target;
     }
 
@@ -10666,9 +10912,9 @@ var JoomlaMediaManager = (function () {
 
 
     if (target["__v_raw"
-    /* RAW */
+    /* ReactiveFlags.RAW */
     ] && !(isReadonly && target["__v_isReactive"
-    /* IS_REACTIVE */
+    /* ReactiveFlags.IS_REACTIVE */
     ])) {
       return target;
     } // target already has corresponding Proxy
@@ -10678,19 +10924,19 @@ var JoomlaMediaManager = (function () {
 
     if (existingProxy) {
       return existingProxy;
-    } // only a whitelist of value types can be observed.
+    } // only specific value types can be observed.
 
 
     var targetType = getTargetType(target);
 
     if (targetType === 0
-    /* INVALID */
+    /* TargetType.INVALID */
     ) {
       return target;
     }
 
     var proxy = new Proxy(target, targetType === 2
-    /* COLLECTION */
+    /* TargetType.COLLECTION */
     ? collectionHandlers : baseHandlers);
     proxyMap.set(target, proxy);
     return proxy;
@@ -10699,18 +10945,24 @@ var JoomlaMediaManager = (function () {
   function isReactive(value) {
     if (isReadonly(value)) {
       return isReactive(value["__v_raw"
-      /* RAW */
+      /* ReactiveFlags.RAW */
       ]);
     }
 
     return !!(value && value["__v_isReactive"
-    /* IS_REACTIVE */
+    /* ReactiveFlags.IS_REACTIVE */
     ]);
   }
 
   function isReadonly(value) {
     return !!(value && value["__v_isReadonly"
-    /* IS_READONLY */
+    /* ReactiveFlags.IS_READONLY */
+    ]);
+  }
+
+  function isShallow(value) {
+    return !!(value && value["__v_isShallow"
+    /* ReactiveFlags.IS_SHALLOW */
     ]);
   }
 
@@ -10720,14 +10972,14 @@ var JoomlaMediaManager = (function () {
 
   function toRaw(observed) {
     var raw = observed && observed["__v_raw"
-    /* RAW */
+    /* ReactiveFlags.RAW */
     ];
     return raw ? toRaw(raw) : observed;
   }
 
   function markRaw(value) {
     def(value, "__v_skip"
-    /* SKIP */
+    /* ReactiveFlags.SKIP */
     , true);
     return value;
   }
@@ -10741,15 +10993,10 @@ var JoomlaMediaManager = (function () {
   };
 
   function trackRefValue(ref) {
-    if (isTracking()) {
+    if (shouldTrack && activeEffect) {
       ref = toRaw(ref);
-
-      if (!ref.dep) {
-        ref.dep = createDep();
-      }
-
       {
-        trackEffects(ref.dep);
+        trackEffects(ref.dep || (ref.dep = createDep()));
       }
     }
   }
@@ -10765,7 +11012,7 @@ var JoomlaMediaManager = (function () {
   }
 
   function isRef(r) {
-    return Boolean(r && r.__v_isRef === true);
+    return !!(r && r.__v_isRef === true);
   }
 
   function unref(ref) {
@@ -10792,22 +11039,27 @@ var JoomlaMediaManager = (function () {
     return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
   }
 
+  var _a;
+
   var ComputedRefImpl = /*#__PURE__*/function () {
-    function ComputedRefImpl(getter, _setter, isReadonly) {
+    function ComputedRefImpl(getter, _setter, isReadonly, isSSR) {
       var _this = this;
 
       this._setter = _setter;
       this.dep = undefined;
-      this._dirty = true;
       this.__v_isRef = true;
+      this[_a] = false;
+      this._dirty = true;
       this.effect = new ReactiveEffect(getter, function () {
         if (!_this._dirty) {
           _this._dirty = true;
           triggerRefValue(_this);
         }
       });
+      this.effect.computed = this;
+      this.effect.active = this._cacheable = !isSSR;
       this["__v_isReadonly"
-      /* IS_READONLY */
+      /* ReactiveFlags.IS_READONLY */
       ] = isReadonly;
     }
 
@@ -10818,7 +11070,7 @@ var JoomlaMediaManager = (function () {
         var self = toRaw(this);
         trackRefValue(self);
 
-        if (self._dirty) {
+        if (self._dirty || !self._cacheable) {
           self._dirty = false;
           self._value = self.effect.run();
         }
@@ -10833,7 +11085,15 @@ var JoomlaMediaManager = (function () {
     return ComputedRefImpl;
   }();
 
-  function computed(getterOrOptions, debugOptions) {
+  _a = "__v_isReadonly"
+  /* ReactiveFlags.IS_READONLY */
+  ;
+
+  function computed$1(getterOrOptions, debugOptions, isSSR) {
+    if (isSSR === void 0) {
+      isSSR = false;
+    }
+
     var getter;
     var setter;
     var onlyGetter = isFunction(getterOrOptions);
@@ -10846,18 +11106,279 @@ var JoomlaMediaManager = (function () {
       setter = getterOrOptions.set;
     }
 
-    var cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter);
+    var cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
     return cRef;
   }
 
-  Promise.resolve();
+  function callWithErrorHandling(fn, instance, type, args) {
+    var res;
+
+    try {
+      res = args ? fn.apply(void 0, args) : fn();
+    } catch (err) {
+      handleError(err, instance, type);
+    }
+
+    return res;
+  }
+
+  function callWithAsyncErrorHandling(fn, instance, type, args) {
+    if (isFunction(fn)) {
+      var res = callWithErrorHandling(fn, instance, type, args);
+
+      if (res && isPromise$1(res)) {
+        res.catch(function (err) {
+          handleError(err, instance, type);
+        });
+      }
+
+      return res;
+    }
+
+    var values = [];
+
+    for (var i = 0; i < fn.length; i++) {
+      values.push(callWithAsyncErrorHandling(fn[i], instance, type, args));
+    }
+
+    return values;
+  }
+
+  function handleError(err, instance, type, throwInDev) {
+    instance ? instance.vnode : null;
+
+    if (instance) {
+      var cur = instance.parent; // the exposed instance is the render proxy to keep it consistent with 2.x
+
+      var exposedInstance = instance.proxy; // in production the hook receives only the error code
+
+      var errorInfo = type;
+
+      while (cur) {
+        var errorCapturedHooks = cur.ec;
+
+        if (errorCapturedHooks) {
+          for (var i = 0; i < errorCapturedHooks.length; i++) {
+            if (errorCapturedHooks[i](err, exposedInstance, errorInfo) === false) {
+              return;
+            }
+          }
+        }
+
+        cur = cur.parent;
+      } // app-level handling
+
+
+      var appErrorHandler = instance.appContext.config.errorHandler;
+
+      if (appErrorHandler) {
+        callWithErrorHandling(appErrorHandler, null, 10
+        /* ErrorCodes.APP_ERROR_HANDLER */
+        , [err, exposedInstance, errorInfo]);
+        return;
+      }
+    }
+
+    logError(err);
+  }
+
+  function logError(err, type, contextVNode, throwInDev) {
+    {
+      // recover in prod to reduce the impact on end-user
+      console.error(err);
+    }
+  }
+
+  var isFlushing = false;
+  var isFlushPending = false;
+  var queue = [];
+  var flushIndex = 0;
+  var pendingPostFlushCbs = [];
+  var activePostFlushCbs = null;
+  var postFlushIndex = 0;
+  var resolvedPromise = /*#__PURE__*/Promise.resolve();
+  var currentFlushPromise = null;
+
+  function nextTick(fn) {
+    var p = currentFlushPromise || resolvedPromise;
+    return fn ? p.then(this ? fn.bind(this) : fn) : p;
+  } // #2768
+  // Use binary-search to find a suitable position in the queue,
+  // so that the queue maintains the increasing order of job's id,
+  // which can prevent the job from being skipped and also can avoid repeated patching.
+
+
+  function findInsertionIndex(id) {
+    // the start index should be `flushIndex + 1`
+    var start = flushIndex + 1;
+    var end = queue.length;
+
+    while (start < end) {
+      var middle = start + end >>> 1;
+      var middleJobId = getId(queue[middle]);
+      middleJobId < id ? start = middle + 1 : end = middle;
+    }
+
+    return start;
+  }
+
+  function queueJob(job) {
+    // the dedupe search uses the startIndex argument of Array.includes()
+    // by default the search index includes the current job that is being run
+    // so it cannot recursively trigger itself again.
+    // if the job is a watch() callback, the search will start with a +1 index to
+    // allow it recursively trigger itself - it is the user's responsibility to
+    // ensure it doesn't end up in an infinite loop.
+    if (!queue.length || !queue.includes(job, isFlushing && job.allowRecurse ? flushIndex + 1 : flushIndex)) {
+      if (job.id == null) {
+        queue.push(job);
+      } else {
+        queue.splice(findInsertionIndex(job.id), 0, job);
+      }
+
+      queueFlush();
+    }
+  }
+
+  function queueFlush() {
+    if (!isFlushing && !isFlushPending) {
+      isFlushPending = true;
+      currentFlushPromise = resolvedPromise.then(flushJobs);
+    }
+  }
+
+  function invalidateJob(job) {
+    var i = queue.indexOf(job);
+
+    if (i > flushIndex) {
+      queue.splice(i, 1);
+    }
+  }
+
+  function queuePostFlushCb(cb) {
+    if (!isArray(cb)) {
+      if (!activePostFlushCbs || !activePostFlushCbs.includes(cb, cb.allowRecurse ? postFlushIndex + 1 : postFlushIndex)) {
+        pendingPostFlushCbs.push(cb);
+      }
+    } else {
+      // if cb is an array, it is a component lifecycle hook which can only be
+      // triggered by a job, which is already deduped in the main queue, so
+      // we can skip duplicate check here to improve perf
+      pendingPostFlushCbs.push.apply(pendingPostFlushCbs, cb);
+    }
+
+    queueFlush();
+  }
+
+  function flushPreFlushCbs(seen, // if currently flushing, skip the current job itself
+  i) {
+    if (i === void 0) {
+      i = isFlushing ? flushIndex + 1 : 0;
+    }
+
+    for (; i < queue.length; i++) {
+      var cb = queue[i];
+
+      if (cb && cb.pre) {
+        queue.splice(i, 1);
+        i--;
+        cb();
+      }
+    }
+  }
+
+  function flushPostFlushCbs(seen) {
+    if (pendingPostFlushCbs.length) {
+      var deduped = [].concat(new Set(pendingPostFlushCbs));
+      pendingPostFlushCbs.length = 0; // #1947 already has active queue, nested flushPostFlushCbs call
+
+      if (activePostFlushCbs) {
+        var _activePostFlushCbs;
+
+        (_activePostFlushCbs = activePostFlushCbs).push.apply(_activePostFlushCbs, deduped);
+
+        return;
+      }
+
+      activePostFlushCbs = deduped;
+      activePostFlushCbs.sort(function (a, b) {
+        return getId(a) - getId(b);
+      });
+
+      for (postFlushIndex = 0; postFlushIndex < activePostFlushCbs.length; postFlushIndex++) {
+        activePostFlushCbs[postFlushIndex]();
+      }
+
+      activePostFlushCbs = null;
+      postFlushIndex = 0;
+    }
+  }
+
+  var getId = function getId(job) {
+    return job.id == null ? Infinity : job.id;
+  };
+
+  var comparator = function comparator(a, b) {
+    var diff = getId(a) - getId(b);
+
+    if (diff === 0) {
+      if (a.pre && !b.pre) return -1;
+      if (b.pre && !a.pre) return 1;
+    }
+
+    return diff;
+  };
+
+  function flushJobs(seen) {
+    isFlushPending = false;
+    isFlushing = true; // This ensures that:
+    // 1. Components are updated from parent to child. (because parent is always
+    //    created before the child so its render effect will have smaller
+    //    priority number)
+    // 2. If a component is unmounted during a parent component's update,
+    //    its update can be skipped.
+
+    queue.sort(comparator); // conditional usage of checkRecursiveUpdate must be determined out of
+    // try ... catch block since Rollup by default de-optimizes treeshaking
+    // inside try-catch. This can leave all warning code unshaked. Although
+    // they would get eventually shaken by a minifier like terser, some minifiers
+    // would fail to do that (e.g. https://github.com/evanw/esbuild/issues/1610)
+
+    var check = NOOP;
+
+    try {
+      for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
+        var job = queue[flushIndex];
+
+        if (job && job.active !== false) {
+          if ("production" !== 'production' && check(job)) ; // console.log(`running:`, job.id)
+
+          callWithErrorHandling(job, null, 14
+          /* ErrorCodes.SCHEDULER */
+          );
+        }
+      }
+    } finally {
+      flushIndex = 0;
+      queue.length = 0;
+      flushPostFlushCbs();
+      isFlushing = false;
+      currentFlushPromise = null; // some postFlushCb queued jobs!
+      // keep flushing until it drains.
+
+      if (queue.length || pendingPostFlushCbs.length) {
+        flushJobs();
+      }
+    }
+  }
+
   var devtools;
   var buffer = [];
   var devtoolsNotInstalled = false;
 
   function emit(event) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
+    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      args[_key2 - 1] = arguments[_key2];
     }
 
     if (devtools) {
@@ -10879,18 +11400,17 @@ var JoomlaMediaManager = (function () {
 
     if (devtools) {
       devtools.enabled = true;
-      buffer.forEach(function (_ref) {
+      buffer.forEach(function (_ref3) {
         var _devtools2;
 
-        var event = _ref.event,
-            args = _ref.args;
+        var event = _ref3.event,
+            args = _ref3.args;
         return (_devtools2 = devtools).emit.apply(_devtools2, [event].concat(args));
       });
       buffer = [];
     } else if ( // handle late devtools injection - only do this if we are in an actual
     // browser environment to avoid the timer handle stalling test runner exit
     // (#4815)
-    // eslint-disable-next-line no-restricted-globals
     typeof window !== 'undefined' && // some envs mock window but not fully
     window.HTMLElement && // also exclude jsdom
     !((_b = (_a = window.navigator) === null || _a === void 0 ? void 0 : _a.userAgent) === null || _b === void 0 ? void 0 : _b.includes('jsdom'))) {
@@ -10916,7 +11436,7 @@ var JoomlaMediaManager = (function () {
 
   function devtoolsInitApp(app, version) {
     emit("app:init"
-    /* APP_INIT */
+    /* DevtoolsHooks.APP_INIT */
     , app, version, {
       Fragment: Fragment,
       Text: Text,
@@ -10927,19 +11447,27 @@ var JoomlaMediaManager = (function () {
 
   function devtoolsUnmountApp(app) {
     emit("app:unmount"
-    /* APP_UNMOUNT */
+    /* DevtoolsHooks.APP_UNMOUNT */
     , app);
   }
 
   var devtoolsComponentAdded = /*#__PURE__*/createDevtoolsComponentHook("component:added"
-  /* COMPONENT_ADDED */
+  /* DevtoolsHooks.COMPONENT_ADDED */
   );
   var devtoolsComponentUpdated = /*#__PURE__*/createDevtoolsComponentHook("component:updated"
-  /* COMPONENT_UPDATED */
+  /* DevtoolsHooks.COMPONENT_UPDATED */
   );
-  var devtoolsComponentRemoved = /*#__PURE__*/createDevtoolsComponentHook("component:removed"
-  /* COMPONENT_REMOVED */
+
+  var _devtoolsComponentRemoved = /*#__PURE__*/createDevtoolsComponentHook("component:removed"
+  /* DevtoolsHooks.COMPONENT_REMOVED */
   );
+
+  var devtoolsComponentRemoved = function devtoolsComponentRemoved(component) {
+    if (devtools && typeof devtools.cleanupBuffer === 'function' && // remove the component if it wasn't buffered
+    !devtools.cleanupBuffer(component)) {
+      _devtoolsComponentRemoved(component);
+    }
+  };
 
   function createDevtoolsComponentHook(hook) {
     return function (component) {
@@ -10949,15 +11477,16 @@ var JoomlaMediaManager = (function () {
 
   function devtoolsComponentEmit(component, event, params) {
     emit("component:emit"
-    /* COMPONENT_EMIT */
+    /* DevtoolsHooks.COMPONENT_EMIT */
     , component.appContext.app, component, event, params);
   }
 
   function emit$1(instance, event) {
+    if (instance.isUnmounted) return;
     var props = instance.vnode.props || EMPTY_OBJ;
 
-    for (var _len2 = arguments.length, rawArgs = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-      rawArgs[_key2 - 2] = arguments[_key2];
+    for (var _len3 = arguments.length, rawArgs = new Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+      rawArgs[_key3 - 2] = arguments[_key3];
     }
 
     var args = rawArgs;
@@ -10968,23 +11497,24 @@ var JoomlaMediaManager = (function () {
     if (modelArg && modelArg in props) {
       var modifiersKey = (modelArg === 'modelValue' ? 'model' : modelArg) + "Modifiers";
 
-      var _ref12 = props[modifiersKey] || EMPTY_OBJ,
-          number = _ref12.number,
-          trim = _ref12.trim;
+      var _ref22 = props[modifiersKey] || EMPTY_OBJ,
+          number = _ref22.number,
+          trim = _ref22.trim;
 
       if (trim) {
         args = rawArgs.map(function (a) {
-          return a.trim();
+          return isString(a) ? a.trim() : a;
         });
-      } else if (number) {
+      }
+
+      if (number) {
         args = rawArgs.map(toNumber);
       }
     }
 
-    if (__VUE_PROD_DEVTOOLS__) {
+    {
       devtoolsComponentEmit(instance, event, args);
     }
-
     var handlerName;
     var handler = props[handlerName = toHandlerKey(event)] || // also try camelCase event handler (#2249)
     props[handlerName = toHandlerKey(camelize(event))]; // for v-model update:xxx events, also trigger kebab-case equivalent
@@ -10996,7 +11526,7 @@ var JoomlaMediaManager = (function () {
 
     if (handler) {
       callWithAsyncErrorHandling(handler, instance, 6
-      /* COMPONENT_EVENT_HANDLER */
+      /* ErrorCodes.COMPONENT_EVENT_HANDLER */
       , args);
     }
 
@@ -11011,7 +11541,7 @@ var JoomlaMediaManager = (function () {
 
       instance.emitted[handlerName] = true;
       callWithAsyncErrorHandling(onceHandler, instance, 6
-      /* COMPONENT_EVENT_HANDLER */
+      /* ErrorCodes.COMPONENT_EVENT_HANDLER */
       , args);
     }
   }
@@ -11033,7 +11563,7 @@ var JoomlaMediaManager = (function () {
 
     var hasExtends = false;
 
-    if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
+    if (!isFunction(comp)) {
       var extendEmits = function extendEmits(raw) {
         var normalizedFromExtend = normalizeEmitsOptions(raw, appContext, true);
 
@@ -11057,7 +11587,10 @@ var JoomlaMediaManager = (function () {
     }
 
     if (!raw && !hasExtends) {
-      cache.set(comp, null);
+      if (isObject$1(comp)) {
+        cache.set(comp, null);
+      }
+
       return null;
     }
 
@@ -11069,7 +11602,10 @@ var JoomlaMediaManager = (function () {
       extend(normalized, raw);
     }
 
-    cache.set(comp, normalized);
+    if (isObject$1(comp)) {
+      cache.set(comp, normalized);
+    }
+
     return normalized;
   } // Check if an incoming prop key is a declared emit event listener.
   // e.g. With `emits: { click: null }`, props named `onClick` and `onclick` are
@@ -11138,17 +11674,21 @@ var JoomlaMediaManager = (function () {
       }
 
       var prevInstance = setCurrentRenderingInstance(ctx);
-      var res = fn.apply(void 0, arguments);
-      setCurrentRenderingInstance(prevInstance);
+      var res;
 
-      if (renderFnWithContext._d) {
-        setBlockTracking(1);
+      try {
+        res = fn.apply(void 0, arguments);
+      } finally {
+        setCurrentRenderingInstance(prevInstance);
+
+        if (renderFnWithContext._d) {
+          setBlockTracking(1);
+        }
       }
 
-      if (__VUE_PROD_DEVTOOLS__) {
+      {
         devtoolsComponentUpdated(ctx);
       }
-
       return res;
     }; // mark normalized to avoid duplicated wrapping
 
@@ -11188,7 +11728,7 @@ var JoomlaMediaManager = (function () {
 
     try {
       if (vnode.shapeFlag & 4
-      /* STATEFUL_COMPONENT */
+      /* ShapeFlags.STATEFUL_COMPONENT */
       ) {
         // withProxy is a proxy with a different `has` trap only for
         // runtime-compiled render functions using `with` block.
@@ -11220,7 +11760,7 @@ var JoomlaMediaManager = (function () {
     } catch (err) {
       blockStack.length = 0;
       handleError(err, instance, 1
-      /* RENDER_FUNCTION */
+      /* ErrorCodes.RENDER_FUNCTION */
       );
       result = createVNode(Comment);
     } // attr merging
@@ -11237,9 +11777,9 @@ var JoomlaMediaManager = (function () {
 
       if (keys.length) {
         if (shapeFlag & (1
-        /* ELEMENT */
+        /* ShapeFlags.ELEMENT */
         | 6
-        /* COMPONENT */
+        /* ShapeFlags.COMPONENT */
         )) {
           if (propsOptions && keys.some(isModelListener)) {
             // If a v-model listener (onUpdate:xxx) has a corresponding declared
@@ -11256,6 +11796,7 @@ var JoomlaMediaManager = (function () {
 
 
     if (vnode.dirs) {
+      root = cloneVNode(root);
       root.dirs = root.dirs ? root.dirs.concat(vnode.dirs) : vnode.dirs;
     } // inherit transition data
 
@@ -11310,7 +11851,7 @@ var JoomlaMediaManager = (function () {
 
     if (optimized && patchFlag >= 0) {
       if (patchFlag & 1024
-      /* DYNAMIC_SLOTS */
+      /* PatchFlags.DYNAMIC_SLOTS */
       ) {
         // slot content that references values that might have changed,
         // e.g. in a v-for
@@ -11318,7 +11859,7 @@ var JoomlaMediaManager = (function () {
       }
 
       if (patchFlag & 16
-      /* FULL_PROPS */
+      /* PatchFlags.FULL_PROPS */
       ) {
         if (!prevProps) {
           return !!nextProps;
@@ -11327,12 +11868,12 @@ var JoomlaMediaManager = (function () {
 
         return hasPropsChanged(prevProps, nextProps, emits);
       } else if (patchFlag & 8
-      /* PROPS */
+      /* PatchFlags.PROPS */
       ) {
         var dynamicProps = nextVNode.dynamicProps;
 
-        for (var _i9 = 0; _i9 < dynamicProps.length; _i9++) {
-          var key = dynamicProps[_i9];
+        for (var i = 0; i < dynamicProps.length; i++) {
+          var key = dynamicProps[i];
 
           if (nextProps[key] !== prevProps[key] && !isEmitListener(emits, key)) {
             return true;
@@ -11373,8 +11914,8 @@ var JoomlaMediaManager = (function () {
       return true;
     }
 
-    for (var _i10 = 0; _i10 < nextKeys.length; _i10++) {
-      var key = nextKeys[_i10];
+    for (var i = 0; i < nextKeys.length; i++) {
+      var key = nextKeys[i];
 
       if (nextProps[key] !== prevProps[key] && !isEmitListener(emitsOptions, key)) {
         return true;
@@ -11384,10 +11925,10 @@ var JoomlaMediaManager = (function () {
     return false;
   }
 
-  function updateHOCHostEl(_ref2, el // HostNode
+  function updateHOCHostEl(_ref4, el // HostNode
   ) {
-    var vnode = _ref2.vnode,
-        parent = _ref2.parent;
+    var vnode = _ref4.vnode,
+        parent = _ref4.parent;
 
     while (parent && parent.subTree === vnode) {
       (vnode = parent.vnode).el = el;
@@ -11445,7 +11986,7 @@ var JoomlaMediaManager = (function () {
     if (instance) {
       // #2400
       // to support `app.use` plugins,
-      // fallback to appContext's `provides` if the intance is at root
+      // fallback to appContext's `provides` if the instance is at root
       var provides = instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides;
 
       if (provides && key in provides) {
@@ -11455,6 +11996,280 @@ var JoomlaMediaManager = (function () {
         return treatDefaultAsFactory && isFunction(defaultValue) ? defaultValue.call(instance.proxy) : defaultValue;
       } else ;
     }
+  } // Simple effect.
+
+
+  var INITIAL_WATCHER_VALUE = {}; // implementation
+
+  function watch(source, cb, options) {
+    return doWatch(source, cb, options);
+  }
+
+  function doWatch(source, cb, _temp) {
+    var _ref23 = _temp === void 0 ? EMPTY_OBJ : _temp,
+        immediate = _ref23.immediate,
+        deep = _ref23.deep,
+        flush = _ref23.flush;
+        _ref23.onTrack;
+        _ref23.onTrigger;
+
+    var instance = currentInstance;
+    var getter;
+    var forceTrigger = false;
+    var isMultiSource = false;
+
+    if (isRef(source)) {
+      getter = function getter() {
+        return source.value;
+      };
+
+      forceTrigger = isShallow(source);
+    } else if (isReactive(source)) {
+      getter = function getter() {
+        return source;
+      };
+
+      deep = true;
+    } else if (isArray(source)) {
+      isMultiSource = true;
+      forceTrigger = source.some(function (s) {
+        return isReactive(s) || isShallow(s);
+      });
+
+      getter = function getter() {
+        return source.map(function (s) {
+          if (isRef(s)) {
+            return s.value;
+          } else if (isReactive(s)) {
+            return traverse(s);
+          } else if (isFunction(s)) {
+            return callWithErrorHandling(s, instance, 2
+            /* ErrorCodes.WATCH_GETTER */
+            );
+          } else ;
+        });
+      };
+    } else if (isFunction(source)) {
+      if (cb) {
+        // getter with cb
+        getter = function getter() {
+          return callWithErrorHandling(source, instance, 2
+          /* ErrorCodes.WATCH_GETTER */
+          );
+        };
+      } else {
+        // no cb -> simple effect
+        getter = function getter() {
+          if (instance && instance.isUnmounted) {
+            return;
+          }
+
+          if (cleanup) {
+            cleanup();
+          }
+
+          return callWithAsyncErrorHandling(source, instance, 3
+          /* ErrorCodes.WATCH_CALLBACK */
+          , [onCleanup]);
+        };
+      }
+    } else {
+      getter = NOOP;
+    }
+
+    if (cb && deep) {
+      var baseGetter = getter;
+
+      getter = function getter() {
+        return traverse(baseGetter());
+      };
+    }
+
+    var cleanup;
+
+    var onCleanup = function onCleanup(fn) {
+      cleanup = effect.onStop = function () {
+        callWithErrorHandling(fn, instance, 4
+        /* ErrorCodes.WATCH_CLEANUP */
+        );
+      };
+    }; // in SSR there is no need to setup an actual effect, and it should be noop
+    // unless it's eager or sync flush
+
+
+    var ssrCleanup;
+
+    if (isInSSRComponentSetup) {
+      // we will also not call the invalidate callback (+ runner is not set up)
+      onCleanup = NOOP;
+
+      if (!cb) {
+        getter();
+      } else if (immediate) {
+        callWithAsyncErrorHandling(cb, instance, 3
+        /* ErrorCodes.WATCH_CALLBACK */
+        , [getter(), isMultiSource ? [] : undefined, onCleanup]);
+      }
+
+      if (flush === 'sync') {
+        var ctx = useSSRContext();
+        ssrCleanup = ctx.__watcherHandles || (ctx.__watcherHandles = []);
+      } else {
+        return NOOP;
+      }
+    }
+
+    var oldValue = isMultiSource ? new Array(source.length).fill(INITIAL_WATCHER_VALUE) : INITIAL_WATCHER_VALUE;
+
+    var job = function job() {
+      if (!effect.active) {
+        return;
+      }
+
+      if (cb) {
+        // watch(source, cb)
+        var newValue = effect.run();
+
+        if (deep || forceTrigger || (isMultiSource ? newValue.some(function (v, i) {
+          return hasChanged(v, oldValue[i]);
+        }) : hasChanged(newValue, oldValue)) || false) {
+          // cleanup before running cb again
+          if (cleanup) {
+            cleanup();
+          }
+
+          callWithAsyncErrorHandling(cb, instance, 3
+          /* ErrorCodes.WATCH_CALLBACK */
+          , [newValue, // pass undefined as the old value when it's changed for the first time
+          oldValue === INITIAL_WATCHER_VALUE ? undefined : isMultiSource && oldValue[0] === INITIAL_WATCHER_VALUE ? [] : oldValue, onCleanup]);
+          oldValue = newValue;
+        }
+      } else {
+        // watchEffect
+        effect.run();
+      }
+    }; // important: mark the job as a watcher callback so that scheduler knows
+    // it is allowed to self-trigger (#1727)
+
+
+    job.allowRecurse = !!cb;
+    var scheduler;
+
+    if (flush === 'sync') {
+      scheduler = job; // the scheduler function gets called directly
+    } else if (flush === 'post') {
+      scheduler = function scheduler() {
+        return queuePostRenderEffect(job, instance && instance.suspense);
+      };
+    } else {
+      // default: 'pre'
+      job.pre = true;
+      if (instance) job.id = instance.uid;
+
+      scheduler = function scheduler() {
+        return queueJob(job);
+      };
+    }
+
+    var effect = new ReactiveEffect(getter, scheduler);
+
+    if (cb) {
+      if (immediate) {
+        job();
+      } else {
+        oldValue = effect.run();
+      }
+    } else if (flush === 'post') {
+      queuePostRenderEffect(effect.run.bind(effect), instance && instance.suspense);
+    } else {
+      effect.run();
+    }
+
+    var unwatch = function unwatch() {
+      effect.stop();
+
+      if (instance && instance.scope) {
+        remove(instance.scope.effects, effect);
+      }
+    };
+
+    if (ssrCleanup) ssrCleanup.push(unwatch);
+    return unwatch;
+  } // this.$watch
+
+
+  function instanceWatch(source, value, options) {
+    var publicThis = this.proxy;
+    var getter = isString(source) ? source.includes('.') ? createPathGetter(publicThis, source) : function () {
+      return publicThis[source];
+    } : source.bind(publicThis, publicThis);
+    var cb;
+
+    if (isFunction(value)) {
+      cb = value;
+    } else {
+      cb = value.handler;
+      options = value;
+    }
+
+    var cur = currentInstance;
+    setCurrentInstance(this);
+    var res = doWatch(getter, cb.bind(publicThis), options);
+
+    if (cur) {
+      setCurrentInstance(cur);
+    } else {
+      unsetCurrentInstance();
+    }
+
+    return res;
+  }
+
+  function createPathGetter(ctx, path) {
+    var segments = path.split('.');
+    return function () {
+      var cur = ctx;
+
+      for (var i = 0; i < segments.length && cur; i++) {
+        cur = cur[segments[i]];
+      }
+
+      return cur;
+    };
+  }
+
+  function traverse(value, seen) {
+    if (!isObject$1(value) || value["__v_skip"
+    /* ReactiveFlags.SKIP */
+    ]) {
+      return value;
+    }
+
+    seen = seen || new Set();
+
+    if (seen.has(value)) {
+      return value;
+    }
+
+    seen.add(value);
+
+    if (isRef(value)) {
+      traverse(value.value, seen);
+    } else if (isArray(value)) {
+      for (var i = 0; i < value.length; i++) {
+        traverse(value[i], seen);
+      }
+    } else if (isSet(value) || isMap(value)) {
+      value.forEach(function (v) {
+        traverse(v, seen);
+      });
+    } else if (isPlainObject(value)) {
+      for (var key in value) {
+        traverse(value[key], seen);
+      }
+    }
+
+    return value;
   }
 
   function useTransitionState() {
@@ -11496,8 +12311,8 @@ var JoomlaMediaManager = (function () {
       onAfterAppear: TransitionHookValidator,
       onAppearCancelled: TransitionHookValidator
     },
-    setup: function setup(props, _ref4) {
-      var slots = _ref4.slots;
+    setup: function setup(props, _ref6) {
+      var slots = _ref6.slots;
       var instance = getCurrentInstance();
       var state = useTransitionState();
       var prevTransitionKey;
@@ -11506,14 +12321,25 @@ var JoomlaMediaManager = (function () {
 
         if (!children || !children.length) {
           return;
-        } // warn multiple elements
+        }
+
+        var child = children[0];
+
+        if (children.length > 1) {
+          for (var _iterator4 = _createForOfIteratorHelperLoose(children), _step4; !(_step4 = _iterator4()).done;) {
+            var c = _step4.value;
+
+            if (c.type !== Comment) {
+              child = c;
+              break;
+            }
+          }
+        } // there's no need to track reactivity for these props so use the raw
         // props for a bit better perf
 
 
         var rawProps = toRaw(props);
         var mode = rawProps.mode; // check mode
-
-        var child = children[0];
 
         if (state.isLeaving) {
           return emptyPlaceholder(child);
@@ -11555,8 +12381,12 @@ var JoomlaMediaManager = (function () {
             state.isLeaving = true; // return placeholder node and queue update when leave finishes
 
             leavingHooks.afterLeave = function () {
-              state.isLeaving = false;
-              instance.update();
+              state.isLeaving = false; // #6835
+              // it also needs to be updated when active is undefined
+
+              if (instance.update.active !== false) {
+                instance.update();
+              }
             };
 
             return emptyPlaceholder(child);
@@ -11620,8 +12450,21 @@ var JoomlaMediaManager = (function () {
 
     var callHook = function callHook(hook, args) {
       hook && callWithAsyncErrorHandling(hook, instance, 9
-      /* TRANSITION_HOOK */
+      /* ErrorCodes.TRANSITION_HOOK */
       , args);
+    };
+
+    var callAsyncHook = function callAsyncHook(hook, args) {
+      var done = args[1];
+      callHook(hook, args);
+
+      if (isArray(hook)) {
+        if (hook.every(function (hook) {
+          return hook.length <= 1;
+        })) done();
+      } else if (hook.length <= 1) {
+        done();
+      }
     };
 
     var hooks = {
@@ -11690,11 +12533,7 @@ var JoomlaMediaManager = (function () {
         };
 
         if (hook) {
-          hook(el, done);
-
-          if (hook.length <= 1) {
-            done();
-          }
+          callAsyncHook(hook, [el, done]);
         } else {
           done();
         }
@@ -11736,11 +12575,7 @@ var JoomlaMediaManager = (function () {
         leavingVNodesCache[key] = vnode;
 
         if (onLeave) {
-          onLeave(el, done);
-
-          if (onLeave.length <= 1) {
-            done();
-          }
+          callAsyncHook(onLeave, [el, done]);
         } else {
           done();
         }
@@ -11770,11 +12605,11 @@ var JoomlaMediaManager = (function () {
 
   function setTransitionHooks(vnode, hooks) {
     if (vnode.shapeFlag & 6
-    /* COMPONENT */
+    /* ShapeFlags.COMPONENT */
     && vnode.component) {
       setTransitionHooks(vnode.component.subTree, hooks);
     } else if (vnode.shapeFlag & 128
-    /* SUSPENSE */
+    /* ShapeFlags.SUSPENSE */
     ) {
       vnode.ssContent.transition = hooks.clone(vnode.ssContent);
       vnode.ssFallback.transition = hooks.clone(vnode.ssFallback);
@@ -11783,7 +12618,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  function getTransitionRawChildren(children, keepComment) {
+  function getTransitionRawChildren(children, keepComment, parentKey) {
     if (keepComment === void 0) {
       keepComment = false;
     }
@@ -11791,17 +12626,21 @@ var JoomlaMediaManager = (function () {
     var ret = [];
     var keyedFragmentCount = 0;
 
-    for (var _i11 = 0; _i11 < children.length; _i11++) {
-      var child = children[_i11]; // handle fragment children case, e.g. v-for
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i]; // #5360 inherit parent key in case of <template v-for>
+
+      var key = parentKey == null ? child.key : String(parentKey) + String(child.key != null ? child.key : i); // handle fragment children case, e.g. v-for
 
       if (child.type === Fragment) {
         if (child.patchFlag & 128
-        /* KEYED_FRAGMENT */
+        /* PatchFlags.KEYED_FRAGMENT */
         ) keyedFragmentCount++;
-        ret = ret.concat(getTransitionRawChildren(child.children, keepComment));
+        ret = ret.concat(getTransitionRawChildren(child.children, keepComment, key));
       } // comment placeholders should be skipped, e.g. v-if
       else if (keepComment || child.type !== Comment) {
-        ret.push(child);
+        ret.push(key != null ? cloneVNode(child, {
+          key: key
+        }) : child);
       }
     } // #1126 if a transition children list contains multiple sub fragments, these
     // fragments will be merged into a flat children array. Since each v-for
@@ -11810,9 +12649,9 @@ var JoomlaMediaManager = (function () {
 
 
     if (keyedFragmentCount > 1) {
-      for (var _i12 = 0; _i12 < ret.length; _i12++) {
-        ret[_i12].patchFlag = -2
-        /* BAIL */
+      for (var _i = 0; _i < ret.length; _i++) {
+        ret[_i].patchFlag = -2
+        /* PatchFlags.BAIL */
         ;
       }
     }
@@ -11831,13 +12670,13 @@ var JoomlaMediaManager = (function () {
 
   function onActivated(hook, target) {
     registerKeepAliveHook(hook, "a"
-    /* ACTIVATED */
+    /* LifecycleHooks.ACTIVATED */
     , target);
   }
 
   function onDeactivated(hook, target) {
     registerKeepAliveHook(hook, "da"
-    /* DEACTIVATED */
+    /* LifecycleHooks.DEACTIVATED */
     , target);
   }
 
@@ -11921,8 +12760,8 @@ var JoomlaMediaManager = (function () {
 
         setCurrentInstance(target);
 
-        for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-          args[_key3] = arguments[_key3];
+        for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+          args[_key4] = arguments[_key4];
         }
 
         var res = callWithAsyncErrorHandling(hook, target, type, args);
@@ -11949,38 +12788,40 @@ var JoomlaMediaManager = (function () {
 
       return (// post-create lifecycle registrations are noops during SSR (except for serverPrefetch)
         (!isInSSRComponentSetup || lifecycle === "sp"
-        /* SERVER_PREFETCH */
-        ) && injectHook(lifecycle, hook, target)
+        /* LifecycleHooks.SERVER_PREFETCH */
+        ) && injectHook(lifecycle, function () {
+          return hook.apply(void 0, arguments);
+        }, target)
       );
     };
   };
 
   var onBeforeMount = createHook("bm"
-  /* BEFORE_MOUNT */
+  /* LifecycleHooks.BEFORE_MOUNT */
   );
   var onMounted = createHook("m"
-  /* MOUNTED */
+  /* LifecycleHooks.MOUNTED */
   );
   var onBeforeUpdate = createHook("bu"
-  /* BEFORE_UPDATE */
+  /* LifecycleHooks.BEFORE_UPDATE */
   );
   var onUpdated = createHook("u"
-  /* UPDATED */
+  /* LifecycleHooks.UPDATED */
   );
   var onBeforeUnmount = createHook("bum"
-  /* BEFORE_UNMOUNT */
+  /* LifecycleHooks.BEFORE_UNMOUNT */
   );
   var onUnmounted = createHook("um"
-  /* UNMOUNTED */
+  /* LifecycleHooks.UNMOUNTED */
   );
   var onServerPrefetch = createHook("sp"
-  /* SERVER_PREFETCH */
+  /* LifecycleHooks.SERVER_PREFETCH */
   );
   var onRenderTriggered = createHook("rtg"
-  /* RENDER_TRIGGERED */
+  /* LifecycleHooks.RENDER_TRIGGERED */
   );
   var onRenderTracked = createHook("rtc"
-  /* RENDER_TRACKED */
+  /* LifecycleHooks.RENDER_TRACKED */
   );
 
   function onErrorCaptured(hook, target) {
@@ -11989,10 +12830,451 @@ var JoomlaMediaManager = (function () {
     }
 
     injectHook("ec"
-    /* ERROR_CAPTURED */
+    /* LifecycleHooks.ERROR_CAPTURED */
     , hook, target);
   }
+  /**
+   * Adds directives to a VNode.
+   */
 
+
+  function withDirectives(vnode, directives) {
+    var internalInstance = currentRenderingInstance;
+
+    if (internalInstance === null) {
+      return vnode;
+    }
+
+    var instance = getExposeProxy(internalInstance) || internalInstance.proxy;
+    var bindings = vnode.dirs || (vnode.dirs = []);
+
+    for (var i = 0; i < directives.length; i++) {
+      var _directives$i = directives[i],
+          dir = _directives$i[0],
+          value = _directives$i[1],
+          arg = _directives$i[2],
+          _directives$i$ = _directives$i[3],
+          modifiers = _directives$i$ === void 0 ? EMPTY_OBJ : _directives$i$;
+
+      if (dir) {
+        if (isFunction(dir)) {
+          dir = {
+            mounted: dir,
+            updated: dir
+          };
+        }
+
+        if (dir.deep) {
+          traverse(value);
+        }
+
+        bindings.push({
+          dir: dir,
+          instance: instance,
+          value: value,
+          oldValue: void 0,
+          arg: arg,
+          modifiers: modifiers
+        });
+      }
+    }
+
+    return vnode;
+  }
+
+  function invokeDirectiveHook(vnode, prevVNode, instance, name) {
+    var bindings = vnode.dirs;
+    var oldBindings = prevVNode && prevVNode.dirs;
+
+    for (var i = 0; i < bindings.length; i++) {
+      var binding = bindings[i];
+
+      if (oldBindings) {
+        binding.oldValue = oldBindings[i].value;
+      }
+
+      var hook = binding.dir[name];
+
+      if (hook) {
+        // disable tracking inside all lifecycle hooks
+        // since they can potentially be called inside effects.
+        pauseTracking();
+        callWithAsyncErrorHandling(hook, instance, 8
+        /* ErrorCodes.DIRECTIVE_HOOK */
+        , [vnode.el, binding, vnode, prevVNode]);
+        resetTracking();
+      }
+    }
+  }
+
+  var COMPONENTS = 'components';
+  /**
+   * @private
+   */
+
+  function resolveComponent(name, maybeSelfReference) {
+    return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
+  }
+
+  var NULL_DYNAMIC_COMPONENT = Symbol();
+
+  function resolveAsset(type, name, warnMissing, maybeSelfReference) {
+    if (maybeSelfReference === void 0) {
+      maybeSelfReference = false;
+    }
+
+    var instance = currentRenderingInstance || currentInstance;
+
+    if (instance) {
+      var Component = instance.type; // explicit self name has highest priority
+
+      if (type === COMPONENTS) {
+        var selfName = getComponentName(Component, false
+        /* do not include inferred name to avoid breaking existing code */
+        );
+
+        if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
+          return Component;
+        }
+      }
+
+      var res = // local registration
+      // check instance[type] first which is resolved for options API
+      resolve(instance[type] || Component[type], name) || // global registration
+      resolve(instance.appContext[type], name);
+
+      if (!res && maybeSelfReference) {
+        // fallback to implicit self-reference
+        return Component;
+      }
+
+      return res;
+    }
+  }
+
+  function resolve(registry, name) {
+    return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
+  }
+  /**
+   * Actual implementation
+   */
+
+
+  function renderList(source, renderItem, cache, index) {
+    var ret;
+    var cached = cache && cache[index];
+
+    if (isArray(source) || isString(source)) {
+      ret = new Array(source.length);
+
+      for (var i = 0, l = source.length; i < l; i++) {
+        ret[i] = renderItem(source[i], i, undefined, cached && cached[i]);
+      }
+    } else if (typeof source === 'number') {
+      ret = new Array(source);
+
+      for (var _i2 = 0; _i2 < source; _i2++) {
+        ret[_i2] = renderItem(_i2 + 1, _i2, undefined, cached && cached[_i2]);
+      }
+    } else if (isObject$1(source)) {
+      if (source[Symbol.iterator]) {
+        ret = Array.from(source, function (item, i) {
+          return renderItem(item, i, undefined, cached && cached[i]);
+        });
+      } else {
+        var keys = Object.keys(source);
+        ret = new Array(keys.length);
+
+        for (var _i3 = 0, _l = keys.length; _i3 < _l; _i3++) {
+          var key = keys[_i3];
+          ret[_i3] = renderItem(source[key], key, _i3, cached && cached[_i3]);
+        }
+      }
+    } else {
+      ret = [];
+    }
+
+    if (cache) {
+      cache[index] = ret;
+    }
+
+    return ret;
+  }
+  /**
+   * Compiler runtime helper for rendering `<slot/>`
+   * @private
+   */
+
+
+  function renderSlot(slots, name, props, // this is not a user-facing function, so the fallback is always generated by
+  // the compiler and guaranteed to be a function returning an array
+  fallback, noSlotted) {
+    if (props === void 0) {
+      props = {};
+    }
+
+    if (currentRenderingInstance.isCE || currentRenderingInstance.parent && isAsyncWrapper(currentRenderingInstance.parent) && currentRenderingInstance.parent.isCE) {
+      if (name !== 'default') props.name = name;
+      return createVNode('slot', props, fallback && fallback());
+    }
+
+    var slot = slots[name]; // invocation interfering with template-based block tracking, but in
+    // `renderSlot` we can be sure that it's template-based so we can force
+    // enable it.
+
+    if (slot && slot._c) {
+      slot._d = false;
+    }
+
+    openBlock();
+    var validSlotContent = slot && ensureValidVNode(slot(props));
+    var rendered = createBlock(Fragment, {
+      key: props.key || // slot content array of a dynamic conditional slot may have a branch
+      // key attached in the `createSlots` helper, respect that
+      validSlotContent && validSlotContent.key || "_" + name
+    }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
+    /* SlotFlags.STABLE */
+    ? 64
+    /* PatchFlags.STABLE_FRAGMENT */
+    : -2
+    /* PatchFlags.BAIL */
+    );
+
+    if (!noSlotted && rendered.scopeId) {
+      rendered.slotScopeIds = [rendered.scopeId + '-s'];
+    }
+
+    if (slot && slot._c) {
+      slot._d = true;
+    }
+
+    return rendered;
+  }
+
+  function ensureValidVNode(vnodes) {
+    return vnodes.some(function (child) {
+      if (!isVNode(child)) return true;
+      if (child.type === Comment) return false;
+      if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
+      return true;
+    }) ? vnodes : null;
+  }
+  /**
+   * #2437 In Vue 3, functional components do not have a public instance proxy but
+   * they exist in the internal parent chain. For code that relies on traversing
+   * public $parent chains, skip functional ones and go to the parent instead.
+   */
+
+
+  var getPublicInstance = function getPublicInstance(i) {
+    if (!i) return null;
+    if (isStatefulComponent(i)) return getExposeProxy(i) || i.proxy;
+    return getPublicInstance(i.parent);
+  };
+
+  var publicPropertiesMap = // Move PURE marker to new line to workaround compiler discarding it
+  // due to type annotation
+
+  /*#__PURE__*/
+  extend(Object.create(null), {
+    $: function $(i) {
+      return i;
+    },
+    $el: function $el(i) {
+      return i.vnode.el;
+    },
+    $data: function $data(i) {
+      return i.data;
+    },
+    $props: function $props(i) {
+      return i.props;
+    },
+    $attrs: function $attrs(i) {
+      return i.attrs;
+    },
+    $slots: function $slots(i) {
+      return i.slots;
+    },
+    $refs: function $refs(i) {
+      return i.refs;
+    },
+    $parent: function $parent(i) {
+      return getPublicInstance(i.parent);
+    },
+    $root: function $root(i) {
+      return getPublicInstance(i.root);
+    },
+    $emit: function $emit(i) {
+      return i.emit;
+    },
+    $options: function $options(i) {
+      return resolveMergedOptions(i);
+    },
+    $forceUpdate: function $forceUpdate(i) {
+      return i.f || (i.f = function () {
+        return queueJob(i.update);
+      });
+    },
+    $nextTick: function $nextTick(i) {
+      return i.n || (i.n = nextTick.bind(i.proxy));
+    },
+    $watch: function $watch(i) {
+      return instanceWatch.bind(i);
+    }
+  });
+
+  var hasSetupBinding = function hasSetupBinding(state, key) {
+    return state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
+  };
+
+  var PublicInstanceProxyHandlers = {
+    get: function get(_ref9, key) {
+      var instance = _ref9._;
+      var ctx = instance.ctx,
+          setupState = instance.setupState,
+          data = instance.data,
+          props = instance.props,
+          accessCache = instance.accessCache,
+          type = instance.type,
+          appContext = instance.appContext; // for internal formatters to know that this is a Vue instance
+      // This getter gets called for every property access on the render context
+      // during render and is a major hotspot. The most expensive part of this
+      // is the multiple hasOwn() calls. It's much faster to do a simple property
+      // access on a plain object, so we use an accessCache object (with null
+      // prototype) to memoize what access type a key corresponds to.
+
+      var normalizedProps;
+
+      if (key[0] !== '$') {
+        var n = accessCache[key];
+
+        if (n !== undefined) {
+          switch (n) {
+            case 1
+            /* AccessTypes.SETUP */
+            :
+              return setupState[key];
+
+            case 2
+            /* AccessTypes.DATA */
+            :
+              return data[key];
+
+            case 4
+            /* AccessTypes.CONTEXT */
+            :
+              return ctx[key];
+
+            case 3
+            /* AccessTypes.PROPS */
+            :
+              return props[key];
+            // default: just fallthrough
+          }
+        } else if (hasSetupBinding(setupState, key)) {
+          accessCache[key] = 1
+          /* AccessTypes.SETUP */
+          ;
+          return setupState[key];
+        } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
+          accessCache[key] = 2
+          /* AccessTypes.DATA */
+          ;
+          return data[key];
+        } else if ( // only cache other properties when instance has declared (thus stable)
+        // props
+        (normalizedProps = instance.propsOptions[0]) && hasOwn(normalizedProps, key)) {
+          accessCache[key] = 3
+          /* AccessTypes.PROPS */
+          ;
+          return props[key];
+        } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
+          accessCache[key] = 4
+          /* AccessTypes.CONTEXT */
+          ;
+          return ctx[key];
+        } else if (shouldCacheAccess) {
+          accessCache[key] = 0
+          /* AccessTypes.OTHER */
+          ;
+        }
+      }
+
+      var publicGetter = publicPropertiesMap[key];
+      var cssModule, globalProperties; // public $xxx properties
+
+      if (publicGetter) {
+        if (key === '$attrs') {
+          track(instance, "get"
+          /* TrackOpTypes.GET */
+          , key);
+        }
+
+        return publicGetter(instance);
+      } else if ( // css module (injected by vue-loader)
+      (cssModule = type.__cssModules) && (cssModule = cssModule[key])) {
+        return cssModule;
+      } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
+        // user may set custom properties to `this` that start with `$`
+        accessCache[key] = 4
+        /* AccessTypes.CONTEXT */
+        ;
+        return ctx[key];
+      } else if ( // global properties
+      globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)) {
+        {
+          return globalProperties[key];
+        }
+      } else ;
+    },
+    set: function set(_ref10, key, value) {
+      var instance = _ref10._;
+      var data = instance.data,
+          setupState = instance.setupState,
+          ctx = instance.ctx;
+
+      if (hasSetupBinding(setupState, key)) {
+        setupState[key] = value;
+        return true;
+      } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
+        data[key] = value;
+        return true;
+      } else if (hasOwn(instance.props, key)) {
+        return false;
+      }
+
+      if (key[0] === '$' && key.slice(1) in instance) {
+        return false;
+      } else {
+        {
+          ctx[key] = value;
+        }
+      }
+
+      return true;
+    },
+    has: function has(_ref11, key) {
+      var _ref11$_ = _ref11._,
+          data = _ref11$_.data,
+          setupState = _ref11$_.setupState,
+          accessCache = _ref11$_.accessCache,
+          ctx = _ref11$_.ctx,
+          appContext = _ref11$_.appContext,
+          propsOptions = _ref11$_.propsOptions;
+      var normalizedProps;
+      return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
+    },
+    defineProperty: function defineProperty(target, key, descriptor) {
+      if (descriptor.get != null) {
+        // invalidate key cache of a getter based property #5417
+        target._.accessCache[key] = 0;
+      } else if (hasOwn(descriptor, 'value')) {
+        this.set(target, key, descriptor.value, null);
+      }
+
+      return Reflect.defineProperty(target, key, descriptor);
+    }
+  };
   var shouldCacheAccess = true;
 
   function applyOptions(instance) {
@@ -12005,7 +13287,7 @@ var JoomlaMediaManager = (function () {
 
     if (options.beforeCreate) {
       callHook$1(options.beforeCreate, instance, "bc"
-      /* BEFORE_CREATE */
+      /* LifecycleHooks.BEFORE_CREATE */
       );
     }
 
@@ -12073,15 +13355,15 @@ var JoomlaMediaManager = (function () {
     shouldCacheAccess = true;
 
     if (computedOptions) {
-      var _loop = function _loop(_key6) {
-        var opt = computedOptions[_key6];
+      var _loop = function _loop(_key5) {
+        var opt = computedOptions[_key5];
         var get = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
         var set = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : NOOP;
         var c = computed({
           get: get,
           set: set
         });
-        Object.defineProperty(ctx, _key6, {
+        Object.defineProperty(ctx, _key5, {
           enumerable: true,
           configurable: true,
           get: function get() {
@@ -12093,8 +13375,8 @@ var JoomlaMediaManager = (function () {
         });
       };
 
-      for (var _key6 in computedOptions) {
-        _loop(_key6);
+      for (var _key5 in computedOptions) {
+        _loop(_key5);
       }
     }
 
@@ -12113,7 +13395,7 @@ var JoomlaMediaManager = (function () {
 
     if (created) {
       callHook$1(created, instance, "c"
-      /* CREATED */
+      /* LifecycleHooks.CREATED */
       );
     }
 
@@ -12293,7 +13575,10 @@ var JoomlaMediaManager = (function () {
       mergeOptions(resolved, base, optionMergeStrategies);
     }
 
-    cache.set(base, resolved);
+    if (isObject$1(base)) {
+      cache.set(base, resolved);
+    }
+
     return resolved;
   }
 
@@ -12379,8 +13664,8 @@ var JoomlaMediaManager = (function () {
     if (isArray(raw)) {
       var res = {};
 
-      for (var _i13 = 0; _i13 < raw.length; _i13++) {
-        res[raw[_i13]] = raw[_i13];
+      for (var i = 0; i < raw.length; i++) {
+        res[raw[i]] = raw[i];
       }
 
       return res;
@@ -12457,17 +13742,22 @@ var JoomlaMediaManager = (function () {
     // - #1942 if hmr is enabled with sfc component
     // - vite#872 non-sfc component used by sfc component
     (optimized || patchFlag > 0) && !(patchFlag & 16
-    /* FULL_PROPS */
+    /* PatchFlags.FULL_PROPS */
     )) {
       if (patchFlag & 8
-      /* PROPS */
+      /* PatchFlags.PROPS */
       ) {
         // Compiler-generated props & no keys change, just set the updated
         // the props.
         var propsToUpdate = instance.vnode.dynamicProps;
 
-        for (var _i14 = 0; _i14 < propsToUpdate.length; _i14++) {
-          var key = propsToUpdate[_i14]; // PROPS flag guarantees rawProps to be non-null
+        for (var i = 0; i < propsToUpdate.length; i++) {
+          var key = propsToUpdate[i]; // skip if the prop key is a declared emit event listener
+
+          if (isEmitListener(instance.emitsOptions, key)) {
+            continue;
+          } // PROPS flag guarantees rawProps to be non-null
+
 
           var value = rawProps[key];
 
@@ -12526,7 +13816,7 @@ var JoomlaMediaManager = (function () {
 
       if (attrs !== rawCurrentProps) {
         for (var _key9 in attrs) {
-          if (!rawProps || !hasOwn(rawProps, _key9)) {
+          if (!rawProps || !hasOwn(rawProps, _key9) && !false) {
             delete attrs[_key9];
             hasAttrsChanged = true;
           }
@@ -12536,8 +13826,8 @@ var JoomlaMediaManager = (function () {
 
 
     if (hasAttrsChanged) {
-      trigger$1(instance, "set"
-      /* SET */
+      trigger(instance, "set"
+      /* TriggerOpTypes.SET */
       , '$attrs');
     }
   }
@@ -12580,8 +13870,8 @@ var JoomlaMediaManager = (function () {
       var rawCurrentProps = toRaw(props);
       var castValues = rawCastValues || EMPTY_OBJ;
 
-      for (var _i15 = 0; _i15 < needCastKeys.length; _i15++) {
-        var _key10 = needCastKeys[_i15];
+      for (var i = 0; i < needCastKeys.length; i++) {
+        var _key10 = needCastKeys[i];
         props[_key10] = resolvePropValue(options, rawCurrentProps, _key10, castValues[_key10], instance, !hasOwn(castValues, _key10));
       }
     }
@@ -12615,12 +13905,12 @@ var JoomlaMediaManager = (function () {
 
 
       if (opt[0
-      /* shouldCast */
+      /* BooleanFlags.shouldCast */
       ]) {
         if (isAbsent && !hasDefault) {
           value = false;
         } else if (opt[1
-        /* shouldCastTrue */
+        /* BooleanFlags.shouldCastTrue */
         ] && (value === '' || value === hyphenate(key))) {
           value = true;
         }
@@ -12648,7 +13938,7 @@ var JoomlaMediaManager = (function () {
 
     var hasExtends = false;
 
-    if (__VUE_OPTIONS_API__ && !isFunction(comp)) {
+    if (!isFunction(comp)) {
       var extendProps = function extendProps(raw) {
         hasExtends = true;
 
@@ -12674,13 +13964,16 @@ var JoomlaMediaManager = (function () {
     }
 
     if (!raw && !hasExtends) {
-      cache.set(comp, EMPTY_ARR);
+      if (isObject$1(comp)) {
+        cache.set(comp, EMPTY_ARR);
+      }
+
       return EMPTY_ARR;
     }
 
     if (isArray(raw)) {
-      for (var _i16 = 0; _i16 < raw.length; _i16++) {
-        var normalizedKey = camelize(raw[_i16]);
+      for (var i = 0; i < raw.length; i++) {
+        var normalizedKey = camelize(raw[i]);
 
         if (validatePropName(normalizedKey)) {
           normalized[normalizedKey] = EMPTY_OBJ;
@@ -12694,16 +13987,16 @@ var JoomlaMediaManager = (function () {
           var opt = raw[key];
           var prop = normalized[_normalizedKey] = isArray(opt) || isFunction(opt) ? {
             type: opt
-          } : opt;
+          } : Object.assign({}, opt);
 
           if (prop) {
             var booleanIndex = getTypeIndex(Boolean, prop.type);
             var stringIndex = getTypeIndex(String, prop.type);
             prop[0
-            /* shouldCast */
+            /* BooleanFlags.shouldCast */
             ] = booleanIndex > -1;
             prop[1
-            /* shouldCastTrue */
+            /* BooleanFlags.shouldCastTrue */
             ] = stringIndex < 0 || booleanIndex < stringIndex; // if the prop needs boolean casting or default value
 
             if (booleanIndex > -1 || hasOwn(prop, 'default')) {
@@ -12715,7 +14008,11 @@ var JoomlaMediaManager = (function () {
     }
 
     var res = [normalized, needCastKeys];
-    cache.set(comp, res);
+
+    if (isObject$1(comp)) {
+      cache.set(comp, res);
+    }
+
     return res;
   }
 
@@ -12759,6 +14056,11 @@ var JoomlaMediaManager = (function () {
   };
 
   var normalizeSlot = function normalizeSlot(key, rawSlot, ctx) {
+    if (rawSlot._n) {
+      // already normalized - #5353
+      return rawSlot;
+    }
+
     var normalized = withCtx(function () {
       return normalizeSlotValue(rawSlot.apply(void 0, arguments));
     }, ctx);
@@ -12797,7 +14099,7 @@ var JoomlaMediaManager = (function () {
 
   var initSlots = function initSlots(instance, children) {
     if (instance.vnode.shapeFlag & 32
-    /* SLOTS_CHILDREN */
+    /* ShapeFlags.SLOTS_CHILDREN */
     ) {
       var type = children._;
 
@@ -12828,14 +14130,14 @@ var JoomlaMediaManager = (function () {
     var deletionComparisonTarget = EMPTY_OBJ;
 
     if (vnode.shapeFlag & 32
-    /* SLOTS_CHILDREN */
+    /* ShapeFlags.SLOTS_CHILDREN */
     ) {
       var type = children._;
 
       if (type) {
         // compiled slots.
         if (optimized && type === 1
-        /* STABLE */
+        /* SlotFlags.STABLE */
         ) {
           // compiled AND stable.
           // no need to update, and skip stale slots removal.
@@ -12849,7 +14151,7 @@ var JoomlaMediaManager = (function () {
           // i.e. let the `renderSlot` create the bailed Fragment
 
           if (!optimized && type === 1
-          /* STABLE */
+          /* SlotFlags.STABLE */
           ) {
             delete slots._;
           }
@@ -12877,77 +14179,6 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  /**
-   * Adds directives to a VNode.
-   */
-
-
-  function withDirectives(vnode, directives) {
-    var internalInstance = currentRenderingInstance;
-
-    if (internalInstance === null) {
-      return vnode;
-    }
-
-    var instance = internalInstance.proxy;
-    var bindings = vnode.dirs || (vnode.dirs = []);
-
-    for (var _i17 = 0; _i17 < directives.length; _i17++) {
-      var _directives$_i = directives[_i17],
-          dir = _directives$_i[0],
-          value = _directives$_i[1],
-          arg = _directives$_i[2],
-          _directives$_i$ = _directives$_i[3],
-          modifiers = _directives$_i$ === void 0 ? EMPTY_OBJ : _directives$_i$;
-
-      if (isFunction(dir)) {
-        dir = {
-          mounted: dir,
-          updated: dir
-        };
-      }
-
-      if (dir.deep) {
-        traverse(value);
-      }
-
-      bindings.push({
-        dir: dir,
-        instance: instance,
-        value: value,
-        oldValue: void 0,
-        arg: arg,
-        modifiers: modifiers
-      });
-    }
-
-    return vnode;
-  }
-
-  function invokeDirectiveHook(vnode, prevVNode, instance, name) {
-    var bindings = vnode.dirs;
-    var oldBindings = prevVNode && prevVNode.dirs;
-
-    for (var _i18 = 0; _i18 < bindings.length; _i18++) {
-      var binding = bindings[_i18];
-
-      if (oldBindings) {
-        binding.oldValue = oldBindings[_i18].value;
-      }
-
-      var hook = binding.dir[name];
-
-      if (hook) {
-        // disable tracking inside all lifecycle hooks
-        // since they can potentially be called inside effects.
-        pauseTracking();
-        callWithAsyncErrorHandling(hook, instance, 8
-        /* DIRECTIVE_HOOK */
-        , [vnode.el, binding, vnode, prevVNode]);
-        resetTracking();
-      }
-    }
-  }
 
   function createAppContext() {
     return {
@@ -12979,6 +14210,10 @@ var JoomlaMediaManager = (function () {
         rootProps = null;
       }
 
+      if (!isFunction(rootComponent)) {
+        rootComponent = Object.assign({}, rootComponent);
+      }
+
       if (rootProps != null && !isObject$1(rootProps)) {
         rootProps = null;
       }
@@ -13002,8 +14237,8 @@ var JoomlaMediaManager = (function () {
         set config(v) {},
 
         use: function use(plugin) {
-          for (var _len5 = arguments.length, options = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-            options[_key5 - 1] = arguments[_key5];
+          for (var _len6 = arguments.length, options = new Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+            options[_key6 - 1] = arguments[_key6];
           }
 
           if (installedPlugins.has(plugin)) ;else if (plugin && isFunction(plugin.install)) {
@@ -13016,12 +14251,11 @@ var JoomlaMediaManager = (function () {
           return app;
         },
         mixin: function mixin(_mixin) {
-          if (__VUE_OPTIONS_API__) {
+          {
             if (!context.mixins.includes(_mixin)) {
               context.mixins.push(_mixin);
             }
           }
-
           return app;
         },
         component: function component(name, _component) {
@@ -13056,29 +14290,24 @@ var JoomlaMediaManager = (function () {
             isMounted = true;
             app._container = rootContainer;
             rootContainer.__vue_app__ = app;
-
-            if (__VUE_PROD_DEVTOOLS__) {
+            {
               app._instance = vnode.component;
               devtoolsInitApp(app, version);
             }
-
             return getExposeProxy(vnode.component) || vnode.component.proxy;
           }
         },
         unmount: function unmount() {
           if (isMounted) {
             render(null, app._container);
-
-            if (__VUE_PROD_DEVTOOLS__) {
+            {
               app._instance = null;
               devtoolsUnmountApp(app);
             }
-
             delete app._container.__vue_app__;
           }
         },
         provide: function provide(key, value) {
-          // https://github.com/Microsoft/TypeScript/issues/24587
           context.provides[key] = value;
           return app;
         }
@@ -13110,7 +14339,7 @@ var JoomlaMediaManager = (function () {
     }
 
     var refValue = vnode.shapeFlag & 4
-    /* STATEFUL_COMPONENT */
+    /* ShapeFlags.STATEFUL_COMPONENT */
     ? getExposeProxy(vnode.component) || vnode.component.proxy : vnode.el;
     var value = isUnmount ? null : refValue;
     var owner = rawRef.i,
@@ -13133,7 +14362,7 @@ var JoomlaMediaManager = (function () {
 
     if (isFunction(ref)) {
       callWithErrorHandling(ref, owner, 12
-      /* FUNCTION_REF */
+      /* ErrorCodes.FUNCTION_REF */
       , [value, refs]);
     } else {
       var _isString = isString(ref);
@@ -13143,7 +14372,7 @@ var JoomlaMediaManager = (function () {
       if (_isString || _isRef) {
         var doSet = function doSet() {
           if (rawRef.f) {
-            var existing = _isString ? refs[ref] : ref.value;
+            var existing = _isString ? hasOwn(setupState, ref) ? setupState[ref] : refs[ref] : ref.value;
 
             if (isUnmount) {
               isArray(existing) && remove(existing, refValue);
@@ -13151,6 +14380,10 @@ var JoomlaMediaManager = (function () {
               if (!isArray(existing)) {
                 if (_isString) {
                   refs[ref] = [refValue];
+
+                  if (hasOwn(setupState, ref)) {
+                    setupState[ref] = refs[ref];
+                  }
                 } else {
                   ref.value = [refValue];
                   if (rawRef.k) refs[rawRef.k] = ref.value;
@@ -13165,7 +14398,7 @@ var JoomlaMediaManager = (function () {
             if (hasOwn(setupState, ref)) {
               setupState[ref] = value;
             }
-          } else if (isRef(ref)) {
+          } else if (_isRef) {
             ref.value = value;
             if (rawRef.k) refs[rawRef.k] = value;
           } else ;
@@ -13178,24 +14411,6 @@ var JoomlaMediaManager = (function () {
           doSet();
         }
       }
-    }
-  }
-  /**
-   * This is only called in esm-bundler builds.
-   * It is called when a renderer is created, in `baseCreateRenderer` so that
-   * importing runtime-core is side-effects free.
-   *
-   * istanbul-ignore-next
-   */
-
-
-  function initFeatureFlags() {
-    if (typeof __VUE_OPTIONS_API__ !== 'boolean') {
-      getGlobalThis().__VUE_OPTIONS_API__ = true;
-    }
-
-    if (typeof __VUE_PROD_DEVTOOLS__ !== 'boolean') {
-      getGlobalThis().__VUE_PROD_DEVTOOLS__ = false;
     }
   }
 
@@ -13222,17 +14437,11 @@ var JoomlaMediaManager = (function () {
 
 
   function baseCreateRenderer(options, createHydrationFns) {
-    // compile-time feature flags check
-    {
-      initFeatureFlags();
-    }
     var target = getGlobalThis();
     target.__VUE__ = true;
-
-    if (__VUE_PROD_DEVTOOLS__) {
+    {
       setDevtoolsHook(target.__VUE_DEVTOOLS_GLOBAL_HOOK__, target);
     }
-
     var hostInsert = options.insert,
         hostRemove = options.remove,
         hostPatchProp = options.patchProp,
@@ -13245,7 +14454,6 @@ var JoomlaMediaManager = (function () {
         hostNextSibling = options.nextSibling,
         _options$setScopeId = options.setScopeId,
         hostSetScopeId = _options$setScopeId === void 0 ? NOOP : _options$setScopeId,
-        hostCloneNode = options.cloneNode,
         hostInsertStaticContent = options.insertStaticContent; // Note: functions inside this closure should use `const xxx = () => {}`
     // style in order to prevent being inlined by minifiers.
 
@@ -13286,7 +14494,7 @@ var JoomlaMediaManager = (function () {
       }
 
       if (n2.patchFlag === -2
-      /* BAIL */
+      /* PatchFlags.BAIL */
       ) {
         optimized = false;
         n2.dynamicChildren = null;
@@ -13318,19 +14526,19 @@ var JoomlaMediaManager = (function () {
 
         default:
           if (shapeFlag & 1
-          /* ELEMENT */
+          /* ShapeFlags.ELEMENT */
           ) {
             processElement(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
           } else if (shapeFlag & 6
-          /* COMPONENT */
+          /* ShapeFlags.COMPONENT */
           ) {
             processComponent(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
           } else if (shapeFlag & 64
-          /* TELEPORT */
+          /* ShapeFlags.TELEPORT */
           ) {
             type.process(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, internals);
           } else if (shapeFlag & 128
-          /* SUSPENSE */
+          /* ShapeFlags.SUSPENSE */
           ) {
             type.process(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, internals);
           } else ;
@@ -13365,15 +14573,15 @@ var JoomlaMediaManager = (function () {
     };
 
     var mountStaticNode = function mountStaticNode(n2, container, anchor, isSVG) {
-      var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, isSVG);
+      var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, isSVG, n2.el, n2.anchor);
 
       n2.el = _hostInsertStaticCont[0];
       n2.anchor = _hostInsertStaticCont[1];
     };
 
-    var moveStaticNode = function moveStaticNode(_ref8, container, nextSibling) {
-      var el = _ref8.el,
-          anchor = _ref8.anchor;
+    var moveStaticNode = function moveStaticNode(_ref12, container, nextSibling) {
+      var el = _ref12.el,
+          anchor = _ref12.anchor;
       var next;
 
       while (el && el !== anchor) {
@@ -13385,9 +14593,9 @@ var JoomlaMediaManager = (function () {
       hostInsert(anchor, container, nextSibling);
     };
 
-    var removeStaticNode = function removeStaticNode(_ref9) {
-      var el = _ref9.el,
-          anchor = _ref9.anchor;
+    var removeStaticNode = function removeStaticNode(_ref13) {
+      var el = _ref13.el,
+          anchor = _ref13.anchor;
       var next;
 
       while (el && el !== anchor) {
@@ -13416,67 +14624,54 @@ var JoomlaMediaManager = (function () {
           props = vnode.props,
           shapeFlag = vnode.shapeFlag,
           transition = vnode.transition,
-          patchFlag = vnode.patchFlag,
           dirs = vnode.dirs;
+      el = vnode.el = hostCreateElement(vnode.type, isSVG, props && props.is, props); // mount children first, since some props may rely on child content
+      // being already rendered, e.g. `<select value>`
 
-      if (vnode.el && hostCloneNode !== undefined && patchFlag === -1
-      /* HOISTED */
+      if (shapeFlag & 8
+      /* ShapeFlags.TEXT_CHILDREN */
       ) {
-        // If a vnode has non-null el, it means it's being reused.
-        // Only static vnodes can be reused, so its mounted DOM nodes should be
-        // exactly the same, and we can simply do a clone here.
-        // only do this in production since cloned trees cannot be HMR updated.
-        el = vnode.el = hostCloneNode(vnode.el);
-      } else {
-        el = vnode.el = hostCreateElement(vnode.type, isSVG, props && props.is, props); // mount children first, since some props may rely on child content
-        // being already rendered, e.g. `<select value>`
-
-        if (shapeFlag & 8
-        /* TEXT_CHILDREN */
-        ) {
-          hostSetElementText(el, vnode.children);
-        } else if (shapeFlag & 16
-        /* ARRAY_CHILDREN */
-        ) {
-          mountChildren(vnode.children, el, null, parentComponent, parentSuspense, isSVG && type !== 'foreignObject', slotScopeIds, optimized);
-        }
-
-        if (dirs) {
-          invokeDirectiveHook(vnode, null, parentComponent, 'created');
-        } // props
-
-
-        if (props) {
-          for (var key in props) {
-            if (key !== 'value' && !isReservedProp(key)) {
-              hostPatchProp(el, key, null, props[key], isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
-            }
-          }
-          /**
-           * Special case for setting value on DOM elements:
-           * - it can be order-sensitive (e.g. should be set *after* min/max, #2325, #4024)
-           * - it needs to be forced (#1471)
-           * #2353 proposes adding another renderer option to configure this, but
-           * the properties affects are so finite it is worth special casing it
-           * here to reduce the complexity. (Special casing it also should not
-           * affect non-DOM renderers)
-           */
-
-
-          if ('value' in props) {
-            hostPatchProp(el, 'value', null, props.value);
-          }
-
-          if (vnodeHook = props.onVnodeBeforeMount) {
-            invokeVNodeHook(vnodeHook, parentComponent, vnode);
-          }
-        } // scopeId
-
-
-        setScopeId(el, vnode, vnode.scopeId, slotScopeIds, parentComponent);
+        hostSetElementText(el, vnode.children);
+      } else if (shapeFlag & 16
+      /* ShapeFlags.ARRAY_CHILDREN */
+      ) {
+        mountChildren(vnode.children, el, null, parentComponent, parentSuspense, isSVG && type !== 'foreignObject', slotScopeIds, optimized);
       }
 
-      if (__VUE_PROD_DEVTOOLS__) {
+      if (dirs) {
+        invokeDirectiveHook(vnode, null, parentComponent, 'created');
+      } // props
+
+
+      if (props) {
+        for (var key in props) {
+          if (key !== 'value' && !isReservedProp(key)) {
+            hostPatchProp(el, key, null, props[key], isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
+          }
+        }
+        /**
+         * Special case for setting value on DOM elements:
+         * - it can be order-sensitive (e.g. should be set *after* min/max, #2325, #4024)
+         * - it needs to be forced (#1471)
+         * #2353 proposes adding another renderer option to configure this, but
+         * the properties affects are so finite it is worth special casing it
+         * here to reduce the complexity. (Special casing it also should not
+         * affect non-DOM renderers)
+         */
+
+
+        if ('value' in props) {
+          hostPatchProp(el, 'value', null, props.value);
+        }
+
+        if (vnodeHook = props.onVnodeBeforeMount) {
+          invokeVNodeHook(vnodeHook, parentComponent, vnode);
+        }
+      } // scopeId
+
+
+      setScopeId(el, vnode, vnode.scopeId, slotScopeIds, parentComponent);
+      {
         Object.defineProperty(el, '__vnode', {
           value: vnode,
           enumerable: false
@@ -13516,8 +14711,8 @@ var JoomlaMediaManager = (function () {
       }
 
       if (slotScopeIds) {
-        for (var _i19 = 0; _i19 < slotScopeIds.length; _i19++) {
-          hostSetScopeId(el, slotScopeIds[_i19]);
+        for (var i = 0; i < slotScopeIds.length; i++) {
+          hostSetScopeId(el, slotScopeIds[i]);
         }
       }
 
@@ -13536,8 +14731,8 @@ var JoomlaMediaManager = (function () {
         start = 0;
       }
 
-      for (var _i20 = start; _i20 < children.length; _i20++) {
-        var child = children[_i20] = optimized ? cloneIfMounted(children[_i20]) : normalizeVNode(children[_i20]);
+      for (var i = start; i < children.length; i++) {
+        var child = children[i] = optimized ? cloneIfMounted(children[i]) : normalizeVNode(children[i]);
         patch(null, child, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
       }
     };
@@ -13550,7 +14745,7 @@ var JoomlaMediaManager = (function () {
       // compiler-generated vnode, which de-opts to FULL_PROPS
 
       patchFlag |= n1.patchFlag & 16
-      /* FULL_PROPS */
+      /* PatchFlags.FULL_PROPS */
       ;
       var oldProps = n1.props || EMPTY_OBJ;
       var newProps = n2.props || EMPTY_OBJ;
@@ -13582,7 +14777,7 @@ var JoomlaMediaManager = (function () {
         // in this path old node and new node are guaranteed to have the same shape
         // (i.e. at the exact same position in the source template)
         if (patchFlag & 16
-        /* FULL_PROPS */
+        /* PatchFlags.FULL_PROPS */
         ) {
           // element props contain dynamic keys, full diff needed
           patchProps(el, n2, oldProps, newProps, parentComponent, parentSuspense, isSVG);
@@ -13590,7 +14785,7 @@ var JoomlaMediaManager = (function () {
           // class
           // this flag is matched when the element has dynamic class bindings.
           if (patchFlag & 2
-          /* CLASS */
+          /* PatchFlags.CLASS */
           ) {
             if (oldProps.class !== newProps.class) {
               hostPatchProp(el, 'class', null, newProps.class, isSVG);
@@ -13600,7 +14795,7 @@ var JoomlaMediaManager = (function () {
 
 
           if (patchFlag & 4
-          /* STYLE */
+          /* PatchFlags.STYLE */
           ) {
             hostPatchProp(el, 'style', oldProps.style, newProps.style, isSVG);
           } // props
@@ -13612,13 +14807,13 @@ var JoomlaMediaManager = (function () {
 
 
           if (patchFlag & 8
-          /* PROPS */
+          /* PatchFlags.PROPS */
           ) {
             // if the flag is present then dynamicProps must be non-null
             var propsToUpdate = n2.dynamicProps;
 
-            for (var _i21 = 0; _i21 < propsToUpdate.length; _i21++) {
-              var key = propsToUpdate[_i21];
+            for (var i = 0; i < propsToUpdate.length; i++) {
+              var key = propsToUpdate[i];
               var prev = oldProps[key];
               var next = newProps[key]; // #1471 force patch value
 
@@ -13632,7 +14827,7 @@ var JoomlaMediaManager = (function () {
 
 
         if (patchFlag & 1
-        /* TEXT */
+        /* PatchFlags.TEXT */
         ) {
           if (n1.children !== n2.children) {
             hostSetElementText(el, n2.children);
@@ -13653,9 +14848,9 @@ var JoomlaMediaManager = (function () {
 
 
     var patchBlockChildren = function patchBlockChildren(oldChildren, newChildren, fallbackContainer, parentComponent, parentSuspense, isSVG, slotScopeIds) {
-      for (var _i22 = 0; _i22 < newChildren.length; _i22++) {
-        var oldVNode = oldChildren[_i22];
-        var newVNode = newChildren[_i22]; // Determine the container (parent element) for the patch.
+      for (var i = 0; i < newChildren.length; i++) {
+        var oldVNode = oldChildren[i];
+        var newVNode = newChildren[i]; // Determine the container (parent element) for the patch.
 
         var container = // oldVNode may be an errored async setup() component inside Suspense
         // which will not have a mounted element
@@ -13665,9 +14860,9 @@ var JoomlaMediaManager = (function () {
         // which also requires the correct parent container
         !isSameVNodeType(oldVNode, newVNode) || // - In the case of a component, it could contain anything.
         oldVNode.shapeFlag & (6
-        /* COMPONENT */
+        /* ShapeFlags.COMPONENT */
         | 64
-        /* TELEPORT */
+        /* ShapeFlags.TELEPORT */
         )) ? hostParentNode(oldVNode.el) : // In other cases, the parent container is not actually used so we
         // just pass the block element here to avoid a DOM parentNode call.
         fallbackContainer;
@@ -13677,22 +14872,22 @@ var JoomlaMediaManager = (function () {
 
     var patchProps = function patchProps(el, vnode, oldProps, newProps, parentComponent, parentSuspense, isSVG) {
       if (oldProps !== newProps) {
-        for (var key in newProps) {
-          // empty string is not valid prop
-          if (isReservedProp(key)) continue;
-          var next = newProps[key];
-          var prev = oldProps[key]; // defer patching value
-
-          if (next !== prev && key !== 'value') {
-            hostPatchProp(el, key, prev, next, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
+        if (oldProps !== EMPTY_OBJ) {
+          for (var key in oldProps) {
+            if (!isReservedProp(key) && !(key in newProps)) {
+              hostPatchProp(el, key, oldProps[key], null, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
+            }
           }
         }
 
-        if (oldProps !== EMPTY_OBJ) {
-          for (var _key11 in oldProps) {
-            if (!isReservedProp(_key11) && !(_key11 in newProps)) {
-              hostPatchProp(el, _key11, oldProps[_key11], null, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
-            }
+        for (var _key11 in newProps) {
+          // empty string is not valid prop
+          if (isReservedProp(_key11)) continue;
+          var next = newProps[_key11];
+          var prev = oldProps[_key11]; // defer patching value
+
+          if (next !== prev && _key11 !== 'value') {
+            hostPatchProp(el, _key11, prev, next, isSVG, vnode.children, parentComponent, parentSuspense, unmountChildren);
           }
         }
 
@@ -13722,7 +14917,7 @@ var JoomlaMediaManager = (function () {
         mountChildren(n2.children, container, fragmentEndAnchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
       } else {
         if (patchFlag > 0 && patchFlag & 64
-        /* STABLE_FRAGMENT */
+        /* PatchFlags.STABLE_FRAGMENT */
         && dynamicChildren && // #2715 the previous fragment could've been a BAILed one as a result
         // of renderSlot() with no valid children
         n1.dynamicChildren) {
@@ -13754,7 +14949,7 @@ var JoomlaMediaManager = (function () {
 
       if (n1 == null) {
         if (n2.shapeFlag & 512
-        /* COMPONENT_KEPT_ALIVE */
+        /* ShapeFlags.COMPONENT_KEPT_ALIVE */
         ) {
           parentComponent.ctx.activate(n2, container, anchor, isSVG, optimized);
         } else {
@@ -13811,7 +15006,6 @@ var JoomlaMediaManager = (function () {
         }
       } else {
         // no update needed. just copy over properties
-        n2.component = n1.component;
         n2.el = n1.el;
         instance.vnode = n2;
       }
@@ -13882,17 +15076,17 @@ var JoomlaMediaManager = (function () {
 
 
           if (initialVNode.shapeFlag & 256
-          /* COMPONENT_SHOULD_KEEP_ALIVE */
+          /* ShapeFlags.COMPONENT_SHOULD_KEEP_ALIVE */
+          || parent && isAsyncWrapper(parent.vnode) && parent.vnode.shapeFlag & 256
+          /* ShapeFlags.COMPONENT_SHOULD_KEEP_ALIVE */
           ) {
             instance.a && queuePostRenderEffect(instance.a, parentSuspense);
           }
 
           instance.isMounted = true;
-
-          if (__VUE_PROD_DEVTOOLS__) {
+          {
             devtoolsComponentAdded(instance);
           } // #2458: deference mount-only object parameters to prevent memleaks
-
 
           initialVNode = container = anchor = null;
         } else {
@@ -13901,7 +15095,7 @@ var JoomlaMediaManager = (function () {
           // OR parent calling processComponent (next: VNode)
           var next = instance.next,
               bu = instance.bu,
-              _u = instance.u,
+              u = instance.u,
               _parent = instance.parent,
               vnode = instance.vnode;
           var originNext = next;
@@ -13945,8 +15139,8 @@ var JoomlaMediaManager = (function () {
           } // updated hook
 
 
-          if (_u) {
-            queuePostRenderEffect(_u, parentSuspense);
+          if (u) {
+            queuePostRenderEffect(u, parentSuspense);
           } // onVnodeUpdated
 
 
@@ -13956,7 +15150,7 @@ var JoomlaMediaManager = (function () {
             }, parentSuspense);
           }
 
-          if (__VUE_PROD_DEVTOOLS__) {
+          {
             devtoolsComponentUpdated(instance);
           }
         }
@@ -13964,10 +15158,14 @@ var JoomlaMediaManager = (function () {
 
 
       var effect = instance.effect = new ReactiveEffect(componentUpdateFn, function () {
-        return queueJob(instance.update);
+        return queueJob(update);
       }, instance.scope // track it in component's effect scope
       );
-      var update = instance.update = effect.run.bind(effect);
+
+      var update = instance.update = function () {
+        return effect.run();
+      };
+
       update.id = instance.uid; // allowRecurse
       // #1801, #2043 component render effects should allow recursive updates
 
@@ -13985,7 +15183,7 @@ var JoomlaMediaManager = (function () {
       pauseTracking(); // props update may have triggered pre-flush watchers.
       // flush them before the render update.
 
-      flushPreFlushCbs(undefined, instance.update);
+      flushPreFlushCbs();
       resetTracking();
     };
 
@@ -14002,14 +15200,14 @@ var JoomlaMediaManager = (function () {
 
       if (patchFlag > 0) {
         if (patchFlag & 128
-        /* KEYED_FRAGMENT */
+        /* PatchFlags.KEYED_FRAGMENT */
         ) {
           // this could be either fully-keyed or mixed (some keyed some not)
           // presence of patchFlag means children are guaranteed to be arrays
           patchKeyedChildren(c1, c2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
           return;
         } else if (patchFlag & 256
-        /* UNKEYED_FRAGMENT */
+        /* PatchFlags.UNKEYED_FRAGMENT */
         ) {
           // unkeyed
           patchUnkeyedChildren(c1, c2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
@@ -14019,11 +15217,11 @@ var JoomlaMediaManager = (function () {
 
 
       if (shapeFlag & 8
-      /* TEXT_CHILDREN */
+      /* ShapeFlags.TEXT_CHILDREN */
       ) {
         // text children fast path
         if (prevShapeFlag & 16
-        /* ARRAY_CHILDREN */
+        /* ShapeFlags.ARRAY_CHILDREN */
         ) {
           unmountChildren(c1, parentComponent, parentSuspense);
         }
@@ -14033,11 +15231,11 @@ var JoomlaMediaManager = (function () {
         }
       } else {
         if (prevShapeFlag & 16
-        /* ARRAY_CHILDREN */
+        /* ShapeFlags.ARRAY_CHILDREN */
         ) {
           // prev children was array
           if (shapeFlag & 16
-          /* ARRAY_CHILDREN */
+          /* ShapeFlags.ARRAY_CHILDREN */
           ) {
             // two arrays, cannot assume anything, do full diff
             patchKeyedChildren(c1, c2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
@@ -14049,14 +15247,14 @@ var JoomlaMediaManager = (function () {
           // prev children was text OR null
           // new children is array OR null
           if (prevShapeFlag & 8
-          /* TEXT_CHILDREN */
+          /* ShapeFlags.TEXT_CHILDREN */
           ) {
             hostSetElementText(container, '');
           } // mount new if array
 
 
           if (shapeFlag & 16
-          /* ARRAY_CHILDREN */
+          /* ShapeFlags.ARRAY_CHILDREN */
           ) {
             mountChildren(c2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
           }
@@ -14114,12 +15312,12 @@ var JoomlaMediaManager = (function () {
 
 
       while (i <= e1 && i <= e2) {
-        var _n2 = c1[e1];
+        var _n = c1[e1];
 
-        var _n3 = c2[e2] = optimized ? cloneIfMounted(c2[e2]) : normalizeVNode(c2[e2]);
+        var _n2 = c2[e2] = optimized ? cloneIfMounted(c2[e2]) : normalizeVNode(c2[e2]);
 
-        if (isSameVNodeType(_n2, _n3)) {
-          patch(_n2, _n3, container, null, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
+        if (isSameVNodeType(_n, _n2)) {
+          patch(_n, _n2, container, null, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized);
         } else {
           break;
         }
@@ -14255,7 +15453,7 @@ var JoomlaMediaManager = (function () {
             // OR current node is not among the stable sequence
             if (j < 0 || i !== increasingNewIndexSequence[j]) {
               move(_nextChild, container, _anchor, 2
-              /* REORDER */
+              /* MoveType.REORDER */
               );
             } else {
               j--;
@@ -14277,21 +15475,21 @@ var JoomlaMediaManager = (function () {
           shapeFlag = vnode.shapeFlag;
 
       if (shapeFlag & 6
-      /* COMPONENT */
+      /* ShapeFlags.COMPONENT */
       ) {
         move(vnode.component.subTree, container, anchor, moveType);
         return;
       }
 
       if (shapeFlag & 128
-      /* SUSPENSE */
+      /* ShapeFlags.SUSPENSE */
       ) {
         vnode.suspense.move(container, anchor, moveType);
         return;
       }
 
       if (shapeFlag & 64
-      /* TELEPORT */
+      /* ShapeFlags.TELEPORT */
       ) {
         type.move(vnode, container, anchor, internals);
         return;
@@ -14300,8 +15498,8 @@ var JoomlaMediaManager = (function () {
       if (type === Fragment) {
         hostInsert(el, container, anchor);
 
-        for (var _i23 = 0; _i23 < children.length; _i23++) {
-          move(children[_i23], container, anchor, moveType);
+        for (var i = 0; i < children.length; i++) {
+          move(children[i], container, anchor, moveType);
         }
 
         hostInsert(vnode.anchor, container, anchor);
@@ -14315,14 +15513,14 @@ var JoomlaMediaManager = (function () {
 
 
       var needTransition = moveType !== 2
-      /* REORDER */
+      /* MoveType.REORDER */
       && shapeFlag & 1
-      /* ELEMENT */
+      /* ShapeFlags.ELEMENT */
       && transition;
 
       if (needTransition) {
         if (moveType === 0
-        /* ENTER */
+        /* MoveType.ENTER */
         ) {
           transition.beforeEnter(el);
           hostInsert(el, container, anchor);
@@ -14380,14 +15578,14 @@ var JoomlaMediaManager = (function () {
       }
 
       if (shapeFlag & 256
-      /* COMPONENT_SHOULD_KEEP_ALIVE */
+      /* ShapeFlags.COMPONENT_SHOULD_KEEP_ALIVE */
       ) {
         parentComponent.ctx.deactivate(vnode);
         return;
       }
 
       var shouldInvokeDirs = shapeFlag & 1
-      /* ELEMENT */
+      /* ShapeFlags.ELEMENT */
       && dirs;
       var shouldInvokeVnodeHook = !isAsyncWrapper(vnode);
       var vnodeHook;
@@ -14397,12 +15595,12 @@ var JoomlaMediaManager = (function () {
       }
 
       if (shapeFlag & 6
-      /* COMPONENT */
+      /* ShapeFlags.COMPONENT */
       ) {
         unmountComponent(vnode.component, parentSuspense, doRemove);
       } else {
         if (shapeFlag & 128
-        /* SUSPENSE */
+        /* ShapeFlags.SUSPENSE */
         ) {
           vnode.suspense.unmount(parentSuspense, doRemove);
           return;
@@ -14413,21 +15611,21 @@ var JoomlaMediaManager = (function () {
         }
 
         if (shapeFlag & 64
-        /* TELEPORT */
+        /* ShapeFlags.TELEPORT */
         ) {
           vnode.type.remove(vnode, parentComponent, parentSuspense, optimized, internals, doRemove);
         } else if (dynamicChildren && ( // #1153: fast path should not be taken for non-stable (v-for) fragments
         type !== Fragment || patchFlag > 0 && patchFlag & 64
-        /* STABLE_FRAGMENT */
+        /* PatchFlags.STABLE_FRAGMENT */
         )) {
           // fast path for block nodes: only need to unmount dynamic children.
           unmountChildren(dynamicChildren, parentComponent, parentSuspense, false, true);
         } else if (type === Fragment && patchFlag & (128
-        /* KEYED_FRAGMENT */
+        /* PatchFlags.KEYED_FRAGMENT */
         | 256
-        /* UNKEYED_FRAGMENT */
+        /* PatchFlags.UNKEYED_FRAGMENT */
         ) || !optimized && shapeFlag & 16
-        /* ARRAY_CHILDREN */
+        /* ShapeFlags.ARRAY_CHILDREN */
         ) {
           unmountChildren(children, parentComponent, parentSuspense);
         }
@@ -14452,7 +15650,9 @@ var JoomlaMediaManager = (function () {
           transition = vnode.transition;
 
       if (type === Fragment) {
-        removeFragment(el, anchor);
+        {
+          removeFragment(el, anchor);
+        }
         return;
       }
 
@@ -14470,7 +15670,7 @@ var JoomlaMediaManager = (function () {
       };
 
       if (vnode.shapeFlag & 1
-      /* ELEMENT */
+      /* ShapeFlags.ELEMENT */
       && transition && !transition.persisted) {
         var leave = transition.leave,
             delayLeave = transition.delayLeave;
@@ -14543,7 +15743,7 @@ var JoomlaMediaManager = (function () {
         }
       }
 
-      if (__VUE_PROD_DEVTOOLS__) {
+      {
         devtoolsComponentRemoved(instance);
       }
     };
@@ -14561,20 +15761,20 @@ var JoomlaMediaManager = (function () {
         start = 0;
       }
 
-      for (var _i24 = start; _i24 < children.length; _i24++) {
-        unmount(children[_i24], parentComponent, parentSuspense, doRemove, optimized);
+      for (var i = start; i < children.length; i++) {
+        unmount(children[i], parentComponent, parentSuspense, doRemove, optimized);
       }
     };
 
     var getNextHostNode = function getNextHostNode(vnode) {
       if (vnode.shapeFlag & 6
-      /* COMPONENT */
+      /* ShapeFlags.COMPONENT */
       ) {
         return getNextHostNode(vnode.component.subTree);
       }
 
       if (vnode.shapeFlag & 128
-      /* SUSPENSE */
+      /* ShapeFlags.SUSPENSE */
       ) {
         return vnode.suspense.next();
       }
@@ -14591,6 +15791,7 @@ var JoomlaMediaManager = (function () {
         patch(container._vnode || null, vnode, container, null, null, null, isSVG);
       }
 
+      flushPreFlushCbs();
       flushPostFlushCbs();
       container._vnode = vnode;
     };
@@ -14624,9 +15825,9 @@ var JoomlaMediaManager = (function () {
     };
   }
 
-  function toggleRecurse(_ref10, allowed) {
-    var effect = _ref10.effect,
-        update = _ref10.update;
+  function toggleRecurse(_ref14, allowed) {
+    var effect = _ref14.effect,
+        update = _ref14.update;
     effect.allowRecurse = update.allowRecurse = allowed;
   }
   /**
@@ -14651,23 +15852,28 @@ var JoomlaMediaManager = (function () {
     var ch2 = n2.children;
 
     if (isArray(ch1) && isArray(ch2)) {
-      for (var _i25 = 0; _i25 < ch1.length; _i25++) {
+      for (var i = 0; i < ch1.length; i++) {
         // this is only called in the optimized path so array children are
         // guaranteed to be vnodes
-        var c1 = ch1[_i25];
-        var c2 = ch2[_i25];
+        var c1 = ch1[i];
+        var c2 = ch2[i];
 
         if (c2.shapeFlag & 1
-        /* ELEMENT */
+        /* ShapeFlags.ELEMENT */
         && !c2.dynamicChildren) {
           if (c2.patchFlag <= 0 || c2.patchFlag === 32
-          /* HYDRATE_EVENTS */
+          /* PatchFlags.HYDRATE_EVENTS */
           ) {
-            c2 = ch2[_i25] = cloneIfMounted(ch2[_i25]);
+            c2 = ch2[i] = cloneIfMounted(ch2[i]);
             c2.el = c1.el;
           }
 
           if (!shallow) traverseStaticChildren(c1, c2);
+        } // #6852 also inherit for text nodes
+
+
+        if (c2.type === Text) {
+          c2.el = c1.el;
         } // also inherit for comment nodes, but not placeholders (e.g. v-if which
 
       }
@@ -14730,53 +15936,6 @@ var JoomlaMediaManager = (function () {
   var isTeleport = function isTeleport(type) {
     return type.__isTeleport;
   };
-
-  var COMPONENTS = 'components';
-  /**
-   * @private
-   */
-
-  function resolveComponent(name, maybeSelfReference) {
-    return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
-  }
-
-  var NULL_DYNAMIC_COMPONENT = Symbol();
-
-  function resolveAsset(type, name, warnMissing, maybeSelfReference) {
-    if (maybeSelfReference === void 0) {
-      maybeSelfReference = false;
-    }
-
-    var instance = currentRenderingInstance || currentInstance;
-
-    if (instance) {
-      var Component = instance.type; // explicit self name has highest priority
-
-      if (type === COMPONENTS) {
-        var selfName = getComponentName(Component);
-
-        if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
-          return Component;
-        }
-      }
-
-      var res = // local registration
-      // check instance[type] first which is resolved for options API
-      resolve(instance[type] || Component[type], name) || // global registration
-      resolve(instance.appContext[type], name);
-
-      if (!res && maybeSelfReference) {
-        // fallback to implicit self-reference
-        return Component;
-      }
-
-      return res;
-    }
-  }
-
-  function resolve(registry, name) {
-    return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
-  }
 
   var Fragment = Symbol(undefined);
   var Text = Symbol(undefined);
@@ -14893,15 +16052,15 @@ var JoomlaMediaManager = (function () {
 
   var InternalObjectKey = "__vInternal";
 
-  var normalizeKey = function normalizeKey(_ref14) {
-    var key = _ref14.key;
+  var normalizeKey = function normalizeKey(_ref18) {
+    var key = _ref18.key;
     return key != null ? key : null;
   };
 
-  var normalizeRef = function normalizeRef(_ref15) {
-    var ref = _ref15.ref,
-        ref_key = _ref15.ref_key,
-        ref_for = _ref15.ref_for;
+  var normalizeRef = function normalizeRef(_ref19) {
+    var ref = _ref19.ref,
+        ref_key = _ref19.ref_key,
+        ref_for = _ref19.ref_for;
     return ref != null ? isString(ref) || isRef(ref) || isFunction(ref) ? {
       i: currentRenderingInstance,
       r: ref,
@@ -14911,7 +16070,7 @@ var JoomlaMediaManager = (function () {
   };
 
   function createBaseVNode(type, props, children, patchFlag, dynamicProps, shapeFlag
-  /* ELEMENT */
+  /* ShapeFlags.ELEMENT */
   , isBlockNode, needFullChildrenNormalization) {
     if (props === void 0) {
       props = null;
@@ -14966,14 +16125,15 @@ var JoomlaMediaManager = (function () {
       patchFlag: patchFlag,
       dynamicProps: dynamicProps,
       dynamicChildren: null,
-      appContext: null
+      appContext: null,
+      ctx: currentRenderingInstance
     };
 
     if (needFullChildrenNormalization) {
       normalizeChildren(vnode, children); // normalize suspense children
 
       if (shapeFlag & 128
-      /* SUSPENSE */
+      /* ShapeFlags.SUSPENSE */
       ) {
         type.normalize(vnode);
       }
@@ -14981,9 +16141,9 @@ var JoomlaMediaManager = (function () {
       // compiled element vnode - if children is passed, only possible types are
       // string or Array.
       vnode.shapeFlag |= isString(children) ? 8
-      /* TEXT_CHILDREN */
+      /* ShapeFlags.TEXT_CHILDREN */
       : 16
-      /* ARRAY_CHILDREN */
+      /* ShapeFlags.ARRAY_CHILDREN */
       ;
     } // validate key
 
@@ -14995,11 +16155,11 @@ var JoomlaMediaManager = (function () {
     // component doesn't need to update, it needs to persist the instance on to
     // the next vnode so that it can be properly unmounted later.
     vnode.patchFlag > 0 || shapeFlag & 6
-    /* COMPONENT */
+    /* ShapeFlags.COMPONENT */
     ) && // the EVENTS flag is only for hydration and if it is the only flag, the
     // vnode should not be considered dynamic due to handler caching.
     vnode.patchFlag !== 32
-    /* HYDRATE_EVENTS */
+    /* PatchFlags.HYDRATE_EVENTS */
     ) {
       currentBlock.push(vnode);
     }
@@ -15046,6 +16206,19 @@ var JoomlaMediaManager = (function () {
         normalizeChildren(cloned, children);
       }
 
+      if (isBlockTreeEnabled > 0 && !isBlockNode && currentBlock) {
+        if (cloned.shapeFlag & 6
+        /* ShapeFlags.COMPONENT */
+        ) {
+          currentBlock[currentBlock.indexOf(type)] = cloned;
+        } else {
+          currentBlock.push(cloned);
+        }
+      }
+
+      cloned.patchFlag |= -2
+      /* PatchFlags.BAIL */
+      ;
       return cloned;
     } // class component normalization.
 
@@ -15079,15 +16252,15 @@ var JoomlaMediaManager = (function () {
 
 
     var shapeFlag = isString(type) ? 1
-    /* ELEMENT */
+    /* ShapeFlags.ELEMENT */
     : isSuspense(type) ? 128
-    /* SUSPENSE */
+    /* ShapeFlags.SUSPENSE */
     : isTeleport(type) ? 64
-    /* TELEPORT */
+    /* ShapeFlags.TELEPORT */
     : isObject$1(type) ? 4
-    /* STATEFUL_COMPONENT */
+    /* ShapeFlags.STATEFUL_COMPONENT */
     : isFunction(type) ? 2
-    /* FUNCTIONAL_COMPONENT */
+    /* ShapeFlags.FUNCTIONAL_COMPONENT */
     : 0;
     return createBaseVNode(type, props, children, patchFlag, dynamicProps, shapeFlag, isBlockNode, true);
   }
@@ -15128,13 +16301,13 @@ var JoomlaMediaManager = (function () {
       shapeFlag: vnode.shapeFlag,
       // if the vnode is cloned with extra props, we can no longer assume its
       // existing patch flag to be reliable and need to add the FULL_PROPS flag.
-      // note: perserve flag for fragments since they use the flag for children
+      // note: preserve flag for fragments since they use the flag for children
       // fast paths only.
       patchFlag: extraProps && vnode.type !== Fragment ? patchFlag === -1 // hoisted node
       ? 16
-      /* FULL_PROPS */
+      /* PatchFlags.FULL_PROPS */
       : patchFlag | 16
-      /* FULL_PROPS */
+      /* PatchFlags.FULL_PROPS */
       : patchFlag,
       dynamicProps: vnode.dynamicProps,
       dynamicChildren: vnode.dynamicChildren,
@@ -15150,7 +16323,8 @@ var JoomlaMediaManager = (function () {
       ssContent: vnode.ssContent && cloneVNode(vnode.ssContent),
       ssFallback: vnode.ssFallback && cloneVNode(vnode.ssFallback),
       el: vnode.el,
-      anchor: vnode.anchor
+      anchor: vnode.anchor,
+      ctx: vnode.ctx
     };
     return cloned;
   }
@@ -15209,7 +16383,9 @@ var JoomlaMediaManager = (function () {
 
 
   function cloneIfMounted(child) {
-    return child.el === null || child.memo ? child : cloneVNode(child);
+    return child.el === null && child.patchFlag !== -1
+    /* PatchFlags.HOISTED */
+    || child.memo ? child : cloneVNode(child);
   }
 
   function normalizeChildren(vnode, children) {
@@ -15220,13 +16396,13 @@ var JoomlaMediaManager = (function () {
       children = null;
     } else if (isArray(children)) {
       type = 16
-      /* ARRAY_CHILDREN */
+      /* ShapeFlags.ARRAY_CHILDREN */
       ;
     } else if (typeof children === 'object') {
       if (shapeFlag & (1
-      /* ELEMENT */
+      /* ShapeFlags.ELEMENT */
       | 64
-      /* TELEPORT */
+      /* ShapeFlags.TELEPORT */
       )) {
         // Normalize slot to plain children for plain element and Teleport
         var slot = children.default;
@@ -15241,29 +16417,29 @@ var JoomlaMediaManager = (function () {
         return;
       } else {
         type = 32
-        /* SLOTS_CHILDREN */
+        /* ShapeFlags.SLOTS_CHILDREN */
         ;
         var slotFlag = children._;
 
         if (!slotFlag && !(InternalObjectKey in children)) {
           children._ctx = currentRenderingInstance;
         } else if (slotFlag === 3
-        /* FORWARDED */
+        /* SlotFlags.FORWARDED */
         && currentRenderingInstance) {
           // a child component receives forwarded slots from the parent.
           // its slot type is determined by its parent's slot type.
           if (currentRenderingInstance.slots._ === 1
-          /* STABLE */
+          /* SlotFlags.STABLE */
           ) {
             children._ = 1
-            /* STABLE */
+            /* SlotFlags.STABLE */
             ;
           } else {
             children._ = 2
-            /* DYNAMIC */
+            /* SlotFlags.DYNAMIC */
             ;
             vnode.patchFlag |= 1024
-            /* DYNAMIC_SLOTS */
+            /* PatchFlags.DYNAMIC_SLOTS */
             ;
           }
         }
@@ -15274,21 +16450,21 @@ var JoomlaMediaManager = (function () {
         _ctx: currentRenderingInstance
       };
       type = 32
-      /* SLOTS_CHILDREN */
+      /* ShapeFlags.SLOTS_CHILDREN */
       ;
     } else {
       children = String(children); // force teleport children to array so it can be moved around
 
       if (shapeFlag & 64
-      /* TELEPORT */
+      /* ShapeFlags.TELEPORT */
       ) {
         type = 16
-        /* ARRAY_CHILDREN */
+        /* ShapeFlags.ARRAY_CHILDREN */
         ;
         children = [createTextVNode(children)];
       } else {
         type = 8
-        /* TEXT_CHILDREN */
+        /* ShapeFlags.TEXT_CHILDREN */
         ;
       }
     }
@@ -15300,8 +16476,8 @@ var JoomlaMediaManager = (function () {
   function mergeProps() {
     var ret = {};
 
-    for (var _i26 = 0; _i26 < arguments.length; _i26++) {
-      var toMerge = _i26 < 0 || arguments.length <= _i26 ? undefined : arguments[_i26];
+    for (var i = 0; i < arguments.length; i++) {
+      var toMerge = i < 0 || arguments.length <= i ? undefined : arguments[i];
 
       for (var key in toMerge) {
         if (key === 'class') {
@@ -15314,7 +16490,7 @@ var JoomlaMediaManager = (function () {
           var existing = ret[key];
           var incoming = toMerge[key];
 
-          if (existing !== incoming && !(isArray(existing) && existing.includes(incoming))) {
+          if (incoming && existing !== incoming && !(isArray(existing) && existing.includes(incoming))) {
             ret[key] = existing ? [].concat(existing, incoming) : incoming;
           }
         } else if (key !== '') {
@@ -15332,307 +16508,10 @@ var JoomlaMediaManager = (function () {
     }
 
     callWithAsyncErrorHandling(hook, instance, 7
-    /* VNODE_HOOK */
+    /* ErrorCodes.VNODE_HOOK */
     , [vnode, prevVNode]);
   }
-  /**
-   * Actual implementation
-   */
 
-
-  function renderList(source, renderItem, cache, index) {
-    var ret;
-    var cached = cache && cache[index];
-
-    if (isArray(source) || isString(source)) {
-      ret = new Array(source.length);
-
-      for (var _i27 = 0, l = source.length; _i27 < l; _i27++) {
-        ret[_i27] = renderItem(source[_i27], _i27, undefined, cached && cached[_i27]);
-      }
-    } else if (typeof source === 'number') {
-      ret = new Array(source);
-
-      for (var _i28 = 0; _i28 < source; _i28++) {
-        ret[_i28] = renderItem(_i28 + 1, _i28, undefined, cached && cached[_i28]);
-      }
-    } else if (isObject$1(source)) {
-      if (source[Symbol.iterator]) {
-        ret = Array.from(source, function (item, i) {
-          return renderItem(item, i, undefined, cached && cached[i]);
-        });
-      } else {
-        var keys = Object.keys(source);
-        ret = new Array(keys.length);
-
-        for (var _i29 = 0, _l = keys.length; _i29 < _l; _i29++) {
-          var key = keys[_i29];
-          ret[_i29] = renderItem(source[key], key, _i29, cached && cached[_i29]);
-        }
-      }
-    } else {
-      ret = [];
-    }
-
-    if (cache) {
-      cache[index] = ret;
-    }
-
-    return ret;
-  }
-  /**
-   * Compiler runtime helper for rendering `<slot/>`
-   * @private
-   */
-
-
-  function renderSlot(slots, name, props, // this is not a user-facing function, so the fallback is always generated by
-  // the compiler and guaranteed to be a function returning an array
-  fallback, noSlotted) {
-    if (props === void 0) {
-      props = {};
-    }
-
-    if (currentRenderingInstance.isCE) {
-      return createVNode('slot', name === 'default' ? null : {
-        name: name
-      }, fallback && fallback());
-    }
-
-    var slot = slots[name]; // invocation interfering with template-based block tracking, but in
-    // `renderSlot` we can be sure that it's template-based so we can force
-    // enable it.
-
-    if (slot && slot._c) {
-      slot._d = false;
-    }
-
-    openBlock();
-    var validSlotContent = slot && ensureValidVNode(slot(props));
-    var rendered = createBlock(Fragment, {
-      key: props.key || "_" + name
-    }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1
-    /* STABLE */
-    ? 64
-    /* STABLE_FRAGMENT */
-    : -2
-    /* BAIL */
-    );
-
-    if (!noSlotted && rendered.scopeId) {
-      rendered.slotScopeIds = [rendered.scopeId + '-s'];
-    }
-
-    if (slot && slot._c) {
-      slot._d = true;
-    }
-
-    return rendered;
-  }
-
-  function ensureValidVNode(vnodes) {
-    return vnodes.some(function (child) {
-      if (!isVNode(child)) return true;
-      if (child.type === Comment) return false;
-      if (child.type === Fragment && !ensureValidVNode(child.children)) return false;
-      return true;
-    }) ? vnodes : null;
-  }
-  /**
-   * #2437 In Vue 3, functional components do not have a public instance proxy but
-   * they exist in the internal parent chain. For code that relies on traversing
-   * public $parent chains, skip functional ones and go to the parent instead.
-   */
-
-
-  var getPublicInstance = function getPublicInstance(i) {
-    if (!i) return null;
-    if (isStatefulComponent(i)) return getExposeProxy(i) || i.proxy;
-    return getPublicInstance(i.parent);
-  };
-
-  var publicPropertiesMap = extend(Object.create(null), {
-    $: function $(i) {
-      return i;
-    },
-    $el: function $el(i) {
-      return i.vnode.el;
-    },
-    $data: function $data(i) {
-      return i.data;
-    },
-    $props: function $props(i) {
-      return i.props;
-    },
-    $attrs: function $attrs(i) {
-      return i.attrs;
-    },
-    $slots: function $slots(i) {
-      return i.slots;
-    },
-    $refs: function $refs(i) {
-      return i.refs;
-    },
-    $parent: function $parent(i) {
-      return getPublicInstance(i.parent);
-    },
-    $root: function $root(i) {
-      return getPublicInstance(i.root);
-    },
-    $emit: function $emit(i) {
-      return i.emit;
-    },
-    $options: function $options(i) {
-      return __VUE_OPTIONS_API__ ? resolveMergedOptions(i) : i.type;
-    },
-    $forceUpdate: function $forceUpdate(i) {
-      return function () {
-        return queueJob(i.update);
-      };
-    },
-    $nextTick: function $nextTick(i) {
-      return nextTick.bind(i.proxy);
-    },
-    $watch: function $watch(i) {
-      return __VUE_OPTIONS_API__ ? instanceWatch.bind(i) : NOOP;
-    }
-  });
-  var PublicInstanceProxyHandlers = {
-    get: function get(_ref16, key) {
-      var instance = _ref16._;
-      var ctx = instance.ctx,
-          setupState = instance.setupState,
-          data = instance.data,
-          props = instance.props,
-          accessCache = instance.accessCache,
-          type = instance.type,
-          appContext = instance.appContext; // for internal formatters to know that this is a Vue instance
-      // This getter gets called for every property access on the render context
-      // during render and is a major hotspot. The most expensive part of this
-      // is the multiple hasOwn() calls. It's much faster to do a simple property
-      // access on a plain object, so we use an accessCache object (with null
-      // prototype) to memoize what access type a key corresponds to.
-
-      var normalizedProps;
-
-      if (key[0] !== '$') {
-        var _n4 = accessCache[key];
-
-        if (_n4 !== undefined) {
-          switch (_n4) {
-            case 1
-            /* SETUP */
-            :
-              return setupState[key];
-
-            case 2
-            /* DATA */
-            :
-              return data[key];
-
-            case 4
-            /* CONTEXT */
-            :
-              return ctx[key];
-
-            case 3
-            /* PROPS */
-            :
-              return props[key];
-            // default: just fallthrough
-          }
-        } else if (setupState !== EMPTY_OBJ && hasOwn(setupState, key)) {
-          accessCache[key] = 1
-          /* SETUP */
-          ;
-          return setupState[key];
-        } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
-          accessCache[key] = 2
-          /* DATA */
-          ;
-          return data[key];
-        } else if ( // only cache other properties when instance has declared (thus stable)
-        // props
-        (normalizedProps = instance.propsOptions[0]) && hasOwn(normalizedProps, key)) {
-          accessCache[key] = 3
-          /* PROPS */
-          ;
-          return props[key];
-        } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
-          accessCache[key] = 4
-          /* CONTEXT */
-          ;
-          return ctx[key];
-        } else if (!__VUE_OPTIONS_API__ || shouldCacheAccess) {
-          accessCache[key] = 0
-          /* OTHER */
-          ;
-        }
-      }
-
-      var publicGetter = publicPropertiesMap[key];
-      var cssModule, globalProperties; // public $xxx properties
-
-      if (publicGetter) {
-        if (key === '$attrs') {
-          track(instance, "get"
-          /* GET */
-          , key);
-        }
-
-        return publicGetter(instance);
-      } else if ( // css module (injected by vue-loader)
-      (cssModule = type.__cssModules) && (cssModule = cssModule[key])) {
-        return cssModule;
-      } else if (ctx !== EMPTY_OBJ && hasOwn(ctx, key)) {
-        // user may set custom properties to `this` that start with `$`
-        accessCache[key] = 4
-        /* CONTEXT */
-        ;
-        return ctx[key];
-      } else if ( // global properties
-      globalProperties = appContext.config.globalProperties, hasOwn(globalProperties, key)) {
-        {
-          return globalProperties[key];
-        }
-      } else ;
-    },
-    set: function set(_ref17, key, value) {
-      var instance = _ref17._;
-      var data = instance.data,
-          setupState = instance.setupState,
-          ctx = instance.ctx;
-
-      if (setupState !== EMPTY_OBJ && hasOwn(setupState, key)) {
-        setupState[key] = value;
-      } else if (data !== EMPTY_OBJ && hasOwn(data, key)) {
-        data[key] = value;
-      } else if (hasOwn(instance.props, key)) {
-        return false;
-      }
-
-      if (key[0] === '$' && key.slice(1) in instance) {
-        return false;
-      } else {
-        {
-          ctx[key] = value;
-        }
-      }
-
-      return true;
-    },
-    has: function has(_ref18, key) {
-      var _ref18$_ = _ref18._,
-          data = _ref18$_.data,
-          setupState = _ref18$_.setupState,
-          accessCache = _ref18$_.accessCache,
-          ctx = _ref18$_.ctx,
-          appContext = _ref18$_.appContext,
-          propsOptions = _ref18$_.propsOptions;
-      var normalizedProps;
-      return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn(data, key) || setupState !== EMPTY_OBJ && hasOwn(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
-    }
-  };
   var emptyAppContext = createAppContext();
   var uid$1 = 0;
 
@@ -15662,7 +16541,7 @@ var JoomlaMediaManager = (function () {
       provides: parent ? parent.provides : Object.create(appContext.provides),
       accessCache: null,
       renderCache: [],
-      // local resovled assets
+      // local resolved assets
       components: null,
       directives: null,
       // resolved props and emits options
@@ -15742,7 +16621,7 @@ var JoomlaMediaManager = (function () {
 
   function isStatefulComponent(instance) {
     return instance.vnode.shapeFlag & 4
-    /* STATEFUL_COMPONENT */
+    /* ShapeFlags.STATEFUL_COMPONENT */
     ;
   }
 
@@ -15778,7 +16657,7 @@ var JoomlaMediaManager = (function () {
       setCurrentInstance(instance);
       pauseTracking();
       var setupResult = callWithErrorHandling(setup, instance, 0
-      /* SETUP_FUNCTION */
+      /* ErrorCodes.SETUP_FUNCTION */
       , [instance.props, setupContext]);
       resetTracking();
       unsetCurrentInstance();
@@ -15792,7 +16671,7 @@ var JoomlaMediaManager = (function () {
             handleSetupResult(instance, resolvedResult, isSSR);
           }).catch(function (e) {
             handleError(e, instance, 0
-            /* SETUP_FUNCTION */
+            /* ErrorCodes.SETUP_FUNCTION */
             );
           });
         } else {
@@ -15820,10 +16699,9 @@ var JoomlaMediaManager = (function () {
       }
     } else if (isObject$1(setupResult)) {
       // assuming a render function compiled from template is present.
-      if (__VUE_PROD_DEVTOOLS__) {
+      {
         instance.devtoolsRawSetupState = setupResult;
       }
-
       instance.setupState = proxyRefs(setupResult);
     } else ;
 
@@ -15837,10 +16715,10 @@ var JoomlaMediaManager = (function () {
     // could be already set when returned from setup()
 
     if (!instance.render) {
-      // only do on-the-fly compile if not in SSR - SSR on-the-fly compliation
+      // only do on-the-fly compile if not in SSR - SSR on-the-fly compilation
       // is done by server-renderer
       if (!isSSR && compile && !Component.render) {
-        var template = Component.template;
+        var template = Component.template || resolveMergedOptions(instance).template;
 
         if (template) {
           var _instance$appContext$ = instance.appContext.config,
@@ -15860,21 +16738,20 @@ var JoomlaMediaManager = (function () {
     } // support for 2.x options
 
 
-    if (__VUE_OPTIONS_API__ && !false) {
+    {
       setCurrentInstance(instance);
       pauseTracking();
       applyOptions(instance);
       resetTracking();
       unsetCurrentInstance();
     } // warn missing template/render
-
   }
 
   function createAttrsProxy(instance) {
     return new Proxy(instance.attrs, {
       get: function get(target, key) {
         track(instance, "get"
-        /* GET */
+        /* TrackOpTypes.GET */
         , '$attrs');
         return target[key];
       }
@@ -15909,554 +16786,30 @@ var JoomlaMediaManager = (function () {
           } else if (key in publicPropertiesMap) {
             return publicPropertiesMap[key](instance);
           }
+        },
+        has: function has(target, key) {
+          return key in target || key in publicPropertiesMap;
         }
       }));
     }
   }
 
-  function getComponentName(Component) {
-    return isFunction(Component) ? Component.displayName || Component.name : Component.name;
+  function getComponentName(Component, includeInferred) {
+    if (includeInferred === void 0) {
+      includeInferred = true;
+    }
+
+    return isFunction(Component) ? Component.displayName || Component.name : Component.name || includeInferred && Component.__name;
   }
 
   function isClassComponent(value) {
     return isFunction(value) && '__vccOpts' in value;
   }
 
-  function callWithErrorHandling(fn, instance, type, args) {
-    var res;
-
-    try {
-      res = args ? fn.apply(void 0, args) : fn();
-    } catch (err) {
-      handleError(err, instance, type);
-    }
-
-    return res;
-  }
-
-  function callWithAsyncErrorHandling(fn, instance, type, args) {
-    if (isFunction(fn)) {
-      var res = callWithErrorHandling(fn, instance, type, args);
-
-      if (res && isPromise$1(res)) {
-        res.catch(function (err) {
-          handleError(err, instance, type);
-        });
-      }
-
-      return res;
-    }
-
-    var values = [];
-
-    for (var _i30 = 0; _i30 < fn.length; _i30++) {
-      values.push(callWithAsyncErrorHandling(fn[_i30], instance, type, args));
-    }
-
-    return values;
-  }
-
-  function handleError(err, instance, type, throwInDev) {
-    instance ? instance.vnode : null;
-
-    if (instance) {
-      var cur = instance.parent; // the exposed instance is the render proxy to keep it consistent with 2.x
-
-      var exposedInstance = instance.proxy; // in production the hook receives only the error code
-
-      var errorInfo = type;
-
-      while (cur) {
-        var errorCapturedHooks = cur.ec;
-
-        if (errorCapturedHooks) {
-          for (var _i31 = 0; _i31 < errorCapturedHooks.length; _i31++) {
-            if (errorCapturedHooks[_i31](err, exposedInstance, errorInfo) === false) {
-              return;
-            }
-          }
-        }
-
-        cur = cur.parent;
-      } // app-level handling
-
-
-      var appErrorHandler = instance.appContext.config.errorHandler;
-
-      if (appErrorHandler) {
-        callWithErrorHandling(appErrorHandler, null, 10
-        /* APP_ERROR_HANDLER */
-        , [err, exposedInstance, errorInfo]);
-        return;
-      }
-    }
-
-    logError(err);
-  }
-
-  function logError(err, type, contextVNode, throwInDev) {
-    {
-      // recover in prod to reduce the impact on end-user
-      console.error(err);
-    }
-  }
-
-  var isFlushing = false;
-  var isFlushPending = false;
-  var queue = [];
-  var flushIndex = 0;
-  var pendingPreFlushCbs = [];
-  var activePreFlushCbs = null;
-  var preFlushIndex = 0;
-  var pendingPostFlushCbs = [];
-  var activePostFlushCbs = null;
-  var postFlushIndex = 0;
-  var resolvedPromise = Promise.resolve();
-  var currentFlushPromise = null;
-  var currentPreFlushParentJob = null;
-
-  function nextTick(fn) {
-    var p = currentFlushPromise || resolvedPromise;
-    return fn ? p.then(this ? fn.bind(this) : fn) : p;
-  } // #2768
-  // Use binary-search to find a suitable position in the queue,
-  // so that the queue maintains the increasing order of job's id,
-  // which can prevent the job from being skipped and also can avoid repeated patching.
-
-
-  function findInsertionIndex(id) {
-    // the start index should be `flushIndex + 1`
-    var start = flushIndex + 1;
-    var end = queue.length;
-
-    while (start < end) {
-      var middle = start + end >>> 1;
-      var middleJobId = getId(queue[middle]);
-      middleJobId < id ? start = middle + 1 : end = middle;
-    }
-
-    return start;
-  }
-
-  function queueJob(job) {
-    // the dedupe search uses the startIndex argument of Array.includes()
-    // by default the search index includes the current job that is being run
-    // so it cannot recursively trigger itself again.
-    // if the job is a watch() callback, the search will start with a +1 index to
-    // allow it recursively trigger itself - it is the user's responsibility to
-    // ensure it doesn't end up in an infinite loop.
-    if ((!queue.length || !queue.includes(job, isFlushing && job.allowRecurse ? flushIndex + 1 : flushIndex)) && job !== currentPreFlushParentJob) {
-      if (job.id == null) {
-        queue.push(job);
-      } else {
-        queue.splice(findInsertionIndex(job.id), 0, job);
-      }
-
-      queueFlush();
-    }
-  }
-
-  function queueFlush() {
-    if (!isFlushing && !isFlushPending) {
-      isFlushPending = true;
-      currentFlushPromise = resolvedPromise.then(flushJobs);
-    }
-  }
-
-  function invalidateJob(job) {
-    var i = queue.indexOf(job);
-
-    if (i > flushIndex) {
-      queue.splice(i, 1);
-    }
-  }
-
-  function queueCb(cb, activeQueue, pendingQueue, index) {
-    if (!isArray(cb)) {
-      if (!activeQueue || !activeQueue.includes(cb, cb.allowRecurse ? index + 1 : index)) {
-        pendingQueue.push(cb);
-      }
-    } else {
-      // if cb is an array, it is a component lifecycle hook which can only be
-      // triggered by a job, which is already deduped in the main queue, so
-      // we can skip duplicate check here to improve perf
-      pendingQueue.push.apply(pendingQueue, cb);
-    }
-
-    queueFlush();
-  }
-
-  function queuePreFlushCb(cb) {
-    queueCb(cb, activePreFlushCbs, pendingPreFlushCbs, preFlushIndex);
-  }
-
-  function queuePostFlushCb(cb) {
-    queueCb(cb, activePostFlushCbs, pendingPostFlushCbs, postFlushIndex);
-  }
-
-  function flushPreFlushCbs(seen, parentJob) {
-    if (parentJob === void 0) {
-      parentJob = null;
-    }
-
-    if (pendingPreFlushCbs.length) {
-      currentPreFlushParentJob = parentJob;
-      activePreFlushCbs = [].concat(new Set(pendingPreFlushCbs));
-      pendingPreFlushCbs.length = 0;
-
-      for (preFlushIndex = 0; preFlushIndex < activePreFlushCbs.length; preFlushIndex++) {
-        activePreFlushCbs[preFlushIndex]();
-      }
-
-      activePreFlushCbs = null;
-      preFlushIndex = 0;
-      currentPreFlushParentJob = null; // recursively flush until it drains
-
-      flushPreFlushCbs(seen, parentJob);
-    }
-  }
-
-  function flushPostFlushCbs(seen) {
-    if (pendingPostFlushCbs.length) {
-      var deduped = [].concat(new Set(pendingPostFlushCbs));
-      pendingPostFlushCbs.length = 0; // #1947 already has active queue, nested flushPostFlushCbs call
-
-      if (activePostFlushCbs) {
-        var _activePostFlushCbs;
-
-        (_activePostFlushCbs = activePostFlushCbs).push.apply(_activePostFlushCbs, deduped);
-
-        return;
-      }
-
-      activePostFlushCbs = deduped;
-      activePostFlushCbs.sort(function (a, b) {
-        return getId(a) - getId(b);
-      });
-
-      for (postFlushIndex = 0; postFlushIndex < activePostFlushCbs.length; postFlushIndex++) {
-        activePostFlushCbs[postFlushIndex]();
-      }
-
-      activePostFlushCbs = null;
-      postFlushIndex = 0;
-    }
-  }
-
-  var getId = function getId(job) {
-    return job.id == null ? Infinity : job.id;
-  };
-
-  function flushJobs(seen) {
-    isFlushPending = false;
-    isFlushing = true;
-    flushPreFlushCbs(seen); // Sort queue before flush.
-    // This ensures that:
-    // 1. Components are updated from parent to child. (because parent is always
-    //    created before the child so its render effect will have smaller
-    //    priority number)
-    // 2. If a component is unmounted during a parent component's update,
-    //    its update can be skipped.
-
-    queue.sort(function (a, b) {
-      return getId(a) - getId(b);
-    }); // conditional usage of checkRecursiveUpdate must be determined out of
-    // try ... catch block since Rollup by default de-optimizes treeshaking
-    // inside try-catch. This can leave all warning code unshaked. Although
-    // they would get eventually shaken by a minifier like terser, some minifiers
-    // would fail to do that (e.g. https://github.com/evanw/esbuild/issues/1610)
-
-    var check = NOOP;
-
-    try {
-      for (flushIndex = 0; flushIndex < queue.length; flushIndex++) {
-        var job = queue[flushIndex];
-
-        if (job && job.active !== false) {
-          if ("production" !== 'production' && check(job)) ; // console.log(`running:`, job.id)
-
-          callWithErrorHandling(job, null, 14
-          /* SCHEDULER */
-          );
-        }
-      }
-    } finally {
-      flushIndex = 0;
-      queue.length = 0;
-      flushPostFlushCbs();
-      isFlushing = false;
-      currentFlushPromise = null; // some postFlushCb queued jobs!
-      // keep flushing until it drains.
-
-      if (queue.length || pendingPreFlushCbs.length || pendingPostFlushCbs.length) {
-        flushJobs(seen);
-      }
-    }
-  }
-
-  var INITIAL_WATCHER_VALUE = {}; // implementation
-
-  function watch(source, cb, options) {
-    return doWatch(source, cb, options);
-  }
-
-  function doWatch(source, cb, _temp) {
-    var _ref13 = _temp === void 0 ? EMPTY_OBJ : _temp,
-        immediate = _ref13.immediate,
-        deep = _ref13.deep,
-        flush = _ref13.flush;
-        _ref13.onTrack;
-        _ref13.onTrigger;
-
-    var instance = currentInstance;
-    var getter;
-    var forceTrigger = false;
-    var isMultiSource = false;
-
-    if (isRef(source)) {
-      getter = function getter() {
-        return source.value;
-      };
-
-      forceTrigger = !!source._shallow;
-    } else if (isReactive(source)) {
-      getter = function getter() {
-        return source;
-      };
-
-      deep = true;
-    } else if (isArray(source)) {
-      isMultiSource = true;
-      forceTrigger = source.some(isReactive);
-
-      getter = function getter() {
-        return source.map(function (s) {
-          if (isRef(s)) {
-            return s.value;
-          } else if (isReactive(s)) {
-            return traverse(s);
-          } else if (isFunction(s)) {
-            return callWithErrorHandling(s, instance, 2
-            /* WATCH_GETTER */
-            );
-          } else ;
-        });
-      };
-    } else if (isFunction(source)) {
-      if (cb) {
-        // getter with cb
-        getter = function getter() {
-          return callWithErrorHandling(source, instance, 2
-          /* WATCH_GETTER */
-          );
-        };
-      } else {
-        // no cb -> simple effect
-        getter = function getter() {
-          if (instance && instance.isUnmounted) {
-            return;
-          }
-
-          if (cleanup) {
-            cleanup();
-          }
-
-          return callWithAsyncErrorHandling(source, instance, 3
-          /* WATCH_CALLBACK */
-          , [onInvalidate]);
-        };
-      }
-    } else {
-      getter = NOOP;
-    }
-
-    if (cb && deep) {
-      var baseGetter = getter;
-
-      getter = function getter() {
-        return traverse(baseGetter());
-      };
-    }
-
-    var cleanup;
-
-    var onInvalidate = function onInvalidate(fn) {
-      cleanup = effect.onStop = function () {
-        callWithErrorHandling(fn, instance, 4
-        /* WATCH_CLEANUP */
-        );
-      };
-    }; // in SSR there is no need to setup an actual effect, and it should be noop
-    // unless it's eager
-
-
-    if (isInSSRComponentSetup) {
-      // we will also not call the invalidate callback (+ runner is not set up)
-      onInvalidate = NOOP;
-
-      if (!cb) {
-        getter();
-      } else if (immediate) {
-        callWithAsyncErrorHandling(cb, instance, 3
-        /* WATCH_CALLBACK */
-        , [getter(), isMultiSource ? [] : undefined, onInvalidate]);
-      }
-
-      return NOOP;
-    }
-
-    var oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE;
-
-    var job = function job() {
-      if (!effect.active) {
-        return;
-      }
-
-      if (cb) {
-        // watch(source, cb)
-        var newValue = effect.run();
-
-        if (deep || forceTrigger || (isMultiSource ? newValue.some(function (v, i) {
-          return hasChanged(v, oldValue[i]);
-        }) : hasChanged(newValue, oldValue)) || false) {
-          // cleanup before running cb again
-          if (cleanup) {
-            cleanup();
-          }
-
-          callWithAsyncErrorHandling(cb, instance, 3
-          /* WATCH_CALLBACK */
-          , [newValue, // pass undefined as the old value when it's changed for the first time
-          oldValue === INITIAL_WATCHER_VALUE ? undefined : oldValue, onInvalidate]);
-          oldValue = newValue;
-        }
-      } else {
-        // watchEffect
-        effect.run();
-      }
-    }; // important: mark the job as a watcher callback so that scheduler knows
-    // it is allowed to self-trigger (#1727)
-
-
-    job.allowRecurse = !!cb;
-    var scheduler;
-
-    if (flush === 'sync') {
-      scheduler = job; // the scheduler function gets called directly
-    } else if (flush === 'post') {
-      scheduler = function scheduler() {
-        return queuePostRenderEffect(job, instance && instance.suspense);
-      };
-    } else {
-      // default: 'pre'
-      scheduler = function scheduler() {
-        if (!instance || instance.isMounted) {
-          queuePreFlushCb(job);
-        } else {
-          // with 'pre' option, the first call must happen before
-          // the component is mounted so it is called synchronously.
-          job();
-        }
-      };
-    }
-
-    var effect = new ReactiveEffect(getter, scheduler);
-
-    if (cb) {
-      if (immediate) {
-        job();
-      } else {
-        oldValue = effect.run();
-      }
-    } else if (flush === 'post') {
-      queuePostRenderEffect(effect.run.bind(effect), instance && instance.suspense);
-    } else {
-      effect.run();
-    }
-
-    return function () {
-      effect.stop();
-
-      if (instance && instance.scope) {
-        remove(instance.scope.effects, effect);
-      }
-    };
-  } // this.$watch
-
-
-  function instanceWatch(source, value, options) {
-    var publicThis = this.proxy;
-    var getter = isString(source) ? source.includes('.') ? createPathGetter(publicThis, source) : function () {
-      return publicThis[source];
-    } : source.bind(publicThis, publicThis);
-    var cb;
-
-    if (isFunction(value)) {
-      cb = value;
-    } else {
-      cb = value.handler;
-      options = value;
-    }
-
-    var cur = currentInstance;
-    setCurrentInstance(this);
-    var res = doWatch(getter, cb.bind(publicThis), options);
-
-    if (cur) {
-      setCurrentInstance(cur);
-    } else {
-      unsetCurrentInstance();
-    }
-
-    return res;
-  }
-
-  function createPathGetter(ctx, path) {
-    var segments = path.split('.');
-    return function () {
-      var cur = ctx;
-
-      for (var _i32 = 0; _i32 < segments.length && cur; _i32++) {
-        cur = cur[segments[_i32]];
-      }
-
-      return cur;
-    };
-  }
-
-  function traverse(value, seen) {
-    if (!isObject$1(value) || value["__v_skip"
-    /* SKIP */
-    ]) {
-      return value;
-    }
-
-    seen = seen || new Set();
-
-    if (seen.has(value)) {
-      return value;
-    }
-
-    seen.add(value);
-
-    if (isRef(value)) {
-      traverse(value.value, seen);
-    } else if (isArray(value)) {
-      for (var _i33 = 0; _i33 < value.length; _i33++) {
-        traverse(value[_i33], seen);
-      }
-    } else if (isSet(value) || isMap(value)) {
-      value.forEach(function (v) {
-        traverse(v, seen);
-      });
-    } else if (isPlainObject(value)) {
-      for (var key in value) {
-        traverse(value[key], seen);
-      }
-    }
-
-    return value;
-  } // dev only
+  var computed = function computed(getterOrOptions, debugOptions) {
+    // @ts-ignore
+    return computed$1(getterOrOptions, debugOptions, isInSSRComponentSetup);
+  }; // dev only
 
 
   function h(type, propsOrChildren, children) {
@@ -16486,10 +16839,19 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  var version = "3.2.26";
+  var ssrContextKey = Symbol("");
+
+  var useSSRContext = function useSSRContext() {
+    {
+      var ctx = inject(ssrContextKey);
+      return ctx;
+    }
+  };
+
+  var version = "3.2.45";
   var svgNS = 'http://www.w3.org/2000/svg';
   var doc = typeof document !== 'undefined' ? document : null;
-  var staticTemplateCache = new Map();
+  var templateContainer = doc && /*#__PURE__*/doc.createElement('template');
   var nodeOps = {
     insert: function insert(child, parent, anchor) {
       parent.insertBefore(child, anchor || null);
@@ -16536,37 +16898,26 @@ var JoomlaMediaManager = (function () {
     setScopeId: function setScopeId(el, id) {
       el.setAttribute(id, '');
     },
-    cloneNode: function cloneNode(el) {
-      var cloned = el.cloneNode(true); // #3072
-      // - in `patchDOMProp`, we store the actual value in the `el._value` property.
-      // - normally, elements using `:value` bindings will not be hoisted, but if
-      //   the bound value is a constant, e.g. `:value="true"` - they do get
-      //   hoisted.
-      // - in production, hoisted nodes are cloned when subsequent inserts, but
-      //   cloneNode() does not copy the custom property we attached.
-      // - This may need to account for other custom DOM properties we attach to
-      //   elements in addition to `_value` in the future.
-
-      if ("_value" in el) {
-        cloned._value = el._value;
-      }
-
-      return cloned;
-    },
     // __UNSAFE__
     // Reason: innerHTML.
     // Static content here can only come from compiled templates.
     // As long as the user only uses trusted templates, this is safe.
-    insertStaticContent: function insertStaticContent(content, parent, anchor, isSVG) {
+    insertStaticContent: function insertStaticContent(content, parent, anchor, isSVG, start, end) {
       // <parent> before | first ... last | anchor </parent>
-      var before = anchor ? anchor.previousSibling : parent.lastChild;
-      var template = staticTemplateCache.get(content);
+      var before = anchor ? anchor.previousSibling : parent.lastChild; // #5308 can only take cached path if:
+      // - has a single root node
+      // - nextSibling info is still available
 
-      if (!template) {
-        var _t = doc.createElement('template');
-
-        _t.innerHTML = isSVG ? "<svg>" + content + "</svg>" : content;
-        template = _t.content;
+      if (start && (start === end || start.nextSibling)) {
+        // cached
+        while (true) {
+          parent.insertBefore(start.cloneNode(true), anchor);
+          if (start === end || !(start = start.nextSibling)) break;
+        }
+      } else {
+        // fresh insert
+        templateContainer.innerHTML = isSVG ? "<svg>" + content + "</svg>" : content;
+        var template = templateContainer.content;
 
         if (isSVG) {
           // remove outer svg wrapper
@@ -16579,10 +16930,9 @@ var JoomlaMediaManager = (function () {
           template.removeChild(wrapper);
         }
 
-        staticTemplateCache.set(content, template);
+        parent.insertBefore(template, anchor);
       }
 
-      parent.insertBefore(template.cloneNode(true), anchor);
       return [// first
       before ? before.nextSibling : parent.firstChild, // last
       anchor ? anchor.previousSibling : parent.lastChild];
@@ -16653,6 +17003,8 @@ var JoomlaMediaManager = (function () {
         return setStyle(style, name, v);
       });
     } else {
+      if (val == null) val = '';
+
       if (name.startsWith('--')) {
         // custom property definition
         style.setProperty(name, val);
@@ -16687,8 +17039,8 @@ var JoomlaMediaManager = (function () {
 
     name = capitalize(name);
 
-    for (var _i34 = 0; _i34 < prefixes.length; _i34++) {
-      var prefixed = prefixes[_i34] + name;
+    for (var i = 0; i < prefixes.length; i++) {
+      var prefixed = prefixes[i] + name;
 
       if (prefixed in style) {
         return prefixCache[rawName] = prefixed;
@@ -16756,72 +17108,34 @@ var JoomlaMediaManager = (function () {
       return;
     }
 
+    var needRemove = false;
+
     if (value === '' || value == null) {
       var type = typeof el[key];
 
       if (type === 'boolean') {
         // e.g. <select multiple> compiles to { multiple: '' }
-        el[key] = includeBooleanAttr(value);
-        return;
+        value = includeBooleanAttr(value);
       } else if (value == null && type === 'string') {
         // e.g. <div :id="null">
-        el[key] = '';
-        el.removeAttribute(key);
-        return;
+        value = '';
+        needRemove = true;
       } else if (type === 'number') {
         // e.g. <img :width="null">
-        // the value of some IDL attr must be greater than 0, e.g. input.size = 0 -> error
-        try {
-          el[key] = 0;
-        } catch (_a) {}
-
-        el.removeAttribute(key);
-        return;
+        value = 0;
+        needRemove = true;
       }
-    } // some properties perform value validation and throw
+    } // some properties perform value validation and throw,
+    // some properties has getter, no setter, will error in 'use strict'
+    // eg. <select :type="null"></select> <select :willValidate="null"></select>
 
 
     try {
       el[key] = value;
     } catch (e) {}
-  } // Async edge case fix requires storing an event listener's attach timestamp.
 
-
-  var _getNow = Date.now;
-  var skipTimestampCheck = false;
-
-  if (typeof window !== 'undefined') {
-    // Determine what event timestamp the browser is using. Annoyingly, the
-    // timestamp can either be hi-res (relative to page load) or low-res
-    // (relative to UNIX epoch), so in order to compare time we have to use the
-    // same timestamp type when saving the flush timestamp.
-    if (_getNow() > document.createEvent('Event').timeStamp) {
-      // if the low-res timestamp which is bigger than the event timestamp
-      // (which is evaluated AFTER) it means the event is using a hi-res timestamp,
-      // and we need to use the hi-res version for event listeners as well.
-      _getNow = function _getNow() {
-        return performance.now();
-      };
-    } // #3485: Firefox <= 53 has incorrect Event.timeStamp implementation
-    // and does not fire microtasks in between event propagation, so safe to exclude.
-
-
-    var ffMatch = navigator.userAgent.match(/firefox\/(\d+)/i);
-    skipTimestampCheck = !!(ffMatch && Number(ffMatch[1]) <= 53);
-  } // To avoid the overhead of repeatedly calling performance.now(), we cache
-  // and use the same timestamp for all event listeners attached in the same tick.
-
-
-  var cachedNow = 0;
-  var p = Promise.resolve();
-
-  var reset = function reset() {
-    cachedNow = 0;
-  };
-
-  var getNow = function getNow() {
-    return cachedNow || (p.then(reset), cachedNow = _getNow());
-  };
+    needRemove && el.removeAttribute(key);
+  }
 
   function addEventListener(el, event, handler, options) {
     el.addEventListener(event, handler, options);
@@ -16875,24 +17189,44 @@ var JoomlaMediaManager = (function () {
       }
     }
 
-    return [hyphenate(name.slice(2)), options];
-  }
+    var event = name[2] === ':' ? name.slice(3) : hyphenate(name.slice(2));
+    return [event, options];
+  } // To avoid the overhead of repeatedly calling Date.now(), we cache
+  // and use the same timestamp for all event listeners attached in the same tick.
+
+
+  var cachedNow = 0;
+  var p = /*#__PURE__*/Promise.resolve();
+
+  var getNow = function getNow() {
+    return cachedNow || (p.then(function () {
+      return cachedNow = 0;
+    }), cachedNow = Date.now());
+  };
 
   function createInvoker(initialValue, instance) {
     var invoker = function invoker(e) {
-      // async edge case #6566: inner click event triggers patch, event handler
+      // async edge case vuejs/vue#6566
+      // inner click event triggers patch, event handler
       // attached to outer element during patch, and triggered again. This
       // happens because browsers fire microtask ticks between event propagation.
-      // the solution is simple: we save the timestamp when a handler is attached,
-      // and the handler would only fire if the event passed to it was fired
+      // this no longer happens for templates in Vue 3, but could still be
+      // theoretically possible for hand-written render functions.
+      // the solution: we save the timestamp when a handler is attached,
+      // and also attach the timestamp to any event that was handled by vue
+      // for the first time (to avoid inconsistent event timestamp implementations
+      // or events fired from iframes, e.g. #2513)
+      // The handler would only fire if the event passed to it was fired
       // AFTER it was attached.
-      var timeStamp = e.timeStamp || _getNow();
-
-      if (skipTimestampCheck || timeStamp >= invoker.attached - 1) {
-        callWithAsyncErrorHandling(patchStopImmediatePropagation(e, invoker.value), instance, 5
-        /* NATIVE_EVENT_HANDLER */
-        , [e]);
+      if (!e._vts) {
+        e._vts = Date.now();
+      } else if (e._vts <= invoker.attached) {
+        return;
       }
+
+      callWithAsyncErrorHandling(patchStopImmediatePropagation(e, invoker.value), instance, 5
+      /* ErrorCodes.NATIVE_EVENT_HANDLER */
+      , [e]);
     };
 
     invoker.value = initialValue;
@@ -16911,7 +17245,7 @@ var JoomlaMediaManager = (function () {
 
       return value.map(function (fn) {
         return function (e) {
-          return !e._stopped && fn(e);
+          return !e._stopped && fn && fn(e);
         };
       });
     } else {
@@ -16966,15 +17300,15 @@ var JoomlaMediaManager = (function () {
       }
 
       return false;
-    } // spellcheck and draggable are numerated attrs, however their
-    // corresponding DOM properties are actually booleans - this leads to
-    // setting it with a string "false" value leading it to be coerced to
-    // `true`, so we need to always treat them as attributes.
+    } // these are enumerated attrs, however their corresponding DOM properties
+    // are actually booleans - this leads to setting it with a string "false"
+    // value leading it to be coerced to `true`, so we need to always treat
+    // them as attributes.
     // Note that `contentEditable` doesn't have this problem: its DOM
     // property is also enumerated string values.
 
 
-    if (key === 'spellcheck' || key === 'draggable') {
+    if (key === 'spellcheck' || key === 'draggable' || key === 'translate') {
       return false;
     } // #1787, #2840 form property on form elements is readonly and must be set as
     // attribute.
@@ -17119,6 +17453,8 @@ var JoomlaMediaManager = (function () {
     };
 
     var finishLeave = function finishLeave(el, done) {
+      el._isLeaving = false;
+      removeTransitionClass(el, leaveFromClass);
       removeTransitionClass(el, leaveToClass);
       removeTransitionClass(el, leaveActiveClass);
       done && done();
@@ -17158,6 +17494,8 @@ var JoomlaMediaManager = (function () {
       onEnter: makeEnterHook(false),
       onAppear: makeEnterHook(true),
       onLeave: function onLeave(el, done) {
+        el._isLeaving = true;
+
         var resolve = function resolve() {
           return finishLeave(el, done);
         };
@@ -17167,6 +17505,11 @@ var JoomlaMediaManager = (function () {
         forceReflow();
         addTransitionClass(el, leaveActiveClass);
         nextFrame(function () {
+          if (!el._isLeaving) {
+            // cancelled
+            return;
+          }
+
           removeTransitionClass(el, leaveFromClass);
           addTransitionClass(el, leaveToClass);
 
@@ -17197,9 +17540,8 @@ var JoomlaMediaManager = (function () {
     } else if (isObject$1(duration)) {
       return [NumberOf(duration.enter), NumberOf(duration.leave)];
     } else {
-      var _n5 = NumberOf(duration);
-
-      return [_n5, _n5];
+      var n = NumberOf(duration);
+      return [n, n];
     }
   }
 
@@ -17289,11 +17631,11 @@ var JoomlaMediaManager = (function () {
       return (styles[key] || '').split(', ');
     };
 
-    var transitionDelays = getStyleProperties(TRANSITION + 'Delay');
-    var transitionDurations = getStyleProperties(TRANSITION + 'Duration');
+    var transitionDelays = getStyleProperties(TRANSITION + "Delay");
+    var transitionDurations = getStyleProperties(TRANSITION + "Duration");
     var transitionTimeout = getTimeout(transitionDelays, transitionDurations);
-    var animationDelays = getStyleProperties(ANIMATION + 'Delay');
-    var animationDurations = getStyleProperties(ANIMATION + 'Duration');
+    var animationDelays = getStyleProperties(ANIMATION + "Delay");
+    var animationDurations = getStyleProperties(ANIMATION + "Duration");
     var animationTimeout = getTimeout(animationDelays, animationDurations);
     var type = null;
     var timeout = 0;
@@ -17318,7 +17660,7 @@ var JoomlaMediaManager = (function () {
       propCount = type ? type === TRANSITION ? transitionDurations.length : animationDurations.length : 0;
     }
 
-    var hasTransform = type === TRANSITION && /\b(transform|all)(,|$)/.test(styles[TRANSITION + 'Property']);
+    var hasTransform = type === TRANSITION && /\b(transform|all)(,|$)/.test(getStyleProperties(TRANSITION + "Property").toString());
     return {
       type: type,
       timeout: timeout,
@@ -17351,7 +17693,7 @@ var JoomlaMediaManager = (function () {
   }
 
   var getModelAssigner = function getModelAssigner(vnode) {
-    var fn = vnode.props['onUpdate:modelValue'];
+    var fn = vnode.props['onUpdate:modelValue'] || false;
     return isArray(fn) ? function (value) {
       return invokeArrayFns(fn, value);
     } : fn;
@@ -17366,14 +17708,8 @@ var JoomlaMediaManager = (function () {
 
     if (target.composing) {
       target.composing = false;
-      trigger(target, 'input');
+      target.dispatchEvent(new Event('input'));
     }
-  }
-
-  function trigger(el, type) {
-    var e = document.createEvent('HTMLEvents');
-    e.initEvent(type, true, true);
-    el.dispatchEvent(e);
   } // We are exporting the v-model runtime directly as vnode hooks so that it can
   // be tree-shaken in case v-model is never used.
 
@@ -17392,7 +17728,9 @@ var JoomlaMediaManager = (function () {
 
         if (trim) {
           domValue = domValue.trim();
-        } else if (castToNumber) {
+        }
+
+        if (castToNumber) {
           domValue = toNumber(domValue);
         }
 
@@ -17430,7 +17768,7 @@ var JoomlaMediaManager = (function () {
 
       if (el.composing) return;
 
-      if (document.activeElement === el) {
+      if (document.activeElement === el && el.type !== 'range') {
         if (lazy) {
           return;
         }
@@ -17495,8 +17833,8 @@ var JoomlaMediaManager = (function () {
 
   var withModifiers = function withModifiers(fn, modifiers) {
     return function (event) {
-      for (var _i35 = 0; _i35 < modifiers.length; _i35++) {
-        var guard = modifierGuards[modifiers[_i35]];
+      for (var i = 0; i < modifiers.length; i++) {
+        var guard = modifierGuards[modifiers[i]];
         if (guard && guard(event, modifiers)) return;
       }
 
@@ -17590,7 +17928,7 @@ var JoomlaMediaManager = (function () {
   } // SSR vnode transforms, only used when user includes client-oriented render
 
 
-  var rendererOptions = extend({
+  var rendererOptions = /*#__PURE__*/extend({
     patchProp: patchProp
   }, nodeOps); // lazy create the renderer - this makes core renderer logic tree-shakable
   // in case the user only imports reactivity utilities from Vue.
@@ -17649,11 +17987,11 @@ var JoomlaMediaManager = (function () {
    */
 
 
-  var Event = /*#__PURE__*/function () {
+  var Event$1 = /*#__PURE__*/function () {
     /**
        * Media Event constructor
        */
-    function Event() {
+    function Event$1() {
       this.events = {};
     }
     /**
@@ -17663,7 +18001,7 @@ var JoomlaMediaManager = (function () {
        */
 
 
-    var _proto3 = Event.prototype;
+    var _proto3 = Event$1.prototype;
 
     _proto3.fire = function fire(event, data) {
       if (data === void 0) {
@@ -17688,7 +18026,7 @@ var JoomlaMediaManager = (function () {
       this.events[event].push(callback);
     };
 
-    return Event;
+    return Event$1;
   }(); // Loading state
 
 
@@ -18299,16 +18637,16 @@ var JoomlaMediaManager = (function () {
   );
 
   var _hoisted_11$2 = [_hoisted_10$2];
-  var _hoisted_12$2 = ["aria-label"];
+  var _hoisted_12$1 = ["aria-label"];
 
-  var _hoisted_13$1 = /*#__PURE__*/createBaseVNode("span", {
+  var _hoisted_13 = /*#__PURE__*/createBaseVNode("span", {
     class: "icon-search-plus",
     "aria-hidden": "true"
   }, null, -1
   /* HOISTED */
   );
 
-  var _hoisted_14 = [_hoisted_13$1];
+  var _hoisted_14 = [_hoisted_13];
   var _hoisted_15 = ["aria-label"];
   var _hoisted_16 = ["aria-label"];
 
@@ -18375,7 +18713,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop", "prevent"]))
     }, _hoisted_14, 10
     /* CLASS, PROPS */
-    , _hoisted_12$2)) : createCommentVNode("v-if", true), createBaseVNode("button", {
+    , _hoisted_12$1)) : createCommentVNode("v-if", true), createBaseVNode("button", {
       type: "button",
       href: "#",
       class: "media-toolbar-icon media-toolbar-list-view",
@@ -18534,9 +18872,9 @@ var JoomlaMediaManager = (function () {
         return this.$store.state.listView;
       },
       mediaBrowserGridItemsClass: function mediaBrowserGridItemsClass() {
-        var _ref22;
+        var _ref24;
 
-        return _ref22 = {}, _ref22["media-browser-items-" + this.$store.state.gridSize] = true, _ref22;
+        return _ref24 = {}, _ref24["media-browser-items-" + this.$store.state.gridSize] = true, _ref24;
       },
       isModal: function isModal() {
         return Joomla.getOptions('com_media', {}).isModal;
@@ -18630,7 +18968,7 @@ var JoomlaMediaManager = (function () {
 
         if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
           // eslint-disable-next-line no-plusplus,no-cond-assign
-          for (var _i36 = 0, f; f = e.dataTransfer.files[_i36]; _i36++) {
+          for (var i = 0, f; f = e.dataTransfer.files[i]; i++) {
             document.querySelector('.media-dragoutline').classList.remove('active');
             this.upload(f);
           }
@@ -18696,7 +19034,7 @@ var JoomlaMediaManager = (function () {
     class: "modified",
     scope: "col"
   };
-  var _hoisted_12$1 = {
+  var _hoisted_12 = {
     key: 1,
     class: "media-browser-grid"
   };
@@ -18747,7 +19085,7 @@ var JoomlaMediaManager = (function () {
       , ["item"]);
     }), 128
     /* KEYED_FRAGMENT */
-    ))])])) : $options.listView === 'grid' ? (openBlock(), createElementBlock("div", _hoisted_12$1, [createBaseVNode("div", {
+    ))])])) : $options.listView === 'grid' ? (openBlock(), createElementBlock("div", _hoisted_12, [createBaseVNode("div", {
       class: normalizeClass(["media-browser-items", $options.mediaBrowserGridItemsClass])
     }, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.items, function (item) {
       return openBlock(), createBlock(_component_media_browser_item, {
@@ -18934,12 +19272,12 @@ var JoomlaMediaManager = (function () {
     var end = -1;
     var matchedSlash = true;
 
-    for (var _i37 = path.length - 1; _i37 >= 1; --_i37) {
-      code = path.charCodeAt(_i37);
+    for (var i = path.length - 1; i >= 1; --i) {
+      code = path.charCodeAt(i);
 
       if (code === 47) {
         if (!matchedSlash) {
-          end = _i37;
+          end = i;
           break;
         }
       } else {
@@ -19012,7 +19350,7 @@ var JoomlaMediaManager = (function () {
         } // eslint-disable-next-line no-underscore-dangle
 
 
-        var url = _this8._baseUrl + "&task=api.files&path=" + dir;
+        var url = _this8._baseUrl + "&task=api.files&path=" + encodeURIComponent(dir);
 
         if (full) {
           url += "&url=" + full;
@@ -19054,7 +19392,7 @@ var JoomlaMediaManager = (function () {
         var _data;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this9._baseUrl + "&task=api.files&path=" + parent; // eslint-disable-next-line no-underscore-dangle
+        var url = _this9._baseUrl + "&task=api.files&path=" + encodeURIComponent(parent); // eslint-disable-next-line no-underscore-dangle
 
         var data = (_data = {}, _data[_this9._csrfToken] = '1', _data.name = name, _data);
         Joomla.request({
@@ -19094,7 +19432,7 @@ var JoomlaMediaManager = (function () {
         var _data2;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this10._baseUrl + "&task=api.files&path=" + parent;
+        var url = _this10._baseUrl + "&task=api.files&path=" + encodeURIComponent(parent);
         var data = (_data2 = {}, _data2[_this10._csrfToken] = '1', _data2.name = name, _data2.content = content, _data2); // Append override
 
         if (override === true) {
@@ -19136,7 +19474,7 @@ var JoomlaMediaManager = (function () {
         var _data3;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this11._baseUrl + "&task=api.files&path=" + path;
+        var url = _this11._baseUrl + "&task=api.files&path=" + encodeURIComponent(path);
         var data = (_data3 = {}, _data3[_this11._csrfToken] = '1', _data3.newPath = newPath, _data3);
         Joomla.request({
           url: url,
@@ -19173,7 +19511,7 @@ var JoomlaMediaManager = (function () {
         var _data4;
 
         // eslint-disable-next-line no-underscore-dangle
-        var url = _this12._baseUrl + "&task=api.files&path=" + path; // eslint-disable-next-line no-underscore-dangle
+        var url = _this12._baseUrl + "&task=api.files&path=" + encodeURIComponent(path); // eslint-disable-next-line no-underscore-dangle
 
         var data = (_data4 = {}, _data4[_this12._csrfToken] = '1', _data4);
         Joomla.request({
@@ -20767,31 +21105,28 @@ var JoomlaMediaManager = (function () {
   /* HOISTED */
   );
 
-  var _hoisted_4 = /*#__PURE__*/createTextVNode(" Select file or folder to view its details. ");
-
-  var _hoisted_5 = [_hoisted_3$1, _hoisted_4];
+  var _hoisted_4 = {
+    key: 1
+  };
+  var _hoisted_5 = {
+    key: 0
+  };
   var _hoisted_6 = {
     key: 1
   };
   var _hoisted_7 = {
-    key: 0
-  };
-  var _hoisted_8 = {
-    key: 1
-  };
-  var _hoisted_9 = {
     key: 2
   };
-  var _hoisted_10 = {
+  var _hoisted_8 = {
     key: 3
   };
-  var _hoisted_11 = {
+  var _hoisted_9 = {
     key: 4
   };
-  var _hoisted_12 = {
+  var _hoisted_10 = {
     key: 5
   };
-  var _hoisted_13 = {
+  var _hoisted_11 = {
     key: 6
   };
 
@@ -20807,17 +21142,17 @@ var JoomlaMediaManager = (function () {
           })
         }, "×"), createBaseVNode("h2", null, toDisplayString($options.item.name), 1
         /* TEXT */
-        ), $options.item.path === '/' ? (openBlock(), createElementBlock("div", _hoisted_2$7, _hoisted_5)) : (openBlock(), createElementBlock("dl", _hoisted_6, [createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
+        ), $options.item.path === '/' ? (openBlock(), createElementBlock("div", _hoisted_2$7, [_hoisted_3$1, createTextVNode(" Select file or folder to view its details. ")])) : (openBlock(), createElementBlock("dl", _hoisted_4, [createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
         /* TEXT */
         ), createBaseVNode("dd", null, toDisplayString($options.item.directory), 1
         /* TEXT */
         ), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_TYPE')), 1
         /* TEXT */
-        ), $options.item.type === 'file' ? (openBlock(), createElementBlock("dd", _hoisted_7, toDisplayString(_ctx.translate('COM_MEDIA_FILE')), 1
+        ), $options.item.type === 'file' ? (openBlock(), createElementBlock("dd", _hoisted_5, toDisplayString(_ctx.translate('COM_MEDIA_FILE')), 1
         /* TEXT */
-        )) : $options.item.type === 'dir' ? (openBlock(), createElementBlock("dd", _hoisted_8, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
+        )) : $options.item.type === 'dir' ? (openBlock(), createElementBlock("dd", _hoisted_6, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1
         /* TEXT */
-        )) : (openBlock(), createElementBlock("dd", _hoisted_9, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1
+        )) : (openBlock(), createElementBlock("dd", _hoisted_7, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1
         /* TEXT */
         ), createBaseVNode("dd", null, toDisplayString($options.item.create_date_formatted), 1
         /* TEXT */
@@ -20827,13 +21162,13 @@ var JoomlaMediaManager = (function () {
         /* TEXT */
         ), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1
         /* TEXT */
-        ), $options.item.width || $options.item.height ? (openBlock(), createElementBlock("dd", _hoisted_10, toDisplayString($options.item.width) + "px * " + toDisplayString($options.item.height) + "px ", 1
+        ), $options.item.width || $options.item.height ? (openBlock(), createElementBlock("dd", _hoisted_8, toDisplayString($options.item.width) + "px * " + toDisplayString($options.item.height) + "px ", 1
         /* TEXT */
-        )) : (openBlock(), createElementBlock("dd", _hoisted_11, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1
+        )) : (openBlock(), createElementBlock("dd", _hoisted_9, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1
         /* TEXT */
-        ), $options.item.size ? (openBlock(), createElementBlock("dd", _hoisted_12, toDisplayString(($options.item.size / 1024).toFixed(2)) + " KB ", 1
+        ), $options.item.size ? (openBlock(), createElementBlock("dd", _hoisted_10, toDisplayString(($options.item.size / 1024).toFixed(2)) + " KB ", 1
         /* TEXT */
-        )) : (openBlock(), createElementBlock("dd", _hoisted_13, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_MIME_TYPE')), 1
+        )) : (openBlock(), createElementBlock("dd", _hoisted_11, " - ")), createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_MIME_TYPE')), 1
         /* TEXT */
         ), createBaseVNode("dd", null, toDisplayString($options.item.mime_type), 1
         /* TEXT */
@@ -21824,7 +22159,7 @@ var JoomlaMediaManager = (function () {
   Store.prototype.install = function install(app, injectKey) {
     app.provide(injectKey || storeKey, this);
     app.config.globalProperties.$store = this;
-    var useDevtools = this._devtools !== undefined ? this._devtools : __VUE_PROD_DEVTOOLS__;
+    var useDevtools = this._devtools !== undefined ? this._devtools : true;
 
     if (useDevtools) {
       addDevtools(app, this);
@@ -21998,138 +22333,460 @@ var JoomlaMediaManager = (function () {
 
   Object.defineProperties(Store.prototype, prototypeAccessors);
 
-  var r = function r(_r) {
-    return function (r) {
-      return !!r && "object" == typeof r;
-    }(_r) && !function (r) {
-      var t = Object.prototype.toString.call(r);
-      return "[object RegExp]" === t || "[object Date]" === t || function (r) {
-        return r.$$typeof === e;
-      }(r);
-    }(_r);
-  },
-      e = "function" == typeof Symbol && Symbol.for ? Symbol.for("react.element") : 60103;
+  var isMergeableObject = function isMergeableObject(value) {
+    return isNonNullObject(value) && !isSpecial(value);
+  };
 
-  function t(r, e) {
-    return !1 !== e.clone && e.isMergeableObject(r) ? u(Array.isArray(r) ? [] : {}, r, e) : r;
+  function isNonNullObject(value) {
+    return !!value && typeof value === 'object';
   }
 
-  function n(r, e, n) {
-    return r.concat(e).map(function (r) {
-      return t(r, n);
+  function isSpecial(value) {
+    var stringValue = Object.prototype.toString.call(value);
+    return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
+  } // see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+
+
+  var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
+  var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
+
+  function isReactElement(value) {
+    return value.$$typeof === REACT_ELEMENT_TYPE;
+  }
+
+  function emptyTarget(val) {
+    return Array.isArray(val) ? [] : {};
+  }
+
+  function cloneUnlessOtherwiseSpecified(value, options) {
+    return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
+  }
+
+  function defaultArrayMerge(target, source, options) {
+    return target.concat(source).map(function (element) {
+      return cloneUnlessOtherwiseSpecified(element, options);
     });
   }
 
-  function o(r) {
-    return Object.keys(r).concat(function (r) {
-      return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(r).filter(function (e) {
-        return r.propertyIsEnumerable(e);
-      }) : [];
-    }(r));
+  function getMergeFunction(key, options) {
+    if (!options.customMerge) {
+      return deepmerge;
+    }
+
+    var customMerge = options.customMerge(key);
+    return typeof customMerge === 'function' ? customMerge : deepmerge;
   }
 
-  function c(r, e) {
+  function getEnumerableOwnPropertySymbols(target) {
+    return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function (symbol) {
+      return target.propertyIsEnumerable(symbol);
+    }) : [];
+  }
+
+  function getKeys(target) {
+    return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
+  }
+
+  function propertyIsOnObject(object, property) {
     try {
-      return e in r;
-    } catch (r) {
-      return !1;
+      return property in object;
+    } catch (_) {
+      return false;
+    }
+  } // Protects from prototype poisoning and unexpected merging up the prototype chain.
+
+
+  function propertyIsUnsafe(target, key) {
+    return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
+    && !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
+    && Object.propertyIsEnumerable.call(target, key)); // and also unsafe if they're nonenumerable.
+  }
+
+  function mergeObject(target, source, options) {
+    var destination = {};
+
+    if (options.isMergeableObject(target)) {
+      getKeys(target).forEach(function (key) {
+        destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+      });
+    }
+
+    getKeys(source).forEach(function (key) {
+      if (propertyIsUnsafe(target, key)) {
+        return;
+      }
+
+      if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
+        destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
+      } else {
+        destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+      }
+    });
+    return destination;
+  }
+
+  function deepmerge(target, source, options) {
+    options = options || {};
+    options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+    options.isMergeableObject = options.isMergeableObject || isMergeableObject; // cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
+    // implementations can use it. The caller may not replace it.
+
+    options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+    var sourceIsArray = Array.isArray(source);
+    var targetIsArray = Array.isArray(target);
+    var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+
+    if (!sourceAndTargetTypesMatch) {
+      return cloneUnlessOtherwiseSpecified(source, options);
+    } else if (sourceIsArray) {
+      return options.arrayMerge(target, source, options);
+    } else {
+      return mergeObject(target, source, options);
     }
   }
 
-  function u(e, i, a) {
-    (a = a || {}).arrayMerge = a.arrayMerge || n, a.isMergeableObject = a.isMergeableObject || r, a.cloneUnlessOtherwiseSpecified = t;
-    var f = Array.isArray(i);
-    return f === Array.isArray(e) ? f ? a.arrayMerge(e, i, a) : function (r, e, n) {
-      var i = {};
-      return n.isMergeableObject(r) && o(r).forEach(function (e) {
-        i[e] = t(r[e], n);
-      }), o(e).forEach(function (o) {
-        (function (r, e) {
-          return c(r, e) && !(Object.hasOwnProperty.call(r, e) && Object.propertyIsEnumerable.call(r, e));
-        })(r, o) || (i[o] = c(r, o) && n.isMergeableObject(e[o]) ? function (r, e) {
-          if (!e.customMerge) return u;
-          var t = e.customMerge(r);
-          return "function" == typeof t ? t : u;
-        }(o, n)(r[o], e[o], n) : t(e[o], n));
-      }), i;
-    }(e, i, a) : t(i, a);
-  }
+  deepmerge.all = function deepmergeAll(array, options) {
+    if (!Array.isArray(array)) {
+      throw new Error('first argument should be an array');
+    }
 
-  u.all = function (r, e) {
-    if (!Array.isArray(r)) throw new Error("first argument should be an array");
-    return r.reduce(function (r, t) {
-      return u(r, t, e);
+    return array.reduce(function (prev, next) {
+      return deepmerge(prev, next, options);
     }, {});
   };
 
-  var i = u;
+  var deepmerge_1 = deepmerge;
+  var cjs = deepmerge_1;
+  /**
+   * Created by championswimmer on 22/07/17.
+   */
 
-  function a(r) {
-    var e = (r = r || {}).storage || window && window.localStorage,
-        t = r.key || "vuex";
+  var MockStorage; // @ts-ignore
 
-    function n(r, e) {
-      var t = e.getItem(r);
+  {
+    MockStorage = /*#__PURE__*/function () {
+      function MockStorage() {}
 
-      try {
-        return "string" == typeof t ? JSON.parse(t) : "object" == typeof t ? t : void 0;
-      } catch (r) {}
-    }
+      var _proto6 = MockStorage.prototype;
 
-    function o() {
-      return !0;
-    }
-
-    function c(r, e, t) {
-      return t.setItem(r, JSON.stringify(e));
-    }
-
-    function u(r, e) {
-      return Array.isArray(e) ? e.reduce(function (e, t) {
-        return function (r, e, t, n) {
-          return !/^(__proto__|constructor|prototype)$/.test(e) && ((e = e.split ? e.split(".") : e.slice(0)).slice(0, -1).reduce(function (r, e) {
-            return r[e] = r[e] || {};
-          }, r)[e.pop()] = t), r;
-        }(e, t, (n = r, void 0 === (n = ((o = t).split ? o.split(".") : o).reduce(function (r, e) {
-          return r && r[e];
-        }, n)) ? void 0 : n));
-        var n, o;
-      }, {}) : r;
-    }
-
-    function a(r) {
-      return function (e) {
-        return r.subscribe(e);
+      _proto6.key = function key(index) {
+        return Object.keys(this)[index];
       };
+
+      _proto6.setItem = function setItem(key, data) {
+        this[key] = data.toString();
+      };
+
+      _proto6.getItem = function getItem(key) {
+        return this[key];
+      };
+
+      _proto6.removeItem = function removeItem(key) {
+        delete this[key];
+      };
+
+      _proto6.clear = function clear() {
+        for (var _i4 = 0, _Object$keys = Object.keys(this); _i4 < _Object$keys.length; _i4++) {
+          var key = _Object$keys[_i4];
+          delete this[key];
+        }
+      };
+
+      _createClass(MockStorage, [{
+        key: "length",
+        get: function get() {
+          return Object.keys(this).length;
+        }
+      }]);
+
+      return MockStorage;
+    }();
+  } // tslint:disable: variable-name
+
+  var SimplePromiseQueue = /*#__PURE__*/function () {
+    function SimplePromiseQueue() {
+      this._queue = [];
+      this._flushing = false;
     }
 
-    (r.assertStorage || function () {
-      e.setItem("@@", 1), e.removeItem("@@");
-    })(e);
+    var _proto7 = SimplePromiseQueue.prototype;
 
-    var f,
-        s = function s() {
-      return (r.getState || n)(t, e);
+    _proto7.enqueue = function enqueue(promise) {
+      this._queue.push(promise);
+
+      if (!this._flushing) {
+        return this.flushQueue();
+      }
+
+      return Promise.resolve();
     };
 
-    return r.fetchBeforeUse && (f = s()), function (n) {
-      r.fetchBeforeUse || (f = s()), "object" == typeof f && null !== f && (n.replaceState(r.overwrite ? f : i(n.state, f, {
-        arrayMerge: r.arrayMerger || function (r, e) {
-          return e;
-        },
-        clone: !1
-      })), (r.rehydrated || function () {})(n)), (r.subscriber || a)(n)(function (n, i) {
-        (r.filter || o)(n) && (r.setState || c)(t, (r.reducer || u)(i, r.paths), e);
+    _proto7.flushQueue = function flushQueue() {
+      var _this19 = this;
+
+      this._flushing = true;
+
+      var chain = function chain() {
+        var nextTask = _this19._queue.shift();
+
+        if (nextTask) {
+          return nextTask.then(chain);
+        } else {
+          _this19._flushing = false;
+        }
+      };
+
+      return Promise.resolve(chain());
+    };
+
+    return SimplePromiseQueue;
+  }();
+
+  var options$1 = {
+    replaceArrays: {
+      arrayMerge: function arrayMerge(destinationArray, sourceArray, options) {
+        return sourceArray;
+      }
+    },
+    concatArrays: {
+      arrayMerge: function arrayMerge(target, source, options) {
+        return target.concat.apply(target, source);
+      }
+    }
+  };
+
+  function merge(into, from, mergeOption) {
+    return cjs(into, from, options$1[mergeOption]);
+  }
+
+  var FlattedJSON = JSON;
+  /**
+   * A class that implements the vuex persistence.
+   * @type S type of the 'state' inside the store (default: any)
+   */
+
+  var VuexPersistence =
+  /**
+   * Create a {@link VuexPersistence} object.
+   * Use the <code>plugin</code> function of this class as a
+   * Vuex plugin.
+   * @param {PersistOptions} options
+   */
+  function VuexPersistence(options) {
+    var _this20 = this;
+
+    // tslint:disable-next-line:variable-name
+    this._mutex = new SimplePromiseQueue();
+    /**
+     * Creates a subscriber on the store. automatically is used
+     * when this is used a vuex plugin. Not for manual usage.
+     * @param store
+     */
+
+    this.subscriber = function (store) {
+      return function (handler) {
+        return store.subscribe(handler);
+      };
+    };
+
+    if (typeof options === 'undefined') options = {};
+    this.key = options.key != null ? options.key : 'vuex';
+    this.subscribed = false;
+    this.supportCircular = options.supportCircular || false;
+
+    if (this.supportCircular) {
+      FlattedJSON = cjs$1;
+    }
+
+    this.mergeOption = options.mergeOption || 'replaceArrays';
+    var localStorageLitmus = true;
+
+    try {
+      window.localStorage.getItem('');
+    } catch (err) {
+      localStorageLitmus = false;
+    }
+    /**
+     * 1. First, prefer storage sent in optinos
+     * 2. Otherwise, use window.localStorage if available
+     * 3. Finally, try to use MockStorage
+     * 4. None of above? Well we gotta fail.
+     */
+
+
+    if (options.storage) {
+      this.storage = options.storage;
+    } else if (localStorageLitmus) {
+      this.storage = window.localStorage;
+    } else if (MockStorage) {
+      this.storage = new MockStorage();
+    } else {
+      throw new Error("Neither 'window' is defined, nor 'MockStorage' is available");
+    }
+    /**
+     * How this works is -
+     *  1. If there is options.reducer function, we use that, if not;
+     *  2. We check options.modules;
+     *    1. If there is no options.modules array, we use entire state in reducer
+     *    2. Otherwise, we create a reducer that merges all those state modules that are
+     *        defined in the options.modules[] array
+     * @type {((state: S) => {}) | ((state: S) => S) | ((state: any) => {})}
+     */
+
+
+    this.reducer = options.reducer != null ? options.reducer : options.modules == null ? function (state) {
+      return state;
+    } : function (state) {
+      return options.modules.reduce(function (a, i) {
+        var _merge;
+
+        return merge(a, (_merge = {}, _merge[i] = state[i], _merge), _this20.mergeOption);
+      }, {
+        /* start empty accumulator*/
       });
     };
-  } // The options for persisting state
+
+    this.filter = options.filter || function (mutation) {
+      return true;
+    };
+
+    this.strictMode = options.strictMode || false;
+
+    this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
+      var mergedState = merge(state, savedState || {}, this.mergeOption);
+
+      for (var _i5 = 0, _Object$keys2 = Object.keys(mergedState); _i5 < _Object$keys2.length; _i5++) {
+        var propertyName = _Object$keys2[_i5];
+
+        this._vm.$set(state, propertyName, mergedState[propertyName]);
+      }
+    };
+
+    this.asyncStorage = options.asyncStorage || false;
+
+    if (this.asyncStorage) {
+      /**
+       * Async {@link #VuexPersistence.restoreState} implementation
+       * @type {((key: string, storage?: Storage) =>
+       *      (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
+       */
+      this.restoreState = options.restoreState != null ? options.restoreState : function (key, storage) {
+        return storage.getItem(key).then(function (value) {
+          return typeof value === 'string' // If string, parse, or else, just return
+          ? _this20.supportCircular ? FlattedJSON.parse(value || '{}') : JSON.parse(value || '{}') : value || {};
+        });
+      };
+      /**
+       * Async {@link #VuexPersistence.saveState} implementation
+       * @type {((key: string, state: {}, storage?: Storage) =>
+       *    (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       */
+
+      this.saveState = options.saveState != null ? options.saveState : function (key, state, storage) {
+        return storage.setItem(key, // Second argument is state _object_ if asyc storage, stringified otherwise
+        // do not stringify the state if the storage type is async
+        _this20.asyncStorage ? merge({}, state || {}, _this20.mergeOption) : _this20.supportCircular ? FlattedJSON.stringify(state) : JSON.stringify(state));
+      };
+      /**
+       * Async version of plugin
+       * @param {Store<S>} store
+       */
+
+      this.plugin = function (store) {
+        /**
+         * For async stores, we're capturing the Promise returned
+         * by the `restoreState()` function in a `restored` property
+         * on the store itself. This would allow app developers to
+         * determine when and if the store's state has indeed been
+         * refreshed. This approach was suggested by GitHub user @hotdogee.
+         * See https://github.com/championswimmer/vuex-persist/pull/118#issuecomment-500914963
+         * @since 2.1.0
+         */
+        store.restored = _this20.restoreState(_this20.key, _this20.storage).then(function (savedState) {
+          /**
+           * If in strict mode, do only via mutation
+           */
+          if (_this20.strictMode) {
+            store.commit('RESTORE_MUTATION', savedState);
+          } else {
+            store.replaceState(merge(store.state, savedState || {}, _this20.mergeOption));
+          }
+
+          _this20.subscriber(store)(function (mutation, state) {
+            if (_this20.filter(mutation)) {
+              _this20._mutex.enqueue(_this20.saveState(_this20.key, _this20.reducer(state), _this20.storage));
+            }
+          });
+
+          _this20.subscribed = true;
+        });
+      };
+    } else {
+      /**
+       * Sync {@link #VuexPersistence.restoreState} implementation
+       * @type {((key: string, storage?: Storage) =>
+       *    (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
+       */
+      this.restoreState = options.restoreState != null ? options.restoreState : function (key, storage) {
+        var value = storage.getItem(key);
+
+        if (typeof value === 'string') {
+          // If string, parse, or else, just return
+          return _this20.supportCircular ? FlattedJSON.parse(value || '{}') : JSON.parse(value || '{}');
+        } else {
+          return value || {};
+        }
+      };
+      /**
+       * Sync {@link #VuexPersistence.saveState} implementation
+       * @type {((key: string, state: {}, storage?: Storage) =>
+       *     (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       */
+
+      this.saveState = options.saveState != null ? options.saveState : function (key, state, storage) {
+        return storage.setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
+        _this20.supportCircular ? FlattedJSON.stringify(state) : JSON.stringify(state));
+      };
+      /**
+       * Sync version of plugin
+       * @param {Store<S>} store
+       */
+
+      this.plugin = function (store) {
+        var savedState = _this20.restoreState(_this20.key, _this20.storage);
+
+        if (_this20.strictMode) {
+          store.commit('RESTORE_MUTATION', savedState);
+        } else {
+          store.replaceState(merge(store.state, savedState || {}, _this20.mergeOption));
+        }
+
+        _this20.subscriber(store)(function (mutation, state) {
+          if (_this20.filter(mutation)) {
+            _this20.saveState(_this20.key, _this20.reducer(state), _this20.storage);
+          }
+        });
+
+        _this20.subscribed = true;
+      };
+    }
+  };
+
+  var VuexPersistence$1 = VuexPersistence; // The options for persisting state
   // eslint-disable-next-line import/prefer-default-export
 
-
   var persistedStateOptions = {
+    storage: window.sessionStorage,
     key: 'joomla.mediamanager',
-    paths: ['selectedDirectory', 'showInfoBar', 'listView', 'gridSize', 'search'],
-    storage: window.sessionStorage
+    reducer: function reducer(state) {
+      return {
+        selectedDirectory: state.selectedDirectory,
+        showInfoBar: state.showInfoBar,
+        listView: state.listView,
+        gridSize: state.gridSize,
+        search: state.search
+      };
+    }
   };
   var options = Joomla.getOptions('com_media', {});
 
@@ -22381,8 +23038,8 @@ var JoomlaMediaManager = (function () {
         var slice = byteCharacters.slice(offset, offset + 512);
         var byteNumbers = new Array(slice.length); // eslint-disable-next-line no-plusplus
 
-        for (var _i38 = 0; _i38 < slice.length; _i38++) {
-          byteNumbers[_i38] = slice.charCodeAt(_i38);
+        for (var i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
         }
 
         var byteArray = new Uint8Array(byteNumbers);
@@ -22815,7 +23472,7 @@ var JoomlaMediaManager = (function () {
     getters: getters,
     actions: actions,
     mutations: mutations,
-    plugins: [a(persistedStateOptions)],
+    plugins: [new VuexPersistence$1(persistedStateOptions).plugin],
     strict: "production" !== 'production'
   });
   var script$7 = {
@@ -22912,8 +23569,8 @@ var JoomlaMediaManager = (function () {
     return openBlock(), createElementBlock("button", {
       type: "button",
       class: "action-toggle",
-      "aria-label": _ctx.sprintf('COM_MEDIA_MANAGE_ITEM', this.$parent.$props.item.name),
-      title: _ctx.sprintf('COM_MEDIA_MANAGE_ITEM', this.$parent.$props.item.name),
+      "aria-label": _ctx.sprintf('COM_MEDIA_MANAGE_ITEM', _ctx.$parent.$props.item.name),
+      title: _ctx.sprintf('COM_MEDIA_MANAGE_ITEM', _ctx.$parent.$props.item.name),
       onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
         return $options.openActions();
       }, ["enter"])), _cache[4] || (_cache[4] = withKeys(function ($event) {
@@ -23330,10 +23987,10 @@ var JoomlaMediaManager = (function () {
     watch: {
       // eslint-disable-next-line
       "$store.state.showRenameModal": function $storeStateShowRenameModal(show) {
-        var _this19 = this;
+        var _this21 = this;
 
         if (!show && this.$refs.actionToggle && this.$store.state.selectedItems.find(function (item) {
-          return item.name === _this19.item.name;
+          return item.name === _this21.item.name;
         }) !== undefined) {
           this.$refs.actionToggle.$el.focus();
         }
@@ -23543,8 +24200,8 @@ var JoomlaMediaManager = (function () {
       class: "media-browser-actions-list",
       role: "toolbar",
       "aria-orientation": "vertical",
-      "aria-label": _ctx.sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL', this.$parent.$props.item.name)
-    }, [createBaseVNode("span", _hoisted_3, [createBaseVNode("strong", null, toDisplayString(this.$parent.$props.item.name), 1
+      "aria-label": _ctx.sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL', _ctx.$parent.$props.item.name)
+    }, [createBaseVNode("span", _hoisted_3, [createBaseVNode("strong", null, toDisplayString(_ctx.$parent.$props.item.name), 1
     /* TEXT */
     )]), $props.previewable ? (openBlock(), createBlock(_component_media_browser_action_item_preview, {
       key: 0,
@@ -23619,37 +24276,10 @@ var JoomlaMediaManager = (function () {
   script.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/actionItemsContainer.vue";
   window.MediaManager = window.MediaManager || {}; // Register the media manager event bus
 
-  window.MediaManager.Event = new Event(); // Create the Vue app instance
+  window.MediaManager.Event = new Event$1(); // Create the Vue app instance
 
-  var app = createApp(script$t);
-  app.use(store);
-  app.use(Translate); // Register the vue components
-
-  app.component('MediaDrive', script$r);
-  app.component('MediaDisk', script$s);
-  app.component('MediaTree', script$q);
-  app.component('MediaToolbar', script$p);
-  app.component('MediaBreadcrumb', script$o);
-  app.component('MediaBrowser', script$n);
-  app.component('MediaBrowserItem', BrowserItem);
-  app.component('MediaBrowserItemRow', script$g);
-  app.component('MediaModal', script$f);
-  app.component('MediaCreateFolderModal', script$e);
-  app.component('MediaPreviewModal', script$d);
-  app.component('MediaRenameModal', script$c);
-  app.component('MediaShareModal', script$b);
-  app.component('MediaConfirmDeleteModal', script$a);
-  app.component('MediaInfobar', script$9);
-  app.component('MediaUpload', script$8);
-  app.component('MediaBrowserActionItemToggle', script$6);
-  app.component('MediaBrowserActionItemPreview', script$5);
-  app.component('MediaBrowserActionItemDownload', script$4);
-  app.component('MediaBrowserActionItemRename', script$7);
-  app.component('MediaBrowserActionItemShare', script$3);
-  app.component('MediaBrowserActionItemDelete', script$2);
-  app.component('MediaBrowserActionItemEdit', script$1);
-  app.component('MediaBrowserActionItemsContainer', script);
-  app.mount('#com-media');
+  createApp(script$t).use(store).use(Translate) // Register the vue components
+  .component('MediaDrive', script$r).component('MediaDisk', script$s).component('MediaTree', script$q).component('MediaToolbar', script$p).component('MediaBreadcrumb', script$o).component('MediaBrowser', script$n).component('MediaBrowserItem', BrowserItem).component('MediaBrowserItemRow', script$g).component('MediaModal', script$f).component('MediaCreateFolderModal', script$e).component('MediaPreviewModal', script$d).component('MediaRenameModal', script$c).component('MediaShareModal', script$b).component('MediaConfirmDeleteModal', script$a).component('MediaInfobar', script$9).component('MediaUpload', script$8).component('MediaBrowserActionItemToggle', script$6).component('MediaBrowserActionItemPreview', script$5).component('MediaBrowserActionItemDownload', script$4).component('MediaBrowserActionItemRename', script$7).component('MediaBrowserActionItemShare', script$3).component('MediaBrowserActionItemDelete', script$2).component('MediaBrowserActionItemEdit', script$1).component('MediaBrowserActionItemsContainer', script).mount('#com-media');
 
   return mediaManager;
 

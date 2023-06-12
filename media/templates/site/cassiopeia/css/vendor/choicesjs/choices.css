@@ -348,8 +348,8 @@
   cursor: pointer;
 }
 .choices.is-focused {
-  -webkit-box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 0 0 0.2rem hsla(0deg, 0%, 0%, 0.1);
+          box-shadow: 0 0 0 0.2rem hsla(0deg, 0%, 0%, 0.1);
 }
 
 .choices__inner {
