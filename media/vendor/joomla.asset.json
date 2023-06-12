@@ -30,16 +30,6 @@
       "version": "2.6.0"
     },
     {
-      "name": "short-and-sweet",
-      "type": "script",
-      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "short-and-sweet",
-      "version": "1.0.4"
-    },
-    {
       "name": "accessibility",
       "type": "script",
       "uri": "vendor/accessibility/accessibility.min.js",
@@ -48,6 +38,16 @@
       },
       "package": "accessibility",
       "version": "3.0.16"
+    },
+    {
+      "name": "short-and-sweet",
+      "type": "script",
+      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "short-and-sweet",
+      "version": "1.0.4"
     },
     {
       "name": "awesomplete",
@@ -104,33 +104,6 @@
       "version": "1.5.12"
     },
     {
-      "name": "dragula",
-      "type": "style",
-      "uri": "vendor/dragula/dragula.min.css",
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
-      "name": "dragula",
-      "type": "script",
-      "uri": "vendor/dragula/dragula.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
-      "name": "dragula",
-      "type": "preset",
-      "dependencies": [
-        "dragula#style",
-        "dragula#script"
-      ],
-      "package": "dragula",
-      "version": "3.7.3"
-    },
-    {
       "name": "choicesjs",
       "type": "style",
       "uri": "vendor/choicesjs/choices.min.css",
@@ -156,6 +129,33 @@
       ],
       "package": "choices.js",
       "version": "9.1.0"
+    },
+    {
+      "name": "dragula",
+      "type": "style",
+      "uri": "vendor/dragula/dragula.min.css",
+      "package": "dragula",
+      "version": "3.7.3"
+    },
+    {
+      "name": "dragula",
+      "type": "script",
+      "uri": "vendor/dragula/dragula.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "dragula",
+      "version": "3.7.3"
+    },
+    {
+      "name": "dragula",
+      "type": "preset",
+      "dependencies": [
+        "dragula#style",
+        "dragula#script"
+      ],
+      "package": "dragula",
+      "version": "3.7.3"
     },
     {
       "name": "focus-visible",
@@ -260,33 +260,6 @@
       "version": "0.2.0"
     },
     {
-      "name": "chosen",
-      "type": "style",
-      "uri": "vendor/chosen/chosen.css",
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "script",
-      "uri": "vendor/chosen/chosen.jquery.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "preset",
-      "dependencies": [
-        "chosen#style",
-        "chosen#script"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
       "name": "minicolors",
       "type": "style",
       "uri": "vendor/minicolors/jquery.minicolors.css",
@@ -315,6 +288,33 @@
       ],
       "package": "@claviska/jquery-minicolors",
       "version": "2.3.6"
+    },
+    {
+      "name": "chosen",
+      "type": "style",
+      "uri": "vendor/chosen/chosen.css",
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "script",
+      "uri": "vendor/chosen/chosen.jquery.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "preset",
+      "dependencies": [
+        "chosen#style",
+        "chosen#script"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
     },
     {
       "name": "metismenujs",

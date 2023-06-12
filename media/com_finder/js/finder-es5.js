@@ -18,26 +18,22 @@
         target.awesomplete.list = [];
         Joomla.request({
           url: Joomla.getOptions('finder-search').url + "&q=" + target.value,
-          method: 'GET',
-          data: {
-            q: target.value
-          },
-          perform: true,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          onSuccess: function onSuccess(resp) {
-            var response = JSON.parse(resp);
+          promise: true
+        }).then(function (xhr) {
+          var response;
 
-            if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
-              target.awesomplete.list = response.suggestions;
-            }
-          },
-          onError: function onError(xhr) {
-            if (xhr.status > 0) {
-              Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
-            }
+          try {
+            response = JSON.parse(xhr.responseText);
+          } catch (e) {
+            Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr, 'parsererror'));
+            return;
           }
+
+          if (Object.prototype.toString.call(response.suggestions) === '[object Array]') {
+            target.awesomplete.list = response.suggestions;
+          }
+        }).catch(function (xhr) {
+          Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
         });
       }
     }; // Handle the submit

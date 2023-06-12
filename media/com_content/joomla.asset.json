@@ -19,19 +19,6 @@
       "version": "dfda2cadb929cf361efab69cd56c9ef003a65dbe"
     },
     {
-      "name": "com_content.admin-article-pagebreak",
-      "type": "script",
-      "uri": "com_content/admin-article-pagebreak.min.js",
-      "dependencies": [
-        "com_content.admin-article-pagebreak.es5"
-      ],
-      "attributes": {
-        "type": "module",
-        "defer": true
-      },
-      "version": "3a6400cb085212bd7f5f2f43ab8bfadfb405b7fd"
-    },
-    {
       "name": "com_content.admin-article-readmore.es5",
       "type": "script",
       "uri": "com_content/admin-article-readmore-es5.min.js",
@@ -82,6 +69,19 @@
       "version": "9ac1245a9dd2a9bf7e7f95c6e7e24f6075eef0ae"
     },
     {
+      "name": "com_content.admin-article-pagebreak",
+      "type": "script",
+      "uri": "com_content/admin-article-pagebreak.min.js",
+      "dependencies": [
+        "com_content.admin-article-pagebreak.es5"
+      ],
+      "attributes": {
+        "type": "module",
+        "defer": true
+      },
+      "version": "3a6400cb085212bd7f5f2f43ab8bfadfb405b7fd"
+    },
+    {
       "name": "com_content.admin-articles-stage.es5",
       "type": "script",
       "uri": "com_content/admin-articles-default-stage-footer-es5.min.js",
@@ -107,17 +107,16 @@
       "version": "08fce4ef3c52022ecd9f512a44d64299dc9e89ed"
     },
     {
-      "name": "com_content.admin-articles-modal.es5",
+      "name": "com_content.admin-articles-modal",
       "type": "script",
-      "uri": "com_content/admin-articles-modal-es5.min.js",
+      "uri": "com_content/admin-articles-modal.min.js",
       "dependencies": [
-        "core"
+        "com_content.admin-articles-modal.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "872a497cd19612c3e1940b5feefdc0e14c08d4b9"
+      "version": "bed8db4d9dd739752dae07292d0c67de99d7a152"
     },
     {
       "name": "com_content.form-edit.es5",
@@ -145,6 +144,31 @@
       "version": "d12afb233cbc93cdf16c2c6bdf4066981f3e2f21"
     },
     {
+      "name": "com_content.articles-list",
+      "type": "script",
+      "uri": "com_content/articles-list.min.js",
+      "dependencies": [
+        "com_content.articles-list.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "4efda122de260213f85aceee619bfc3ea5b4a0aa"
+    },
+    {
+      "name": "com_content.admin-articles-modal.es5",
+      "type": "script",
+      "uri": "com_content/admin-articles-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "f515667caece3238a27a80e6ac7acc46a02b3a60"
+    },
+    {
       "name": "com_content.articles-list.es5",
       "type": "script",
       "uri": "com_content/articles-list-es5.min.js",
@@ -158,28 +182,16 @@
       "version": "4d40a071d6672febde9190f361c8adecc94917d8"
     },
     {
-      "name": "com_content.articles-list",
+      "name": "com_content.articles-status",
       "type": "script",
-      "uri": "com_content/articles-list.min.js",
+      "uri": "com_content/articles-status.min.js",
       "dependencies": [
-        "com_content.articles-list.es5"
+        "com_content.articles-status.es5"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "4efda122de260213f85aceee619bfc3ea5b4a0aa"
-    },
-    {
-      "name": "com_content.admin-articles-modal",
-      "type": "script",
-      "uri": "com_content/admin-articles-modal.min.js",
-      "dependencies": [
-        "com_content.admin-articles-modal.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "b0a8df19948936e693d5c710d22673ed9ad760a3"
+      "version": "bab2dc69a310da654f103df16f52fbc062bac9c5"
     },
     {
       "name": "com_content.articles-status.es5",
@@ -193,18 +205,6 @@
         "defer": true
       },
       "version": "ad26c4dfb965fad9cf0976bb5d6395808828d3a1"
-    },
-    {
-      "name": "com_content.articles-status",
-      "type": "script",
-      "uri": "com_content/articles-status.min.js",
-      "dependencies": [
-        "com_content.articles-status.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "bab2dc69a310da654f103df16f52fbc062bac9c5"
     }
   ]
 }

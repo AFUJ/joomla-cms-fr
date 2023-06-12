@@ -59,4 +59,5 @@ return array(
     'd6b246ac924292702635bb2349f4a64b' => $vendorDir . '/lcobucci/jwt/compat/lcobucci-clock-polyfill.php',
     '3109cb1a231dcd04bee1f9f620d46975' => $vendorDir . '/paragonie/sodium_compat/autoload.php',
     '56823cacd97af379eceaf82ad00b928f' => $vendorDir . '/phpseclib/bcmath_compat/lib/bcmath.php',
+    '23c18046f52bef3eea034657bafda50f' => $vendorDir . '/symfony/polyfill-php81/bootstrap.php',
 );

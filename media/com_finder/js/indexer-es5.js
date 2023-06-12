@@ -146,14 +146,33 @@
         return true;
       };
 
-      var handleFailure = function handleFailure(xhr) {
+      var handleFailure = function handleFailure(error) {
         var progressHeader = document.getElementById('finder-progress-header');
         var progressMessage = document.getElementById('finder-progress-message');
-        var data = typeof xhr === 'object' && xhr.responseText ? xhr.responseText : null;
-        data = data ? JSON.parse(data) : null;
+        var data;
+
+        if (error instanceof Error) {
+          // Encode any html in the message
+          var div = document.createElement('div');
+          div.textContent = error.message;
+          data = div.innerHTML;
+
+          if (error instanceof SyntaxError) {
+            data = Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', data);
+          }
+        } else if (typeof error === 'object' && error.responseText) {
+          data = error.responseText;
+
+          try {
+            data = JSON.parse(data);
+          } catch (e) {
+            data = Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', error.status);
+          }
+        }
+
         removeElement('progress');
-        var header = data ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-        var message = data ? data.message : Joomla.Text._('COM_FINDER_MESSAGE_RETURNED') + "<br>" + data;
+        var header = data && data.header ? data.header : Joomla.Text._('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+        var message = data && data.message ? data.message : Joomla.Text._('COM_FINDER_MESSAGE_RETURNED') + "<br>" + data;
 
         if (progressHeader) {
           progressHeader.innerText = header;
@@ -169,18 +188,11 @@
       getRequest = function getRequest(task) {
         Joomla.request({
           url: path + "&task=" + task + token,
-          method: 'GET',
-          data: '',
-          perform: true,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          onSuccess: function onSuccess(response) {
-            handleResponse(JSON.parse(response));
-          },
-          onError: function onError(xhr) {
-            handleFailure(xhr);
-          }
+          promise: true
+        }).then(function (xhr) {
+          handleResponse(JSON.parse(xhr.responseText));
+        }).catch(function (error) {
+          handleFailure(error);
         });
       };
 

@@ -767,7 +767,7 @@
       var error;
       var invalid = []; // Validate form fields
 
-      var fields = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+      var fields = [].slice.call(form.elements);
       fields.forEach(function (field) {
         if (_this2.validate(field) === false) {
           valid = false;
@@ -802,7 +802,7 @@
     _proto.attachToForm = function attachToForm(form) {
       var _this3 = this;
 
-      var elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset')); // Iterate through the form object and attach the validate method to all input fields.
+      var elements = [].slice.call(form.elements); // Iterate through the form object and attach the validate method to all input fields.
 
       elements.forEach(function (element) {
         var tagName = element.tagName.toLowerCase();
