@@ -17740,7 +17740,7 @@ var JoomlaMediaManager = (function () {
 
 
   var notifications = new Notifications();
-  var script$u = {
+  var script$t = {
     name: 'MediaApp',
     data: function data() {
       return {
@@ -17792,7 +17792,7 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$u = {
+  var _hoisted_1$t = {
     class: "media-container"
   };
   var _hoisted_2$l = {
@@ -17802,7 +17802,7 @@ var JoomlaMediaManager = (function () {
     class: "media-main"
   };
 
-  function render$u(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$t(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_disk = resolveComponent("media-disk");
 
     var _component_media_toolbar = resolveComponent("media-toolbar");
@@ -17821,7 +17821,7 @@ var JoomlaMediaManager = (function () {
 
     var _component_media_confirm_delete_modal = resolveComponent("media-confirm-delete-modal");
 
-    return openBlock(), createElementBlock("div", _hoisted_1$u, [createBaseVNode("div", _hoisted_2$l, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, function (disk, index) {
+    return openBlock(), createElementBlock("div", _hoisted_1$t, [createBaseVNode("div", _hoisted_2$l, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.disks, function (disk, index) {
       return openBlock(), createBlock(_component_media_disk, {
         key: index,
         uid: index,
@@ -17834,9 +17834,9 @@ var JoomlaMediaManager = (function () {
     ))]), createBaseVNode("div", _hoisted_3$g, [createVNode(_component_media_toolbar), createVNode(_component_media_browser)]), createVNode(_component_media_upload), createVNode(_component_media_create_folder_modal), createVNode(_component_media_preview_modal), createVNode(_component_media_rename_modal), createVNode(_component_media_share_modal), createVNode(_component_media_confirm_delete_modal)]);
   }
 
-  script$u.render = render$u;
-  script$u.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
-  var script$t = {
+  script$t.render = render$t;
+  script$t.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+  var script$s = {
     name: 'MediaDisk',
     // eslint-disable-next-line vue/require-prop-types
     props: ['disk', 'uid'],
@@ -17846,15 +17846,15 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var _hoisted_1$t = {
+  var _hoisted_1$s = {
     class: "media-disk"
   };
   var _hoisted_2$k = ["id"];
 
-  function render$t(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_drive = resolveComponent("media-drive");
 
-    return openBlock(), createElementBlock("div", _hoisted_1$t, [createBaseVNode("h2", {
+    return openBlock(), createElementBlock("div", _hoisted_1$s, [createBaseVNode("h2", {
       id: $options.diskId,
       class: "media-disk-name"
     }, toDisplayString($props.disk.displayName), 9
@@ -17874,8 +17874,8 @@ var JoomlaMediaManager = (function () {
     ))]);
   }
 
-  script$t.render = render$t;
-  script$t.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+  script$s.render = render$s;
+  script$s.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
   var navigable = {
     methods: {
       navigateTo: function navigateTo(path) {
@@ -17883,7 +17883,7 @@ var JoomlaMediaManager = (function () {
       }
     }
   };
-  var script$s = {
+  var script$r = {
     name: 'MediaDrive',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
@@ -17901,21 +17901,27 @@ var JoomlaMediaManager = (function () {
       /* Handle the on drive click event */
       onDriveClick: function onDriveClick() {
         this.navigateTo(this.drive.root);
+      },
+      moveFocusToChildElement: function moveFocusToChildElement(nextRoot) {
+        this.$refs[nextRoot].setFocusToFirstChild();
+      },
+      restoreFocus: function restoreFocus() {
+        this.$refs['drive-root'].focus();
       }
     }
   };
-  var _hoisted_1$s = ["aria-labelledby"];
+  var _hoisted_1$r = ["aria-labelledby"];
   var _hoisted_2$j = ["aria-setsize", "tabindex"];
   var _hoisted_3$f = {
     class: "item-name"
   };
 
-  function render$s(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$r(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
     return openBlock(), createElementBlock("div", {
       class: "media-drive",
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
+      onClick: _cache[2] || (_cache[2] = withModifiers(function ($event) {
         return $options.onDriveClick();
       }, ["stop", "prevent"]))
     }, [createBaseVNode("ul", {
@@ -17928,29 +17934,43 @@ var JoomlaMediaManager = (function () {
         'media-tree-item': true,
         'media-drive-name': true
       }),
+      role: "none"
+    }, [createBaseVNode("a", {
+      ref: "drive-root",
       role: "treeitem",
       "aria-level": "1",
       "aria-setsize": $props.counter,
       "aria-posinset": 1,
-      tabindex: $options.getTabindex
-    }, [createBaseVNode("a", null, [createBaseVNode("span", _hoisted_3$f, toDisplayString($props.drive.displayName), 1
+      tabindex: $options.getTabindex,
+      onKeyup: [_cache[0] || (_cache[0] = withKeys(function ($event) {
+        return $options.moveFocusToChildElement($props.drive.root);
+      }, ["right"])), _cache[1] || (_cache[1] = withKeys(function () {
+        return $options.onDriveClick && $options.onDriveClick.apply($options, arguments);
+      }, ["enter"]))]
+    }, [createBaseVNode("span", _hoisted_3$f, toDisplayString($props.drive.displayName), 1
     /* TEXT */
-    )]), createVNode(_component_media_tree, {
+    )], 40
+    /* PROPS, HYDRATE_EVENTS */
+    , _hoisted_2$j), createVNode(_component_media_tree, {
+      ref: $props.drive.root,
       root: $props.drive.root,
-      level: 2
+      level: 2,
+      "parent-index": 0,
+      onMoveFocusToParent: $options.restoreFocus
     }, null, 8
     /* PROPS */
-    , ["root"])], 10
-    /* CLASS, PROPS */
-    , _hoisted_2$j)], 8
+    , ["root", "onMoveFocusToParent"])], 2
+    /* CLASS */
+    )], 8
     /* PROPS */
-    , _hoisted_1$s)]);
+    , _hoisted_1$r)]);
   }
 
-  script$s.render = render$s;
-  script$s.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
-  var script$r = {
+  script$r.render = render$r;
+  script$r.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+  var script$q = {
     name: 'MediaTree',
+    mixins: [navigable],
     props: {
       root: {
         type: String,
@@ -17959,8 +17979,13 @@ var JoomlaMediaManager = (function () {
       level: {
         type: Number,
         required: true
+      },
+      parentIndex: {
+        type: Number,
+        required: true
       }
     },
+    emits: ['move-focus-to-parent'],
     computed: {
       /* Get the directories */
       directories: function directories() {
@@ -17973,149 +17998,151 @@ var JoomlaMediaManager = (function () {
           return a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1;
         });
       }
-    }
-  };
-  var _hoisted_1$r = {
-    class: "media-tree",
-    role: "group"
-  };
-
-  function render$r(_ctx, _cache, $props, $setup, $data, $options) {
-    var _component_media_tree_item = resolveComponent("media-tree-item");
-
-    return openBlock(), createElementBlock("ul", _hoisted_1$r, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.directories, function (item, index) {
-      return openBlock(), createBlock(_component_media_tree_item, {
-        key: item.path,
-        counter: index,
-        item: item,
-        size: $options.directories.length,
-        level: $props.level
-      }, null, 8
-      /* PROPS */
-      , ["counter", "item", "size", "level"]);
-    }), 128
-    /* KEYED_FRAGMENT */
-    ))]);
-  }
-
-  script$r.render = render$r;
-  script$r.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
-  var script$q = {
-    name: 'MediaTreeItem',
-    mixins: [navigable],
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      level: {
-        type: Number,
-        required: true
-      },
-      counter: {
-        type: Number,
-        required: true
-      },
-      size: {
-        type: Number,
-        required: true
-      }
-    },
-    computed: {
-      /* Whether or not the item is active */
-      isActive: function isActive() {
-        return this.item.path === this.$store.state.selectedDirectory;
-      },
-
-      /**
-               * Whether or not the item is open
-               *
-               * @return  boolean
-               */
-      isOpen: function isOpen() {
-        return this.$store.state.selectedDirectory.includes(this.item.path);
-      },
-
-      /* Whether or not the item has children */
-      hasChildren: function hasChildren() {
-        return this.item.directories.length > 0;
-      },
-      iconClass: function iconClass() {
-        return {
-          fas: false,
-          'icon-folder': !this.isOpen,
-          'icon-folder-open': this.isOpen
-        };
-      },
-      getTabindex: function getTabindex() {
-        return this.isActive ? 0 : -1;
-      }
     },
     methods: {
-      /* Handle the on item click event */
-      onItemClick: function onItemClick() {
-        this.navigateTo(this.item.path);
+      isActive: function isActive(item) {
+        return item.path === this.$store.state.selectedDirectory;
+      },
+      getTabindex: function getTabindex(item) {
+        return this.isActive(item) ? 0 : -1;
+      },
+      onItemClick: function onItemClick(item) {
+        this.navigateTo(item.path);
         window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
           bubbles: true,
           cancelable: false,
           detail: {}
         }));
+      },
+      hasChildren: function hasChildren(item) {
+        return item.directories.length > 0;
+      },
+      isOpen: function isOpen(item) {
+        return this.$store.state.selectedDirectory.includes(item.path);
+      },
+      iconClass: function iconClass(item) {
+        return {
+          fas: false,
+          'icon-folder': !this.isOpen(item),
+          'icon-folder-open': this.isOpen(item)
+        };
+      },
+      setFocusToFirstChild: function setFocusToFirstChild() {
+        this.$refs[this.root + "0"][0].focus();
+      },
+      moveFocusToNextElement: function moveFocusToNextElement(currentIndex) {
+        if (currentIndex + 1 === this.directories.length) {
+          return;
+        }
+
+        this.$refs[this.root + (currentIndex + 1)][0].focus();
+      },
+      moveFocusToPreviousElement: function moveFocusToPreviousElement(currentIndex) {
+        if (currentIndex === 0) {
+          return;
+        }
+
+        this.$refs[this.root + (currentIndex - 1)][0].focus();
+      },
+      moveFocusToChildElement: function moveFocusToChildElement(item) {
+        if (!this.hasChildren(item)) {
+          return;
+        }
+
+        this.$refs[item.path][0].setFocusToFirstChild();
+      },
+      moveFocusToParentElement: function moveFocusToParentElement() {
+        this.$emit('move-focus-to-parent', this.parentIndex);
+      },
+      restoreFocus: function restoreFocus(parentIndex) {
+        this.$refs[this.root + parentIndex][0].focus();
       }
     }
   };
-  var _hoisted_1$q = ["aria-level", "aria-setsize", "aria-posinset", "tabindex"];
-  var _hoisted_2$i = {
+  var _hoisted_1$q = {
+    class: "media-tree",
+    role: "group"
+  };
+  var _hoisted_2$i = ["aria-level", "aria-setsize", "aria-posinset", "tabindex", "onClick", "onKeyup"];
+  var _hoisted_3$e = {
     class: "item-icon"
   };
-  var _hoisted_3$e = {
+  var _hoisted_4$a = {
     class: "item-name"
   };
 
   function render$q(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_tree = resolveComponent("media-tree");
 
-    return openBlock(), createElementBlock("li", {
-      class: normalizeClass(["media-tree-item", {
-        active: $options.isActive
-      }]),
-      role: "treeitem",
-      "aria-level": $props.level,
-      "aria-setsize": $props.size,
-      "aria-posinset": $props.counter,
-      tabindex: $options.getTabindex
-    }, [createBaseVNode("a", {
-      onClick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
-        return $options.onItemClick();
-      }, ["stop", "prevent"]))
-    }, [createBaseVNode("span", _hoisted_2$i, [createBaseVNode("span", {
-      class: normalizeClass($options.iconClass)
-    }, null, 2
-    /* CLASS */
-    )]), createBaseVNode("span", _hoisted_3$e, toDisplayString($props.item.name), 1
-    /* TEXT */
-    )]), createVNode(Transition, {
-      name: "slide-fade"
-    }, {
-      default: withCtx(function () {
-        return [$options.hasChildren ? withDirectives((openBlock(), createBlock(_component_media_tree, {
-          key: 0,
-          "aria-expanded": $options.isOpen ? 'true' : 'false',
-          root: $props.item.path,
-          level: $props.level + 1
-        }, null, 8
-        /* PROPS */
-        , ["aria-expanded", "root", "level"])), [[vShow, $options.isOpen]]) : createCommentVNode("v-if", true)];
-      }),
-      _: 1
-      /* STABLE */
+    return openBlock(), createElementBlock("ul", _hoisted_1$q, [(openBlock(true), createElementBlock(Fragment, null, renderList($options.directories, function (item, index) {
+      return openBlock(), createElementBlock("li", {
+        key: item.path,
+        class: normalizeClass(["media-tree-item", {
+          active: $options.isActive(item)
+        }]),
+        role: "none"
+      }, [createBaseVNode("a", {
+        ref_for: true,
+        ref: $props.root + index,
+        role: "treeitem",
+        "aria-level": $props.level,
+        "aria-setsize": $options.directories.length,
+        "aria-posinset": index,
+        tabindex: $options.getTabindex(item),
+        onClick: withModifiers(function ($event) {
+          return $options.onItemClick(item);
+        }, ["stop", "prevent"]),
+        onKeyup: [withKeys(function ($event) {
+          return $options.moveFocusToPreviousElement(index);
+        }, ["up"]), withKeys(function ($event) {
+          return $options.moveFocusToNextElement(index);
+        }, ["down"]), withKeys(function ($event) {
+          return $options.onItemClick(item);
+        }, ["enter"]), withKeys(function ($event) {
+          return $options.moveFocusToChildElement(item);
+        }, ["right"]), _cache[0] || (_cache[0] = withKeys(function ($event) {
+          return $options.moveFocusToParentElement();
+        }, ["left"]))]
+      }, [createBaseVNode("span", _hoisted_3$e, [createBaseVNode("span", {
+        class: normalizeClass($options.iconClass(item))
+      }, null, 2
+      /* CLASS */
+      )]), createBaseVNode("span", _hoisted_4$a, toDisplayString(item.name), 1
+      /* TEXT */
+      )], 40
+      /* PROPS, HYDRATE_EVENTS */
+      , _hoisted_2$i), createVNode(Transition, {
+        name: "slide-fade"
+      }, {
+        default: withCtx(function () {
+          return [$options.hasChildren(item) ? withDirectives((openBlock(), createBlock(_component_media_tree, {
+            key: 0,
+            ref_for: true,
+            ref: item.path,
+            "aria-expanded": $options.isOpen(item) ? 'true' : 'false',
+            root: item.path,
+            level: $props.level + 1,
+            "parent-index": index,
+            onMoveFocusToParent: $options.restoreFocus
+          }, null, 8
+          /* PROPS */
+          , ["aria-expanded", "root", "level", "parent-index", "onMoveFocusToParent"])), [[vShow, $options.isOpen(item)]]) : createCommentVNode("v-if", true)];
+        }),
+        _: 2
+        /* DYNAMIC */
 
-    })], 10
-    /* CLASS, PROPS */
-    , _hoisted_1$q);
+      }, 1024
+      /* DYNAMIC_SLOTS */
+      )], 2
+      /* CLASS */
+      );
+    }), 128
+    /* KEYED_FRAGMENT */
+    ))]);
   }
 
   script$q.render = render$q;
-  script$q.__file = "administrator/components/com_media/resources/scripts/components/tree/item.vue";
+  script$q.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
   var script$p = {
     name: 'MediaToolbar',
     computed: {
@@ -18202,11 +18229,11 @@ var JoomlaMediaManager = (function () {
     class: "media-view-icons"
   };
   var _hoisted_4$9 = ["aria-label"];
-  var _hoisted_5$8 = {
+  var _hoisted_5$9 = {
     class: "media-view-search-input",
     role: "search"
   };
-  var _hoisted_6$6 = {
+  var _hoisted_6$7 = {
     for: "media_search",
     class: "visually-hidden"
   };
@@ -18263,7 +18290,7 @@ var JoomlaMediaManager = (function () {
       }, ["stop"]))
     }, null, 8
     /* PROPS */
-    , _hoisted_4$9)]), createVNode(_component_media_breadcrumb), createBaseVNode("div", _hoisted_5$8, [createBaseVNode("label", _hoisted_6$6, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
+    , _hoisted_4$9)]), createVNode(_component_media_breadcrumb), createBaseVNode("div", _hoisted_5$9, [createBaseVNode("label", _hoisted_6$7, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1
     /* TEXT */
     ), createBaseVNode("input", {
       id: "media_search",
@@ -18590,11 +18617,11 @@ var JoomlaMediaManager = (function () {
   var _hoisted_4$8 = {
     class: "visually-hidden"
   };
-  var _hoisted_5$7 = {
+  var _hoisted_5$8 = {
     class: "media-browser-table-head"
   };
 
-  var _hoisted_6$5 = /*#__PURE__*/createBaseVNode("th", {
+  var _hoisted_6$6 = /*#__PURE__*/createBaseVNode("th", {
     class: "type",
     scope: "col"
   }, null, -1
@@ -18653,7 +18680,7 @@ var JoomlaMediaManager = (function () {
     /* TEXT */
     )]), $options.listView === 'table' ? (openBlock(), createElementBlock("table", _hoisted_3$c, [createBaseVNode("caption", _hoisted_4$8, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $options.currentDirectory)), 1
     /* TEXT */
-    ), createBaseVNode("thead", _hoisted_5$7, [createBaseVNode("tr", null, [_hoisted_6$5, createBaseVNode("th", _hoisted_7$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1
+    ), createBaseVNode("thead", _hoisted_5$8, [createBaseVNode("tr", null, [_hoisted_6$6, createBaseVNode("th", _hoisted_7$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_NAME')), 1
     /* TEXT */
     ), createBaseVNode("th", _hoisted_8$3, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1
     /* TEXT */
@@ -18700,7 +18727,8 @@ var JoomlaMediaManager = (function () {
     name: 'MediaBrowserItemDirectory',
     mixins: [navigable],
     // eslint-disable-next-line vue/require-prop-types
-    props: ['item', 'focused'],
+    props: ['item'],
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
@@ -18715,6 +18743,9 @@ var JoomlaMediaManager = (function () {
       /* Hide actions dropdown */
       hideActions: function hideActions() {
         this.$refs.container.hideActions();
+      },
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -18739,25 +18770,29 @@ var JoomlaMediaManager = (function () {
 
     return openBlock(), createElementBlock("div", {
       class: "media-browser-item-directory",
-      onMouseleave: _cache[1] || (_cache[1] = function ($event) {
+      onMouseleave: _cache[2] || (_cache[2] = function ($event) {
         return $options.hideActions();
       })
     }, [createBaseVNode("div", {
       class: "media-browser-item-preview",
+      tabindex: "0",
       onDblclick: _cache[0] || (_cache[0] = withModifiers(function ($event) {
         return $options.onPreviewDblClick();
-      }, ["stop", "prevent"]))
+      }, ["stop", "prevent"])),
+      onKeyup: _cache[1] || (_cache[1] = withKeys(function ($event) {
+        return $options.onPreviewDblClick();
+      }, ["enter"]))
     }, _hoisted_2$e, 32
     /* HYDRATE_EVENTS */
     ), createBaseVNode("div", _hoisted_3$b, toDisplayString($props.item.name), 1
     /* TEXT */
     ), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
-      item: $props.item
+      item: $props.item,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item"])], 32
+    , ["item", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -18768,6 +18803,7 @@ var JoomlaMediaManager = (function () {
     name: 'MediaBrowserItemFile',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
@@ -18782,6 +18818,9 @@ var JoomlaMediaManager = (function () {
       /* Preview an item */
       openPreview: function openPreview() {
         this.$refs.container.openPreview();
+      },
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -18821,14 +18860,14 @@ var JoomlaMediaManager = (function () {
     /* PROPS */
     , _hoisted_3$a), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
       item: $props.item,
       previewable: true,
       downloadable: true,
-      shareable: true
+      shareable: true,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item"])], 32
+    , ["item", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -18894,6 +18933,9 @@ var JoomlaMediaManager = (function () {
       this.videoExtensions = options.videoExtensions;
       this.documentExtensions = options.documentExtensions;
       this.mediaVersion = new Date().getTime().toString();
+      this.canCreate = options.canCreate || false;
+      this.canEdit = options.canEdit || false;
+      this.canDelete = options.canDelete || false;
     }
     /**
        * Get the contents of a directory from the server
@@ -19208,25 +19250,46 @@ var JoomlaMediaManager = (function () {
   var api = new Api();
   var script$k = {
     name: 'MediaBrowserItemImage',
-    // eslint-disable-next-line vue/require-prop-types
-    props: ['item', 'focused'],
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      focused: {
+        type: Boolean,
+        required: true,
+        default: false
+      }
+    },
+    emits: ['toggle-settings'],
     data: function data() {
       return {
-        showActions: false
+        showActions: {
+          type: Boolean,
+          default: false
+        }
       };
     },
     computed: {
-      /* Get the hashed URL */
-      getHashedURL: function getHashedURL() {
-        if (this.item.adapter.startsWith('local-')) {
-          return "url(" + this.item.thumb_path + "?" + api.mediaVersion + ")";
+      getURL: function getURL() {
+        if (!this.item.thumb_path) {
+          return '';
         }
 
-        return "url(" + this.item.thumb_path + ")";
+        return this.item.thumb_path.split(Joomla.getOptions('system.paths').rootFull).length > 1 ? this.item.thumb_path + "?" + api.mediaVersion : "" + this.item.thumb_path;
+      },
+      width: function width() {
+        return this.item.width;
+      },
+      height: function height() {
+        return this.item.height;
+      },
+      altTag: function altTag() {
+        return this.item.name;
       }
     },
     methods: {
-      /* Check if the item is a document to edit */
+      /* Check if the item is an image to edit */
       canEdit: function canEdit() {
         return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
       },
@@ -19246,6 +19309,9 @@ var JoomlaMediaManager = (function () {
         // @todo should we use relative urls here?
         var fileBaseUrl = Joomla.getOptions('com_media').editViewUrl + "&path=";
         window.location.href = fileBaseUrl + this.item.path;
+      },
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -19253,55 +19319,67 @@ var JoomlaMediaManager = (function () {
   var _hoisted_2$c = {
     class: "image-background"
   };
-  var _hoisted_3$9 = ["title"];
-  var _hoisted_4$7 = ["aria-label", "title"];
+  var _hoisted_3$9 = ["src", "alt", "width", "height"];
+  var _hoisted_4$7 = {
+    key: 1,
+    class: "icon-eye-slash image-placeholder",
+    "aria-hidden": "true"
+  };
+  var _hoisted_5$7 = ["title"];
+  var _hoisted_6$5 = ["aria-label", "title"];
 
   function render$k(_ctx, _cache, $props, $setup, $data, $options) {
     var _component_media_browser_action_items_container = resolveComponent("media-browser-action-items-container");
 
     return openBlock(), createElementBlock("div", {
       class: "media-browser-image",
+      tabindex: "0",
       onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
       onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
-      })
+      }),
+      onKeyup: _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["enter"]))
     }, [createBaseVNode("div", {
       class: "media-browser-item-preview",
       title: $props.item.name
-    }, [createBaseVNode("div", _hoisted_2$c, [createBaseVNode("div", {
+    }, [createBaseVNode("div", _hoisted_2$c, [$options.getURL ? (openBlock(), createElementBlock("img", {
+      key: 0,
       class: "image-cropped",
-      style: normalizeStyle({
-        backgroundImage: $options.getHashedURL
-      })
-    }, null, 4
-    /* STYLE */
-    )])], 8
+      src: $options.getURL,
+      alt: $options.altTag,
+      loading: "lazy",
+      width: $options.width,
+      height: $options.height
+    }, null, 8
+    /* PROPS */
+    , _hoisted_3$9)) : createCommentVNode("v-if", true), !$options.getURL ? (openBlock(), createElementBlock("span", _hoisted_4$7)) : createCommentVNode("v-if", true)])], 8
     /* PROPS */
     , _hoisted_1$k), createBaseVNode("div", {
       class: "media-browser-item-info",
       title: $props.item.name
     }, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 9
     /* TEXT, PROPS */
-    , _hoisted_3$9), createBaseVNode("span", {
+    , _hoisted_5$7), createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
     }, null, 8
     /* PROPS */
-    , _hoisted_4$7), createVNode(_component_media_browser_action_items_container, {
+    , _hoisted_6$5), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
       item: $props.item,
       edit: $options.editItem,
-      editable: $options.canEdit,
       previewable: true,
       downloadable: true,
-      shareable: true
+      shareable: true,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item", "edit", "editable"])], 32
+    , ["item", "edit", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -19312,6 +19390,7 @@ var JoomlaMediaManager = (function () {
     name: 'MediaBrowserItemVideo',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
@@ -19326,6 +19405,9 @@ var JoomlaMediaManager = (function () {
       /* Preview an item */
       openPreview: function openPreview() {
         this.$refs.container.openPreview();
+      },
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -19361,14 +19443,14 @@ var JoomlaMediaManager = (function () {
     /* TEXT */
     ), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
       item: $props.item,
       previewable: true,
       downloadable: true,
-      shareable: true
+      shareable: true,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item"])], 32
+    , ["item", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -19379,6 +19461,7 @@ var JoomlaMediaManager = (function () {
     name: 'MediaBrowserItemAudio',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
@@ -19393,6 +19476,9 @@ var JoomlaMediaManager = (function () {
       /* Preview an item */
       openPreview: function openPreview() {
         this.$refs.container.openPreview();
+      },
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -19418,24 +19504,28 @@ var JoomlaMediaManager = (function () {
 
     return openBlock(), createElementBlock("div", {
       class: "media-browser-audio",
+      tabindex: "0",
       onDblclick: _cache[0] || (_cache[0] = function ($event) {
         return $options.openPreview();
       }),
       onMouseleave: _cache[1] || (_cache[1] = function ($event) {
         return $options.hideActions();
-      })
+      }),
+      onKeyup: _cache[2] || (_cache[2] = withKeys(function ($event) {
+        return $options.openPreview();
+      }, ["enter"]))
     }, [_hoisted_1$i, createBaseVNode("div", _hoisted_2$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1
     /* TEXT */
     ), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
       item: $props.item,
       previewable: true,
       downloadable: true,
-      shareable: true
+      shareable: true,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item"])], 32
+    , ["item", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -19446,6 +19536,7 @@ var JoomlaMediaManager = (function () {
     name: 'MediaBrowserItemDocument',
     // eslint-disable-next-line vue/require-prop-types
     props: ['item', 'focused'],
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
@@ -19461,9 +19552,9 @@ var JoomlaMediaManager = (function () {
       openPreview: function openPreview() {
         this.$refs.container.openPreview();
       },
-
-      /* Edit an item */
-      editItem: function editItem() {}
+      toggleSettings: function toggleSettings(bool) {
+        this.$emit('toggle-settings', bool);
+      }
     }
   };
 
@@ -19505,16 +19596,14 @@ var JoomlaMediaManager = (function () {
     /* PROPS */
     , _hoisted_3$8), createVNode(_component_media_browser_action_items_container, {
       ref: "container",
-      focused: $props.focused,
       item: $props.item,
-      edit: $options.editItem,
-      "can-edit": _ctx.canEdit,
       previewable: true,
       downloadable: true,
-      shareable: true
+      shareable: true,
+      onToggleSettings: $options.toggleSettings
     }, null, 8
     /* PROPS */
-    , ["focused", "item", "edit", "can-edit"])], 32
+    , ["item", "onToggleSettings"])], 32
     /* HYDRATE_EVENTS */
     );
   }
@@ -19659,11 +19748,11 @@ var JoomlaMediaManager = (function () {
 
       /**
        * Handle the when an element is focused in the child to display the layover for a11y
-       * @param value
+       * @param active
        */
-      focused: function focused(value) {
+      toggleSettings: function toggleSettings(active) {
         // eslint-disable-next-line no-unused-expressions
-        value ? this.mouseover() : this.mouseleave();
+        active ? this.mouseover() : this.mouseleave();
       }
     },
     render: function render() {
@@ -19675,11 +19764,10 @@ var JoomlaMediaManager = (function () {
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,
-        onMouseleave: this.mouseleave,
-        onFocused: this.focused
+        onMouseleave: this.mouseleave
       }, [h(this.itemType(), {
         item: this.item,
-        focused: this.focused
+        onToggleSettings: this.toggleSettings
       })]);
     }
   };
@@ -20248,7 +20336,7 @@ var JoomlaMediaManager = (function () {
 
 
         this.$store.dispatch('renameItem', {
-          path: this.item.path,
+          item: this.item,
           newPath: newPath + newName,
           newName: newName
         });
@@ -22262,6 +22350,10 @@ var JoomlaMediaManager = (function () {
 
 
   var createDirectory = function createDirectory(context, payload) {
+    if (!api.canCreate) {
+      return;
+    }
+
     context.commit(SET_IS_LOADING, true);
     api.createDirectory(payload.name, payload.parent).then(function (folder) {
       context.commit(CREATE_DIRECTORY_SUCCESS, folder);
@@ -22282,6 +22374,10 @@ var JoomlaMediaManager = (function () {
 
 
   var uploadFile = function uploadFile(context, payload) {
+    if (!api.canCreate) {
+      return;
+    }
+
     context.commit(SET_IS_LOADING, true);
     api.upload(payload.name, payload.parent, payload.content, payload.override || false).then(function (file) {
       context.commit(UPLOAD_SUCCESS, file);
@@ -22300,16 +22396,24 @@ var JoomlaMediaManager = (function () {
   /**
    * Rename an item
    * @param context
-   * @param payload object: the old and the new path
+   * @param payload object: the item and the new path
    */
 
 
   var renameItem = function renameItem(context, payload) {
+    if (!api.canEdit) {
+      return;
+    }
+
+    if (typeof payload.item.canEdit !== 'undefined' && payload.item.canEdit === false) {
+      return;
+    }
+
     context.commit(SET_IS_LOADING, true);
-    api.rename(payload.path, payload.newPath).then(function (item) {
+    api.rename(payload.item.path, payload.newPath).then(function (item) {
       context.commit(RENAME_SUCCESS, {
         item: item,
-        oldPath: payload.path,
+        oldPath: payload.item.path,
         newName: payload.newName
       });
       context.commit(HIDE_RENAME_MODAL);
@@ -22328,12 +22432,20 @@ var JoomlaMediaManager = (function () {
 
 
   var deleteSelectedItems = function deleteSelectedItems(context) {
+    if (!api.canDelete) {
+      return;
+    }
+
     context.commit(SET_IS_LOADING, true); // Get the selected items from the store
 
     var selectedItems = context.state.selectedItems;
 
     if (selectedItems.length > 0) {
       selectedItems.forEach(function (item) {
+        if (typeof item.canDelete !== 'undefined' && item.canDelete === false) {
+          return;
+        }
+
         api.delete(item.path).then(function () {
           context.commit(DELETE_SUCCESS, item);
           context.commit(UNSELECT_ALL_BROWSER_ITEMS);
@@ -22692,18 +22804,15 @@ var JoomlaMediaManager = (function () {
       mainAction: {
         type: Function,
         default: function _default() {}
-      },
-      onFocused: {
-        type: Function,
-        default: function _default() {}
       }
     },
+    emits: ['on-focused'],
     methods: {
       openActions: function openActions() {
         this.mainAction();
       },
       focused: function focused(bool) {
-        this.onFocused(bool);
+        this.$emit('on-focused', bool);
       }
     }
   };
@@ -22713,6 +22822,7 @@ var JoomlaMediaManager = (function () {
     return openBlock(), createElementBlock("button", {
       type: "button",
       class: "action-toggle",
+      tabindex: "0",
       "aria-label": _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
       title: _ctx.translate('COM_MEDIA_OPEN_ITEM_ACTIONS'),
       onKeyup: [_cache[1] || (_cache[1] = withKeys(function ($event) {
@@ -23059,19 +23169,9 @@ var JoomlaMediaManager = (function () {
         type: Object,
         default: function _default() {}
       },
-      onFocused: {
-        type: Function,
-        default: function _default() {}
-      },
       edit: {
         type: Function,
         default: function _default() {}
-      },
-      editable: {
-        type: Function,
-        default: function _default() {
-          return false;
-        }
       },
       previewable: {
         type: Boolean,
@@ -23086,15 +23186,21 @@ var JoomlaMediaManager = (function () {
         default: false
       }
     },
+    emits: ['toggle-settings'],
     data: function data() {
       return {
         showActions: false
       };
     },
     computed: {
-      /* Check if the item is an document to edit */
       canEdit: function canEdit() {
-        return this.editable();
+        return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
+      },
+      canDelete: function canDelete() {
+        return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
+      },
+      canOpenEditView: function canOpenEditView() {
+        return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
       }
     },
     watch: {
@@ -23148,32 +23254,30 @@ var JoomlaMediaManager = (function () {
 
       /* Open actions dropdown */
       openActions: function openActions() {
-        var _this20 = this;
-
         this.showActions = true;
+        var buttons = [].concat(this.$el.parentElement.querySelectorAll('.media-browser-actions-list button'));
 
-        if (this.previewable) {
-          this.$nextTick(function () {
-            return _this20.$refs.actionPreview.$el.focus();
-          });
-        } else {
-          this.$nextTick(function () {
-            return _this20.$refs.actionRename.$el.focus();
-          });
+        if (buttons.length) {
+          buttons[0].focus();
         }
       },
 
       /* Open actions dropdown and focus on last element */
       openLastActions: function openLastActions() {
-        var _this21 = this;
-
         this.showActions = true;
-        this.$nextTick(function () {
-          return _this21.$refs.actionDelete.$el.focus();
-        });
+        var buttons = [].concat(this.$el.parentElement.querySelectorAll('.media-browser-actions-list button'));
+
+        if (buttons.length) {
+          this.$nextTick(function () {
+            return buttons[buttons.length - 1].focus();
+          });
+        }
       },
       editItem: function editItem() {
         this.edit();
+      },
+      focused: function focused(bool) {
+        this.$emit('toggle-settings', bool);
       }
     }
   };
@@ -23201,101 +23305,110 @@ var JoomlaMediaManager = (function () {
     return openBlock(), createElementBlock(Fragment, null, [createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
-      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8
-    /* PROPS */
+      title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
+      tabindex: "0",
+      onFocusin: _cache[0] || (_cache[0] = function ($event) {
+        return $options.focused(true);
+      }),
+      onFocusout: _cache[1] || (_cache[1] = function ($event) {
+        return $options.focused(false);
+      })
+    }, null, 40
+    /* PROPS, HYDRATE_EVENTS */
     , _hoisted_1), createBaseVNode("div", {
       class: normalizeClass(["media-browser-actions", {
         active: $data.showActions
       }])
     }, [createVNode(_component_media_browser_action_item_toggle, {
       ref: "actionToggle",
-      "on-focused": _ctx.focused,
       "main-action": $options.openActions,
-      onKeyup: [_cache[0] || (_cache[0] = withKeys(function ($event) {
+      onOnFocused: $options.focused,
+      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
         return $options.openLastActions();
-      }, ["up"])), _cache[1] || (_cache[1] = withKeys(function ($event) {
+      }, ["up"])), _cache[3] || (_cache[3] = withKeys(function ($event) {
         return $options.openActions();
       }, ["down"]))]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action"]), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_2, [createBaseVNode("ul", null, [createBaseVNode("li", null, [$props.previewable ? (openBlock(), createBlock(_component_media_browser_action_item_preview, {
+    , ["main-action", "onOnFocused"]), $data.showActions ? (openBlock(), createElementBlock("div", _hoisted_2, [createBaseVNode("ul", null, [createBaseVNode("li", null, [$props.previewable ? (openBlock(), createBlock(_component_media_browser_action_item_preview, {
       key: 0,
       ref: "actionPreview",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.openPreview,
       "closing-action": $options.hideActions,
-      onKeyup: [_cache[2] || (_cache[2] = withKeys(function ($event) {
+      onKeyup: [_cache[4] || (_cache[4] = withKeys(function ($event) {
         return _ctx.$refs.actionDelete.$el.focus();
-      }, ["up"])), _cache[3] || (_cache[3] = withKeys(function ($event) {
-        return _ctx.$refs.actionDownload.$el.focus();
-      }, ["down"]))]
+      }, ["up"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
+        return _ctx.$refs.actionDelete.$el.previousElementSibling.focus();
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.downloadable ? (openBlock(), createBlock(_component_media_browser_action_item_download, {
+    , ["on-focused", "main-action", "closing-action", "onKeyup"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.downloadable ? (openBlock(), createBlock(_component_media_browser_action_item_download, {
       key: 0,
       ref: "actionDownload",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.download,
       "closing-action": $options.hideActions,
-      onKeyup: [_cache[4] || (_cache[4] = withKeys(function ($event) {
+      onKeyup: [_cache[6] || (_cache[6] = withKeys(function ($event) {
         return _ctx.$refs.actionPreview.$el.focus();
-      }, ["up"])), _cache[5] || (_cache[5] = withKeys(function ($event) {
-        return _ctx.$refs.actionRename.$el.focus();
-      }, ["down"]))]
+      }, ["up"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
+        return _ctx.$refs.actionPreview.$el.previousElementSibling.focus();
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [createVNode(_component_media_browser_action_item_rename, {
+    , ["on-focused", "main-action", "closing-action", "onKeyup"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$options.canEdit ? (openBlock(), createBlock(_component_media_browser_action_item_rename, {
+      key: 0,
       ref: "actionRename",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.openRenameModal,
       "closing-action": $options.hideActions,
-      onKeyup: [_cache[6] || (_cache[6] = withKeys(function ($event) {
-        return $props.downloadable ? _ctx.$refs.actionDownload.$el.focus() : _ctx.$refs.actionDelete.$el.focus();
-      }, ["up"])), _cache[7] || (_cache[7] = withKeys(function ($event) {
-        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionDelete.$el.focus();
-      }, ["down"]))]
+      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
+        return $props.downloadable ? _ctx.$refs.actionDownload.$el.focus() : _ctx.$refs.actionDownload.$el.previousElementSibling.focus();
+      }, ["up"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
+        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionShare.$el.previousElementSibling.focus();
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "closing-action"])]), createBaseVNode("li", null, [$options.canEdit ? (openBlock(), createBlock(_component_media_browser_action_item_edit, {
+    , ["on-focused", "main-action", "closing-action", "onKeyup"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$options.canEdit && $options.canOpenEditView ? (openBlock(), createBlock(_component_media_browser_action_item_edit, {
       key: 0,
       ref: "actionEdit",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.editItem,
       "closing-action": $options.hideActions,
-      onKeyup: [_cache[8] || (_cache[8] = withKeys(function ($event) {
+      onKeyup: [_cache[10] || (_cache[10] = withKeys(function ($event) {
         return _ctx.$refs.actionRename.$el.focus();
-      }, ["up"])), _cache[9] || (_cache[9] = withKeys(function ($event) {
-        return _ctx.$refs.actionShare.$el.focus();
-      }, ["down"]))]
+      }, ["up"])), _cache[11] || (_cache[11] = withKeys(function ($event) {
+        return _ctx.$refs.actionRename.$el.previousElementSibling.focus();
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.shareable ? (openBlock(), createBlock(_component_media_browser_action_item_share, {
+    , ["on-focused", "main-action", "closing-action", "onKeyup"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$props.shareable ? (openBlock(), createBlock(_component_media_browser_action_item_share, {
       key: 0,
       ref: "actionShare",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.openShareUrlModal,
       "closing-action": $options.hideActions,
-      onKeyup: [_cache[10] || (_cache[10] = withKeys(function ($event) {
-        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : _ctx.$refs.actionRename.$el.focus();
-      }, ["up"])), _cache[11] || (_cache[11] = withKeys(function ($event) {
+      onKeyup: [_cache[12] || (_cache[12] = withKeys(function ($event) {
+        return $options.canEdit ? _ctx.$refs.actionEdit.$el.focus() : _ctx.$refs.actionEdit.$el.previousElementSibling.focus();
+      }, ["up"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
         return _ctx.$refs.actionDelete.$el.focus();
-      }, ["down"]))]
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "closing-action"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [createVNode(_component_media_browser_action_item_delete, {
+    , ["on-focused", "main-action", "closing-action", "onKeyup"])) : createCommentVNode("v-if", true)]), createBaseVNode("li", null, [$options.canDelete ? (openBlock(), createBlock(_component_media_browser_action_item_delete, {
+      key: 0,
       ref: "actionDelete",
-      "on-focused": _ctx.focused,
+      "on-focused": $options.focused,
       "main-action": $options.openConfirmDeleteModal,
       "hide-actions": $options.hideActions,
-      onKeyup: [_cache[12] || (_cache[12] = withKeys(function ($event) {
-        return $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionRename.$el.focus();
-      }, ["up"])), _cache[13] || (_cache[13] = withKeys(function ($event) {
-        return $props.previewable ? _ctx.$refs.actionPreview.$el.focus() : _ctx.$refs.actionRename.$el.focus();
-      }, ["down"]))]
+      onKeyup: [_cache[14] || (_cache[14] = withKeys(function ($event) {
+        return $props.shareable ? _ctx.$refs.actionShare.$el.focus() : _ctx.$refs.actionShare.$el.previousElementSibling.focus();
+      }, ["up"])), _cache[15] || (_cache[15] = withKeys(function ($event) {
+        return $props.previewable ? _ctx.$refs.actionPreview.$el.focus() : _ctx.$refs.actionPreview.$el.previousElementSibling.focus();
+      }, ["down"])), withKeys($options.hideActions, ["esc"])]
     }, null, 8
     /* PROPS */
-    , ["on-focused", "main-action", "hide-actions"])])])])) : createCommentVNode("v-if", true)], 2
+    , ["on-focused", "main-action", "hide-actions", "onKeyup"])) : createCommentVNode("v-if", true)])])])) : createCommentVNode("v-if", true)], 2
     /* CLASS */
     )], 64
     /* STABLE_FRAGMENT */
@@ -23308,14 +23421,13 @@ var JoomlaMediaManager = (function () {
 
   window.MediaManager.Event = new Event(); // Create the Vue app instance
 
-  var app = createApp(script$u);
+  var app = createApp(script$t);
   app.use(store);
   app.use(Translate); // Register the vue components
 
-  app.component('MediaDrive', script$s);
-  app.component('MediaDisk', script$t);
-  app.component('MediaTree', script$r);
-  app.component('MediaTreeItem', script$q);
+  app.component('MediaDrive', script$r);
+  app.component('MediaDisk', script$s);
+  app.component('MediaTree', script$q);
   app.component('MediaToolbar', script$p);
   app.component('MediaBreadcrumb', script$o);
   app.component('MediaBrowser', script$n);

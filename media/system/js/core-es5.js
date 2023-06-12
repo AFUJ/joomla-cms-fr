@@ -641,6 +641,8 @@
      *    perform: true,        Perform the request immediately
      *              or return XMLHttpRequest instance and perform it later
      *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+     *    promise: false        Whether return a Promise instance.
+     *              When true then next options is ignored: perform, onSuccess, onError, onComplete
      *
      *    onBefore:  (xhr) => {}            // Callback on before the request
      *    onSuccess: (response, xhr) => {}, // Callback on the request success
@@ -664,17 +666,17 @@
 
 
     Joomla.request = options => {
-      let xhr; // Prepare the options
-
+      // Prepare the options
       const newOptions = Joomla.extend({
         url: '',
         method: 'GET',
         data: null,
-        perform: true
-      }, options); // Set up XMLHttpRequest instance
+        perform: true,
+        promise: false
+      }, options); // Setup XMLHttpRequest instance
 
-      try {
-        xhr = new XMLHttpRequest();
+      const createRequest = (onSuccess, onError) => {
+        const xhr = new XMLHttpRequest();
         xhr.open(newOptions.method, newOptions.url, true); // Set the headers
 
         xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
@@ -697,7 +699,7 @@
           [].slice.call(Object.keys(newOptions.headers)).forEach(key => {
             // Allow request without Content-Type
             // eslint-disable-next-line no-empty
-            if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') {} else {
+            if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') ; else {
               xhr.setRequestHeader(key, newOptions.headers[key]);
             }
           });
@@ -711,14 +713,17 @@
 
 
           if (xhr.status === 200) {
-            if (newOptions.onSuccess) {
-              newOptions.onSuccess.call(window, xhr.responseText, xhr);
+            if (newOptions.promise) {
+              // A Promise accepts only one argument
+              onSuccess.call(window, xhr);
+            } else {
+              onSuccess.call(window, xhr.responseText, xhr);
             }
-          } else if (newOptions.onError) {
-            newOptions.onError.call(window, xhr);
+          } else {
+            onError.call(window, xhr);
           }
 
-          if (newOptions.onComplete) {
+          if (newOptions.onComplete && !newOptions.promise) {
             newOptions.onComplete.call(window, xhr);
           }
         }; // Do request
@@ -727,18 +732,60 @@
         if (newOptions.perform) {
           if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
             // Request interrupted
+            if (newOptions.promise) {
+              onSuccess.call(window, xhr);
+            }
+
             return xhr;
           }
 
           xhr.send(newOptions.data);
         }
+
+        return xhr;
+      }; // Return a Promise
+
+
+      if (newOptions.promise) {
+        return new Promise((resolve, reject) => {
+          newOptions.perform = true;
+          createRequest(resolve, reject);
+        });
+      } // Return a Request
+
+
+      try {
+        return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
       } catch (error) {
         // eslint-disable-next-line no-unused-expressions,no-console
-        window.console ? console.log(error) : null;
+        console.error(error);
         return false;
       }
+    };
 
-      return xhr;
+    let lastRequestPromise;
+    /**
+     * Joomla Request queue.
+     *
+     * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
+     * multiple requests against the server which could trigger its Denial of Service protection.
+     *
+     * @param {object} options Options for Joomla.request()
+     * @returns {Promise}
+     */
+
+    Joomla.enqueueRequest = options => {
+      if (!options.promise) {
+        throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+      }
+
+      if (!lastRequestPromise) {
+        lastRequestPromise = Joomla.request(options);
+      } else {
+        lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
+      }
+
+      return lastRequestPromise;
     };
     /**
      *

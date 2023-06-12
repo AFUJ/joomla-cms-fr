@@ -429,11 +429,22 @@ html[dir=rtl] .infobar-leave-active {
 }
 
 .image-cropped {
-  padding-bottom: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+  -o-object-fit: contain;
+     object-fit: contain;
   border-radius: 0.25rem;
+}
+
+.image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  max-width: 100%;
+  height: auto;
+  color: #9d9d9d;
 }
 
 .file-background, .folder-background {

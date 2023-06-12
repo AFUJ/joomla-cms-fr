@@ -193,6 +193,9 @@
       _this.modalClose = _this.modalClose.bind(_assertThisInitialized(_this));
       _this.setValue = _this.setValue.bind(_assertThisInitialized(_this));
       _this.updatePreview = _this.updatePreview.bind(_assertThisInitialized(_this));
+      _this.validateValue = _this.validateValue.bind(_assertThisInitialized(_this));
+      _this.markValid = _this.markValid.bind(_assertThisInitialized(_this));
+      _this.markInvalid = _this.markInvalid.bind(_assertThisInitialized(_this));
       return _this;
     }
 
@@ -230,6 +233,8 @@
       }
 
       this.updatePreview();
+      this.inputElement.removeAttribute('readonly');
+      this.inputElement.addEventListener('change', this.validateValue);
     };
 
     _proto.disconnectedCallback = function disconnectedCallback() {
@@ -239,6 +244,10 @@
 
       if (this.buttonClearEl) {
         this.buttonClearEl.removeEventListener('click', this.clearValue);
+      }
+
+      if (this.inputElement) {
+        this.inputElement.removeEventListener('change', this.validateValue);
       }
     };
 
@@ -297,6 +306,7 @@
 
     _proto.setValue = function setValue(value) {
       this.inputElement.value = value;
+      this.validatedUrl = value;
       this.updatePreview(); // trigger change event both on the input and on the custom element
 
       this.inputElement.dispatchEvent(new Event('change'));
@@ -308,12 +318,111 @@
       }));
     };
 
+    _proto.validateValue = function validateValue(event) {
+      var _this2 = this;
+
+      var value = event.target.value;
+      if (this.validatedUrl === value || value === '') return;
+
+      if (/^(http(s)?:\/\/).+$/.test(value)) {
+        try {
+          fetch(value).then(function (response) {
+            if (response.status === 200) {
+              _this2.validatedUrl = value;
+
+              _this2.markValid();
+            } else {
+              _this2.validatedUrl = value;
+
+              _this2.markInvalid();
+            }
+          });
+        } catch (err) {
+          this.validatedUrl = value;
+          this.markInvalid();
+        }
+      } else {
+        if (/^\//.test(value)) {
+          value = value.substring(1);
+        }
+
+        var hashedUrl = value.split('#');
+        var urlParts = hashedUrl[0].split('/');
+        var rest = urlParts.slice(1);
+        fetch(Joomla.getOptions('system.paths').rootFull + "/" + value).then(function (response) {
+          return response.blob();
+        }).then(function (blob) {
+          if (blob.type.includes('image')) {
+            var img = new Image();
+            img.src = URL.createObjectURL(blob);
+
+            img.onload = function () {
+              _this2.inputElement.value = urlParts[0] + "/" + rest.join('/') + "#joomlaImage://local-" + urlParts[0] + "/" + rest.join('/') + "?width=" + img.width + "&height=" + img.height;
+              _this2.validatedUrl = urlParts[0] + "/" + rest.join('/') + "#joomlaImage://local-" + urlParts[0] + "/" + rest.join('/') + "?width=" + img.width + "&height=" + img.height;
+
+              _this2.markValid();
+            };
+          } else if (blob.type.includes('audio')) {
+            _this2.inputElement.value = value;
+            _this2.validatedUrl = value;
+
+            _this2.markValid();
+          } else if (blob.type.includes('video')) {
+            _this2.inputElement.value = value;
+            _this2.validatedUrl = value;
+
+            _this2.markValid();
+          } else if (blob.type.includes('application/pdf')) {
+            _this2.inputElement.value = value;
+            _this2.validatedUrl = value;
+
+            _this2.markValid();
+          } else {
+            _this2.validatedUrl = value;
+
+            _this2.markInvalid();
+          }
+        }).catch(function () {
+          _this2.setValue(value);
+
+          _this2.validatedUrl = value;
+
+          _this2.markInvalid();
+        });
+      }
+    };
+
+    _proto.markValid = function markValid() {
+      this.inputElement.removeAttribute('required');
+      this.inputElement.removeAttribute('pattern');
+
+      if (document.formvalidator) {
+        document.formvalidator.validate(this.inputElement);
+      }
+    };
+
+    _proto.markInvalid = function markInvalid() {
+      this.inputElement.setAttribute('required', '');
+      this.inputElement.setAttribute('pattern', '/^(http://INVALID/).+$/');
+
+      if (document.formvalidator) {
+        document.formvalidator.validate(this.inputElement);
+      }
+    };
+
     _proto.clearValue = function clearValue() {
       this.setValue('');
+      this.validatedUrl = '';
+      this.inputElement.removeAttribute('required');
+      this.inputElement.removeAttribute('pattern');
+
+      if (document.formvalidator) {
+        document.formvalidator.validate(this.inputElement);
+      }
     };
 
     _proto.updatePreview = function updatePreview() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (['true', 'static'].indexOf(this.preview) === -1 || this.preview === 'false' || !this.previewElement) {
         return;
@@ -359,8 +468,8 @@
                 previewElementSource.src = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
                 previewElementSource.type = "video/" + ext;
                 previewElement.setAttribute('controls', '');
-                previewElement.setAttribute('width', _this2.previewWidth);
-                previewElement.setAttribute('height', _this2.previewHeight);
+                previewElement.setAttribute('width', _this3.previewWidth);
+                previewElement.setAttribute('height', _this3.previewHeight);
                 previewElement.appendChild(previewElementSource);
               }
             },
@@ -369,8 +478,8 @@
                 previewElement = document.createElement('object');
                 previewElement.data = /http/.test(value) ? value : Joomla.getOptions('system.paths').rootFull + value;
                 previewElement.type = "application/" + ext;
-                previewElement.setAttribute('width', _this2.previewWidth);
-                previewElement.setAttribute('height', _this2.previewHeight);
+                previewElement.setAttribute('width', _this3.previewWidth);
+                previewElement.setAttribute('height', _this3.previewHeight);
               }
             }
           }; // @todo more checks

@@ -14707,6 +14707,10 @@ joomla-tab[view=accordion] .col-md-3 {
   border-bottom-right-radius: 0;
 }
 
+.dropdown-menu {
+  text-align: right;
+}
+
 dl,
 ol,
 ul {

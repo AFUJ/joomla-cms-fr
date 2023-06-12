@@ -17,7 +17,7 @@
         this.tableEl = document.querySelector(formElement);
 
         if (this.tableEl) {
-          this.boxes = [].slice.call(this.tableEl.querySelectorAll('input[type=checkbox]'));
+          this.boxes = [].slice.call(this.tableEl.querySelectorAll('td input[type=checkbox]'));
           this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
           this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
           this.onCheckallToggleClick = this.onCheckallToggleClick.bind(this);
@@ -75,12 +75,14 @@
           return;
         }
 
-        var currentRowNum = this.rows.indexOf(target.closest('tr'));
-        var currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
-        var isChecked = this.boxes[currentCheckBox].checked;
+        var closestRow = target.closest('tr');
+        var currentRowNum = this.rows.indexOf(closestRow);
+        var currentCheckBox = closestRow.querySelector('td input[type=checkbox]');
 
-        if (currentCheckBox >= 0) {
-          if (!(target.id === this.boxes[currentCheckBox].id)) {
+        if (currentCheckBox) {
+          var isChecked = currentCheckBox.checked;
+
+          if (!(target.id === currentCheckBox.id)) {
             // We will prevent selecting text to prevent artifacts
             if (shiftKey) {
               document.body.style['-webkit-user-select'] = 'none';
@@ -89,12 +91,12 @@
               document.body.style['user-select'] = 'none';
             }
 
-            this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
-            isChecked = this.boxes[currentCheckBox].checked;
-            Joomla.isChecked(this.boxes[currentCheckBox].checked, this.tableEl.id);
+            currentCheckBox.checked = !currentCheckBox.checked;
+            isChecked = currentCheckBox.checked;
+            Joomla.isChecked(isChecked, this.tableEl.id);
           }
 
-          this.changeBg(this.rows[currentCheckBox - 1], isChecked); // Restore normality
+          this.changeBg(this.rows[currentRowNum], isChecked); // Restore normality
 
           if (shiftKey) {
             document.body.style['-webkit-user-select'] = 'none';

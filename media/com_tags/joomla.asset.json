@@ -19,17 +19,16 @@
       "version": "4d40a071d6672febde9190f361c8adecc94917d8"
     },
     {
-      "name": "com_tags.tag-list.es5",
+      "name": "com_tags.tag-list",
       "type": "script",
-      "uri": "com_tags/tag-list-es5.min.js",
+      "uri": "com_tags/tag-list.min.js",
       "dependencies": [
-        "core"
+        "com_tags.tag-list.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "4d40a071d6672febde9190f361c8adecc94917d8"
+      "version": "4efda122de260213f85aceee619bfc3ea5b4a0aa"
     },
     {
       "name": "com_tags.tag-default",
@@ -44,6 +43,19 @@
       "version": "4efda122de260213f85aceee619bfc3ea5b4a0aa"
     },
     {
+      "name": "com_tags.tag-list.es5",
+      "type": "script",
+      "uri": "com_tags/tag-list-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "4d40a071d6672febde9190f361c8adecc94917d8"
+    },
+    {
       "name": "com_tags.tags-default.es5",
       "type": "script",
       "uri": "com_tags/tags-default-es5.min.js",
@@ -55,18 +67,6 @@
         "defer": true
       },
       "version": "4d40a071d6672febde9190f361c8adecc94917d8"
-    },
-    {
-      "name": "com_tags.tag-list",
-      "type": "script",
-      "uri": "com_tags/tag-list.min.js",
-      "dependencies": [
-        "com_tags.tag-list.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "4efda122de260213f85aceee619bfc3ea5b4a0aa"
     },
     {
       "name": "com_tags.tags-default",

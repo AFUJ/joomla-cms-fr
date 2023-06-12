@@ -34,7 +34,6 @@
    * Finally, the search string is saved into session storage on the assumption that the user is
    * probably going to be creating multiple instances of the same task, one after another, as is
    * typical when building a new Joomla! site.
-   * phpcs:ignoreFile
    */
   // Make sure the element exists i.e. a template override has not removed it.
   var elSearch = document.getElementById('comSchedulerSelectSearch');

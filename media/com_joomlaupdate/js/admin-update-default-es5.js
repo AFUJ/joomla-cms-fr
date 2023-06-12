@@ -18,17 +18,12 @@
     totalsize: 0,
     ajax_url: null,
     return_url: null,
+    cached_instance: null,
     genericErrorMessage: function genericErrorMessage(message) {
       var headerDiv = document.getElementById('errorDialogLabel');
       var messageDiv = document.getElementById('errorDialogMessage');
-      var progressDiv = document.getElementById('progress-bar');
-      var titleDiv = document.getElementById('update-title');
-      var helpDiv = document.getElementById('update-help');
-      progressDiv.classList.add('bg-danger');
-      progressDiv.classList.remove('bg-success');
-      titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
-      helpDiv.classList.remove('d-none');
-      helpDiv.classList.add('d-grid');
+      var progressDiv = document.getElementById('joomlaupdate-progress');
+      var errorDiv = document.getElementById('joomlaupdate-error');
       headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_GENERIC');
       messageDiv.innerHTML = message;
 
@@ -36,24 +31,15 @@
         messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_INVALIDLOGIN');
       }
 
-      var myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
-        keyboard: true,
-        backdrop: true
-      });
-      myModal.show();
+      progressDiv.classList.add('d-none');
+      errorDiv.classList.remove('d-none');
     },
     handleErrorResponse: function handleErrorResponse(xhr) {
       var isForbidden = xhr.status === 403;
       var headerDiv = document.getElementById('errorDialogLabel');
       var messageDiv = document.getElementById('errorDialogMessage');
-      var progressDiv = document.getElementById('progress-bar');
-      var titleDiv = document.getElementById('update-title');
-      var helpDiv = document.getElementById('update-help');
-      progressDiv.classList.add('bg-danger');
-      progressDiv.classList.remove('bg-success');
-      titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_FAIL');
-      helpDiv.classList.remove('d-none');
-      helpDiv.classList.add('d-grid');
+      var progressDiv = document.getElementById('joomlaupdate-progress');
+      var errorDiv = document.getElementById('joomlaupdate-error');
 
       if (isForbidden) {
         headerDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_HEAD_FORBIDDEN');
@@ -63,17 +49,15 @@
         messageDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_ERRORMODAL_BODY_SERVERERROR');
       }
 
-      var myModal = new bootstrap.Modal(document.getElementById('errorDialog'), {
-        keyboard: true,
-        backdrop: true
-      });
-      myModal.show();
+      progressDiv.classList.add('d-none');
+      errorDiv.classList.remove('d-none');
     },
     startExtract: function startExtract() {
       // Reset variables
       Joomla.Update.stat_files = 0;
       Joomla.Update.stat_inbytes = 0;
       Joomla.Update.stat_outbytes = 0;
+      Joomla.Update.cached_instance = null;
       document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
       document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
       document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
@@ -146,6 +130,7 @@
       }, 50);
     },
     delayedStepExtract: function delayedStepExtract(instance) {
+      Joomla.Update.cached_instance = instance;
       var postData = new FormData();
       postData.append('task', 'stepExtract');
       postData.append('password', Joomla.Update.password);
@@ -196,8 +181,38 @@
       var sizes = [Joomla.Text._('JLIB_SIZE_BYTES'), Joomla.Text._('JLIB_SIZE_KB'), Joomla.Text._('JLIB_SIZE_MB'), Joomla.Text._('JLIB_SIZE_GB'), Joomla.Text._('JLIB_SIZE_TB'), Joomla.Text._('JLIB_SIZE_PB'), Joomla.Text._('JLIB_SIZE_EB'), Joomla.Text._('JLIB_SIZE_ZB'), Joomla.Text._('JLIB_SIZE_YB')];
       var i = Math.floor(Math.log(bytes) / Math.log(k));
       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+    },
+    resumeButtonHandler: function resumeButtonHandler(e) {
+      e.preventDefault();
+      document.getElementById('joomlaupdate-progress').classList.remove('d-none');
+      document.getElementById('joomlaupdate-error').classList.add('d-none');
+
+      if (Joomla.Update.cached_instance === false) {
+        Joomla.Update.startExtract();
+      } else {
+        Joomla.Update.delayedStepExtract(Joomla.Update.cached_instance);
+      }
+    },
+    restartButtonHandler: function restartButtonHandler(e) {
+      e.preventDefault();
+      document.getElementById('joomlaupdate-progress').classList.remove('d-none');
+      document.getElementById('joomlaupdate-error').classList.add('d-none');
+      Joomla.Update.startExtract();
     }
-  };
+  }; // Add click handlers for the Resume and Restart Update buttons in the error pane.
+
+  var elResume = document.getElementById('joomlaupdate-resume');
+  var elRestart = document.getElementById('joomlaupdate-restart');
+
+  if (elResume) {
+    elResume.addEventListener('click', Joomla.Update.resumeButtonHandler);
+  }
+
+  if (elRestart) {
+    elRestart.addEventListener('click', Joomla.Update.restartButtonHandler);
+  } // Start the update
+
+
   var JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
 
   if (JoomlaUpdateOptions && Object.keys(JoomlaUpdateOptions).length) {

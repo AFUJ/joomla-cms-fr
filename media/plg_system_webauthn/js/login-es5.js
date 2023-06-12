@@ -122,12 +122,10 @@
      * internal page which handles the login server-side.
      *
      * @param {  Object}  publicKey     Public key request options, returned from the server
-     * @param   {String}  callbackUrl  The URL we will use to post back to the server. Must include
-     *   the anti-CSRF token.
      */
 
 
-    var handleLoginChallenge = function handleLoginChallenge(publicKey, callbackUrl) {
+    var handleLoginChallenge = function handleLoginChallenge(publicKey) {
       var arrayToBase64String = function arrayToBase64String(a) {
         return btoa(String.fromCharCode.apply(String, a));
       };
@@ -180,7 +178,8 @@
           }
         }; // Send the response to your server
 
-        window.location = callbackUrl + "&option=com_ajax&group=system&plugin=webauthn&" + ("format=raw&akaction=login&encoding=redirect&data=" + btoa(JSON.stringify(publicKeyCredential)));
+        var paths = Joomla.getOptions('system.paths');
+        window.location = (paths ? paths.base + "/index.php" : window.location.pathname) + "?" + Joomla.getOptions('csrf.token') + "=1&option=com_ajax&group=system&plugin=webauthn&" + ("format=raw&akaction=login&encoding=redirect&data=" + btoa(JSON.stringify(publicKeyCredential)));
       }).catch(function (error) {
         // Example: timeout, interaction refused...
         handleLoginError(error);
@@ -191,15 +190,13 @@
      * for the user.
      *
      * @param   {string}   formId       The login form's or login module's HTML ID
-     * @param   {string}   callbackUrl  The URL we will use to post back to the server. Must include
-     *   the anti-CSRF token.
      *
      * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
      */
     // eslint-disable-next-line no-unused-vars
 
 
-    Joomla.plgSystemWebauthnLogin = function (formId, callbackUrl) {
+    Joomla.plgSystemWebauthnLogin = function (formId) {
       // Get the username
       var elFormContainer = document.getElementById(formId);
       var elUsername = lookForField(elFormContainer, 'input[name=username]');
@@ -233,8 +230,10 @@
         username: username,
         returnUrl: returnUrl
       };
+      postBackData[Joomla.getOptions('csrf.token')] = 1;
+      var paths = Joomla.getOptions('system.paths');
       Joomla.request({
-        url: callbackUrl,
+        url: (paths ? paths.base + "/index.php" : window.location.pathname) + "?" + Joomla.getOptions('csrf.token') + "=1",
         method: 'POST',
         data: interpolateParameters(postBackData),
         onSuccess: function onSuccess(rawResponse) {
@@ -249,7 +248,7 @@
              */
           }
 
-          handleLoginChallenge(jsonData, callbackUrl);
+          handleLoginChallenge(jsonData);
         },
         onError: function onError(xhr) {
           handleLoginError(xhr.status + " " + xhr.statusText);
@@ -265,7 +264,7 @@
       loginButtons.forEach(function (button) {
         button.addEventListener('click', function (_ref) {
           var currentTarget = _ref.currentTarget;
-          Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'), currentTarget.getAttribute('data-webauthn-url'));
+          Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'));
         });
       });
     }

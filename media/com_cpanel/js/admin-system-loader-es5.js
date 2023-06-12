@@ -17,43 +17,43 @@
           var badgeurl = element.getAttribute('data-url');
 
           if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
-            Joomla.request({
+            Joomla.enqueueRequest({
               url: badgeurl,
               method: 'POST',
-              onSuccess: function onSuccess(resp) {
-                var response;
+              promise: true
+            }).then(function (xhr) {
+              var resp = xhr.responseText;
+              var response;
 
-                try {
-                  response = JSON.parse(resp);
-                } catch (error) {
-                  throw new Error('Failed to parse JSON');
-                }
+              try {
+                response = JSON.parse(resp);
+              } catch (error) {
+                throw new Error('Failed to parse JSON');
+              }
 
-                if (response.error || !response.success) {
-                  element.classList.remove('icon-spin');
-                  element.classList.remove('icon-spinner');
-                  element.classList.add('text-danger');
-                  element.classList.add('icon-remove');
-                } else if (response.data) {
-                  var elem = document.createElement('span');
-                  elem.classList.add('float-end');
-                  elem.classList.add('badge');
-                  elem.classList.add('bg-warning', 'text-dark');
-                  elem.innerHTML = Joomla.sanitizeHtml(response.data);
-                  element.parentNode.replaceChild(elem, element);
-                } else {
-                  element.classList.remove('icon-spin');
-                  element.classList.remove('icon-spinner');
-                  element.classList.add('icon-check');
-                  element.classList.add('text-success');
-                }
-              },
-              onError: function onError() {
+              if (response.error || !response.success) {
                 element.classList.remove('icon-spin');
                 element.classList.remove('icon-spinner');
                 element.classList.add('text-danger');
                 element.classList.add('icon-remove');
+              } else if (response.data) {
+                var elem = document.createElement('span');
+                elem.classList.add('float-end');
+                elem.classList.add('badge');
+                elem.classList.add('bg-warning', 'text-dark');
+                elem.innerHTML = Joomla.sanitizeHtml(response.data);
+                element.parentNode.replaceChild(elem, element);
+              } else {
+                element.classList.remove('icon-spin');
+                element.classList.remove('icon-spinner');
+                element.classList.add('icon-check');
+                element.classList.add('text-success');
               }
+            }).catch(function () {
+              element.classList.remove('icon-spin');
+              element.classList.remove('icon-spinner');
+              element.classList.add('text-danger');
+              element.classList.add('icon-remove');
             });
           }
         });

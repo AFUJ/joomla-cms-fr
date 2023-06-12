@@ -5,8 +5,18 @@
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
-		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION"
 		>
+		<field
+			name="word_match"
+			type="list"
+			label="COM_FINDER_CONFIG_WORD_MATCH_LABEL"
+			description="COM_FINDER_CONFIG_WORD_MATCH_DESC"
+			default="exact"
+			>
+			<option value="exact">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
+			<option value="begin">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
+			<option value="fuzzy">COM_FINDER_CONFIG_WORD_MATCH_OPTION_FUZZY</option>
+		</field>
 
 		<field
 			name="show_taxonomy"
@@ -297,14 +307,6 @@
 			<option value="250">J250</option>
 			<option value="300">J300</option>
 		</field>
-
-		<field
-			name="memory_table_limit"
-			type="number"
-			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			default="30000"
-			filter="integer"
-		/>
 
 		<field
 			name="title_multiplier"

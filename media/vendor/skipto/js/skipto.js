@@ -1,6 +1,6 @@
-/*! skipto - v4.1.3 - 2021-10-08
+/*! skipto - v4.1.6 - 2022-03-09
 * https://github.com/paypal/skipto
-* Copyright (c) 2021 PayPal Accessibility Team and University of Illinois; Licensed BSD */
+* Copyright (c) 2022 PayPal Accessibility Team and University of Illinois; Licensed BSD */
  /*@cc_on @*/
 /*@if (@_jscript_version >= 5.8) @*/
 /* ========================================================================
@@ -150,10 +150,10 @@
     // of skipTo
     //
     isNotEmptyString: function(str) {
-      return (typeof str === 'string') && str.length;
+      return (typeof str === 'string') && str.length && str.trim() && str !== "&nbsp;";
     },
     isEmptyString: function(str) {
-      return (typeof str !== 'string') || str.length === 0;
+      return (typeof str !== 'string') || str.length === 0 && !str.trim();
     },
     init: function(config) {
       var node;
@@ -542,23 +542,23 @@
     },
 
     renderMenuitemsToGroup: function(groupNode, menuitems, msgNoItemsFound) {
-      groupNode.innerHTML = '';
-      this.lastNestingLevel = 0;
+    groupNode.innerHTML = '';
+    this.lastNestingLevel = 0;
 
-      if (menuitems.length === 0) {
+    if (menuitems.length === 0) {
         var item = {};
         item.name = msgNoItemsFound;
         item.tagName = '';
         item.class = 'no-items';
         item.dataId = '';
         this.renderMenuitemToGroup(groupNode, item);
-      }
-      else {
+    }
+    else {
         for (var i = 0; i < menuitems.length; i += 1) {
-          this.renderMenuitemToGroup(groupNode, menuitems[i]);
+        this.renderMenuitemToGroup(groupNode, menuitems[i]);
         }
-      }
-    },
+    }
+},
 
     getShowMoreHeadingsSelector: function(option) {
       if (option === 'all') {
@@ -1280,7 +1280,7 @@
         var heading = headings[i];
         var role = heading.getAttribute('role');
         if ((typeof role === 'string') && (role === 'presentation')) continue;
-        if (this.isVisible(heading)) {
+        if (this.isVisible(heading) && this.isNotEmptyString(heading.innerHTML)) {
           if (heading.hasAttribute('data-skip-to-id')) {
             dataId = heading.getAttribute('data-skip-to-id');
           } else {

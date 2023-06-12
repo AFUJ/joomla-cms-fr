@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,8 +11,7 @@
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Quickicon</namespace>
 	<files>
-		<filename module="mod_quickicon">mod_quickicon.php</filename>
-		<folder>services</folder>
+		<folder module="mod_quickicon">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>

@@ -13,53 +13,52 @@
       var text = variables.plg_quickicon_privacycheck_text;
       var quickicon = document.getElementById('plg_quickicon_privacycheck');
       var link = quickicon.querySelector('span.j-links-link');
-      Joomla.request({
+      /**
+       * DO NOT use fetch() for QuickIcon requests. They must be queued.
+       *
+       * @see https://github.com/joomla/joomla-cms/issues/38001
+       */
+
+      Joomla.enqueueRequest({
         url: ajaxUrl,
         method: 'GET',
-        data: '',
-        perform: true,
-        onSuccess: function onSuccess(response) {
-          try {
-            var request = JSON.parse(response);
+        promise: true
+      }).then(function (xhr) {
+        var response = xhr.responseText;
+        var request = JSON.parse(response);
 
-            if (request.data.number_urgent_requests) {
-              // Quickicon on dashboard shows message
-              var countBadge = document.createElement('span');
-              countBadge.classList.add('badge', 'text-dark', 'bg-light');
-              countBadge.textContent = request.data.number_urgent_requests;
-              link.textContent = text.REQUESTFOUND + " ";
-              link.appendChild(countBadge); // Quickicon becomes red
+        if (request.data.number_urgent_requests) {
+          // Quickicon on dashboard shows message
+          var countBadge = document.createElement('span');
+          countBadge.classList.add('badge', 'text-dark', 'bg-light');
+          countBadge.textContent = request.data.number_urgent_requests;
+          link.textContent = text.REQUESTFOUND + " ";
+          link.appendChild(countBadge); // Quickicon becomes red
 
-              quickicon.classList.add('danger'); // Span in alert
+          quickicon.classList.add('danger'); // Span in alert
 
-              var countSpan = document.createElement('span');
-              countSpan.classList.add('label', 'label-important');
-              countSpan.textContent = text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests) + " "; // Button in alert to 'view requests'
+          var countSpan = document.createElement('span');
+          countSpan.classList.add('label', 'label-important');
+          countSpan.textContent = text.REQUESTFOUND_MESSAGE.replace('%s', request.data.number_urgent_requests) + " "; // Button in alert to 'view requests'
 
-              var requestButton = document.createElement('button');
-              requestButton.classList.add('btn', 'btn-primary', 'btn-sm');
-              requestButton.setAttribute('onclick', "document.location='" + url + "'");
-              requestButton.textContent = text.REQUESTFOUND_BUTTON;
-              var div = document.createElement('div');
-              div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
-              div.appendChild(countSpan);
-              div.appendChild(requestButton); // Add elements to container for alert messages
+          var requestButton = document.createElement('button');
+          requestButton.classList.add('btn', 'btn-primary', 'btn-sm');
+          requestButton.setAttribute('onclick', "document.location='" + url + "'");
+          requestButton.textContent = text.REQUESTFOUND_BUTTON;
+          var div = document.createElement('div');
+          div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
+          div.appendChild(countSpan);
+          div.appendChild(requestButton); // Add elements to container for alert messages
 
-              var container = document.querySelector('#system-message-container');
-              container.insertBefore(div, container.firstChild);
-            } else {
-              quickicon.classList.add('success');
-              link.textContent = text.NOREQUEST;
-            }
-          } catch (e) {
-            quickicon.classList.add('danger');
-            link.textContent = text.ERROR;
-          }
-        },
-        onError: function onError() {
-          quickicon.classList.add('danger');
-          link.textContent = text.ERROR;
+          var container = document.querySelector('#system-message-container');
+          container.insertBefore(div, container.firstChild);
+        } else {
+          quickicon.classList.add('success');
+          link.textContent = text.NOREQUEST;
         }
+      }).catch(function () {
+        quickicon.classList.add('danger');
+        link.textContent = text.ERROR;
       });
     }; // Give some times to the layout and other scripts to settle their stuff
 

@@ -63,32 +63,52 @@
      * Posts the credentials to the URL defined in post_url using AJAX.
      * That URL must re-render the management interface.
      * These contents will replace the element identified by the interface_selector CSS selector.
-     *
-     * @param   {String}  storeID            CSS ID for the element storing the configuration in its
-     *                                        data properties
-     * @param   {String}  interfaceSelector  CSS selector for the GUI container
      */
     // eslint-disable-next-line no-unused-vars
 
 
-    Joomla.plgSystemWebauthnCreateCredentials = function (storeID, interfaceSelector) {
+    Joomla.plgSystemWebauthnInitCreateCredentials = function () {
       // Make sure the browser supports Webauthn
       if (!('credentials' in navigator)) {
         Joomla.renderMessages({
           error: [Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')]
         });
         return;
-      } // Extract the configuration from the store
+      } // Get the public key creation options through AJAX.
 
 
-      var elStore = document.getElementById(storeID);
+      var paths = Joomla.getOptions('system.paths');
+      var postURL = "" + (paths ? paths.base + "/index.php" : window.location.pathname);
+      var postBackData = {
+        option: 'com_ajax',
+        group: 'system',
+        plugin: 'webauthn',
+        format: 'json',
+        akaction: 'initcreate',
+        encoding: 'json'
+      };
+      postBackData[Joomla.getOptions('csrf.token')] = 1;
+      Joomla.request({
+        url: postURL,
+        method: 'POST',
+        data: interpolateParameters(postBackData),
+        onSuccess: function onSuccess(response) {
+          try {
+            var publicKey = JSON.parse(response);
+            Joomla.plgSystemWebauthnCreateCredentials(publicKey);
+          } catch (exception) {
+            handleCreationError(Joomla.Text._('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE'));
+          }
+        },
+        onError: function onError(xhr) {
+          handleCreationError(xhr.status + " " + xhr.statusText);
+        }
+      });
+    };
 
-      if (!elStore) {
-        return;
-      }
-
-      var publicKey = JSON.parse(atob(elStore.dataset.public_key));
-      var postURL = atob(elStore.dataset.postback_url);
+    Joomla.plgSystemWebauthnCreateCredentials = function (publicKey) {
+      var paths = Joomla.getOptions('system.paths');
+      var postURL = "" + (paths ? paths.base + "/index.php" : window.location.pathname);
 
       var arrayToBase64String = function arrayToBase64String(a) {
         return btoa(String.fromCharCode.apply(String, a));
@@ -149,12 +169,13 @@
           encoding: 'raw',
           data: btoa(JSON.stringify(publicKeyCredential))
         };
+        postBackData[Joomla.getOptions('csrf.token')] = 1;
         Joomla.request({
           url: postURL,
           method: 'POST',
           data: interpolateParameters(postBackData),
           onSuccess: function onSuccess(responseHTML) {
-            var elements = document.querySelectorAll(interfaceSelector);
+            var elements = document.querySelectorAll('#plg_system_webauthn-management-interface');
 
             if (!elements) {
               return;
@@ -163,6 +184,7 @@
             var elContainer = elements[0];
             elContainer.outerHTML = responseHTML;
             Joomla.plgSystemWebauthnInitialize();
+            Joomla.plgSystemWebauthnReactivateTooltips();
           },
           onError: function onError(xhr) {
             handleCreationError(xhr.status + " " + xhr.statusText);
@@ -184,15 +206,9 @@
     // eslint-disable-next-line no-unused-vars
 
 
-    Joomla.plgSystemWebauthnEditLabel = function (that, storeID) {
-      // Extract the configuration from the store
-      var elStore = document.getElementById(storeID);
-
-      if (!elStore) {
-        return false;
-      }
-
-      var postURL = atob(elStore.dataset.postback_url); // Find the UI elements
+    Joomla.plgSystemWebauthnEditLabel = function (that) {
+      var paths = Joomla.getOptions('system.paths');
+      var postURL = "" + (paths ? paths.base + "/index.php" : window.location.pathname); // Find the UI elements
 
       var elTR = that.parentElement.parentElement;
       var credentialId = elTR.dataset.credential_id;
@@ -204,10 +220,13 @@
       var elDelete = elButtons[1]; // Show the editor
 
       var oldLabel = elLabelTD.innerText;
+      var elContainer = document.createElement('div');
+      elContainer.className = 'webauthnManagementEditorRow d-flex gap-2';
       var elInput = document.createElement('input');
       elInput.type = 'text';
       elInput.name = 'label';
       elInput.defaultValue = oldLabel;
+      elInput.className = 'form-control';
       var elSave = document.createElement('button');
       elSave.className = 'btn btn-success btn-sm';
       elSave.innerText = Joomla.Text._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
@@ -225,6 +244,7 @@
             credential_id: credentialId,
             new_label: elNewLabel
           };
+          postBackData[Joomla.getOptions('csrf.token')] = 1;
           Joomla.request({
             url: postURL,
             method: 'POST',
@@ -263,9 +283,10 @@
         return false;
       }, false);
       elLabelTD.innerHTML = '';
-      elLabelTD.appendChild(elInput);
-      elLabelTD.appendChild(elSave);
-      elLabelTD.appendChild(elCancel);
+      elContainer.appendChild(elInput);
+      elContainer.appendChild(elSave);
+      elContainer.appendChild(elCancel);
+      elLabelTD.appendChild(elContainer);
       elEdit.disabled = true;
       elDelete.disabled = true;
       return false;
@@ -274,21 +295,17 @@
      * Delete button
      *
      * @param   {Element} that      The button being clicked
-     * @param   {String}  storeID  CSS ID for the element storing the configuration in its data
-     *                              properties
      */
     // eslint-disable-next-line no-unused-vars
 
 
-    Joomla.plgSystemWebauthnDelete = function (that, storeID) {
-      // Extract the configuration from the store
-      var elStore = document.getElementById(storeID);
-
-      if (!elStore) {
+    Joomla.plgSystemWebauthnDelete = function (that) {
+      if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
         return false;
       }
 
-      var postURL = atob(elStore.dataset.postback_url); // Find the UI elements
+      var paths = Joomla.getOptions('system.paths');
+      var postURL = "" + (paths ? paths.base + "/index.php" : window.location.pathname); // Find the UI elements
 
       var elTR = that.parentElement.parentElement;
       var credentialId = elTR.dataset.credential_id;
@@ -309,6 +326,7 @@
         akaction: 'delete',
         credential_id: credentialId
       };
+      postBackData[Joomla.getOptions('csrf.token')] = 1;
       Joomla.request({
         url: postURL,
         method: 'POST',
@@ -337,6 +355,51 @@
       });
       return false;
     };
+
+    Joomla.plgSystemWebauthnReactivateTooltips = function () {
+      var tooltips = Joomla.getOptions('bootstrap.tooltip');
+
+      if (typeof tooltips === 'object' && tooltips !== null) {
+        Object.keys(tooltips).forEach(function (tooltip) {
+          var opt = tooltips[tooltip];
+          var options = {
+            animation: opt.animation ? opt.animation : true,
+            container: opt.container ? opt.container : false,
+            delay: opt.delay ? opt.delay : 0,
+            html: opt.html ? opt.html : false,
+            selector: opt.selector ? opt.selector : false,
+            trigger: opt.trigger ? opt.trigger : 'hover focus',
+            fallbackPlacement: opt.fallbackPlacement ? opt.fallbackPlacement : null,
+            boundary: opt.boundary ? opt.boundary : 'clippingParents',
+            title: opt.title ? opt.title : '',
+            customClass: opt.customClass ? opt.customClass : '',
+            sanitize: opt.sanitize ? opt.sanitize : true,
+            sanitizeFn: opt.sanitizeFn ? opt.sanitizeFn : null,
+            popperConfig: opt.popperConfig ? opt.popperConfig : null
+          };
+
+          if (opt.placement) {
+            options.placement = opt.placement;
+          }
+
+          if (opt.template) {
+            options.template = opt.template;
+          }
+
+          if (opt.allowList) {
+            options.allowList = opt.allowList;
+          }
+
+          var elements = Array.from(document.querySelectorAll(tooltip));
+
+          if (elements.length) {
+            elements.map(function (el) {
+              return new window.bootstrap.Tooltip(el, options);
+            });
+          }
+        });
+      }
+    };
     /**
      * Add New Authenticator button click handler
      *
@@ -348,7 +411,7 @@
 
     Joomla.plgSystemWebauthnAddOnClick = function (event) {
       event.preventDefault();
-      Joomla.plgSystemWebauthnCreateCredentials(event.currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
+      Joomla.plgSystemWebauthnInitCreateCredentials();
       return false;
     };
     /**
@@ -362,7 +425,7 @@
 
     Joomla.plgSystemWebauthnEditOnClick = function (event) {
       event.preventDefault();
-      Joomla.plgSystemWebauthnEditLabel(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+      Joomla.plgSystemWebauthnEditLabel(event.currentTarget);
       return false;
     };
     /**
@@ -376,7 +439,7 @@
 
     Joomla.plgSystemWebauthnDeleteOnClick = function (event) {
       event.preventDefault();
-      Joomla.plgSystemWebauthnDelete(event.currentTarget, event.currentTarget.getAttribute('data-random-id'));
+      Joomla.plgSystemWebauthnDelete(event.currentTarget);
       return false;
     };
     /**

@@ -56,17 +56,16 @@
       "version": "bed88beff75743fba929e5acd60335263679dcf4"
     },
     {
-      "name": "com_modules.admin-modules-modal.es5",
+      "name": "com_modules.admin-module-search",
       "type": "script",
-      "uri": "com_modules/admin-modules-modal-es5.min.js",
+      "uri": "com_modules/admin-module-search.min.js",
       "dependencies": [
-        "core"
+        "com_modules.admin-module-search.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "9ed4ce60b58280dc69d6787bcf4808e743a53864"
+      "version": "719b36bb72c15b9dbfe9157e9bb2392f6239803d"
     },
     {
       "name": "com_modules.admin-module-search.es5",
@@ -82,16 +81,17 @@
       "version": "15edfa5fe0c26f4a96b1802fbb18e34683a1fb0e"
     },
     {
-      "name": "com_modules.admin-module-search",
+      "name": "com_modules.admin-modules-modal.es5",
       "type": "script",
-      "uri": "com_modules/admin-module-search.min.js",
+      "uri": "com_modules/admin-modules-modal-es5.min.js",
       "dependencies": [
-        "com_modules.admin-module-search.es5"
+        "core"
       ],
       "attributes": {
-        "type": "module"
+        "nomodule": true,
+        "defer": true
       },
-      "version": "719b36bb72c15b9dbfe9157e9bb2392f6239803d"
+      "version": "9ed4ce60b58280dc69d6787bcf4808e743a53864"
     },
     {
       "name": "com_modules.admin-modules-modal",

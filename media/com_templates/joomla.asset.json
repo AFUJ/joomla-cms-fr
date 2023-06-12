@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_templates.admin-template-toggle-assignment",
+      "type": "script",
+      "uri": "com_templates/admin-template-toggle-assignment.min.js",
+      "dependencies": [
+        "com_templates.admin-template-toggle-assignment.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "64349301646633757dc9092382b60b58d7e12d5c"
+    },
+    {
       "name": "com_templates.admin-template-compare.es5",
       "type": "script",
       "uri": "com_templates/admin-template-compare-es5.min.js",
@@ -30,18 +42,6 @@
         "type": "module"
       },
       "version": "22f26ac574bea945a0ac83e683f5391e730f7cc5"
-    },
-    {
-      "name": "com_templates.admin-template-toggle-assignment",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-assignment.min.js",
-      "dependencies": [
-        "com_templates.admin-template-toggle-assignment.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "64349301646633757dc9092382b60b58d7e12d5c"
     },
     {
       "name": "com_templates.admin-template-toggle-assignment.es5",
@@ -83,9 +83,15 @@
     },
     {
       "name": "com_templates.admin-templates",
-      "type": "style",
-      "uri": "com_templates/admin-templates-default.min.css",
-      "version": "1bacad73db8a9b90fffd909e283d16af69cad605"
+      "type": "script",
+      "uri": "com_templates/admin-templates-default.min.js",
+      "dependencies": [
+        "com_templates.admin-templates.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "0ea31502469a23385aac72c89cf83a181a32666b"
     },
     {
       "name": "com_templates.admin-templates.es5",
@@ -102,15 +108,9 @@
     },
     {
       "name": "com_templates.admin-templates",
-      "type": "script",
-      "uri": "com_templates/admin-templates-default.min.js",
-      "dependencies": [
-        "com_templates.admin-templates.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "0ea31502469a23385aac72c89cf83a181a32666b"
+      "type": "style",
+      "uri": "com_templates/admin-templates-default.min.css",
+      "version": "1bacad73db8a9b90fffd909e283d16af69cad605"
     }
   ]
 }
