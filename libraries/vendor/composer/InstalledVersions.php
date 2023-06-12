@@ -30,7 +30,7 @@ class InstalledVersions
     'aliases' => 
     array (
     ),
-    'reference' => '49c1e96a77e192ab5cd1071df88ba2e48683218e',
+    'reference' => 'f49c451d1ecb5dcc28b6a99a9e33ef75dd6b4f45',
     'name' => 'joomla/joomla-cms',
   ),
   'versions' => 
@@ -98,6 +98,15 @@ class InstalledVersions
       ),
       'reference' => '7a8c6e56ab3ffcc538d05e8155bb42269abf1a0c',
     ),
+    'enshrined/svg-sanitize' => 
+    array (
+      'pretty_version' => '0.15.4',
+      'version' => '0.15.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e50b83a2f1f296ca61394fe88fbfe3e896a84cf4',
+    ),
     'fgrosse/phpasn1' => 
     array (
       'pretty_version' => 'v2.4.0',
@@ -145,12 +154,12 @@ class InstalledVersions
     ),
     'joomla/archive' => 
     array (
-      'pretty_version' => '2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => '2.0.1',
+      'version' => '2.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dd1c76d6ff37789297e275ce822e1b24deb33274',
+      'reference' => 'cedda2cf21c388c590b8a110df25db6197765b8c',
     ),
     'joomla/authentication' => 
     array (
@@ -217,21 +226,21 @@ class InstalledVersions
     ),
     'joomla/filesystem' => 
     array (
-      'pretty_version' => '2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => '2.0.1',
+      'version' => '2.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c8490f062a3764920d5cd784484e6495d975debe',
+      'reference' => 'd991e618da69e557a84ea97e6a601afec28ae8cf',
     ),
     'joomla/filter' => 
     array (
-      'pretty_version' => '2.0.0',
-      'version' => '2.0.0.0',
+      'pretty_version' => '2.0.1',
+      'version' => '2.0.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8e75093af3e1614ba774cd94fd39517c19ed0444',
+      'reference' => '137ca3f8925c4529a113735404b873fad0a1305f',
     ),
     'joomla/http' => 
     array (
@@ -244,12 +253,12 @@ class InstalledVersions
     ),
     'joomla/input' => 
     array (
-      'pretty_version' => '2.0.1',
-      'version' => '2.0.1.0',
+      'pretty_version' => '2.0.2',
+      'version' => '2.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f68ee0bb888f4cce554e8d656cf1fb930b24a366',
+      'reference' => '954ed4680299426a896401b6c9e148d1f539dd2a',
     ),
     'joomla/joomla-cms' => 
     array (
@@ -258,7 +267,7 @@ class InstalledVersions
       'aliases' => 
       array (
       ),
-      'reference' => '49c1e96a77e192ab5cd1071df88ba2e48683218e',
+      'reference' => 'f49c451d1ecb5dcc28b6a99a9e33ef75dd6b4f45',
     ),
     'joomla/ldap' => 
     array (
@@ -361,12 +370,12 @@ class InstalledVersions
     ),
     'maximebf/debugbar' => 
     array (
-      'pretty_version' => 'v1.17.3',
-      'version' => '1.17.3.0',
+      'pretty_version' => 'v1.18.0',
+      'version' => '1.18.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e8ac3499af0ea5b440908e06cc0abe5898008b3c',
+      'reference' => '0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6',
     ),
     'mtdowling/cron-expression' => 
     array (

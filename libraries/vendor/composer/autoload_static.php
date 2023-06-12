@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
+class ComposerStaticInit04fa885c8141c9ca8f367eee7dab95be
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -61,6 +61,10 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
         'v' => 
         array (
             'voku\\' => 5,
+        ),
+        'e' => 
+        array (
+            'enshrined\\svgSanitize\\' => 22,
         ),
         'W' => 
         array (
@@ -184,6 +188,10 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
             1 => __DIR__ . '/..' . '/voku/portable-utf8/src/voku',
+        ),
+        'enshrined\\svgSanitize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -619,6 +627,7 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
         'DebugBar\\Bridge\\CacheCacheCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/CacheCacheCollector.php',
         'DebugBar\\Bridge\\DoctrineCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/DoctrineCollector.php',
         'DebugBar\\Bridge\\MonologCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/MonologCollector.php',
+        'DebugBar\\Bridge\\NamespacedTwigProfileCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/NamespacedTwigProfileCollector.php',
         'DebugBar\\Bridge\\Propel2Collector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Propel2Collector.php',
         'DebugBar\\Bridge\\PropelCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/PropelCollector.php',
         'DebugBar\\Bridge\\SlimCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SlimCollector.php',
@@ -867,6 +876,7 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
         'Joomla\\CMS\\Authentication\\Password\\CheckIfRehashNeededHandlerInterface' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/CheckIfRehashNeededHandlerInterface.php',
         'Joomla\\CMS\\Authentication\\Password\\MD5Handler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/MD5Handler.php',
         'Joomla\\CMS\\Authentication\\Password\\PHPassHandler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/PHPassHandler.php',
+        'Joomla\\CMS\\Authentication\\ProviderAwareAuthenticationPluginInterface' => __DIR__ . '/../../..' . '/libraries/src/Authentication/ProviderAwareAuthenticationPluginInterface.php',
         'Joomla\\CMS\\Autoload\\ClassLoader' => __DIR__ . '/../../..' . '/libraries/src/Autoload/ClassLoader.php',
         'Joomla\\CMS\\Button\\ActionButton' => __DIR__ . '/../../..' . '/libraries/src/Button/ActionButton.php',
         'Joomla\\CMS\\Button\\FeaturedButton' => __DIR__ . '/../../..' . '/libraries/src/Button/FeaturedButton.php',
@@ -2303,6 +2313,17 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'Webmozart\\Assert\\InvalidArgumentException' => __DIR__ . '/..' . '/webmozart/assert/src/InvalidArgumentException.php',
         'Webmozart\\Assert\\Mixin' => __DIR__ . '/..' . '/webmozart/assert/src/Mixin.php',
+        'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
+        'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
+        'enshrined\\svgSanitize\\ElementReference\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',
+        'enshrined\\svgSanitize\\Exceptions\\NestingException' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Exceptions/NestingException.php',
+        'enshrined\\svgSanitize\\Helper' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Helper.php',
+        'enshrined\\svgSanitize\\Sanitizer' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Sanitizer.php',
+        'enshrined\\svgSanitize\\data\\AllowedAttributes' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedAttributes.php',
+        'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+        'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
+        'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
+        'enshrined\\svgSanitize\\data\\XPath' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/XPath.php',
         'voku\\helper\\ASCII' => __DIR__ . '/..' . '/voku/portable-ascii/src/voku/helper/ASCII.php',
         'voku\\helper\\Bootup' => __DIR__ . '/..' . '/voku/portable-utf8/src/voku/helper/Bootup.php',
         'voku\\helper\\UTF8' => __DIR__ . '/..' . '/voku/portable-utf8/src/voku/helper/UTF8.php',
@@ -2311,9 +2332,9 @@ class ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit488d93c0574d2d3a65edc7663c4b8c59::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit04fa885c8141c9ca8f367eee7dab95be::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit04fa885c8141c9ca8f367eee7dab95be::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit04fa885c8141c9ca8f367eee7dab95be::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -12174,7 +12174,7 @@ th {
 .table tbody th {
   font-weight: 500;
 }
-.table tbody a:not(.badge) {
+.table tbody a:not(.badge):not(.btn):not(.dropdown-item) {
   text-decoration: underline;
 }
 .table th label,
@@ -12300,6 +12300,7 @@ fieldset .alert.alert-info {
   transition: all 0.3s ease-in-out;
 }
 .header .logo.small {
+  justify-content: center;
   width: 3rem;
   transition: all 0.3s ease-in-out;
 }
@@ -14045,7 +14046,7 @@ joomla-tab[view=accordion] .col-md-3 {
 }
 
 .CodeMirror-fullscreen {
-  top: 63px;
+  top: 133px;
 }
 
 .gu-mirror {
@@ -14390,13 +14391,9 @@ joomla-tab[view=accordion] .col-md-3 {
   font-weight: 700;
 }
 .new-module-caption {
-  display: box;
+  display: flex;
   margin: 0;
-  overflow: hidden;
   font-size: 0.875rem;
-  /* stylelint-disable property-no-unknown */
-  box-orient: vertical;
-  -webkit-line-clamp: 3;
 }
 .new-module-link {
   display: flex;
@@ -14504,6 +14501,10 @@ joomla-tab[view=accordion] .col-md-3 {
   position: relative;
   -webkit-margin-end: 5px;
           margin-inline-end: 5px;
+}
+.com_templates .thumbnail > img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .com_users.view-debuggroup thead th, .com_users.view-debuguser thead th {

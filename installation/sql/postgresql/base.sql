@@ -979,6 +979,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
+  "authProvider" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__users_idx_username" UNIQUE ("username")
 );
@@ -1202,12 +1203,12 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options") VALUES
-(1, 58, 1, 1, 1, 'Dépublié', '', -1, 1, '{"publishing":"0"}'),
-(2, 59, 1, 2, 1, 'Publié', '', -1, 1, '{"publishing":"1"}'),
-(3, 60, 1, 3, 1, 'A la corbeille', '', -1, 1, '{"publishing":"-2"}'),
-(4, 61, 1, 4, 1, 'Archivé', '', -1, 1, '{"publishing":"2"}'),
-(5, 62, 1, 5, 1, 'épinglé', '', -1, 1, '{"featuring":"1"}'),
-(6, 63, 1, 6, 1, 'Désépinglé', '', -1, 1, '{"featuring":"0"}'),
-(7, 64, 1, 7, 1, 'Publié & épinglé', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+(1, 58, 1, 1, 1, 'UNPUBLISH', '', -1, 1, '{"publishing":"0"}'),
+(2, 59, 1, 2, 1, 'PUBLISH', '', -1, 1, '{"publishing":"1"}'),
+(3, 60, 1, 3, 1, 'TRASH', '', -1, 1, '{"publishing":"-2"}'),
+(4, 61, 1, 4, 1, 'ARCHIVE', '', -1, 1, '{"publishing":"2"}'),
+(5, 62, 1, 5, 1, 'FEATURE', '', -1, 1, '{"featuring":"1"}'),
+(6, 63, 1, 6, 1, 'UNFEATURE', '', -1, 1, '{"featuring":"0"}'),
+(7, 64, 1, 7, 1, 'PUBLISH_AND_FEATURE', '', -1, 1, '{"publishing":"1","featuring":"1"}');
 
 SELECT setval('#__workflow_transitions_id_seq', 8, false);

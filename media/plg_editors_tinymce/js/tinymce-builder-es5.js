@@ -436,7 +436,9 @@
 
   var options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {}) : Joomla.optionsStorage.plg_editors_tinymce_builder || {};
   var builder = document.getElementById('joomla-tinymce-builder');
-  TinyMCEBuilder(builder, options);
+  document.addEventListener('DOMContentLoaded', function () {
+    return TinyMCEBuilder(builder, options);
+  });
   var selects = builder.querySelectorAll('.access-select'); // Allow to select the group only once per the set
 
   var toggleAvailableOption = function toggleAvailableOption() {

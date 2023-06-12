@@ -15,15 +15,9 @@
     },
     {
       "name": "com_categories.shared-categories-accordion",
-      "type": "script",
-      "uri": "com_categories/shared-categories-accordion.min.js",
-      "dependencies": [
-        "com_categories.shared-categories-accordion.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "f2b649ad259eca8ee54071cbe78c6f788d196540"
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css",
+      "version": "b9ad01318a9ef37832023f20e030a408968d38fd"
     },
     {
       "name": "com_categories.shared-categories-accordion.es5",
@@ -40,9 +34,15 @@
     },
     {
       "name": "com_categories.shared-categories-accordion",
-      "type": "style",
-      "uri": "com_categories/shared-categories-accordion.min.css",
-      "version": "b9ad01318a9ef37832023f20e030a408968d38fd"
+      "type": "script",
+      "uri": "com_categories/shared-categories-accordion.min.js",
+      "dependencies": [
+        "com_categories.shared-categories-accordion.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "f2b649ad259eca8ee54071cbe78c6f788d196540"
     }
   ]
 }

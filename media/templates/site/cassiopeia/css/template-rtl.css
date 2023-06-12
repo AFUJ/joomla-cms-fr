@@ -11481,6 +11481,9 @@ a.navbar-brand {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+.btn-group > .btn-group {
+  margin-bottom: 0;
+}
 
 [dir=rtl] .btn-group > input {
   border-top-right-radius: 0.25rem;
@@ -12093,21 +12096,19 @@ fieldset > * {
   margin-top: 0.5em;
 }
 .container-header .mod-finder {
-  position: relative;
-  display: flex;
-  flex: 1 0 20rem;
-  max-width: 100%;
+  color: white;
 }
-.container-header .mod-finder > label {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+.container-header .mod-finder a {
+  color: white;
+}
+.container-header .mod-finder a:hover, .container-header .mod-finder a:focus {
+  color: #e6e6e6;
+}
+.container-header .mod-finder .awesomplete {
+  color: var(--body-color);
+}
+.container-header .mod-finder .awesomplete > ul {
+  background: linear-gradient(to bottom right, white, rgba(255, 255, 255, 0.9));
 }
 
 .icon-white {
@@ -12341,14 +12342,6 @@ iframe {
   box-shadow: none;
 }
 
-.container-popup .mb-3, .container-popup .form-group {
-  margin: 1rem;
-}
-
-.container-popup .form-select, .container-popup .custom-select {
-  width: auto;
-}
-
 .error_site .page-header {
   margin-top: 1em;
 }
@@ -12450,12 +12443,6 @@ iframe {
 .boxed .blog-item .item-content {
   padding: 25px;
 }
-.image-left .blog-item, .image-right .blog-item {
-  flex-direction: row;
-}
-.image-left .blog-item .item-image, .image-right .blog-item .item-image {
-  flex: 1 0 40%;
-}
 .blog-item .item-image {
   margin-top: 3px;
   margin-bottom: 15px;
@@ -12464,8 +12451,10 @@ iframe {
 .boxed .blog-item .item-image {
   margin-bottom: 0;
 }
-.image-right .blog-item .item-image {
-  order: 1;
+@media (min-width: 992px) {
+  .image-right .blog-item .item-image {
+    order: 1;
+  }
 }
 .image-bottom .blog-item .item-image {
   margin-top: -15px;
@@ -12483,6 +12472,12 @@ iframe {
 @media (min-width: 992px) {
   .image-left .blog-item, .image-right .blog-item {
     flex-direction: row;
+  }
+  .image-left .blog-item .item-image, .image-right .blog-item .item-image {
+    flex: 1 0 40%;
+  }
+  .image-left .blog-item .item-content, .image-right .blog-item .item-content {
+    flex: 1 0 60%;
   }
 }
 
@@ -12787,11 +12782,6 @@ joomla-tab[view=accordion] .col-md-3 {
   }
   .subhead .dropdown-toggle-split {
     width: auto;
-  }
-}
-@supports (-ms-ime-align: auto) {
-  [dir=rtl] .subhead {
-    position: relative;
   }
 }
 .left.item-image {

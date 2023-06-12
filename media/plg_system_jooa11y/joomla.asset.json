@@ -9,19 +9,7 @@
       "name": "plg_system_jooa11y.jooa11y",
       "type": "style",
       "uri": "plg_system_jooa11y/jooa11y.min.css",
-      "version": "8491faae3294d3d408f3adb9d06bd4f1ee9fcf79"
-    },
-    {
-      "name": "plg_system_jooa11y.jooa11y",
-      "type": "script",
-      "uri": "plg_system_jooa11y/jooa11y.min.js",
-      "dependencies": [
-        "plg_system_jooa11y.jooa11y-es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "9931091da78ee75ad2889d3f1f1113f6327285d1"
+      "version": "14a317b453ab6c6239bdc5546770103d260daa9d"
     },
     {
       "name": "plg_system_jooa11y.jooa11y-es5",
@@ -34,7 +22,19 @@
         "defer": true,
         "nomodule": true
       },
-      "version": "ed4f77d1d459b44e3d22d30146eb7b9c52a277ca"
+      "version": "08840fe01f8b443dde963565913d0d9b99543e7c"
+    },
+    {
+      "name": "plg_system_jooa11y.jooa11y",
+      "type": "script",
+      "uri": "plg_system_jooa11y/jooa11y.min.js",
+      "dependencies": [
+        "plg_system_jooa11y.jooa11y-es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "f074d05fd550ed93fcc1256f8b545a3488fd55cc"
     }
   ]
 }

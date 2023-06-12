@@ -518,13 +518,21 @@
         adaptive = _ref2.adaptive,
         roundOffsets = _ref2.roundOffsets,
         isFixed = _ref2.isFixed;
+    var _offsets$x = offsets.x,
+        x = _offsets$x === void 0 ? 0 : _offsets$x,
+        _offsets$y = offsets.y,
+        y = _offsets$y === void 0 ? 0 : _offsets$y;
 
-    var _ref3 = roundOffsets === true ? roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets,
-        _ref3$x = _ref3.x,
-        x = _ref3$x === void 0 ? 0 : _ref3$x,
-        _ref3$y = _ref3.y,
-        y = _ref3$y === void 0 ? 0 : _ref3$y;
+    var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
+      x: x,
+      y: y
+    }) : {
+      x: x,
+      y: y
+    };
 
+    x = _ref3.x;
+    y = _ref3.y;
     var hasX = offsets.hasOwnProperty('x');
     var hasY = offsets.hasOwnProperty('y');
     var sideX = left;
@@ -569,6 +577,17 @@
       position: position
     }, adaptive && unsetSides);
 
+    var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
+      x: x,
+      y: y
+    }) : {
+      x: x,
+      y: y
+    };
+
+    x = _ref4.x;
+    y = _ref4.y;
+
     if (gpuAcceleration) {
       var _Object$assign;
 
@@ -578,9 +597,9 @@
     return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
   }
 
-  function computeStyles(_ref4) {
-    var state = _ref4.state,
-        options = _ref4.options;
+  function computeStyles(_ref5) {
+    var state = _ref5.state,
+        options = _ref5.options;
     var _options$gpuAccelerat = options.gpuAcceleration,
         gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
         _options$adaptive = options.adaptive,
@@ -867,7 +886,7 @@
 
 
     return clippingParents.filter(function (clippingParent) {
-      return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body' && (canEscapeClipping ? getComputedStyle$1(clippingParent).position !== 'static' : true);
+      return isElement$1(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
     });
   } // Gets the maximum area that the element is visible in due to any number of
   // clipping parents
@@ -3494,6 +3513,8 @@
 
                 _this.checkLinkText();
 
+                _this.checkUnderline();
+
                 _this.checkAltText();
 
                 if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
@@ -3525,20 +3546,33 @@
 
                 _this.initializeTooltips();
 
-                _this.detectOverflow(); //Don't show badge when panel is opened.
+                _this.detectOverflow();
+
+                _this.nudge(); //Don't show badge when panel is opened.
 
 
                 if (!document.getElementsByClassName('jooa11y-on').length) {
                   _this.updateBadge();
                 }
 
-              case 17:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }));
+
+      this.nudge = function () {
+        var jooa11yInstance = document.querySelectorAll('.jooa11y-instance, .jooa11y-instance-inline');
+        jooa11yInstance.forEach(function ($el) {
+          var sibling = $el.nextElementSibling;
+
+          if (sibling !== null && (sibling.classList.contains("jooa11y-instance") || sibling.classList.contains("jooa11y-instance-inline"))) {
+            sibling.querySelector("button").setAttribute("style", "margin: -10px -20px !important;");
+          }
+        });
+      };
 
       this.buildPanel = function () {
         var $outlineToggle = document.getElementById("jooa11y-outline-toggle");
@@ -3714,7 +3748,7 @@
         var findJooa11yBtn = document.querySelectorAll('.jooa11y-btn').length; //Jump to issue using keyboard shortcut.
 
         document.addEventListener('keyup', function (e) {
-          if (e.altKey && e.code === "Period") {
+          if (e.altKey && e.code === "Period" || e.code == "KeyS") {
             skipToIssueToggle();
             e.preventDefault();
           }
@@ -3794,7 +3828,7 @@
 
           if (offsetTopPosition === 0) {
             $alertPanel.classList.add("jooa11y-active");
-            $alertText.textContent = "" + Lang._('PANEL_STATUS_12');
+            $alertText.textContent = "" + Lang._('PANEL_STATUS_HIDDEN');
             $alertPanelPreview.innerHTML = $findButtons[jooa11yBtnLocation].getAttribute('data-tippy-content');
           } else if (offsetTopPosition < 1) {
             $alertPanel.classList.remove("jooa11y-active");
@@ -3893,11 +3927,12 @@
         jooa11yToggle.classList.toggle("loading-jooa11y");
         jooa11yToggle.setAttribute("aria-expanded", "true");
         setTimeout(this.checkAll, 800);
-      } //Escape key to shutdown.
+      } //Keyboard commands
 
 
       document.onkeydown = function (evt) {
-        evt = evt || window.event;
+        evt = evt || window.event; //Escape key to close accessibility checker panel
+
         var isEscape = false;
 
         if ("key" in evt) {
@@ -3907,12 +3942,22 @@
         }
 
         if (isEscape && document.getElementById("jooa11y-panel").classList.contains("jooa11y-active")) {
-          tippy.hideAll();
           jooa11yToggle.setAttribute("aria-expanded", "false");
           jooa11yToggle.classList.remove("jooa11y-on");
           jooa11yToggle.click();
 
           _this2.resetAll();
+        } //Alt + A to open accessibility checker panel
+
+
+        if (evt.altKey && evt.code == "KeyA") {
+          var _jooa11yToggle = document.getElementById("jooa11y-toggle");
+
+          _jooa11yToggle.click();
+
+          _jooa11yToggle.focus();
+
+          evt.preventDefault();
         }
       };
     } // ============================================================
@@ -4320,9 +4365,6 @@
       document.querySelectorAll('.jooa11y-error-border').forEach(function (el) {
         return el.classList.remove('jooa11y-error-border');
       });
-      document.querySelectorAll('.jooa11y-error-heading').forEach(function (el) {
-        return el.classList.remove('jooa11y-error-heading');
-      });
       document.querySelectorAll('.jooa11y-error-text').forEach(function (el) {
         return el.classList.remove('jooa11y-error-text');
       }); //Warnings
@@ -4431,25 +4473,22 @@
         }
       });
     } // ============================================================
+    // Nudge buttons if they overlap.
+    // ============================================================
+    // ============================================================
     // Update iOS style notification badge on icon.
     // ============================================================
     ;
 
     _proto.updateBadge = function updateBadge() {
       var totalCount = this.errorCount + this.warningCount;
-      var warningCount = this.warningCount;
       var notifBadge = document.getElementById("jooa11y-notification-badge");
 
       if (totalCount === 0) {
         notifBadge.style.display = "none";
-      } else if (this.warningCount > 0 && this.errorCount === 0) {
-        notifBadge.style.display = "flex";
-        notifBadge.classList.add("jooa11y-notification-badge-warning");
-        document.getElementById('jooa11y-notification-count').innerHTML = Lang.sprintf('PANEL_STATUS_10', warningCount);
       } else {
         notifBadge.style.display = "flex";
-        notifBadge.classList.remove("jooa11y-notification-badge-warning");
-        document.getElementById('jooa11y-notification-count').innerHTML = Lang.sprintf('PANEL_STATUS_10', totalCount);
+        document.getElementById('jooa11y-notification-count').innerHTML = Lang.sprintf('PANEL_STATUS_ICON', totalCount);
       }
     } // ----------------------------------------------------------------------
     // Main panel: Display and update panel.
@@ -4458,7 +4497,7 @@
 
     _proto.updatePanel = function updatePanel() {
       this.panelActive = true;
-      var totalCount = this.errorCount + this.warningCount;
+      this.errorCount + this.warningCount;
       this.buildPanel();
       this.skipToIssue();
       var $jooa11ySkipBtn = document.getElementById("jooa11y-cycle-toggle");
@@ -4470,27 +4509,18 @@
       var $jooa11yStatus = document.getElementById("jooa11y-status");
       var $findButtons = document.querySelectorAll('.jooa11y-btn');
 
-      if (this.errorCount === 1 && this.warningCount === 1) {
+      if (this.errorCount > 0 && this.warningCount > 0) {
         $panelContent.setAttribute("class", "jooa11y-errors");
-        $jooa11yStatus.textContent = Lang._('PANEL_STATUS_1');
-      } else if (this.errorCount === 1 && this.warningCount > 0) {
-        $panelContent.setAttribute("class", "jooa11y-errors");
-        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_2', this.warningCount);
-      } else if (this.errorCount > 0 && this.warningCount === 1) {
-        $panelContent.setAttribute("class", "jooa11y-errors");
-        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_3', this.errorCount);
-      } else if (this.errorCount > 0 && this.warningCount > 0) {
-        $panelContent.setAttribute("class", "jooa11y-errors");
-        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_4', this.errorCount, this.warningCount);
+        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_BOTH', this.errorCount, this.warningCount);
       } else if (this.errorCount > 0) {
         $panelContent.setAttribute("class", "jooa11y-errors");
-        $jooa11yStatus.textContent = this.errorCount === 1 ? Lang._('PANEL_STATUS_5') : Lang.sprintf('PANEL_STATUS_6', this.errorCount);
+        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_ERRORS', this.errorCount);
       } else if (this.warningCount > 0) {
         $panelContent.setAttribute("class", "jooa11y-warnings");
-        $jooa11yStatus.textContent = totalCount === 1 ? Lang._('PANEL_STATUS_7') : Lang.sprintf('PANEL_STATUS_8', this.warningCount);
+        $jooa11yStatus.textContent = Lang.sprintf('PANEL_STATUS_WARNINGS', this.warningCount);
       } else {
         $panelContent.setAttribute("class", "jooa11y-good");
-        $jooa11yStatus.textContent = Lang._('PANEL_STATUS_9');
+        $jooa11yStatus.textContent = Lang._('PANEL_STATUS_NONE');
 
         if ($findButtons.length === 0) {
           $jooa11ySkipBtn.disabled = true;
@@ -4575,12 +4605,12 @@
 
           if (error != null && el.closest("a")) {
             _this5.errorCount++;
-            el.classList.add("jooa11y-error-heading");
+            el.classList.add("jooa11y-error-border");
             el.closest("a").insertAdjacentHTML("afterend", _this5.annotate(Lang._('ERROR'), error, true));
             document.querySelector("#jooa11y-outline-list").insertAdjacentHTML("beforeend", liError);
           } else if (error != null) {
             _this5.errorCount++;
-            el.classList.add("jooa11y-error-heading");
+            el.classList.add("jooa11y-error-border");
             el.insertAdjacentHTML("beforebegin", _this5.annotate(Lang._('ERROR'), error));
             document.querySelector("#jooa11y-outline-list").insertAdjacentHTML("beforeend", liError);
           } //Heading warnings
@@ -4644,12 +4674,12 @@
         return hit;
       };
       /* Mini function if you need to exclude any text contained with a span. We created this function to ignore automatically appended sr-only text for external links and document filetypes.
-       $.fn.ignore = function(sel){
+        $.fn.ignore = function(sel){
           return this.clone().find(sel||">*").remove().end();
       };
-       $el.ignore("span.sr-only").text().trim();
-       Example: <a href="#">learn more <span class="sr-only">(external)</span></a>
-       This function will ignore the text "(external)", and correctly flag this link as an error for non descript link text. */
+        $el.ignore("span.sr-only").text().trim();
+        Example: <a href="#">learn more <span class="sr-only">(external)</span></a>
+        This function will ignore the text "(external)", and correctly flag this link as an error for non descript link text. */
 
 
       var fnIgnore = function fnIgnore(element, selector) {
@@ -4763,15 +4793,17 @@
         var linkTextTrimmed = linkText.trim().toLowerCase() + " " + alt;
         var href = el.getAttribute("href");
 
-        if (seen[linkTextTrimmed] && linkTextTrimmed.length !== 0) {
-          if (seen[href]) ;else {
-            _this7.warningCount++;
-            el.classList.add("jooa11y-warning-text");
-            el.insertAdjacentHTML('afterend', _this7.annotate(Lang._('WARNING'), Lang._('LINK_IDENTICAL_NAME') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IDENTICAL_NAME_TIP', linkText), true));
+        if (linkText.length !== 0) {
+          if (seen[linkTextTrimmed] && linkTextTrimmed.length !== 0) {
+            if (seen[href]) ;else {
+              _this7.warningCount++;
+              el.classList.add("jooa11y-warning-text");
+              el.insertAdjacentHTML('afterend', _this7.annotate(Lang._('WARNING'), Lang._('LINK_IDENTICAL_NAME') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IDENTICAL_NAME_TIP', linkText), true));
+            }
+          } else {
+            seen[linkTextTrimmed] = true;
+            seen[href] = true;
           }
-        } else {
-          seen[linkTextTrimmed] = true;
-          seen[href] = true;
         } //New tab or new window.
 
 
@@ -4797,12 +4829,37 @@
         }
       });
     } // ============================================================
+    // Ruleset: Underlined text
+    // ============================================================
+    // check text for <u>  tags
+    ;
+
+    _proto.checkUnderline = function checkUnderline() {
+      var _this8 = this;
+
+      var underline = Array.from(this.$root.querySelectorAll('u'));
+      underline.forEach(function ($el) {
+        _this8.warningCount++;
+        $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('TEXT_UNDERLINE_WARNING') + " <hr aria-hidden=\"true\"> " + Lang._('TEXT_UNDERLINE_WARNING_TIP'), true));
+      }); // check for text-decoration-line: underline
+
+      var computed = Array.from(this.$root.querySelectorAll('h1, h2, h3, h4, h5, h6, p, div, span, li, blockquote'));
+      computed.forEach(function ($el) {
+        var style = getComputedStyle($el),
+            decoration = style.textDecorationLine;
+
+        if (decoration === 'underline') {
+          _this8.warningCount++;
+          $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('TEXT_UNDERLINE_WARNING') + " <hr aria-hidden=\"true\"> " + Lang._('TEXT_UNDERLINE_WARNING_TIP'), true));
+        }
+      });
+    } // ============================================================
     // Ruleset: Alternative text
     // ============================================================
     ;
 
     _proto.checkAltText = function checkAltText() {
-      var _this8 = this;
+      var _this9 = this;
 
       var containsAltTextStopWords = function containsAltTextStopWords(alt) {
         var altUrl = [".png", ".jpg", ".jpeg", ".gif", ".tiff", ".svg"];
@@ -4813,13 +4870,13 @@
           }
         });
 
-        _this8.options.suspiciousAltWords.forEach(function (word) {
+        _this9.options.suspiciousAltWords.forEach(function (word) {
           if (alt.toLowerCase().indexOf(word) >= 0) {
             hit[1] = word;
           }
         });
 
-        _this8.options.placeholderAltStopWords.forEach(function (word) {
+        _this9.options.placeholderAltStopWords.forEach(function (word) {
           if (alt.length === word.length && alt.toLowerCase().indexOf(word) >= 0) {
             hit[2] = word;
           }
@@ -4841,15 +4898,15 @@
           if ($el.closest('a[href]')) {
             if ($el.closest('a[href]').textContent.trim().length > 1) {
               $el.classList.add("jooa11y-error-border");
-              $el.closest('a[href]').insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_LINK_BUT_HAS_TEXT_MESSAGE'), false, true));
+              $el.closest('a[href]').insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_LINK_BUT_HAS_TEXT_MESSAGE'), false, true));
             } else if ($el.closest('a[href]').textContent.trim().length === 0) {
               $el.classList.add("jooa11y-error-border");
-              $el.closest('a[href]').insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_LINK_MESSAGE'), false, true));
+              $el.closest('a[href]').insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_LINK_MESSAGE'), false, true));
             }
           } // General failure message if image is missing alt.
           else {
             $el.classList.add("jooa11y-error-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_MESSAGE'), false, true));
+            $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('MISSING_ALT_MESSAGE'), false, true));
           }
         } // If alt attribute is present, further tests are done.
         else {
@@ -4859,67 +4916,89 @@
           var altLength = alt.length; // Image fails if a stop word was found.
 
           if (error[0] != null && $el.closest("a[href]")) {
-            _this8.errorCount++;
+            _this9.errorCount++;
             $el.classList.add("jooa11y-error-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang.sprintf('LINK_IMAGE_BAD_ALT_MESSAGE', altText, error[0]) + " <hr aria-hidden=\"true\"> " + Lang._('LINK_IMAGE_BAD_ALT_MESSAGE_INFO'), false));
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang.sprintf('LINK_IMAGE_BAD_ALT_MESSAGE', altText, error[0]) + " <hr aria-hidden=\"true\"> " + Lang._('LINK_IMAGE_BAD_ALT_MESSAGE_INFO'), false));
           } else if (error[2] != null && $el.closest("a[href]")) {
-            _this8.errorCount++;
+            _this9.errorCount++;
             $el.classList.add("jooa11y-error-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang.sprintf('LINK_IMAGE_PLACEHOLDER_ALT_MESSAGE', altText), false, true));
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang.sprintf('LINK_IMAGE_PLACEHOLDER_ALT_MESSAGE', altText), false, true));
           } else if (error[1] != null && $el.closest("a[href]")) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang.sprintf('LINK_IMAGE_SUS_ALT_MESSAGE', altText, error[1]) + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IMAGE_SUS_ALT_MESSAGE_INFO', altText), false));
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang.sprintf('LINK_IMAGE_SUS_ALT_MESSAGE', altText, error[1]) + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IMAGE_SUS_ALT_MESSAGE_INFO', altText), false));
           } else if (error[0] != null) {
-            _this8.errorCount++;
+            _this9.errorCount++;
             $el.classList.add("jooa11y-error-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('LINK_ALT_HAS_BAD_WORD_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_HAS_BAD_WORD_MESSAGE_INFO', error[0], altText), false));
+            $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('LINK_ALT_HAS_BAD_WORD_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_HAS_BAD_WORD_MESSAGE_INFO', error[0], altText), false));
           } else if (error[2] != null) {
-            _this8.errorCount++;
+            _this9.errorCount++;
             $el.classList.add("jooa11y-error-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang.sprintf('LINK_ALT_PLACEHOLDER_MESSAGE', altText), false));
+            $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang.sprintf('LINK_ALT_PLACEHOLDER_MESSAGE', altText), false));
           } else if (error[1] != null) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang.sprintf('LINK_ALT_HAS_SUS_WORD_MESSAGE', altText, error[1]) + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_HAS_SUS_WORD_MESSAGE_INFO', altText), false));
+            $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang.sprintf('LINK_ALT_HAS_SUS_WORD_MESSAGE', altText, error[1]) + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_HAS_SUS_WORD_MESSAGE_INFO', altText), false));
           } else if ((alt === "" || alt === " ") && $el.closest("a[href]")) {
             if ($el.closest("a[href]").getAttribute("tabindex") === "-1" && $el.closest("a[href]").getAttribute("aria-hidden") === "true") ;else if ($el.closest("a[href]").getAttribute("aria-hidden") === "true") {
-              _this8.errorCount++;
+              _this9.errorCount++;
               $el.classList.add("jooa11y-error-border");
-              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('LINK_HYPERLINKED_IMAGE_ARIA_HIDDEN'), false, true));
+              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('LINK_HYPERLINKED_IMAGE_ARIA_HIDDEN'), false, true));
             } else if ($el.closest("a[href]").textContent.trim().length === 0) {
-              _this8.errorCount++;
+              _this9.errorCount++;
               $el.classList.add("jooa11y-error-border");
-              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('ERROR'), Lang._('LINK_IMAGE_LINK_NULL_ALT_NO_TEXT_MESSAGE'), false, true));
+              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('ERROR'), Lang._('LINK_IMAGE_LINK_NULL_ALT_NO_TEXT_MESSAGE'), false, true));
             } else {
-              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('GOOD'), Lang._('LINK_LINK_HAS_ALT_MESSAGE'), false, true));
+              $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('GOOD'), Lang._('LINK_LINK_HAS_ALT_MESSAGE'), false, true));
             }
           } //Link and contains alt text.
           else if (alt.length > 250 && $el.closest("a[href]")) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('HYPERLINK_ALT_LENGTH_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('HYPERLINK_ALT_LENGTH_MESSAGE_INFO', altText, altLength), false));
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('HYPERLINK_ALT_LENGTH_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('HYPERLINK_ALT_LENGTH_MESSAGE_INFO', altText, altLength), false));
           } //Link and contains an alt text.
           else if (alt !== "" && $el.closest("a[href]") && $el.closest("a[href]").textContent.trim().length === 0) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE_INFO', altText), false));
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_IMAGE_LINK_ALT_TEXT_MESSAGE_INFO', altText), false));
           } //Contains alt text & surrounding link text.
           else if (alt !== "" && $el.closest("a[href]") && $el.closest("a[href]").textContent.trim().length > 1) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('LINK_ANCHOR_LINK_AND_ALT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ANCHOR_LINK_AND_ALT_MESSAGE_INFO', altText), false));
-          } //Decorative alt and not a link. TODO: ADD NOT (ANCHOR) SELECTOR
+            $el.closest("a[href]").insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('LINK_ANCHOR_LINK_AND_ALT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ANCHOR_LINK_AND_ALT_MESSAGE_INFO', altText), false));
+          } //Decorative alt and not a link.
           else if (alt === "" || alt === " ") {
-            _this8.warningCount++;
-            $el.classList.add("jooa11y-warning-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('LINK_DECORATIVE_MESSAGE'), false, true));
+            if ($el.closest("figure")) {
+              var figcaption = $el.closest("figure").querySelector("figcaption");
+
+              if (figcaption !== null && figcaption.textContent.trim().length >= 1) {
+                _this9.warningCount++;
+                $el.classList.add("jooa11y-warning-border");
+                $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('IMAGE_FIGURE_DECORATIVE') + " <hr aria-hidden=\"true\"> " + Lang._('IMAGE_FIGURE_DECORATIVE_INFO'), false, true));
+              }
+            } else {
+              _this9.warningCount++;
+              $el.classList.add("jooa11y-warning-border");
+              $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('LINK_DECORATIVE_MESSAGE'), false, true));
+            }
           } else if (alt.length > 250) {
-            _this8.warningCount++;
+            _this9.warningCount++;
             $el.classList.add("jooa11y-warning-border");
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('WARNING'), Lang._('LINK_ALT_TOO_LONG_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_TOO_LONG_MESSAGE_INFO', altText, altLength), false));
+            $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang._('LINK_ALT_TOO_LONG_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LINK_ALT_TOO_LONG_MESSAGE_INFO', altText, altLength), false));
           } else if (alt !== "") {
-            $el.insertAdjacentHTML('beforebegin', _this8.annotate(Lang._('GOOD'), Lang.sprintf('LINK_PASS_ALT', altText), false, true));
+            //Figure element has same alt and caption text.
+            if ($el.closest("figure")) {
+              var _figcaption = $el.closest("figure").querySelector("figcaption");
+
+              if (_figcaption !== null && _figcaption.textContent.trim().toLowerCase === altText.trim().toLowerCase) {
+                _this9.warningCount++;
+                $el.classList.add("jooa11y-warning-border");
+                $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('WARNING'), Lang.sprintf('IMAGE_FIGURE_DUPLICATE_ALT', altText) + " <hr aria-hidden=\"true\"> " + Lang._('IMAGE_FIGURE_DECORATIVE_INFO'), false, true));
+              }
+            } //If image has alt text - pass!
+            else {
+              $el.insertAdjacentHTML('beforebegin', _this9.annotate(Lang._('GOOD'), "" + Lang.sprintf('LINK_PASS_ALT', altText), false, true));
+            }
           }
         }
       });
@@ -4929,13 +5008,13 @@
     ;
 
     _proto.checkLabels = function checkLabels() {
-      var _this9 = this;
+      var _this10 = this;
 
       var $inputs = Array.from(this.$root.querySelectorAll('input, select, textarea')).filter(function ($i) {
-        return !_this9.$containerExclusions.includes($i) && !isElementHidden($i);
+        return !_this10.$containerExclusions.includes($i) && !isElementHidden($i);
       });
       $inputs.forEach(function (el) {
-        var ariaLabel = _this9.computeAriaLabel(el);
+        var ariaLabel = _this10.computeAriaLabel(el);
 
         var type = el.getAttribute('type'); //If button type is submit or button: pass
 
@@ -4945,28 +5024,28 @@
 
           if (!imgalt || imgalt === ' ') {
             if (el.getAttribute("aria-label")) ;else {
-              _this9.errorCount++;
+              _this10.errorCount++;
               el.classList.add("jooa11y-error-border");
-              el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('ERROR'), Lang._('LABELS_MISSING_IMAGE_INPUT_MESSAGE'), true));
+              el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('ERROR'), Lang._('LABELS_MISSING_IMAGE_INPUT_MESSAGE'), true));
             }
           }
         } //Recommendation to remove reset buttons.
         else if (type === "reset") {
-          _this9.warningCount++;
+          _this10.warningCount++;
           el.classList.add("jooa11y-warning-border");
-          el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('WARNING'), Lang._('LABELS_INPUT_RESET_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang._('LABELS_INPUT_RESET_MESSAGE_TIP'), true));
+          el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('WARNING'), Lang._('LABELS_INPUT_RESET_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang._('LABELS_INPUT_RESET_MESSAGE_TIP'), true));
         } //Uses ARIA. Warn them to ensure there's a visible label.
         else if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.getAttribute("title")) {
           if (el.getAttribute("title")) {
             var _ariaLabel = el.getAttribute("title");
 
-            _this9.warningCount++;
+            _this10.warningCount++;
             el.classList.add("jooa11y-warning-border");
-            el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('WARNING'), Lang._('LABELS_ARIA_LABEL_INPUT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO', _ariaLabel), true));
+            el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('WARNING'), Lang._('LABELS_ARIA_LABEL_INPUT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO', _ariaLabel), true));
           } else {
-            _this9.warningCount++;
+            _this10.warningCount++;
             el.classList.add("jooa11y-warning-border");
-            el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('WARNING'), Lang._('LABELS_ARIA_LABEL_INPUT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO', ariaLabel), true));
+            el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('WARNING'), Lang._('LABELS_ARIA_LABEL_INPUT_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_ARIA_LABEL_INPUT_MESSAGE_INFO', ariaLabel), true));
           }
         } //Implicit labels.
         else if (el.closest('label') && el.closest('label').textContent.trim()) ; //Has an ID but doesn't have a matching FOR attribute.
@@ -4986,14 +5065,14 @@
           });
 
           if (!hasFor) {
-            _this9.errorCount++;
+            _this10.errorCount++;
             el.classList.add("jooa11y-error-border");
-            el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('ERROR'), Lang._('LABELS_NO_FOR_ATTRIBUTE_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_NO_FOR_ATTRIBUTE_MESSAGE_INFO', el.getAttribute('id')), true));
+            el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('ERROR'), Lang._('LABELS_NO_FOR_ATTRIBUTE_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('LABELS_NO_FOR_ATTRIBUTE_MESSAGE_INFO', el.getAttribute('id')), true));
           }
         } else {
-          _this9.errorCount++;
+          _this10.errorCount++;
           el.classList.add("jooa11y-error-border");
-          el.insertAdjacentHTML('afterend', _this9.annotate(Lang._('ERROR'), Lang._('LABELS_MISSING_LABEL_MESSAGE'), true));
+          el.insertAdjacentHTML('afterend', _this10.annotate(Lang._('ERROR'), Lang._('LABELS_MISSING_LABEL_MESSAGE'), true));
         }
       });
     } // ============================================================
@@ -5002,32 +5081,32 @@
     ;
 
     _proto.checkEmbeddedContent = function checkEmbeddedContent() {
-      var _this10 = this;
+      var _this11 = this;
 
       var $findiframes = Array.from(this.$root.querySelectorAll("iframe, audio, video"));
       var $iframes = $findiframes.filter(function ($el) {
-        return !_this10.$containerExclusions.includes($el);
+        return !_this11.$containerExclusions.includes($el);
       }); //Warning: Video content.
 
       var $videos = $iframes.filter(function ($el) {
-        return $el.matches(_this10.options.videoContent);
+        return $el.matches(_this11.options.videoContent);
       });
       $videos.forEach(function ($el) {
         var track = $el.getElementsByTagName('TRACK');
         if ($el.tagName === "VIDEO" && track.length) ;else {
-          _this10.warningCount++;
+          _this11.warningCount++;
           $el.classList.add("jooa11y-warning-border");
-          $el.insertAdjacentHTML('beforebegin', _this10.annotate(Lang._('WARNING'), Lang._('EMBED_VIDEO')));
+          $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang._('EMBED_VIDEO')));
         }
       }); //Warning: Audio content.
 
       var $audio = $iframes.filter(function ($el) {
-        return $el.matches(_this10.options.audioContent);
+        return $el.matches(_this11.options.audioContent);
       });
       $audio.forEach(function ($el) {
-        _this10.warningCount++;
+        _this11.warningCount++;
         $el.classList.add("jooa11y-warning-border");
-        $el.insertAdjacentHTML('beforebegin', _this10.annotate(Lang._('WARNING'), Lang._('EMBED_AUDIO')));
+        $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang._('EMBED_AUDIO')));
       }); //Error: iFrame is missing accessible name.
 
       $iframes.forEach(function ($el) {
@@ -5039,21 +5118,21 @@
                 $el.classList.remove("jooa11y-warning-border");
               }
 
-              _this10.errorCount++;
+              _this11.errorCount++;
               $el.classList.add("jooa11y-error-border");
-              $el.insertAdjacentHTML('beforebegin', _this10.annotate(Lang._('ERROR'), Lang._('EMBED_MISSING_TITLE')));
+              $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('ERROR'), Lang._('EMBED_MISSING_TITLE')));
             }
           }
         } else ;
       });
       var $embeddedcontent = $iframes.filter(function ($el) {
-        return !$el.matches(_this10.options.embeddedContent);
+        return !$el.matches(_this11.options.embeddedContent);
       });
       $embeddedcontent.forEach(function ($el) {
         if ($el.tagName === "VIDEO" || $el.tagName === "AUDIO" || $el.getAttribute("aria-hidden") === "true" || $el.getAttribute("hidden") !== null || $el.style.display === 'none' || $el.getAttribute("role") === "presentation" || $el.getAttribute("tabindex") === "-1") ;else {
-          _this10.warningCount++;
+          _this11.warningCount++;
           $el.classList.add("jooa11y-warning-border");
-          $el.insertAdjacentHTML('beforebegin', _this10.annotate(Lang._('WARNING'), Lang._('EMBED_GENERAL_WARNING')));
+          $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang._('EMBED_GENERAL_WARNING')));
         }
       });
     } // ============================================================
@@ -5062,21 +5141,21 @@
     ;
 
     _proto.checkQA = function checkQA() {
-      var _this11 = this;
+      var _this12 = this;
 
       //Error: Find all links pointing to development environment.
       var $findbadDevLinks = this.options.linksToFlag ? Array.from(this.$root.querySelectorAll(this.options.linksToFlag)) : [];
       var $badDevLinks = $findbadDevLinks.filter(function ($el) {
-        return !_this11.$containerExclusions.includes($el);
+        return !_this12.$containerExclusions.includes($el);
       });
       $badDevLinks.forEach(function ($el) {
-        _this11.errorCount++;
+        _this12.errorCount++;
         $el.classList.add("jooa11y-error-text");
-        $el.insertAdjacentHTML('afterend', _this11.annotate(Lang._('ERROR'), Lang.sprintf('QA_BAD_LINK', $el.getAttribute('href')), true));
+        $el.insertAdjacentHTML('afterend', _this12.annotate(Lang._('ERROR'), Lang.sprintf('QA_BAD_LINK', $el.getAttribute('href')), true));
       }); //Warning: Find all PDFs. Although only append warning icon to first PDF on page.
 
       var checkPDF = Array.from(this.$root.querySelectorAll('a[href$=".pdf"]')).filter(function (p) {
-        return !_this11.$containerExclusions.includes(p);
+        return !_this12.$containerExclusions.includes(p);
       });
       var firstPDF = checkPDF[0];
       var pdfCount = checkPDF.length;
@@ -5096,7 +5175,7 @@
 
       var $findallcaps = Array.from(this.$root.querySelectorAll("h1, h2, h3, h4, h5, h6, p, li:not([class^='jooa11y']), blockquote"));
       var $allcaps = $findallcaps.filter(function ($el) {
-        return !_this11.$containerExclusions.includes($el);
+        return !_this12.$containerExclusions.includes($el);
       });
       $allcaps.forEach(function ($el) {
         var uppercasePattern = /(?!<a[^>]*?>)(\b[A-Z][',!:A-Z\s]{15,}|\b[A-Z]{15,}\b)(?![^<]*?<\/a>)/g;
@@ -5105,7 +5184,7 @@
       });
       var $warningUppercase = document.querySelectorAll(".jooa11y-warning-uppercase");
       $warningUppercase.forEach(function ($el) {
-        $el.insertAdjacentHTML('afterend', _this11.annotate(Lang._('WARNING'), Lang._('QA_UPPERCASE_WARNING'), true));
+        $el.insertAdjacentHTML('afterend', _this12.annotate(Lang._('WARNING'), Lang._('QA_UPPERCASE_WARNING'), true));
       });
 
       if ($warningUppercase.length > 0) {
@@ -5115,32 +5194,31 @@
 
       var $findtables = Array.from(this.$root.querySelectorAll("table:not([role='presentation'])"));
       var $tables = $findtables.filter(function ($el) {
-        return !_this11.$containerExclusions.includes($el);
+        return !_this12.$containerExclusions.includes($el);
       });
       $tables.forEach(function ($el) {
         var findTHeaders = $el.querySelectorAll("th");
         var findHeadingTags = $el.querySelectorAll("h1, h2, h3, h4, h5, h6");
 
         if (findTHeaders.length === 0) {
-          _this11.errorCount++;
+          _this12.errorCount++;
           $el.classList.add("jooa11y-error-border");
-          $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('ERROR'), Lang._('TABLES_MISSING_HEADINGS')));
+          $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('ERROR'), Lang._('TABLES_MISSING_HEADINGS')));
         }
 
         if (findHeadingTags.length > 0) {
-          _this11.errorCount++;
+          _this12.errorCount++;
           findHeadingTags.forEach(function ($el) {
-            $el.classList.add("jooa11y-error-heading");
-            $el.parentElement.classList.add("jooa11y-error-border");
-            $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('ERROR'), Lang._('TABLES_SEMANTIC_HEADING') + " <hr aria-hidden=\"true\"> " + Lang._('TABLES_SEMANTIC_HEADING_INFO')));
+            $el.classList.add("jooa11y-error-border");
+            $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('ERROR'), Lang._('TABLES_SEMANTIC_HEADING') + " <hr aria-hidden=\"true\"> " + Lang._('TABLES_SEMANTIC_HEADING_INFO')));
           });
         }
 
         findTHeaders.forEach(function ($el) {
           if ($el.textContent.trim().length === 0) {
-            _this11.errorCount++;
+            _this12.errorCount++;
             $el.classList.add("jooa11y-error-border");
-            $el.innerHTML = _this11.annotate(Lang._('ERROR'), Lang._('TABLES_EMPTY_HEADING') + " <hr aria-hidden=\"true\"> " + Lang._('TABLES_EMPTY_HEADING_INFO'));
+            $el.innerHTML = _this12.annotate(Lang._('ERROR'), Lang._('TABLES_EMPTY_HEADING') + " <hr aria-hidden=\"true\"> " + Lang._('TABLES_EMPTY_HEADING_INFO'));
           }
         });
       }); //Error: Missing language tag. Lang should be at least 2 characters.
@@ -5156,26 +5234,26 @@
 
       var $findstrongitalics = Array.from(this.$root.querySelectorAll("strong, em"));
       var $strongitalics = $findstrongitalics.filter(function ($el) {
-        return !_this11.$containerExclusions.includes($el);
+        return !_this12.$containerExclusions.includes($el);
       });
       $strongitalics.forEach(function ($el) {
-        if ($el.textContent.trim().length > 400) {
-          _this11.warningCount++;
-          $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang._('QA_BAD_ITALICS')));
+        if ($el.textContent.trim().length > 200) {
+          _this12.warningCount++;
+          $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang._('QA_BAD_ITALICS')));
         }
       }); //Find blockquotes used as headers.
 
       var $findblockquotes = Array.from(this.$root.querySelectorAll("blockquote"));
       var $blockquotes = $findblockquotes.filter(function ($el) {
-        return !_this11.$containerExclusions.includes($el);
+        return !_this12.$containerExclusions.includes($el);
       });
       $blockquotes.forEach(function ($el) {
         var bqHeadingText = $el.textContent;
 
         if (bqHeadingText.trim().length < 25) {
-          _this11.warningCount++;
+          _this12.warningCount++;
           $el.classList.add("jooa11y-warning-border");
-          $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang.sprintf('QA_BLOCKQUOTE_MESSAGE', bqHeadingText) + " <hr aria-hidden=\"true\"> " + Lang._('QA_BLOCKQUOTE_MESSAGE_TIP')));
+          $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang.sprintf('QA_BLOCKQUOTE_MESSAGE', bqHeadingText) + " <hr aria-hidden=\"true\"> " + Lang._('QA_BLOCKQUOTE_MESSAGE_TIP')));
         }
       }); // Warning: Detect fake headings.
 
@@ -5189,9 +5267,9 @@
           if (firstChild.tagName === "STRONG" && (brBefore !== -1 || brAfter !== -1)) {
             var boldtext = firstChild.textContent;
 
-            if ($el && boldtext.length <= 120) {
-              firstChild.classList.add("jooa11y-fake-heading", "jooa11y-error-heading");
-              $el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang.sprintf('QA_FAKE_HEADING', boldtext) + " <hr aria-hidden=\"true\"> " + Lang._('QA_FAKE_HEADING_INFO')));
+            if (!$el.closest("table") && boldtext.length <= 120) {
+              firstChild.classList.add("jooa11y-fake-heading", "jooa11y-warning-border");
+              $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang.sprintf('QA_FAKE_HEADING', boldtext) + " <hr aria-hidden=\"true\"> " + Lang._('QA_FAKE_HEADING_INFO')));
             }
           }
         } // If paragraph only contains <p><strong>...</strong></p>.
@@ -5208,20 +5286,35 @@
             tagName = prevElement.tagName;
           }
 
-          if ($el.textContent.length <= 120 && tagName.charAt(0) !== "H") {
+          if (!$el.closest("table") && $el.textContent.length <= 120 && tagName.charAt(0) !== "H") {
             var _boldtext = $el.textContent;
-            $el.classList.add("jooa11y-fake-heading", "jooa11y-error-heading");
-            $el.firstChild.insertAdjacentHTML("afterend", _this11.annotate(Lang._('WARNING'), Lang.sprintf('QA_FAKE_HEADING', _boldtext) + " <hr aria-hidden=\"true\"> " + Lang._('QA_FAKE_HEADING_INFO')));
+            $el.classList.add("jooa11y-fake-heading", "jooa11y-warning-border");
+            $el.firstChild.insertAdjacentHTML("afterend", _this12.annotate(Lang._('WARNING'), Lang.sprintf('QA_FAKE_HEADING', _boldtext) + " <hr aria-hidden=\"true\"> " + Lang._('QA_FAKE_HEADING_INFO')));
           }
         }
       });
 
       if (this.$root.querySelectorAll(".jooa11y-fake-heading").length > 0) {
         this.warningCount++;
-      }
+      } // Check duplicate ID
+
+
+      var ids = this.$root.querySelectorAll('[id]');
+      var allIds = {};
+      ids.forEach(function ($el) {
+        var id = $el.id;
+
+        if (id) {
+          if (allIds[id] === undefined) {
+            allIds[id] = 1;
+          } else {
+            $el.classList.add("sa11y-error-border");
+            $el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang._('QA_DUPLICATE_ID') + "\n\t\t\t\t\t\t\t\t<hr aria-hidden=\"true\">\n\t\t\t\t\t\t\t\t" + Lang.sprintf('QA_DUPLICATE_ID_TIP', id), true));
+          }
+        }
+      });
       /* Thanks to John Jameson from PrincetonU for this ruleset! */
       // Detect paragraphs that should be lists.
-
 
       var activeMatch = "";
       var prefixDecrement = {
@@ -5270,8 +5363,8 @@
           }
 
           if (hit) {
-            _this11.warningCount++;
-            el.insertAdjacentHTML('beforebegin', _this11.annotate(Lang._('WARNING'), Lang.sprintf('QA_SHOULD_BE_LIST', firstPrefix) + " <hr aria-hidden=\"true\"> " + Lang._('QA_SHOULD_BE_LIST_TIP')));
+            _this12.warningCount++;
+            el.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang.sprintf('QA_SHOULD_BE_LIST', firstPrefix) + " <hr aria-hidden=\"true\"> " + Lang._('QA_SHOULD_BE_LIST_TIP')));
             el.classList.add("jooa11y-fake-list");
             activeMatch = firstPrefix;
           } else {
@@ -5292,11 +5385,11 @@
     ;
 
     _proto.checkContrast = function checkContrast() {
-      var _this12 = this;
+      var _this13 = this;
 
       var $findcontrast = Array.from(this.$root.querySelectorAll("* > :not(.jooa11y-heading-label)"));
       var $contrast = $findcontrast.filter(function ($el) {
-        return !_this12.$containerExclusions.includes($el);
+        return !_this13.$containerExclusions.includes($el);
       });
       var contrastErrors = {
         errors: [],
@@ -5466,12 +5559,12 @@
         }
 
         var nodetext = clone.textContent;
-        _this12.errorCount++;
+        _this13.errorCount++;
 
         if (name.tagName === "INPUT") {
-          name.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('ERROR'), Lang._('CONTRAST_ERROR_INPUT_MESSAGE') + "\n\t\t\t\t\t\t <hr aria-hidden=\"true\">\n\t\t\t\t\t\t " + Lang.sprintf('CONTRAST_ERROR_INPUT_MESSAGE_INFO', cratio), true));
+          name.insertAdjacentHTML('beforebegin', _this13.annotate(Lang._('ERROR'), Lang._('CONTRAST_ERROR_INPUT_MESSAGE') + "\n                         <hr aria-hidden=\"true\">\n                         " + Lang.sprintf('CONTRAST_ERROR_INPUT_MESSAGE_INFO', cratio), true));
         } else {
-          name.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('ERROR'), Lang.sprintf('CONTRAST_ERROR_MESSAGE', cratio, nodetext) + "\n                        <hr aria-hidden=\"true\">\n                        " + Lang.sprintf('CONTRAST_ERROR_MESSAGE_INFO', cratio, nodetext), true));
+          name.insertAdjacentHTML('beforebegin', _this13.annotate(Lang._('ERROR'), Lang.sprintf('CONTRAST_ERROR_MESSAGE', cratio, nodetext) + "\n                        <hr aria-hidden=\"true\">\n                        " + Lang.sprintf('CONTRAST_ERROR_MESSAGE_INFO', cratio, nodetext), true));
         }
       });
       contrastErrors.warnings.forEach(function (item) {
@@ -5484,8 +5577,8 @@
         }
 
         var nodetext = clone.textContent;
-        _this12.warningCount++;
-        name.insertAdjacentHTML('beforebegin', _this12.annotate(Lang._('WARNING'), Lang._('CONTRAST_WARNING_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('CONTRAST_WARNING_MESSAGE_INFO', nodetext), true));
+        _this13.warningCount++;
+        name.insertAdjacentHTML('beforebegin', _this13.annotate(Lang._('WARNING'), Lang._('CONTRAST_WARNING_MESSAGE') + " <hr aria-hidden=\"true\"> " + Lang.sprintf('CONTRAST_WARNING_MESSAGE_INFO', nodetext), true));
       });
     } // ============================================================
     // Rulesets: Readability
@@ -5494,12 +5587,12 @@
     ;
 
     _proto.checkReadability = function checkReadability() {
-      var _this13 = this;
+      var _this14 = this;
 
       var container = document.querySelector(this.options.readabilityRoot);
       var $findreadability = Array.from(container.querySelectorAll("p, li"));
       var $readability = $findreadability.filter(function ($el) {
-        return !_this13.$containerExclusions.includes($el);
+        return !_this14.$containerExclusions.includes($el);
       }); //Crude hack to add a period to the end of list items to make a complete sentence.
 
       $readability.forEach(function ($el) {

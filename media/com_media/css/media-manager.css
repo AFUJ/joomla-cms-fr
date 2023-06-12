@@ -1022,7 +1022,7 @@ html[dir=rtl] ul.media-tree ul {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 .media-preview-modal .modal-body img {
-  max-width: 200%;
+  max-width: 100%;
 }
 .media-preview-modal .modal-footer {
   display: none;

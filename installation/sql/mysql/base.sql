@@ -956,6 +956,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
   `requireReset` tinyint NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
+  `authProvider` varchar(100) NOT NULL DEFAULT '' COMMENT 'Name of used authentication plugin',
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`(100)),
   KEY `idx_block` (`block`),
@@ -1182,10 +1183,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`) VALUES
-(1, 58, 1, 1, 1, 'Dépublié', '', -1, 1, '{"publishing":"0"}'),
-(2, 59, 1, 2, 1, 'Publié', '', -1, 1, '{"publishing":"1"}'),
-(3, 60, 1, 3, 1, 'A la corbeille', '', -1, 1, '{"publishing":"-2"}'),
-(4, 61, 1, 4, 1, 'Archivé', '', -1, 1, '{"publishing":"2"}'),
-(5, 62, 1, 5, 1, 'Épinglé', '', -1, 1, '{"featuring":"1"}'),
-(6, 63, 1, 6, 1, 'Désépinglé', '', -1, 1, '{"featuring":"0"}'),
-(7, 64, 1, 7, 1, 'Publié & Épinglé', '', -1, 1, '{"publishing":"1","featuring":"1"}');
+(1, 58, 1, 1, 1, 'UNPUBLISH', '', -1, 1, '{"publishing":"0"}'),
+(2, 59, 1, 2, 1, 'PUBLISH', '', -1, 1, '{"publishing":"1"}'),
+(3, 60, 1, 3, 1, 'TRASH', '', -1, 1, '{"publishing":"-2"}'),
+(4, 61, 1, 4, 1, 'ARCHIVE', '', -1, 1, '{"publishing":"2"}'),
+(5, 62, 1, 5, 1, 'FEATURE', '', -1, 1, '{"featuring":"1"}'),
+(6, 63, 1, 6, 1, 'UNFEATURE', '', -1, 1, '{"featuring":"0"}'),
+(7, 64, 1, 7, 1, 'PUBLISH_AND_FEATURE', '', -1, 1, '{"publishing":"1","featuring":"1"}');

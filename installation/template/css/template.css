@@ -33,7 +33,7 @@
 }
 
 .fa-lg, .icon-lg {
-  font-size: 1.3333333333em;
+  font-size: 1.332em;
   line-height: 0.75em;
   vertical-align: -0.0667em;
 }
@@ -7750,7 +7750,7 @@ html[dir=rtl] .float-right {
 }
 
 .fa-lg, .icon-lg {
-  font-size: 1.3333333333em;
+  font-size: 1.332em;
   line-height: 0.75em;
   vertical-align: -0.0667em;
 }
@@ -27044,6 +27044,7 @@ meter {
   transition: all 0.3s ease-in-out;
 }
 .header .logo.small {
+  justify-content: center;
   width: 3rem;
   transition: all 0.3s ease-in-out;
 }
