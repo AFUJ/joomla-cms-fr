@@ -1,6 +1,9 @@
 .js-stools {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .js-stools-container-bar,
@@ -13,7 +16,9 @@
           margin-inline-start: auto;
 }
 .js-stools-container-bar .btn-toolbar {
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .js-stools-container-bar .btn-toolbar > * {
   margin: 5px 0;
@@ -26,6 +31,8 @@
   background-color: var(--template-bg-dark);
 }
 .js-stools-container-bar .ordering-select {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 

@@ -233,6 +233,8 @@
                     // Fix the x-php error
                     if (['text/x-php', 'application/x-httpd-php', 'application/x-httpd-php-open'].includes(mode.mime)) {
                       editor.setOption('mode', 'php');
+                    } else if (mode.mime === 'text/html') {
+                      editor.setOption('mode', mode.mode);
                     } else {
                       editor.setOption('mode', mode.mime);
                     }

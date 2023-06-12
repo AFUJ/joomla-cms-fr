@@ -101,19 +101,19 @@ var JoomlaMediaManager = (function () {
 
   var objectPropertyIsEnumerable = {};
 
-  var $propertyIsEnumerable$1 = {}.propertyIsEnumerable;
+  var $propertyIsEnumerable$2 = {}.propertyIsEnumerable;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
   var getOwnPropertyDescriptor$6 = Object.getOwnPropertyDescriptor;
 
   // Nashorn ~ JDK8 bug
-  var NASHORN_BUG = getOwnPropertyDescriptor$6 && !$propertyIsEnumerable$1.call({ 1: 2 }, 1);
+  var NASHORN_BUG = getOwnPropertyDescriptor$6 && !$propertyIsEnumerable$2.call({ 1: 2 }, 1);
 
   // `Object.prototype.propertyIsEnumerable` method implementation
   // https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
   objectPropertyIsEnumerable.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
     var descriptor = getOwnPropertyDescriptor$6(this, V);
     return !!descriptor && descriptor.enumerable;
-  } : $propertyIsEnumerable$1;
+  } : $propertyIsEnumerable$2;
 
   var createPropertyDescriptor$8 = function (bitmap, value) {
     return {
@@ -137,22 +137,22 @@ var JoomlaMediaManager = (function () {
     };
   };
 
-  var uncurryThis$N = functionUncurryThis;
+  var uncurryThis$O = functionUncurryThis;
 
-  var toString$i = uncurryThis$N({}.toString);
-  var stringSlice$a = uncurryThis$N(''.slice);
+  var toString$i = uncurryThis$O({}.toString);
+  var stringSlice$a = uncurryThis$O(''.slice);
 
   var classofRaw$1 = function (it) {
     return stringSlice$a(toString$i(it), 8, -1);
   };
 
   var global$1d = global$1e;
-  var uncurryThis$M = functionUncurryThis;
+  var uncurryThis$N = functionUncurryThis;
   var fails$G = fails$I;
   var classof$e = classofRaw$1;
 
   var Object$5 = global$1d.Object;
-  var split$3 = uncurryThis$M(''.split);
+  var split$3 = uncurryThis$N(''.split);
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
   var indexedObject = fails$G(function () {
@@ -178,7 +178,7 @@ var JoomlaMediaManager = (function () {
   var IndexedObject$4 = indexedObject;
   var requireObjectCoercible$c = requireObjectCoercible$d;
 
-  var toIndexedObject$a = function (it) {
+  var toIndexedObject$b = function (it) {
     return IndexedObject$4(requireObjectCoercible$c(it));
   };
 
@@ -205,9 +205,9 @@ var JoomlaMediaManager = (function () {
     return arguments.length < 2 ? aFunction(global$1b[namespace]) : global$1b[namespace] && global$1b[namespace][method];
   };
 
-  var uncurryThis$L = functionUncurryThis;
+  var uncurryThis$M = functionUncurryThis;
 
-  var objectIsPrototypeOf = uncurryThis$L({}.isPrototypeOf);
+  var objectIsPrototypeOf = uncurryThis$M({}.isPrototypeOf);
 
   var getBuiltIn$9 = getBuiltIn$a;
 
@@ -375,10 +375,10 @@ var JoomlaMediaManager = (function () {
     return Object$3(requireObjectCoercible$b(argument));
   };
 
-  var uncurryThis$K = functionUncurryThis;
+  var uncurryThis$L = functionUncurryThis;
   var toObject$f = toObject$g;
 
-  var hasOwnProperty$1 = uncurryThis$K({}.hasOwnProperty);
+  var hasOwnProperty$1 = uncurryThis$L({}.hasOwnProperty);
 
   // `HasOwnProperty` abstract operation
   // https://tc39.es/ecma262/#sec-hasownproperty
@@ -386,11 +386,11 @@ var JoomlaMediaManager = (function () {
     return hasOwnProperty$1(toObject$f(it), key);
   };
 
-  var uncurryThis$J = functionUncurryThis;
+  var uncurryThis$K = functionUncurryThis;
 
   var id$2 = 0;
   var postfix = Math.random();
-  var toString$h = uncurryThis$J(1.0.toString);
+  var toString$h = uncurryThis$K(1.0.toString);
 
   var uid$7 = function (key) {
     return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$h(++id$2 + postfix, 36);
@@ -469,23 +469,23 @@ var JoomlaMediaManager = (function () {
     return EXISTS$1 ? document$3.createElement(it) : {};
   };
 
-  var DESCRIPTORS$h = descriptors;
+  var DESCRIPTORS$i = descriptors;
   var fails$E = fails$I;
   var createElement$1 = documentCreateElement$2;
 
   // Thank's IE8 for his funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$h && !fails$E(function () {
+  var ie8DomDefine = !DESCRIPTORS$i && !fails$E(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
     }).a != 7;
   });
 
-  var DESCRIPTORS$g = descriptors;
+  var DESCRIPTORS$h = descriptors;
   var call$m = functionCall;
   var propertyIsEnumerableModule$2 = objectPropertyIsEnumerable;
   var createPropertyDescriptor$7 = createPropertyDescriptor$8;
-  var toIndexedObject$9 = toIndexedObject$a;
+  var toIndexedObject$a = toIndexedObject$b;
   var toPropertyKey$4 = toPropertyKey$5;
   var hasOwn$k = hasOwnProperty_1;
   var IE8_DOM_DEFINE$1 = ie8DomDefine;
@@ -495,8 +495,8 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertyDescriptor` method
   // https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
-  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$g ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
-    O = toIndexedObject$9(O);
+  objectGetOwnPropertyDescriptor.f = DESCRIPTORS$h ? $getOwnPropertyDescriptor$1 : function getOwnPropertyDescriptor(O, P) {
+    O = toIndexedObject$a(O);
     P = toPropertyKey$4(P);
     if (IE8_DOM_DEFINE$1) try {
       return $getOwnPropertyDescriptor$1(O, P);
@@ -519,7 +519,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$_ = global$1e;
-  var DESCRIPTORS$f = descriptors;
+  var DESCRIPTORS$g = descriptors;
   var IE8_DOM_DEFINE = ie8DomDefine;
   var anObject$o = anObject$p;
   var toPropertyKey$3 = toPropertyKey$5;
@@ -530,7 +530,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.defineProperty` method
   // https://tc39.es/ecma262/#sec-object.defineproperty
-  objectDefineProperty.f = DESCRIPTORS$f ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
+  objectDefineProperty.f = DESCRIPTORS$g ? $defineProperty$1 : function defineProperty(O, P, Attributes) {
     anObject$o(O);
     P = toPropertyKey$3(P);
     anObject$o(Attributes);
@@ -542,11 +542,11 @@ var JoomlaMediaManager = (function () {
     return O;
   };
 
-  var DESCRIPTORS$e = descriptors;
+  var DESCRIPTORS$f = descriptors;
   var definePropertyModule$8 = objectDefineProperty;
   var createPropertyDescriptor$6 = createPropertyDescriptor$8;
 
-  var createNonEnumerableProperty$a = DESCRIPTORS$e ? function (object, key, value) {
+  var createNonEnumerableProperty$a = DESCRIPTORS$f ? function (object, key, value) {
     return definePropertyModule$8.f(object, key, createPropertyDescriptor$6(1, value));
   } : function (object, key, value) {
     object[key] = value;
@@ -555,11 +555,11 @@ var JoomlaMediaManager = (function () {
 
   var redefine$e = {exports: {}};
 
-  var uncurryThis$I = functionUncurryThis;
+  var uncurryThis$J = functionUncurryThis;
   var isCallable$k = isCallable$q;
   var store$2 = sharedStore;
 
-  var functionToString$1 = uncurryThis$I(Function.toString);
+  var functionToString$1 = uncurryThis$J(Function.toString);
 
   // this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
   if (!isCallable$k(store$2.inspectSource)) {
@@ -591,7 +591,7 @@ var JoomlaMediaManager = (function () {
 
   var NATIVE_WEAK_MAP$1 = nativeWeakMap;
   var global$Y = global$1e;
-  var uncurryThis$H = functionUncurryThis;
+  var uncurryThis$I = functionUncurryThis;
   var isObject$n = isObject$s;
   var createNonEnumerableProperty$9 = createNonEnumerableProperty$a;
   var hasOwn$j = hasOwnProperty_1;
@@ -619,9 +619,9 @@ var JoomlaMediaManager = (function () {
 
   if (NATIVE_WEAK_MAP$1 || shared$2.state) {
     var store$1 = shared$2.state || (shared$2.state = new WeakMap$1());
-    var wmget = uncurryThis$H(store$1.get);
-    var wmhas = uncurryThis$H(store$1.has);
-    var wmset = uncurryThis$H(store$1.set);
+    var wmget = uncurryThis$I(store$1.get);
+    var wmhas = uncurryThis$I(store$1.has);
+    var wmset = uncurryThis$I(store$1.set);
     set$5 = function (it, metadata) {
       if (wmhas(store$1, it)) throw new TypeError$h(OBJECT_ALREADY_INITIALIZED);
       metadata.facade = it;
@@ -659,17 +659,17 @@ var JoomlaMediaManager = (function () {
     getterFor: getterFor
   };
 
-  var DESCRIPTORS$d = descriptors;
+  var DESCRIPTORS$e = descriptors;
   var hasOwn$i = hasOwnProperty_1;
 
   var FunctionPrototype$2 = Function.prototype;
   // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-  var getDescriptor = DESCRIPTORS$d && Object.getOwnPropertyDescriptor;
+  var getDescriptor = DESCRIPTORS$e && Object.getOwnPropertyDescriptor;
 
   var EXISTS = hasOwn$i(FunctionPrototype$2, 'name');
   // additional protection from minified / mangled / dropped function names
   var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
-  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$d || (DESCRIPTORS$d && getDescriptor(FunctionPrototype$2, 'name').configurable));
+  var CONFIGURABLE = EXISTS && (!DESCRIPTORS$e || (DESCRIPTORS$e && getDescriptor(FunctionPrototype$2, 'name').configurable));
 
   var functionName = {
     EXISTS: EXISTS,
@@ -768,14 +768,14 @@ var JoomlaMediaManager = (function () {
     return toLength$9(obj.length);
   };
 
-  var toIndexedObject$8 = toIndexedObject$a;
+  var toIndexedObject$9 = toIndexedObject$b;
   var toAbsoluteIndex$6 = toAbsoluteIndex$7;
   var lengthOfArrayLike$g = lengthOfArrayLike$h;
 
   // `Array.prototype.{ indexOf, includes }` methods implementation
-  var createMethod$4 = function (IS_INCLUDES) {
+  var createMethod$5 = function (IS_INCLUDES) {
     return function ($this, el, fromIndex) {
-      var O = toIndexedObject$8($this);
+      var O = toIndexedObject$9($this);
       var length = lengthOfArrayLike$g(O);
       var index = toAbsoluteIndex$6(fromIndex, length);
       var value;
@@ -795,29 +795,29 @@ var JoomlaMediaManager = (function () {
   var arrayIncludes = {
     // `Array.prototype.includes` method
     // https://tc39.es/ecma262/#sec-array.prototype.includes
-    includes: createMethod$4(true),
+    includes: createMethod$5(true),
     // `Array.prototype.indexOf` method
     // https://tc39.es/ecma262/#sec-array.prototype.indexof
-    indexOf: createMethod$4(false)
+    indexOf: createMethod$5(false)
   };
 
-  var uncurryThis$G = functionUncurryThis;
+  var uncurryThis$H = functionUncurryThis;
   var hasOwn$g = hasOwnProperty_1;
-  var toIndexedObject$7 = toIndexedObject$a;
+  var toIndexedObject$8 = toIndexedObject$b;
   var indexOf$1 = arrayIncludes.indexOf;
   var hiddenKeys$4 = hiddenKeys$6;
 
-  var push$8 = uncurryThis$G([].push);
+  var push$9 = uncurryThis$H([].push);
 
   var objectKeysInternal = function (object, names) {
-    var O = toIndexedObject$7(object);
+    var O = toIndexedObject$8(object);
     var i = 0;
     var result = [];
     var key;
-    for (key in O) !hasOwn$g(hiddenKeys$4, key) && hasOwn$g(O, key) && push$8(result, key);
+    for (key in O) !hasOwn$g(hiddenKeys$4, key) && hasOwn$g(O, key) && push$9(result, key);
     // Don't enum bug & hidden keys
     while (names.length > i) if (hasOwn$g(O, key = names[i++])) {
-      ~indexOf$1(result, key) || push$8(result, key);
+      ~indexOf$1(result, key) || push$9(result, key);
     }
     return result;
   };
@@ -851,12 +851,12 @@ var JoomlaMediaManager = (function () {
   objectGetOwnPropertySymbols.f = Object.getOwnPropertySymbols;
 
   var getBuiltIn$7 = getBuiltIn$a;
-  var uncurryThis$F = functionUncurryThis;
+  var uncurryThis$G = functionUncurryThis;
   var getOwnPropertyNamesModule$2 = objectGetOwnPropertyNames;
   var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols;
   var anObject$n = anObject$p;
 
-  var concat$2 = uncurryThis$F([].concat);
+  var concat$2 = uncurryThis$G([].concat);
 
   // all object keys, includes non-enumerable and symbols
   var ownKeys$3 = getBuiltIn$7('Reflect', 'ownKeys') || function ownKeys(it) {
@@ -1064,23 +1064,23 @@ var JoomlaMediaManager = (function () {
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
   // eslint-disable-next-line es/no-object-keys -- safe
-  var objectKeys$3 = Object.keys || function keys(O) {
+  var objectKeys$4 = Object.keys || function keys(O) {
     return internalObjectKeys(O, enumBugKeys$1);
   };
 
-  var DESCRIPTORS$c = descriptors;
+  var DESCRIPTORS$d = descriptors;
   var definePropertyModule$6 = objectDefineProperty;
   var anObject$l = anObject$p;
-  var toIndexedObject$6 = toIndexedObject$a;
-  var objectKeys$2 = objectKeys$3;
+  var toIndexedObject$7 = toIndexedObject$b;
+  var objectKeys$3 = objectKeys$4;
 
   // `Object.defineProperties` method
   // https://tc39.es/ecma262/#sec-object.defineproperties
   // eslint-disable-next-line es/no-object-defineproperties -- safe
-  var objectDefineProperties = DESCRIPTORS$c ? Object.defineProperties : function defineProperties(O, Properties) {
+  var objectDefineProperties = DESCRIPTORS$d ? Object.defineProperties : function defineProperties(O, Properties) {
     anObject$l(O);
-    var props = toIndexedObject$6(Properties);
-    var keys = objectKeys$2(Properties);
+    var props = toIndexedObject$7(Properties);
+    var keys = objectKeys$3(Properties);
     var length = keys.length;
     var index = 0;
     var key;
@@ -1202,7 +1202,7 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable regexp/no-empty-capturing-group, regexp/no-empty-group, regexp/no-lazy-ends -- testing */
   /* eslint-disable regexp/no-useless-quantifier -- testing */
   var call$l = functionCall;
-  var uncurryThis$E = functionUncurryThis;
+  var uncurryThis$F = functionUncurryThis;
   var toString$f = toString$g;
   var regexpFlags = regexpFlags$1;
   var stickyHelpers$1 = regexpStickyHelpers;
@@ -1215,10 +1215,10 @@ var JoomlaMediaManager = (function () {
   var nativeReplace = shared$1('native-string-replace', String.prototype.replace);
   var nativeExec = RegExp.prototype.exec;
   var patchedExec = nativeExec;
-  var charAt$7 = uncurryThis$E(''.charAt);
-  var indexOf = uncurryThis$E(''.indexOf);
-  var replace$8 = uncurryThis$E(''.replace);
-  var stringSlice$9 = uncurryThis$E(''.slice);
+  var charAt$7 = uncurryThis$F(''.charAt);
+  var indexOf = uncurryThis$F(''.indexOf);
+  var replace$8 = uncurryThis$F(''.replace);
+  var stringSlice$9 = uncurryThis$F(''.slice);
 
   var UPDATES_LAST_INDEX_WRONG = (function () {
     var re1 = /a/;
@@ -1316,12 +1316,12 @@ var JoomlaMediaManager = (function () {
 
   var regexpExec$3 = patchedExec;
 
-  var $$G = _export;
+  var $$H = _export;
   var exec$5 = regexpExec$3;
 
   // `RegExp.prototype.exec` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.exec
-  $$G({ target: 'RegExp', proto: true, forced: /./.exec !== exec$5 }, {
+  $$H({ target: 'RegExp', proto: true, forced: /./.exec !== exec$5 }, {
     exec: exec$5
   });
 
@@ -1337,7 +1337,7 @@ var JoomlaMediaManager = (function () {
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
-  var uncurryThis$D = functionUncurryThis;
+  var uncurryThis$E = functionUncurryThis;
   var redefine$c = redefine$e.exports;
   var regexpExec$2 = regexpExec$3;
   var fails$z = fails$I;
@@ -1386,9 +1386,9 @@ var JoomlaMediaManager = (function () {
       !DELEGATES_TO_EXEC ||
       FORCED
     ) {
-      var uncurriedNativeRegExpMethod = uncurryThis$D(/./[SYMBOL]);
+      var uncurriedNativeRegExpMethod = uncurryThis$E(/./[SYMBOL]);
       var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
-        var uncurriedNativeMethod = uncurryThis$D(nativeMethod);
+        var uncurriedNativeMethod = uncurryThis$E(nativeMethod);
         var $exec = regexp.exec;
         if ($exec === regexpExec$2 || $exec === RegExpPrototype$1.exec) {
           if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
@@ -1422,7 +1422,7 @@ var JoomlaMediaManager = (function () {
     return isObject$m(it) && ((isRegExp = it[MATCH$1]) !== undefined ? !!isRegExp : classof$b(it) == 'RegExp');
   };
 
-  var uncurryThis$C = functionUncurryThis;
+  var uncurryThis$D = functionUncurryThis;
   var fails$y = fails$I;
   var isCallable$f = isCallable$q;
   var classof$a = classof$d;
@@ -1433,7 +1433,7 @@ var JoomlaMediaManager = (function () {
   var empty = [];
   var construct = getBuiltIn$5('Reflect', 'construct');
   var constructorRegExp = /^\s*(?:class|function)\b/;
-  var exec$4 = uncurryThis$C(constructorRegExp.exec);
+  var exec$4 = uncurryThis$D(constructorRegExp.exec);
   var INCORRECT_TO_STRING = !constructorRegExp.exec(noop);
 
   var isConstructorModern = function isConstructor(argument) {
@@ -1501,16 +1501,16 @@ var JoomlaMediaManager = (function () {
     return C === undefined || (S = anObject$j(C)[SPECIES$5]) == undefined ? defaultConstructor : aConstructor$1(S);
   };
 
-  var uncurryThis$B = functionUncurryThis;
+  var uncurryThis$C = functionUncurryThis;
   var toIntegerOrInfinity$9 = toIntegerOrInfinity$c;
   var toString$e = toString$g;
   var requireObjectCoercible$a = requireObjectCoercible$d;
 
-  var charAt$6 = uncurryThis$B(''.charAt);
-  var charCodeAt$3 = uncurryThis$B(''.charCodeAt);
-  var stringSlice$8 = uncurryThis$B(''.slice);
+  var charAt$6 = uncurryThis$C(''.charAt);
+  var charCodeAt$3 = uncurryThis$C(''.charCodeAt);
+  var stringSlice$8 = uncurryThis$C(''.slice);
 
-  var createMethod$3 = function (CONVERT_TO_STRING) {
+  var createMethod$4 = function (CONVERT_TO_STRING) {
     return function ($this, pos) {
       var S = toString$e(requireObjectCoercible$a($this));
       var position = toIntegerOrInfinity$9(pos);
@@ -1532,10 +1532,10 @@ var JoomlaMediaManager = (function () {
   var stringMultibyte = {
     // `String.prototype.codePointAt` method
     // https://tc39.es/ecma262/#sec-string.prototype.codepointat
-    codeAt: createMethod$3(false),
+    codeAt: createMethod$4(false),
     // `String.prototype.at` method
     // https://github.com/mathiasbynens/String.prototype.at
-    charAt: createMethod$3(true)
+    charAt: createMethod$4(true)
   };
 
   var charAt$5 = stringMultibyte.charAt;
@@ -1598,7 +1598,7 @@ var JoomlaMediaManager = (function () {
 
   var apply$7 = functionApply;
   var call$i = functionCall;
-  var uncurryThis$A = functionUncurryThis;
+  var uncurryThis$B = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$3 = fixRegexpWellKnownSymbolLogic;
   var isRegExp$1 = isRegexp;
   var anObject$h = anObject$p;
@@ -1618,9 +1618,9 @@ var JoomlaMediaManager = (function () {
   var MAX_UINT32 = 0xFFFFFFFF;
   var min$6 = Math.min;
   var $push = [].push;
-  var exec$3 = uncurryThis$A(/./.exec);
-  var push$7 = uncurryThis$A($push);
-  var stringSlice$7 = uncurryThis$A(''.slice);
+  var exec$3 = uncurryThis$B(/./.exec);
+  var push$8 = uncurryThis$B($push);
+  var stringSlice$7 = uncurryThis$B(''.slice);
 
   // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
   // Weex JS has frozen built-in prototypes, so use try / catch wrapper
@@ -1668,7 +1668,7 @@ var JoomlaMediaManager = (function () {
         while (match = call$i(regexpExec, separatorCopy, string)) {
           lastIndex = separatorCopy.lastIndex;
           if (lastIndex > lastLastIndex) {
-            push$7(output, stringSlice$7(string, lastLastIndex, match.index));
+            push$8(output, stringSlice$7(string, lastLastIndex, match.index));
             if (match.length > 1 && match.index < string.length) apply$7($push, output, arraySlice$a(match, 1));
             lastLength = match[0].length;
             lastLastIndex = lastIndex;
@@ -1677,8 +1677,8 @@ var JoomlaMediaManager = (function () {
           if (separatorCopy.lastIndex === match.index) separatorCopy.lastIndex++; // Avoid an infinite loop
         }
         if (lastLastIndex === string.length) {
-          if (lastLength || !exec$3(separatorCopy, '')) push$7(output, '');
-        } else push$7(output, stringSlice$7(string, lastLastIndex));
+          if (lastLength || !exec$3(separatorCopy, '')) push$8(output, '');
+        } else push$8(output, stringSlice$7(string, lastLastIndex));
         return output.length > lim ? arraySlice$a(output, 0, lim) : output;
       };
     // Chakra, V8
@@ -1737,16 +1737,16 @@ var JoomlaMediaManager = (function () {
           ) {
             q = advanceStringIndex$2(S, q, unicodeMatching);
           } else {
-            push$7(A, stringSlice$7(S, p, q));
+            push$8(A, stringSlice$7(S, p, q));
             if (A.length === lim) return A;
             for (var i = 1; i <= z.length - 1; i++) {
-              push$7(A, z[i]);
+              push$8(A, z[i]);
               if (A.length === lim) return A;
             }
             q = p = e;
           }
         }
-        push$7(A, stringSlice$7(S, p));
+        push$8(A, stringSlice$7(S, p));
         return A;
       }
     ];
@@ -1815,10 +1815,10 @@ var JoomlaMediaManager = (function () {
 
   var domTokenListPrototype = DOMTokenListPrototype$2 === Object.prototype ? undefined : DOMTokenListPrototype$2;
 
-  var uncurryThis$z = functionUncurryThis;
+  var uncurryThis$A = functionUncurryThis;
   var aCallable$6 = aCallable$8;
 
-  var bind$a = uncurryThis$z(uncurryThis$z.bind);
+  var bind$a = uncurryThis$A(uncurryThis$A.bind);
 
   // optional / simple context binding
   var functionBindContext = function (fn, that) {
@@ -1870,16 +1870,16 @@ var JoomlaMediaManager = (function () {
   };
 
   var bind$9 = functionBindContext;
-  var uncurryThis$y = functionUncurryThis;
+  var uncurryThis$z = functionUncurryThis;
   var IndexedObject$3 = indexedObject;
   var toObject$e = toObject$g;
   var lengthOfArrayLike$e = lengthOfArrayLike$h;
   var arraySpeciesCreate$2 = arraySpeciesCreate$3;
 
-  var push$6 = uncurryThis$y([].push);
+  var push$7 = uncurryThis$z([].push);
 
   // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
-  var createMethod$2 = function (TYPE) {
+  var createMethod$3 = function (TYPE) {
     var IS_MAP = TYPE == 1;
     var IS_FILTER = TYPE == 2;
     var IS_SOME = TYPE == 3;
@@ -1905,10 +1905,10 @@ var JoomlaMediaManager = (function () {
             case 3: return true;              // some
             case 5: return value;             // find
             case 6: return index;             // findIndex
-            case 2: push$6(target, value);      // filter
+            case 2: push$7(target, value);      // filter
           } else switch (TYPE) {
             case 4: return false;             // every
-            case 7: push$6(target, value);      // filterReject
+            case 7: push$7(target, value);      // filterReject
           }
         }
       }
@@ -1919,28 +1919,28 @@ var JoomlaMediaManager = (function () {
   var arrayIteration = {
     // `Array.prototype.forEach` method
     // https://tc39.es/ecma262/#sec-array.prototype.foreach
-    forEach: createMethod$2(0),
+    forEach: createMethod$3(0),
     // `Array.prototype.map` method
     // https://tc39.es/ecma262/#sec-array.prototype.map
-    map: createMethod$2(1),
+    map: createMethod$3(1),
     // `Array.prototype.filter` method
     // https://tc39.es/ecma262/#sec-array.prototype.filter
-    filter: createMethod$2(2),
+    filter: createMethod$3(2),
     // `Array.prototype.some` method
     // https://tc39.es/ecma262/#sec-array.prototype.some
-    some: createMethod$2(3),
+    some: createMethod$3(3),
     // `Array.prototype.every` method
     // https://tc39.es/ecma262/#sec-array.prototype.every
-    every: createMethod$2(4),
+    every: createMethod$3(4),
     // `Array.prototype.find` method
     // https://tc39.es/ecma262/#sec-array.prototype.find
-    find: createMethod$2(5),
+    find: createMethod$3(5),
     // `Array.prototype.findIndex` method
     // https://tc39.es/ecma262/#sec-array.prototype.findIndex
-    findIndex: createMethod$2(6),
+    findIndex: createMethod$3(6),
     // `Array.prototype.filterReject` method
     // https://github.com/tc39/proposal-array-filtering
-    filterReject: createMethod$2(7)
+    filterReject: createMethod$3(7)
   };
 
   var fails$w = fails$I;
@@ -1992,18 +1992,18 @@ var JoomlaMediaManager = (function () {
   var whitespaces$2 = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
     '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
-  var uncurryThis$x = functionUncurryThis;
+  var uncurryThis$y = functionUncurryThis;
   var requireObjectCoercible$8 = requireObjectCoercible$d;
   var toString$b = toString$g;
   var whitespaces$1 = whitespaces$2;
 
-  var replace$7 = uncurryThis$x(''.replace);
+  var replace$7 = uncurryThis$y(''.replace);
   var whitespace = '[' + whitespaces$1 + ']';
   var ltrim = RegExp('^' + whitespace + whitespace + '*');
   var rtrim = RegExp(whitespace + whitespace + '*$');
 
   // `String.prototype.{ trim, trimStart, trimEnd, trimLeft, trimRight }` methods implementation
-  var createMethod$1 = function (TYPE) {
+  var createMethod$2 = function (TYPE) {
     return function ($this) {
       var string = toString$b(requireObjectCoercible$8($this));
       if (TYPE & 1) string = replace$7(string, ltrim, '');
@@ -2015,13 +2015,13 @@ var JoomlaMediaManager = (function () {
   var stringTrim = {
     // `String.prototype.{ trimLeft, trimStart }` methods
     // https://tc39.es/ecma262/#sec-string.prototype.trimstart
-    start: createMethod$1(1),
+    start: createMethod$2(1),
     // `String.prototype.{ trimRight, trimEnd }` methods
     // https://tc39.es/ecma262/#sec-string.prototype.trimend
-    end: createMethod$1(2),
+    end: createMethod$2(2),
     // `String.prototype.trim` method
     // https://tc39.es/ecma262/#sec-string.prototype.trim
-    trim: createMethod$1(3)
+    trim: createMethod$2(3)
   };
 
   var PROPER_FUNCTION_NAME$3 = functionName.PROPER;
@@ -2040,19 +2040,19 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$F = _export;
+  var $$G = _export;
   var $trim = stringTrim.trim;
   var forcedStringTrimMethod = stringTrimForced;
 
   // `String.prototype.trim` method
   // https://tc39.es/ecma262/#sec-string.prototype.trim
-  $$F({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
+  $$G({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
     trim: function trim() {
       return $trim(this);
     }
   });
 
-  var uncurryThis$w = functionUncurryThis;
+  var uncurryThis$x = functionUncurryThis;
   var PROPER_FUNCTION_NAME$2 = functionName.PROPER;
   var redefine$a = redefine$e.exports;
   var anObject$g = anObject$p;
@@ -2064,7 +2064,7 @@ var JoomlaMediaManager = (function () {
   var TO_STRING = 'toString';
   var RegExpPrototype = RegExp.prototype;
   var n$ToString = RegExpPrototype[TO_STRING];
-  var getFlags = uncurryThis$w(regExpFlags);
+  var getFlags = uncurryThis$x(regExpFlags);
 
   var NOT_GENERIC = fails$u(function () { return n$ToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
   // FF44- RegExp#toString has a wrong name
@@ -2082,20 +2082,20 @@ var JoomlaMediaManager = (function () {
     }, { unsafe: true });
   }
 
-  var $$E = _export;
+  var $$F = _export;
   var global$L = global$1e;
   var getBuiltIn$4 = getBuiltIn$a;
   var apply$6 = functionApply;
-  var uncurryThis$v = functionUncurryThis;
+  var uncurryThis$w = functionUncurryThis;
   var fails$t = fails$I;
 
   var Array$6 = global$L.Array;
   var $stringify$1 = getBuiltIn$4('JSON', 'stringify');
-  var exec$2 = uncurryThis$v(/./.exec);
-  var charAt$4 = uncurryThis$v(''.charAt);
-  var charCodeAt$2 = uncurryThis$v(''.charCodeAt);
-  var replace$6 = uncurryThis$v(''.replace);
-  var numberToString$1 = uncurryThis$v(1.0.toString);
+  var exec$2 = uncurryThis$w(/./.exec);
+  var charAt$4 = uncurryThis$w(''.charAt);
+  var charCodeAt$2 = uncurryThis$w(''.charCodeAt);
+  var replace$6 = uncurryThis$w(''.replace);
+  var numberToString$1 = uncurryThis$w(1.0.toString);
 
   var tester = /[\uD800-\uDFFF]/g;
   var low = /^[\uD800-\uDBFF]$/;
@@ -2118,7 +2118,7 @@ var JoomlaMediaManager = (function () {
     // `JSON.stringify` method
     // https://tc39.es/ecma262/#sec-json.stringify
     // https://github.com/tc39/proposal-well-formed-stringify
-    $$E({ target: 'JSON', stat: true, forced: FORCED$8 }, {
+    $$F({ target: 'JSON', stat: true, forced: FORCED$8 }, {
       // eslint-disable-next-line no-unused-vars -- required for `.length`
       stringify: function stringify(it, replacer, space) {
         for (var i = 0, l = arguments.length, args = Array$6(l); i < l; i++) args[i] = arguments[i];
@@ -2148,7 +2148,7 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$D = _export;
+  var $$E = _export;
   var global$K = global$1e;
   var fails$r = fails$I;
   var isArray$3 = isArray$5;
@@ -2188,7 +2188,7 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.concat` method
   // https://tc39.es/ecma262/#sec-array.prototype.concat
   // with adding support of @@isConcatSpreadable and @@species
-  $$D({ target: 'Array', proto: true, forced: FORCED$7 }, {
+  $$E({ target: 'Array', proto: true, forced: FORCED$7 }, {
     // eslint-disable-next-line no-unused-vars -- required for `.length`
     concat: function concat(arg) {
       var O = toObject$d(this);
@@ -2352,7 +2352,7 @@ var JoomlaMediaManager = (function () {
 
   /* eslint-disable no-proto -- safe */
 
-  var uncurryThis$u = functionUncurryThis;
+  var uncurryThis$v = functionUncurryThis;
   var anObject$f = anObject$p;
   var aPossiblePrototype = aPossiblePrototype$1;
 
@@ -2366,7 +2366,7 @@ var JoomlaMediaManager = (function () {
     var setter;
     try {
       // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-      setter = uncurryThis$u(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
+      setter = uncurryThis$v(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
       setter(test, []);
       CORRECT_SETTER = test instanceof Array;
     } catch (error) { /* empty */ }
@@ -2379,7 +2379,7 @@ var JoomlaMediaManager = (function () {
     };
   }() : undefined);
 
-  var $$C = _export;
+  var $$D = _export;
   var call$h = functionCall;
   var FunctionName$1 = functionName;
   var isCallable$a = isCallable$q;
@@ -2464,7 +2464,7 @@ var JoomlaMediaManager = (function () {
         if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
           redefine$8(IterablePrototype, KEY, methods[KEY]);
         }
-      } else $$C({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+      } else $$D({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
@@ -2476,13 +2476,13 @@ var JoomlaMediaManager = (function () {
     return methods;
   };
 
-  var toIndexedObject$5 = toIndexedObject$a;
+  var toIndexedObject$6 = toIndexedObject$b;
   var addToUnscopables$3 = addToUnscopables$4;
   var Iterators$2 = iterators;
   var InternalStateModule$9 = internalState;
   var defineProperty$9 = objectDefineProperty.f;
   var defineIterator$2 = defineIterator$3;
-  var DESCRIPTORS$b = descriptors;
+  var DESCRIPTORS$c = descriptors;
 
   var ARRAY_ITERATOR = 'Array Iterator';
   var setInternalState$9 = InternalStateModule$9.set;
@@ -2501,7 +2501,7 @@ var JoomlaMediaManager = (function () {
   var es_array_iterator = defineIterator$2(Array, 'Array', function (iterated, kind) {
     setInternalState$9(this, {
       type: ARRAY_ITERATOR,
-      target: toIndexedObject$5(iterated), // target
+      target: toIndexedObject$6(iterated), // target
       index: 0,                          // next index
       kind: kind                         // kind
     });
@@ -2532,7 +2532,7 @@ var JoomlaMediaManager = (function () {
   addToUnscopables$3('entries');
 
   // V8 ~ Chrome 45- bug
-  if (DESCRIPTORS$b && values.name !== 'values') try {
+  if (DESCRIPTORS$c && values.name !== 'values') try {
     defineProperty$9(values, 'name', { value: 'values' });
   } catch (error) { /* empty */ }
 
@@ -2577,10 +2577,10 @@ var JoomlaMediaManager = (function () {
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
-  var $$B = _export;
+  var $$C = _export;
   var global$G = global$1e;
   var call$g = functionCall;
-  var uncurryThis$t = functionUncurryThis;
+  var uncurryThis$u = functionUncurryThis;
   var isCallable$9 = isCallable$q;
   var isObject$j = isObject$s;
 
@@ -2595,11 +2595,11 @@ var JoomlaMediaManager = (function () {
   }();
 
   var Error$1 = global$G.Error;
-  var un$Test = uncurryThis$t(/./.test);
+  var un$Test = uncurryThis$u(/./.test);
 
   // `RegExp.prototype.test` method
   // https://tc39.es/ecma262/#sec-regexp.prototype.test
-  $$B({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
+  $$C({ target: 'RegExp', proto: true, forced: !DELEGATES_TO_EXEC }, {
     test: function (str) {
       var exec = this.exec;
       if (!isCallable$9(exec)) return un$Test(this, str);
@@ -2638,8 +2638,8 @@ var JoomlaMediaManager = (function () {
     } return false;
   };
 
-  var $$A = _export;
-  var uncurryThis$s = functionUncurryThis;
+  var $$B = _export;
+  var uncurryThis$t = functionUncurryThis;
   var getOwnPropertyDescriptor$4 = objectGetOwnPropertyDescriptor.f;
   var toLength$7 = toLength$a;
   var toString$a = toString$g;
@@ -2648,8 +2648,8 @@ var JoomlaMediaManager = (function () {
   var correctIsRegExpLogic$2 = correctIsRegexpLogic;
 
   // eslint-disable-next-line es/no-string-prototype-startswith -- safe
-  var un$StartsWith = uncurryThis$s(''.startsWith);
-  var stringSlice$6 = uncurryThis$s(''.slice);
+  var un$StartsWith = uncurryThis$t(''.startsWith);
+  var stringSlice$6 = uncurryThis$t(''.slice);
   var min$5 = Math.min;
 
   var CORRECT_IS_REGEXP_LOGIC$1 = correctIsRegExpLogic$2('startsWith');
@@ -2661,7 +2661,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.startsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.startswith
-  $$A({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
+  $$B({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG$1 && !CORRECT_IS_REGEXP_LOGIC$1 }, {
     startsWith: function startsWith(searchString /* , position = 0 */) {
       var that = toString$a(requireObjectCoercible$7(this));
       notARegExp$2(searchString);
@@ -2673,11 +2673,11 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var DESCRIPTORS$a = descriptors;
-  var uncurryThis$r = functionUncurryThis;
+  var DESCRIPTORS$b = descriptors;
+  var uncurryThis$s = functionUncurryThis;
   var call$f = functionCall;
   var fails$o = fails$I;
-  var objectKeys$1 = objectKeys$3;
+  var objectKeys$2 = objectKeys$4;
   var getOwnPropertySymbolsModule$1 = objectGetOwnPropertySymbols;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
   var toObject$b = toObject$g;
@@ -2687,13 +2687,13 @@ var JoomlaMediaManager = (function () {
   var $assign = Object.assign;
   // eslint-disable-next-line es/no-object-defineproperty -- required for testing
   var defineProperty$8 = Object.defineProperty;
-  var concat$1 = uncurryThis$r([].concat);
+  var concat$1 = uncurryThis$s([].concat);
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
   var objectAssign = !$assign || fails$o(function () {
     // should have correct order of operations (Edge bug)
-    if (DESCRIPTORS$a && $assign({ b: 1 }, $assign(defineProperty$8({}, 'a', {
+    if (DESCRIPTORS$b && $assign({ b: 1 }, $assign(defineProperty$8({}, 'a', {
       enumerable: true,
       get: function () {
         defineProperty$8(this, 'b', {
@@ -2710,7 +2710,7 @@ var JoomlaMediaManager = (function () {
     var alphabet = 'abcdefghijklmnopqrst';
     A[symbol] = 7;
     alphabet.split('').forEach(function (chr) { B[chr] = chr; });
-    return $assign({}, A)[symbol] != 7 || objectKeys$1($assign({}, B)).join('') != alphabet;
+    return $assign({}, A)[symbol] != 7 || objectKeys$2($assign({}, B)).join('') != alphabet;
   }) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
     var T = toObject$b(target);
     var argumentsLength = arguments.length;
@@ -2719,28 +2719,28 @@ var JoomlaMediaManager = (function () {
     var propertyIsEnumerable = propertyIsEnumerableModule$1.f;
     while (argumentsLength > index) {
       var S = IndexedObject$2(arguments[index++]);
-      var keys = getOwnPropertySymbols ? concat$1(objectKeys$1(S), getOwnPropertySymbols(S)) : objectKeys$1(S);
+      var keys = getOwnPropertySymbols ? concat$1(objectKeys$2(S), getOwnPropertySymbols(S)) : objectKeys$2(S);
       var length = keys.length;
       var j = 0;
       var key;
       while (length > j) {
         key = keys[j++];
-        if (!DESCRIPTORS$a || call$f(propertyIsEnumerable, S, key)) T[key] = S[key];
+        if (!DESCRIPTORS$b || call$f(propertyIsEnumerable, S, key)) T[key] = S[key];
       }
     } return T;
   } : $assign;
 
-  var $$z = _export;
+  var $$A = _export;
   var assign$1 = objectAssign;
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
   // eslint-disable-next-line es/no-object-assign -- required for testing
-  $$z({ target: 'Object', stat: true, forced: Object.assign !== assign$1 }, {
+  $$A({ target: 'Object', stat: true, forced: Object.assign !== assign$1 }, {
     assign: assign$1
   });
 
-  var $$y = _export;
+  var $$z = _export;
   var global$E = global$1e;
   var toAbsoluteIndex$4 = toAbsoluteIndex$7;
   var toIntegerOrInfinity$8 = toIntegerOrInfinity$c;
@@ -2761,7 +2761,7 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.splice` method
   // https://tc39.es/ecma262/#sec-array.prototype.splice
   // with adding support of @@species
-  $$y({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
+  $$z({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$3 }, {
     splice: function splice(start, deleteCount /* , ...items */) {
       var O = toObject$a(this);
       var len = lengthOfArrayLike$c(O);
@@ -2810,18 +2810,18 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var uncurryThis$q = functionUncurryThis;
+  var uncurryThis$r = functionUncurryThis;
 
-  var arraySlice$9 = uncurryThis$q([].slice);
+  var arraySlice$9 = uncurryThis$r([].slice);
 
-  var $$x = _export;
+  var $$y = _export;
   var global$D = global$1e;
   var isArray$2 = isArray$5;
   var isConstructor$1 = isConstructor$4;
   var isObject$i = isObject$s;
   var toAbsoluteIndex$3 = toAbsoluteIndex$7;
   var lengthOfArrayLike$b = lengthOfArrayLike$h;
-  var toIndexedObject$4 = toIndexedObject$a;
+  var toIndexedObject$5 = toIndexedObject$b;
   var createProperty$1 = createProperty$5;
   var wellKnownSymbol$c = wellKnownSymbol$s;
   var arrayMethodHasSpeciesSupport$2 = arrayMethodHasSpeciesSupport$5;
@@ -2836,9 +2836,9 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.slice` method
   // https://tc39.es/ecma262/#sec-array.prototype.slice
   // fallback for not array-like ES3 strings and DOM objects
-  $$x({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
+  $$y({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$2 }, {
     slice: function slice(start, end) {
-      var O = toIndexedObject$4(this);
+      var O = toIndexedObject$5(this);
       var length = lengthOfArrayLike$b(O);
       var k = toAbsoluteIndex$3(start, length);
       var fin = toAbsoluteIndex$3(end === undefined ? length : end, length);
@@ -2864,13 +2864,13 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var uncurryThis$p = functionUncurryThis;
+  var uncurryThis$q = functionUncurryThis;
   var toObject$9 = toObject$g;
 
   var floor$7 = Math.floor;
-  var charAt$3 = uncurryThis$p(''.charAt);
-  var replace$5 = uncurryThis$p(''.replace);
-  var stringSlice$5 = uncurryThis$p(''.slice);
+  var charAt$3 = uncurryThis$q(''.charAt);
+  var replace$5 = uncurryThis$q(''.replace);
+  var stringSlice$5 = uncurryThis$q(''.slice);
   var SUBSTITUTION_SYMBOLS = /\$([$&'`]|\d{1,2}|<[^>]*>)/g;
   var SUBSTITUTION_SYMBOLS_NO_NAMED = /\$([$&'`]|\d{1,2})/g;
 
@@ -2911,7 +2911,7 @@ var JoomlaMediaManager = (function () {
 
   var apply$5 = functionApply;
   var call$e = functionCall;
-  var uncurryThis$o = functionUncurryThis;
+  var uncurryThis$p = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
   var fails$n = fails$I;
   var anObject$e = anObject$p;
@@ -2929,10 +2929,10 @@ var JoomlaMediaManager = (function () {
   var REPLACE = wellKnownSymbol$b('replace');
   var max = Math.max;
   var min$3 = Math.min;
-  var concat = uncurryThis$o([].concat);
-  var push$5 = uncurryThis$o([].push);
-  var stringIndexOf$1 = uncurryThis$o(''.indexOf);
-  var stringSlice$4 = uncurryThis$o(''.slice);
+  var concat = uncurryThis$p([].concat);
+  var push$6 = uncurryThis$p([].push);
+  var stringIndexOf$1 = uncurryThis$p(''.indexOf);
+  var stringSlice$4 = uncurryThis$p(''.slice);
 
   var maybeToString = function (it) {
     return it === undefined ? it : String(it);
@@ -3006,7 +3006,7 @@ var JoomlaMediaManager = (function () {
           var result = regExpExec$3(rx, S);
           if (result === null) break;
 
-          push$5(results, result);
+          push$6(results, result);
           if (!global) break;
 
           var matchStr = toString$9(result[0]);
@@ -3026,11 +3026,11 @@ var JoomlaMediaManager = (function () {
           // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
           // the slice polyfill when slicing native arrays) "doesn't work" in safari 9 and
           // causes a crash (https://pastebin.com/N21QzeQA) when trying to debug it.
-          for (var j = 1; j < result.length; j++) push$5(captures, maybeToString(result[j]));
+          for (var j = 1; j < result.length; j++) push$6(captures, maybeToString(result[j]));
           var namedCaptures = result.groups;
           if (functionalReplace) {
             var replacerArgs = concat([matched], captures, position, S);
-            if (namedCaptures !== undefined) push$5(replacerArgs, namedCaptures);
+            if (namedCaptures !== undefined) push$6(replacerArgs, namedCaptures);
             var replacement = toString$9(apply$5(replaceValue, undefined, replacerArgs));
           } else {
             replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
@@ -3053,21 +3053,21 @@ var JoomlaMediaManager = (function () {
     return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
   };
 
-  var $$w = _export;
+  var $$x = _export;
   var is = sameValue$1;
 
   // `Object.is` method
   // https://tc39.es/ecma262/#sec-object.is
-  $$w({ target: 'Object', stat: true }, {
+  $$x({ target: 'Object', stat: true }, {
     is: is
   });
 
-  var $$v = _export;
+  var $$w = _export;
   var global$C = global$1e;
 
   // `globalThis` object
   // https://tc39.es/ecma262/#sec-globalthis
-  $$v({ global: true }, {
+  $$w({ global: true }, {
     globalThis: global$C
   });
 
@@ -3078,7 +3078,7 @@ var JoomlaMediaManager = (function () {
   /* eslint-disable es/no-object-getownpropertynames -- safe */
 
   var classof$6 = classofRaw$1;
-  var toIndexedObject$3 = toIndexedObject$a;
+  var toIndexedObject$4 = toIndexedObject$b;
   var $getOwnPropertyNames$1 = objectGetOwnPropertyNames.f;
   var arraySlice$8 = arraySliceSimple;
 
@@ -3097,7 +3097,7 @@ var JoomlaMediaManager = (function () {
   objectGetOwnPropertyNamesExternal.f = function getOwnPropertyNames(it) {
     return windowNames && classof$6(it) == 'Window'
       ? getWindowNames(it)
-      : $getOwnPropertyNames$1(toIndexedObject$3(it));
+      : $getOwnPropertyNames$1(toIndexedObject$4(it));
   };
 
   // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
@@ -3135,8 +3135,8 @@ var JoomlaMediaManager = (function () {
     return Object.isExtensible(Object.preventExtensions({}));
   });
 
-  var $$u = _export;
-  var uncurryThis$n = functionUncurryThis;
+  var $$v = _export;
+  var uncurryThis$o = functionUncurryThis;
   var hiddenKeys$1 = hiddenKeys$6;
   var isObject$g = isObject$s;
   var hasOwn$c = hasOwnProperty_1;
@@ -3194,7 +3194,7 @@ var JoomlaMediaManager = (function () {
     meta.enable = function () { /* empty */ };
     REQUIRED = true;
     var getOwnPropertyNames = getOwnPropertyNamesModule$1.f;
-    var splice = uncurryThis$n([].splice);
+    var splice = uncurryThis$o([].splice);
     var test = {};
     test[METADATA] = 1;
 
@@ -3210,7 +3210,7 @@ var JoomlaMediaManager = (function () {
         } return result;
       };
 
-      $$u({ target: 'Object', stat: true, forced: true }, {
+      $$v({ target: 'Object', stat: true, forced: true }, {
         getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
       });
     }
@@ -3423,9 +3423,9 @@ var JoomlaMediaManager = (function () {
     return $this;
   };
 
-  var $$t = _export;
+  var $$u = _export;
   var global$y = global$1e;
-  var uncurryThis$m = functionUncurryThis;
+  var uncurryThis$n = functionUncurryThis;
   var isForced$2 = isForced_1;
   var redefine$7 = redefine$e.exports;
   var InternalMetadataModule$1 = internalMetadata.exports;
@@ -3448,7 +3448,7 @@ var JoomlaMediaManager = (function () {
     var exported = {};
 
     var fixMethod = function (KEY) {
-      var uncurriedNativeMethod = uncurryThis$m(NativePrototype[KEY]);
+      var uncurriedNativeMethod = uncurryThis$n(NativePrototype[KEY]);
       redefine$7(NativePrototype, KEY,
         KEY == 'add' ? function add(value) {
           uncurriedNativeMethod(this, value === 0 ? 0 : value);
@@ -3519,7 +3519,7 @@ var JoomlaMediaManager = (function () {
     }
 
     exported[CONSTRUCTOR_NAME] = Constructor;
-    $$t({ global: true, forced: Constructor != NativeConstructor }, exported);
+    $$u({ global: true, forced: Constructor != NativeConstructor }, exported);
 
     setToStringTag$6(Constructor, CONSTRUCTOR_NAME);
 
@@ -3538,7 +3538,7 @@ var JoomlaMediaManager = (function () {
   var getBuiltIn$3 = getBuiltIn$a;
   var definePropertyModule$3 = objectDefineProperty;
   var wellKnownSymbol$7 = wellKnownSymbol$s;
-  var DESCRIPTORS$9 = descriptors;
+  var DESCRIPTORS$a = descriptors;
 
   var SPECIES$1 = wellKnownSymbol$7('species');
 
@@ -3546,7 +3546,7 @@ var JoomlaMediaManager = (function () {
     var Constructor = getBuiltIn$3(CONSTRUCTOR_NAME);
     var defineProperty = definePropertyModule$3.f;
 
-    if (DESCRIPTORS$9 && Constructor && !Constructor[SPECIES$1]) {
+    if (DESCRIPTORS$a && Constructor && !Constructor[SPECIES$1]) {
       defineProperty(Constructor, SPECIES$1, {
         configurable: true,
         get: function () { return this; }
@@ -3562,7 +3562,7 @@ var JoomlaMediaManager = (function () {
   var iterate$2 = iterate$4;
   var defineIterator$1 = defineIterator$3;
   var setSpecies$2 = setSpecies$3;
-  var DESCRIPTORS$8 = descriptors;
+  var DESCRIPTORS$9 = descriptors;
   var fastKey = internalMetadata.exports.fastKey;
   var InternalStateModule$8 = internalState;
 
@@ -3580,7 +3580,7 @@ var JoomlaMediaManager = (function () {
           last: undefined,
           size: 0
         });
-        if (!DESCRIPTORS$8) that.size = 0;
+        if (!DESCRIPTORS$9) that.size = 0;
         if (iterable != undefined) iterate$2(iterable, that[ADDER], { that: that, AS_ENTRIES: IS_MAP });
       });
 
@@ -3607,7 +3607,7 @@ var JoomlaMediaManager = (function () {
           };
           if (!state.first) state.first = entry;
           if (previous) previous.next = entry;
-          if (DESCRIPTORS$8) state.size++;
+          if (DESCRIPTORS$9) state.size++;
           else that.size++;
           // add to index
           if (index !== 'F') state.index[index] = entry;
@@ -3642,7 +3642,7 @@ var JoomlaMediaManager = (function () {
             entry = entry.next;
           }
           state.first = state.last = undefined;
-          if (DESCRIPTORS$8) state.size = 0;
+          if (DESCRIPTORS$9) state.size = 0;
           else that.size = 0;
         },
         // `{ Map, Set }.prototype.delete(key)` methods
@@ -3661,7 +3661,7 @@ var JoomlaMediaManager = (function () {
             if (next) next.previous = prev;
             if (state.first == entry) state.first = next;
             if (state.last == entry) state.last = prev;
-            if (DESCRIPTORS$8) state.size--;
+            if (DESCRIPTORS$9) state.size--;
             else that.size--;
           } return !!entry;
         },
@@ -3705,7 +3705,7 @@ var JoomlaMediaManager = (function () {
           return define(this, value = value === 0 ? 0 : value, value);
         }
       });
-      if (DESCRIPTORS$8) defineProperty$6(Prototype, 'size', {
+      if (DESCRIPTORS$9) defineProperty$6(Prototype, 'size', {
         get: function () {
           return getInternalState(this).size;
         }
@@ -3797,7 +3797,7 @@ var JoomlaMediaManager = (function () {
     return { value: point, done: false };
   });
 
-  var uncurryThis$l = functionUncurryThis;
+  var uncurryThis$m = functionUncurryThis;
   var redefineAll$4 = redefineAll$6;
   var getWeakData = internalMetadata.exports.getWeakData;
   var anObject$a = anObject$p;
@@ -3812,7 +3812,7 @@ var JoomlaMediaManager = (function () {
   var internalStateGetterFor = InternalStateModule$6.getterFor;
   var find$1 = ArrayIterationModule.find;
   var findIndex = ArrayIterationModule.findIndex;
-  var splice$1 = uncurryThis$l([].splice);
+  var splice$1 = uncurryThis$m([].splice);
   var id = 0;
 
   // fallback for uncaught frozen keys
@@ -3928,7 +3928,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var global$x = global$1e;
-  var uncurryThis$k = functionUncurryThis;
+  var uncurryThis$l = functionUncurryThis;
   var redefineAll$3 = redefineAll$6;
   var InternalMetadataModule = internalMetadata.exports;
   var collection$1 = collection$3;
@@ -3958,10 +3958,10 @@ var JoomlaMediaManager = (function () {
     InternalWeakMap = collectionWeak.getConstructor(wrapper, 'WeakMap', true);
     InternalMetadataModule.enable();
     var WeakMapPrototype = $WeakMap.prototype;
-    var nativeDelete = uncurryThis$k(WeakMapPrototype['delete']);
-    var nativeHas = uncurryThis$k(WeakMapPrototype.has);
-    var nativeGet = uncurryThis$k(WeakMapPrototype.get);
-    var nativeSet = uncurryThis$k(WeakMapPrototype.set);
+    var nativeDelete = uncurryThis$l(WeakMapPrototype['delete']);
+    var nativeHas = uncurryThis$l(WeakMapPrototype.has);
+    var nativeGet = uncurryThis$l(WeakMapPrototype.get);
+    var nativeSet = uncurryThis$l(WeakMapPrototype.set);
     redefineAll$3(WeakMapPrototype, {
       'delete': function (key) {
         if (isObject$c(key) && !isExtensible(key)) {
@@ -4017,13 +4017,13 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$s = _export;
+  var $$t = _export;
   var global$v = global$1e;
   var getBuiltIn$2 = getBuiltIn$a;
   var apply$4 = functionApply;
   var call$a = functionCall;
-  var uncurryThis$j = functionUncurryThis;
-  var DESCRIPTORS$7 = descriptors;
+  var uncurryThis$k = functionUncurryThis;
+  var DESCRIPTORS$8 = descriptors;
   var NATIVE_SYMBOL$1 = nativeSymbol;
   var fails$i = fails$I;
   var hasOwn$9 = hasOwnProperty_1;
@@ -4034,12 +4034,12 @@ var JoomlaMediaManager = (function () {
   var isSymbol$3 = isSymbol$6;
   var anObject$9 = anObject$p;
   var toObject$8 = toObject$g;
-  var toIndexedObject$2 = toIndexedObject$a;
+  var toIndexedObject$3 = toIndexedObject$b;
   var toPropertyKey$1 = toPropertyKey$5;
   var $toString$2 = toString$g;
   var createPropertyDescriptor$3 = createPropertyDescriptor$8;
   var nativeObjectCreate = objectCreate;
-  var objectKeys = objectKeys$3;
+  var objectKeys$1 = objectKeys$4;
   var getOwnPropertyNamesModule = objectGetOwnPropertyNames;
   var getOwnPropertyNamesExternal = objectGetOwnPropertyNamesExternal;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
@@ -4077,7 +4077,7 @@ var JoomlaMediaManager = (function () {
   var nativeDefineProperty$1 = definePropertyModule$2.f;
   var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
   var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
-  var push$4 = uncurryThis$j([].push);
+  var push$5 = uncurryThis$k([].push);
 
   var AllSymbols = shared('symbols');
   var ObjectPrototypeSymbols = shared('op-symbols');
@@ -4089,7 +4089,7 @@ var JoomlaMediaManager = (function () {
   var USE_SETTER = !QObject || !QObject[PROTOTYPE$1] || !QObject[PROTOTYPE$1].findChild;
 
   // fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-  var setSymbolDescriptor = DESCRIPTORS$7 && fails$i(function () {
+  var setSymbolDescriptor = DESCRIPTORS$8 && fails$i(function () {
     return nativeObjectCreate(nativeDefineProperty$1({}, 'a', {
       get: function () { return nativeDefineProperty$1(this, 'a', { value: 7 }).a; }
     })).a != 7;
@@ -4109,7 +4109,7 @@ var JoomlaMediaManager = (function () {
       tag: tag,
       description: description
     });
-    if (!DESCRIPTORS$7) symbol.description = description;
+    if (!DESCRIPTORS$8) symbol.description = description;
     return symbol;
   };
 
@@ -4131,10 +4131,10 @@ var JoomlaMediaManager = (function () {
 
   var $defineProperties = function defineProperties(O, Properties) {
     anObject$9(O);
-    var properties = toIndexedObject$2(Properties);
-    var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
+    var properties = toIndexedObject$3(Properties);
+    var keys = objectKeys$1(properties).concat($getOwnPropertySymbols(properties));
     $forEach$1(keys, function (key) {
-      if (!DESCRIPTORS$7 || call$a($propertyIsEnumerable, properties, key)) $defineProperty(O, key, properties[key]);
+      if (!DESCRIPTORS$8 || call$a($propertyIsEnumerable$1, properties, key)) $defineProperty(O, key, properties[key]);
     });
     return O;
   };
@@ -4143,7 +4143,7 @@ var JoomlaMediaManager = (function () {
     return Properties === undefined ? nativeObjectCreate(O) : $defineProperties(nativeObjectCreate(O), Properties);
   };
 
-  var $propertyIsEnumerable = function propertyIsEnumerable(V) {
+  var $propertyIsEnumerable$1 = function propertyIsEnumerable(V) {
     var P = toPropertyKey$1(V);
     var enumerable = call$a(nativePropertyIsEnumerable, this, P);
     if (this === ObjectPrototype$2 && hasOwn$9(AllSymbols, P) && !hasOwn$9(ObjectPrototypeSymbols, P)) return false;
@@ -4152,7 +4152,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
-    var it = toIndexedObject$2(O);
+    var it = toIndexedObject$3(O);
     var key = toPropertyKey$1(P);
     if (it === ObjectPrototype$2 && hasOwn$9(AllSymbols, key) && !hasOwn$9(ObjectPrototypeSymbols, key)) return;
     var descriptor = nativeGetOwnPropertyDescriptor$1(it, key);
@@ -4163,21 +4163,21 @@ var JoomlaMediaManager = (function () {
   };
 
   var $getOwnPropertyNames = function getOwnPropertyNames(O) {
-    var names = nativeGetOwnPropertyNames(toIndexedObject$2(O));
+    var names = nativeGetOwnPropertyNames(toIndexedObject$3(O));
     var result = [];
     $forEach$1(names, function (key) {
-      if (!hasOwn$9(AllSymbols, key) && !hasOwn$9(hiddenKeys, key)) push$4(result, key);
+      if (!hasOwn$9(AllSymbols, key) && !hasOwn$9(hiddenKeys, key)) push$5(result, key);
     });
     return result;
   };
 
   var $getOwnPropertySymbols = function getOwnPropertySymbols(O) {
     var IS_OBJECT_PROTOTYPE = O === ObjectPrototype$2;
-    var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject$2(O));
+    var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject$3(O));
     var result = [];
     $forEach$1(names, function (key) {
       if (hasOwn$9(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn$9(ObjectPrototype$2, key))) {
-        push$4(result, AllSymbols[key]);
+        push$5(result, AllSymbols[key]);
       }
     });
     return result;
@@ -4195,7 +4195,7 @@ var JoomlaMediaManager = (function () {
         if (hasOwn$9(this, HIDDEN) && hasOwn$9(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
         setSymbolDescriptor(this, tag, createPropertyDescriptor$3(1, value));
       };
-      if (DESCRIPTORS$7 && USE_SETTER) setSymbolDescriptor(ObjectPrototype$2, tag, { configurable: true, set: setter });
+      if (DESCRIPTORS$8 && USE_SETTER) setSymbolDescriptor(ObjectPrototype$2, tag, { configurable: true, set: setter });
       return wrap(tag, description);
     };
 
@@ -4209,7 +4209,7 @@ var JoomlaMediaManager = (function () {
       return wrap(uid$3(description), description);
     });
 
-    propertyIsEnumerableModule.f = $propertyIsEnumerable;
+    propertyIsEnumerableModule.f = $propertyIsEnumerable$1;
     definePropertyModule$2.f = $defineProperty;
     getOwnPropertyDescriptorModule$3.f = $getOwnPropertyDescriptor;
     getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
@@ -4219,7 +4219,7 @@ var JoomlaMediaManager = (function () {
       return wrap(wellKnownSymbol$5(name), name);
     };
 
-    if (DESCRIPTORS$7) {
+    if (DESCRIPTORS$8) {
       // https://github.com/tc39/proposal-Symbol-description
       nativeDefineProperty$1(SymbolPrototype$1, 'description', {
         configurable: true,
@@ -4228,20 +4228,20 @@ var JoomlaMediaManager = (function () {
         }
       });
       {
-        redefine$5(ObjectPrototype$2, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
+        redefine$5(ObjectPrototype$2, 'propertyIsEnumerable', $propertyIsEnumerable$1, { unsafe: true });
       }
     }
   }
 
-  $$s({ global: true, wrap: true, forced: !NATIVE_SYMBOL$1, sham: !NATIVE_SYMBOL$1 }, {
+  $$t({ global: true, wrap: true, forced: !NATIVE_SYMBOL$1, sham: !NATIVE_SYMBOL$1 }, {
     Symbol: $Symbol
   });
 
-  $forEach$1(objectKeys(WellKnownSymbolsStore), function (name) {
+  $forEach$1(objectKeys$1(WellKnownSymbolsStore), function (name) {
     defineWellKnownSymbol$1(name);
   });
 
-  $$s({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$1 }, {
+  $$t({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL$1 }, {
     // `Symbol.for` method
     // https://tc39.es/ecma262/#sec-symbol.for
     'for': function (key) {
@@ -4262,7 +4262,7 @@ var JoomlaMediaManager = (function () {
     useSimple: function () { USE_SETTER = false; }
   });
 
-  $$s({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1, sham: !DESCRIPTORS$7 }, {
+  $$t({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1, sham: !DESCRIPTORS$8 }, {
     // `Object.create` method
     // https://tc39.es/ecma262/#sec-object.create
     create: $create,
@@ -4277,7 +4277,7 @@ var JoomlaMediaManager = (function () {
     getOwnPropertyDescriptor: $getOwnPropertyDescriptor
   });
 
-  $$s({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1 }, {
+  $$t({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL$1 }, {
     // `Object.getOwnPropertyNames` method
     // https://tc39.es/ecma262/#sec-object.getownpropertynames
     getOwnPropertyNames: $getOwnPropertyNames,
@@ -4288,7 +4288,7 @@ var JoomlaMediaManager = (function () {
 
   // Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
   // https://bugs.chromium.org/p/v8/issues/detail?id=3443
-  $$s({ target: 'Object', stat: true, forced: fails$i(function () { getOwnPropertySymbolsModule.f(1); }) }, {
+  $$t({ target: 'Object', stat: true, forced: fails$i(function () { getOwnPropertySymbolsModule.f(1); }) }, {
     getOwnPropertySymbols: function getOwnPropertySymbols(it) {
       return getOwnPropertySymbolsModule.f(toObject$8(it));
     }
@@ -4307,7 +4307,7 @@ var JoomlaMediaManager = (function () {
         || $stringify(Object(symbol)) != '{}';
     });
 
-    $$s({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
+    $$t({ target: 'JSON', stat: true, forced: FORCED_JSON_STRINGIFY }, {
       // eslint-disable-next-line no-unused-vars -- required for `.length`
       stringify: function stringify(it, replacer, space) {
         var args = arraySlice$7(arguments);
@@ -4339,10 +4339,10 @@ var JoomlaMediaManager = (function () {
 
   hiddenKeys[HIDDEN] = true;
 
-  var $$r = _export;
-  var DESCRIPTORS$6 = descriptors;
+  var $$s = _export;
+  var DESCRIPTORS$7 = descriptors;
   var global$u = global$1e;
-  var uncurryThis$i = functionUncurryThis;
+  var uncurryThis$j = functionUncurryThis;
   var hasOwn$8 = hasOwnProperty_1;
   var isCallable$4 = isCallable$q;
   var isPrototypeOf$3 = objectIsPrototypeOf;
@@ -4353,7 +4353,7 @@ var JoomlaMediaManager = (function () {
   var NativeSymbol = global$u.Symbol;
   var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
 
-  if (DESCRIPTORS$6 && isCallable$4(NativeSymbol) && (!('description' in SymbolPrototype) ||
+  if (DESCRIPTORS$7 && isCallable$4(NativeSymbol) && (!('description' in SymbolPrototype) ||
     // Safari 12 bug
     NativeSymbol().description !== undefined
   )) {
@@ -4374,11 +4374,11 @@ var JoomlaMediaManager = (function () {
     SymbolPrototype.constructor = SymbolWrapper;
 
     var NATIVE_SYMBOL = String(NativeSymbol('test')) == 'Symbol(test)';
-    var symbolToString = uncurryThis$i(SymbolPrototype.toString);
-    var symbolValueOf = uncurryThis$i(SymbolPrototype.valueOf);
+    var symbolToString = uncurryThis$j(SymbolPrototype.toString);
+    var symbolValueOf = uncurryThis$j(SymbolPrototype.valueOf);
     var regexp = /^Symbol\((.*)\)[^)]+$/;
-    var replace$4 = uncurryThis$i(''.replace);
-    var stringSlice$3 = uncurryThis$i(''.slice);
+    var replace$4 = uncurryThis$j(''.replace);
+    var stringSlice$3 = uncurryThis$j(''.slice);
 
     defineProperty$4(SymbolPrototype, 'description', {
       configurable: true,
@@ -4391,18 +4391,18 @@ var JoomlaMediaManager = (function () {
       }
     });
 
-    $$r({ global: true, forced: true }, {
+    $$s({ global: true, forced: true }, {
       Symbol: SymbolWrapper
     });
   }
 
-  var $$q = _export;
+  var $$r = _export;
   var $includes$1 = arrayIncludes.includes;
   var addToUnscopables$2 = addToUnscopables$4;
 
   // `Array.prototype.includes` method
   // https://tc39.es/ecma262/#sec-array.prototype.includes
-  $$q({ target: 'Array', proto: true }, {
+  $$r({ target: 'Array', proto: true }, {
     includes: function includes(el /* , fromIndex = 0 */) {
       return $includes$1(this, el, arguments.length > 1 ? arguments[1] : undefined);
     }
@@ -4420,7 +4420,7 @@ var JoomlaMediaManager = (function () {
     return function Map() { return init(this, arguments.length ? arguments[0] : undefined); };
   }, collectionStrong);
 
-  var $$p = _export;
+  var $$q = _export;
   var $filter$1 = arrayIteration.filter;
   var arrayMethodHasSpeciesSupport$1 = arrayMethodHasSpeciesSupport$5;
 
@@ -4429,13 +4429,13 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.filter` method
   // https://tc39.es/ecma262/#sec-array.prototype.filter
   // with adding support of @@species
-  $$p({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
+  $$q({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT$1 }, {
     filter: function filter(callbackfn /* , thisArg */) {
       return $filter$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$o = _export;
+  var $$p = _export;
   var $map$1 = arrayIteration.map;
   var arrayMethodHasSpeciesSupport = arrayMethodHasSpeciesSupport$5;
 
@@ -4444,13 +4444,13 @@ var JoomlaMediaManager = (function () {
   // `Array.prototype.map` method
   // https://tc39.es/ecma262/#sec-array.prototype.map
   // with adding support of @@species
-  $$o({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
+  $$p({ target: 'Array', proto: true, forced: !HAS_SPECIES_SUPPORT }, {
     map: function map(callbackfn /* , thisArg */) {
       return $map$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
   });
 
-  var $$n = _export;
+  var $$o = _export;
   var fails$h = fails$I;
   var getOwnPropertyNames$3 = objectGetOwnPropertyNamesExternal.f;
 
@@ -4459,7 +4459,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.getOwnPropertyNames` method
   // https://tc39.es/ecma262/#sec-object.getownpropertynames
-  $$n({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
+  $$o({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$2 }, {
     getOwnPropertyNames: getOwnPropertyNames$3
   });
 
@@ -4469,7 +4469,7 @@ var JoomlaMediaManager = (function () {
     return descriptor !== undefined && (hasOwn$7(descriptor, 'value') || hasOwn$7(descriptor, 'writable'));
   };
 
-  var $$m = _export;
+  var $$n = _export;
   var call$9 = functionCall;
   var isObject$a = isObject$s;
   var anObject$8 = anObject$p;
@@ -4490,29 +4490,29 @@ var JoomlaMediaManager = (function () {
     if (isObject$a(prototype = getPrototypeOf$3(target))) return get$3(prototype, propertyKey, receiver);
   }
 
-  $$m({ target: 'Reflect', stat: true }, {
+  $$n({ target: 'Reflect', stat: true }, {
     get: get$3
   });
 
-  var $$l = _export;
+  var $$m = _export;
   var global$t = global$1e;
   var setToStringTag$4 = setToStringTag$9;
 
-  $$l({ global: true }, { Reflect: {} });
+  $$m({ global: true }, { Reflect: {} });
 
   // Reflect[@@toStringTag] property
   // https://tc39.es/ecma262/#sec-reflect-@@tostringtag
   setToStringTag$4(global$t.Reflect, 'Reflect', true);
 
-  var uncurryThis$h = functionUncurryThis;
+  var uncurryThis$i = functionUncurryThis;
 
   // `thisNumberValue` abstract operation
   // https://tc39.es/ecma262/#sec-thisnumbervalue
-  var thisNumberValue$2 = uncurryThis$h(1.0.valueOf);
+  var thisNumberValue$2 = uncurryThis$i(1.0.valueOf);
 
-  var DESCRIPTORS$5 = descriptors;
+  var DESCRIPTORS$6 = descriptors;
   var global$s = global$1e;
-  var uncurryThis$g = functionUncurryThis;
+  var uncurryThis$h = functionUncurryThis;
   var isForced$1 = isForced_1;
   var redefine$4 = redefine$e.exports;
   var hasOwn$6 = hasOwnProperty_1;
@@ -4531,8 +4531,8 @@ var JoomlaMediaManager = (function () {
   var NativeNumber = global$s[NUMBER];
   var NumberPrototype = NativeNumber.prototype;
   var TypeError$6 = global$s.TypeError;
-  var arraySlice$6 = uncurryThis$g(''.slice);
-  var charCodeAt$1 = uncurryThis$g(''.charCodeAt);
+  var arraySlice$6 = uncurryThis$h(''.slice);
+  var charCodeAt$1 = uncurryThis$h(''.charCodeAt);
 
   // `ToNumeric` abstract operation
   // https://tc39.es/ecma262/#sec-tonumeric
@@ -4581,7 +4581,7 @@ var JoomlaMediaManager = (function () {
       return isPrototypeOf$2(NumberPrototype, dummy) && fails$g(function () { thisNumberValue$1(dummy); })
         ? inheritIfRequired$1(Object(n), dummy, NumberWrapper) : n;
     };
-    for (var keys$1 = DESCRIPTORS$5 ? getOwnPropertyNames$2(NativeNumber) : (
+    for (var keys$1 = DESCRIPTORS$6 ? getOwnPropertyNames$2(NativeNumber) : (
       // ES3:
       'MAX_VALUE,MIN_VALUE,NaN,NEGATIVE_INFINITY,POSITIVE_INFINITY,' +
       // ES2015 (in case, if modules with ES2015 Number statics required before):
@@ -4598,7 +4598,7 @@ var JoomlaMediaManager = (function () {
     redefine$4(global$s, NUMBER, NumberWrapper);
   }
 
-  var $$k = _export;
+  var $$l = _export;
   var call$8 = functionCall;
   var anObject$7 = anObject$p;
   var isObject$9 = isObject$s;
@@ -4644,50 +4644,50 @@ var JoomlaMediaManager = (function () {
     return Reflect.set(Constructor.prototype, 'a', 1, object) !== false;
   });
 
-  $$k({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
+  $$l({ target: 'Reflect', stat: true, forced: MS_EDGE_BUG }, {
     set: set$4
   });
 
-  var $$j = _export;
+  var $$k = _export;
   var anObject$6 = anObject$p;
   var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
 
   // `Reflect.deleteProperty` method
   // https://tc39.es/ecma262/#sec-reflect.deleteproperty
-  $$j({ target: 'Reflect', stat: true }, {
+  $$k({ target: 'Reflect', stat: true }, {
     deleteProperty: function deleteProperty(target, propertyKey) {
       var descriptor = getOwnPropertyDescriptor$2(anObject$6(target), propertyKey);
       return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
     }
   });
 
-  var $$i = _export;
+  var $$j = _export;
 
   // `Reflect.has` method
   // https://tc39.es/ecma262/#sec-reflect.has
-  $$i({ target: 'Reflect', stat: true }, {
+  $$j({ target: 'Reflect', stat: true }, {
     has: function has(target, propertyKey) {
       return propertyKey in target;
     }
   });
 
-  var $$h = _export;
+  var $$i = _export;
   var ownKeys$1 = ownKeys$3;
 
   // `Reflect.ownKeys` method
   // https://tc39.es/ecma262/#sec-reflect.ownkeys
-  $$h({ target: 'Reflect', stat: true }, {
+  $$i({ target: 'Reflect', stat: true }, {
     ownKeys: ownKeys$1
   });
 
-  var $$g = _export;
+  var $$h = _export;
   var anObject$5 = anObject$p;
   var objectGetPrototypeOf = objectGetPrototypeOf$1;
   var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
 
   // `Reflect.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-reflect.getprototypeof
-  $$g({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {
+  $$h({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER }, {
     getPrototypeOf: function getPrototypeOf(target) {
       return objectGetPrototypeOf(anObject$5(target));
     }
@@ -4699,13 +4699,13 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-symbol.iterator
   defineWellKnownSymbol('iterator');
 
-  var $$f = _export;
+  var $$g = _export;
   var $isExtensible = objectIsExtensible;
 
   // `Object.isExtensible` method
   // https://tc39.es/ecma262/#sec-object.isextensible
   // eslint-disable-next-line es/no-object-isextensible -- safe
-  $$f({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
+  $$g({ target: 'Object', stat: true, forced: Object.isExtensible !== $isExtensible }, {
     isExtensible: $isExtensible
   });
 
@@ -5008,7 +5008,7 @@ var JoomlaMediaManager = (function () {
 
   var engineIsBrowser = typeof window == 'object';
 
-  var $$e = _export;
+  var $$f = _export;
   var global$l = global$1e;
   var getBuiltIn$1 = getBuiltIn$a;
   var call$7 = functionCall;
@@ -5332,7 +5332,7 @@ var JoomlaMediaManager = (function () {
     }
   }
 
-  $$e({ global: true, wrap: true, forced: FORCED$6 }, {
+  $$f({ global: true, wrap: true, forced: FORCED$6 }, {
     Promise: PromiseConstructor
   });
 
@@ -5342,7 +5342,7 @@ var JoomlaMediaManager = (function () {
   PromiseWrapper = getBuiltIn$1(PROMISE);
 
   // statics
-  $$e({ target: PROMISE, stat: true, forced: FORCED$6 }, {
+  $$f({ target: PROMISE, stat: true, forced: FORCED$6 }, {
     // `Promise.reject` method
     // https://tc39.es/ecma262/#sec-promise.reject
     reject: function reject(r) {
@@ -5352,7 +5352,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  $$e({ target: PROMISE, stat: true, forced: FORCED$6 }, {
+  $$f({ target: PROMISE, stat: true, forced: FORCED$6 }, {
     // `Promise.resolve` method
     // https://tc39.es/ecma262/#sec-promise.resolve
     resolve: function resolve(x) {
@@ -5360,7 +5360,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  $$e({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION$1 }, {
+  $$f({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION$1 }, {
     // `Promise.all` method
     // https://tc39.es/ecma262/#sec-promise.all
     all: function all(iterable) {
@@ -5406,18 +5406,18 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$d = _export;
-  var uncurryThis$f = functionUncurryThis;
+  var $$e = _export;
+  var uncurryThis$g = functionUncurryThis;
   var notARegExp$1 = notARegexp;
   var requireObjectCoercible$5 = requireObjectCoercible$d;
   var toString$6 = toString$g;
   var correctIsRegExpLogic$1 = correctIsRegexpLogic;
 
-  var stringIndexOf = uncurryThis$f(''.indexOf);
+  var stringIndexOf = uncurryThis$g(''.indexOf);
 
   // `String.prototype.includes` method
   // https://tc39.es/ecma262/#sec-string.prototype.includes
-  $$d({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
+  $$e({ target: 'String', proto: true, forced: !correctIsRegExpLogic$1('includes') }, {
     includes: function includes(searchString /* , position = 0 */) {
       return !!~stringIndexOf(
         toString$6(requireObjectCoercible$5(this)),
@@ -5427,16 +5427,16 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$c = _export;
+  var $$d = _export;
   var toObject$7 = toObject$g;
-  var nativeKeys = objectKeys$3;
+  var nativeKeys = objectKeys$4;
   var fails$d = fails$I;
 
   var FAILS_ON_PRIMITIVES$1 = fails$d(function () { nativeKeys(1); });
 
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
-  $$c({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1 }, {
+  $$d({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES$1 }, {
     keys: function keys(it) {
       return nativeKeys(toObject$7(it));
     }
@@ -5489,7 +5489,7 @@ var JoomlaMediaManager = (function () {
     ];
   });
 
-  var $$b = _export;
+  var $$c = _export;
   var $findIndex$1 = arrayIteration.findIndex;
   var addToUnscopables$1 = addToUnscopables$4;
 
@@ -5501,7 +5501,7 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.findIndex` method
   // https://tc39.es/ecma262/#sec-array.prototype.findindex
-  $$b({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
+  $$c({ target: 'Array', proto: true, forced: SKIPS_HOLES$1 }, {
     findIndex: function findIndex(callbackfn /* , that = undefined */) {
       return $findIndex$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
@@ -5510,12 +5510,12 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   addToUnscopables$1(FIND_INDEX);
 
-  var uncurryThis$e = functionUncurryThis;
+  var uncurryThis$f = functionUncurryThis;
   var requireObjectCoercible$3 = requireObjectCoercible$d;
   var toString$4 = toString$g;
 
   var quot = /"/g;
-  var replace$3 = uncurryThis$e(''.replace);
+  var replace$3 = uncurryThis$f(''.replace);
 
   // `CreateHTML` abstract operation
   // https://tc39.es/ecma262/#sec-createhtml
@@ -5537,13 +5537,13 @@ var JoomlaMediaManager = (function () {
     });
   };
 
-  var $$a = _export;
+  var $$b = _export;
   var createHTML = createHtml;
   var forcedStringHTMLMethod = stringHtmlForced;
 
   // `String.prototype.anchor` method
   // https://tc39.es/ecma262/#sec-string.prototype.anchor
-  $$a({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
+  $$b({ target: 'String', proto: true, forced: forcedStringHTMLMethod('anchor') }, {
     anchor: function anchor(name) {
       return createHTML(this, 'a', 'name', name);
     }
@@ -5608,7 +5608,7 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $$9 = _export;
+  var $$a = _export;
   var from = arrayFrom$1;
   var checkCorrectnessOfIteration$1 = checkCorrectnessOfIteration$4;
 
@@ -5619,24 +5619,24 @@ var JoomlaMediaManager = (function () {
 
   // `Array.from` method
   // https://tc39.es/ecma262/#sec-array.from
-  $$9({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
+  $$a({ target: 'Array', stat: true, forced: INCORRECT_ITERATION }, {
     from: from
   });
 
-  var DESCRIPTORS$4 = descriptors;
+  var DESCRIPTORS$5 = descriptors;
   var FUNCTION_NAME_EXISTS = functionName.EXISTS;
-  var uncurryThis$d = functionUncurryThis;
+  var uncurryThis$e = functionUncurryThis;
   var defineProperty$2 = objectDefineProperty.f;
 
   var FunctionPrototype = Function.prototype;
-  var functionToString = uncurryThis$d(FunctionPrototype.toString);
+  var functionToString = uncurryThis$e(FunctionPrototype.toString);
   var nameRE = /function\b(?:\s|\/\*[\S\s]*?\*\/|\/\/[^\n\r]*[\n\r]+)*([^\s(/]*)/;
-  var regExpExec$1 = uncurryThis$d(nameRE.exec);
+  var regExpExec$1 = uncurryThis$e(nameRE.exec);
   var NAME$1 = 'name';
 
   // Function instances `.name` property
   // https://tc39.es/ecma262/#sec-function-instances-name
-  if (DESCRIPTORS$4 && !FUNCTION_NAME_EXISTS) {
+  if (DESCRIPTORS$5 && !FUNCTION_NAME_EXISTS) {
     defineProperty$2(FunctionPrototype, NAME$1, {
       configurable: true,
       get: function () {
@@ -5710,8 +5710,8 @@ var JoomlaMediaManager = (function () {
 
   var engineWebkitVersion = !!webkit && +webkit[1];
 
-  var $$8 = _export;
-  var uncurryThis$c = functionUncurryThis;
+  var $$9 = _export;
+  var uncurryThis$d = functionUncurryThis;
   var aCallable$2 = aCallable$8;
   var toObject$5 = toObject$g;
   var lengthOfArrayLike$8 = lengthOfArrayLike$h;
@@ -5725,8 +5725,8 @@ var JoomlaMediaManager = (function () {
   var WEBKIT$1 = engineWebkitVersion;
 
   var test = [];
-  var un$Sort$1 = uncurryThis$c(test.sort);
-  var push$3 = uncurryThis$c(test.push);
+  var un$Sort$1 = uncurryThis$d(test.sort);
+  var push$4 = uncurryThis$d(test.push);
 
   // IE8-
   var FAILS_ON_UNDEFINED = fails$b(function () {
@@ -5787,7 +5787,7 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.sort` method
   // https://tc39.es/ecma262/#sec-array.prototype.sort
-  $$8({ target: 'Array', proto: true, forced: FORCED$5 }, {
+  $$9({ target: 'Array', proto: true, forced: FORCED$5 }, {
     sort: function sort(comparefn) {
       if (comparefn !== undefined) aCallable$2(comparefn);
 
@@ -5800,7 +5800,7 @@ var JoomlaMediaManager = (function () {
       var itemsLength, index;
 
       for (index = 0; index < arrayLength; index++) {
-        if (index in array) push$3(items, array[index]);
+        if (index in array) push$4(items, array[index]);
       }
 
       internalSort$1(items, getSortCompare$1(comparefn));
@@ -5815,22 +5815,22 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$7 = _export;
-  var uncurryThis$b = functionUncurryThis;
+  var $$8 = _export;
+  var uncurryThis$c = functionUncurryThis;
   var IndexedObject$1 = indexedObject;
-  var toIndexedObject$1 = toIndexedObject$a;
+  var toIndexedObject$2 = toIndexedObject$b;
   var arrayMethodIsStrict$1 = arrayMethodIsStrict$4;
 
-  var un$Join = uncurryThis$b([].join);
+  var un$Join = uncurryThis$c([].join);
 
   var ES3_STRINGS = IndexedObject$1 != Object;
   var STRICT_METHOD$1 = arrayMethodIsStrict$1('join', ',');
 
   // `Array.prototype.join` method
   // https://tc39.es/ecma262/#sec-array.prototype.join
-  $$7({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD$1 }, {
+  $$8({ target: 'Array', proto: true, forced: ES3_STRINGS || !STRICT_METHOD$1 }, {
     join: function join(separator) {
-      return un$Join(toIndexedObject$1(this), separator === undefined ? ',' : separator);
+      return un$Join(toIndexedObject$2(this), separator === undefined ? ',' : separator);
     }
   });
 
@@ -5889,9 +5889,9 @@ var JoomlaMediaManager = (function () {
     return result;
   };
 
-  var $$6 = _export;
+  var $$7 = _export;
   var global$i = global$1e;
-  var uncurryThis$a = functionUncurryThis;
+  var uncurryThis$b = functionUncurryThis;
   var toIntegerOrInfinity$5 = toIntegerOrInfinity$c;
   var thisNumberValue = thisNumberValue$2;
   var $repeat = stringRepeat;
@@ -5900,9 +5900,9 @@ var JoomlaMediaManager = (function () {
   var RangeError$7 = global$i.RangeError;
   var String$1 = global$i.String;
   var floor$5 = Math.floor;
-  var repeat = uncurryThis$a($repeat);
-  var stringSlice$2 = uncurryThis$a(''.slice);
-  var un$ToFixed = uncurryThis$a(1.0.toFixed);
+  var repeat = uncurryThis$b($repeat);
+  var stringSlice$2 = uncurryThis$b(''.slice);
+  var un$ToFixed = uncurryThis$b(1.0.toFixed);
 
   var pow$2 = function (x, n, acc) {
     return n === 0 ? acc : n % 2 === 1 ? pow$2(x, n - 1, acc * x) : pow$2(x * x, n / 2, acc);
@@ -5964,7 +5964,7 @@ var JoomlaMediaManager = (function () {
 
   // `Number.prototype.toFixed` method
   // https://tc39.es/ecma262/#sec-number.prototype.tofixed
-  $$6({ target: 'Number', proto: true, forced: FORCED$4 }, {
+  $$7({ target: 'Number', proto: true, forced: FORCED$4 }, {
     toFixed: function toFixed(fractionDigits) {
       var number = thisNumberValue(this);
       var fractDigits = toIntegerOrInfinity$5(fractionDigits);
@@ -6021,8 +6021,8 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$5 = _export;
-  var uncurryThis$9 = functionUncurryThis;
+  var $$6 = _export;
+  var uncurryThis$a = functionUncurryThis;
   var getOwnPropertyDescriptor = objectGetOwnPropertyDescriptor.f;
   var toLength$4 = toLength$a;
   var toString = toString$g;
@@ -6031,8 +6031,8 @@ var JoomlaMediaManager = (function () {
   var correctIsRegExpLogic = correctIsRegexpLogic;
 
   // eslint-disable-next-line es/no-string-prototype-endswith -- safe
-  var un$EndsWith = uncurryThis$9(''.endsWith);
-  var slice = uncurryThis$9(''.slice);
+  var un$EndsWith = uncurryThis$a(''.endsWith);
+  var slice = uncurryThis$a(''.slice);
   var min$2 = Math.min;
 
   var CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic('endsWith');
@@ -6044,7 +6044,7 @@ var JoomlaMediaManager = (function () {
 
   // `String.prototype.endsWith` method
   // https://tc39.es/ecma262/#sec-string.prototype.endswith
-  $$5({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
+  $$6({ target: 'String', proto: true, forced: !MDN_POLYFILL_BUG && !CORRECT_IS_REGEXP_LOGIC }, {
     endsWith: function endsWith(searchString /* , endPosition = @length */) {
       var that = toString(requireObjectCoercible(this));
       notARegExp(searchString);
@@ -6058,7 +6058,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var $$4 = _export;
+  var $$5 = _export;
   var $find$1 = arrayIteration.find;
   var addToUnscopables = addToUnscopables$4;
 
@@ -6070,7 +6070,7 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.find` method
   // https://tc39.es/ecma262/#sec-array.prototype.find
-  $$4({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+  $$5({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
     find: function find(callbackfn /* , that = undefined */) {
       return $find$1(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
     }
@@ -6078,6 +6078,54 @@ var JoomlaMediaManager = (function () {
 
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
   addToUnscopables(FIND);
+
+  var DESCRIPTORS$4 = descriptors;
+  var uncurryThis$9 = functionUncurryThis;
+  var objectKeys = objectKeys$4;
+  var toIndexedObject$1 = toIndexedObject$b;
+  var $propertyIsEnumerable = objectPropertyIsEnumerable.f;
+
+  var propertyIsEnumerable = uncurryThis$9($propertyIsEnumerable);
+  var push$3 = uncurryThis$9([].push);
+
+  // `Object.{ entries, values }` methods implementation
+  var createMethod$1 = function (TO_ENTRIES) {
+    return function (it) {
+      var O = toIndexedObject$1(it);
+      var keys = objectKeys(O);
+      var length = keys.length;
+      var i = 0;
+      var result = [];
+      var key;
+      while (length > i) {
+        key = keys[i++];
+        if (!DESCRIPTORS$4 || propertyIsEnumerable(O, key)) {
+          push$3(result, TO_ENTRIES ? [key, O[key]] : O[key]);
+        }
+      }
+      return result;
+    };
+  };
+
+  var objectToArray = {
+    // `Object.entries` method
+    // https://tc39.es/ecma262/#sec-object.entries
+    entries: createMethod$1(true),
+    // `Object.values` method
+    // https://tc39.es/ecma262/#sec-object.values
+    values: createMethod$1(false)
+  };
+
+  var $$4 = _export;
+  var $values = objectToArray.values;
+
+  // `Object.values` method
+  // https://tc39.es/ecma262/#sec-object.values
+  $$4({ target: 'Object', stat: true }, {
+    values: function values(O) {
+      return $values(O);
+    }
+  });
 
   var $$3 = _export;
   var FREEZING = freezing;
@@ -8910,7 +8958,7 @@ var JoomlaMediaManager = (function () {
 
   /* eslint-disable es/no-array-prototype-lastindexof -- safe */
   var apply$2 = functionApply;
-  var toIndexedObject = toIndexedObject$a;
+  var toIndexedObject = toIndexedObject$b;
   var toIntegerOrInfinity = toIntegerOrInfinity$c;
   var lengthOfArrayLike$2 = lengthOfArrayLike$h;
   var arrayMethodIsStrict = arrayMethodIsStrict$4;
@@ -22099,14 +22147,12 @@ var JoomlaMediaManager = (function () {
 
 
   var getDrives = function getDrives(adapterNames, provider) {
-    var drives = [];
-    adapterNames.map(function (name) {
-      return drives.push({
+    return adapterNames.map(function (name) {
+      return {
         root: provider + "-" + name + ":/",
         displayName: name
-      });
+      };
     });
-    return drives;
   }; // Load disks from options
 
 
@@ -22122,16 +22168,38 @@ var JoomlaMediaManager = (function () {
 
   if (!defaultDisk) {
     throw new TypeError('No default media drive was found');
-  } // Override the storage if we have a path
+  }
 
+  var currentPath;
+  var storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key)); // Gracefully use the given path, the session storage state or fall back to sensible default
 
   if (options.currentPath) {
-    var storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
+    var useDrive = false;
+    Object.values(loadedDisks).forEach(function (drive) {
+      return drive.drives.forEach(function (curDrive) {
+        if (options.currentPath.indexOf(curDrive.root) === 0) {
+          useDrive = true;
+        }
+      });
+    });
 
-    if (storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath) {
-      storedState.selectedDirectory = options.currentPath;
-      persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
+    if (useDrive) {
+      if (storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath) {
+        storedState.selectedDirectory = options.currentPath;
+        persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
+        currentPath = options.currentPath;
+      } else {
+        currentPath = options.currentPath;
+      }
+    } else {
+      currentPath = defaultDisk.drives[0].root;
     }
+  } else if (storedState && storedState.selectedDirectory) {
+    currentPath = storedState.selectedDirectory;
+  }
+
+  if (!currentPath) {
+    currentPath = defaultDisk.drives[0].root;
   } // The initial state
 
 
@@ -22154,7 +22222,7 @@ var JoomlaMediaManager = (function () {
     files: [],
     // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
     // in the list as the default provider and load first drive on it as default
-    selectedDirectory: options.currentPath || defaultDisk.drives[0].root,
+    selectedDirectory: currentPath,
     // The currently selected items
     selectedItems: [],
     // The state of the infobar
@@ -22451,11 +22519,13 @@ var JoomlaMediaManager = (function () {
 
     context.commit(SET_IS_LOADING, true); // Get the selected items from the store
 
-    var selectedItems = context.state.selectedItems;
+    var _context$state = context.state,
+        selectedItems = _context$state.selectedItems,
+        search = _context$state.search;
 
     if (selectedItems.length > 0) {
       selectedItems.forEach(function (item) {
-        if (typeof item.canDelete !== 'undefined' && item.canDelete === false) {
+        if (typeof item.canDelete !== 'undefined' && item.canDelete === false || search && !item.name.toLowerCase().includes(search.toLowerCase())) {
           return;
         }
 

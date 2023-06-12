@@ -2,7 +2,9 @@
   padding: 10px 20px;
 }
 .js-stools-container-bar .btn-toolbar {
-  justify-content: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .js-stools-container-bar .btn-toolbar > * {
   margin: 4px 0;
@@ -14,6 +16,8 @@
   border: 0;
 }
 .js-stools-container-bar .ordering-select {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
 }
 

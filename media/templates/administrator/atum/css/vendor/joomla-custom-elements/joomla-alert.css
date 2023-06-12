@@ -157,6 +157,8 @@ html[dir=rtl] joomla-alert .joomla-alert-button--close {
 }
 #system-message-container joomla-alert {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   min-width: 16rem;
@@ -166,16 +168,26 @@ html[dir=rtl] joomla-alert .joomla-alert-button--close {
   background-color: var(--alert-bg-color, var(--white));
   border: 1px solid var(--alert-accent-color, var(--template-bg-dark));
   border-radius: 0.25rem;
+  -webkit-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
 }
 #system-message-container joomla-alert .alert-heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 0.8rem;
   color: var(--white);
   background: var(--alert-accent-color, var(--template-bg-dark));
-  align-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
 }
 #system-message-container joomla-alert .alert-heading .message::before,
 #system-message-container joomla-alert .alert-heading .success::before {

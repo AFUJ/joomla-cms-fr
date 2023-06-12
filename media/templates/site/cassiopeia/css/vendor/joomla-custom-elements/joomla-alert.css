@@ -6,6 +6,8 @@
 
 #system-message-container joomla-alert {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
   min-width: 16rem;
@@ -15,16 +17,26 @@
   background-color: white;
   border: 1px solid var(--alert-accent-color, transparent);
   border-radius: 0.25rem;
+  -webkit-transition: opacity 0.15s linear;
+  -o-transition: opacity 0.15s linear;
   transition: opacity 0.15s linear;
 }
 #system-message-container joomla-alert + * {
   margin-top: 1rem;
 }
 #system-message-container joomla-alert .alert-heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
   padding: 0.8rem;
   color: var(--alert-heading-text);
   background: var(--alert-accent-color, transparent);

@@ -155,8 +155,11 @@
         this.newElement.innerHTML = Joomla.sanitizeHtml(innerStr);
       } else {
         this.newElement.innerText = window.atob(this.getAttribute('first')) + "@" + window.atob(this.getAttribute('last'));
-      } // Remove the noscript message
+      } // Remove class and style Attributes
 
+
+      this.removeAttribute('class');
+      this.removeAttribute('style'); // Remove the noscript message
 
       this.innerText = ''; // Display the new element
 

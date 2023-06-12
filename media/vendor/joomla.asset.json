@@ -77,33 +77,6 @@
       "version": "1.1.5"
     },
     {
-      "name": "choicesjs",
-      "type": "style",
-      "uri": "vendor/choicesjs/choices.min.css",
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "script",
-      "uri": "vendor/choicesjs/choices.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "preset",
-      "dependencies": [
-        "choicesjs#style",
-        "choicesjs#script"
-      ],
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
       "name": "cropperjs",
       "type": "style",
       "uri": "vendor/cropperjs/cropper.min.css",
@@ -129,6 +102,33 @@
       ],
       "package": "cropperjs",
       "version": "1.5.12"
+    },
+    {
+      "name": "choicesjs",
+      "type": "style",
+      "uri": "vendor/choicesjs/choices.min.css",
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
+      "type": "script",
+      "uri": "vendor/choicesjs/choices.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
+      "type": "preset",
+      "dependencies": [
+        "choicesjs#style",
+        "choicesjs#script"
+      ],
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
       "name": "dragula",
@@ -260,6 +260,33 @@
       "version": "0.2.0"
     },
     {
+      "name": "chosen",
+      "type": "style",
+      "uri": "vendor/chosen/chosen.css",
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "script",
+      "uri": "vendor/chosen/chosen.jquery.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "preset",
+      "dependencies": [
+        "chosen#style",
+        "chosen#script"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
       "name": "minicolors",
       "type": "style",
       "uri": "vendor/minicolors/jquery.minicolors.css",
@@ -288,33 +315,6 @@
       ],
       "package": "@claviska/jquery-minicolors",
       "version": "2.3.6"
-    },
-    {
-      "name": "chosen",
-      "type": "style",
-      "uri": "vendor/chosen/chosen.css",
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "script",
-      "uri": "vendor/chosen/chosen.jquery.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "preset",
-      "dependencies": [
-        "chosen#style",
-        "chosen#script"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
     },
     {
       "name": "metismenujs",
