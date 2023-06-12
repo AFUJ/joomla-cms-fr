@@ -26925,10 +26925,6 @@ body:not(.contentpane) .main-card {
   background-color: var(--toolbar-bg);
 }
 
-.chzn-container-single {
-  width: auto !important;
-}
-
 .input-group input {
   min-width: 220px;
 }

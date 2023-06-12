@@ -30,16 +30,6 @@
       "version": "2.6.0"
     },
     {
-      "name": "short-and-sweet",
-      "type": "script",
-      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "short-and-sweet",
-      "version": "1.0.4"
-    },
-    {
       "name": "accessibility",
       "type": "script",
       "uri": "vendor/accessibility/accessibility.min.js",
@@ -48,6 +38,16 @@
       },
       "package": "accessibility",
       "version": "3.0.16"
+    },
+    {
+      "name": "short-and-sweet",
+      "type": "script",
+      "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "short-and-sweet",
+      "version": "1.0.4"
     },
     {
       "name": "awesomplete",
