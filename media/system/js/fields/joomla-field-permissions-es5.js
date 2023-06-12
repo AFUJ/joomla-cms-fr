@@ -294,4 +294,4 @@
     return _class;
   }( /*#__PURE__*/_wrapNativeSuper(HTMLElement)));
 
-}());
+})();

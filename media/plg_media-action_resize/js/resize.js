@@ -74,9 +74,7 @@ window.addEventListener('media-manager-edit-init', () => {
       });
     },
 
-    Deactivate()
-    /* image */
-    {
+    Deactivate() {
       return new Promise((resolve
       /* , reject */
       ) => {

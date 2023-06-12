@@ -17,7 +17,7 @@
         if (el) {
           var attribute = el.getAttribute('for');
 
-          if (attribute.replace(new RegExp('_name$'), '') === formControl + "_associations_" + languageCode.replace('-', '_')) {
+          if (attribute.replace(/_name$/, '') === formControl + "_associations_" + languageCode.replace('-', '_')) {
             element.classList.add('hidden');
           }
         }
@@ -212,4 +212,4 @@
     });
   })(Joomla, document);
 
-}());
+})();

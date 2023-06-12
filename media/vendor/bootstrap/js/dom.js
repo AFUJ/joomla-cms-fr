@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/index.js
+ * Bootstrap (v5.1.3): util/index.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -252,7 +252,9 @@ const execute = callback => {
   }
 };
 
-const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+const executeAfterTransition = function (callback, transitionElement) {
+  let waitForTransition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
   if (!waitForTransition) {
     execute(callback);
     return;
@@ -262,9 +264,11 @@ const executeAfterTransition = (callback, transitionElement, waitForTransition =
   const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
   let called = false;
 
-  const handler = ({
-    target
-  }) => {
+  const handler = _ref => {
+    let {
+      target
+    } = _ref;
+
     if (target !== transitionElement) {
       return;
     }
@@ -311,7 +315,7 @@ const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): dom/event-handler.js
+ * Bootstrap (v5.1.3): dom/event-handler.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -387,7 +391,8 @@ function bootstrapDelegationHandler(element, selector, fn) {
   };
 }
 
-function findHandler(events, handler, delegationSelector = null) {
+function findHandler(events, handler) {
+  let delegationSelector = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   const uidEventList = Object.keys(events);
 
   for (let i = 0, len = uidEventList.length; i < len; i++) {
@@ -599,7 +604,7 @@ const EventHandler = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): dom/data.js
+ * Bootstrap (v5.1.3): dom/data.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -653,7 +658,7 @@ var Data = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): base-component.js
+ * Bootstrap (v5.1.3): base-component.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -663,7 +668,7 @@ var Data = {
  * ------------------------------------------------------------------------
  */
 
-const VERSION = '5.1.2';
+const VERSION = '5.1.3';
 
 class BaseComponent {
   constructor(element) {
@@ -685,7 +690,8 @@ class BaseComponent {
     });
   }
 
-  _queueCallback(callback, element, isAnimated = true) {
+  _queueCallback(callback, element) {
+    let isAnimated = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
     executeAfterTransition(callback, element, isAnimated);
   }
   /** Static */
@@ -695,7 +701,8 @@ class BaseComponent {
     return Data.get(getElement(element), this.DATA_KEY);
   }
 
-  static getOrCreateInstance(element, config = {}) {
+  static getOrCreateInstance(element) {
+    let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
   }
 
@@ -719,12 +726,13 @@ class BaseComponent {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/component-functions.js
+ * Bootstrap (v5.1.3): util/component-functions.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 
-const enableDismissTrigger = (component, method = 'hide') => {
+const enableDismissTrigger = function (component) {
+  let method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'hide';
   const clickEvent = `click.dismiss${component.EVENT_KEY}`;
   const name = component.NAME;
   EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
@@ -745,7 +753,7 @@ const enableDismissTrigger = (component, method = 'hide') => {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): dom/manipulator.js
+ * Bootstrap (v5.1.3): dom/manipulator.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -819,17 +827,19 @@ const Manipulator = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): dom/selector-engine.js
+ * Bootstrap (v5.1.3): dom/selector-engine.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 const NODE_TEXT = 3;
 const SelectorEngine = {
-  find(selector, element = document.documentElement) {
+  find(selector) {
+    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
     return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
   },
 
-  findOne(selector, element = document.documentElement) {
+  findOne(selector) {
+    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
     return Element.prototype.querySelector.call(element, selector);
   },
 
@@ -889,7 +899,7 @@ const SelectorEngine = {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/scrollBar.js
+ * Bootstrap (v5.1.3): util/scrollBar.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -993,7 +1003,7 @@ class ScrollBarHelper {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/backdrop.js
+ * Bootstrap (v5.1.3): util/backdrop.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -1117,7 +1127,7 @@ class Backdrop {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/focustrap.js
+ * Bootstrap (v5.1.3): util/focustrap.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -1220,7 +1230,7 @@ class FocusTrap {
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): util/sanitizer.js
+ * Bootstrap (v5.1.3): util/sanitizer.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

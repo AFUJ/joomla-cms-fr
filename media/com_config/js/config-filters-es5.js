@@ -35,4 +35,4 @@
     return select.addEventListener('change', applyChanges);
   });
 
-}());
+})();

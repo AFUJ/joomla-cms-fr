@@ -31,4 +31,4 @@
     return navigator.sendBeacon(keepAliveUri);
   }, keepAliveInterval);
 
-}());
+})();

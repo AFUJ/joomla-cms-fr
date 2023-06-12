@@ -74,9 +74,7 @@
           resolve();
         });
       },
-      Deactivate: function Deactivate()
-      /* image */
-      {
+      Deactivate: function Deactivate() {
         return new Promise(function (resolve
         /* , reject */
         ) {
@@ -88,4 +86,4 @@
     once: true
   });
 
-}());
+})();

@@ -14,7 +14,7 @@
    * @param { int }  time      The time to wait before firing the callback
    * @param { int }  interval  The interval
    */
-  // eslint-disable-next-line no-param-reassign, no-return-assign
+  // eslint-disable-next-line no-param-reassign, no-return-assign, default-param-last
   var debounce = function debounce(callback, time, interval) {
     if (time === void 0) {
       time = 250;
@@ -128,4 +128,4 @@
     MasonryLayout.initialise();
   })(window, document, window.Joomla);
 
-}());
+})();

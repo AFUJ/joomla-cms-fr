@@ -1,9 +1,9 @@
 import { P as Popper, c as createPopper } from './popper.js?5.1.2';
-import { b as isRTL, B as BaseComponent, j as isDisabled, E as EventHandler, M as Manipulator, n as noop, a as typeCheckConfig, k as isElement, h as getElement, S as SelectorEngine, i as isVisible, g as getNextActiveElement, c as getElementFromSelector, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { b as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, j as isDisabled, M as Manipulator, n as noop, a as typeCheckConfig, k as isElement, h as getElement, S as SelectorEngine, i as isVisible, g as getNextActiveElement, c as getElementFromSelector } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): dropdown.js
+ * Bootstrap (v5.1.3): dropdown.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -233,7 +233,8 @@ class Dropdown extends BaseComponent {
     }
   }
 
-  _isShown(element = this._element) {
+  _isShown() {
+    let element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._element;
     return element.classList.contains(CLASS_NAME_SHOW);
   }
 
@@ -310,10 +311,11 @@ class Dropdown extends BaseComponent {
     };
   }
 
-  _selectMenuItem({
-    key,
-    target
-  }) {
+  _selectMenuItem(_ref) {
+    let {
+      key,
+      target
+    } = _ref;
     const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(isVisible);
 
     if (!items.length) {

@@ -412,4 +412,4 @@
     Joomla.plgSystemWebauthnInitialize();
   })(Joomla, document);
 
-}());
+})();

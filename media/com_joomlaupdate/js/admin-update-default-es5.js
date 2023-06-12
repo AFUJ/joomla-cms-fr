@@ -208,4 +208,4 @@
     Joomla.Update.startExtract();
   }
 
-}());
+})();

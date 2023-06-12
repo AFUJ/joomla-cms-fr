@@ -34,4 +34,4 @@
     });
   })(document, Joomla.submitform);
 
-}());
+})();

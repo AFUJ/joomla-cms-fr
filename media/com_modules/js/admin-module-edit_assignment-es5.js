@@ -33,4 +33,4 @@
     document.addEventListener('DOMContentLoaded', onBoot);
   })();
 
-}());
+})();

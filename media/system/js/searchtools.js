@@ -102,7 +102,7 @@ Joomla = window.Joomla || {};
       this.clearListOptions = this.options.clearListOptions;
       const self = this; // Get values
 
-      this.searchString = this.searchField.value; // Do some binding
+      this.searchString = this.searchField ? this.searchField.value : ''; // Do some binding
 
       this.showFilters = this.showFilters.bind(this);
       this.hideFilters = this.hideFilters.bind(this);

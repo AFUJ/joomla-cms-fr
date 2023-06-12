@@ -21,4 +21,4 @@
     Joomla.initialiseModal(multilangueModal);
   }
 
-}());
+})();

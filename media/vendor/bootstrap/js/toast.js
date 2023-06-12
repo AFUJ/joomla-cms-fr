@@ -1,8 +1,8 @@
-import { B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig, e as enableDismissTrigger, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, r as reflow, M as Manipulator, a as typeCheckConfig } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): toast.js
+ * Bootstrap (v5.1.3): toast.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

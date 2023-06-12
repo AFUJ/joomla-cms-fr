@@ -4,7 +4,15 @@ class CodemirrorEditor extends HTMLElement {
     this.instance = '';
     this.host = window.location.origin;
     this.element = this.querySelector('textarea');
-    this.refresh = this.refresh.bind(this);
+    this.refresh = this.refresh.bind(this); // Observer instance to refresh the Editor when it become visible, eg after Tab switching
+
+    this.intersectionObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && this.instance) {
+        this.instance.refresh();
+      }
+    }, {
+      threshold: 0
+    });
   }
 
   static get observedAttributes() {
@@ -122,12 +130,16 @@ class CodemirrorEditor extends HTMLElement {
 
     this.instance.disable = disabled => this.setOption('readOnly', disabled ? 'nocursor' : false);
 
-    Joomla.editors.instances[this.element.id] = this.instance;
+    Joomla.editors.instances[this.element.id] = this.instance; // Watch when the element in viewport, and refresh the editor
+
+    this.intersectionObserver.observe(this);
   }
 
   disconnectedCallback() {
     // Remove from the Joomla API
-    delete Joomla.editors.instances[this.element.id];
+    delete Joomla.editors.instances[this.element.id]; // Remove from observer
+
+    this.intersectionObserver.unobserve(this);
   }
 
   refresh(element) {

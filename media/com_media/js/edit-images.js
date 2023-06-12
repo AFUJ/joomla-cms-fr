@@ -25,7 +25,8 @@ class Edit {
       filename: this.options.uploadPath.split('/').pop(),
       extension: this.extension,
       contents: `data:image/${this.fileType};base64,${this.options.contents}`
-    };
+    }; // eslint-disable-next-line no-promise-executor-return
+
     this.previousPluginDeactivated = new Promise(resolve => resolve);
     this.history = {};
     this.current = this.original;
@@ -56,6 +57,7 @@ class Edit {
           target
         }) => {
           if (!target) {
+            // eslint-disable-next-line no-promise-executor-return
             this.previousPluginDeactivated = new Promise(resolve => resolve);
             return;
           }
@@ -130,9 +132,7 @@ class Edit {
   } // Reset the image to the initial state
 
 
-  Reset()
-  /* current */
-  {
+  Reset() {
     this.current.contents = `data:image/${this.fileType};base64,${this.options.contents}`;
     this.imagePreview.setAttribute('src', this.current.contents);
     requestAnimationFrame(() => {
@@ -157,9 +157,7 @@ class Edit {
   // eslint-disable-next-line class-methods-use-this
 
 
-  updateProgressBar()
-  /* position */
-  {} // @TODO Remove the progress bar
+  updateProgressBar() {} // @TODO Remove the progress bar
   // eslint-disable-next-line class-methods-use-this
 
 

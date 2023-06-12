@@ -3,7 +3,7 @@ import { P as Popper, c as createPopper } from './popper.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): tooltip.js
+ * Bootstrap (v5.1.3): tooltip.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -713,7 +713,7 @@ defineJQueryPlugin(Tooltip);
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): popover.js
+ * Bootstrap (v5.1.3): popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

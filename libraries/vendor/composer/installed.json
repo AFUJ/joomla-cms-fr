@@ -2415,17 +2415,17 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.17.2",
-            "version_normalized": "1.17.2.0",
+            "version": "v1.17.3",
+            "version_normalized": "1.17.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "3541f09f09c003c4a9ff7ddb0eb3361a7f14d418"
+                "reference": "e8ac3499af0ea5b440908e06cc0abe5898008b3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/3541f09f09c003c4a9ff7ddb0eb3361a7f14d418",
-                "reference": "3541f09f09c003c4a9ff7ddb0eb3361a7f14d418",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/e8ac3499af0ea5b440908e06cc0abe5898008b3c",
+                "reference": "e8ac3499af0ea5b440908e06cc0abe5898008b3c",
                 "shasum": ""
             },
             "require": {
@@ -2441,7 +2441,7 @@
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
-            "time": "2021-10-18T09:39:00+00:00",
+            "time": "2021-10-19T12:33:27+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2477,7 +2477,7 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.17.2"
+                "source": "https://github.com/maximebf/php-debugbar/tree/v1.17.3"
             },
             "install-path": "../maximebf/debugbar"
         },
@@ -2563,17 +2563,17 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.4",
-            "version_normalized": "1.9.4.0",
+            "version": "v1.17.0",
+            "version_normalized": "1.17.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e"
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/91c1362bb0084c02828d43bbc9ee38831297329e",
-                "reference": "91c1362bb0084c02828d43bbc9ee38831297329e",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/c59cac21abbcc0df06a3dd18076450ea4797b321",
+                "reference": "c59cac21abbcc0df06a3dd18076450ea4797b321",
                 "shasum": ""
             },
             "require": {
@@ -2581,13 +2581,13 @@
                 "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^3|^4|^5"
+                "phpunit/phpunit": "^3|^4|^5|^6|^7|^8|^9"
             },
             "suggest": {
                 "ext-libsodium": "PHP < 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security.",
                 "ext-sodium": "PHP >= 7.0: Better performance, password hashing (Argon2i), secure memory management (memzero), and better security."
             },
-            "time": "2019-05-09T23:30:36+00:00",
+            "time": "2021-08-10T02:43:50+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -2646,7 +2646,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paragonie/sodium_compat/issues",
-                "source": "https://github.com/paragonie/sodium_compat/tree/master"
+                "source": "https://github.com/paragonie/sodium_compat/tree/v1.17.0"
             },
             "install-path": "../paragonie/sodium_compat"
         },
@@ -4854,17 +4854,17 @@
         },
         {
             "name": "tobscure/json-api",
-            "version": "v0.4.1",
-            "version_normalized": "0.4.1.0",
+            "version": "dev-joomla-backports",
+            "version_normalized": "dev-joomla-backports",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tobscure/json-api.git",
-                "reference": "d4ba8437977c33a5189d95d9ffa751997f13b104"
+                "url": "https://github.com/joomla-backports/json-api-php.git",
+                "reference": "e2ad4287b17cc2872d75c85857306371f3de5514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tobscure/json-api/zipball/d4ba8437977c33a5189d95d9ffa751997f13b104",
-                "reference": "d4ba8437977c33a5189d95d9ffa751997f13b104",
+                "url": "https://api.github.com/repos/joomla-backports/json-api-php/zipball/e2ad4287b17cc2872d75c85857306371f3de5514",
+                "reference": "e2ad4287b17cc2872d75c85857306371f3de5514",
                 "shasum": ""
             },
             "require": {
@@ -4873,7 +4873,8 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.8 || ^5.0"
             },
-            "time": "2017-03-05T21:16:24+00:00",
+            "time": "2022-01-08T20:57:18+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4886,7 +4887,11 @@
                     "Tobscure\\JsonApi\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tobscure\\Tests\\JsonApi\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -4903,10 +4908,6 @@
                 "jsonapi",
                 "standard"
             ],
-            "support": {
-                "issues": "https://github.com/tobscure/json-api/issues",
-                "source": "https://github.com/tobscure/json-api/tree/v0.4.1"
-            },
             "install-path": "../tobscure/json-api"
         },
         {

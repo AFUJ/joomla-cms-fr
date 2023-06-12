@@ -30,4 +30,4 @@
     Joomla.submitform(task);
   };
 
-}());
+})();

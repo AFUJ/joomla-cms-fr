@@ -24,7 +24,6 @@
 }
 .js-stools-container-bar .btn-toolbar .js-stools-btn-clear {
   background-color: var(--template-bg-dark);
-  border: 0;
 }
 .js-stools-container-bar .ordering-select {
   display: flex;

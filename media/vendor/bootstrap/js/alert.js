@@ -1,8 +1,8 @@
-import { B as BaseComponent, E as EventHandler, e as enableDismissTrigger, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): alert.js
+ * Bootstrap (v5.1.3): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

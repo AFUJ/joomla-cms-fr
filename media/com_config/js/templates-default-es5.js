@@ -39,4 +39,4 @@
     });
   })(document, Joomla.submitform);
 
-}());
+})();

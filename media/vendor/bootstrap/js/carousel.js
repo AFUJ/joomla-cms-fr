@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, i as isVisible, t as triggerTransitionEnd, E as EventHandler, M as Manipulator, a as typeCheckConfig, g as getNextActiveElement, r as reflow, b as isRTL, c as getElementFromSelector, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, M as Manipulator, a as typeCheckConfig, g as getNextActiveElement, r as reflow, b as isRTL, c as getElementFromSelector } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): carousel.js
+ * Bootstrap (v5.1.3): carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

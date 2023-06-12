@@ -306,4 +306,4 @@
     customElements.define('joomla-field-user', JoomlaFieldUser);
   })(customElements, Joomla);
 
-}());
+})();

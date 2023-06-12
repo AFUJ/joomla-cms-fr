@@ -55,11 +55,12 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
     /**
      * @internal You should not use this directly from another application
      *
-     * @param int $offset
+     * @param int|null $offset
      * @param int $value
      * @return void
      * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (!is_int($value)) {
@@ -79,6 +80,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      * @return bool
      * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->container[$offset]);
@@ -91,6 +93,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      * @return void
      * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
@@ -103,6 +106,7 @@ class ParagonIE_Sodium_Core_Curve25519_Fe implements ArrayAccess
      * @return int
      * @psalm-suppress MixedArrayOffset
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!isset($this->container[$offset])) {

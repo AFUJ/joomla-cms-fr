@@ -298,4 +298,4 @@
     Joomla.Showon.initialise(target);
   });
 
-}());
+})();

@@ -162,7 +162,15 @@
       _this.instance = '';
       _this.host = window.location.origin;
       _this.element = _this.querySelector('textarea');
-      _this.refresh = _this.refresh.bind(_assertThisInitialized(_this));
+      _this.refresh = _this.refresh.bind(_assertThisInitialized(_this)); // Observer instance to refresh the Editor when it become visible, eg after Tab switching
+
+      _this.intersectionObserver = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting && _this.instance) {
+          _this.instance.refresh();
+        }
+      }, {
+        threshold: 0
+      });
       return _this;
     }
 
@@ -290,9 +298,11 @@
                   return _this2.setOption('readOnly', disabled ? 'nocursor' : false);
                 };
 
-                Joomla.editors.instances[this.element.id] = this.instance;
+                Joomla.editors.instances[this.element.id] = this.instance; // Watch when the element in viewport, and refresh the editor
 
-              case 15:
+                this.intersectionObserver.observe(this);
+
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -309,7 +319,9 @@
 
     _proto.disconnectedCallback = function disconnectedCallback() {
       // Remove from the Joomla API
-      delete Joomla.editors.instances[this.element.id];
+      delete Joomla.editors.instances[this.element.id]; // Remove from observer
+
+      this.intersectionObserver.unobserve(this);
     };
 
     _proto.refresh = function refresh(element) {
@@ -336,4 +348,4 @@
 
   customElements.define('joomla-editor-codemirror', CodemirrorEditor);
 
-}());
+})();

@@ -153,11 +153,13 @@ html[dir=rtl] .infobar-leave-active {
 .media-breadcrumb {
   display: flex;
   padding: 0;
-  margin: 0 auto 0 0;
+  -webkit-margin-end: auto;
+          margin-inline-end: auto;
   font-size: 0.9rem;
   line-height: 46px;
   background: transparent;
-  border-left: 1px solid var(--template-bg-dark-7);
+  -webkit-border-start: 1px solid var(--template-bg-dark-7);
+          border-inline-start: 1px solid var(--template-bg-dark-7);
 }
 .media-breadcrumb ol {
   display: flex;
@@ -170,17 +172,21 @@ html[dir=rtl] .infobar-leave-active {
 }
 
 .media-breadcrumb-item {
-  padding: 0 8px 0 22px;
+  -webkit-padding-end: 8px;
+          padding-inline-end: 8px;
+  -webkit-padding-start: 22px;
+          padding-inline-start: 22px;
   background-color: var(--template-bg-dark-3);
 }
 .media-breadcrumb-item:first-of-type {
-  padding-left: 16px;
+  -webkit-padding-start: 16px;
+          padding-inline-start: 16px;
 }
 .media-breadcrumb-item:last-of-type {
   background-color: #fff;
 }
 .media-breadcrumb-item:last-of-type::after {
-  border-left-color: #fff;
+  border-inline-start-color: #fff;
 }
 .media-breadcrumb-item:hover {
   color: #2a69b8;
@@ -193,7 +199,7 @@ html[dir=rtl] .infobar-leave-active {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 100%;
+  inset-inline-start: 100%;
   z-index: 2;
   display: block;
   width: 0;
@@ -202,44 +208,14 @@ html[dir=rtl] .infobar-leave-active {
   content: "" !important;
   border-top: 23px solid transparent;
   border-bottom: 23px solid transparent;
-  border-left: 10px solid transparent;
+  -webkit-border-start: 10px solid transparent;
+          border-inline-start: 10px solid transparent;
 }
 .media-breadcrumb-item::before {
-  border-left-color: var(--template-bg-dark-7);
+  border-inline-start-color: var(--template-bg-dark-7);
 }
 .media-breadcrumb-item::after {
-  border-left-color: var(--template-bg-dark-3);
-}
-
-.breadcrumb-item + .breadcrumb-item::before {
-  display: none;
-}
-
-html[dir=rtl] .media-breadcrumb {
-  margin: 0 0 0 auto;
-}
-
-html[dir=rtl] .media-breadcrumb-item::after, .media-breadcrumb-item::before {
-  right: 100%;
-  border-right: 10px solid transparent;
-  border-left: 0;
-}
-
-html[dir=rtl] .media-breadcrumb-item {
-  padding: 0 22px 0 8px;
-}
-
-html[dir=rtl] .media-breadcrumb-item::before {
-  border-right-color: #fafafa;
-}
-
-html[dir=rtl] .media-breadcrumb-item:first-of-type {
-  padding-right: 16px;
-  padding-left: 0;
-}
-
-html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
-  border-right: 10px solid #fff;
+  border-inline-start-color: var(--template-bg-dark-3);
 }
 
 .media-browser {
@@ -687,7 +663,7 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
 .media-infobar {
   position: absolute;
   top: 47px;
-  right: 0;
+  inset-inline-end: 0;
   bottom: 0;
   z-index: 4;
   float: none;
@@ -699,7 +675,14 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
           border-inline-start: 1px solid var(--template-bg-dark-7);
 }
 .media-infobar h2 {
-  padding: 8px 30px 8px 10px;
+  -webkit-padding-before: 8px;
+          padding-block-start: 8px;
+  -webkit-padding-after: 8px;
+          padding-block-end: 8px;
+  -webkit-padding-start: 10px;
+          padding-inline-start: 10px;
+  -webkit-padding-end: 30px;
+          padding-inline-end: 30px;
   margin: -15px -15px 15px;
   font-weight: normal;
   word-wrap: break-word;
@@ -714,10 +697,14 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
 }
 .media-infobar dt, .media-infobar dd {
   position: relative;
+  direction: ltr;
   width: 100%;
   min-height: 1px;
   padding-right: 7.5px;
   padding-left: 7.5px;
+}
+[dir=rtl] .media-infobar dt, [dir=rtl] .media-infobar dd {
+  text-align: end;
 }
 .media-infobar dt {
   font-weight: normal;
@@ -727,7 +714,7 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
 .infobar-close {
   position: absolute;
   top: 0;
-  right: 0;
+  inset-inline-end: 0;
   z-index: 2;
   padding: 5px 15px;
   font-size: 2.6rem;
@@ -754,27 +741,6 @@ html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
   color: #ccc;
   border: 2px solid #ccc;
   border-radius: 50%;
-}
-
-html[dir=rtl] .media-infobar {
-  right: auto;
-  left: 0;
-}
-
-html[dir=rtl] .infobar-close {
-  right: auto;
-  left: 0;
-}
-
-html[dir=rtl] .media-infobar dd {
-  margin-right: 0;
-  margin-left: auto;
-  direction: ltr;
-  text-align: right;
-}
-
-html[dir=rtl] .media-infobar h2 {
-  padding: 20px 15px 10px 0;
 }
 
 .media-toolbar {

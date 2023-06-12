@@ -199,4 +199,4 @@
     window.Indexer = Joomla.finderIndexer();
   });
 
-}());
+})();

@@ -1,8 +1,8 @@
-import { B as BaseComponent, c as getElementFromSelector, S as SelectorEngine, E as EventHandler, r as reflow, j as isDisabled, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { E as EventHandler, j as isDisabled, d as defineJQueryPlugin, B as BaseComponent, c as getElementFromSelector, S as SelectorEngine, r as reflow } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): tab.js
+ * Bootstrap (v5.1.3): tab.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

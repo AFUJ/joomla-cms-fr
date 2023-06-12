@@ -564,4 +564,4 @@
     customElements.define('joomla-field-simple-color', JoomlaFieldSimpleColor);
   })(customElements);
 
-}());
+})();

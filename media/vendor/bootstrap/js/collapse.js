@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, f as getSelectorFromElement, E as EventHandler, D as Data, r as reflow, c as getElementFromSelector, M as Manipulator, h as getElement, a as typeCheckConfig, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { E as EventHandler, f as getSelectorFromElement, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, D as Data, r as reflow, c as getElementFromSelector, M as Manipulator, h as getElement, a as typeCheckConfig } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): collapse.js
+ * Bootstrap (v5.1.3): collapse.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -215,7 +215,8 @@ class Collapse extends BaseComponent {
     this._queueCallback(complete, this._element, true);
   }
 
-  _isShown(element = this._element) {
+  _isShown() {
+    let element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._element;
     return element.classList.contains(CLASS_NAME_SHOW);
   } // Private
 

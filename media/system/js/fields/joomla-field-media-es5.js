@@ -515,4 +515,4 @@
 
   customElements.define('joomla-field-media', JoomlaFieldMedia);
 
-}());
+})();

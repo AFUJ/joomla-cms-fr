@@ -730,7 +730,7 @@
         set: function set(value) {
           // Update the template
           this.template = this.template.replace(new RegExp(" name=\"" + this.name.replace(/[[\]]/g, '\\$&'), 'g'), " name=\"" + value);
-          return this.setAttribute('name', value);
+          this.setAttribute('name', value);
         }
       }]);
 
@@ -740,4 +740,4 @@
     customElements.define('joomla-field-subform', JoomlaFieldSubform);
   })(customElements);
 
-}());
+})();

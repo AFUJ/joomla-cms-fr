@@ -126,4 +126,4 @@
     document.addEventListener('DOMContentLoaded', onBoot);
   })(Joomla);
 
-}());
+})();

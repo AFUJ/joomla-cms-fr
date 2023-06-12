@@ -43,4 +43,4 @@
     document.addEventListener('joomla:updated', updateSelectboxColour, true);
   })();
 
-}());
+})();

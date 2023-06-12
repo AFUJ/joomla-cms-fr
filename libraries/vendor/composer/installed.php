@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => '051a49cbf2c1103e24c7260301eab2b626861771',
+        'reference' => '094b1167f9bdebc1c6915917b7369c6f9dde72da',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -223,7 +223,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => '051a49cbf2c1103e24c7260301eab2b626861771',
+            'reference' => '094b1167f9bdebc1c6915917b7369c6f9dde72da',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
@@ -326,12 +326,12 @@
             'dev_requirement' => false,
         ),
         'maximebf/debugbar' => array(
-            'pretty_version' => 'v1.17.2',
-            'version' => '1.17.2.0',
+            'pretty_version' => 'v1.17.3',
+            'version' => '1.17.3.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../maximebf/debugbar',
             'aliases' => array(),
-            'reference' => '3541f09f09c003c4a9ff7ddb0eb3361a7f14d418',
+            'reference' => 'e8ac3499af0ea5b440908e06cc0abe5898008b3c',
             'dev_requirement' => false,
         ),
         'nyholm/psr7' => array(
@@ -350,12 +350,12 @@
             ),
         ),
         'paragonie/sodium_compat' => array(
-            'pretty_version' => 'v1.9.4',
-            'version' => '1.9.4.0',
+            'pretty_version' => 'v1.17.0',
+            'version' => '1.17.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../paragonie/sodium_compat',
             'aliases' => array(),
-            'reference' => '91c1362bb0084c02828d43bbc9ee38831297329e',
+            'reference' => 'c59cac21abbcc0df06a3dd18076450ea4797b321',
             'dev_requirement' => false,
         ),
         'php-http/message-factory' => array(
@@ -656,12 +656,14 @@
             'dev_requirement' => false,
         ),
         'tobscure/json-api' => array(
-            'pretty_version' => 'v0.4.1',
-            'version' => '0.4.1.0',
+            'pretty_version' => 'dev-joomla-backports',
+            'version' => 'dev-joomla-backports',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tobscure/json-api',
-            'aliases' => array(),
-            'reference' => 'd4ba8437977c33a5189d95d9ffa751997f13b104',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'reference' => 'e2ad4287b17cc2872d75c85857306371f3de5514',
             'dev_requirement' => false,
         ),
         'typo3/phar-stream-wrapper' => array(

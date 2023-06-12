@@ -262,9 +262,7 @@
     delta = firstTime ? floor(delta / damp) : delta >> 1;
     delta += floor(delta / numPoints);
 
-    for (;
-    /* no initialization */
-    delta > baseMinusTMin * tMax >> 1; k += base) {
+    for (; delta > baseMinusTMin * tMax >> 1; k += base) {
       delta = floor(delta / baseMinusTMin);
     }
 
@@ -306,9 +304,7 @@
     // points were copied; start at the beginning otherwise.
 
 
-    for (var index = basic > 0 ? basic + 1 : 0; index < inputLength;)
-    /* no final expression */
-    {
+    for (var index = basic > 0 ? basic + 1 : 0; index < inputLength;) {
       // `index` is the index of the next character to be consumed.
       // Decode a generalized variable-length integer into `delta`,
       // which gets added to `i`. The overflow checking is easier
@@ -316,9 +312,7 @@
       // value at the end to obtain `delta`.
       var oldi = i;
 
-      for (var w = 1, k = base;;
-      /* no condition */
-      k += base) {
+      for (var w = 1, k = base;; k += base) {
         if (index >= inputLength) {
           error('invalid-input');
         }
@@ -434,9 +428,7 @@
           // Represent delta as a generalized variable-length integer.
           var q = delta;
 
-          for (var k = base;;
-          /* no condition */
-          k += base) {
+          for (var k = base;; k += base) {
             var t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
 
             if (q < t) {
@@ -549,7 +541,7 @@
 
 
       this.setHandler('username', function (value) {
-        var regex = new RegExp('[<|>|"|\'|%|;|(|)|&]', 'i');
+        var regex = /[<|>|"|'|%|;|(|)|&]/i;
         return !regex.test(value);
       });
       this.setHandler('password', function (value) {
@@ -864,4 +856,4 @@
 
   document.addEventListener('DOMContentLoaded', initialize);
 
-}());
+})();

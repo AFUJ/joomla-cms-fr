@@ -56,4 +56,4 @@
     document.addEventListener('joomla:updated', onSelect, true);
   })();
 
-}());
+})();

@@ -93,4 +93,4 @@
     document.addEventListener('DOMContentLoaded', onBoot);
   })(window.Awesomplete, window.Joomla, window, document);
 
-}());
+})();

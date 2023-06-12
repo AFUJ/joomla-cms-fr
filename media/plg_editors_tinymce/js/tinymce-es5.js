@@ -29,11 +29,13 @@
             toggleButton.removeAttribute('disabled');
             toggleButton.addEventListener('click', function () {
               if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-                toggleIcon.setAttribute('class', 'icon-eye');
                 Joomla.editors.instances[currentEditor.id].instance.show();
               } else {
-                toggleIcon.setAttribute('class', 'icon-eye-slash');
                 Joomla.editors.instances[currentEditor.id].instance.hide();
+              }
+
+              if (toggleIcon) {
+                toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
               }
             });
           }
@@ -188,4 +190,4 @@
     });
   })(window.tinyMCE, Joomla, window, document);
 
-}());
+})();

@@ -37,4 +37,4 @@
     button.addEventListener('click', handleCategoryToggleButtonClick);
   });
 
-}());
+})();

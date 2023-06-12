@@ -187,4 +187,4 @@
     customElements.define('joomla-field-send-test-mail', JoomlaFieldSendTestMail);
   })(customElements, Joomla);
 
-}());
+})();

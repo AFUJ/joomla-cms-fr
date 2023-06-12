@@ -18,6 +18,8 @@ class Document implements JsonSerializable
     use LinksTrait;
     use MetaTrait;
 
+    const MEDIA_TYPE = 'application/vnd.api+json';
+
     /**
      * The included array.
      *
@@ -224,6 +226,7 @@ class Document implements JsonSerializable
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();

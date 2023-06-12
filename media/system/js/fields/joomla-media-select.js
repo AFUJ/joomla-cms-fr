@@ -172,7 +172,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
 
         alt = attribs.getAttribute('alt-value') ? ` alt="${attribs.getAttribute('alt-value')}"` : appendAlt;
         classes = attribs.getAttribute('img-classes') ? ` class="${attribs.getAttribute('img-classes')}"` : '';
-        figClasses = attribs.getAttribute('fig-classes') ? ` class="${attribs.getAttribute('fig-classes')}"` : '';
+        figClasses = attribs.getAttribute('fig-classes') ? ` class="image ${attribs.getAttribute('fig-classes')}"` : ' class="image"';
         figCaption = attribs.getAttribute('fig-caption') ? `${attribs.getAttribute('fig-caption')}` : '';
 
         if (attribs.getAttribute('is-lazy') === 'true') {

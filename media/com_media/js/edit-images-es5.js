@@ -66,7 +66,8 @@
         filename: this.options.uploadPath.split('/').pop(),
         extension: this.extension,
         contents: "data:image/" + this.fileType + ";base64," + this.options.contents
-      };
+      }; // eslint-disable-next-line no-promise-executor-return
+
       this.previousPluginDeactivated = new Promise(function (resolve) {
         return resolve;
       });
@@ -104,6 +105,7 @@
                     var target = _ref2.target;
 
                     if (!target) {
+                      // eslint-disable-next-line no-promise-executor-return
                       _this.previousPluginDeactivated = new Promise(function (resolve) {
                         return resolve;
                       });
@@ -191,9 +193,7 @@
     } // Reset the image to the initial state
     ;
 
-    _proto.Reset = function Reset()
-    /* current */
-    {
+    _proto.Reset = function Reset() {
       var _this2 = this;
 
       this.current.contents = "data:image/" + this.fileType + ";base64," + this.options.contents;
@@ -221,9 +221,7 @@
     // eslint-disable-next-line class-methods-use-this
     ;
 
-    _proto.updateProgressBar = function updateProgressBar()
-    /* position */
-    {} // @TODO Remove the progress bar
+    _proto.updateProgressBar = function updateProgressBar() {} // @TODO Remove the progress bar
     // eslint-disable-next-line class-methods-use-this
     ;
 
@@ -421,4 +419,4 @@
     }
   };
 
-}());
+})();

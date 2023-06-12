@@ -204,9 +204,7 @@ const adapt = function (delta, numPoints, firstTime) {
   delta = firstTime ? floor(delta / damp) : delta >> 1;
   delta += floor(delta / numPoints);
 
-  for (;
-  /* no initialization */
-  delta > baseMinusTMin * tMax >> 1; k += base) {
+  for (; delta > baseMinusTMin * tMax >> 1; k += base) {
     delta = floor(delta / baseMinusTMin);
   }
 
@@ -248,9 +246,7 @@ const decode = function (input) {
   // points were copied; start at the beginning otherwise.
 
 
-  for (let index = basic > 0 ? basic + 1 : 0; index < inputLength;)
-  /* no final expression */
-  {
+  for (let index = basic > 0 ? basic + 1 : 0; index < inputLength;) {
     // `index` is the index of the next character to be consumed.
     // Decode a generalized variable-length integer into `delta`,
     // which gets added to `i`. The overflow checking is easier
@@ -258,9 +254,7 @@ const decode = function (input) {
     // value at the end to obtain `delta`.
     let oldi = i;
 
-    for (let w = 1, k = base;;
-    /* no condition */
-    k += base) {
+    for (let w = 1, k = base;; k += base) {
       if (index >= inputLength) {
         error('invalid-input');
       }
@@ -370,9 +364,7 @@ const encode = function (input) {
         // Represent delta as a generalized variable-length integer.
         let q = delta;
 
-        for (let k = base;;
-        /* no condition */
-        k += base) {
+        for (let k = base;; k += base) {
           const t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
 
           if (q < t) {
@@ -484,7 +476,7 @@ class JFormValidator {
 
 
     this.setHandler('username', value => {
-      const regex = new RegExp('[<|>|"|\'|%|;|(|)|&]', 'i');
+      const regex = /[<|>|"|'|%|;|(|)|&]/i;
       return !regex.test(value);
     });
     this.setHandler('password', value => {

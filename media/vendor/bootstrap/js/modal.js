@@ -1,8 +1,8 @@
-import { B as BaseComponent, S as SelectorEngine, l as ScrollBarHelper, E as EventHandler, m as Backdrop, F as FocusTrap, M as Manipulator, a as typeCheckConfig, r as reflow, b as isRTL, c as getElementFromSelector, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin } from './dom.js?5.1.2';
+import { E as EventHandler, c as getElementFromSelector, i as isVisible, S as SelectorEngine, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, l as ScrollBarHelper, m as Backdrop, F as FocusTrap, M as Manipulator, a as typeCheckConfig, r as reflow, b as isRTL } from './dom.js?5.1.2';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.1.2): modal.js
+ * Bootstrap (v5.1.3): modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
