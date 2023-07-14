@@ -573,7 +573,7 @@
             event.preventDefault();
           }
 
-          // Escape is the abort keystroke (for any target element)
+          // Escape is the cancel keystroke (for any target element)
           if (event.keyCode === KEYCODE.ESC && item) {
             item.setAttribute('draggable', 'false');
             item.setAttribute('aria-grabbed', 'false');
@@ -631,7 +631,7 @@
           switchRowPositions(item, row);
         });
 
-        // dragend event to clean-up after drop or abort
+        // dragend event to clean-up after drop or cancelation
         // which fires whether or not the drop target was valid
         this.addEventListener('dragend', function () {
           if (item) {

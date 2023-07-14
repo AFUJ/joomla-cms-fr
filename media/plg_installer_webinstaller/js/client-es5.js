@@ -354,7 +354,7 @@
     var installerTabs = document.getElementById('myTab');
     var link = installerTabs.querySelector('button[aria-controls=web]');
 
-    // Abort if the IFW tab cannot be found
+    // Stop if the IFW tab cannot be found
     if (!link) {
       return;
     }

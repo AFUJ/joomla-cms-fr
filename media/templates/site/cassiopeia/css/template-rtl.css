@@ -12269,7 +12269,7 @@ a {
 a:not([class]) {
   text-decoration: underline;
 }
-a:hover, a:focus {
+a:not(.btn):hover, a:not(.btn):focus {
   color: var(--cassiopeia-color-hover);
 }
 a.navbar-brand {

@@ -50,33 +50,6 @@
       "version": "2.7.0"
     },
     {
-      "name": "awesomplete",
-      "type": "style",
-      "uri": "vendor/awesomplete/awesomplete.css",
-      "package": "awesomplete",
-      "version": "1.1.5"
-    },
-    {
-      "name": "awesomplete",
-      "type": "script",
-      "uri": "vendor/awesomplete/awesomplete.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "awesomplete",
-      "version": "1.1.5"
-    },
-    {
-      "name": "awesomplete",
-      "type": "preset",
-      "dependencies": [
-        "awesomplete#style",
-        "awesomplete#script"
-      ],
-      "package": "awesomplete",
-      "version": "1.1.5"
-    },
-    {
       "name": "cropperjs",
       "type": "style",
       "uri": "vendor/cropperjs/cropper.min.css",
@@ -102,6 +75,33 @@
       ],
       "package": "cropperjs",
       "version": "1.5.13"
+    },
+    {
+      "name": "awesomplete",
+      "type": "style",
+      "uri": "vendor/awesomplete/awesomplete.css",
+      "package": "awesomplete",
+      "version": "1.1.5"
+    },
+    {
+      "name": "awesomplete",
+      "type": "script",
+      "uri": "vendor/awesomplete/awesomplete.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "awesomplete",
+      "version": "1.1.5"
+    },
+    {
+      "name": "awesomplete",
+      "type": "preset",
+      "dependencies": [
+        "awesomplete#style",
+        "awesomplete#script"
+      ],
+      "package": "awesomplete",
+      "version": "1.1.5"
     },
     {
       "name": "dragula",
@@ -131,6 +131,40 @@
       "version": "3.7.3"
     },
     {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.0"
+    },
+    {
+      "name": "hotkeysjs",
+      "type": "script",
+      "uri": "vendor/hotkeysjs/hotkeys.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "hotkeys-js",
+      "version": "3.10.1"
+    },
+    {
+      "name": "jquery",
+      "type": "script",
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.6.3"
+    },
+    {
+      "name": "jquery-migrate",
+      "type": "script",
+      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "jquery-migrate",
+      "version": "3.4.1"
+    },
+    {
       "name": "choicesjs",
       "type": "style",
       "uri": "vendor/choicesjs/choices.min.css",
@@ -156,30 +190,6 @@
       ],
       "package": "choices.js",
       "version": "9.1.0"
-    },
-    {
-      "name": "focus-visible",
-      "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.0"
-    },
-    {
-      "name": "hotkeysjs",
-      "type": "script",
-      "uri": "vendor/hotkeysjs/hotkeys.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "hotkeys-js",
-      "version": "3.10.1"
-    },
-    {
-      "name": "jquery",
-      "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.6.3"
     },
     {
       "name": "webcomponent.joomla-alert",
@@ -250,16 +260,6 @@
       "version": "0.2.0"
     },
     {
-      "name": "jquery-migrate",
-      "type": "script",
-      "uri": "vendor/jquery-migrate/jquery-migrate.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "jquery-migrate",
-      "version": "3.4.1"
-    },
-    {
       "name": "chosen",
       "type": "style",
       "uri": "vendor/chosen/chosen.css",
@@ -317,16 +317,6 @@
       "version": "2.3.6"
     },
     {
-      "name": "metismenujs",
-      "type": "script",
-      "uri": "vendor/metismenujs/metismenujs.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "metismenujs",
-      "version": "1.4.0"
-    },
-    {
       "name": "skipto",
       "type": "script",
       "uri": "vendor/skipto/skipto.min.js",
@@ -335,6 +325,16 @@
       },
       "package": "skipto",
       "version": "4.1.7"
+    },
+    {
+      "name": "metismenujs",
+      "type": "script",
+      "uri": "vendor/metismenujs/metismenujs.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "metismenujs",
+      "version": "1.4.0"
     },
     {
       "name": "qrcode",
