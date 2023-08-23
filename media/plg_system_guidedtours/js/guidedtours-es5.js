@@ -5147,6 +5147,9 @@
             if (target.tagName.toLowerCase() === 'iframe') {
               // Give blur to the content of the iframe, as iframes don't have blur events
               target.contentWindow.document.body.addEventListener('blur', function (event) {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 setTimeout(function () {
                   setFocus(primaryButton, secondaryButton, cancelButton);
                 }, 1);
@@ -5154,16 +5157,25 @@
               });
             } else if (target.tagName.toLowerCase() === 'joomla-field-fancy-select') {
               target.querySelector('.choices input').addEventListener('blur', function (event) {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 setFocus(primaryButton, secondaryButton, cancelButton);
                 event.preventDefault();
               });
             } else if (target.parentElement.tagName.toLowerCase() === 'joomla-field-fancy-select') {
               target.querySelector('input').addEventListener('blur', function (event) {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 setFocus(primaryButton, secondaryButton, cancelButton);
                 event.preventDefault();
               });
             } else {
               target.addEventListener('blur', function (event) {
+                if (!sessionStorage.getItem('tourId')) {
+                  return;
+                }
                 setFocus(primaryButton, secondaryButton, cancelButton);
                 event.preventDefault();
               });
@@ -5328,6 +5340,9 @@
             switch (obj.steps[index].interactive_type) {
               case 'submit':
                 ele.addEventListener('click', function () {
+                  if (!sessionStorage.getItem('tourId')) {
+                    return;
+                  }
                   sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
                 });
                 break;
@@ -5336,6 +5351,9 @@
                 if (ele.hasAttribute('required') && ['email', 'password', 'search', 'tel', 'text', 'url'].includes(ele.type)) {
                   ['input', 'focus'].forEach(function (eventName) {
                     return ele.addEventListener(eventName, function (event) {
+                      if (!sessionStorage.getItem('tourId')) {
+                        return;
+                      }
                       if (event.target.value.trim().length) {
                         enableButton(event);
                       } else {
@@ -5346,7 +5364,11 @@
                 }
                 break;
               case 'button':
-                tour.next();
+                ele.addEventListener('click', function () {
+                  // the button may submit a form so record the currentStepId in the session storage
+                  sessionStorage.setItem('currentStepId', obj.steps[index].id + 1);
+                  tour.next();
+                });
                 break;
             }
           }

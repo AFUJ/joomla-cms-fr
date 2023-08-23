@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_fields.admin-field-changecontext",
-      "type": "script",
-      "uri": "com_fields/admin-field-changecontext.min.js",
-      "dependencies": [
-        "com_fields.admin-field-changecontext.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "65e13e836b42704a7893584291963600a20e5006"
-    },
-    {
       "name": "com_fields.admin-field-changecontext.es5",
       "type": "script",
       "uri": "com_fields/admin-field-changecontext-es5.min.js",
@@ -29,6 +17,18 @@
         "defer": true
       },
       "version": "5780779c6074b99b6fb29a4833c9309ebcd83609"
+    },
+    {
+      "name": "com_fields.admin-field-changecontext",
+      "type": "script",
+      "uri": "com_fields/admin-field-changecontext.min.js",
+      "dependencies": [
+        "com_fields.admin-field-changecontext.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "65e13e836b42704a7893584291963600a20e5006"
     },
     {
       "name": "com_fields.admin-field-edit.es5",
@@ -69,19 +69,6 @@
       "version": "c7f83928218202420a8940be8cf60d36638d187b"
     },
     {
-      "name": "com_fields.admin-fields-modal.es5",
-      "type": "script",
-      "uri": "com_fields/admin-fields-modal-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "62d67a25063603ef2e07915c68d50b65f527b4d0"
-    },
-    {
       "name": "com_fields.admin-fields-batch.es5",
       "type": "script",
       "uri": "com_fields/admin-fields-default-batch-es5.min.js",
@@ -117,6 +104,19 @@
         "type": "module"
       },
       "version": "dd981c7a811d35d7982f82cd4d10689fbc92f0ed"
+    },
+    {
+      "name": "com_fields.admin-fields-modal.es5",
+      "type": "script",
+      "uri": "com_fields/admin-fields-modal-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "62d67a25063603ef2e07915c68d50b65f527b4d0"
     },
     {
       "name": "com_fields.admin-fields-modal",

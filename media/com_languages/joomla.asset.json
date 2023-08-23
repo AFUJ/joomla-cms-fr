@@ -14,19 +14,6 @@
       ]
     },
     {
-      "name": "com_languages.admin-language-edit-change-flag.es5",
-      "type": "script",
-      "uri": "com_languages/admin-language-edit-change-flag-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "48d4b10b6d0d3f2f7fc5a74a87f85b13399a01e2"
-    },
-    {
       "name": "com_languages.admin-language-edit-change-flag",
       "type": "script",
       "uri": "com_languages/admin-language-edit-change-flag.min.js",
@@ -70,16 +57,17 @@
       "version": "e8e2a2c9712645ecd5d100d553444772b190883a"
     },
     {
-      "name": "com_languages.overrider",
+      "name": "com_languages.admin-language-edit-change-flag.es5",
       "type": "script",
-      "uri": "com_languages/overrider.min.js",
+      "uri": "com_languages/admin-language-edit-change-flag-es5.min.js",
       "dependencies": [
-        "com_languages.overrider.es5"
+        "core"
       ],
       "attributes": {
-        "type": "module"
+        "nomodule": true,
+        "defer": true
       },
-      "version": "a1da6c924ac19be8696d4c1df3f64066a595a351"
+      "version": "48d4b10b6d0d3f2f7fc5a74a87f85b13399a01e2"
     },
     {
       "name": "com_languages.overrider.es5",
@@ -93,6 +81,18 @@
         "defer": true
       },
       "version": "75ee32f5129ea44d63b61ab321e40d90592d8c70"
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "script",
+      "uri": "com_languages/overrider.min.js",
+      "dependencies": [
+        "com_languages.overrider.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "a1da6c924ac19be8696d4c1df3f64066a595a351"
     }
   ]
 }

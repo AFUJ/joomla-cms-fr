@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '23cf1aeb796fe5c86a22b17dd04869eb3a4a561b',
+    'reference' => 'e17e90481d73bb9fffd55706fca0a12f2346b9dd',
     'name' => 'joomla/joomla-cms',
   ),
   'versions' => 
@@ -279,7 +279,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '23cf1aeb796fe5c86a22b17dd04869eb3a4a561b',
+      'reference' => 'e17e90481d73bb9fffd55706fca0a12f2346b9dd',
     ),
     'joomla/ldap' => 
     array (
