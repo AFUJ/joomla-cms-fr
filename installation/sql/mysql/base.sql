@@ -163,7 +163,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_contact', 'component', 'com_contact', '', 1, 1, 1, 0, 1, '', '{"contact_layout":"_:default","show_contact_category":"hide","save_history":"1","history_limit":10,"show_contact_list":"0","presentation_style":"sliders","show_tags":"1","show_info":"1","show_name":"1","show_position":"1","show_email":"0","show_street_address":"1","show_suburb":"1","show_state":"1","show_postcode":"1","show_country":"1","show_telephone":"1","show_mobile":"1","show_fax":"1","show_webpage":"1","show_image":"1","show_misc":"1","image":"","allow_vcard":"0","show_articles":"0","articles_display_num":"10","show_profile":"0","show_user_custom_fields":["-1"],"show_links":"0","linka_name":"","linkb_name":"","linkc_name":"","linkd_name":"","linke_name":"","contact_icons":"0","icon_address":"","icon_email":"","icon_telephone":"","icon_mobile":"","icon_fax":"","icon_misc":"","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"0","maxLevel":"-1","show_subcat_desc":"1","show_empty_categories":"0","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_subcat_desc_cat":"1","show_empty_categories_cat":"0","show_cat_items_cat":"1","filter_field":"0","show_pagination_limit":"0","show_headings":"1","show_image_heading":"0","show_position_headings":"1","show_email_headings":"0","show_telephone_headings":"1","show_mobile_headings":"0","show_fax_headings":"0","show_suburb_headings":"1","show_state_headings":"1","show_country_headings":"1","show_pagination":"2","show_pagination_results":"1","initial_sort":"ordering","captcha":"","show_email_form":"1","show_email_copy":"0","banned_email":"","banned_subject":"","banned_text":"","validate_session":"1","custom_reply":"0","redirect":"","show_feed_link":"1","sef_ids":1,"custom_fields_enable":"1"}', ''),
 (0, 'com_cpanel', 'component', 'com_cpanel', '', 1, 1, 1, 1, 1, '', '', ''),
 (0, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, 1, '', '{"cachetimeout":"6","minimum_stability":"4"}', ''),
-(0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', ''),
+(0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, 1, '', '{"administrator":"fr-FR","site":"fr-FR"}', ''),
 (0, 'com_login', 'component', 'com_login', '', 1, 1, 1, 1, 1, '', '', ''),
 (0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', ''),
 (0, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', ''),
@@ -403,6 +403,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 -- Packages
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
 (0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, 1, '', '', '', 0, 0);
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
+(0, 'French (fr-FR) Language pack', 'package', 'pkg_fr-FR', '', 0, 1, 1, 0, 0, '', '', '', 0, 0);
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, 1, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
@@ -410,6 +412,12 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, 1, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, 1, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 0, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language Pack';
 
 -- --------------------------------------------------------
 
@@ -444,7 +452,8 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 --
 
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
-(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 1);
+(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 2),
+(2, 'fr-FR', 'French (fr-FR)', 'Français (France)', 'fr', 'fr_fr', '', '', '', '', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -536,7 +545,7 @@ SELECT 20, 'main', 'com_finder_filters', 'Smart-Search-Filters', '', 'Smart Sear
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`, `publish_up`, `publish_down`)
 SELECT 21, 'main', 'com_finder_searches', 'Smart-Search-Searches', '', 'Smart Search/Searches', 'index.php?option=com_finder&view=searches', 'component', 1, 13, 2, `extension_id`, 0, 0, 'class:finder-searches', 0, '', 36, 37, 0, '*', 1, NULL, NULL FROM `#__extensions` WHERE `name` = 'com_finder';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`, `publish_up`, `publish_down`)
-SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, `extension_id`, 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","blog_class_leading":"","blog_class":"","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","link_intro_image":"","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_associations":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}', 41, 42, 1, '*', 0, NULL, NULL FROM `#__extensions` WHERE `name` = 'com_content';
+SELECT 101, 'mainmenu', 'Accueil', 'accueil', '', 'accueil', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, `extension_id`, 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","blog_class_leading":"","blog_class":"","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","link_intro_image":"","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_associations":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}', 41, 42, 1, '*', 0, NULL, NULL FROM `#__extensions` WHERE `name` = 'com_content';
 
 -- --------------------------------------------------------
 
@@ -560,7 +569,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
 --
 
 INSERT IGNORE INTO `#__menu_types` (`id`, `asset_id`, `menutype`, `title`, `description`, `client_id`) VALUES
-(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0);
+(1, 0, 'mainmenu', 'Menu principal', 'Le menu principal du site', 0);
 
 -- --------------------------------------------------------
 
@@ -598,42 +607,42 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
 --
 
 INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `ordering`, `position`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-(1, 39, 'Main Menu', '', '', 1, 'sidebar-right', NULL, NULL, 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(2, 40, 'Login', '', '', 1, 'login', NULL, NULL, 1, 'mod_login', 1, 1, '', 1, '*'),
-(3, 41, 'Popular Articles', '', '', 6, 'cpanel', NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(8, 43, 'Toolbar', '', '', 1, 'toolbar', NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
+(1, 39, 'Menu principal', '', '', 1, 'sidebar-right', NULL, NULL, 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(2, 40, 'Connexion', '', '', 1, 'login', NULL, NULL, 1, 'mod_login', 1, 1, '', 1, '*'),
+(3, 41, 'Articles populaires', '', '', 3, 'cpanel', NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(4, 42, 'Derniers articles', '', '', 4, 'cpanel', NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(8, 43, 'Barre d\'outils', '', '', 1, 'toolbar', NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
 (9, 44, 'Notifications', '', '', 3, 'icon', NULL, NULL, 1, 'mod_quickicon', 3, 1, '{"context":"update_quickicon","header_icon":"icon-sync","show_jupdate":"1","show_eupdate":"1","show_oupdate":"1","show_privacy":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(10, 45, 'Logged-in Users', '', '', 2, 'cpanel', NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(12, 46, 'Admin Menu', '', '', 1, 'menu', NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(15, 49, 'Title', '', '', 1, 'title', NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
-(16, 50, 'Login Form', '', '', 7, 'sidebar-right', NULL, NULL, 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
-(17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', NULL, NULL, 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
-(79, 52, 'Multilanguage status', '', '', 2, 'status', NULL, NULL, 1, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 53, 'Joomla Version', '', '', 1, 'status', NULL, NULL, 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(87, 55, 'Sample Data', '', '', 1, 'cpanel', NULL, NULL, 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(88, 67, 'Latest Actions', '', '', 3, 'cpanel', NULL, NULL, 1, 'mod_latestactions', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(89, 68, 'Privacy Dashboard', '', '', 5, 'cpanel', NULL, NULL, 1, 'mod_privacy_dashboard', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(90, 89, 'Login Support', '', '', 1, 'sidebar', NULL, NULL, 1, 'mod_loginsupport', 1, 1, '{"forum_url":"https://forum.joomla.org/","documentation_url":"https://docs.joomla.org/","news_url":"https://www.joomla.org/announcements.html","automatic_title":1,"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
-(91, 72, 'System Dashboard', '', '', 1, 'cpanel-system', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"system","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
-(92, 73, 'Content Dashboard', '', '', 1, 'cpanel-content', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"content","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
-(93, 74, 'Menus Dashboard', '', '', 1, 'cpanel-menus', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"menus","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
-(94, 75, 'Components Dashboard', '', '', 1, 'cpanel-components', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"components","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
-(95, 76, 'Users Dashboard', '', '', 1, 'cpanel-users', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
-(96, 86, 'Popular Articles', '', '', 3, 'cpanel-content', NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(97, 87, 'Recently Added Articles', '', '', 4, 'cpanel-content', NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(98, 88, 'Logged-in Users', '', '', 2, 'cpanel-users', NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
-(99, 77, 'Frontend Link', '', '', 5, 'status', NULL, NULL, 1, 'mod_frontend', 1, 1, '', 1, '*'),
+(10, 45, 'Utilisateurs connectés', '', '', 2, 'cpanel', NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(12, 46, 'Menu d\'administration', '', '', 1, 'menu', NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
+(15, 49, 'Titre', '', '', 1, 'title', NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
+(16, 50, 'Connexion', '', '', 7, 'sidebar-right', NULL, NULL, 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
+(17, 51, 'Fil de navigation', '', '', 1, 'breadcrumbs', NULL, NULL, 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
+(79, 52, 'Statut multilangue', '', '', 2, 'status', NULL, NULL, 1, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(86, 53, 'Version Joomla', '', '', 1, 'status', NULL, NULL, 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(87, 55, 'Données exemple', '', '', 0, 'cpanel', NULL, NULL, 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(88, 67, 'Dernières actions', '', '', 0, 'cpanel', NULL, NULL, 1, 'mod_latestactions', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(89, 68, 'Demande de confidentialité', '', '', 0, 'cpanel', NULL, NULL, 1, 'mod_privacy_dashboard', 6, 1, '{"bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(90, 89, 'Aide à la connexion', '', '', 1, 'sidebar', NULL, NULL, 1, 'mod_loginsupport', 1, 1, '{"forum_url":"https://forum.joomla.org/","documentation_url":"https://docs.joomla.org/","news_url":"https://www.joomla.org/announcements.html","automatic_title":1,"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(91, 72, 'Système', '', '', 1, 'cpanel-system', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"system","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
+(92, 73, 'Contenus', '', '', 1, 'cpanel-content', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"content","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
+(93, 74, 'Menus', '', '', 1, 'cpanel-menus', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"menus","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
+(94, 75, 'Composants', '', '', 1, 'cpanel-components', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"components","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
+(95, 76, 'Utilisateurs', '', '', 1, 'cpanel-users', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":"","style":"System-none"}', 1, '*'),
+(96, 86, 'Articles populaires', '', '', 3, 'cpanel-content', NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(97, 87, 'Derniers articles', '', '', 4, 'cpanel-content', NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(98, 88, 'Utilisateurs identifiés', '', '', 2, 'cpanel-users', NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "12","header_tag":"h2"}', 1, '*'),
+(99, 77, 'Lien vers le site', '', '', 5, 'status', NULL, NULL, 1, 'mod_frontend', 1, 1, '', 1, '*'),
 (100, 78, 'Messages', '', '', 4, 'status', NULL, NULL, 1, 'mod_messages', 3, 1, '', 1, '*'),
-(101, 79, 'Post Install Messages', '', '', 3, 'status', NULL, NULL, 1, 'mod_post_installation_messages', 3, 1, '', 1, '*'),
-(102, 80, 'User Status', '', '', 6, 'status', NULL, NULL, 1, 'mod_user', 3, 1, '', 1, '*'),
+(101, 79, 'Messages de post-installation', '', '', 3, 'status', NULL, NULL, 1, 'mod_post_installation_messages', 3, 1, '', 1, '*'),
+(102, 80, 'Statut Utilisateur', '', '', 6, 'status', NULL, NULL, 1, 'mod_user', 3, 1, '', 1, '*'),
 (103, 70, 'Site', '', '', 1, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"site_quickicon","header_icon":"icon-desktop","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(104, 71, 'System', '', '', 2, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"system_quickicon","header_icon":"icon-wrench","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(105, 82, '3rd Party', '', '', 4, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"icon-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(106, 83, 'Help Dashboard', '', '', 1, 'cpanel-help', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
-(109, 96, 'Guided Tours', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
+(104, 71, 'Système', '', '', 2, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"system_quickicon","header_icon":"icon-wrench","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
+(105, 82, 'Extensions tierces', '', '', 4, 'icon', NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"icon-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
+(106, 83, 'Aide', '', '', 1, 'cpanel-help', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
+(107, 84, 'Demande de confidentialité', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
+(108, 85, 'Statut de confidentialité', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
+(109, 96, 'Visites guidées', '', '', 1, 'status', NULL, NULL, 1, 'mod_guidedtours', 1, 1, '', 1, '*');
 
 -- --------------------------------------------------------
 
@@ -929,14 +938,14 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
 
 INSERT INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 (1, 0, 1, 18, 'Public'),
-(2, 1, 8, 15, 'Registered'),
-(3, 2, 9, 14, 'Author'),
-(4, 3, 10, 13, 'Editor'),
-(5, 4, 11, 12, 'Publisher'),
-(6, 1, 4, 7, 'Manager'),
-(7, 6, 5, 6, 'Administrator'),
-(8, 1, 16, 17, 'Super Users'),
-(9, 1, 2, 3, 'Guest');
+(2, 1, 8, 15, 'Enregistré'),
+(3, 2, 9, 14, 'Auteur'),
+(4, 3, 10, 13, 'Rédacteur'),
+(5, 4, 11, 12, 'Validateur'),
+(6, 1, 4, 7, 'Gestionnaire'),
+(7, 6, 5, 6, 'Administrateur'),
+(8, 1, 16, 17, 'Super Utilisateur'),
+(9, 1, 2, 3, 'Invité');
 
 -- --------------------------------------------------------
 
@@ -1082,10 +1091,10 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 
 INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[1]'),
-(2, 'Registered', 2, '[6,2,8]'),
-(3, 'Special', 3, '[6,3,8]'),
-(5, 'Guest', 1, '[9]'),
-(6, 'Super Users', 4, '[8]');
+(2, 'Enregistré', 2, '[6,2,8]'),
+(3, 'Spécial', 3, '[6,3,8]'),
+(5, 'Invité', 1, '[9]'),
+(6, 'Super Utilisateur', 4, '[8]');
 
 -- --------------------------------------------------------
 
