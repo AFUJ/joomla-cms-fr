@@ -447,12 +447,12 @@
   -webkit-padding-end: 3rem;
           padding-inline-end: 3rem;
   cursor: pointer;
-  background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
+  background: url("../../../images/select-bg.svg?v=5ebba0") no-repeat 100%/116rem;
   background-color: hsl(210, 16%, 93%);
 }
 [dir=rtl] .choices[data-type*=select-one] .choices__inner,
 [dir=rtl] .choices[data-type*=select-multiple] .choices__inner {
-  background: url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
+  background: url("../../../images/select-bg-rtl.svg?v=e50af2") no-repeat 0/116rem;
   background-color: hsl(210, 16%, 93%);
 }
 

@@ -14,60 +14,34 @@
       ]
     },
     {
-      "name": "com_installer.changelog.es5",
-      "type": "script",
-      "uri": "com_installer/changelog-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "3b526417369556ca05748085e8f55140258f7ff5"
-    },
-    {
       "name": "com_installer.changelog",
       "type": "script",
       "uri": "com_installer/changelog.min.js",
       "dependencies": [
-        "com_installer.changelog.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "ebc518f8a9967cca025c3b616be88b68b15706d5"
+      "version": "1d5d9b"
     },
     {
       "name": "com_installer.installer",
       "type": "style",
       "uri": "com_installer/installer.min.css",
-      "version": "95b9cd93907797987cb0c6ea689746f4b2c7639d"
-    },
-    {
-      "name": "com_installer.installer.es5",
-      "type": "script",
-      "uri": "com_installer/installer-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "3b1a6ae274527b143b293bd3f3d869179599a5e9"
+      "version": "cb258d"
     },
     {
       "name": "com_installer.installer",
       "type": "script",
       "uri": "com_installer/installer.min.js",
       "dependencies": [
-        "com_installer.installer.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "dee1dafd74cd01813ff8a5d76abd5bb3f345a6fd"
+      "version": "e44f0c"
     }
   ]
 }

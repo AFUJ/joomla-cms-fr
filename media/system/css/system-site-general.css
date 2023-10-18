@@ -73,30 +73,30 @@ label.invalid {
 .button2-left {
   float: left;
   margin-left: 5px;
-  background: url("../images/j_button2_left.png") no-repeat;
+  background: url("../images/j_button2_left.png?v=1697404982690") no-repeat;
 }
 
 .button2-right {
   float: left;
   margin-left: 5px;
-  background: url("../images/j_button2_right.png") 100% 0 no-repeat;
+  background: url("../images/j_button2_right.png?v=1697404982690") 100% 0 no-repeat;
 }
 
 .button2-left .image {
-  background: url("../images/j_button2_image.png") 100% 0 no-repeat;
+  background: url("../images/j_button2_image.png?v=1697404982690") 100% 0 no-repeat;
 }
 
 .button2-left .readmore,
 .button2-left .article {
-  background: url("../images/j_button2_readmore.png") 100% 0 no-repeat;
+  background: url("../images/j_button2_readmore.png?v=1697404982690") 100% 0 no-repeat;
 }
 
 .button2-left .pagebreak {
-  background: url("../images/j_button2_pagebreak.png") 100% 0 no-repeat;
+  background: url("../images/j_button2_pagebreak.png?v=1697404982690") 100% 0 no-repeat;
 }
 
 .button2-left .blank {
-  background: url("../images/j_button2_blank.png") 100% 0 no-repeat;
+  background: url("../images/j_button2_blank.png?v=1697404982690") 100% 0 no-repeat;
 }
 
 /* Tooltips */
@@ -117,7 +117,7 @@ div.tooltip h4 {
   margin-top: -15px;
   font-size: 95%;
   font-weight: bold;
-  background: url("../images/selector-arrow.png") no-repeat;
+  background: url("../images/selector-arrow.png?v=1697404982690") no-repeat;
 }
 
 div.tooltip p {
@@ -163,5 +163,5 @@ a img.calendar {
   margin-left: 3px;
   vertical-align: middle;
   cursor: pointer;
-  background: url("../images/calendar.png") no-repeat;
+  background: url("../images/calendar.png?v=ad4756") no-repeat;
 }

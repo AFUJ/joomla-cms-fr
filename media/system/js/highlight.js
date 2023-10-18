@@ -1,3 +1,18 @@
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+
 /**
  * A NodeIterator with iframes support and a method to check if an element is
  * matching a specified selector
@@ -1803,10 +1818,7 @@ const defaultOptions = {
 if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('highlight')) {
   const scriptOptions = Joomla.getOptions('highlight');
   scriptOptions.forEach(currentOpts => {
-    const options = {
-      ...defaultOptions,
-      ...currentOpts
-    };
+    const options = _extends({}, defaultOptions, currentOpts);
 
     // Continue only if the element exists
     if (!options.compatibility) {

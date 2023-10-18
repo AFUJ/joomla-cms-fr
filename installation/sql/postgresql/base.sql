@@ -31,7 +31,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 177, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 183, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"8":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -119,9 +119,12 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (93, 1, 171, 172, 1, 'com_fields', 'com_fields', '{}'),
 (94, 1, 173, 174, 1, 'com_workflow', 'com_workflow', '{}'),
 (95, 1, 175, 176, 1, 'com_guidedtours', 'com_guidedtours', '{}'),
-(96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}');
+(96, 18, 130, 131, 2, 'com_modules.module.109', 'Guided Tours', '{}'),
+(97, 1, 177, 178, 1, 'com_scheduler.task.1', 'com_scheduler.task.1', '{}'),
+(98, 1, 179, 180, 1, 'com_scheduler.task.2', 'com_scheduler.task.2', '{}'),
+(99, 1, 181, 182, 1, 'com_scheduler.task.3', 'com_scheduler.task.3', '{}');
 
-SELECT setval('#__assets_id_seq', 97, false);
+SELECT setval('#__assets_id_seq', 100, false);
 
 --
 -- Table structure for table `#__extensions`
@@ -171,7 +174,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_installer', 'component', 'com_installer', '', 1, 1, 1, 1, 1, '', '{"cachetimeout":"6","minimum_stability":"4"}', '', 0, 0),
 (0, 'com_languages', 'component', 'com_languages', '', 1, 1, 1, 1, 1, '', '{"administrator":"en-GB","site":"en-GB"}', '', 0, 0),
 (0, 'com_login', 'component', 'com_login', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
-(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,ico,webp,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', '', 0, 0),
+(0, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, 1, '', '{"upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","restrict_uploads_extensions":"bmp,gif,jpg,jpeg,png,ico,webp,avif,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv","check_mime":"1","image_extensions":"bmp,gif,jpg,png,jpeg,webp,avif","audio_extensions":"mp3,m4a,mp4a,ogg","video_extensions":"mp4,mp4v,mpeg,mov,webm","doc_extensions":"odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,image\\/webp,image\\/avif,audio\\/ogg,audio\\/mpeg,audio\\/mp4,video\\/mp4,video\\/webm,video\\/mpeg,video\\/quicktime,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip"}', '', 0, 0),
 (0, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, 1, '', '{"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":""}', '', 0, 0),
 (0, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
@@ -191,7 +194,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
+(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_fields","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', '', 0, 0),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0),
@@ -264,11 +267,9 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, 1, '', '', '', 2, 0),
 (0, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, 1, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', 3, 0),
-(0, 'plg_behaviour_compat', 'plugin', 'compat', 'behaviour', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
+(0, 'plg_behaviour_compat', 'plugin', 'compat', 'behaviour', 0, 1, 1, 0, 1, '', '{"classes_aliases":"1","es5_assets":"1"}', '', 1, 0),
 (0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
-(0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 1, 1, '', '{}', '', 3, 0),
-(0, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, 1, '', '{"public_key":"","private_key":"","theme":"clean"}', '', 1, 0),
-(0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, 1, '', '{"public_key":"","private_key":"","theme":"clean"}', '', 2, 0),
+(0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
 (0, 'plg_content_confirmconsent', 'plugin', 'confirmconsent', 'content', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_content_contact', 'plugin', 'contact', 'content', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_content_emailcloak', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, 1, '', '{"mode":"1"}', '', 3, 0),
@@ -289,14 +290,14 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_editors-xtd_readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, 1, '', '', '', 8, 0),
 (0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 0, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', '', 1, 0),
 (0, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, 1, '', '', '', 2, 0),
-(0, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, 1, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","formatselect","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styleselect","|","formatselect","fontselect","fontsizeselect","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","template","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"1","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', '', 3, 0),
+(0, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, 1, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","blocks","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styles","|","blocks","fontfamily","fontsize","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","jtemplate","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"1","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', '', 3, 0),
 (0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, 1, '', '{}', '', 3, 0),
 (0, 'plg_fields_calendar', 'plugin', 'calendar', 'fields', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_fields_checkboxes', 'plugin', 'checkboxes', 'fields', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_fields_color', 'plugin', 'color', 'fields', 0, 1, 1, 0, 1, '', '', '', 3, 0),
-(0, 'plg_fields_editor', 'plugin', 'editor', 'fields', 0, 1, 1, 0, 1, '', '{"buttons":0,"width":"100%","height":"250px","filter":"JComponentHelper::filterText"}', '', 4, 0),
+(0, 'plg_fields_editor', 'plugin', 'editor', 'fields', 0, 1, 1, 0, 1, '', '{"buttons":0,"width":"100%","height":"250px","filter":"\\\\Joomla\\\\CMS\\\\Component\\\\ComponentHelper::filterText"}', '', 4, 0),
 (0, 'plg_fields_imagelist', 'plugin', 'imagelist', 'fields', 0, 1, 1, 0, 1, '', '', '', 5, 0),
 (0, 'plg_fields_integer', 'plugin', 'integer', 'fields', 0, 1, 1, 0, 1, '', '{"multiple":"0","first":"1","last":"100","step":"1"}', '', 6, 0),
 (0, 'plg_fields_list', 'plugin', 'list', 'fields', 0, 1, 1, 0, 1, '', '', '', 7, 0),
@@ -305,7 +306,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_fields_sql', 'plugin', 'sql', 'fields', 0, 1, 1, 0, 1, '', '', '', 10, 0),
 (0, 'plg_fields_subform', 'plugin', 'subform', 'fields', 0, 1, 1, 0, 1, '', '', '', 11, 0),
 (0, 'plg_fields_text', 'plugin', 'text', 'fields', 0, 1, 1, 0, 1, '', '', '', 12, 0),
-(0, 'plg_fields_textarea', 'plugin', 'textarea', 'fields', 0, 1, 1, 0, 1, '', '{"rows":10,"cols":10,"maxlength":"","filter":"JComponentHelper::filterText"}', '', 13, 0),
+(0, 'plg_fields_textarea', 'plugin', 'textarea', 'fields', 0, 1, 1, 0, 1, '', '{"rows":10,"cols":10,"maxlength":"","filter":"\\\\Joomla\\\\CMS\\\\Component\\\\ComponentHelper::filterText"}', '', 13, 0),
 (0, 'plg_fields_url', 'plugin', 'url', 'fields', 0, 1, 1, 0, 1, '', '', '', 14, 0),
 (0, 'plg_fields_user', 'plugin', 'user', 'fields', 0, 1, 1, 0, 1, '', '', '', 15, 0),
 (0, 'plg_fields_usergrouplist', 'plugin', 'usergrouplist', 'fields', 0, 1, 1, 0, 1, '', '', '', 16, 0),
@@ -338,6 +339,13 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_quickicon_eos', 'plugin', 'eos', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 7, 0),
 (0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_schemaorg_blogposting', 'plugin', 'blogposting', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 1, 0),
+(0, 'plg_schemaorg_book', 'plugin', 'book', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 2, 0),
+(0, 'plg_schemaorg_event', 'plugin', 'event', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 3, 0),
+(0, 'plg_schemaorg_organization', 'plugin', 'organization', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 4, 0),
+(0, 'plg_schemaorg_person', 'plugin', 'person', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 5, 0),
+(0, 'plg_schemaorg_recipe', 'plugin', 'recipe', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 6, 0),
+(0, 'plg_schemaorg_jobposting', 'plugin', 'jobposting', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 7, 0),
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 0, 1, '', '{"browsercache":"0","cachetime":"15"}', '', 3, 0),
@@ -350,23 +358,26 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_languagefilter', 'plugin', 'languagefilter', 'system', 0, 0, 1, 0, 1, '', '', '', 10, 0),
 (0, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 0, 1, '', '', '', 11, 0),
 (0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 0, 1, '', '', '', 12, 0),
-(0, 'plg_system_logrotation', 'plugin', 'logrotation', 'system', 0, 1, 1, 0, 1, '', '{}', '', 13, 0),
 (0, 'plg_system_privacyconsent', 'plugin', 'privacyconsent', 'system', 0, 0, 1, 0, 1, '', '{}', '', 14, 0),
 (0, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 0, 1, '', '', '', 15, 0),
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 0, 1, '', '', '', 16, 0),
 (0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 1, '', '{}', '', 17, 0),
-(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 18, 0),
-(0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
-(0, 'plg_system_shortcut', 'plugin', 'shortcut', 'system', 0, 1, 1, 0, 1, '', '{}', '', 0, 0),
-(0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 20, 0),
-(0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 21, 0),
-(0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
-(0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 24, 0),
+(0, 'plg_system_schemaorg', 'plugin', 'schemaorg', 'system', 0, 1, 1, 0, 0, '', '{}', '', 18, 0),
+(0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
+(0, 'plg_system_shortcut', 'plugin', 'shortcut', 'system', 0, 1, 1, 0, 1, '', '{}', '', 21, 0),
+(0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 22, 0),
+(0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),
+(0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 24, 0),
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 26, 0),
 (0, 'plg_task_checkfiles', 'plugin', 'checkfiles', 'task', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
-(0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
-(0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
-(0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 1, '', '{}', '', 4, 0),
+(0, 'plg_task_deleteactionlogs', 'plugin', 'deleteactionlogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
+(0, 'plg_task_globalcheckin', 'plugin', 'globalcheckin', 'task', 0, 1, 1, 0, 0, '', '{}', '', 3, 0),
+(0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 1, '', '{}', '', 4, 0),
+(0, 'plg_task_privacyconsent', 'plugin', 'privacyconsent', 'task', 0, 1, 1, 0, 1, '', '{}', '', 5, 0),
+(0, 'plg_task_rotatelogs', 'plugin', 'rotatelogs', 'task', 0, 1, 1, 0, 1, '', '{}', '', 6, 0),
+(0, 'plg_task_sessiongc', 'plugin', 'sessiongc', 'task', 0, 1, 1, 0, 1, '', '{}', '', 7, 0),
+(0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 1, '', '{}', '', 8, 0),
+(0, 'plg_task_updatenotification', 'plugin', 'updatenotification', 'task', 0, 1, 1, 0, 1, '', '{}', '', 9, 0),
 (0, 'plg_multifactorauth_totp', 'plugin', 'totp', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_multifactorauth_yubikey', 'plugin', 'yubikey', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 2, 0),
 (0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 3, 0),
@@ -411,8 +422,6 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 -- Languages
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
 (0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, 1, '', '', '', 0, 0);
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
-(0, 'French (fr-FR) Language pack', 'package', 'pkg_fr-FR', '', 0, 1, 1, 0, 0, '', '', '', 0, 0);
 
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state")
@@ -421,12 +430,6 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, 1, '', '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, 1, '', '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state")
-SELECT "extension_id", 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 0, 0, 0, '', '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'French (fr-FR) Language Pack';
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state")
-SELECT "extension_id", 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 0, 0, 0, '', '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'French (fr-FR) Language Pack';
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state")
-SELECT "extension_id", 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 0, 0, 0, '', '', '', 0, 0 FROM "#__extensions" WHERE "name" = 'French (fr-FR) Language Pack';
 
 --
 -- Table structure for table `#__languages`
@@ -459,8 +462,7 @@ CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
 --
 
 INSERT INTO "#__languages" ("lang_id", "lang_code", "title", "title_native", "sef", "image", "description", "metakey", "metadesc", "sitename", "published", "access", "ordering") VALUES
-(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 2),
-(2, 'fr-FR', 'French (fr-FR)', 'Français (France)', 'fr', 'fr_fr', '', '', '', '', 1, 1, 1);
+(1, 'en-GB', 'English (en-GB)', 'English (United Kingdom)', 'en', 'en_gb', '', '', '', '', 1, 1, 1);
 
 SELECT setval('#__languages_lang_id_seq', 2, false);
 
@@ -572,7 +574,7 @@ SELECT 20, 'main', 'com_finder_filters', 'Smart-Search-Filters', '', 'Smart Sear
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 21, 'main', 'com_finder_searches', 'Smart-Search-Searches', '', 'Smart Search/Searches', 'index.php?option=com_finder&view=searches', 'component', 1, 13, 2, "extension_id", 0, 0, 'class:finder-searches', 0, '', 36, 37, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_finder';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 101, 'mainmenu', 'Accueil', 'accueil', '', 'accueil', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","blog_class_leading":"","blog_class":"","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","link_intro_image":"","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_associations":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}', 41, 42, 1, '*', 0, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_content';
+SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","blog_class_leading":"","blog_class":"","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","link_intro_image":"","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_associations":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1","page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}', 41, 42, 1, '*', 0, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_content';
 SELECT setval('#__menu_id_seq', 102, false);
 
 --
@@ -586,6 +588,7 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
   "title" varchar(48) NOT NULL,
   "description" varchar(255) DEFAULT '' NOT NULL,
   "client_id" int DEFAULT 0 NOT NULL,
+  "ordering" int NOT NULL DEFAULT 0,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__menu_types_idx_menutype" UNIQUE ("menutype")
 );
@@ -594,8 +597,8 @@ CREATE TABLE IF NOT EXISTS "#__menu_types" (
 -- Dumping data for table `#__menu_types`
 --
 
-INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id") VALUES
-(1, 0, 'mainmenu', 'Menu principal', 'Le menu principal du site', 0);
+INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description", "client_id", "ordering") VALUES
+(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site', 0, 1);
 
 SELECT setval('#__menu_types_id_seq', 2, false);
 
@@ -906,7 +909,7 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
 (1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_4.xml', 1, 0),
+(2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_5.xml', 1, 0),
 (3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 SELECT setval('#__update_sites_update_site_id_seq', 4, false);
@@ -962,14 +965,14 @@ COMMENT ON COLUMN "#__usergroups"."rgt" IS 'Nested set rgt.';
 
 INSERT INTO "#__usergroups" ("id", "parent_id", "lft", "rgt", "title") VALUES
 (1, 0, 1, 18, 'Public'),
-(2, 1, 8, 15, 'Enregistré'),
-(3, 2, 9, 14, 'Auteur'),
-(4, 3, 10, 13, 'Rédacteur'),
-(5, 4, 11, 12, 'Validateur'),
-(6, 1, 4, 7, 'Gestionnaire'),
-(7, 6, 5, 6, 'Administrateur'),
-(8, 1, 16, 17, 'Super Utilisateur'),
-(9, 1, 2, 3, 'Invité');
+(2, 1, 8, 15, 'Registered'),
+(3, 2, 9, 14, 'Author'),
+(4, 3, 10, 13, 'Editor'),
+(5, 4, 11, 12, 'Publisher'),
+(6, 1, 4, 7, 'Manager'),
+(7, 6, 5, 6, 'Administrator'),
+(8, 1, 16, 17, 'Super Users'),
+(9, 1, 2, 3, 'Guest');
 
 SELECT setval('#__usergroups_id_seq', 10, false);
 
@@ -1119,10 +1122,10 @@ COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
 
 INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (1, 'Public', 0, '[1]'),
-(2, 'Enregistré', 2, '[6,2,8]'),
-(3, 'Spécial', 3, '[6,3,8]'),
-(5, 'Invité', 1, '[9]'),
-(6, 'Super Utilisateur', 4, '[8]');
+(2, 'Registered', 2, '[6,2,8]'),
+(3, 'Special', 3, '[6,3,8]'),
+(5, 'Guest', 1, '[9]'),
+(6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
 

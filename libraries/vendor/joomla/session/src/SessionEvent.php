@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of the Joomla Framework Session Package
  *
@@ -17,38 +18,38 @@ use Joomla\Event\Event;
  */
 class SessionEvent extends Event
 {
-	/**
-	 * SessionInterface object for this event
-	 *
-	 * @var    SessionInterface
-	 * @since  2.0.0
-	 */
-	private $session;
+    /**
+     * SessionInterface object for this event
+     *
+     * @var    SessionInterface
+     * @since  2.0.0
+     */
+    private $session;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   string            $name     The event name.
-	 * @param   SessionInterface  $session  The SessionInterface object for this event.
-	 *
-	 * @since   2.0.0
-	 */
-	public function __construct(string $name, SessionInterface $session)
-	{
-		parent::__construct($name);
+    /**
+     * Constructor.
+     *
+     * @param   string            $name     The event name.
+     * @param   SessionInterface  $session  The SessionInterface object for this event.
+     *
+     * @since   2.0.0
+     */
+    public function __construct(string $name, SessionInterface $session)
+    {
+        parent::__construct($name);
 
-		$this->session = $session;
-	}
+        $this->session = $session;
+    }
 
-	/**
-	 * Retrieve the SessionInterface object attached to this event.
-	 *
-	 * @return  SessionInterface
-	 *
-	 * @since   2.0.0
-	 */
-	public function getSession(): SessionInterface
-	{
-		return $this->session;
-	}
+    /**
+     * Retrieve the SessionInterface object attached to this event.
+     *
+     * @return  SessionInterface
+     *
+     * @since   2.0.0
+     */
+    public function getSession(): SessionInterface
+    {
+        return $this->session;
+    }
 }

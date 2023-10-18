@@ -2,29 +2,19 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn\TrustPath;
 
-use Assert\Assertion;
+use function array_key_exists;
+use Webauthn\Exception\InvalidTrustPathException;
 
+/**
+ * @deprecated since 4.2.0 and will be removed in 5.0.0. The ECDAA Trust Anchor does no longer exist in Webauthn specification.
+ */
 final class EcdaaKeyIdTrustPath implements TrustPath
 {
-    /**
-     * @var string
-     */
-    private $ecdaaKeyId;
-
-    public function __construct(string $ecdaaKeyId)
-    {
-        $this->ecdaaKeyId = $ecdaaKeyId;
+    public function __construct(
+        private readonly string $ecdaaKeyId
+    ) {
     }
 
     public function getEcdaaKeyId(): string
@@ -32,6 +22,9 @@ final class EcdaaKeyIdTrustPath implements TrustPath
         return $this->ecdaaKeyId;
     }
 
+    /**
+     * @return string[]
+     */
     public function jsonSerialize(): array
     {
         return [
@@ -40,10 +33,15 @@ final class EcdaaKeyIdTrustPath implements TrustPath
         ];
     }
 
-    public static function createFromArray(array $data): TrustPath
+    /**
+     * {@inheritdoc}
+     */
+    public static function createFromArray(array $data): static
     {
-        Assertion::keyExists($data, 'ecdaaKeyId', 'The trust path type is invalid');
+        array_key_exists('ecdaaKeyId', $data) || throw InvalidTrustPathException::create(
+            'The trust path type is invalid'
+        );
 
-        return new EcdaaKeyIdTrustPath($data['ecdaaKeyId']);
+        return new self($data['ecdaaKeyId']);
     }
 }

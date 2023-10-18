@@ -15,35 +15,21 @@
     },
     {
       "name": "plg_system_guidedtours.guidedtours",
-      "type": "script",
-      "uri": "plg_system_guidedtours/guidedtours.min.js",
-      "dependencies": [
-        "core",
-        "plg_system_guidedtours.guidedtours.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "ac62881ddc394f64cb430d18402407597dd2222c"
+      "type": "style",
+      "uri": "plg_system_guidedtours/guidedtours.min.css",
+      "version": "1a5875"
     },
     {
       "name": "plg_system_guidedtours.guidedtours",
-      "type": "style",
-      "uri": "plg_system_guidedtours/guidedtours.min.css",
-      "version": "f65a3e6a47bdd400930b8b33774888d10721893c"
-    },
-    {
-      "name": "plg_system_guidedtours.guidedtours.es5",
       "type": "script",
-      "uri": "plg_system_guidedtours/guidedtours-es5.min.js",
+      "uri": "plg_system_guidedtours/guidedtours.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "164ab86924edb6d94f53121ba968e855831187f1"
+      "version": "56dbd1"
     }
   ]
 }

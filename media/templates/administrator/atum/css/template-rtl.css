@@ -7,6 +7,7 @@
 :root,
 [data-bs-theme=light] {
   --card-bg: rgba(255, 255, 255, 0.7);
+  --card-color: var(--template-bg-dark-60);
   --bluegray: #b2bfcd;
   --lightbluegray: #f6f9fc;
   --toolbar-bg: #fff;
@@ -136,6 +137,63 @@
   --form-invalid-border-color: #c52827;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --body-color: #dee2e6;
+    --body-color-rgb: 222, 226, 230;
+    --body-bg: #212529;
+    --body-bg-rgb: 33, 37, 41;
+    --emphasis-color: #fff;
+    --emphasis-color-rgb: 255, 255, 255;
+    --secondary-color: rgba(222, 226, 230, 0.75);
+    --secondary-color-rgb: 222, 226, 230;
+    --secondary-bg: #343a40;
+    --secondary-bg-rgb: 52, 58, 64;
+    --tertiary-color: rgba(222, 226, 230, 0.5);
+    --tertiary-color-rgb: 222, 226, 230;
+    --tertiary-bg: #2b3035;
+    --tertiary-bg-rgb: 43, 48, 53;
+    --primary-text-emphasis: #7fa5d4;
+    --secondary-text-emphasis: #a3a8ad;
+    --success-text-emphasis: #8fb198;
+    --info-text-emphasis: #7fa5d4;
+    --warning-text-emphasis: #ffd372;
+    --danger-text-emphasis: #dc7e7d;
+    --light-text-emphasis: #f8f9fa;
+    --dark-text-emphasis: #dee2e6;
+    --primary-bg-subtle: #081525;
+    --secondary-bg-subtle: #141618;
+    --success-bg-subtle: #0e1911;
+    --info-bg-subtle: #081525;
+    --warning-bg-subtle: #332404;
+    --danger-bg-subtle: #270808;
+    --light-bg-subtle: #343a40;
+    --dark-bg-subtle: #1a1d20;
+    --primary-border-subtle: #193f6e;
+    --secondary-border-subtle: #3d4247;
+    --success-border-subtle: #294b32;
+    --info-border-subtle: #193f6e;
+    --warning-border-subtle: #996d0c;
+    --danger-border-subtle: #761817;
+    --light-border-subtle: #495057;
+    --dark-border-subtle: #343a40;
+    --heading-color: inherit;
+    --link-color: #7fa5d4;
+    --link-hover-color: #6b9edd;
+    --link-color-rgb: 127, 165, 212;
+    --link-hover-color-rgb: 107, 158, 221;
+    --code-color: #d7488b;
+    --highlight-color: #dee2e6;
+    --highlight-bg: #664808;
+    --border-color: #495057;
+    --border-color-translucent: rgba(255, 255, 255, 0.15);
+    --form-valid-color: #8fb198;
+    --form-valid-border-color: #8fb198;
+    --form-invalid-color: #dc7e7d;
+    --form-invalid-border-color: #dc7e7d;
+  }
+}
 *,
 *::before,
 *::after {
@@ -2061,7 +2119,7 @@ progress {
   --table-color-state: initial;
   --table-bg-state: initial;
   --table-color: var(--emphasis-color);
-  --table-bg: var(--white);
+  --table-bg: var(--body-bg);
   --table-border-color: var(--border-color);
   --table-accent-bg: transparent;
   --table-striped-color: var(--emphasis-color);
@@ -2593,6 +2651,11 @@ textarea.form-control-lg {
   border-radius: var(--border-radius-lg);
 }
 
+@media (prefers-color-scheme: dark) {
+  .form-select, .custom-select {
+    --form-select-bg-img: url("../images/select-bg-dark.svg");
+  }
+}
 .form-check {
   display: block;
   min-height: 1.5rem;
@@ -2729,6 +2792,11 @@ textarea.form-control-lg {
   opacity: 0.4;
 }
 
+@media (prefers-color-scheme: dark) {
+  .form-switch .form-check-input:not(:checked):not(:focus) {
+    --form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%28255, 255, 255, 0.25%29'/%3e%3c/svg%3e");
+  }
+}
 .form-range {
   width: 100%;
   height: 1.4rem;
@@ -4909,7 +4977,12 @@ textarea.form-control-lg {
   --navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.card {
+@media (prefers-color-scheme: dark) {
+  .navbar-toggler-icon {
+    --navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+}
+.card, .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
   --card-spacer-y: 1rem;
   --card-spacer-x: 1rem;
   --card-title-spacer-y: 0.5rem;
@@ -4946,30 +5019,32 @@ textarea.form-control-lg {
   border: var(--card-border-width) solid var(--card-border-color);
   border-radius: var(--card-border-radius);
 }
-.card > hr {
+.card > hr, .com_users.view-user .com-users-methods-list-method > hr, .com_users.view-methods .com-users-methods-list-method > hr {
   margin-left: 0;
   margin-right: 0;
 }
-.card > .list-group {
+.card > .list-group, .com_users.view-user .com-users-methods-list-method > .list-group, .com_users.view-methods .com-users-methods-list-method > .list-group {
   border-top: inherit;
   border-bottom: inherit;
 }
-.card > .list-group:first-child {
+.card > .list-group:first-child, .com_users.view-user .com-users-methods-list-method > .list-group:first-child, .com_users.view-methods .com-users-methods-list-method > .list-group:first-child {
   border-top-width: 0;
   border-top-right-radius: var(--card-inner-border-radius);
   border-top-left-radius: var(--card-inner-border-radius);
 }
-.card > .list-group:last-child {
+.card > .list-group:last-child, .com_users.view-user .com-users-methods-list-method > .list-group:last-child, .com_users.view-methods .com-users-methods-list-method > .list-group:last-child {
   border-bottom-width: 0;
   border-bottom-left-radius: var(--card-inner-border-radius);
   border-bottom-right-radius: var(--card-inner-border-radius);
 }
-.card > .card-header + .list-group,
-.card > .list-group + .card-footer {
+.card > .card-header + .list-group, .com_users.view-user .com-users-methods-list-method .card > .com-users-methods-list-method-header + .list-group, .com_users.view-methods .com-users-methods-list-method .card > .com-users-methods-list-method-header + .list-group, .com_users.view-user .com-users-methods-list-method > .card-header + .list-group, .com_users.view-user .com-users-methods-list-method > .com-users-methods-list-method-header + .list-group, .com_users.view-methods .com-users-methods-list-method > .card-header + .list-group, .com_users.view-methods .com-users-methods-list-method > .com-users-methods-list-method-header + .list-group,
+.card > .list-group + .card-footer,
+.com_users.view-user .com-users-methods-list-method > .list-group + .card-footer,
+.com_users.view-methods .com-users-methods-list-method > .list-group + .card-footer {
   border-top: 0;
 }
 
-.card-body {
+.card-body, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-records-container, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-records-container {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
@@ -4996,14 +5071,14 @@ textarea.form-control-lg {
   margin-right: var(--card-spacer-x);
 }
 
-.card-header {
+.card-header, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header {
   padding: var(--card-cap-padding-y) var(--card-cap-padding-x);
   margin-bottom: 0;
   color: var(--card-cap-color);
   background-color: var(--card-cap-bg);
   border-bottom: var(--card-border-width) solid var(--card-border-color);
 }
-.card-header:first-child {
+.card-header:first-child, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header:first-child, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header:first-child {
   border-radius: var(--card-inner-border-radius) var(--card-inner-border-radius) 0 0;
 }
 
@@ -5061,7 +5136,7 @@ textarea.form-control-lg {
   border-bottom-right-radius: var(--card-inner-border-radius);
 }
 
-.card-group > .card {
+.card-group > .card, .com_users.view-user .card-group > .com-users-methods-list-method, .com_users.view-methods .card-group > .com-users-methods-list-method {
   margin-bottom: var(--card-group-margin);
 }
 @media (min-width: 576px) {
@@ -5074,38 +5149,58 @@ textarea.form-control-lg {
         -ms-flex-flow: row wrap;
             flex-flow: row wrap;
   }
-  .card-group > .card {
+  .card-group > .card, .com_users.view-user .card-group > .com-users-methods-list-method, .com_users.view-methods .card-group > .com-users-methods-list-method {
     -webkit-box-flex: 1;
         -ms-flex: 1 0 0%;
             flex: 1 0 0%;
     margin-bottom: 0;
   }
-  .card-group > .card + .card {
+  .card-group > .card + .card, .com_users.view-user .card-group > .com-users-methods-list-method + .card, .com_users.view-methods .card-group > .com-users-methods-list-method + .card, .com_users.view-user .card-group > .card + .com-users-methods-list-method, .com_users.view-user .card-group > .com-users-methods-list-method + .com-users-methods-list-method, .com_users.view-methods .card-group > .card + .com-users-methods-list-method, .com_users.view-methods .card-group > .com-users-methods-list-method + .com-users-methods-list-method {
     margin-right: 0;
     border-right: 0;
   }
-  .card-group > .card:not(:last-child) {
+  .card-group > .card:not(:last-child), .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child), .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  .card-group > .card:not(:last-child) .card-img-top,
-  .card-group > .card:not(:last-child) .card-header {
+  .card-group > .card:not(:last-child) .card-img-top, .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child) .card-img-top, .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) .card-img-top,
+  .card-group > .card:not(:last-child) .card-header,
+  .card-group > .card:not(:last-child) .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header,
+  .com_users.view-user .com-users-methods-list-method .card-group > .card:not(:last-child) .com-users-methods-list-method-header,
+  .card-group > .card:not(:last-child) .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header,
+  .com_users.view-methods .com-users-methods-list-method .card-group > .card:not(:last-child) .com-users-methods-list-method-header,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child) .card-header,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child) .com-users-methods-list-method-header,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) .card-header,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) .com-users-methods-list-method-header {
     border-top-left-radius: 0;
   }
-  .card-group > .card:not(:last-child) .card-img-bottom,
-  .card-group > .card:not(:last-child) .card-footer {
+  .card-group > .card:not(:last-child) .card-img-bottom, .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child) .card-img-bottom, .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) .card-img-bottom,
+  .card-group > .card:not(:last-child) .card-footer,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:last-child) .card-footer,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:last-child) .card-footer {
     border-bottom-left-radius: 0;
   }
-  .card-group > .card:not(:first-child) {
+  .card-group > .card:not(:first-child), .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child), .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-  .card-group > .card:not(:first-child) .card-img-top,
-  .card-group > .card:not(:first-child) .card-header {
+  .card-group > .card:not(:first-child) .card-img-top, .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child) .card-img-top, .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) .card-img-top,
+  .card-group > .card:not(:first-child) .card-header,
+  .card-group > .card:not(:first-child) .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header,
+  .com_users.view-user .com-users-methods-list-method .card-group > .card:not(:first-child) .com-users-methods-list-method-header,
+  .card-group > .card:not(:first-child) .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header,
+  .com_users.view-methods .com-users-methods-list-method .card-group > .card:not(:first-child) .com-users-methods-list-method-header,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child) .card-header,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child) .com-users-methods-list-method-header,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) .card-header,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) .com-users-methods-list-method-header {
     border-top-right-radius: 0;
   }
-  .card-group > .card:not(:first-child) .card-img-bottom,
-  .card-group > .card:not(:first-child) .card-footer {
+  .card-group > .card:not(:first-child) .card-img-bottom, .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child) .card-img-bottom, .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) .card-img-bottom,
+  .card-group > .card:not(:first-child) .card-footer,
+  .com_users.view-user .card-group > .com-users-methods-list-method:not(:first-child) .card-footer,
+  .com_users.view-methods .card-group > .com-users-methods-list-method:not(:first-child) .card-footer {
     border-bottom-right-radius: 0;
   }
 }
@@ -5257,6 +5352,12 @@ textarea.form-control-lg {
   border-radius: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+  .accordion-button::after {
+    --accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237fa5d4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%237fa5d4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  }
+}
 .breadcrumb {
   --breadcrumb-padding-x: 0;
   --breadcrumb-padding-y: 0;
@@ -5611,8 +5712,8 @@ textarea.form-control-lg {
 
 .list-group {
   --list-group-color: var(--body-color);
-  --list-group-bg: var(--white-offset);
-  --list-group-border-color: hsl(var(--hue), 40%, 85%);
+  --list-group-bg: var(--body-bg);
+  --list-group-border-color: var(--template-bg-dark-15);
   --list-group-border-width: var(--border-width);
   --list-group-border-radius: var(--border-radius);
   --list-group-item-padding-x: 1rem;
@@ -5623,7 +5724,7 @@ textarea.form-control-lg {
   --list-group-action-active-color: var(--body-color);
   --list-group-action-active-bg: var(--secondary-bg);
   --list-group-disabled-color: var(--secondary-color);
-  --list-group-disabled-bg: var(--white-offset);
+  --list-group-disabled-bg: var(--body-bg);
   --list-group-active-color: #fff;
   --list-group-active-bg: #2a69b7;
   --list-group-active-border-color: #2a69b7;
@@ -6045,6 +6146,12 @@ textarea.form-control-lg {
           filter: var(--btn-close-white-filter);
 }
 
+@media (prefers-color-scheme: dark) {
+  .btn-close {
+    -webkit-filter: var(--btn-close-white-filter);
+            filter: var(--btn-close-white-filter);
+  }
+}
 .toast {
   --toast-zindex: 1090;
   --toast-padding-x: 0.75rem;
@@ -6910,6 +7017,19 @@ textarea.form-control-lg {
   color: #000;
 }
 
+@media (prefers-color-scheme: dark) {
+  .carousel .carousel-control-next-icon,
+  .carousel .carousel-control-prev-icon {
+    -webkit-filter: invert(1) grayscale(100);
+            filter: invert(1) grayscale(100);
+  }
+  .carousel .carousel-indicators [data-bs-target] {
+    background-color: #000;
+  }
+  .carousel .carousel-caption {
+    color: #000;
+  }
+}
 .spinner-grow,
 .spinner-border {
   display: inline-block;
@@ -8209,7 +8329,7 @@ textarea.form-control-lg {
   display: table-cell !important;
 }
 
-.d-flex {
+.d-flex, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header {
   display: -webkit-box !important;
   display: -ms-flexbox !important;
   display: flex !important;
@@ -8413,7 +8533,7 @@ textarea.form-control-lg {
   border-color: rgba(var(--primary-rgb), var(--border-opacity)) !important;
 }
 
-.border-secondary {
+.border-secondary, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active {
   --border-opacity: 1;
   border-color: rgba(var(--secondary-rgb), var(--border-opacity)) !important;
 }
@@ -8617,7 +8737,7 @@ textarea.form-control-lg {
           flex-direction: row !important;
 }
 
-.flex-column {
+.flex-column, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title {
   -webkit-box-orient: vertical !important;
   -webkit-box-direction: normal !important;
       -ms-flex-direction: column !important;
@@ -8644,7 +8764,7 @@ textarea.form-control-lg {
           flex-grow: 0 !important;
 }
 
-.flex-grow-1 {
+.flex-grow-1, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title {
   -webkit-box-flex: 1 !important;
       -ms-flex-positive: 1 !important;
           flex-grow: 1 !important;
@@ -8660,7 +8780,7 @@ textarea.form-control-lg {
       flex-shrink: 1 !important;
 }
 
-.flex-wrap {
+.flex-wrap, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header {
   -ms-flex-wrap: wrap !important;
       flex-wrap: wrap !important;
 }
@@ -8722,7 +8842,7 @@ textarea.form-control-lg {
           align-items: flex-end !important;
 }
 
-.align-items-center {
+.align-items-center, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header {
   -webkit-box-align: center !important;
       -ms-flex-align: center !important;
           align-items: center !important;
@@ -8848,7 +8968,7 @@ textarea.form-control-lg {
           order: 6 !important;
 }
 
-.m-0 {
+.m-0, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3 {
   margin: 0 !important;
 }
 
@@ -8881,7 +9001,7 @@ textarea.form-control-lg {
   margin-right: 0 !important;
 }
 
-.mx-1 {
+.mx-1, .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
   margin-left: 0.25rem !important;
   margin-right: 0.25rem !important;
 }
@@ -8916,7 +9036,7 @@ textarea.form-control-lg {
   margin-bottom: 0 !important;
 }
 
-.my-1 {
+.my-1, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-info, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-info {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
 }
@@ -8958,7 +9078,7 @@ textarea.form-control-lg {
   margin-top: 0.5rem !important;
 }
 
-.mt-3 {
+.mt-3, .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
   margin-top: 1rem !important;
 }
 
@@ -9018,7 +9138,7 @@ textarea.form-control-lg {
   margin-bottom: 1rem !important;
 }
 
-.mb-4 {
+.mb-4, .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
   margin-bottom: 1.5rem !important;
 }
 
@@ -9058,7 +9178,7 @@ textarea.form-control-lg {
   margin-right: auto !important;
 }
 
-.p-0 {
+.p-0, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3 {
   padding: 0 !important;
 }
 
@@ -9097,7 +9217,7 @@ textarea.form-control-lg {
   padding-right: 0.5rem !important;
 }
 
-.px-3 {
+.px-3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
@@ -9146,7 +9266,7 @@ textarea.form-control-lg {
   padding-top: 0 !important;
 }
 
-.pt-1 {
+.pt-1, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
   padding-top: 0.25rem !important;
 }
 
@@ -9194,11 +9314,11 @@ textarea.form-control-lg {
   padding-bottom: 0 !important;
 }
 
-.pb-1 {
+.pb-1, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-info, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-info {
   padding-bottom: 0.25rem !important;
 }
 
-.pb-2 {
+.pb-2, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
   padding-bottom: 0.5rem !important;
 }
 
@@ -9246,11 +9366,11 @@ textarea.form-control-lg {
   gap: 0.25rem !important;
 }
 
-.gap-2 {
+.gap-2, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header {
   gap: 0.5rem !important;
 }
 
-.gap-3 {
+.gap-3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3 {
   gap: 1rem !important;
 }
 
@@ -9330,7 +9450,7 @@ textarea.form-control-lg {
   font-size: calc(1.29rem + 0.48vw) !important;
 }
 
-.fs-2 {
+.fs-2, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3 {
   font-size: calc(1.275rem + 0.3vw) !important;
 }
 
@@ -9500,7 +9620,7 @@ textarea.form-control-lg {
   color: rgba(var(--black-rgb), var(--text-opacity)) !important;
 }
 
-.text-white {
+.text-white, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title .h3 {
   --text-opacity: 1;
   color: rgba(var(--white-rgb), var(--text-opacity)) !important;
 }
@@ -9510,7 +9630,7 @@ textarea.form-control-lg {
   color: rgba(var(--body-color-rgb), var(--text-opacity)) !important;
 }
 
-.text-muted {
+.text-muted, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-info, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-info {
   --text-opacity: 1;
   color: var(--secondary-color) !important;
 }
@@ -9765,7 +9885,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--primary-rgb), var(--bg-opacity)) !important;
 }
 
-.bg-secondary {
+.bg-secondary, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header {
   --bg-opacity: 1;
   background-color: rgba(var(--secondary-rgb), var(--bg-opacity)) !important;
 }
@@ -9936,7 +10056,7 @@ textarea.form-control-lg {
   border-radius: var(--border-radius-sm) !important;
 }
 
-.rounded-2 {
+.rounded-2, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
   border-radius: var(--border-radius) !important;
 }
 
@@ -13387,7 +13507,7 @@ textarea.form-control-lg {
   .fs-1 {
     font-size: 1.65rem !important;
   }
-  .fs-2 {
+  .fs-2, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .h3 {
     font-size: 1.5rem !important;
   }
 }
@@ -13432,123 +13552,123 @@ textarea.form-control-lg {
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=73f0a8") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=35b07e") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Regular";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=73f0a8") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=35b07e") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=4357be") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=f5902d") format("woff");
   font-weight: 400;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-RegularItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=4357be") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=f5902d") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=d26871") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=c73eb1") format("woff");
   font-weight: 300;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Light";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=d26871") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=c73eb1") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=e8eaae") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=13efe6") format("woff");
   font-weight: 300;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-LightItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=e8eaae") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=13efe6") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=ad538a") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=d3b473") format("woff");
   font-weight: 100;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Thin";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=ad538a") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=d3b473") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=5b4a33") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=8a96ed") format("woff");
   font-weight: 100;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-ThinItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=5b4a33") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=8a96ed") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=90d167") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=1d6594") format("woff");
   font-weight: 500;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Medium";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=90d167") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=1d6594") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=13ec0e") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=83e114") format("woff");
   font-weight: 500;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-MediumItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=13ec0e") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=83e114") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=b52fac") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=50d75e") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Bold";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=b52fac") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=50d75e") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=94008e") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=4fe0f7") format("woff");
   font-weight: 700;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-BoldItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=94008e") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=4fe0f7") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=59eb36") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=313a65") format("woff");
   font-weight: 900;
   font-style: normal;
 }
 @font-face {
   font-family: "Roboto-Black";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=59eb36") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=313a65") format("woff");
 }
 @font-face {
   font-family: "Roboto";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=f75569") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=cc2fad") format("woff");
   font-weight: 900;
   font-style: italic;
 }
 @font-face {
   font-family: "Roboto-BlackItalic";
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=f75569") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=cc2fad") format("woff");
 }
 html {
   height: 100%;
@@ -13572,6 +13692,11 @@ body {
 }
 body.admin {
   background-color: var(--template-bg-dark-5);
+}
+@media (prefers-color-scheme: dark) {
+  body.admin {
+    background-color: var(--template-bg-dark-90);
+  }
 }
 body.monochrome {
   -webkit-filter: grayscale(1);
@@ -13690,7 +13815,7 @@ body .container-main {
 }
 
 body:not(.contentpane) .main-card {
-  background: #fff;
+  background: var(--body-bg);
   border-radius: 0.25rem;
   -webkit-box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
           box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
@@ -13721,23 +13846,28 @@ body:not(.contentpane) .main-card {
 a[target=_blank]::before {
   -webkit-padding-end: 3px;
           padding-inline-end: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Free";
   font-size: 14px;
   font-weight: 900;
   content: "\f35d";
 }
 
 @media (max-width: 575.98px) {
-  #wrapper.d-flex {
+  #wrapper.d-flex, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3#wrapper, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title #wrapper.h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3#wrapper, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title #wrapper.h3, .com_users.view-user .com-users-methods-list-method #wrapper.com-users-methods-list-method-title, .com_users.view-methods .com-users-methods-list-method #wrapper.com-users-methods-list-method-title, .com_users.view-user .com-users-methods-list-method #wrapper.com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method #wrapper.com-users-methods-list-method-header {
     display: block !important;
   }
 }
 
-.text-muted {
+.text-muted, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-info, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-info {
   color: var(--template-text-dark) !important;
   opacity: 0.7;
 }
 
+@media (prefers-color-scheme: dark) {
+  .text-muted, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-info, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-info {
+    color: var(--template-text-light) !important;
+  }
+}
 .card-columns {
   display: grid;
   grid-gap: 0 15px;
@@ -13774,6 +13904,11 @@ details summary ~ * {
   margin-top: 1rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  details {
+    background: var(--template-bg-dark-90);
+  }
+}
 meter {
   width: 100%;
 }
@@ -13808,7 +13943,7 @@ span.minicolors-swatch-color {
     white-space: normal;
   }
 }
-.badge.bg-secondary:hover {
+.badge.bg-secondary:hover, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .badge.com-users-methods-list-method-header:hover, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .badge.com-users-methods-list-method-header:hover {
   color: #fff;
 }
 
@@ -13849,7 +13984,7 @@ span.minicolors-swatch-color {
   border-color: var(--template-bg-dark);
 }
 
-.card-columns .card {
+.card-columns .card, .card-columns .com_users.view-user .com-users-methods-list-method, .com_users.view-user .card-columns .com-users-methods-list-method, .card-columns .com_users.view-methods .com-users-methods-list-method, .com_users.view-methods .card-columns .com-users-methods-list-method {
   margin-bottom: 1rem;
 }
 @media (min-width: 576px) {
@@ -13863,45 +13998,54 @@ span.minicolors-swatch-color {
     orphans: 1;
     widows: 1;
   }
-  .card-columns .card {
+  .card-columns .card, .card-columns .com_users.view-user .com-users-methods-list-method, .com_users.view-user .card-columns .com-users-methods-list-method, .card-columns .com_users.view-methods .com-users-methods-list-method, .com_users.view-methods .card-columns .com-users-methods-list-method {
     display: inline-block;
     width: 100%;
   }
 }
 
-.content .card {
+.content .card, .content .com_users.view-user .com-users-methods-list-method, .com_users.view-user .content .com-users-methods-list-method, .content .com_users.view-methods .com-users-methods-list-method, .com_users.view-methods .content .com-users-methods-list-method {
   -webkit-box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
           box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
 }
-.content .card-header {
+.content .card-header, .content .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .content .com-users-methods-list-method-header, .content .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .content .com-users-methods-list-method-header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 1rem 1rem 0.75rem;
   font-weight: 700;
   color: var(--template-bg-dark);
-  background: var(--card-bg);
+  background-color: var(--card-bg);
 }
-.content .card-header > [class^=icon-],
-.content .card-header > img {
+.content .card-header > [class^=icon-], .content .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header > [class^=icon-], .com_users.view-user .com-users-methods-list-method .content .com-users-methods-list-method-header > [class^=icon-], .content .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header > [class^=icon-], .com_users.view-methods .com-users-methods-list-method .content .com-users-methods-list-method-header > [class^=icon-],
+.content .card-header > img,
+.content .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header > img,
+.com_users.view-user .com-users-methods-list-method .content .com-users-methods-list-method-header > img,
+.content .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header > img,
+.com_users.view-methods .com-users-methods-list-method .content .com-users-methods-list-method-header > img {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
+}
+@media (prefers-color-scheme: dark) {
+  .content .card-header, .content .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .content .com-users-methods-list-method-header, .content .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .content .com-users-methods-list-method-header {
+    color: var(--body-color);
+    background-color: var(--body-bg);
+  }
 }
 
 .form-select, .custom-select {
   max-width: 100%;
   cursor: pointer;
-  background:  url("../images/select-bg-rtl.svg") no-repeat left center/max(100%, 116rem) ;
-  background-color: var(--template-bg-light);
-  border: var(--border-width) solid var(--template-bg-dark-20);
+  background:  var(--template-bg-light) url("../images/select-bg-rtl.svg?v=e50af2") no-repeat left center/max(100%, 116rem);
 }
 .form-select[multiple], [multiple].custom-select {
   padding: 0;
-  background-color: var(--white-offset);
 }
 .form-select[multiple] option, [multiple].custom-select option {
   padding: 0.3rem 1rem;
-  background-color: var(--white-offset);
 }
 .form-select[multiple] option:checked, [multiple].custom-select option:checked {
   color: var(--template-text-light);
@@ -13916,6 +14060,11 @@ span.minicolors-swatch-color {
   color: var(--body-color);
   background-color: var(--white-offset);
 }
+@media (prefers-color-scheme: dark) {
+  .form-select.form-select-success option, .form-select-success.custom-select option, .form-select.custom-select-success option, .custom-select-success.custom-select option {
+    background-color: var(--gray-800);
+  }
+}
 .form-select.form-select-danger, .form-select-danger.custom-select, .form-select.custom-select-danger, .custom-select-danger.custom-select {
   color: var(--danger);
   background-color: var(--danger);
@@ -13925,39 +14074,74 @@ span.minicolors-swatch-color {
   color: var(--body-color);
   background-color: var(--white-offset);
 }
+@media (prefers-color-scheme: dark) {
+  .form-select.form-select-danger option, .form-select-danger.custom-select option, .form-select.custom-select-danger option, .custom-select-danger.custom-select option {
+    background-color: var(--gray-800);
+  }
+}
 .form-select:disabled, .custom-select:disabled {
   cursor: default;
-  background-color: #e8e8e8;
+  background-color: var(--gray-200);
   background-image: none;
   border: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
 }
+@media (prefers-color-scheme: dark) {
+  .form-select:disabled, .custom-select:disabled {
+    background-color: var(--gray-800);
+  }
+}
 .form-select optgroup, .custom-select optgroup,
 .form-select option,
 .custom-select option {
   color: var(--template-text-dark);
-  background-color: #fff;
+  background-color: var(--body-bg);
 }
 .form-select optgroup:disabled, .custom-select optgroup:disabled,
 .form-select option:disabled,
 .custom-select option:disabled {
   background-color: var(--template-bg-dark-5);
 }
+@media (prefers-color-scheme: dark) {
+  .form-select option, .custom-select option {
+    color: var(--template-text-light);
+  }
+  .form-select option:disabled, .custom-select option:disabled {
+    background-color: var(--template-bg-dark-90);
+  }
+}
 
-.accordion .card-header {
+@media (prefers-color-scheme: dark) {
+  .form-select, .custom-select {
+    background:  var(--template-bg-dark) url("../images/select-bg-rtl-dark.svg?v=5f59e1") no-repeat left center/max(100%, 116rem);
+  }
+}
+.accordion {
+  /**
+   * TODO: This seems fairly specifically built for the menu types view and might be better scoped to
+   *       that view rather than just being overridden for everything.
+   */
+}
+.accordion .card-header, .accordion .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .accordion .com-users-methods-list-method-header, .accordion .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .accordion .com-users-methods-list-method-header {
   display: block;
   font-size: 0.9286rem;
   font-weight: 700;
   line-height: 1.2;
 }
 .accordion .list-group-item {
-  color: #2a69b8;
+  --list-group-color: var(--link-color);
+  --list-group-bg: var(--white-offset);
+}
+@media (prefers-color-scheme: dark) {
+  .accordion .list-group-item {
+    --list-group-bg: var(--gray-800);
+  }
 }
 
 .btn-group .dropdown-menu {
   min-width: 100%;
-  background: #fff;
+  background: var(--body-bg);
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
 }
@@ -13996,6 +14180,12 @@ span.minicolors-swatch-color {
   color: var(--template-text-light);
   background-color: var(--success);
 }
+@media (prefers-color-scheme: dark) {
+  .dropdown-item:hover, .dropdown-item:focus {
+    --dropdown-link-hover-bg: var(--gray-700);
+    --dropdown-link-hover-color: var(--body-color);
+  }
+}
 .dropdown-item + .dropdown-item {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -14017,6 +14207,11 @@ span.minicolors-swatch-color {
   border-radius: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+  .dropdown-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
 label {
   margin-bottom: 0;
 }
@@ -14106,10 +14301,6 @@ select.form-control {
     width: 100%;
   }
 }
-.list-group-item {
-  background-color: var(--white-offset);
-}
-
 .list-unstyled .list-unstyled {
   padding-right: 20px;
 }
@@ -14227,7 +14418,7 @@ th {
 }
 .table thead a#sorted {
   font-weight: 500;
-  color: #343a40;
+  color: var(--table-color-state, var(--table-color-type, var(--table-color)));
 }
 @media (max-width: 767.98px) {
   .table thead .actions,
@@ -14334,6 +14525,22 @@ fieldset .alert.alert-info {
     opacity: 1;
     -webkit-transform: translateY(0);
             transform: translateY(0);
+  }
+}
+:root {
+  --calendar-bg: var(--body-bg);
+  --calendar-week-bg: #f4f4f4;
+  --calendar-buttons-color: #495057;
+  --calendar-select-bg-color: var(--template-bg-light);
+  --calendar-select-color: var(--body-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --calendar-week-bg: var(--gray-700);
+    --calendar-buttons-color: var(--template-bg-dark-20);
+    --calendar-select-bg-url: url("../../images/calendar-select-bg-dark-rtl.svg");
+    --calendar-select-bg-color: var(--template-bg-dark);
   }
 }
 .title-alias .form-control {
@@ -14596,8 +14803,13 @@ fieldset .alert.alert-info {
   max-width: 100%;
 }
 .form-control:disabled, .form-control[readonly] {
-  background-color: #e8e8e8;
+  background-color: var(--gray-200);
   opacity: 1;
+}
+@media (prefers-color-scheme: dark) {
+  .form-control:disabled, .form-control[readonly] {
+    background-color: var(--gray-800);
+  }
 }
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
   background-color: var(--template-bg-dark-50);
@@ -14855,11 +15067,11 @@ div.subform-repeatable-group > .btn-toolbar .btn.group-move span {
 }
 
 .plg_system_webauthn_login_button svg {
-  -webkit-margin-end: 2px;
-          margin-inline-end: 2px;
+  width: 30px;
+  margin: 4px;
 }
 
-.plg_system_webauthn_login_button svg path {
+.plg_system_webauthn_login_button svg path, .plg_system_webauthn_login_button svg circle {
   fill: var(--white);
 }
 
@@ -14889,9 +15101,19 @@ iframe {
   padding: 0 1rem;
   font-weight: 700;
   color: var(--template-text-dark);
-  background-color: #fff;
+  background-color: var(--body-bg);
+}
+@media (prefers-color-scheme: dark) {
+  .options-form > legend {
+    color: var(--template-text-light);
+  }
 }
 
+@media (prefers-color-scheme: dark) {
+  .options-form {
+    color: var(--template-text-light);
+  }
+}
 .view-login .container-main,
 .task-logout .container-main {
   -webkit-box-ordinal-group: 2;
@@ -14929,7 +15151,7 @@ iframe {
   padding: 30px;
   margin: 1rem;
   color: var(--template-text-dark);
-  background: var(--white);
+  background: var(--body-bg);
   border-radius: 10px;
   -webkit-box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
           box-shadow: 0 4px 20px -10px var(--template-bg-dark-50);
@@ -14982,11 +15204,6 @@ iframe {
     width: 100%;
   }
 }
-.view-login .form-group label span.text-end,
-.task-logout .form-group label span.text-end {
-  font-size: 0.75rem;
-  color: var(--template-special-color);
-}
 .view-login .form-group .form-control-feedback,
 .task-logout .form-group .form-control-feedback {
   position: absolute;
@@ -15007,7 +15224,6 @@ iframe {
 .view-login select:focus,
 .task-logout input:focus,
 .task-logout select:focus {
-  background: #fff;
   -webkit-box-shadow: inset 0 0 1px 1px var(--template-contrast);
           box-shadow: inset 0 0 1px 1px var(--template-contrast);
 }
@@ -15076,8 +15292,12 @@ iframe {
 .task-logout .sidebar-wrapper .main-brand a {
   font-size: 0.875rem;
 }
-.view-login .sidebar-wrapper .card-header,
-.task-logout .sidebar-wrapper .card-header {
+.view-login .sidebar-wrapper .card-header, .view-login .sidebar-wrapper .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .view-login .sidebar-wrapper .com-users-methods-list-method-header, .view-login .sidebar-wrapper .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .view-login .sidebar-wrapper .com-users-methods-list-method-header,
+.task-logout .sidebar-wrapper .card-header,
+.task-logout .sidebar-wrapper .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header,
+.com_users.view-user .com-users-methods-list-method .task-logout .sidebar-wrapper .com-users-methods-list-method-header,
+.task-logout .sidebar-wrapper .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header,
+.com_users.view-methods .com-users-methods-list-method .task-logout .sidebar-wrapper .com-users-methods-list-method-header {
   font-size: 1.125rem;
   color: #fff;
 }
@@ -15091,14 +15311,22 @@ iframe {
   color: var(--template-text-light);
   text-align: center;
 }
-.view-login #sidebar .card,
-.task-logout #sidebar .card {
+.view-login #sidebar .card, .view-login #sidebar .com_users.view-user .com-users-methods-list-method, .com_users.view-user .view-login #sidebar .com-users-methods-list-method, .view-login #sidebar .com_users.view-methods .com-users-methods-list-method, .com_users.view-methods .view-login #sidebar .com-users-methods-list-method,
+.task-logout #sidebar .card,
+.task-logout #sidebar .com_users.view-user .com-users-methods-list-method,
+.com_users.view-user .task-logout #sidebar .com-users-methods-list-method,
+.task-logout #sidebar .com_users.view-methods .com-users-methods-list-method,
+.com_users.view-methods .task-logout #sidebar .com-users-methods-list-method {
   background: rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: none;
           box-shadow: none;
 }
-.view-login #sidebar .card .module-body,
-.task-logout #sidebar .card .module-body {
+.view-login #sidebar .card .module-body, .view-login #sidebar .com_users.view-user .com-users-methods-list-method .module-body, .com_users.view-user .view-login #sidebar .com-users-methods-list-method .module-body, .view-login #sidebar .com_users.view-methods .com-users-methods-list-method .module-body, .com_users.view-methods .view-login #sidebar .com-users-methods-list-method .module-body,
+.task-logout #sidebar .card .module-body,
+.task-logout #sidebar .com_users.view-user .com-users-methods-list-method .module-body,
+.com_users.view-user .task-logout #sidebar .com-users-methods-list-method .module-body,
+.task-logout #sidebar .com_users.view-methods .com-users-methods-list-method .module-body,
+.com_users.view-methods .task-logout #sidebar .com-users-methods-list-method .module-body {
   padding: 0.75rem 1.25rem;
 }
 @media (max-width: 767.98px) {
@@ -15156,6 +15384,11 @@ label {
   color: #132f53;
 }
 
+@media (prefers-color-scheme: dark) {
+  label {
+    color: var(--white);
+  }
+}
 .com_login .sidebar-wrapper .main-brand {
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -15182,7 +15415,7 @@ label {
 }
 
 @media (max-width: 767.98px) {
-  .view-login #wrapper.d-flex {
+  .view-login #wrapper.d-flex, .view-login .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title h3#wrapper, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .view-login h3#wrapper, .view-login .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title #wrapper.h3, .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-title .view-login #wrapper.h3, .view-login .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title h3#wrapper, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .view-login h3#wrapper, .view-login .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title #wrapper.h3, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-title .view-login #wrapper.h3, .view-login .com_users.view-user .com-users-methods-list-method #wrapper.com-users-methods-list-method-title, .com_users.view-user .com-users-methods-list-method .view-login #wrapper.com-users-methods-list-method-title, .view-login .com_users.view-methods .com-users-methods-list-method #wrapper.com-users-methods-list-method-title, .com_users.view-methods .com-users-methods-list-method .view-login #wrapper.com-users-methods-list-method-title, .view-login .com_users.view-user .com-users-methods-list-method #wrapper.com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .view-login #wrapper.com-users-methods-list-method-header, .view-login .com_users.view-methods .com-users-methods-list-method #wrapper.com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .view-login #wrapper.com-users-methods-list-method-header {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
     display: flex !important;
@@ -15197,15 +15430,6 @@ label {
   color: var(--danger);
 }
 
-.ie11 {
-  display: none;
-}
-
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .ie11 {
-    display: block;
-  }
-}
 .login_message {
   margin: 1rem 1rem 0;
 }
@@ -15357,8 +15581,210 @@ label {
   margin-bottom: 0;
 }
 
+joomla-dialog dialog {
+  width: 96vw;
+  max-width: 1700px;
+  height: 96vh;
+  padding: 0;
+  border: 1px solid var(--border-color-translucent);
+  border-radius: 0.3rem;
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+@media (min-width: 1400px) {
+  joomla-dialog dialog {
+    width: 80vw;
+    height: 80vh;
+  }
+}
+joomla-dialog dialog[open] {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+joomla-dialog[type=image] dialog {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+joomla-dialog[type=iframe] dialog {
+  overflow: hidden;
+}
+joomla-dialog iframe.iframe-content {
+  width: 100%;
+  height: 100%;
+}
+joomla-dialog[type=iframe].loading dialog:after, joomla-dialog[type=ajax].loading dialog:after {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  display: block;
+  width: 66px;
+  height: 66px;
+  content: "";
+  background: url("../../../../system/images/ajax-loader.gif?v=144b8c") no-repeat center;
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
+}
+
+joomla-dialog dialog[open] {
+  -webkit-animation: dialog-show 0.4s ease normal;
+          animation: dialog-show 0.4s ease normal;
+}
+@media (prefers-reduced-motion: reduce) {
+  joomla-dialog dialog[open] {
+    -webkit-animation: none;
+            animation: none;
+  }
+}
+
+@-webkit-keyframes dialog-show {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes dialog-show {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+.joomla-dialog-container {
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 100%;
+}
+.joomla-dialog-container .buttons-holder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-margin-start: auto;
+          margin-inline-start: auto;
+}
+.joomla-dialog-container .buttons-holder button {
+  margin-inline: 0.375rem;
+}
+
+.joomla-dialog-header {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.joomla-dialog-header h3, .joomla-dialog-header .h3 {
+  margin: 0;
+}
+.joomla-dialog-header .header-icon {
+  -webkit-margin-end: 0.375rem;
+          margin-inline-end: 0.375rem;
+  font-size: 1.25rem;
+}
+.joomla-dialog-header.empty {
+  display: none;
+}
+
+.joomla-dialog-body {
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+}
+.joomla-dialog-body .buttons-holder {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+.joomla-dialog-body joomla-dialog[type=inline], joomla-dialog[type=ajax] .joomla-dialog-body {
+  overflow: auto;
+}
+joomla-dialog.loading .joomla-dialog-body {
+  opacity: 0;
+}
+joomla-dialog.loaded .joomla-dialog-body {
+  opacity: 1;
+  -webkit-transition: opacity 0.4s ease;
+  transition: opacity 0.4s ease;
+}
+
+.joomla-dialog-footer {
+  position: relative;
+  padding: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+.joomla-dialog-footer .buttons-holder button {
+  padding-inline: 22px;
+}
+.joomla-dialog-footer.empty {
+  display: none;
+}
+
+.joomla-dialog-alert dialog,
+.joomla-dialog-confirm dialog {
+  width: 600px;
+  max-width: 80vw;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.joomla-dialog-alert .joomla-dialog-body,
+.joomla-dialog-confirm .joomla-dialog-body {
+  padding: 1rem;
+}
+
+@media (min-width: 1400px) {
+  .joomla-dialog-content-select-field dialog {
+    width: 90vw;
+    height: 90vh;
+  }
+}
+
 .quick-icons {
-  background-color: #fff;
+  background-color: var(--body-bg);
 }
 .quick-icons .nav {
   display: grid;
@@ -15372,9 +15798,9 @@ label {
   padding: 0;
 }
 .quick-icons .quickicon {
-  --text-color: hsl(var(--hue), 30%, 40%);
+  --text-color: var(--template-quickicon-color);
   --bg-color: hsl(var(--hue), 60%, 97%);
-  --icon-color: hsl(var(--hue), 30%, 40%);
+  --icon-color: var(--template-quickicon-color);
   --bg-color-hvr: var(--template-bg-dark);
   display: -webkit-box;
   display: -ms-flexbox;
@@ -15427,6 +15853,13 @@ label {
   transition: all 0.25s ease;
   -webkit-margin-start: 0.5rem;
           margin-inline-start: 0.5rem;
+  /* stylelint-disable max-nesting-depth */
+}
+@media (prefers-color-scheme: dark) {
+  .quick-icons .quickicon a .quickicon-amount {
+    /* stylelint-enable max-nesting-depth */
+    color: var(--template-bg-dark-80);
+  }
 }
 .quick-icons .quickicon a .j-links-link {
   display: block;
@@ -15452,6 +15885,12 @@ label {
   --bg-color: #f3f9f3;
   --icon-color: #55a258;
   --bg-color-hvr: var(--success);
+}
+@media (prefers-color-scheme: dark) {
+  .quick-icons .quickicon {
+    --bg-color: var(--template-bg-dark-80);
+    --bg-color-hvr: var(--template-bg-dark-65);
+  }
 }
 .quick-icons .quickicon-info {
   display: -webkit-box;
@@ -15479,7 +15918,16 @@ label {
 }
 .quick-icons .quickicon-linkadd a > * {
   margin-bottom: 10px;
-  color: hsl(var(--hue), 30%, 40%);
+  color: var(--template-quickicon-color);
+}
+@media (prefers-color-scheme: dark) {
+  .quick-icons .quickicon-linkadd a {
+    /* stylelint-disable max-nesting-depth */
+  }
+  .quick-icons .quickicon-linkadd a > * {
+    /* stylelint-enable max-nesting-depth */
+    color: var(--template-bg-dark-80);
+  }
 }
 .quick-icons .quickicon-linkadd a:hover, .quick-icons .quickicon-linkadd a:focus, .quick-icons .quickicon-linkadd a:active {
   background: var(--template-bg-dark);
@@ -15507,6 +15955,23 @@ label {
   word-break: break-word;
 }
 
+.shepherd-element, .shepherd-arrow:before {
+  background-color: var(--body-bg) !important;
+}
+
+.shepherd-text, .shepherd-title {
+  color: var(--body-color) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .shepherd-has-title .shepherd-content .shepherd-header, .shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+    background-color: var(--dark-bg-subtle) !important;
+  }
+  .shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
+    -webkit-filter: invert(1) grayscale(100%) brightness(200%) !important;
+            filter: invert(1) grayscale(100%) brightness(200%) !important;
+  }
+}
 .sidebar-wrapper {
   z-index: 1010;
   min-height: calc(100vh - 66px);
@@ -15654,7 +16119,7 @@ label {
       -ms-flex-pack: center;
           justify-content: center;
   width: 2rem;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
   content: "\f053";
 }
@@ -15755,7 +16220,7 @@ label {
   }
   .toggler-burger .navbar-toggler-icon::before {
     display: inline-block;
-    font: normal normal 900 28px/1 "Font Awesome 5 Free";
+    font: normal normal 900 28px/1 "Font Awesome 6 Free";
     color: var(--toggle-color);
     content: "\f00d";
   }
@@ -15796,9 +16261,14 @@ label {
 .sidebar-nav li a::before {
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
   content: "\f053";
+}
+@media (prefers-color-scheme: dark) {
+  .sidebar-nav li a {
+    color: var(--template-text-light);
+  }
 }
 .sidebar-nav li.item:hover, .sidebar-nav li.active {
   background-color: var(--template-bg-dark-60);
@@ -15873,7 +16343,7 @@ label {
   font-size: 1rem;
   line-height: 2.45rem;
   color: var(--template-text-dark);
-  background: #fff;
+  background: var(--body-bg);
   border-color: hsl(var(--hue), 20%, 80%);
 }
 .subhead .btn > span {
@@ -15903,6 +16373,16 @@ label {
 .subhead .btn.btn-info {
   --subhead-btn-accent: var(--template-bg-dark);
 }
+@media (prefers-color-scheme: dark) {
+  .subhead .btn.btn-info {
+    --subhead-btn-accent: var(--template-bg-light);
+    /* stylelint-disable max-nesting-depth */
+  }
+  .subhead .btn.btn-info:hover, .subhead .btn.btn-info:focus, .subhead .btn.btn-info:active {
+    /* stylelint-enable max-nesting-depth */
+    --subhead-btn-accent: var(--template-bg-dark-60);
+  }
+}
 .subhead .btn.btn-action {
   --subhead-btn-accent: var(--template-bg-dark);
   display: -webkit-box;
@@ -15914,10 +16394,20 @@ label {
 }
 .subhead .btn.btn-action::after {
   width: 2.375rem;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
   content: "\f078";
   border: 0;
+}
+@media (prefers-color-scheme: dark) {
+  .subhead .btn.btn-action {
+    --subhead-btn-accent: var(--template-bg-light);
+    /* stylelint-disable max-nesting-depth */
+  }
+  .subhead .btn.btn-action:hover, .subhead .btn.btn-action:focus, .subhead .btn.btn-action:active {
+    /* stylelint-enable max-nesting-depth */
+    --subhead-btn-accent: var(--template-bg-dark-60);
+  }
 }
 .subhead .btn[disabled], .subhead .btn.dropdown-toggle[disabled] {
   --subhead-btn-accent: var(--template-bg-dark);
@@ -15926,6 +16416,12 @@ label {
 }
 .subhead .btn[disabled]:hover, .subhead .btn[disabled]:active, .subhead .btn[disabled]:focus, .subhead .btn.dropdown-toggle[disabled]:hover, .subhead .btn.dropdown-toggle[disabled]:active, .subhead .btn.dropdown-toggle[disabled]:focus {
   cursor: not-allowed;
+}
+@media (prefers-color-scheme: dark) {
+  .subhead .btn {
+    --subhead-btn-accent: var(--template-text-light);
+    color: var(--template-text-light);
+  }
 }
 .subhead .dropdown-toggle.btn {
   -webkit-padding-end: 0;
@@ -15950,6 +16446,13 @@ label {
   border-bottom: 1px solid var(--template-bg-dark-7);
 }
 
+@media (prefers-color-scheme: dark) {
+  .subhead {
+    background-color: var(--body-bg);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(var(--body-bg)), to(var(--dark-bg)));
+    background-image: linear-gradient(var(--body-bg), var(--dark-bg));
+  }
+}
 @media (max-width: 575.98px) {
   joomla-tab[view=accordion] .col-md-9,
   joomla-tab[view=accordion] .col-md-3 {
@@ -15972,7 +16475,7 @@ label {
     border-radius: 30px;
   }
   .toggler-toolbar .toggler-toolbar-icon::before {
-    font: normal normal 900 28px/1 "Font Awesome 5 Free";
+    font: normal normal 900 28px/1 "Font Awesome 6 Free";
     color: var(--toggle-color);
     content: "\f00d";
   }
@@ -16010,7 +16513,12 @@ label {
 }
 .treeselect .nav-header {
   font-weight: 700;
-  color: #212529;
+  color: var(--template-bg-dark);
+}
+@media (prefers-color-scheme: dark) {
+  .treeselect .nav-header {
+    color: var(--body-color);
+  }
 }
 .treeselect li {
   position: relative;
@@ -16026,7 +16534,7 @@ label {
   height: 1px;
   margin: auto;
   content: "";
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--template-bg-dark-7);
 }
 .treeselect li::after {
   position: absolute;
@@ -16036,7 +16544,7 @@ label {
   width: 1px;
   height: 100%;
   content: "";
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--template-bg-dark-7);
 }
 .treeselect li:last-child::after {
   height: 14px;
@@ -16282,8 +16790,20 @@ label {
   margin-bottom: 5px;
 }
 
-.CodeMirror-fullscreen {
+joomla-editor-codemirror.fullscreen {
   top: 133px;
+}
+joomla-editor-codemirror.fullscreen .cm-editor {
+  height: calc(90vh - 133px) !important;
+}
+@media (max-width: 575.98px) {
+  joomla-editor-codemirror.fullscreen {
+    top: 54px;
+    z-index: 890;
+  }
+  joomla-editor-codemirror.fullscreen .cm-editor {
+    height: 100vh !important;
+  }
 }
 
 .gu-mirror {
@@ -16349,6 +16869,15 @@ label {
   border-top: var(--template-bg-light) 1px solid;
 }
 
+.tox-toolbar__group:not(:last-of-type) {
+  -webkit-border-end: 1px solid var(--border-color) !important;
+          border-inline-end: 1px solid var(--border-color) !important;
+}
+
+.tox-tinymce {
+  border-radius: 0 !important;
+}
+
 .com_config #fieldset-permissions {
   grid-template-columns: 1fr;
 }
@@ -16399,112 +16928,30 @@ label {
   max-width: 100%;
 }
 
-.cpanel-add-module-icon-help .list-group-item, .cpanel-add-module-icon-system .list-group-item,
-.com-cpanel-help .list-group-item,
-.com-cpanel-system .list-group-item {
-  padding: 0;
-}
-.cpanel-add-module-icon-help .list-group-item a, .cpanel-add-module-icon-system .list-group-item a,
-.com-cpanel-help .list-group-item a,
-.com-cpanel-system .list-group-item a {
-  display: block;
-  padding: 0.75rem 1rem;
-}
-.cpanel-add-module-icon-help__header,
-.com-cpanel-help__header {
-  color: var(--template-special-color);
-}
-.cpanel-add-module-icon-help a,
-.com-cpanel-help a {
-  color: var(--link-color);
-}
-.cpanel-add-module-icon-help h2, .cpanel-add-module-icon-help .h2,
-.com-cpanel-help h2,
-.com-cpanel-help .h2 {
-  font-size: 1rem;
-}
-.cpanel-add-module-icon-system,
-.com-cpanel-system {
-  -webkit-column-count: 4;
-     -moz-column-count: 4;
-          column-count: 4;
-}
-.cpanel-add-module-icon-system__category,
-.com-cpanel-system__category {
-  margin-bottom: 1.5em;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-     -moz-column-break-inside: avoid;
-          break-inside: avoid;
-}
-.cpanel-add-module-icon-system__header,
-.com-cpanel-system__header {
-  color: var(--template-special-color);
-}
-.cpanel-add-module-icon-system__header span,
-.com-cpanel-system__header span {
-  margin-left: 5px;
-}
-.cpanel-add-module-icon-system a,
-.com-cpanel-system a {
-  color: var(--link-color);
-}
-.cpanel-add-module-icon-system h2, .cpanel-add-module-icon-system .h2,
-.com-cpanel-system h2,
-.com-cpanel-system .h2 {
-  font-size: 1rem;
-}
-@media (max-width: 991.98px) {
-  .cpanel-add-module-icon-system,
-  .com-cpanel-system {
-    -webkit-column-count: 2;
-       -moz-column-count: 2;
-            column-count: 2;
-  }
-}
-@media (max-width: 767.98px) {
-  .cpanel-add-module-icon-system,
-  .com-cpanel-system {
-    -webkit-column-count: 1;
-       -moz-column-count: 1;
-            column-count: 1;
-  }
-}
-
 .com_cpanel .content {
   margin-top: 2rem;
 }
-.com_cpanel .card p:last-child {
+.com_cpanel .card p:last-child, .com_cpanel .com_users.view-user .com-users-methods-list-method p:last-child, .com_users.view-user .com_cpanel .com-users-methods-list-method p:last-child, .com_cpanel .com_users.view-methods .com-users-methods-list-method p:last-child, .com_users.view-methods .com_cpanel .com-users-methods-list-method p:last-child {
   margin-bottom: 0;
 }
-.com_cpanel .card .list-group,
-.com_cpanel .card .table {
+.com_cpanel .card .list-group, .com_cpanel .com_users.view-user .com-users-methods-list-method .list-group, .com_users.view-user .com_cpanel .com-users-methods-list-method .list-group, .com_cpanel .com_users.view-methods .com-users-methods-list-method .list-group, .com_users.view-methods .com_cpanel .com-users-methods-list-method .list-group,
+.com_cpanel .card .table,
+.com_cpanel .com_users.view-user .com-users-methods-list-method .table,
+.com_users.view-user .com_cpanel .com-users-methods-list-method .table,
+.com_cpanel .com_users.view-methods .com-users-methods-list-method .table,
+.com_users.view-methods .com_cpanel .com-users-methods-list-method .table {
   padding: 0;
   margin-bottom: unset;
   border-top: 1px solid var(--border-color);
 }
-.com_cpanel .card-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 1rem 1rem 0.75rem;
-  font-weight: 700;
-  color: var(--template-bg-dark);
-  background: hsla(0, 0%, 100%, 0.7);
+.com_cpanel .card-header, .com_cpanel .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-user .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-header, .com_cpanel .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-header {
+  --card-bg: hsla(0, 0%, 100%, .7);
 }
-.com_cpanel .card-header > [class^=icon-],
-.com_cpanel .card-header > img {
-  -webkit-margin-end: 0.5rem;
-          margin-inline-end: 0.5rem;
-}
-.com_cpanel .card-header .btn {
+.com_cpanel .card-header .btn, .com_cpanel .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-header .btn, .com_users.view-user .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-header .btn, .com_cpanel .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-header .btn, .com_users.view-methods .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-header .btn {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
-.com_cpanel .card-body {
+.com_cpanel .card-body, .com_cpanel .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-records-container, .com_users.view-user .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-records-container, .com_cpanel .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-records-container, .com_users.view-methods .com-users-methods-list-method .com_cpanel .com-users-methods-list-method-records-container {
   padding: 0;
   overflow: hidden;
   border-bottom-left-radius: 0.25rem;
@@ -16520,6 +16967,11 @@ label {
 .com_cpanel .module-actions > * {
   padding: 0;
   color: var(--template-bg-dark-70);
+}
+@media (prefers-color-scheme: dark) {
+  .com_cpanel .module-actions > * {
+    color: var(--body-color);
+  }
 }
 .com_cpanel .cpanel-add-module {
   display: -webkit-box;
@@ -16541,9 +16993,9 @@ label {
   font-size: 0.875rem;
   font-weight: 700;
   line-height: 1;
-  color: hsl(var(--hue), 30%, 40%);
-  background-color: hsl(var(--hue), 35%, 98%);
-  border: 1px solid hsl(var(--hue), 35%, 88%);
+  color: var(--template-quickicon-color);
+  background-color: var(--body-bg);
+  border: 1px solid var(--body-bg);
   border-radius: 0.25rem;
   -webkit-transition: all 0.15s ease-in;
   transition: all 0.15s ease-in;
@@ -16558,16 +17010,13 @@ label {
 }
 .com_cpanel .cpanel-add-module .cpanel-add-module-icon {
   font-size: 2rem;
-  color: hsl(var(--hue), 30%, 40%);
+  color: var(--template-quickicon-color);
   -webkit-margin-end: 0.5rem;
           margin-inline-end: 0.5rem;
 }
 
 .cpanel-modules .list-group {
-  border-top: 1px solid hsl(var(--hue), 40%, 85%);
-}
-.cpanel-modules .list-group-item:hover {
-  background: var(--toolbar-bg);
+  border-top: 1px solid var(--template-bg-dark-15);
 }
 .cpanel-modules .list-group-item a {
   font-weight: 500;
@@ -16592,8 +17041,7 @@ label {
   padding: 0;
   margin: 0 0.85rem;
   font-size: 0.9rem;
-  color: rgb(1, 1, 1);
-  background: var(--white-offset);
+  color: var(--body-color);
   -webkit-box-shadow: none;
           box-shadow: none;
   -webkit-transform: scale(1.2);
@@ -16613,7 +17061,7 @@ label {
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--heading-color);
 }
 
 .sample-data__icon {
@@ -16634,17 +17082,48 @@ label {
   caption-side: top;
 }
 
+:root {
+  --com-media-manager-overlay-header-bg: var(--template-bg-dark-5);
+  --com-media-manager-infobar-dt-color: rgba(0, 0, 0, .54);
+  --com-media-manager-content-bg: var(--body-bg);
+  --com-media-manager-overlay-bg: var(--template-bg-dark-3);
+  --com-media-manager-disk-name-color: var(--template-text-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --com-media-manager-overlay-bg: var(--template-bg-dark-90);
+    --com-media-manager-infobar-dt-color: rgba(255, 255, 255, .54);
+    --com-media-manager-overlay-header-bg: var(--template-bg-dark-80);
+    --com-media-manager-disk-name-color: var(--template-text-light);
+  }
+}
+.new-modules {
+  --text-color: var(--template-quickicon-color);
+  --bg-color: hsl(var(--hue), 60%, 97%);
+  --bg-color-hvr: var(--template-bg-dark);
+  --icon-color: var(--template-quickicon-color);
+  --icon-color-hvr: hsl(var(--hue), 50%, 93%);
+}
 .new-modules .card-columns {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
+@media (prefers-color-scheme: dark) {
+  .new-modules {
+    --bg-color: var(--template-bg-dark-80);
+    --bg-color-hvr: var(--template-bg-dark-65);
+    --icon-color: var(--template-bg-dark-80);
+    --icon-color-hvr: var(--template-quickicon-color);
+  }
+}
 .new-module {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   overflow: hidden;
-  color: hsl(var(--hue), 30%, 40%);
-  background-color: hsl(var(--hue), 60%, 97%);
+  color: var(--text-color);
+  background-color: var(--bg-color);
   border: 1px solid hsl(var(--hue), 50%, 93%);
   border-radius: 0.25rem;
 }
@@ -16686,13 +17165,13 @@ label {
 }
 .new-module-link span {
   margin-bottom: 10px;
-  color: hsl(var(--hue), 30%, 40%);
+  color: var(--icon-color);
 }
 .new-module:hover .new-module-link {
-  background: var(--template-bg-dark);
+  background: var(--bg-color-hvr);
 }
 .new-module:hover .new-module-link span {
-  color: #fff;
+  color: var(--icon-color-hvr);
 }
 
 .com_tags #fieldset-image-intro > div,
@@ -16733,6 +17212,82 @@ label {
   border-color: var(--danger);
 }
 
+.new-tasks {
+  --text-color: var(--template-quickicon-color);
+  --bg-color: hsl(var(--hue), 60%, 97%);
+  --bg-color-hvr: var(--template-bg-dark);
+  --icon-color: var(--template-quickicon-color);
+  --icon-color-hvr: hsl(var(--hue), 50%, 93%);
+}
+.new-tasks .card-columns {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+@media (prefers-color-scheme: dark) {
+  .new-tasks {
+    --bg-color: var(--template-bg-dark-80);
+    --bg-color-hvr: var(--template-bg-dark-65);
+    --icon-color: var(--template-bg-dark-80);
+    --icon-color-hvr: var(--template-quickicon-color);
+  }
+}
+.new-task {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: hidden;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  border: 1px solid hsl(var(--hue), 50%, 93%);
+  border-radius: 0.25rem;
+}
+.new-task * {
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+.new-task-details {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0;
+          flex: 1 0;
+  padding: 1rem;
+}
+.new-task-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.new-task-caption {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0;
+  font-size: 0.875rem;
+}
+.new-task-link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 2.5rem;
+  font-size: 1.2rem;
+  background: hsl(var(--hue), 50%, 93%);
+}
+.new-task-link span {
+  margin-bottom: 10px;
+  color: var(--icon-color);
+}
+.new-task:hover .new-task-link {
+  background: var(--bg-color-hvr);
+}
+.new-task:hover .new-task-link span {
+  color: var(--icon-color-hvr);
+}
+
 .com_templates .menu-assignment {
   position: relative;
 }
@@ -16769,9 +17324,13 @@ label {
 }
 .com_templates .menu-assignment .menu-links-block {
   padding: 15px;
-  background-color: var(--card-bg);
   border: 1px solid #dee2e6;
-  border-radius: 3px;
+  border-radius: 0.2rem;
+}
+@media (prefers-color-scheme: dark) {
+  .com_templates .menu-assignment .menu-links-block {
+    --heading-color: var(--body-color);
+  }
 }
 .com_templates .menu-assignment label {
   display: block;
@@ -16797,11 +17356,51 @@ label {
 .com_users.view-mail .form-control {
   max-width: 100%;
 }
+.com_users.view-user #com-users-methods-reset-container, .com_users.view-methods #com-users-methods-reset-container {
+  background-color: var(--light);
+}
+@media (prefers-color-scheme: dark) {
+  .com_users.view-user #com-users-methods-reset-container, .com_users.view-methods #com-users-methods-reset-container {
+    background-color: var(--dark-bg-subtle);
+  }
+}
+.com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
+  /** This is applied to headers that aren't an active method **/
+}
+.com_users.view-user .com-users-methods-list-method:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
+  background-color: var(--light);
+}
+@media (prefers-color-scheme: dark) {
+  .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
+    /* stylelint-disable max-nesting-depth */
+  }
+  .com_users.view-user .com-users-methods-list-method:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method:not(.com-users-methods-list-method-active) .com-users-methods-list-method-header {
+    /* stylelint-enable max-nesting-depth */
+    background-color: var(--dark-bg-subtle);
+  }
+}
+.com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
+  background-color: var(--light);
+}
+@media (prefers-color-scheme: dark) {
+  .com_users.view-user .com-users-methods-list-method, .com_users.view-methods .com-users-methods-list-method {
+    /* stylelint-disable max-nesting-depth */
+  }
+  .com_users.view-user .com-users-methods-list-method .com-users-methods-list-method-image, .com_users.view-methods .com-users-methods-list-method .com-users-methods-list-method-image {
+    /* stylelint-enable max-nesting-depth */
+    background-color: var(--dark-bg-subtle);
+  }
+}
 .com_users #fieldset-groups .controls {
   -webkit-margin-start: 2rem;
           margin-inline-start: 2rem;
 }
 
+@media (prefers-color-scheme: dark) {
+  .com-apps-container .grid-container .card:hover, .com-apps-container .grid-container .com_users.view-user .com-users-methods-list-method:hover, .com_users.view-user .com-apps-container .grid-container .com-users-methods-list-method:hover, .com-apps-container .grid-container .com_users.view-methods .com-users-methods-list-method:hover, .com_users.view-methods .com-apps-container .grid-container .com-users-methods-list-method:hover {
+    background-color: var(--gray-800);
+  }
+}
 :root {
   --template-sidebar-bg: var(--template-bg-dark-80);
   --template-sidebar-font-color: #fff;
@@ -16812,6 +17411,7 @@ label {
   --template-text-dark: #495057;
   --template-special-color: #001b4c;
   --template-contrast: #2a69b8;
+  --template-quickicon-color: hsl(var(--hue), 30%, 40%);
   --template-bg-dark: hsl(var(--hue), 40%, 20%);
   --template-bg-dark-3: hsl(var(--hue), 40%, 97%);
   --template-bg-dark-5: hsl(var(--hue), 40%, 95%);
@@ -16830,6 +17430,12 @@ label {
   --template-bg-dark-90: hsl(var(--hue), 40%, 10%);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --template-quickicon-color: var(--template-bg-dark-5);
+    --focus-shadow: var(--gray-800);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     background-attachment: initial !important;
@@ -16850,7 +17456,7 @@ label {
   border-color: var(--primary) !important;
 }
 
-.border-secondary {
+.border-secondary, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header {
   border-color: var(--secondary) !important;
 }
 
@@ -16918,7 +17524,7 @@ label {
   color: var(--black) !important;
 }
 
-.text-white {
+.text-white, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title h3, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title .h3, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title h3, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-title .h3, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header {
   color: var(--white) !important;
 }
 
@@ -16930,7 +17536,7 @@ label {
   background-color: var(--primary) !important;
 }
 
-.bg-secondary {
+.bg-secondary, .com_users.view-user .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header, .com_users.view-methods .com-users-methods-list-method.com-users-methods-list-method-active .com-users-methods-list-method-header {
   background-color: var(--secondary) !important;
 }
 

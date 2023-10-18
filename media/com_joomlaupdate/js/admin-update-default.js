@@ -53,7 +53,7 @@ Joomla.Update = window.Joomla.Update || {
     Joomla.Update.cached_instance = null;
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
     const postData = new FormData();
     postData.append('task', 'startExtract');
     postData.append('password', Joomla.Update.password);
@@ -84,36 +84,32 @@ Joomla.Update = window.Joomla.Update || {
       return;
     }
     const progressDiv = document.getElementById('progress-bar');
-    const titleDiv = document.getElementById('update-title');
 
     // Add data to variables
     Joomla.Update.stat_inbytes = data.bytesIn;
     Joomla.Update.stat_percent = data.percent;
-    Joomla.Update.stat_percent = Joomla.Update.stat_percent || 100 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize);
+    Joomla.Update.stat_percent = Joomla.Update.stat_percent || 80 * (Joomla.Update.stat_inbytes / Joomla.Update.totalsize);
 
     // Update GUI
     Joomla.Update.stat_outbytes = data.bytesOut;
     Joomla.Update.stat_files = data.files;
-    if (Joomla.Update.stat_percent < 100) {
+    if (Joomla.Update.stat_percent < 80) {
       progressDiv.classList.remove('bg-success');
       progressDiv.style.width = `${Joomla.Update.stat_percent}%`;
       progressDiv.setAttribute('aria-valuenow', Joomla.Update.stat_percent);
-    } else if (Joomla.Update.stat_percent >= 100) {
-      progressDiv.classList.add('bg-success');
-      progressDiv.style.width = '100%';
-      progressDiv.setAttribute('aria-valuenow', 100);
+    } else if (Joomla.Update.stat_percent >= 80) {
+      progressDiv.style.width = '80%';
+      progressDiv.setAttribute('aria-valuenow', 80);
     }
     progressDiv.innerText = `${Joomla.Update.stat_percent.toFixed(1)}%`;
     document.getElementById('extbytesin').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_inbytes);
     document.getElementById('extbytesout').innerText = Joomla.Update.formatBytes(Joomla.Update.stat_outbytes);
-    document.getElementById('extfiles').innerText = Joomla.Update.stat_files;
+    document.getElementById('extfiles').innerText = Joomla.Update.formatFiles(Joomla.Update.stat_files);
 
     // Are we done extracting?
     if (data.done) {
-      progressDiv.classList.add('bg-success');
-      progressDiv.style.width = '100%';
-      progressDiv.setAttribute('aria-valuenow', 100);
-      titleDiv.innerHTML = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+      progressDiv.style.width = '80%';
+      progressDiv.setAttribute('aria-valuenow', 80);
       Joomla.Update.finalizeUpdate();
       return;
     }
@@ -157,7 +153,18 @@ Joomla.Update = window.Joomla.Update || {
       method: 'POST',
       perform: true,
       onSuccess: () => {
-        window.location = Joomla.Update.return_url;
+        const progressDiv = document.getElementById('progress-bar');
+        const titleDiv = document.getElementById('update-title');
+        progressDiv.classList.add('bg-success');
+        progressDiv.style.width = '100%';
+        progressDiv.innerText = '100%';
+        progressDiv.setAttribute('aria-valuenow', 100);
+        titleDiv.innerText = Joomla.Text._('COM_JOOMLAUPDATE_UPDATING_COMPLETE');
+
+        // Allow people to see the completion message
+        window.setTimeout(() => {
+          window.location = Joomla.Update.return_url;
+        }, 1000);
       },
       onError: Joomla.Update.handleErrorResponse
     });
@@ -170,6 +177,7 @@ Joomla.Update = window.Joomla.Update || {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return `${parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
   },
+  formatFiles: files => `${files} ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPDATE_ITEMS')}`,
   resumeButtonHandler: e => {
     e.preventDefault();
     document.getElementById('joomlaupdate-progress').classList.remove('d-none');

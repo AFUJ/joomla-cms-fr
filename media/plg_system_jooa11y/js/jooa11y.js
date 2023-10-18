@@ -3009,6 +3009,322 @@ const loadOptions = (instance, customOptions) => {
  */
 class Jooa11y {
   constructor(options) {
+    // ----------------------------------------------------------------------
+    // Check all
+    // ----------------------------------------------------------------------
+    this.checkAll = async () => {
+      this.errorCount = 0;
+      this.warningCount = 0;
+      this.$root = document.querySelector(this.options.checkRoot);
+      this.findElements();
+
+      //Ruleset checks
+      this.checkHeaders();
+      this.checkLinkText();
+      this.checkUnderline();
+      this.checkAltText();
+      if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
+        this.checkContrast();
+      }
+      if (localStorage.getItem("jooa11y-remember-labels") === "On") {
+        this.checkLabels();
+      }
+      if (localStorage.getItem("jooa11y-remember-links-advanced") === "On") {
+        this.checkLinksAdvanced();
+      }
+      if (localStorage.getItem("jooa11y-remember-readability") === "On") {
+        this.checkReadability();
+      }
+      this.checkEmbeddedContent();
+      this.checkQA();
+
+      //Update panel
+      if (this.panelActive) {
+        this.resetAll();
+      } else {
+        this.updatePanel();
+      }
+      this.initializeTooltips();
+      this.detectOverflow();
+      this.nudge();
+
+      //Don't show badge when panel is opened.
+      if (!document.getElementsByClassName('jooa11y-on').length) {
+        this.updateBadge();
+      }
+    };
+    // ============================================================
+    // Nudge buttons if they overlap.
+    // ============================================================
+    this.nudge = () => {
+      const jooa11yInstance = document.querySelectorAll('.jooa11y-instance, .jooa11y-instance-inline');
+      jooa11yInstance.forEach($el => {
+        const sibling = $el.nextElementSibling;
+        if (sibling !== null && (sibling.classList.contains("jooa11y-instance") || sibling.classList.contains("jooa11y-instance-inline"))) {
+          sibling.querySelector("button").setAttribute("style", "margin: -10px -20px !important;");
+        }
+      });
+    };
+    // ----------------------------------------------------------------------
+    // Main panel: Build Show Outline and Settings tabs.
+    // ----------------------------------------------------------------------
+    this.buildPanel = () => {
+      const $outlineToggle = document.getElementById("jooa11y-outline-toggle");
+      const $outlinePanel = document.getElementById("jooa11y-outline-panel");
+      const $outlineList = document.getElementById("jooa11y-outline-list");
+      const $settingsToggle = document.getElementById("jooa11y-settings-toggle");
+      const $settingsPanel = document.getElementById("jooa11y-settings-panel");
+      const $settingsContent = document.getElementById("jooa11y-settings-content");
+      const $headingAnnotations = document.querySelectorAll(".jooa11y-heading-label");
+
+      //Show outline panel
+      $outlineToggle.addEventListener('click', () => {
+        if ($outlineToggle.getAttribute("aria-expanded") === "true") {
+          $outlineToggle.classList.remove("jooa11y-outline-active");
+          $outlinePanel.classList.remove("jooa11y-active");
+          $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
+          $outlineToggle.setAttribute("aria-expanded", "false");
+          localStorage.setItem("jooa11y-remember-outline", "Closed");
+        } else {
+          $outlineToggle.classList.add("jooa11y-outline-active");
+          $outlinePanel.classList.add("jooa11y-active");
+          $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
+          $outlineToggle.setAttribute("aria-expanded", "true");
+          localStorage.setItem("jooa11y-remember-outline", "Opened");
+        }
+
+        //Set focus on Page Outline heading for accessibility.
+        document.querySelector("#jooa11y-outline-header > h2").focus();
+
+        //Show heading level annotations.
+        $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
+
+        //Close Settings panel when Show Outline is active.
+        $settingsPanel.classList.remove("jooa11y-active");
+        $settingsToggle.classList.remove("jooa11y-settings-active");
+        $settingsToggle.setAttribute("aria-expanded", "false");
+        $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
+
+        //Keyboard accessibility fix for scrollable panel content.
+        if ($outlineList.clientHeight > 250) {
+          $outlineList.setAttribute("tabindex", "0");
+        }
+      });
+
+      //Remember to leave outline open
+      if (localStorage.getItem("jooa11y-remember-outline") === "Opened") {
+        $outlineToggle.classList.add("jooa11y-outline-active");
+        $outlinePanel.classList.add("jooa11y-active");
+        $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
+        $outlineToggle.setAttribute("aria-expanded", "true");
+        $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
+        //Keyboard accessibility fix for scrollable panel content.
+        if ($outlineList.clientHeight > 250) {
+          $outlineList.setAttribute("tabindex", "0");
+        }
+      }
+
+      //Show settings panel
+      $settingsToggle.addEventListener('click', () => {
+        if ($settingsToggle.getAttribute("aria-expanded") === "true") {
+          $settingsToggle.classList.remove("jooa11y-settings-active");
+          $settingsPanel.classList.remove("jooa11y-active");
+          $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
+          $settingsToggle.setAttribute("aria-expanded", "false");
+        } else {
+          $settingsToggle.classList.add("jooa11y-settings-active");
+          $settingsPanel.classList.add("jooa11y-active");
+          $settingsToggle.textContent = Lang._('HIDE_SETTINGS');
+          $settingsToggle.setAttribute("aria-expanded", "true");
+        }
+
+        //Set focus on Settings heading for accessibility.
+        document.querySelector("#jooa11y-settings-header > h2").focus();
+
+        //Close Show Outline panel when Settings is active.
+        $outlinePanel.classList.remove("jooa11y-active");
+        $outlineToggle.classList.remove("jooa11y-outline-active");
+        $outlineToggle.setAttribute("aria-expanded", "false");
+        $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
+        $headingAnnotations.forEach($el => $el.classList.remove("jooa11y-label-visible"));
+        localStorage.setItem("jooa11y-remember-outline", "Closed");
+
+        //Keyboard accessibility fix for scrollable panel content.
+        if ($settingsContent.clientHeight > 350) {
+          $settingsContent.setAttribute("tabindex", "0");
+        }
+      });
+
+      //Enhanced keyboard accessibility for panel.
+      document.getElementById('jooa11y-panel-controls').addEventListener('keydown', function (e) {
+        const $tab = document.querySelectorAll('#jooa11y-outline-toggle[role=tab], #jooa11y-settings-toggle[role=tab]');
+        if (e.key === 'ArrowRight') {
+          for (let i = 0; i < $tab.length; i++) {
+            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+              $tab[i + 1].focus();
+              e.preventDefault();
+              break;
+            }
+          }
+        }
+        if (e.key === 'ArrowDown') {
+          for (let i = 0; i < $tab.length; i++) {
+            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+              $tab[i + 1].focus();
+              e.preventDefault();
+              break;
+            }
+          }
+        }
+        if (e.key === 'ArrowLeft') {
+          for (let i = $tab.length - 1; i > 0; i--) {
+            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+              $tab[i - 1].focus();
+              e.preventDefault();
+              break;
+            }
+          }
+        }
+        if (e.key === 'ArrowUp') {
+          for (let i = $tab.length - 1; i > 0; i--) {
+            if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
+              $tab[i - 1].focus();
+              e.preventDefault();
+              break;
+            }
+          }
+        }
+      });
+      const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
+      const $alertPanel = document.getElementById("jooa11y-panel-alert");
+      const $alertText = document.getElementById("jooa11y-panel-alert-text");
+      const $jooa11ySkipBtn = document.getElementById("jooa11y-cycle-toggle");
+      $closeAlertToggle.addEventListener('click', () => {
+        $alertPanel.classList.remove("jooa11y-active");
+        while ($alertText.firstChild) $alertText.removeChild($alertText.firstChild);
+        document.querySelectorAll('.jooa11y-pulse-border').forEach(el => el.classList.remove('jooa11y-pulse-border'));
+        $jooa11ySkipBtn.focus();
+      });
+    };
+    // ============================================================
+    // Main panel: Skip to issue button.
+    // ============================================================
+    this.skipToIssue = () => {
+      /* Polyfill for scrollTo. scrollTo instead of .animate(), so Jooa11y could use jQuery slim build. Credit: https://stackoverflow.com/a/67108752 & https://github.com/iamdustan/smoothscroll */
+      //let reducedMotionQuery = false;
+      //let scrollBehavior = 'smooth';
+      /*
+      if (!('scrollBehavior' in document.documentElement.style)) {
+          var js = document.createElement('script');
+          js.src = "https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js";
+          document.head.appendChild(js);
+      }
+      if (!(document.documentMode)) {
+          if (typeof window.matchMedia === "function") {
+              reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+          }
+          if (!reducedMotionQuery || reducedMotionQuery.matches) {
+              scrollBehavior = "auto";
+          }
+      }
+      */
+
+      let jooa11yBtnLocation = 0;
+      const findJooa11yBtn = document.querySelectorAll('.jooa11y-btn').length;
+
+      //Jump to issue using keyboard shortcut.
+      document.addEventListener('keyup', e => {
+        if (e.altKey && e.code === "Period" || e.code == "KeyS") {
+          skipToIssueToggle();
+          e.preventDefault();
+        }
+      });
+
+      //Jump to issue using click.
+      const $skipToggle = document.getElementById("jooa11y-cycle-toggle");
+      $skipToggle.addEventListener('click', e => {
+        skipToIssueToggle();
+        e.preventDefault();
+      });
+      const skipToIssueToggle = function skipToIssueToggle() {
+        //Calculate location of both visible and hidden buttons.
+        const $findButtons = document.querySelectorAll('.jooa11y-btn');
+        const $alertPanel = document.getElementById("jooa11y-panel-alert");
+        const $alertText = document.getElementById("jooa11y-panel-alert-text");
+        const $alertPanelPreview = document.getElementById("jooa11y-panel-alert-preview");
+        //const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
+
+        //Mini function: Find visibible parent of hidden element.
+        const findVisibleParent = ($el, property, value) => {
+          while ($el !== null) {
+            const style = window.getComputedStyle($el);
+            const propValue = style.getPropertyValue(property);
+            if (propValue === value) {
+              return $el;
+            }
+            $el = $el.parentElement;
+          }
+          return null;
+        };
+
+        //Mini function: Calculate top of element.
+        const offset = $el => {
+          let rect = $el.getBoundingClientRect(),
+            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          return {
+            top: rect.top + scrollTop
+          };
+        };
+
+        //'offsetTop' will always return 0 if element is hidden. We rely on offsetTop to determine if element is hidden, although we use 'getBoundingClientRect' to set the scroll position.
+        let scrollPosition;
+        let offsetTopPosition = $findButtons[jooa11yBtnLocation].offsetTop;
+        if (offsetTopPosition === 0) {
+          let visiblePosition = findVisibleParent($findButtons[jooa11yBtnLocation], 'display', 'none');
+          scrollPosition = offset(visiblePosition.previousElementSibling).top - 50;
+        } else {
+          scrollPosition = offset($findButtons[jooa11yBtnLocation]).top - 50;
+        }
+
+        //Scroll to element if offsetTop is less than or equal to 0.
+        if (offsetTopPosition >= 0) {
+          setTimeout(function () {
+            window.scrollTo({
+              top: scrollPosition,
+              behavior: 'smooth'
+            });
+          }, 1);
+
+          //Add pulsing border to visible parent of hidden element.
+          $findButtons.forEach(function ($el) {
+            const overflowing = findVisibleParent($el, 'display', 'none');
+            if (overflowing !== null) {
+              let hiddenparent = overflowing.previousElementSibling;
+              hiddenparent.classList.add("jooa11y-pulse-border");
+            }
+          });
+          $findButtons[jooa11yBtnLocation].focus();
+        } else {
+          $findButtons[jooa11yBtnLocation].focus();
+        }
+
+        //Alert if element is hidden.
+        if (offsetTopPosition === 0) {
+          $alertPanel.classList.add("jooa11y-active");
+          $alertText.textContent = `${Lang._('PANEL_STATUS_HIDDEN')}`;
+          $alertPanelPreview.innerHTML = $findButtons[jooa11yBtnLocation].getAttribute('data-tippy-content');
+        } else if (offsetTopPosition < 1) {
+          $alertPanel.classList.remove("jooa11y-active");
+          document.querySelectorAll('.jooa11y-pulse-border').forEach($el => $el.classList.remove('jooa11y-pulse-border'));
+        }
+
+        //Reset index so it scrolls back to top of page.
+        jooa11yBtnLocation += 1;
+        if (jooa11yBtnLocation >= findJooa11yBtn) {
+          jooa11yBtnLocation = 0;
+        }
+      };
+    };
     this.containerIgnore = '';
     this.imageIgnore = '';
     this.headerIgnore = '';
@@ -3450,52 +3766,6 @@ class Jooa11y {
       this.checkAll();
     }
   }
-
-  // ----------------------------------------------------------------------
-  // Check all
-  // ----------------------------------------------------------------------
-  checkAll = async () => {
-    this.errorCount = 0;
-    this.warningCount = 0;
-    this.$root = document.querySelector(this.options.checkRoot);
-    this.findElements();
-
-    //Ruleset checks
-    this.checkHeaders();
-    this.checkLinkText();
-    this.checkUnderline();
-    this.checkAltText();
-    if (localStorage.getItem("jooa11y-remember-contrast") === "On") {
-      this.checkContrast();
-    }
-    if (localStorage.getItem("jooa11y-remember-labels") === "On") {
-      this.checkLabels();
-    }
-    if (localStorage.getItem("jooa11y-remember-links-advanced") === "On") {
-      this.checkLinksAdvanced();
-    }
-    if (localStorage.getItem("jooa11y-remember-readability") === "On") {
-      this.checkReadability();
-    }
-    this.checkEmbeddedContent();
-    this.checkQA();
-
-    //Update panel
-    if (this.panelActive) {
-      this.resetAll();
-    } else {
-      this.updatePanel();
-    }
-    this.initializeTooltips();
-    this.detectOverflow();
-    this.nudge();
-
-    //Don't show badge when panel is opened.
-    if (!document.getElementsByClassName('jooa11y-on').length) {
-      this.updateBadge();
-    }
-  };
-
   // ============================================================
   // Reset all
   // ============================================================
@@ -3597,20 +3867,6 @@ class Jooa11y {
       }
     });
   }
-
-  // ============================================================
-  // Nudge buttons if they overlap.
-  // ============================================================
-  nudge = () => {
-    const jooa11yInstance = document.querySelectorAll('.jooa11y-instance, .jooa11y-instance-inline');
-    jooa11yInstance.forEach($el => {
-      const sibling = $el.nextElementSibling;
-      if (sibling !== null && (sibling.classList.contains("jooa11y-instance") || sibling.classList.contains("jooa11y-instance-inline"))) {
-        sibling.querySelector("button").setAttribute("style", "margin: -10px -20px !important;");
-      }
-    });
-  };
-
   // ============================================================
   // Update iOS style notification badge on icon.
   // ============================================================
@@ -3659,269 +3915,6 @@ class Jooa11y {
       }
     }
   }
-  // ----------------------------------------------------------------------
-  // Main panel: Build Show Outline and Settings tabs.
-  // ----------------------------------------------------------------------
-  buildPanel = () => {
-    const $outlineToggle = document.getElementById("jooa11y-outline-toggle");
-    const $outlinePanel = document.getElementById("jooa11y-outline-panel");
-    const $outlineList = document.getElementById("jooa11y-outline-list");
-    const $settingsToggle = document.getElementById("jooa11y-settings-toggle");
-    const $settingsPanel = document.getElementById("jooa11y-settings-panel");
-    const $settingsContent = document.getElementById("jooa11y-settings-content");
-    const $headingAnnotations = document.querySelectorAll(".jooa11y-heading-label");
-
-    //Show outline panel
-    $outlineToggle.addEventListener('click', () => {
-      if ($outlineToggle.getAttribute("aria-expanded") === "true") {
-        $outlineToggle.classList.remove("jooa11y-outline-active");
-        $outlinePanel.classList.remove("jooa11y-active");
-        $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
-        $outlineToggle.setAttribute("aria-expanded", "false");
-        localStorage.setItem("jooa11y-remember-outline", "Closed");
-      } else {
-        $outlineToggle.classList.add("jooa11y-outline-active");
-        $outlinePanel.classList.add("jooa11y-active");
-        $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
-        $outlineToggle.setAttribute("aria-expanded", "true");
-        localStorage.setItem("jooa11y-remember-outline", "Opened");
-      }
-
-      //Set focus on Page Outline heading for accessibility.
-      document.querySelector("#jooa11y-outline-header > h2").focus();
-
-      //Show heading level annotations.
-      $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
-
-      //Close Settings panel when Show Outline is active.
-      $settingsPanel.classList.remove("jooa11y-active");
-      $settingsToggle.classList.remove("jooa11y-settings-active");
-      $settingsToggle.setAttribute("aria-expanded", "false");
-      $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
-
-      //Keyboard accessibility fix for scrollable panel content.
-      if ($outlineList.clientHeight > 250) {
-        $outlineList.setAttribute("tabindex", "0");
-      }
-    });
-
-    //Remember to leave outline open
-    if (localStorage.getItem("jooa11y-remember-outline") === "Opened") {
-      $outlineToggle.classList.add("jooa11y-outline-active");
-      $outlinePanel.classList.add("jooa11y-active");
-      $outlineToggle.textContent = Lang._('HIDE_OUTLINE');
-      $outlineToggle.setAttribute("aria-expanded", "true");
-      $headingAnnotations.forEach($el => $el.classList.toggle("jooa11y-label-visible"));
-      //Keyboard accessibility fix for scrollable panel content.
-      if ($outlineList.clientHeight > 250) {
-        $outlineList.setAttribute("tabindex", "0");
-      }
-    }
-
-    //Show settings panel
-    $settingsToggle.addEventListener('click', () => {
-      if ($settingsToggle.getAttribute("aria-expanded") === "true") {
-        $settingsToggle.classList.remove("jooa11y-settings-active");
-        $settingsPanel.classList.remove("jooa11y-active");
-        $settingsToggle.textContent = Lang._('SHOW_SETTINGS');
-        $settingsToggle.setAttribute("aria-expanded", "false");
-      } else {
-        $settingsToggle.classList.add("jooa11y-settings-active");
-        $settingsPanel.classList.add("jooa11y-active");
-        $settingsToggle.textContent = Lang._('HIDE_SETTINGS');
-        $settingsToggle.setAttribute("aria-expanded", "true");
-      }
-
-      //Set focus on Settings heading for accessibility.
-      document.querySelector("#jooa11y-settings-header > h2").focus();
-
-      //Close Show Outline panel when Settings is active.
-      $outlinePanel.classList.remove("jooa11y-active");
-      $outlineToggle.classList.remove("jooa11y-outline-active");
-      $outlineToggle.setAttribute("aria-expanded", "false");
-      $outlineToggle.textContent = Lang._('SHOW_OUTLINE');
-      $headingAnnotations.forEach($el => $el.classList.remove("jooa11y-label-visible"));
-      localStorage.setItem("jooa11y-remember-outline", "Closed");
-
-      //Keyboard accessibility fix for scrollable panel content.
-      if ($settingsContent.clientHeight > 350) {
-        $settingsContent.setAttribute("tabindex", "0");
-      }
-    });
-
-    //Enhanced keyboard accessibility for panel.
-    document.getElementById('jooa11y-panel-controls').addEventListener('keydown', function (e) {
-      const $tab = document.querySelectorAll('#jooa11y-outline-toggle[role=tab], #jooa11y-settings-toggle[role=tab]');
-      if (e.key === 'ArrowRight') {
-        for (let i = 0; i < $tab.length; i++) {
-          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-            $tab[i + 1].focus();
-            e.preventDefault();
-            break;
-          }
-        }
-      }
-      if (e.key === 'ArrowDown') {
-        for (let i = 0; i < $tab.length; i++) {
-          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-            $tab[i + 1].focus();
-            e.preventDefault();
-            break;
-          }
-        }
-      }
-      if (e.key === 'ArrowLeft') {
-        for (let i = $tab.length - 1; i > 0; i--) {
-          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-            $tab[i - 1].focus();
-            e.preventDefault();
-            break;
-          }
-        }
-      }
-      if (e.key === 'ArrowUp') {
-        for (let i = $tab.length - 1; i > 0; i--) {
-          if ($tab[i].getAttribute('aria-expanded') === "true" || $tab[i].getAttribute('aria-expanded') === "false") {
-            $tab[i - 1].focus();
-            e.preventDefault();
-            break;
-          }
-        }
-      }
-    });
-    const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
-    const $alertPanel = document.getElementById("jooa11y-panel-alert");
-    const $alertText = document.getElementById("jooa11y-panel-alert-text");
-    const $jooa11ySkipBtn = document.getElementById("jooa11y-cycle-toggle");
-    $closeAlertToggle.addEventListener('click', () => {
-      $alertPanel.classList.remove("jooa11y-active");
-      while ($alertText.firstChild) $alertText.removeChild($alertText.firstChild);
-      document.querySelectorAll('.jooa11y-pulse-border').forEach(el => el.classList.remove('jooa11y-pulse-border'));
-      $jooa11ySkipBtn.focus();
-    });
-  };
-
-  // ============================================================
-  // Main panel: Skip to issue button.
-  // ============================================================
-
-  skipToIssue = () => {
-    /* Polyfill for scrollTo. scrollTo instead of .animate(), so Jooa11y could use jQuery slim build. Credit: https://stackoverflow.com/a/67108752 & https://github.com/iamdustan/smoothscroll */
-    //let reducedMotionQuery = false;
-    //let scrollBehavior = 'smooth';
-    /*
-    if (!('scrollBehavior' in document.documentElement.style)) {
-        var js = document.createElement('script');
-        js.src = "https://cdn.jsdelivr.net/npm/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js";
-        document.head.appendChild(js);
-    }
-    if (!(document.documentMode)) {
-        if (typeof window.matchMedia === "function") {
-            reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        }
-        if (!reducedMotionQuery || reducedMotionQuery.matches) {
-            scrollBehavior = "auto";
-        }
-    }
-    */
-
-    let jooa11yBtnLocation = 0;
-    const findJooa11yBtn = document.querySelectorAll('.jooa11y-btn').length;
-
-    //Jump to issue using keyboard shortcut.
-    document.addEventListener('keyup', e => {
-      if (e.altKey && e.code === "Period" || e.code == "KeyS") {
-        skipToIssueToggle();
-        e.preventDefault();
-      }
-    });
-
-    //Jump to issue using click.
-    const $skipToggle = document.getElementById("jooa11y-cycle-toggle");
-    $skipToggle.addEventListener('click', e => {
-      skipToIssueToggle();
-      e.preventDefault();
-    });
-    const skipToIssueToggle = function () {
-      //Calculate location of both visible and hidden buttons.
-      const $findButtons = document.querySelectorAll('.jooa11y-btn');
-      const $alertPanel = document.getElementById("jooa11y-panel-alert");
-      const $alertText = document.getElementById("jooa11y-panel-alert-text");
-      const $alertPanelPreview = document.getElementById("jooa11y-panel-alert-preview");
-      //const $closeAlertToggle = document.getElementById("jooa11y-close-alert");
-
-      //Mini function: Find visibible parent of hidden element.
-      const findVisibleParent = ($el, property, value) => {
-        while ($el !== null) {
-          const style = window.getComputedStyle($el);
-          const propValue = style.getPropertyValue(property);
-          if (propValue === value) {
-            return $el;
-          }
-          $el = $el.parentElement;
-        }
-        return null;
-      };
-
-      //Mini function: Calculate top of element.
-      const offset = $el => {
-        let rect = $el.getBoundingClientRect(),
-          scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        return {
-          top: rect.top + scrollTop
-        };
-      };
-
-      //'offsetTop' will always return 0 if element is hidden. We rely on offsetTop to determine if element is hidden, although we use 'getBoundingClientRect' to set the scroll position.
-      let scrollPosition;
-      let offsetTopPosition = $findButtons[jooa11yBtnLocation].offsetTop;
-      if (offsetTopPosition === 0) {
-        let visiblePosition = findVisibleParent($findButtons[jooa11yBtnLocation], 'display', 'none');
-        scrollPosition = offset(visiblePosition.previousElementSibling).top - 50;
-      } else {
-        scrollPosition = offset($findButtons[jooa11yBtnLocation]).top - 50;
-      }
-
-      //Scroll to element if offsetTop is less than or equal to 0.
-      if (offsetTopPosition >= 0) {
-        setTimeout(function () {
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth'
-          });
-        }, 1);
-
-        //Add pulsing border to visible parent of hidden element.
-        $findButtons.forEach(function ($el) {
-          const overflowing = findVisibleParent($el, 'display', 'none');
-          if (overflowing !== null) {
-            let hiddenparent = overflowing.previousElementSibling;
-            hiddenparent.classList.add("jooa11y-pulse-border");
-          }
-        });
-        $findButtons[jooa11yBtnLocation].focus();
-      } else {
-        $findButtons[jooa11yBtnLocation].focus();
-      }
-
-      //Alert if element is hidden.
-      if (offsetTopPosition === 0) {
-        $alertPanel.classList.add("jooa11y-active");
-        $alertText.textContent = `${Lang._('PANEL_STATUS_HIDDEN')}`;
-        $alertPanelPreview.innerHTML = $findButtons[jooa11yBtnLocation].getAttribute('data-tippy-content');
-      } else if (offsetTopPosition < 1) {
-        $alertPanel.classList.remove("jooa11y-active");
-        document.querySelectorAll('.jooa11y-pulse-border').forEach($el => $el.classList.remove('jooa11y-pulse-border'));
-      }
-
-      //Reset index so it scrolls back to top of page.
-      jooa11yBtnLocation += 1;
-      if (jooa11yBtnLocation >= findJooa11yBtn) {
-        jooa11yBtnLocation = 0;
-      }
-    };
-  };
-
   // ============================================================
   // Finds all elements and caches them
   // ============================================================
@@ -4679,7 +4672,7 @@ class Jooa11y {
       2: "1"
     };
     let prefixMatch = /a\.|a\)|A\.|A\)|1\.|1\)|\*\s|-\s|--|•\s|→\s|✓\s|✔\s|✗\s|✖\s|✘\s|❯\s|›\s|»\s/;
-    let decrement = function (el) {
+    let decrement = function decrement(el) {
       return el.replace(/^b|^B|^2/, function (match) {
         return prefixDecrement[match];
       });

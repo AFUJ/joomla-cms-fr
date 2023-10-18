@@ -66,7 +66,7 @@ abstract class AbstractHtml extends AbstractRenderer
         $lineRenderer = LineRendererFactory::make(
             $this->options['detailLevel'],
             $differ->getOptions(),
-            $this->options
+            $this->options,
         );
 
         $old = $differ->getOld();
@@ -147,8 +147,8 @@ abstract class AbstractHtml extends AbstractRenderer
     {
         static $mbOld, $mbNew;
 
-        $mbOld = $mbOld ?? new MbString();
-        $mbNew = $mbNew ?? new MbString();
+        $mbOld ??= new MbString();
+        $mbNew ??= new MbString();
 
         $mbOld->set($old);
         $mbNew->set($new);
@@ -199,19 +199,19 @@ abstract class AbstractHtml extends AbstractRenderer
 
                 /** @phan-suppress-next-line PhanTypeInvalidLeftOperandOfBitwiseOp */
                 if ($block['tag'] & (SequenceMatcher::OP_REP | SequenceMatcher::OP_DEL)) {
-                    $block['old']['lines'] = \str_replace(
+                    $block['old']['lines'] = str_replace(
                         RendererConstant::HTML_CLOSURES,
                         RendererConstant::HTML_CLOSURES_DEL,
-                        $block['old']['lines']
+                        $block['old']['lines'],
                     );
                 }
 
                 /** @phan-suppress-next-line PhanTypeInvalidLeftOperandOfBitwiseOp */
                 if ($block['tag'] & (SequenceMatcher::OP_REP | SequenceMatcher::OP_INS)) {
-                    $block['new']['lines'] = \str_replace(
+                    $block['new']['lines'] = str_replace(
                         RendererConstant::HTML_CLOSURES,
                         RendererConstant::HTML_CLOSURES_INS,
-                        $block['new']['lines']
+                        $block['new']['lines'],
                     );
                 }
             }
@@ -232,14 +232,14 @@ abstract class AbstractHtml extends AbstractRenderer
          * we can glue lines into a string and call functions for one time.
          * After that, we split the string back into lines.
          */
-        return \explode(
+        return explode(
             RendererConstant::IMPLODE_DELIMITER,
             $this->formatStringFromLines(
-                \implode(
+                implode(
                     RendererConstant::IMPLODE_DELIMITER,
-                    $lines
-                )
-            )
+                    $lines,
+                ),
+            ),
         );
     }
 
@@ -288,16 +288,14 @@ abstract class AbstractHtml extends AbstractRenderer
         }
 
         if ($onlyLeadingTabs) {
-            return \preg_replace_callback(
+            return preg_replace_callback(
                 "/^[ \t]{1,}/mS", // tabs and spaces may be mixed
-                function (array $matches) use ($tabSize): string {
-                    return \str_replace("\t", \str_repeat(' ', $tabSize), $matches[0]);
-                },
-                $string
+                static fn (array $matches): string => str_replace("\t", str_repeat(' ', $tabSize), $matches[0]),
+                $string,
             );
         }
 
-        return \str_replace("\t", \str_repeat(' ', $tabSize), $string);
+        return str_replace("\t", str_repeat(' ', $tabSize), $string);
     }
 
     /**
@@ -309,7 +307,7 @@ abstract class AbstractHtml extends AbstractRenderer
      */
     protected function htmlSafe(string $string): string
     {
-        return \htmlspecialchars($string, \ENT_NOQUOTES, 'UTF-8');
+        return htmlspecialchars($string, \ENT_NOQUOTES, 'UTF-8');
     }
 
     /**
@@ -321,7 +319,7 @@ abstract class AbstractHtml extends AbstractRenderer
      */
     protected function htmlFixSpaces(string $string): string
     {
-        return \str_replace(' ', '&nbsp;', $string);
+        return str_replace(' ', '&nbsp;', $string);
     }
 
     /**
@@ -333,7 +331,7 @@ abstract class AbstractHtml extends AbstractRenderer
      */
     protected function htmlReplaceSpacesToHtmlTag(string $string): string
     {
-        return \strtr($string, [
+        return strtr($string, [
             ' ' => '<span class="ch sp"> </span>',
             "\t" => "<span class=\"ch tab\">\t</span>",
         ]);
@@ -367,13 +365,13 @@ abstract class AbstractHtml extends AbstractRenderer
      */
     protected function cleanUpDummyHtmlClosures(string $string): string
     {
-        return \str_replace(
+        return str_replace(
             [
                 RendererConstant::HTML_CLOSURES_DEL[0] . RendererConstant::HTML_CLOSURES_DEL[1],
                 RendererConstant::HTML_CLOSURES_INS[0] . RendererConstant::HTML_CLOSURES_INS[1],
             ],
             '',
-            $string
+            $string,
         );
     }
 }

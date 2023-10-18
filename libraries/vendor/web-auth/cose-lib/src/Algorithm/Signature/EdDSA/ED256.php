@@ -2,22 +2,18 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Cose\Algorithm\Signature\EdDSA;
 
 use Cose\Key\Key;
 
-final class ED256 extends EdDSA
+final class Ed256 extends EdDSA
 {
     public const ID = -260;
+
+    public static function create(): self
+    {
+        return new self();
+    }
 
     public static function identifier(): int
     {

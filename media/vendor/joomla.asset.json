@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
-  "version": "4.4.0",
+  "version": "5.0.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
@@ -16,6 +16,26 @@
       "version": "5.1.0"
     },
     {
+      "name": "es-module-shims",
+      "type": "script",
+      "uri": "vendor/es-module-shims/es-module-shims.min.js",
+      "attributes": {
+        "async": true
+      },
+      "package": "es-module-shims",
+      "version": "1.8.0"
+    },
+    {
+      "name": "accessibility",
+      "type": "script",
+      "uri": "vendor/accessibility/accessibility.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "accessibility",
+      "version": "3.0.17"
+    },
+    {
       "name": "wcpolyfill",
       "type": "script",
       "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
@@ -28,16 +48,6 @@
       ],
       "package": "@webcomponents/webcomponentsjs",
       "version": "2.8.0"
-    },
-    {
-      "name": "accessibility",
-      "type": "script",
-      "uri": "vendor/accessibility/accessibility.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "accessibility",
-      "version": "3.0.17"
     },
     {
       "name": "short-and-sweet",
@@ -77,31 +87,31 @@
       "version": "1.1.5"
     },
     {
-      "name": "cropperjs",
+      "name": "choicesjs",
       "type": "style",
-      "uri": "vendor/cropperjs/cropper.min.css",
-      "package": "cropperjs",
-      "version": "1.6.1"
+      "uri": "vendor/choicesjs/choices.min.css",
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
-      "name": "cropperjs",
+      "name": "choicesjs",
       "type": "script",
-      "uri": "vendor/cropperjs/cropper.min.js",
+      "uri": "vendor/choicesjs/choices.min.js",
       "attributes": {
         "defer": true
       },
-      "package": "cropperjs",
-      "version": "1.6.1"
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
-      "name": "cropperjs",
+      "name": "choicesjs",
       "type": "preset",
       "dependencies": [
-        "cropperjs#style",
-        "cropperjs#script"
+        "choicesjs#style",
+        "choicesjs#script"
       ],
-      "package": "cropperjs",
-      "version": "1.6.1"
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
       "name": "dragula",
@@ -148,11 +158,40 @@
       "version": "3.12.0"
     },
     {
-      "name": "jquery",
+      "name": "cropperjs",
+      "type": "style",
+      "uri": "vendor/cropperjs/cropper.min.css",
+      "package": "cropperjs",
+      "version": "1.6.1"
+    },
+    {
+      "name": "cropper-module",
       "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.7.1"
+      "uri": "vendor/cropperjs/cropper.esm.js",
+      "importmap": true,
+      "package": "cropperjs",
+      "version": "1.6.1"
+    },
+    {
+      "name": "cropperjs",
+      "type": "script",
+      "deprecated": true,
+      "uri": "vendor/cropperjs/cropper.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "cropperjs",
+      "version": "1.6.1"
+    },
+    {
+      "name": "cropperjs",
+      "type": "preset",
+      "dependencies": [
+        "cropperjs#style",
+        "cropperjs#script"
+      ],
+      "package": "cropperjs",
+      "version": "1.6.1"
     },
     {
       "name": "jquery-migrate",
@@ -165,6 +204,13 @@
       "version": "3.4.1"
     },
     {
+      "name": "jquery",
+      "type": "script",
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.7.1"
+    },
+    {
       "name": "webcomponent.joomla-alert",
       "type": "style",
       "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
@@ -174,7 +220,7 @@
     {
       "name": "webcomponent.joomla-alert-legacy",
       "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-alert-es5.min.js",
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -193,7 +239,7 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.joomla-alert-legacy"
+        "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
       "version": "0.2.0"
@@ -208,7 +254,7 @@
     {
       "name": "webcomponent.joomla-tab-legacy",
       "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-tab-es5.min.js",
+      "uri": "",
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -227,10 +273,47 @@
         "type": "module"
       },
       "dependencies": [
-        "webcomponent.joomla-tab-legacy"
+        "wcpolyfill"
       ],
       "package": "joomla-ui-custom-elements",
       "version": "0.2.0"
+    },
+    {
+      "name": "chosen",
+      "type": "style",
+      "uri": "vendor/chosen/chosen.css",
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "script",
+      "uri": "vendor/chosen/chosen.jquery.js",
+      "dependencies": [
+        "jquery"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "chosen",
+      "type": "preset",
+      "dependencies": [
+        "chosen#style",
+        "chosen#script"
+      ],
+      "package": "chosen-js",
+      "version": "1.8.7"
+    },
+    {
+      "name": "metismenujs",
+      "type": "script",
+      "uri": "vendor/metismenujs/metismenujs.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "metismenujs",
+      "version": "1.4.0"
     },
     {
       "name": "minicolors",
@@ -261,33 +344,6 @@
       ],
       "package": "@claviska/jquery-minicolors",
       "version": "2.3.6"
-    },
-    {
-      "name": "chosen",
-      "type": "style",
-      "uri": "vendor/chosen/chosen.css",
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "script",
-      "uri": "vendor/chosen/chosen.jquery.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
-    },
-    {
-      "name": "chosen",
-      "type": "preset",
-      "dependencies": [
-        "chosen#style",
-        "chosen#script"
-      ],
-      "package": "chosen-js",
-      "version": "1.8.7"
     },
     {
       "name": "skipto",
@@ -338,48 +394,11 @@
       "version": "1.4.4"
     },
     {
-      "name": "choicesjs",
-      "type": "style",
-      "uri": "vendor/choicesjs/choices.min.css",
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "script",
-      "uri": "vendor/choicesjs/choices.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "preset",
-      "dependencies": [
-        "choicesjs#style",
-        "choicesjs#script"
-      ],
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "metismenujs",
-      "type": "script",
-      "uri": "vendor/metismenujs/metismenujs.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "metismenujs",
-      "version": "1.4.0"
-    },
-    {
       "name": "fontawesome",
       "type": "style",
       "uri": "vendor/fontawesome-free/fontawesome.min.css",
       "package": "@fortawesome/fontawesome-free",
-      "version": "5.15.4"
+      "version": "6.4.2"
     },
     {
       "name": "bootstrap.css",
@@ -399,25 +418,11 @@
       "version": "5.3.2"
     },
     {
-      "name": "bootstrap.es5",
-      "type": "script",
-      "uri": "vendor/bootstrap/bootstrap-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "package": "bootstrap",
-      "version": "5.3.2"
-    },
-    {
       "name": "bootstrap.alert",
       "type": "script",
       "uri": "vendor/bootstrap/alert.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -430,7 +435,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/button.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -443,7 +448,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/carousel.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -456,7 +461,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/collapse.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -469,7 +474,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/dropdown.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -482,7 +487,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/modal.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -495,7 +500,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/offcanvas.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -508,7 +513,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/popover.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -521,7 +526,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/scrollspy.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -534,7 +539,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/tab.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
@@ -547,7 +552,7 @@
       "type": "script",
       "uri": "vendor/bootstrap/toast.min.js",
       "dependencies": [
-        "bootstrap.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"

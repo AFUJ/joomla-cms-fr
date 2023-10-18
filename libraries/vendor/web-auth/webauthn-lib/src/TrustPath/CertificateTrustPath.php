@@ -2,32 +2,28 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn\TrustPath;
 
-use Assert\Assertion;
+use function array_key_exists;
+use function is_array;
+use Webauthn\Exception\InvalidTrustPathException;
 
 final class CertificateTrustPath implements TrustPath
 {
     /**
-     * @var string[]
+     * @param string[] $certificates
      */
-    private $certificates;
+    public function __construct(
+        private readonly array $certificates
+    ) {
+    }
 
     /**
      * @param string[] $certificates
      */
-    public function __construct(array $certificates)
+    public static function create(array $certificates): self
     {
-        $this->certificates = $certificates;
+        return new self($certificates);
     }
 
     /**
@@ -38,13 +34,23 @@ final class CertificateTrustPath implements TrustPath
         return $this->certificates;
     }
 
-    public static function createFromArray(array $data): TrustPath
+    /**
+     * {@inheritdoc}
+     */
+    public static function createFromArray(array $data): static
     {
-        Assertion::keyExists($data, 'x5c', 'The trust path type is invalid');
+        array_key_exists('x5c', $data) || throw InvalidTrustPathException::create('The trust path type is invalid');
+        $x5c = $data['x5c'];
+        is_array($x5c) || throw InvalidTrustPathException::create(
+            'The trust path type is invalid. The parameter "x5c" shall contain strings.'
+        );
 
-        return new CertificateTrustPath($data['x5c']);
+        return new self($x5c);
     }
 
+    /**
+     * @return mixed[]
+     */
     public function jsonSerialize(): array
     {
         return [

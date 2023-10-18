@@ -2,24 +2,15 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn;
 
-use Assert\Assertion;
-use Base64Url\Base64Url;
-use InvalidArgumentException;
+use function array_key_exists;
 use JsonSerializable;
-use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
+use ParagonIE\ConstantTime\Base64UrlSafe;
+use Symfony\Component\Uid\AbstractUid;
+use Symfony\Component\Uid\Uuid;
 use Throwable;
+use Webauthn\Exception\InvalidDataException;
 use Webauthn\TrustPath\TrustPath;
 use Webauthn\TrustPath\TrustPathLoader;
 
@@ -29,86 +20,50 @@ use Webauthn\TrustPath\TrustPathLoader;
 class PublicKeyCredentialSource implements JsonSerializable
 {
     /**
-     * @var string
+     * @param string[] $transports
+     * @param array<string, mixed>|null $otherUI
      */
-    protected $publicKeyCredentialId;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var string[]
-     */
-    protected $transports;
-
-    /**
-     * @var string
-     */
-    protected $attestationType;
-
-    /**
-     * @var TrustPath
-     */
-    protected $trustPath;
-
-    /**
-     * @var UuidInterface
-     */
-    protected $aaguid;
-
-    /**
-     * @var string
-     */
-    protected $credentialPublicKey;
-
-    /**
-     * @var string
-     */
-    protected $userHandle;
-
-    /**
-     * @var int
-     */
-    protected $counter;
-
-    public function __construct(string $publicKeyCredentialId, string $type, array $transports, string $attestationType, TrustPath $trustPath, UuidInterface $aaguid, string $credentialPublicKey, string $userHandle, int $counter)
-    {
-        $this->publicKeyCredentialId = $publicKeyCredentialId;
-        $this->type = $type;
-        $this->transports = $transports;
-        $this->aaguid = $aaguid;
-        $this->credentialPublicKey = $credentialPublicKey;
-        $this->userHandle = $userHandle;
-        $this->counter = $counter;
-        $this->attestationType = $attestationType;
-        $this->trustPath = $trustPath;
+    public function __construct(
+        protected string $publicKeyCredentialId,
+        protected string $type,
+        protected array $transports,
+        protected string $attestationType,
+        protected TrustPath $trustPath,
+        protected AbstractUid $aaguid,
+        protected string $credentialPublicKey,
+        protected string $userHandle,
+        protected int $counter,
+        protected ?array $otherUI = null
+    ) {
     }
 
     /**
-     * @deprecated Deprecated since v2.1. Will be removed in v3.0. Please use response from the credential source returned by the AuthenticatorAttestationResponseValidator after "check" method
+     * @param string[] $transports
+     * @param array<string, mixed>|null $otherUI
      */
-    public static function createFromPublicKeyCredential(PublicKeyCredential $publicKeyCredential, string $userHandle): self
-    {
-        $response = $publicKeyCredential->getResponse();
-        Assertion::isInstanceOf($response, AuthenticatorAttestationResponse::class, 'This method is only available with public key credential containing an authenticator attestation response.');
-        $publicKeyCredentialDescriptor = $publicKeyCredential->getPublicKeyCredentialDescriptor();
-        $attestationStatement = $response->getAttestationObject()->getAttStmt();
-        $authenticatorData = $response->getAttestationObject()->getAuthData();
-        $attestedCredentialData = $authenticatorData->getAttestedCredentialData();
-        Assertion::notNull($attestedCredentialData, 'No attested credential data available');
-
+    public static function create(
+        string $publicKeyCredentialId,
+        string $type,
+        array $transports,
+        string $attestationType,
+        TrustPath $trustPath,
+        AbstractUid $aaguid,
+        string $credentialPublicKey,
+        string $userHandle,
+        int $counter,
+        ?array $otherUI = null
+    ): self {
         return new self(
-            $publicKeyCredentialDescriptor->getId(),
-            $publicKeyCredentialDescriptor->getType(),
-            $publicKeyCredentialDescriptor->getTransports(),
-            $attestationStatement->getType(),
-            $attestationStatement->getTrustPath(),
-            $attestedCredentialData->getAaguid(),
-            $attestedCredentialData->getCredentialPublicKey(),
+            $publicKeyCredentialId,
+            $type,
+            $transports,
+            $attestationType,
+            $trustPath,
+            $aaguid,
+            $credentialPublicKey,
             $userHandle,
-            $authenticatorData->getSignCount()
+            $counter,
+            $otherUI
         );
     }
 
@@ -119,11 +74,7 @@ class PublicKeyCredentialSource implements JsonSerializable
 
     public function getPublicKeyCredentialDescriptor(): PublicKeyCredentialDescriptor
     {
-        return new PublicKeyCredentialDescriptor(
-            $this->type,
-            $this->publicKeyCredentialId,
-            $this->transports
-        );
+        return new PublicKeyCredentialDescriptor($this->type, $this->publicKeyCredentialId, $this->transports);
     }
 
     public function getAttestationType(): string
@@ -138,11 +89,7 @@ class PublicKeyCredentialSource implements JsonSerializable
 
     public function getAttestedCredentialData(): AttestedCredentialData
     {
-        return new AttestedCredentialData(
-            $this->aaguid,
-            $this->publicKeyCredentialId,
-            $this->credentialPublicKey
-        );
+        return new AttestedCredentialData($this->aaguid, $this->publicKeyCredentialId, $this->credentialPublicKey);
     }
 
     public function getType(): string
@@ -158,7 +105,7 @@ class PublicKeyCredentialSource implements JsonSerializable
         return $this->transports;
     }
 
-    public function getAaguid(): UuidInterface
+    public function getAaguid(): AbstractUid
     {
         return $this->aaguid;
     }
@@ -183,51 +130,79 @@ class PublicKeyCredentialSource implements JsonSerializable
         $this->counter = $counter;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getOtherUI(): ?array
+    {
+        return $this->otherUI;
+    }
+
+    /**
+     * @param array<string, mixed>|null $otherUI
+     */
+    public function setOtherUI(?array $otherUI): self
+    {
+        $this->otherUI = $otherUI;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed[] $data
+     */
     public static function createFromArray(array $data): self
     {
         $keys = array_keys(get_class_vars(self::class));
         foreach ($keys as $key) {
-            Assertion::keyExists($data, $key, sprintf('The parameter "%s" is missing', $key));
+            if ($key === 'otherUI') {
+                continue;
+            }
+            array_key_exists($key, $data) || throw InvalidDataException::create($data, sprintf(
+                'The parameter "%s" is missing',
+                $key
+            ));
         }
-        switch (true) {
-            case 36 === mb_strlen($data['aaguid'], '8bit'):
-                $uuid = Uuid::fromString($data['aaguid']);
-                break;
-            default: // Kept for compatibility with old format
-                $decoded = base64_decode($data['aaguid'], true);
-                Assertion::string($decoded, 'Invalid AAGUID');
-                $uuid = Uuid::fromBytes($decoded);
-        }
+        mb_strlen((string) $data['aaguid'], '8bit') === 36 || throw InvalidDataException::create(
+            $data,
+            'Invalid AAGUID'
+        );
+        $uuid = Uuid::fromString($data['aaguid']);
 
         try {
             return new self(
-                Base64Url::decode($data['publicKeyCredentialId']),
+                Base64UrlSafe::decodeNoPadding($data['publicKeyCredentialId']),
                 $data['type'],
                 $data['transports'],
                 $data['attestationType'],
                 TrustPathLoader::loadTrustPath($data['trustPath']),
                 $uuid,
-                Base64Url::decode($data['credentialPublicKey']),
-                Base64Url::decode($data['userHandle']),
-                $data['counter']
+                Base64UrlSafe::decodeNoPadding($data['credentialPublicKey']),
+                Base64UrlSafe::decodeNoPadding($data['userHandle']),
+                $data['counter'],
+                $data['otherUI'] ?? null
             );
         } catch (Throwable $throwable) {
-            throw new InvalidArgumentException('Unable to load the data', $throwable->getCode(), $throwable);
+            throw InvalidDataException::create($data, 'Unable to load the data', $throwable);
         }
     }
 
+    /**
+     * @return mixed[]
+     */
     public function jsonSerialize(): array
     {
         return [
-            'publicKeyCredentialId' => Base64Url::encode($this->publicKeyCredentialId),
+            'publicKeyCredentialId' => Base64UrlSafe::encodeUnpadded($this->publicKeyCredentialId),
             'type' => $this->type,
             'transports' => $this->transports,
             'attestationType' => $this->attestationType,
-            'trustPath' => $this->trustPath,
-            'aaguid' => $this->aaguid->toString(),
-            'credentialPublicKey' => Base64Url::encode($this->credentialPublicKey),
-            'userHandle' => Base64Url::encode($this->userHandle),
+            'trustPath' => $this->trustPath->jsonSerialize(),
+            'aaguid' => $this->aaguid->__toString(),
+            'credentialPublicKey' => Base64UrlSafe::encodeUnpadded($this->credentialPublicKey),
+            'userHandle' => Base64UrlSafe::encodeUnpadded($this->userHandle),
             'counter' => $this->counter,
+            'otherUI' => $this->otherUI,
         ];
     }
 }

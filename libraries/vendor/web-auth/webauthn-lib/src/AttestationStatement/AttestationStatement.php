@@ -2,81 +2,90 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn\AttestationStatement;
 
-use Assert\Assertion;
+use function array_key_exists;
 use JsonSerializable;
+use Webauthn\Exception\InvalidDataException;
 use Webauthn\TrustPath\TrustPath;
 use Webauthn\TrustPath\TrustPathLoader;
 
 class AttestationStatement implements JsonSerializable
 {
-    public const TYPE_NONE = 'none';
-    public const TYPE_BASIC = 'basic';
-    public const TYPE_SELF = 'self';
-    public const TYPE_ATTCA = 'attca';
-    public const TYPE_ECDAA = 'ecdaa';
+    final public const TYPE_NONE = 'none';
+
+    final public const TYPE_BASIC = 'basic';
+
+    final public const TYPE_SELF = 'self';
+
+    final public const TYPE_ATTCA = 'attca';
 
     /**
-     * @var string
+     * @deprecated since 4.2.0 and will be removed in 5.0.0. The ECDAA Trust Anchor does no longer exist in Webauthn specification.
      */
-    private $fmt;
+    final public const TYPE_ECDAA = 'ecdaa';
+
+    final public const TYPE_ANONCA = 'anonca';
 
     /**
-     * @var array
+     * @param array<string, mixed> $attStmt
      */
-    private $attStmt;
-
-    /**
-     * @var TrustPath
-     */
-    private $trustPath;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    public function __construct(string $fmt, array $attStmt, string $type, TrustPath $trustPath)
-    {
-        $this->fmt = $fmt;
-        $this->attStmt = $attStmt;
-        $this->type = $type;
-        $this->trustPath = $trustPath;
+    public function __construct(
+        private readonly string $fmt,
+        private readonly array $attStmt,
+        private readonly string $type,
+        private readonly TrustPath $trustPath
+    ) {
     }
 
+    /**
+     * @param array<string, mixed> $attStmt
+     */
     public static function createNone(string $fmt, array $attStmt, TrustPath $trustPath): self
     {
         return new self($fmt, $attStmt, self::TYPE_NONE, $trustPath);
     }
 
+    /**
+     * @param array<string, mixed> $attStmt
+     */
     public static function createBasic(string $fmt, array $attStmt, TrustPath $trustPath): self
     {
         return new self($fmt, $attStmt, self::TYPE_BASIC, $trustPath);
     }
 
+    /**
+     * @param array<string, mixed> $attStmt
+     */
     public static function createSelf(string $fmt, array $attStmt, TrustPath $trustPath): self
     {
         return new self($fmt, $attStmt, self::TYPE_SELF, $trustPath);
     }
 
+    /**
+     * @param array<string, mixed> $attStmt
+     */
     public static function createAttCA(string $fmt, array $attStmt, TrustPath $trustPath): self
     {
         return new self($fmt, $attStmt, self::TYPE_ATTCA, $trustPath);
     }
 
+    /**
+     * @param array<string, mixed> $attStmt
+     *
+     * @deprecated since 4.2.0 and will be removed in 5.0.0. The ECDAA Trust Anchor does no longer exist in Webauthn specification.
+     */
     public static function createEcdaa(string $fmt, array $attStmt, TrustPath $trustPath): self
     {
         return new self($fmt, $attStmt, self::TYPE_ECDAA, $trustPath);
+    }
+
+    /**
+     * @param array<string, mixed> $attStmt
+     */
+    public static function createAnonymizationCA(string $fmt, array $attStmt, TrustPath $trustPath): self
+    {
+        return new self($fmt, $attStmt, self::TYPE_ANONCA, $trustPath);
     }
 
     public function getFmt(): string
@@ -84,6 +93,9 @@ class AttestationStatement implements JsonSerializable
         return $this->fmt;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getAttStmt(): array
     {
         return $this->attStmt;
@@ -91,15 +103,15 @@ class AttestationStatement implements JsonSerializable
 
     public function has(string $key): bool
     {
-        return \array_key_exists($key, $this->attStmt);
+        return array_key_exists($key, $this->attStmt);
     }
 
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
-        Assertion::true($this->has($key), sprintf('The attestation statement has no key "%s".', $key));
+        $this->has($key) || throw InvalidDataException::create($this->attStmt, sprintf(
+            'The attestation statement has no key "%s".',
+            $key
+        ));
 
         return $this->attStmt[$key];
     }
@@ -114,10 +126,16 @@ class AttestationStatement implements JsonSerializable
         return $this->type;
     }
 
+    /**
+     * @param mixed[] $data
+     */
     public static function createFromArray(array $data): self
     {
         foreach (['fmt', 'attStmt', 'trustPath', 'type'] as $key) {
-            Assertion::keyExists($data, $key, sprintf('The key "%s" is missing', $key));
+            array_key_exists($key, $data) || throw InvalidDataException::create($data, sprintf(
+                'The key "%s" is missing',
+                $key
+            ));
         }
 
         return new self(
@@ -128,12 +146,15 @@ class AttestationStatement implements JsonSerializable
         );
     }
 
+    /**
+     * @return mixed[]
+     */
     public function jsonSerialize(): array
     {
         return [
             'fmt' => $this->fmt,
             'attStmt' => $this->attStmt,
-            'trustPath' => $this->trustPath,
+            'trustPath' => $this->trustPath->jsonSerialize(),
             'type' => $this->type,
         ];
     }

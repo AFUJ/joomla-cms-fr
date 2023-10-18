@@ -1,167 +1,178 @@
-(function () {
-  'use strict';
+/**
+ * File reader helper
+ *
+ * @param {*} file the file
+ * @param {*} callback function to callback
+ *
+ * @TODO replace it with await new Response(file)
+ */
+function readFile(file, callback) {
+  // Create a new file reader instance
+  const reader = new FileReader();
 
-  /* eslint-disable no-undef */
-  tinymce.PluginManager.add('jdragndrop', function (editor) {
-    // Reset the drop area border
-    var dragleaveCallback = function (e) {
-      if (!e.dataTransfer.types.includes('Files')) return;
-      e.stopPropagation();
-      e.preventDefault();
-      editor.contentAreaContainer.style.borderWidth = '0';
-      return false;
-    }
-    tinyMCE.DOM.bind(document, 'dragleave', dragleaveCallback);
+  // Add the on load callback
+  reader.onload = event => {
+    const {
+      result
+    } = event.target;
+    const splitIndex = result.indexOf('base64') + 7;
+    const content = result.slice(splitIndex, result.length);
 
-    // Remove listener when editor are removed
-    editor.on('remove', function () {
-      tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback);
-    });
+    // Upload the file
+    callback(file.name, content);
+  };
+  reader.readAsDataURL(file);
+}
+window.tinymce.PluginManager.add('jdragndrop', editor => {
+  const registerOption = editor.options.register;
+  registerOption('uploadUri', {
+    processor: 'string'
+  });
+  registerOption('comMediaAdapter', {
+    processor: 'string'
+  });
+  registerOption('parentUploadFolder', {
+    processor: 'string'
+  });
+  registerOption('csrfToken', {
+    processor: 'string'
+  });
 
-    // Fix for Chrome
-    editor.on('dragenter', function (e) {
-      if (!e.dataTransfer.types.includes('Files')) return;
-      e.stopPropagation();
-      return false;
-    });
+  // Reset the drop area border
+  const dragleaveCallback = e => {
+    if (!e.dataTransfer.types.includes('Files')) return;
+    e.stopPropagation();
+    e.preventDefault();
+    editor.contentAreaContainer.style.borderWidth = '0';
+  };
+  window.tinyMCE.DOM.bind(document, 'dragleave', dragleaveCallback);
 
-    // Notify user when file is over the drop area
-    editor.on('dragover', function (e) {
-      if (!e.dataTransfer.types.includes('Files')) return;
-      e.preventDefault();
-      editor.contentAreaContainer.style.borderStyle = 'dashed';
-      editor.contentAreaContainer.style.borderWidth = '5px';
-      return false;
-    });
+  // Remove listener when editor are removed
+  editor.on('remove', () => window.tinyMCE.DOM.unbind(document, 'dragleave', dragleaveCallback));
 
-    function uploadFile(name, content) {
-      var _data;
+  // Fix for Chrome
+  editor.on('dragenter', e => {
+    if (!e.dataTransfer.types.includes('Files')) return;
+    e.stopPropagation();
+  });
 
-      var url = editor.settings.uploadUri + "&path=" + editor.settings.comMediaAdapter + editor.settings.parentUploadFolder;
-      var data = (_data = {}, _data[editor.settings.csrfToken] = '1', _data.name = name, _data.content = content, _data.parent = editor.settings.parentUploadFolder, _data);
-      Joomla.request({
-        url: url,
-        method: 'POST',
-        data: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        onSuccess: function onSuccess(resp) {
-          var response;
-
-          try {
-            response = JSON.parse(resp);
-          } catch (e) {
-            editor.windowManager.alert(Joomla.Text._('ERROR') + ": {e}");
+  // Notify user when file is over the drop area
+  editor.on('dragover', e => {
+    if (!e.dataTransfer.types.includes('Files')) return;
+    e.preventDefault();
+    editor.contentAreaContainer.style.borderStyle = 'dashed';
+    editor.contentAreaContainer.style.borderWidth = '5px';
+  });
+  async function uploadFile(name, content) {
+    const settings = editor.options.get;
+    Joomla.request({
+      url: `${settings('uploadUri')}&path=${settings('comMediaAdapter')}${settings('parentUploadFolder')}`,
+      method: 'POST',
+      data: JSON.stringify({
+        [settings('csrfToken')]: 1,
+        name,
+        content,
+        parent: settings('parentUploadFolder')
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      onSuccess: resp => {
+        let response;
+        try {
+          response = JSON.parse(resp);
+        } catch (e) {
+          editor.windowManager.alert(`${Joomla.Text._('ERROR')}: {${e}}`);
+        }
+        if (response.data && response.data.path) {
+          const responseData = response.data;
+          let urlPath;
+          const paths = Joomla.getOptions('system.paths');
+          const {
+            rootFull
+          } = paths;
+          const parts = response.data.url.split(rootFull);
+          if (parts.length > 1) {
+            // For local adapters use relative paths
+            urlPath = `${parts[1]}`;
+          } else if (responseData.url) {
+            // Absolute path for different domain
+            urlPath = responseData.url;
           }
-
-          if (response.data && response.data.path) {
-            var responseData = response.data;
-            var urlPath; // For local adapters use relative paths
-
-            var _Joomla$getOptions = Joomla.getOptions('system.paths'),
-            rootFull = _Joomla$getOptions.rootFull;
-            var parts = response.data.url.split(rootFull);
-            if (parts.length > 1) {
-              urlPath = "" + parts[1];
-            } else if (responseData.url) {
-              // Absolute path for different domain
-              urlPath = responseData.url;
-            }
-
-            var dialogClose = function dialogClose(api) {
-              var dialogData = api.getData();
-              var altEmpty = dialogData.altEmpty ? ' alt=""' : '';
-              var altValue = dialogData.altText ? " alt=\"" + dialogData.altText + "\"" : altEmpty;
-              var lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
-              var width = dialogData.isLazy ? " width=\"" + responseData.width + "\"" : '';
-              var height = dialogData.isLazy ? " height=\"" + responseData.height + "\"" : '';
-              editor.execCommand('mceInsertContent', false, "<img src=\"" + urlPath + "\"" + altValue + lazyValue + width + height + "/>");
-            };
-
-            editor.windowManager.open({
-              title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
-              body: {
-                type: 'panel',
-                items: [{
-                  type: 'input',
-                  name: 'altText',
-                  label: Joomla.Text._('PLG_TINY_DND_ALTTEXT')
-                }, {
-                  type: 'checkbox',
-                  name: 'altEmpty',
-                  label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT')
-                }, {
-                  type: 'checkbox',
-                  name: 'isLazy',
-                  label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED')
-                }]
-              },
-              buttons: [{
-                type: 'cancel',
-                text: 'Cancel'
+          const dialogClose = function dialogClose(api) {
+            const dialogData = api.getData();
+            const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
+            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
+            const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
+            const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+            const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
+          };
+          editor.windowManager.open({
+            title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
+            body: {
+              type: 'panel',
+              items: [{
+                type: 'input',
+                name: 'altText',
+                label: Joomla.Text._('PLG_TINY_DND_ALTTEXT')
               }, {
-                type: 'submit',
-                name: 'submitButton',
-                text: 'Save',
-                primary: true
-              }],
-              initialData: {
-                altText: '',
-                isLazy: true,
-                altEmpty: false
-              },
-              onSubmit: function onSubmit(api) {
-                dialogClose(api);
-                api.close();
-              },
-              onCancel: function onCancel(api) {
-                dialogClose(api);
-              }
-            });
-          }
-        },
-        onError: function onError(xhr) {
-          editor.windowManager.alert("Error: " + xhr.statusText);
+                type: 'checkbox',
+                name: 'altEmpty',
+                label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT')
+              }, {
+                type: 'checkbox',
+                name: 'isLazy',
+                label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED')
+              }]
+            },
+            buttons: [{
+              type: 'cancel',
+              text: 'Cancel'
+            }, {
+              type: 'submit',
+              name: 'submitButton',
+              text: 'Save',
+              primary: true
+            }],
+            initialData: {
+              altText: '',
+              isLazy: true,
+              altEmpty: false
+            },
+            onSubmit: api => {
+              dialogClose(api);
+              api.close();
+            },
+            onCancel: api => dialogClose(api)
+          });
+        }
+      },
+      onError: xhr => editor.windowManager.alert(`Error: ${xhr.statusText}`)
+    });
+  }
+
+  // Logic for the dropped file
+  editor.on('drop', e => {
+    if (!e.dataTransfer.types.includes('Files')) return;
+    e.preventDefault();
+
+    // Read and upload files
+    if (e.dataTransfer.files.length > 0) {
+      Array.from(e.dataTransfer.files).forEach(file => {
+        // Only images allowed
+        if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+          // Upload the file(s)
+          readFile(file, uploadFile);
         }
       });
     }
-
-    function readFile(file) {
-      // Create a new file reader instance
-      var reader = new FileReader();
-
-      // Add the on load callback
-      reader.onload = function (progressEvent) {
-        var result = progressEvent.target.result;
-        var splitIndex = result.indexOf('base64') + 7;
-        var content = result.slice(splitIndex, result.length);
-
-        // Upload the file
-        uploadFile(file.name, content);
-      };
-
-      reader.readAsDataURL(file);
-    }
-
-    // Logic for the dropped file
-    editor.on('drop', function (e) {
-      if (!e.dataTransfer.types.includes('Files')) return;
-      e.preventDefault();
-
-      // Read and upload files
-      if (e.dataTransfer.files.length > 0) {
-        var files = [].slice.call(e.dataTransfer.files);
-        files.forEach(function (file) {
-          // Only images allowed
-          if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif|webp)$/)) {
-            // Upload the file(s)
-            readFile(file);
-          }
-        });
-      }
-
-      editor.contentAreaContainer.style.borderWidth = '0';
-    });
+    editor.contentAreaContainer.style.borderWidth = '0';
   });
-}());
+  return {
+    getMetadata: () => ({
+      name: 'Drag and Drop (Joomla)',
+      url: 'https://www.joomla.org/'
+    })
+  };
+});

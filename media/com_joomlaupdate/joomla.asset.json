@@ -6,55 +6,29 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_joomlaupdate.admin-update",
+      "name": "com_joomlaupdate.default",
       "type": "script",
-      "uri": "com_joomlaupdate/admin-update-default.min.js",
+      "uri": "com_joomlaupdate/default.min.js",
       "dependencies": [
-        "com_joomlaupdate.admin-update-es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "1a3bc957f016ecef9519cfa2d4e558c77b5c80f2"
+      "version": "c39fd4"
     },
     {
-      "name": "com_joomlaupdate.admin-update-es5",
+      "name": "com_joomlaupdate.admin-update",
       "type": "script",
-      "uri": "com_joomlaupdate/admin-update-default-es5.min.js",
+      "uri": "com_joomlaupdate/admin-update-default.min.js",
       "dependencies": [
         "core",
         "bootstrap.modal"
       ],
       "attributes": {
-        "defer": true,
-        "nomodule": true
-      },
-      "version": "af7a0c957f81a0debb64996077ca02b799d1940c"
-    },
-    {
-      "name": "com_joomlaupdate.default-es5",
-      "type": "script",
-      "uri": "com_joomlaupdate/default-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      },
-      "version": "7d3106f9e3fdc05b56e40415f4cd594bd7bc1367"
-    },
-    {
-      "name": "com_joomlaupdate.default",
-      "type": "script",
-      "uri": "com_joomlaupdate/default.min.js",
-      "dependencies": [
-        "com_joomlaupdate.default-es5"
-      ],
-      "attributes": {
         "type": "module"
       },
-      "version": "7a654e944bbda87556b88dbf74b558e6c73a91d2"
+      "version": "07047e"
     }
   ]
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of the Joomla Framework DI Package
  *
@@ -15,14 +16,14 @@ namespace Joomla\DI;
  */
 interface ContainerAwareInterface
 {
-	/**
-	 * Set the DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   1.0
-	 */
-	public function setContainer(Container $container);
+    /**
+     * Set the DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  mixed
+     *
+     * @since   1.0
+     */
+    public function setContainer(Container $container);
 }

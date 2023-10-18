@@ -2,92 +2,114 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn\AttestationStatement;
 
-use Assert\Assertion;
-use InvalidArgumentException;
+use function array_key_exists;
+use function count;
+use function is_array;
+use function is_int;
+use function is_string;
+use Jose\Component\Core\Algorithm as AlgorithmInterface;
 use Jose\Component\Core\AlgorithmManager;
-use Jose\Component\Core\Util\JsonConverter;
 use Jose\Component\KeyManagement\JWKFactory;
-use Jose\Component\Signature\Algorithm;
+use Jose\Component\Signature\Algorithm\EdDSA;
+use Jose\Component\Signature\Algorithm\ES256;
+use Jose\Component\Signature\Algorithm\ES384;
+use Jose\Component\Signature\Algorithm\ES512;
+use Jose\Component\Signature\Algorithm\PS256;
+use Jose\Component\Signature\Algorithm\PS384;
+use Jose\Component\Signature\Algorithm\PS512;
+use Jose\Component\Signature\Algorithm\RS256;
+use Jose\Component\Signature\Algorithm\RS384;
+use Jose\Component\Signature\Algorithm\RS512;
 use Jose\Component\Signature\JWS;
 use Jose\Component\Signature\JWSVerifier;
 use Jose\Component\Signature\Serializer\CompactSerializer;
+use const JSON_THROW_ON_ERROR;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use RuntimeException;
 use Webauthn\AuthenticatorData;
-use Webauthn\CertificateToolbox;
-use Webauthn\MetadataService\MetadataStatementRepository;
+use Webauthn\Event\AttestationStatementLoaded;
+use Webauthn\Exception\AttestationStatementLoadingException;
+use Webauthn\Exception\AttestationStatementVerificationException;
+use Webauthn\Exception\InvalidAttestationStatementException;
+use Webauthn\Exception\UnsupportedFeatureException;
+use Webauthn\MetadataService\CertificateChain\CertificateToolbox;
+use Webauthn\MetadataService\Event\CanDispatchEvents;
+use Webauthn\MetadataService\Event\NullEventDispatcher;
 use Webauthn\TrustPath\CertificateTrustPath;
 
-final class AndroidSafetyNetAttestationStatementSupport implements AttestationStatementSupport
+final class AndroidSafetyNetAttestationStatementSupport implements AttestationStatementSupport, CanDispatchEvents
 {
-    /**
-     * @var string|null
-     */
-    private $apiKey;
+    private ?string $apiKey = null;
 
-    /**
-     * @var ClientInterface|null
-     */
-    private $client;
+    private ?ClientInterface $client = null;
 
-    /**
-     * @var CompactSerializer
-     */
-    private $jwsSerializer;
+    private readonly CompactSerializer $jwsSerializer;
 
-    /**
-     * @var JWSVerifier|null
-     */
-    private $jwsVerifier;
+    private ?JWSVerifier $jwsVerifier = null;
 
-    /**
-     * @var RequestFactoryInterface|null
-     */
-    private $requestFactory;
+    private ?RequestFactoryInterface $requestFactory = null;
 
-    /**
-     * @var int
-     */
-    private $leeway;
+    private int $leeway = 0;
 
-    /**
-     * @var int
-     */
-    private $maxAge;
+    private int $maxAge = 60000;
 
-    /**
-     * @var MetadataStatementRepository|null
-     */
-    private $metadataStatementRepository;
+    private EventDispatcherInterface $dispatcher;
 
-    public function __construct(?ClientInterface $client = null, ?string $apiKey = null, ?RequestFactoryInterface $requestFactory = null, int $leeway = 0, int $maxAge = 60000, ?MetadataStatementRepository $metadataStatementRepository = null)
+    public function __construct()
     {
-        foreach ([Algorithm\RS256::class] as $algorithm) {
-            if (!class_exists($algorithm)) {
-                throw new RuntimeException('The algorithms RS256 is missing. Did you forget to install the package web-token/jwt-signature-algorithm-rsa?');
-            }
+        if (! class_exists(RS256::class)) {
+            throw UnsupportedFeatureException::create(
+                'The algorithm RS256 is missing. Did you forget to install the package web-token/jwt-signature-algorithm-rsa?'
+            );
+        }
+        if (! class_exists(JWKFactory::class)) {
+            throw UnsupportedFeatureException::create(
+                'The class Jose\Component\KeyManagement\JWKFactory is missing. Did you forget to install the package web-token/jwt-key-mgmt?'
+            );
         }
         $this->jwsSerializer = new CompactSerializer();
+        $this->initJwsVerifier();
+        $this->dispatcher = new NullEventDispatcher();
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
+    {
+        $this->dispatcher = $eventDispatcher;
+    }
+
+    public static function create(): self
+    {
+        return new self();
+    }
+
+    public function enableApiVerification(
+        ClientInterface $client,
+        string $apiKey,
+        RequestFactoryInterface $requestFactory
+    ): self {
         $this->apiKey = $apiKey;
         $this->client = $client;
         $this->requestFactory = $requestFactory;
-        $this->initJwsVerifier();
-        $this->leeway = $leeway;
+
+        return $this;
+    }
+
+    public function setMaxAge(int $maxAge): self
+    {
         $this->maxAge = $maxAge;
-        $this->metadataStatementRepository = $metadataStatementRepository;
+
+        return $this;
+    }
+
+    public function setLeeway(int $leeway): self
+    {
+        $this->leeway = $leeway;
+
+        return $this;
     }
 
     public function name(): string
@@ -95,46 +117,85 @@ final class AndroidSafetyNetAttestationStatementSupport implements AttestationSt
         return 'android-safetynet';
     }
 
+    /**
+     * @param array<string, mixed> $attestation
+     */
     public function load(array $attestation): AttestationStatement
     {
-        Assertion::keyExists($attestation, 'attStmt', 'Invalid attestation object');
+        array_key_exists('attStmt', $attestation) || throw AttestationStatementLoadingException::create(
+            $attestation,
+            'Invalid attestation object'
+        );
         foreach (['ver', 'response'] as $key) {
-            Assertion::keyExists($attestation['attStmt'], $key, sprintf('The attestation statement value "%s" is missing.', $key));
-            Assertion::notEmpty($attestation['attStmt'][$key], sprintf('The attestation statement value "%s" is empty.', $key));
+            array_key_exists($key, $attestation['attStmt']) || throw AttestationStatementLoadingException::create(
+                $attestation,
+                sprintf('The attestation statement value "%s" is missing.', $key)
+            );
+            $attestation['attStmt'][$key] !== '' || throw AttestationStatementLoadingException::create(
+                $attestation,
+                sprintf('The attestation statement value "%s" is empty.', $key)
+            );
         }
         $jws = $this->jwsSerializer->unserialize($attestation['attStmt']['response']);
-        $jwsHeader = $jws->getSignature(0)->getProtectedHeader();
-        Assertion::keyExists($jwsHeader, 'x5c', 'The response in the attestation statement must contain a "x5c" header.');
-        Assertion::notEmpty($jwsHeader['x5c'], 'The "x5c" parameter in the attestation statement response must contain at least one certificate.');
+        $jwsHeader = $jws->getSignature(0)
+            ->getProtectedHeader();
+        array_key_exists('x5c', $jwsHeader) || throw AttestationStatementLoadingException::create(
+            $attestation,
+            'The response in the attestation statement must contain a "x5c" header.'
+        );
+        (is_countable($jwsHeader['x5c']) ? count(
+            $jwsHeader['x5c']
+        ) : 0) > 0 || throw AttestationStatementLoadingException::create(
+            $attestation,
+            'The "x5c" parameter in the attestation statement response must contain at least one certificate.'
+        );
         $certificates = $this->convertCertificatesToPem($jwsHeader['x5c']);
         $attestation['attStmt']['jws'] = $jws;
 
-        return AttestationStatement::createBasic(
+        $attestationStatement = AttestationStatement::createBasic(
             $this->name(),
             $attestation['attStmt'],
             new CertificateTrustPath($certificates)
         );
+        $this->dispatcher->dispatch(AttestationStatementLoaded::create($attestationStatement));
+
+        return $attestationStatement;
     }
 
-    public function isValid(string $clientDataJSONHash, AttestationStatement $attestationStatement, AuthenticatorData $authenticatorData): bool
-    {
+    public function isValid(
+        string $clientDataJSONHash,
+        AttestationStatement $attestationStatement,
+        AuthenticatorData $authenticatorData
+    ): bool {
         $trustPath = $attestationStatement->getTrustPath();
-        Assertion::isInstanceOf($trustPath, CertificateTrustPath::class, 'Invalid trust path');
+        $trustPath instanceof CertificateTrustPath || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'Invalid trust path'
+        );
         $certificates = $trustPath->getCertificates();
-        if (null !== $this->metadataStatementRepository) {
-            $certificates = CertificateToolbox::checkAttestationMedata(
-                $attestationStatement,
-                $authenticatorData->getAttestedCredentialData()->getAaguid()->toString(),
-                $certificates,
-                $this->metadataStatementRepository
-            );
-        }
+        $firstCertificate = current($certificates);
+        is_string($firstCertificate) || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'No certificate'
+        );
 
-        $parsedCertificate = openssl_x509_parse(current($certificates));
-        Assertion::isArray($parsedCertificate, 'Invalid attestation object');
-        Assertion::keyExists($parsedCertificate, 'subject', 'Invalid attestation object');
-        Assertion::keyExists($parsedCertificate['subject'], 'CN', 'Invalid attestation object');
-        Assertion::eq($parsedCertificate['subject']['CN'], 'attest.android.com', 'Invalid attestation object');
+        $parsedCertificate = openssl_x509_parse($firstCertificate);
+        is_array($parsedCertificate) || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'Invalid attestation object'
+        );
+        array_key_exists('subject', $parsedCertificate) || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'Invalid attestation object'
+        );
+        array_key_exists('CN', $parsedCertificate['subject']) || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'Invalid attestation object'
+        );
+        $parsedCertificate['subject']['CN'] === 'attest.android.com' || throw InvalidAttestationStatementException::create(
+            $attestationStatement,
+            'Invalid attestation object'
+        );
 
         /** @var JWS $jws */
         $jws = $attestationStatement->get('jws');
@@ -150,57 +211,92 @@ final class AndroidSafetyNetAttestationStatementSupport implements AttestationSt
         return true;
     }
 
-    private function validatePayload(?string $payload, string $clientDataJSONHash, AuthenticatorData $authenticatorData): void
-    {
-        Assertion::notNull($payload, 'Invalid attestation object');
-        $payload = JsonConverter::decode($payload);
-        Assertion::isArray($payload, 'Invalid attestation object');
-        Assertion::keyExists($payload, 'nonce', 'Invalid attestation object. "nonce" is missing.');
-        Assertion::eq($payload['nonce'], base64_encode(hash('sha256', $authenticatorData->getAuthData().$clientDataJSONHash, true)), 'Invalid attestation object. Invalid nonce');
-        Assertion::keyExists($payload, 'ctsProfileMatch', 'Invalid attestation object. "ctsProfileMatch" is missing.');
-        Assertion::true($payload['ctsProfileMatch'], 'Invalid attestation object. "ctsProfileMatch" value is false.');
-        Assertion::keyExists($payload, 'timestampMs', 'Invalid attestation object. Timestamp is missing.');
-        Assertion::integer($payload['timestampMs'], 'Invalid attestation object. Timestamp shall be an integer.');
+    private function validatePayload(
+        ?string $payload,
+        string $clientDataJSONHash,
+        AuthenticatorData $authenticatorData
+    ): void {
+        $payload !== null || throw AttestationStatementVerificationException::create('Invalid attestation object');
+        $payload = json_decode($payload, true, 512, JSON_THROW_ON_ERROR);
+        array_key_exists('nonce', $payload) || throw AttestationStatementVerificationException::create(
+            'Invalid attestation object. "nonce" is missing.'
+        );
+        $payload['nonce'] === base64_encode(
+            hash('sha256', $authenticatorData->getAuthData() . $clientDataJSONHash, true)
+        ) || throw AttestationStatementVerificationException::create('Invalid attestation object. Invalid nonce');
+        array_key_exists('ctsProfileMatch', $payload) || throw AttestationStatementVerificationException::create(
+            'Invalid attestation object. "ctsProfileMatch" is missing.'
+        );
+        $payload['ctsProfileMatch'] || throw AttestationStatementVerificationException::create(
+            'Invalid attestation object. "ctsProfileMatch" value is false.'
+        );
+        array_key_exists('timestampMs', $payload) || throw AttestationStatementVerificationException::create(
+            'Invalid attestation object. Timestamp is missing.'
+        );
+        is_int($payload['timestampMs']) || throw AttestationStatementVerificationException::create(
+            'Invalid attestation object. Timestamp shall be an integer.'
+        );
         $currentTime = time() * 1000;
-        Assertion::lessOrEqualThan($payload['timestampMs'], $currentTime + $this->leeway, sprintf('Invalid attestation object. Issued in the future. Current time: %d. Response time: %d', $currentTime, $payload['timestampMs']));
-        Assertion::lessOrEqualThan($currentTime - $payload['timestampMs'], $this->maxAge, sprintf('Invalid attestation object. Too old. Current time: %d. Response time: %d', $currentTime, $payload['timestampMs']));
+        $payload['timestampMs'] <= $currentTime + $this->leeway || throw AttestationStatementVerificationException::create(
+            sprintf(
+                'Invalid attestation object. Issued in the future. Current time: %d. Response time: %d',
+                $currentTime,
+                $payload['timestampMs']
+            )
+        );
+        $currentTime - $payload['timestampMs'] <= $this->maxAge || throw AttestationStatementVerificationException::create(
+            sprintf(
+                'Invalid attestation object. Too old. Current time: %d. Response time: %d',
+                $currentTime,
+                $payload['timestampMs']
+            )
+        );
     }
 
     private function validateSignature(JWS $jws, CertificateTrustPath $trustPath): void
     {
         $jwk = JWKFactory::createFromCertificate($trustPath->getCertificates()[0]);
-        $isValid = $this->jwsVerifier->verifyWithKey($jws, $jwk, 0);
-        Assertion::true($isValid, 'Invalid response signature');
+        $isValid = $this->jwsVerifier?->verifyWithKey($jws, $jwk, 0);
+        $isValid === true || throw AttestationStatementVerificationException::create('Invalid response signature');
     }
 
     private function validateUsingGoogleApi(AttestationStatement $attestationStatement): void
     {
-        if (null === $this->client || null === $this->apiKey || null === $this->requestFactory) {
+        if ($this->client === null || $this->apiKey === null || $this->requestFactory === null) {
             return;
         }
-        $uri = sprintf('https://www.googleapis.com/androidcheck/v1/attestations/verify?key=%s', urlencode($this->apiKey));
+        $uri = sprintf(
+            'https://www.googleapis.com/androidcheck/v1/attestations/verify?key=%s',
+            urlencode($this->apiKey)
+        );
         $requestBody = sprintf('{"signedAttestation":"%s"}', $attestationStatement->get('response'));
         $request = $this->requestFactory->createRequest('POST', $uri);
         $request = $request->withHeader('content-type', 'application/json');
-        $request->getBody()->write($requestBody);
+        $request->getBody()
+            ->write($requestBody);
 
         $response = $this->client->sendRequest($request);
         $this->checkGoogleApiResponse($response);
         $responseBody = $this->getResponseBody($response);
-        $responseBodyJson = json_decode($responseBody, true);
-        Assertion::eq(JSON_ERROR_NONE, json_last_error(), 'Invalid response.');
-        Assertion::keyExists($responseBodyJson, 'isValidSignature', 'Invalid response.');
-        Assertion::boolean($responseBodyJson['isValidSignature'], 'Invalid response.');
-        Assertion::true($responseBodyJson['isValidSignature'], 'Invalid response.');
+        $responseBodyJson = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
+        array_key_exists(
+            'isValidSignature',
+            $responseBodyJson
+        ) || throw AttestationStatementVerificationException::create('Invalid response.');
+        $responseBodyJson['isValidSignature'] === true || throw AttestationStatementVerificationException::create(
+            'Invalid response.'
+        );
     }
 
     private function getResponseBody(ResponseInterface $response): string
     {
         $responseBody = '';
-        $response->getBody()->rewind();
+        $response->getBody()
+            ->rewind();
         do {
-            $tmp = $response->getBody()->read(1024);
-            if ('' === $tmp) {
+            $tmp = $response->getBody()
+                ->read(1024);
+            if ($tmp === '') {
                 break;
             }
             $responseBody .= $tmp;
@@ -211,18 +307,27 @@ final class AndroidSafetyNetAttestationStatementSupport implements AttestationSt
 
     private function checkGoogleApiResponse(ResponseInterface $response): void
     {
-        Assertion::eq(200, $response->getStatusCode(), 'Request did not succeeded');
-        Assertion::true($response->hasHeader('content-type'), 'Unrecognized response');
+        $response->getStatusCode() === 200 || throw AttestationStatementVerificationException::create(
+            'Request did not succeeded'
+        );
+        $response->hasHeader('content-type') || throw AttestationStatementVerificationException::create(
+            'Unrecognized response'
+        );
 
         foreach ($response->getHeader('content-type') as $header) {
-            if (0 === mb_strpos($header, 'application/json')) {
+            if (mb_strpos($header, 'application/json') === 0) {
                 return;
             }
         }
 
-        throw new InvalidArgumentException('Unrecognized response');
+        throw AttestationStatementVerificationException::create('Unrecognized response');
     }
 
+    /**
+     * @param string[] $certificates
+     *
+     * @return string[]
+     */
     private function convertCertificatesToPem(array $certificates): array
     {
         foreach ($certificates as $k => $v) {
@@ -235,14 +340,16 @@ final class AndroidSafetyNetAttestationStatementSupport implements AttestationSt
     private function initJwsVerifier(): void
     {
         $algorithmClasses = [
-            Algorithm\RS256::class, Algorithm\RS384::class, Algorithm\RS512::class,
-            Algorithm\PS256::class, Algorithm\PS384::class, Algorithm\PS512::class,
-            Algorithm\ES256::class, Algorithm\ES384::class, Algorithm\ES512::class,
-            Algorithm\EdDSA::class,
+            RS256::class, RS384::class, RS512::class,
+            PS256::class, PS384::class, PS512::class,
+            ES256::class, ES384::class, ES512::class,
+            EdDSA::class,
         ];
+        /** @var AlgorithmInterface[] $algorithms */
         $algorithms = [];
-        foreach ($algorithmClasses as $key => $algorithm) {
+        foreach ($algorithmClasses as $algorithm) {
             if (class_exists($algorithm)) {
+                /** @var AlgorithmInterface $algorithm */
                 $algorithms[] = new $algorithm();
             }
         }

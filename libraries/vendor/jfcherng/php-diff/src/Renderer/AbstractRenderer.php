@@ -10,6 +10,8 @@ use Jfcherng\Diff\Utility\Language;
 
 /**
  * Base class for diff renderers.
+ *
+ * @todo use typed properties (BC breaking for public interface) in v7
  */
 abstract class AbstractRenderer implements RendererInterface
 {
@@ -133,7 +135,7 @@ abstract class AbstractRenderer implements RendererInterface
 
         $this->updateLanguage(
             $this->options['language'] ?? '',
-            $newOptions['language']
+            $newOptions['language'],
         );
 
         $this->options = $newOptions;
@@ -241,6 +243,6 @@ abstract class AbstractRenderer implements RendererInterface
     {
         $text = $this->t->translate($text);
 
-        return $escapeHtml ? \htmlspecialchars($text) : $text;
+        return $escapeHtml ? htmlspecialchars($text) : $text;
     }
 }

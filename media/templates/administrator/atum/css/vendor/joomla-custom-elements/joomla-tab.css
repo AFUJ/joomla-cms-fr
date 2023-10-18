@@ -32,16 +32,19 @@ joomla-tab > div[role=tablist] > button[role=tab] {
   display: block;
   padding: 0.6rem 1rem;
   text-decoration: none;
-  background-color: var(--white);
+  background-color: var(--body-bg);
   border: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+joomla-tab > div[role=tablist] > button[role=tab]:first-of-type, joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true]:first-of-type {
+  border-start-start-radius: 0.25rem;
 }
 joomla-tab > div[role=tablist] > button[role=tab]:focus-visible {
   z-index: 1;
 }
 joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true], joomla-tab > div[role=tablist] > button[role=tab]:focus, joomla-tab > div[role=tablist] > button[role=tab]:hover {
-  color: var(--primary);
+  color: var(--template-bg-dark-60);
   border: 0;
   border-radius: 0;
   -webkit-box-shadow: none;
@@ -62,11 +65,33 @@ joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true] .text-mute
 }
 joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true] {
   font-weight: 700;
-  color: var(--primary);
   background: var(--template-bg-dark-3);
+}
+@media (prefers-color-scheme: dark) {
+  joomla-tab > div[role=tablist] > button[role=tab] {
+    /* stylelint-disable max-nesting-depth */
+    /* stylelint-disable max-nesting-depth */
+  }
+  joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true], joomla-tab > div[role=tablist] > button[role=tab]:focus, joomla-tab > div[role=tablist] > button[role=tab]:hover {
+    /* stylelint-enable max-nesting-depth */
+    color: var(--template-text-light);
+  }
+  joomla-tab > div[role=tablist] > button[role=tab][aria-expanded=true] {
+    /* stylelint-enable max-nesting-depth */
+    background: var(--template-bg-dark-60);
+  }
 }
 joomla-tab > div[role=tablist] > button[role=tab] .text-muted {
   color: var(--template-text-dark) !important;
+}
+@media (prefers-color-scheme: dark) {
+  joomla-tab > div[role=tablist] > button[role=tab] {
+    /* stylelint-disable max-nesting-depth */
+  }
+  joomla-tab > div[role=tablist] > button[role=tab] .text-muted {
+    /* stylelint-enable max-nesting-depth */
+    color: var(--template-text-light) !important;
+  }
 }
 joomla-tab > button[role=region] {
   width: 100%;
@@ -74,7 +99,7 @@ joomla-tab > button[role=region] {
   color: var(--template-text-light);
   text-align: start;
   background-color: var(--template-link-color);
-  border: 1px solid var(--template-text-light);
+  border: 1px solid var(--template-bg-dark-3);
   border-top: 0;
 }
 joomla-tab > button[role=region][aria-expanded=true], joomla-tab > button[role=region]:hover, joomla-tab > button[role=region]:focus {
@@ -84,11 +109,16 @@ joomla-tab > button[role=region][aria-expanded=true], joomla-tab > button[role=r
 joomla-tab > button[role=region] .text-muted {
   color: var(--template-text-light) !important;
 }
+@media (prefers-color-scheme: dark) {
+  joomla-tab > button[role=region] {
+    border-color: var(--template-bg-dark-70);
+  }
+}
 joomla-tab > joomla-tab-element {
   --gutter-x: 2rem;
   display: none;
   padding: 30px 2vw;
-  background-color: #fff;
+  background-color: var(--body-bg);
   border: 0;
   border-radius: 0.25rem;
   -webkit-box-shadow: none;
@@ -154,7 +184,6 @@ joomla-tab[orientation=vertical] > div[role=tablist] > button[role=tab] {
   display: block;
   padding: 0.75em 1em;
   margin: -1px 0;
-  color: var(--template-special-color);
   text-decoration: none;
   border-top: 1px solid transparent;
   border-bottom: 1px solid #dee2e6;
@@ -182,6 +211,15 @@ joomla-tab[orientation=vertical] > div[role=tablist] > button[role=tab][aria-exp
 }
 joomla-tab[orientation=vertical] > div[role=tablist] > button[role=tab] .text-muted {
   color: var(--template-text-dark) !important;
+}
+@media (prefers-color-scheme: dark) {
+  joomla-tab[orientation=vertical] > div[role=tablist] > button[role=tab] {
+    /* stylelint-disable max-nesting-depth */
+  }
+  joomla-tab[orientation=vertical] > div[role=tablist] > button[role=tab] .text-muted {
+    /* stylelint-enable max-nesting-depth */
+    color: var(--template-text-light) !important;
+  }
 }
 joomla-tab[orientation=vertical] > joomla-tab-element {
   width: 100%;
@@ -241,7 +279,7 @@ joomla-tab[view=accordion] > joomla-tab-element[active] {
 }
 joomla-tab[view=accordion] [active],
 joomla-tab[view=accordion] [aria-expanded=true] {
-  background-color: #fff;
+  background-color: var(--body-bg);
 }
 joomla-tab[view=accordion] .col-md-6,
 joomla-tab[view=accordion] .col-md-9,

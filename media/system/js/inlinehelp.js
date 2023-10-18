@@ -37,8 +37,9 @@ Joomla.toggleInlineHelp = toggleClass => {
 
 // Initialisation. Clicking on anything with the button-inlinehelp class will toggle the inline help.
 [].slice.call(document.querySelectorAll('.button-inlinehelp')).forEach(elToggler => {
+  var _elToggler$dataset$cl;
   // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
-  const toggleClass = elToggler.dataset.class ?? 'hide-aware-inline-help';
+  const toggleClass = (_elToggler$dataset$cl = elToggler.dataset.class) != null ? _elToggler$dataset$cl : 'hide-aware-inline-help';
   const collection = document.getElementsByClassName(toggleClass);
 
   // no description => hide inlinehelp button

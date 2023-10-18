@@ -6,7 +6,10 @@
 if (!Joomla) {
   throw new Error('Joomla API is not initialized');
 }
-const getCookie = () => document.cookie.length && document.cookie.split('; ').find(row => row.startsWith('atumSidebarState='))?.split('=')[1];
+const getCookie = () => {
+  var _document$cookie$spli;
+  return document.cookie.length && ((_document$cookie$spli = document.cookie.split('; ').find(row => row.startsWith('atumSidebarState='))) == null ? void 0 : _document$cookie$spli.split('=')[1]);
+};
 const mobile = window.matchMedia('(max-width: 992px)');
 const small = window.matchMedia('(max-width: 575.98px)');
 const tablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');

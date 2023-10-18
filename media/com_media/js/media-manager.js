@@ -387,7 +387,7 @@ function triggerEffect(effect, debuggerEventExtraInfo) {
     }
   }
 }
-const isNonTrackableKeys = /*#__PURE__*/makeMap$2(`__proto__,__v_isRef,__isVue`);
+const isNonTrackableKeys = /*#__PURE__*/makeMap$2("__proto__,__v_isRef,__isVue");
 const builtInSymbols = new Set( /*#__PURE__*/
 Object.getOwnPropertyNames(Symbol)
 // ios10.x Object.getOwnPropertyNames(Symbol) can enumerate 'arguments' and 'caller'
@@ -1092,7 +1092,7 @@ function normalizeStyle(value) {
 }
 const listDelimiterRE = /;(?![^(]*\))/g;
 const propertyDelimiterRE = /:([^]+)/;
-const styleCommentRE = /\/\*.*?\*\//gs;
+const styleCommentRE = /\/\*[\s\S]*?\*\//g;
 function parseStringStyle(cssText) {
   const ret = {};
   cssText.replace(styleCommentRE, '').split(listDelimiterRE).forEach(item => {
@@ -1137,15 +1137,15 @@ const replacer = (_key, val) => {
     return replacer(_key, val.value);
   } else if (isMap(val)) {
     return {
-      [`Map(${val.size})`]: [...val.entries()].reduce((entries, _ref) => {
+      ["Map(" + val.size + ")"]: [...val.entries()].reduce((entries, _ref) => {
         let [key, val] = _ref;
-        entries[`${key} =>`] = val;
+        entries[key + " =>"] = val;
         return entries;
       }, {})
     };
   } else if (isSet(val)) {
     return {
-      [`Set(${val.size})`]: [...val.values()]
+      ["Set(" + val.size + ")"]: [...val.values()]
     };
   } else if (isObject$2(val) && !isArray$1(val) && !isPlainObject(val)) {
     return String(val);
@@ -1212,7 +1212,7 @@ const capitalize$1 = cacheStringFunction$1(str => str.charAt(0).toUpperCase() + 
 /**
  * @private
  */
-const toHandlerKey = cacheStringFunction$1(str => str ? `on${capitalize$1(str)}` : ``);
+const toHandlerKey = cacheStringFunction$1(str => str ? "on" + capitalize$1(str) : "");
 // compare whether a value has changed, accounting for NaN.
 const hasChanged = (value, oldValue) => !Object.is(value, oldValue);
 const invokeArrayFns$1 = (fns, arg) => {
@@ -1459,7 +1459,7 @@ function emit$1(instance, event) {
   // for v-model update:xxx events, apply modifiers on args
   const modelArg = isModelListener && event.slice(7);
   if (modelArg && modelArg in props) {
-    const modifiersKey = `${modelArg === 'modelValue' ? 'model' : modelArg}Modifiers`;
+    const modifiersKey = (modelArg === 'modelValue' ? 'model' : modelArg) + "Modifiers";
     const {
       number,
       trim
@@ -1483,7 +1483,7 @@ function emit$1(instance, event) {
   if (handler) {
     callWithAsyncErrorHandling(handler, instance, 6 /* ErrorCodes.COMPONENT_EVENT_HANDLER */, args);
   }
-  const onceHandler = props[handlerName + `Once`];
+  const onceHandler = props[handlerName + "Once"];
   if (onceHandler) {
     if (!instance.emitted) {
       instance.emitted = {};
@@ -1588,7 +1588,7 @@ function withCtx(fn, ctx, isNonScopedSlot // false only
   if (fn._n) {
     return fn;
   }
-  const renderFnWithContext = function () {
+  const renderFnWithContext = function renderFnWithContext() {
     // If a user calls a compiled slot inside a template expression (#1745), it
     // can mess up block tracking, so by default we disable block tracking and
     // force bail out when invoking a compiled slot (indicated by the ._d flag).
@@ -2076,7 +2076,7 @@ function useTransitionState() {
 }
 const TransitionHookValidator = [Function, Array];
 const BaseTransitionImpl = {
-  name: `BaseTransition`,
+  name: "BaseTransition",
   props: {
     mode: String,
     appear: Boolean,
@@ -2660,7 +2660,7 @@ fallback, noSlotted) {
     key: props.key ||
     // slot content array of a dynamic conditional slot may have a branch
     // key attached in the `createSlots` helper, respect that
-    validSlotContent && validSlotContent.key || `_${name}`
+    validSlotContent && validSlotContent.key || "_" + name
   }, validSlotContent || (fallback ? fallback() : []), validSlotContent && slots._ === 1 /* SlotFlags.STABLE */ ? 64 /* PatchFlags.STABLE_FRAGMENT */ : -2 /* PatchFlags.BAIL */);
   if (!noSlotted && rendered.scopeId) {
     rendered.slotScopeIds = [rendered.scopeId + '-s'];
@@ -3806,7 +3806,7 @@ function baseCreateRenderer(options, createHydrationFns) {
   } = options;
   // Note: functions inside this closure should use `const xxx = () => {}`
   // style in order to prevent being inlined by minifiers.
-  const patch = function (n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized) {
+  const patch = function patch(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized) {
     if (anchor === void 0) {
       anchor = null;
     }
@@ -4010,7 +4010,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       }
     }
   };
-  const mountChildren = function (children, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, start) {
+  const mountChildren = function mountChildren(children, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized, start) {
     if (start === void 0) {
       start = 0;
     }
@@ -4398,7 +4398,7 @@ function baseCreateRenderer(options, createHydrationFns) {
     flushPreFlushCbs();
     resetTracking();
   };
-  const patchChildren = function (n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized) {
+  const patchChildren = function patchChildren(n1, n2, container, anchor, parentComponent, parentSuspense, isSVG, slotScopeIds, optimized) {
     if (optimized === void 0) {
       optimized = false;
     }
@@ -4623,7 +4623,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       }
     }
   };
-  const move = function (vnode, container, anchor, moveType, parentSuspense) {
+  const move = function move(vnode, container, anchor, moveType, parentSuspense) {
     if (parentSuspense === void 0) {
       parentSuspense = null;
     }
@@ -4688,7 +4688,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       hostInsert(el, container, anchor);
     }
   };
-  const unmount = function (vnode, parentComponent, parentSuspense, doRemove, optimized) {
+  const unmount = function unmount(vnode, parentComponent, parentSuspense, doRemove, optimized) {
     if (doRemove === void 0) {
       doRemove = false;
     }
@@ -4837,7 +4837,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       }
     }
   };
-  const unmountChildren = function (children, parentComponent, parentSuspense, doRemove, optimized, start) {
+  const unmountChildren = function unmountChildren(children, parentComponent, parentSuspense, doRemove, optimized, start) {
     if (doRemove === void 0) {
       doRemove = false;
     }
@@ -5077,7 +5077,7 @@ function isVNode(value) {
 function isSameVNodeType(n1, n2) {
   return n1.type === n2.type && n1.key === n2.key;
 }
-const InternalObjectKey = `__vInternal`;
+const InternalObjectKey = "__vInternal";
 const normalizeKey = _ref18 => {
   let {
     key
@@ -5723,7 +5723,7 @@ function h(type, propsOrChildren, children) {
     return createVNode(type, propsOrChildren, children);
   }
 }
-const ssrContextKey = Symbol(``);
+const ssrContextKey = Symbol("");
 const useSSRContext = () => {
   {
     const ctx = inject(ssrContextKey);
@@ -5761,7 +5761,7 @@ function makeMap(str, expectsLowerCase) {
  * - novalidate -> noValidate
  * - readonly -> readOnly
  */
-const specialBooleanAttrs = `itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly`;
+const specialBooleanAttrs = "itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly";
 const isSpecialBooleanAttr = /*#__PURE__*/makeMap(specialBooleanAttrs);
 /**
  * Boolean attributes should be included if the value is truthy or ''.
@@ -5858,7 +5858,7 @@ const nodeOps = {
       }
     } else {
       // fresh insert
-      templateContainer.innerHTML = isSVG ? `<svg>${content}</svg>` : content;
+      templateContainer.innerHTML = isSVG ? "<svg>" + content + "</svg>" : content;
       const template = templateContainer.content;
       if (isSVG) {
         // remove outer svg wrapper
@@ -6131,7 +6131,7 @@ function patchStopImmediatePropagation(e, value) {
   }
 }
 const nativeOnRE = /^on[a-z]/;
-const patchProp = function (el, key, prevValue, nextValue, isSVG, prevChildren, parentComponent, parentSuspense, unmountChildren) {
+const patchProp = function patchProp(el, key, prevValue, nextValue, isSVG, prevChildren, parentComponent, parentSuspense, unmountChildren) {
   if (isSVG === void 0) {
     isSVG = false;
   }
@@ -6234,7 +6234,7 @@ Transition.props = /*#__PURE__*/extend({}, BaseTransition.props, DOMTransitionPr
  * #3227 Incoming hooks may be merged into arrays when wrapping Transition
  * with custom HOCs.
  */
-const callHook = function (hook, args) {
+const callHook = function callHook(hook, args) {
   if (args === void 0) {
     args = [];
   }
@@ -6265,15 +6265,15 @@ function resolveTransitionProps(rawProps) {
     name = 'v',
     type,
     duration,
-    enterFromClass = `${name}-enter-from`,
-    enterActiveClass = `${name}-enter-active`,
-    enterToClass = `${name}-enter-to`,
+    enterFromClass = name + "-enter-from",
+    enterActiveClass = name + "-enter-active",
+    enterToClass = name + "-enter-to",
     appearFromClass = enterFromClass,
     appearActiveClass = enterActiveClass,
     appearToClass = enterToClass,
-    leaveFromClass = `${name}-leave-from`,
-    leaveActiveClass = `${name}-leave-active`,
-    leaveToClass = `${name}-leave-to`
+    leaveFromClass = name + "-leave-from",
+    leaveActiveClass = name + "-leave-active",
+    leaveToClass = name + "-leave-to"
   } = rawProps;
   const durations = normalizeDuration(duration);
   const enterDuration = durations && durations[0];
@@ -6437,11 +6437,11 @@ function getTransitionInfo(el, expectedType) {
   const styles = window.getComputedStyle(el);
   // JSDOM may return undefined for transition properties
   const getStyleProperties = key => (styles[key] || '').split(', ');
-  const transitionDelays = getStyleProperties(`${TRANSITION}Delay`);
-  const transitionDurations = getStyleProperties(`${TRANSITION}Duration`);
+  const transitionDelays = getStyleProperties(TRANSITION + "Delay");
+  const transitionDurations = getStyleProperties(TRANSITION + "Duration");
   const transitionTimeout = getTimeout(transitionDelays, transitionDurations);
-  const animationDelays = getStyleProperties(`${ANIMATION}Delay`);
-  const animationDurations = getStyleProperties(`${ANIMATION}Duration`);
+  const animationDelays = getStyleProperties(ANIMATION + "Delay");
+  const animationDurations = getStyleProperties(ANIMATION + "Duration");
   const animationTimeout = getTimeout(animationDelays, animationDurations);
   let type = null;
   let timeout = 0;
@@ -6464,7 +6464,7 @@ function getTransitionInfo(el, expectedType) {
     type = timeout > 0 ? transitionTimeout > animationTimeout ? TRANSITION : ANIMATION : null;
     propCount = type ? type === TRANSITION ? transitionDurations.length : animationDurations.length : 0;
   }
-  const hasTransform = type === TRANSITION && /\b(transform|all)(,|$)/.test(getStyleProperties(`${TRANSITION}Property`).toString());
+  const hasTransform = type === TRANSITION && /\b(transform|all)(,|$)/.test(getStyleProperties(TRANSITION + "Property").toString());
   return {
     type,
     timeout,
@@ -6590,7 +6590,7 @@ const modifierGuards = {
   left: e => 'button' in e && e.button !== 0,
   middle: e => 'button' in e && e.button !== 1,
   right: e => 'button' in e && e.button !== 2,
-  exact: (e, modifiers) => systemModifiers.some(m => e[`${m}Key`] && !modifiers.includes(m))
+  exact: (e, modifiers) => systemModifiers.some(m => e[m + "Key"] && !modifiers.includes(m))
 };
 /**
  * @private
@@ -6700,7 +6700,7 @@ let renderer;
 function ensureRenderer() {
   return renderer || (renderer = createRenderer(rendererOptions));
 }
-const createApp = function () {
+const createApp = function createApp() {
   const app = ensureRenderer().createApp(...arguments);
   const {
     mount
@@ -6798,6 +6798,21 @@ const UPDATE_SORT_BY = 'UPDATE_SORT_BY';
 // Update sorting direction
 const UPDATE_SORT_DIRECTION = 'UPDATE_SORT_DIRECTION';
 
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
+
 /**
  * Send a notification
  * @param {String} message
@@ -6816,21 +6831,19 @@ function notify(message, options) {
 const notifications = {
   /* Send and success notification */
   success: (message, options) => {
-    notify(message, {
+    notify(message, _extends({
       type: 'message',
       // @todo rename it to success
-      dismiss: true,
-      ...options
-    });
+      dismiss: true
+    }, options));
   },
   /* Send an error notification */
   error: (message, options) => {
-    notify(message, {
+    notify(message, _extends({
       type: 'error',
       // @todo rename it to danger
-      dismiss: true,
-      ...options
-    });
+      dismiss: true
+    }, options));
   },
   /* Ask the user a question */
   ask: message => window.confirm(message)
@@ -7285,7 +7298,7 @@ class Api {
     }
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`);
+      const url = new URL(this.baseUrl + "&task=api.files&path=" + encodeURIComponent(dir));
       if (full) {
         url.searchParams.append('url', full);
       }
@@ -7317,7 +7330,7 @@ class Api {
   createDirectory(name, parent) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
+      const url = new URL(this.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent));
       const data = {
         [this.csrfToken]: '1',
         name
@@ -7352,7 +7365,7 @@ class Api {
   upload(name, parent, content, override) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`);
+      const url = new URL(this.baseUrl + "&task=api.files&path=" + encodeURIComponent(parent));
       const data = {
         [this.csrfToken]: '1',
         name,
@@ -7390,7 +7403,7 @@ class Api {
   rename(path, newPath) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
+      const url = new URL(this.baseUrl + "&task=api.files&path=" + encodeURIComponent(path));
       const data = {
         [this.csrfToken]: '1',
         newPath
@@ -7422,7 +7435,7 @@ class Api {
   delete(path) {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
-      const url = new URL(`${this.baseUrl}&task=api.files&path=${encodeURIComponent(path)}`);
+      const url = new URL(this.baseUrl + "&task=api.files&path=" + encodeURIComponent(path));
       const data = {
         [this.csrfToken]: '1'
       };
@@ -8713,7 +8726,7 @@ var MediaBrowserItem = {
      */
     styles() {
       return {
-        width: `calc(${this.$store.state.gridSize}% - 20px)`
+        width: "calc(" + this.$store.state.gridSize + "% - 20px)"
       };
     },
     /**
@@ -8805,7 +8818,7 @@ var MediaBrowserItem = {
      * @param active
      */
     toggleSettings(active) {
-      this[`mouse${active ? 'over' : 'leave'}`]();
+      this["mouse" + (active ? 'over' : 'leave')]();
     }
   },
   render() {
@@ -10024,21 +10037,21 @@ var FOCUS_NO_AUTOFOCUS = 'data-no-autofocus';
 /*
 IE11 support
  */
-var toArray = function (a) {
+var toArray = function toArray(a) {
   var ret = Array(a.length);
   for (var i = 0; i < a.length; ++i) {
     ret[i] = a[i];
   }
   return ret;
 };
-var asArray = function (a) {
+var asArray = function asArray(a) {
   return Array.isArray(a) ? a : [a];
 };
-var getFirst = function (a) {
+var getFirst = function getFirst(a) {
   return Array.isArray(a) ? a[0] : a;
 };
 
-var isElementHidden = function (node) {
+var isElementHidden = function isElementHidden(node) {
   // we can measure only "elements"
   // consider others as "visible"
   if (node.nodeType !== Node.ELEMENT_NODE) {
@@ -10050,20 +10063,20 @@ var isElementHidden = function (node) {
   }
   return computedStyle.getPropertyValue('display') === 'none' || computedStyle.getPropertyValue('visibility') === 'hidden';
 };
-var getParentNode = function (node) {
+var getParentNode = function getParentNode(node) {
   // DOCUMENT_FRAGMENT_NODE can also point on ShadowRoot. In this case .host will point on the next node
   return node.parentNode && node.parentNode.nodeType === Node.DOCUMENT_FRAGMENT_NODE ?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   node.parentNode.host : node.parentNode;
 };
-var isTopNode = function (node) {
+var isTopNode = function isTopNode(node) {
   // @ts-ignore
   return node === document || node && node.nodeType === Node.DOCUMENT_NODE;
 };
-var isVisibleUncached = function (node, checkParent) {
+var isVisibleUncached = function isVisibleUncached(node, checkParent) {
   return !node || isTopNode(node) || !isElementHidden(node) && checkParent(getParentNode(node));
 };
-var isVisibleCached = function (visibilityCache, node) {
+var isVisibleCached = function isVisibleCached(visibilityCache, node) {
   var cached = visibilityCache.get(node);
   if (cached !== undefined) {
     return cached;
@@ -10072,10 +10085,10 @@ var isVisibleCached = function (visibilityCache, node) {
   visibilityCache.set(node, result);
   return result;
 };
-var isAutoFocusAllowedUncached = function (node, checkParent) {
+var isAutoFocusAllowedUncached = function isAutoFocusAllowedUncached(node, checkParent) {
   return node && !isTopNode(node) ? isAutoFocusAllowed(node) ? checkParent(getParentNode(node)) : false : true;
 };
-var isAutoFocusAllowedCached = function (cache, node) {
+var isAutoFocusAllowedCached = function isAutoFocusAllowedCached(cache, node) {
   var cached = cache.get(node);
   if (cached !== undefined) {
     return cached;
@@ -10084,38 +10097,38 @@ var isAutoFocusAllowedCached = function (cache, node) {
   cache.set(node, result);
   return result;
 };
-var getDataset = function (node) {
+var getDataset = function getDataset(node) {
   // @ts-ignore
   return node.dataset;
 };
-var isHTMLButtonElement = function (node) {
+var isHTMLButtonElement = function isHTMLButtonElement(node) {
   return node.tagName === 'BUTTON';
 };
-var isHTMLInputElement = function (node) {
+var isHTMLInputElement = function isHTMLInputElement(node) {
   return node.tagName === 'INPUT';
 };
-var isRadioElement = function (node) {
+var isRadioElement = function isRadioElement(node) {
   return isHTMLInputElement(node) && node.type === 'radio';
 };
-var notHiddenInput = function (node) {
+var notHiddenInput = function notHiddenInput(node) {
   return !((isHTMLInputElement(node) || isHTMLButtonElement(node)) && (node.type === 'hidden' || node.disabled));
 };
-var isAutoFocusAllowed = function (node) {
+var isAutoFocusAllowed = function isAutoFocusAllowed(node) {
   var attribute = node.getAttribute(FOCUS_NO_AUTOFOCUS);
   return ![true, 'true', ''].includes(attribute);
 };
-var isGuard = function (node) {
+var isGuard = function isGuard(node) {
   var _a;
   return Boolean(node && ((_a = getDataset(node)) === null || _a === void 0 ? void 0 : _a.focusGuard));
 };
-var isNotAGuard = function (node) {
+var isNotAGuard = function isNotAGuard(node) {
   return !isGuard(node);
 };
-var isDefined = function (x) {
+var isDefined = function isDefined(x) {
   return Boolean(x);
 };
 
-var tabSort = function (a, b) {
+var tabSort = function tabSort(a, b) {
   var tabDiff = a.tabIndex - b.tabIndex;
   var indexDiff = a.index - b.index;
   if (tabDiff) {
@@ -10128,7 +10141,7 @@ var tabSort = function (a, b) {
   }
   return tabDiff || indexDiff;
 };
-var orderByTabIndex = function (nodes, filterNegative, keepGuards) {
+var orderByTabIndex = function orderByTabIndex(nodes, filterNegative, keepGuards) {
   return toArray(nodes).map(function (node, index) {
     return {
       node: node,
@@ -10150,12 +10163,12 @@ var tabbables = ['button:enabled', 'select:enabled', 'textarea:enabled', 'input:
 
 var queryTabbables = tabbables.join(',');
 var queryGuardTabbables = "".concat(queryTabbables, ", [data-focus-guard]");
-var getFocusablesWithShadowDom = function (parent, withGuards) {
+var getFocusablesWithShadowDom = function getFocusablesWithShadowDom(parent, withGuards) {
   return toArray((parent.shadowRoot || parent).children).reduce(function (acc, child) {
     return acc.concat(child.matches(withGuards ? queryGuardTabbables : queryTabbables) ? [child] : [], getFocusablesWithShadowDom(child));
   }, []);
 };
-var getFocusablesWithIFrame = function (parent, withGuards) {
+var getFocusablesWithIFrame = function getFocusablesWithIFrame(parent, withGuards) {
   var _a;
   // contentDocument of iframe will be null if current origin cannot access it
   if (parent instanceof HTMLIFrameElement && ((_a = parent.contentDocument) === null || _a === void 0 ? void 0 : _a.body)) {
@@ -10163,7 +10176,7 @@ var getFocusablesWithIFrame = function (parent, withGuards) {
   }
   return [parent];
 };
-var getFocusables = function (parents, withGuards) {
+var getFocusables = function getFocusables(parents, withGuards) {
   return parents.reduce(function (acc, parent) {
     var _a;
     var focusableWithShadowDom = getFocusablesWithShadowDom(parent, withGuards);
@@ -10183,7 +10196,7 @@ var getFocusables = function (parents, withGuards) {
  * return a list of focusable nodes within an area marked as "auto-focusable"
  * @param parent
  */
-var getParentAutofocusables = function (parent) {
+var getParentAutofocusables = function getParentAutofocusables(parent) {
   var parentFocus = parent.querySelectorAll("[".concat(FOCUS_AUTO, "]"));
   return toArray(parentFocus).map(function (node) {
     return getFocusables([node]);
@@ -10197,14 +10210,14 @@ var getParentAutofocusables = function (parent) {
  * @param nodes
  * @param visibilityCache
  */
-var filterFocusable = function (nodes, visibilityCache) {
+var filterFocusable = function filterFocusable(nodes, visibilityCache) {
   return toArray(nodes).filter(function (node) {
     return isVisibleCached(visibilityCache, node);
   }).filter(function (node) {
     return notHiddenInput(node);
   });
 };
-var filterAutoFocusable = function (nodes, cache) {
+var filterAutoFocusable = function filterAutoFocusable(nodes, cache) {
   if (cache === void 0) {
     cache = new Map();
   }
@@ -10216,14 +10229,14 @@ var filterAutoFocusable = function (nodes, cache) {
  * only tabbable ones
  * (but with guards which would be ignored)
  */
-var getTabbableNodes = function (topNodes, visibilityCache, withGuards) {
+var getTabbableNodes = function getTabbableNodes(topNodes, visibilityCache, withGuards) {
   return orderByTabIndex(filterFocusable(getFocusables(topNodes, withGuards), visibilityCache), true, withGuards);
 };
 /**
  * actually anything "focusable", not only tabbable
  * (without guards, as long as they are not expected to be focused)
  */
-var getAllTabbableNodes = function (topNodes, visibilityCache) {
+var getAllTabbableNodes = function getAllTabbableNodes(topNodes, visibilityCache) {
   return orderByTabIndex(filterFocusable(getFocusables(topNodes), visibilityCache), false);
 };
 /**
@@ -10231,13 +10244,13 @@ var getAllTabbableNodes = function (topNodes, visibilityCache) {
  * @param topNode
  * @param visibilityCache
  */
-var parentAutofocusables = function (topNode, visibilityCache) {
+var parentAutofocusables = function parentAutofocusables(topNode, visibilityCache) {
   return filterFocusable(getParentAutofocusables(topNode), visibilityCache);
 };
 /*
  * Determines if element is contained in scope, including nested shadow DOMs
  */
-var contains = function (scope, element) {
+var contains = function contains(scope, element) {
   if (scope.shadowRoot) {
     return contains(scope.shadowRoot, element);
   } else {
@@ -10265,7 +10278,7 @@ var contains = function (scope, element) {
  * @param nodes
  * @returns {*}
  */
-var filterNested = function (nodes) {
+var filterNested = function filterNested(nodes) {
   var contained = new Set();
   var l = nodes.length;
   for (var i = 0; i < l; i += 1) {
@@ -10291,7 +10304,7 @@ var filterNested = function (nodes) {
  * @param node
  * @returns {*}
  */
-var getTopParent = function (node) {
+var getTopParent = function getTopParent(node) {
   return node.parentNode ? getTopParent(node.parentNode) : node;
 };
 /**
@@ -10299,7 +10312,7 @@ var getTopParent = function (node) {
  * @param node
  * @returns {T}
  */
-var getAllAffectedNodes = function (node) {
+var getAllAffectedNodes = function getAllAffectedNodes(node) {
   var nodes = asArray(node);
   return nodes.filter(Boolean).reduce(function (acc, currentNode) {
     var group = currentNode.getAttribute(FOCUS_GROUP);
@@ -10308,7 +10321,7 @@ var getAllAffectedNodes = function (node) {
   }, []);
 };
 
-var safeProbe = function (cb) {
+var safeProbe = function safeProbe(cb) {
   try {
     return cb();
   } catch (e) {
@@ -10319,7 +10332,7 @@ var safeProbe = function (cb) {
 /**
  * returns active element from document or from nested shadowdoms
  */
-var getActiveElement = function (inDocument) {
+var getActiveElement = function getActiveElement(inDocument) {
   if (inDocument === void 0) {
     inDocument = document;
   }
@@ -10332,10 +10345,10 @@ var getActiveElement = function (inDocument) {
   }) ? getActiveElement(activeElement.contentWindow.document) : activeElement;
 };
 
-var focusInFrame = function (frame, activeElement) {
+var focusInFrame = function focusInFrame(frame, activeElement) {
   return frame === activeElement;
 };
-var focusInsideIframe = function (topNode, activeElement) {
+var focusInsideIframe = function focusInsideIframe(topNode, activeElement) {
   return Boolean(toArray(topNode.querySelectorAll('iframe')).some(function (node) {
     return focusInFrame(node, activeElement);
   }));
@@ -10343,7 +10356,7 @@ var focusInsideIframe = function (topNode, activeElement) {
 /**
  * @returns {Boolean} true, if the current focus is inside given node or nodes
  */
-var focusInside = function (topNode, activeElement) {
+var focusInside = function focusInside(topNode, activeElement) {
   // const activeElement = document && getActiveElement();
   if (activeElement === void 0) {
     activeElement = getActiveElement(getFirst(topNode).ownerDocument);
@@ -10361,7 +10374,7 @@ var focusInside = function (topNode, activeElement) {
  * ie contained inside a node focus-lock shall ignore
  * @returns {boolean} focus is currently is in "allow" area
  */
-var focusIsHidden = function (inDocument) {
+var focusIsHidden = function focusIsHidden(inDocument) {
   if (inDocument === void 0) {
     inDocument = document;
   }
@@ -10375,14 +10388,14 @@ var focusIsHidden = function (inDocument) {
   });
 };
 
-var findSelectedRadio = function (node, nodes) {
+var findSelectedRadio = function findSelectedRadio(node, nodes) {
   return nodes.filter(isRadioElement).filter(function (el) {
     return el.name === node.name;
   }).filter(function (el) {
     return el.checked;
   })[0] || node;
 };
-var correctNode = function (node, nodes) {
+var correctNode = function correctNode(node, nodes) {
   if (isRadioElement(node) && node.name) {
     return findSelectedRadio(node, nodes);
   }
@@ -10392,7 +10405,7 @@ var correctNode = function (node, nodes) {
  * giving a set of radio inputs keeps only selected (tabbable) ones
  * @param nodes
  */
-var correctNodes = function (nodes) {
+var correctNodes = function correctNodes(nodes) {
   // IE11 has no Set(array) constructor
   var resultSet = new Set();
   nodes.forEach(function (node) {
@@ -10404,13 +10417,13 @@ var correctNodes = function (nodes) {
   });
 };
 
-var pickFirstFocus = function (nodes) {
+var pickFirstFocus = function pickFirstFocus(nodes) {
   if (nodes[0] && nodes.length > 1) {
     return correctNode(nodes[0], nodes);
   }
   return nodes[0];
 };
-var pickFocusable = function (nodes, index) {
+var pickFocusable = function pickFocusable(nodes, index) {
   if (nodes.length > 1) {
     return nodes.indexOf(correctNode(nodes[index], nodes));
   }
@@ -10426,7 +10439,7 @@ var NEW_FOCUS = 'NEW_FOCUS';
  * @param lastNode
  * @returns {number|string|undefined|*}
  */
-var newFocus = function (innerNodes, outerNodes, activeElement, lastNode) {
+var newFocus = function newFocus(innerNodes, outerNodes, activeElement, lastNode) {
   var cnt = innerNodes.length;
   var firstFocus = innerNodes[0];
   var lastFocus = innerNodes[cnt - 1];
@@ -10485,7 +10498,7 @@ var newFocus = function (innerNodes, outerNodes, activeElement, lastNode) {
   return undefined;
 };
 
-var findAutoFocused = function (autoFocusables) {
+var findAutoFocused = function findAutoFocused(autoFocusables) {
   return function (node) {
     var _a;
     var autofocus = (_a = getDataset(node)) === null || _a === void 0 ? void 0 : _a.autofocus;
@@ -10499,7 +10512,7 @@ var findAutoFocused = function (autoFocusables) {
     );
   };
 };
-var pickAutofocus = function (nodesIndexes, orderedNodes, groups) {
+var pickAutofocus = function pickAutofocus(nodesIndexes, orderedNodes, groups) {
   var nodes = nodesIndexes.map(function (_a) {
     var node = _a.node;
     return node;
@@ -10511,7 +10524,7 @@ var pickAutofocus = function (nodesIndexes, orderedNodes, groups) {
   return pickFirstFocus(filterAutoFocusable(orderedNodes));
 };
 
-var getParents = function (node, parents) {
+var getParents = function getParents(node, parents) {
   if (parents === void 0) {
     parents = [];
   }
@@ -10527,7 +10540,7 @@ var getParents = function (node, parents) {
  * @param nodeB
  * @returns {boolean|*}
  */
-var getCommonParent = function (nodeA, nodeB) {
+var getCommonParent = function getCommonParent(nodeA, nodeB) {
   var parentsA = getParents(nodeA);
   var parentsB = getParents(nodeB);
   // tslint:disable-next-line:prefer-for-of
@@ -10539,7 +10552,7 @@ var getCommonParent = function (nodeA, nodeB) {
   }
   return false;
 };
-var getTopCommonParent = function (baseActiveElement, leftEntry, rightEntries) {
+var getTopCommonParent = function getTopCommonParent(baseActiveElement, leftEntry, rightEntries) {
   var activeElements = asArray(baseActiveElement);
   var leftEntries = asArray(leftEntry);
   var activeElement = activeElements[0];
@@ -10565,13 +10578,13 @@ var getTopCommonParent = function (baseActiveElement, leftEntry, rightEntries) {
  * @param entries
  * @param visibilityCache
  */
-var allParentAutofocusables = function (entries, visibilityCache) {
+var allParentAutofocusables = function allParentAutofocusables(entries, visibilityCache) {
   return entries.reduce(function (acc, node) {
     return acc.concat(parentAutofocusables(node, visibilityCache));
   }, []);
 };
 
-var reorderNodes = function (srcNodes, dstNodes) {
+var reorderNodes = function reorderNodes(srcNodes, dstNodes) {
   var remap = new Map();
   // no Set(dstNodes) for IE11 :(
   dstNodes.forEach(function (entity) {
@@ -10587,7 +10600,7 @@ var reorderNodes = function (srcNodes, dstNodes) {
  * @param topNode
  * @param lastNode
  */
-var getFocusMerge = function (topNode, lastNode) {
+var getFocusMerge = function getFocusMerge(topNode, lastNode) {
   var activeElement = getActiveElement(asArray(topNode).length > 0 ? document : getFirst(topNode).ownerDocument);
   var entries = getAllAffectedNodes(topNode).filter(isNotAGuard);
   var commonParent = getTopCommonParent(activeElement || topNode, topNode, entries);
@@ -10630,7 +10643,7 @@ var getFocusMerge = function (topNode, lastNode) {
   return orderedInnerElements[newId];
 };
 
-var focusOn = function (target, focusOptions) {
+var focusOn = function focusOn(target, focusOptions) {
   if ('focus' in target) {
     target.focus(focusOptions);
   }
@@ -10647,7 +10660,7 @@ var lockDisabled = false;
  * @param lastNode
  * @param options
  */
-var setFocus = function (topNode, lastNode, options) {
+var setFocus = function setFocus(topNode, lastNode, options) {
   if (options === void 0) {
     options = {};
   }
@@ -11408,7 +11421,7 @@ script$3.__file = "administrator/components/com_media/resources/scripts/componen
 const Translate = {
   // Translate from Joomla text
   translate: key => Joomla.Text._(key, key),
-  sprintf: function (string) {
+  sprintf: function sprintf(string) {
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
@@ -11827,7 +11840,7 @@ class ApiProxy {
         defaultSettings[id] = item.defaultValue;
       }
     }
-    const localSettingsSaveId = `__vue-devtools-plugin-settings__${plugin.id}`;
+    const localSettingsSaveId = "__vue-devtools-plugin-settings__" + plugin.id;
     let currentSettings = Object.assign({}, defaultSettings);
     try {
       const raw = localStorage.getItem(localSettingsSaveId);
@@ -12014,7 +12027,7 @@ function resetStoreState(store, state, hot) {
         return computedObj[key]();
       });
       Object.defineProperty(store.getters, key, {
-        get: function () {
+        get: function get() {
           return computedCache[key].value;
         },
         enumerable: true // for local getters
@@ -12128,7 +12141,7 @@ function makeLocalContext(store, namespace, path) {
       }
     },
     state: {
-      get: function () {
+      get: function get() {
         return getNestedState(store.state, path);
       }
     }
@@ -12152,7 +12165,7 @@ function makeLocalGetters(store, namespace) {
       // Define as getter property because
       // we do not want to evaluate the getters in this time.
       Object.defineProperty(gettersProxy, localType, {
-        get: function () {
+        get: function get() {
           return store.getters[type];
         },
         enumerable: true
@@ -12314,7 +12327,7 @@ function addDevtools(app, store) {
       });
     });
     store.subscribeAction({
-      before: function (action, state) {
+      before: function before(action, state) {
         var data = {};
         if (action.payload) {
           data.payload = action.payload;
@@ -12333,7 +12346,7 @@ function addDevtools(app, store) {
           }
         });
       },
-      after: function (action, state) {
+      after: function after(action, state) {
         var data = {};
         var duration = Date.now() - action._time;
         data.duration = {
@@ -13215,7 +13228,7 @@ if (options.providers === undefined || options.providers.length === 0) {
  * @return {Array}
  */
 const getDrives = (adapterNames, provider) => adapterNames.map(name => ({
-  root: `${provider}-${name}:/`,
+  root: provider + "-" + name + ":/",
   displayName: name
 }));
 
@@ -13230,12 +13243,9 @@ if (!defaultDisk) {
 }
 const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
 function setSession(path) {
-  persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify({
-    ...storedState,
-    ...{
-      selectedDirectory: path
-    }
-  }));
+  persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(_extends({}, storedState, {
+    selectedDirectory: path
+  })));
 }
 
 // Gracefully use the given path, the session storage state or fall back to sensible default
@@ -13366,9 +13376,9 @@ const updateUrlPath = path => {
   const currentPath = path === null ? '' : path;
   const url = new URL(window.location.href);
   if (url.searchParams.has('path')) {
-    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, `$1${currentPath}$2`));
+    window.history.pushState(null, '', url.href.replace(/\b(path=).*?(&|$)/, "$1" + currentPath + "$2"));
   } else {
-    window.history.pushState(null, '', `${url.href + (url.href.indexOf('?') > 0 ? '&' : '?')}path=${currentPath}`);
+    window.history.pushState(null, '', url.href + (url.href.indexOf('?') > 0 ? '&' : '?') + "path=" + currentPath);
   }
 };
 
@@ -13427,7 +13437,7 @@ const download = (context, payload) => {
 
     // Download file
     const a = document.createElement('a');
-    a.href = `data:${file.mime_type};base64,${file.content}`;
+    a.href = "data:" + file.mime_type + ";base64," + file.content;
     a.download = file.name;
     document.body.appendChild(a);
     a.click();
@@ -13661,10 +13671,9 @@ var mutations = {
 
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
-        state.directories.splice(parentDirectoryIndex, 1, {
-          ...parentDirectory,
+        state.directories.splice(parentDirectoryIndex, 1, _extends({}, parentDirectory, {
           directories: [...parentDirectory.directories, directory.path]
-        });
+        }));
       }
     }
 
@@ -13686,10 +13695,9 @@ var mutations = {
 
       // Update the relation to the parent directory
       if (parentDirectoryIndex !== -1) {
-        state.directories.splice(parentDirectoryIndex, 1, {
-          ...parentDirectory,
+        state.directories.splice(parentDirectoryIndex, 1, _extends({}, parentDirectory, {
           files: [...parentDirectory.files, file.path]
-        });
+        }));
       }
     }
 
@@ -13720,10 +13728,9 @@ var mutations = {
       state.files.push(file);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex, 1, {
-        ...parentDirectory,
+      state.directories.splice(parentDirectoryIndex, 1, _extends({}, parentDirectory, {
         files: [...parentDirectory.files, file.path]
-      });
+      }));
     }
   },
   /**
@@ -13742,10 +13749,9 @@ var mutations = {
       state.directories.push(directory);
 
       // Update the relation to the parent directory
-      state.directories.splice(parentDirectoryIndex, 1, {
-        ...parentDirectory,
+      state.directories.splice(parentDirectoryIndex, 1, _extends({}, parentDirectory, {
         directories: [...parentDirectory.directories, directory.path]
-      });
+      }));
     }
   },
   /**
