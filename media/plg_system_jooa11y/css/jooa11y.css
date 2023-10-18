@@ -150,13 +150,11 @@ html[data-jooa11y-theme=dark] {
   color: #fff;
   cursor: pointer;
   background-image: -webkit-gradient(linear, left bottom, left top, from(#e040fb), to(#00bcd4));
-  background-image: -o-linear-gradient(bottom, #e040fb, #00bcd4);
   background-image: linear-gradient(to top, #e040fb, #00bcd4);
   background-size: 150% 150%;
   border: 0;
   border-radius: 50px;
   -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
@@ -203,7 +201,6 @@ html[data-jooa11y-theme=dark] {
 
 #jooa11y-container button.jooa11y-on {
   background-image: -webkit-gradient(linear, left top, left bottom, from(#e040fb), to(#00bcd4));
-  background-image: -o-linear-gradient(top, #e040fb, #00bcd4);
   background-image: linear-gradient(to bottom, #e040fb, #00bcd4);
 }
 
@@ -257,7 +254,6 @@ html[data-jooa11y-theme=dark] {
   opacity: 1;
   -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
   transition: opacity 0.2s, -webkit-transform 0.2s;
-  -o-transition: transform 0.2s, opacity 0.2s;
   transition: transform 0.2s, opacity 0.2s;
   transition: transform 0.2s, opacity 0.2s, -webkit-transform 0.2s;
   -webkit-transform: scale(1);
@@ -281,7 +277,6 @@ html[data-jooa11y-theme=dark] {
   opacity: 0;
   -webkit-transition: opacity 0.2s, -webkit-transform 0.2s;
   transition: opacity 0.2s, -webkit-transform 0.2s;
-  -o-transition: transform 0.2s, opacity 0.2s;
   transition: transform 0.2s, opacity 0.2s;
   transition: transform 0.2s, opacity 0.2s, -webkit-transform 0.2s;
   -webkit-transform: scale(0);
@@ -560,7 +555,6 @@ html[data-jooa11y-theme=dark] {
   border: 0;
   border-radius: 50px;
   -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   background: none;
   padding: 0;
@@ -615,7 +609,6 @@ html[data-jooa11y-theme=dark] {
   outline: 0;
   opacity: 1;
   -webkit-transition: background 0.2s;
-  -o-transition: background 0.2s;
   transition: background 0.2s;
 }
 
@@ -666,7 +659,6 @@ html[data-jooa11y-theme=dark] {
   border: 0;
   border-radius: 50%;
   -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
@@ -799,7 +791,6 @@ button.jooa11y-btn {
   -webkit-box-shadow: 0 0 16px 0 #00004f;
           box-shadow: 0 0 16px 0 #00004f;
   -webkit-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 
@@ -1095,7 +1086,6 @@ span.jooa11y-heading-label {
   letter-spacing: normal;
   background-color: #777678;
   background-image: -webkit-gradient(linear, left top, right bottom, from(#b629ce), to(#16aec2));
-  background-image: -o-linear-gradient(top left, #b629ce, #16aec2);
   background-image: linear-gradient(to bottom right, #b629ce, #16aec2);
   border-radius: 3px;
 }
@@ -1193,7 +1183,6 @@ span.jooa11y-heading-label {
 @media (prefers-reduced-motion: reduce) {
   #jooa11y-container * {
     -webkit-transition: none;
-    -o-transition: none;
     transition: none;
     -webkit-transform: none;
             transform: none;
@@ -1231,7 +1220,6 @@ span.jooa11y-heading-label {
 
 .tippy-box[data-theme~=jooa11y-theme][data-inertia][data-state=visible] {
   -webkit-transition-timing-function: cubic-bezier(0.54, 1.5, 0.38, 1.11);
-       -o-transition-timing-function: cubic-bezier(0.54, 1.5, 0.38, 1.11);
           transition-timing-function: cubic-bezier(0.54, 1.5, 0.38, 1.11);
 }
 
@@ -1256,7 +1244,6 @@ span.jooa11y-heading-label {
           box-shadow: 0 0 20px 4px rgba(154, 161, 177, 0.15), 0 4px 80px -8px rgba(36, 40, 47, 0.25), 0 4px 4px -2px rgba(91, 94, 105, 0.15);
   -webkit-transition-property: visibility, opacity, -webkit-transform;
   transition-property: visibility, opacity, -webkit-transform;
-  -o-transition-property: transform, visibility, opacity;
   transition-property: transform, visibility, opacity;
   transition-property: transform, visibility, opacity, -webkit-transform;
 }

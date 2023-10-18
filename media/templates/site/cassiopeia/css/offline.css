@@ -37,12 +37,10 @@
   color: hsl(0, 0%, 100%);
   text-align: center;
   background-color: var(--cassiopeia-color-primary);
-  background-image: -o-linear-gradient(315deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
   background-image: linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%);
   border-radius: 5px 5px 0 0;
 }
 [dir=rtl] .header {
-  background-image: -o-linear-gradient(315deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
   background-image: linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%);
 }
 

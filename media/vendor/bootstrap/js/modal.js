@@ -1,8 +1,8 @@
-import { E as EventHandler, g as getElementFromSelector, i as isVisible, S as SelectorEngine, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, l as ScrollBarHelper, m as Backdrop, F as FocusTrap, r as reflow, c as isRTL } from './dom.js?5.2.3';
+import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): modal.js
+ * Bootstrap modal.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -108,9 +108,8 @@ class Modal extends BaseComponent {
     this._queueCallback(() => this._hideModal(), this._element, this._isAnimated());
   }
   dispose() {
-    for (const htmlElement of [window, this._dialog]) {
-      EventHandler.off(htmlElement, EVENT_KEY);
-    }
+    EventHandler.off(window, EVENT_KEY);
+    EventHandler.off(this._dialog, EVENT_KEY);
     this._backdrop.dispose();
     this._focustrap.deactivate();
     super.dispose();
@@ -165,7 +164,6 @@ class Modal extends BaseComponent {
         return;
       }
       if (this._config.keyboard) {
-        event.preventDefault();
         this.hide();
         return;
       }
@@ -274,7 +272,7 @@ class Modal extends BaseComponent {
  */
 
 EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-  const target = getElementFromSelector(this);
+  const target = SelectorEngine.getElementFromSelector(this);
   if (['A', 'AREA'].includes(this.tagName)) {
     event.preventDefault();
   }

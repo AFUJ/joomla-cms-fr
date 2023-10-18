@@ -38,7 +38,6 @@
   margin: 0.2em 0 0;
   background: hsla(0, 0%, 100%, 0.9);
   background: -webkit-gradient(linear, left top, right bottom, from(white), to(hsla(0, 0%, 100%, 0.8)));
-  background: -o-linear-gradient(top left, white, hsla(0, 0%, 100%, 0.8));
   background: linear-gradient(to bottom right, white, hsla(0, 0%, 100%, 0.8));
   border: 1px solid rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0.05em 0.2em 0.6em rgba(0, 0, 0, 0.2);
@@ -49,7 +48,6 @@
 @supports (transform: scale(0)) {
   .awesomplete > ul {
     -webkit-transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
-    -o-transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
     transition: 0.3s cubic-bezier(0.4, 0.2, 0.5, 1.4);
     -webkit-transform-origin: 1.43em -0.43em;
             transform-origin: 1.43em -0.43em;
@@ -61,7 +59,6 @@
             transform: scale(0);
     display: block;
     -webkit-transition-timing-function: ease;
-         -o-transition-timing-function: ease;
             transition-timing-function: ease;
   }
 }

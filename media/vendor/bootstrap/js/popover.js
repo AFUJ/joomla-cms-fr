@@ -1,9 +1,9 @@
-import { c as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, o as findShadowRoot, n as noop, p as getUID, T as TemplateFactory, M as Manipulator, h as getElement, D as DefaultAllowlist } from './dom.js?5.2.3';
-import { P as Popper, c as createPopper } from './popper.js?5.2.3';
+import { P as Popper, c as createPopper } from './popper.js?5.3.0';
+import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, n as noop, o as getUID, T as TemplateFactory, j as execute, M as Manipulator, c as getElement, D as DefaultAllowlist } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): tooltip.js
+ * Bootstrap tooltip.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -50,7 +50,7 @@ const Default$1 = {
   delay: 0,
   fallbackPlacements: ['top', 'right', 'bottom', 'left'],
   html: false,
-  offset: [0, 0],
+  offset: [0, 6],
   placement: 'top',
   popperConfig: null,
   sanitize: true,
@@ -163,7 +163,7 @@ class Tooltip extends BaseComponent {
       return;
     }
 
-    // todo v6 remove this OR make it optional
+    // TODO: v6 remove this or make it optional
     this._disposePopper();
     const tip = this._getTipElement();
     this._element.setAttribute('aria-describedby', tip.getAttribute('id'));
@@ -249,12 +249,12 @@ class Tooltip extends BaseComponent {
   _createTipElement(content) {
     const tip = this._getTemplateFactory(content).toHtml();
 
-    // todo: remove this check on v6
+    // TODO: remove this check in v6
     if (!tip) {
       return null;
     }
     tip.classList.remove(CLASS_NAME_FADE, CLASS_NAME_SHOW);
-    // todo: on v6 the following can be achieved with CSS only
+    // TODO: v6 the following can be achieved with CSS only
     tip.classList.add(`bs-${this.constructor.NAME}-auto`);
     const tipId = getUID(this.constructor.NAME).toString();
     tip.setAttribute('id', tipId);
@@ -304,7 +304,7 @@ class Tooltip extends BaseComponent {
     return this.tip && this.tip.classList.contains(CLASS_NAME_SHOW);
   }
   _createPopper(tip) {
-    const placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
+    const placement = execute(this._config.placement, [this, tip, this._element]);
     const attachment = AttachmentMap[placement.toUpperCase()];
     return createPopper(this._element, tip, this._getPopperConfig(attachment));
   }
@@ -321,7 +321,7 @@ class Tooltip extends BaseComponent {
     return offset;
   }
   _resolvePossibleFunction(arg) {
-    return typeof arg === 'function' ? arg.call(this._element) : arg;
+    return execute(arg, [this._element]);
   }
   _getPopperConfig(attachment) {
     const defaultBsPopperConfig = {
@@ -359,7 +359,7 @@ class Tooltip extends BaseComponent {
     };
     return {
       ...defaultBsPopperConfig,
-      ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
+      ...execute(this._config.popperConfig, [defaultBsPopperConfig])
     };
   }
   _setListeners() {
@@ -467,9 +467,9 @@ class Tooltip extends BaseComponent {
   }
   _getDelegateConfig() {
     const config = {};
-    for (const key in this._config) {
-      if (this.constructor.Default[key] !== this._config[key]) {
-        config[key] = this._config[key];
+    for (const [key, value] of Object.entries(this._config)) {
+      if (this.constructor.Default[key] !== value) {
+        config[key] = value;
       }
     }
     config.selector = false;
@@ -514,7 +514,7 @@ defineJQueryPlugin(Tooltip);
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): popover.js
+ * Bootstrap popover.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */

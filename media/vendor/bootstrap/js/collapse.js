@@ -1,8 +1,8 @@
-import { E as EventHandler, f as getSelectorFromElement, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, r as reflow, g as getElementFromSelector, h as getElement } from './dom.js?5.2.3';
+import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, r as reflow, c as getElement } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): collapse.js
+ * Bootstrap collapse.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -50,7 +50,7 @@ class Collapse extends BaseComponent {
     this._triggerArray = [];
     const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE);
     for (const elem of toggleList) {
-      const selector = getSelectorFromElement(elem);
+      const selector = SelectorEngine.getSelectorFromElement(elem);
       const filterElement = SelectorEngine.find(selector).filter(foundElement => foundElement === this._element);
       if (selector !== null && filterElement.length) {
         this._triggerArray.push(elem);
@@ -138,7 +138,7 @@ class Collapse extends BaseComponent {
     this._element.classList.add(CLASS_NAME_COLLAPSING);
     this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
     for (const trigger of this._triggerArray) {
-      const element = getElementFromSelector(trigger);
+      const element = SelectorEngine.getElementFromSelector(trigger);
       if (element && !this._isShown(element)) {
         this._addAriaAndCollapsedClass([trigger], false);
       }
@@ -173,7 +173,7 @@ class Collapse extends BaseComponent {
     }
     const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE);
     for (const element of children) {
-      const selected = getElementFromSelector(element);
+      const selected = SelectorEngine.getElementFromSelector(element);
       if (selected) {
         this._addAriaAndCollapsedClass([element], this._isShown(selected));
       }
@@ -221,9 +221,7 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (
   if (event.target.tagName === 'A' || event.delegateTarget && event.delegateTarget.tagName === 'A') {
     event.preventDefault();
   }
-  const selector = getSelectorFromElement(this);
-  const selectorElements = SelectorEngine.find(selector);
-  for (const element of selectorElements) {
+  for (const element of SelectorEngine.getMultipleElementsFromSelector(this)) {
     Collapse.getOrCreateInstance(element, {
       toggle: false
     }).toggle();

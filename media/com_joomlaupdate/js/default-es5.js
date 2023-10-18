@@ -496,7 +496,7 @@
             var tableRow = problemPluginRow.closest('tr');
             tableRow.classList.add('error');
             var pluginTitleTableCell = tableRow.querySelector('.exname');
-            pluginTitleTableCell.innerHTML = Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML) + "\n              <div class=\"small\">\n              <span class=\"badge bg-warning\">\n              <span class=\"icon-warning\"></span>\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + "\n              </span>\n\n              <button type=\"button\" class=\"btn btn-sm btn-link hasPopover\"\n              title=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + " \"\n              data-bs-content=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC') + " \"\n              >\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP') + "\n              </button>\n              </div>";
+            pluginTitleTableCell.innerHTML = Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML) + "\n              <div class=\"small\">\n              " + (document.querySelector("td[data-extension-id=\"" + plugin.extension_id + "\"]") ? '' : " - " + plugin.name) + "\n              <span class=\"badge bg-warning\">\n              <span class=\"icon-warning\"></span>\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + "\n              </span>\n\n              <button type=\"button\" class=\"btn btn-sm btn-link hasPopover\"\n              title=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN') + " \"\n              data-bs-content=\"" + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC') + " \"\n              >\n              " + Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP') + "\n              </button>\n              </div>";
             var popoverElement = pluginTitleTableCell.querySelector('.hasPopover');
             if (popoverElement) {
               popoverElement.style.cursor = 'pointer';
@@ -516,9 +516,13 @@
         } else if (status !== 'danger' && document.querySelector('#compatibilityTable1 tbody td')) {
           status = 'warning';
         }
-        if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
+        if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('preupdatecheckbox')) {
           document.getElementById('preupdatecheckbox').style.display = 'none';
+        }
+        if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('noncoreplugins')) {
           document.getElementById('noncoreplugins').checked = true;
+        }
+        if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
           [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(function (el) {
             el.classList.remove('disabled');
             el.removeAttribute('disabled');

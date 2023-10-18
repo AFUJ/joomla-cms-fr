@@ -15,6 +15,8 @@
       "attributes": {
         "type": "module"
       },
+      "deprecated": true,
+      "deprecatedMsg": "To be removed in Joomla 5.0",
       "version": "22f26ac574bea945a0ac83e683f5391e730f7cc5"
     },
     {
@@ -70,10 +72,16 @@
       "version": "c848693feb7c555ef01d86d6c8d2b2b06ab78f96"
     },
     {
-      "name": "com_templates.admin-templates",
-      "type": "style",
-      "uri": "com_templates/admin-templates-default.min.css",
-      "version": "173f2842912ce5103fa838c36ce9a99db2196a64"
+      "name": "com_templates.admin-template-toggle-switch",
+      "type": "script",
+      "uri": "com_templates/admin-template-toggle-switch.min.js",
+      "dependencies": [
+        "com_templates.admin-template-toggle-switch.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "d6091960ea8e984f56aaee2b097607dc238e9681"
     },
     {
       "name": "com_templates.admin-templates.es5",
@@ -90,6 +98,12 @@
     },
     {
       "name": "com_templates.admin-templates",
+      "type": "style",
+      "uri": "com_templates/admin-templates-default.min.css",
+      "version": "5b4d250abb327999506e49a91e21f2279399488c"
+    },
+    {
+      "name": "com_templates.admin-templates",
       "type": "script",
       "uri": "com_templates/admin-templates-default.min.js",
       "dependencies": [
@@ -99,18 +113,6 @@
         "type": "module"
       },
       "version": "0ea31502469a23385aac72c89cf83a181a32666b"
-    },
-    {
-      "name": "com_templates.admin-template-toggle-switch",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-switch.min.js",
-      "dependencies": [
-        "com_templates.admin-template-toggle-switch.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "d6091960ea8e984f56aaee2b097607dc238e9681"
     }
   ]
 }

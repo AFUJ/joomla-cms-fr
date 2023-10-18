@@ -1,12 +1,10 @@
 .slide-fade-enter-active {
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-fade-leave-active {
   -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -246,7 +244,6 @@ html[dir=rtl] .infobar-leave-active {
   -webkit-border-start: 1px solid var(--template-bg-dark-7);
           border-inline-start: 1px solid var(--template-bg-dark-7);
   -webkit-transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -298,7 +295,6 @@ html[dir=rtl] .infobar-leave-active {
   border-radius: 0.25rem;
   opacity: 0;
   -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .media-browser-item.active .media-browser-item-preview::after, .selected .media-browser-item-preview::after {
@@ -310,8 +306,7 @@ html[dir=rtl] .infobar-leave-active {
   overflow: hidden;
   font-size: 0.9rem;
   line-height: 28px;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -329,7 +324,6 @@ html[dir=rtl] .infobar-leave-active {
           box-shadow: inset 0 0 0 0 #fff;
   opacity: 0;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .media-browser-item.active .media-browser-select {
@@ -349,7 +343,6 @@ html[dir=rtl] .infobar-leave-active {
   content: "\f00c";
   opacity: 0;
   -webkit-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transform: scale(0.5);
           transform: scale(0.5);
@@ -437,10 +430,8 @@ html[dir=rtl] .infobar-leave-active {
   border: 0;
   opacity: 0;
   -webkit-transition: all 0s ease;
-  -o-transition: all 0s ease;
   transition: all 0s ease;
   -webkit-transition-delay: 0s;
-       -o-transition-delay: 0s;
           transition-delay: 0s;
 }
 .media-browser-actions.active .media-browser-actions-list button, .media-browser-actions.active .media-browser-actions-list a {
@@ -455,7 +446,6 @@ html[dir=rtl] .infobar-leave-active {
   visibility: visible;
   opacity: 1;
   -webkit-transition-duration: 0.2s;
-       -o-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
 .media-browser-actions.active .media-browser-actions-list button:hover, .media-browser-actions.active .media-browser-actions-list button:focus, .media-browser-actions.active .media-browser-actions-list a:hover, .media-browser-actions.active .media-browser-actions-list a:focus {
@@ -478,7 +468,6 @@ html[dir=rtl] .infobar-leave-active {
   -ms-flex-negative: 0;
       flex-shrink: 0;
   -webkit-transition-duration: 0.2s;
-       -o-transition-duration: 0.2s;
           transition-duration: 0.2s;
 }
 .action-delete .image-browser-action {
@@ -502,7 +491,6 @@ html[dir=rtl] .infobar-leave-active {
 
 .image-background {
   background-color: #fff;
-  background-image: -o-linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 25%, transparent 75%, #eee 75%, hsl(var(--hue), 20%, 97%) 100%), -o-linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, hsl(var(--hue), 20%, 97%) 75%, hsl(var(--hue), 20%, 97%) 100%);
   background-image: linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 25%, transparent 75%, #eee 75%, hsl(var(--hue), 20%, 97%) 100%), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, hsl(var(--hue), 20%, 97%) 75%, hsl(var(--hue), 20%, 97%) 100%);
   background-position: 0 0, 10px 10px;
   background-size: 20px 20px;
@@ -585,10 +573,8 @@ html[dir=rtl] .infobar-leave-active {
   border-radius: 0.25rem;
   opacity: 0;
   -webkit-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
   -webkit-transition-delay: 0.2s;
-       -o-transition-delay: 0.2s;
           transition-delay: 0.2s;
   -webkit-transform: scale(0.6);
           transform: scale(0.6);
@@ -598,10 +584,8 @@ html[dir=rtl] .infobar-leave-active {
   color: #1c3d5c;
   opacity: 0;
   -webkit-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
   -webkit-transition-delay: 0.1s;
-       -o-transition-delay: 0.1s;
           transition-delay: 0.1s;
   -webkit-transform: translateY(50%);
           transform: translateY(50%);
@@ -610,17 +594,14 @@ html[dir=rtl] .infobar-leave-active {
   font-size: 1.4rem;
   opacity: 0;
   -webkit-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
   transition: all 0.2s ease;
   -webkit-transition-delay: 0s;
-       -o-transition-delay: 0s;
           transition-delay: 0s;
 }
 .media-dragoutline.active {
   visibility: visible;
   opacity: 1;
   -webkit-transition-delay: 0s;
-       -o-transition-delay: 0s;
           transition-delay: 0s;
   -webkit-transform: scale(1);
           transform: scale(1);
@@ -633,7 +614,6 @@ html[dir=rtl] .infobar-leave-active {
 .media-dragoutline.active p {
   opacity: 1;
   -webkit-transition-delay: 0.2s;
-       -o-transition-delay: 0.2s;
           transition-delay: 0.2s;
 }
 
@@ -671,7 +651,6 @@ html[dir=rtl] .infobar-leave-active {
 }
 .media-browser-table .type::before, .media-browser-table .type::after {
   -webkit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  -o-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .media-browser-table .type::before {
@@ -770,7 +749,6 @@ html[dir=rtl] .infobar-leave-active {
   grid-column-start: 2;
   grid-column-end: 5;
   background-color: #fff;
-  background-image: -o-linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 0, transparent 75%, #fafafa 0, hsl(var(--hue), 20%, 97%)), -o-linear-gradient(45deg, #fafafa 25%, transparent 0, transparent 75%, hsl(var(--hue), 20%, 97%) 0, hsl(var(--hue), 20%, 97%));
   background-image: linear-gradient(45deg, hsl(var(--hue), 20%, 97%) 25%, transparent 0, transparent 75%, #fafafa 0, hsl(var(--hue), 20%, 97%)), linear-gradient(45deg, #fafafa 25%, transparent 0, transparent 75%, hsl(var(--hue), 20%, 97%) 0, hsl(var(--hue), 20%, 97%));
   background-position: 0 0, 10px 10px;
   background-size: 20px 20px;
@@ -965,7 +943,6 @@ html[dir=rtl] .infobar-leave-active {
   z-index: 10;
   height: 2px;
   background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #59afff), to(#59daff));
-  background-image: -o-linear-gradient(left, #59afff 0, #59daff 100%);
   background-image: linear-gradient(to right, #59afff 0, #59daff 100%);
   -webkit-animation: 10s ease 0s normal none 1 running mediaLoader;
           animation: 10s ease 0s normal none 1 running mediaLoader;
@@ -1107,8 +1084,7 @@ ul.media-tree:empty {
   display: inline-block;
   overflow: hidden;
   font-size: 0.9em;
-  -o-text-overflow: ellipsis;
-     text-overflow: ellipsis;
+  text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
 }
@@ -1241,7 +1217,6 @@ html[dir=rtl] ul.media-tree ul {
     opacity: 0;
     -webkit-transition: -webkit-transform 0.3s ease-out;
     transition: -webkit-transform 0.3s ease-out;
-    -o-transition: transform 0.3s ease-out;
     transition: transform 0.3s ease-out;
     transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
     -webkit-transform: translate(0, -25%);
@@ -1258,7 +1233,6 @@ html[dir=rtl] ul.media-tree ul {
     opacity: 0;
     -webkit-transition: -webkit-transform 0.3s ease-out;
     transition: -webkit-transform 0.3s ease-out;
-    -o-transition: transform 0.3s ease-out;
     transition: transform 0.3s ease-out;
     transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
     -webkit-transform: translate(0, -25%);

@@ -42,6 +42,11 @@ class OutputFilter
 	 */
 	public static function objectHtmlSafe(&$mixed, $quoteStyle = \ENT_QUOTES, $excludeKeys = '')
 	{
+		if (\is_null($quoteStyle))
+		{
+			$quoteStyle = \ENT_QUOTES;
+		}
+
 		if (\is_object($mixed))
 		{
 			foreach (get_object_vars($mixed) as $k => $v)
@@ -87,6 +92,37 @@ class OutputFilter
 			},
 			$input
 		);
+	}
+
+	/**
+	 * Processes a string and escapes it for use in JavaScript
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed text
+	 *
+	 * @since   3.0
+	 */
+	public static function stringJSSafe($string)
+	{
+		$chars   = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
+		$newStr = '';
+
+		foreach ($chars as $chr)
+		{
+			$code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+
+			if (strlen($code) < 5)
+			{
+				$newStr .= '\\u' . $code;
+			}
+			else
+			{
+				$newStr .= '\\u{' . $code . '}';
+			}
+		}
+
+		return $newStr;
 	}
 
 	/**

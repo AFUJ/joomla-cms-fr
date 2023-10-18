@@ -494,6 +494,7 @@ Joomla = window.Joomla || {};
           const pluginTitleTableCell = tableRow.querySelector('.exname');
           pluginTitleTableCell.innerHTML = `${Joomla.sanitizeHtml(pluginTitleTableCell.innerHTML)}
               <div class="small">
+              ${document.querySelector(`td[data-extension-id="${plugin.extension_id}"]`) ? '' : ` - ${plugin.name}`}
               <span class="badge bg-warning">
               <span class="icon-warning"></span>
               ${Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN')}
@@ -525,9 +526,13 @@ Joomla = window.Joomla || {};
       } else if (status !== 'danger' && document.querySelector('#compatibilityTable1 tbody td')) {
         status = 'warning';
       }
-      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('preupdatecheckbox')) {
         document.getElementById('preupdatecheckbox').style.display = 'none';
+      }
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success' && document.getElementById('noncoreplugins')) {
         document.getElementById('noncoreplugins').checked = true;
+      }
+      if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
         [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(el => {
           el.classList.remove('disabled');
           el.removeAttribute('disabled');

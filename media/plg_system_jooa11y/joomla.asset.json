@@ -9,7 +9,7 @@
       "name": "plg_system_jooa11y.jooa11y",
       "type": "style",
       "uri": "plg_system_jooa11y/jooa11y.min.css",
-      "version": "5f6d1e166abece6ecae26d199338e3fd33c8a37b"
+      "version": "e314fc17845a1a0b0c20eef6c91eb40877c7bf3b"
     },
     {
       "name": "plg_system_jooa11y.jooa11y-es5",
@@ -22,7 +22,7 @@
         "defer": true,
         "nomodule": true
       },
-      "version": "83c111eb30b6940e2884e43507bc94e8b289bfc2"
+      "version": "3f7d8a7a62be275d2db39256e72ba66906d10e9b"
     },
     {
       "name": "plg_system_jooa11y.jooa11y",

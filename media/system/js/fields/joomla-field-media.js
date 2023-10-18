@@ -308,7 +308,7 @@ class JoomlaFieldMedia extends HTMLElement {
         let type;
         this.buttonClearEl.style.display = '';
         this.previewElement.innerHTML = '';
-        const ext = getExtension(value);
+        const ext = getExtension(value).toLowerCase();
         if (supportedExtensions.images.includes(ext)) type = 'images';
         if (supportedExtensions.audios.includes(ext)) type = 'audios';
         if (supportedExtensions.videos.includes(ext)) type = 'videos';

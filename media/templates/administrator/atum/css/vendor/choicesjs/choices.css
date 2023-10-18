@@ -341,8 +341,8 @@
 
 /* =====  End of Choices  ====== */
 .choices {
-  border: 1px solid var(--template-bg-dark-20);
-  border-radius: 0.25rem;
+  border: var(--border-width) solid var(--template-bg-dark-20);
+  border-radius: var(--border-radius);
 }
 .choices.is-focused {
   border-color: var(--focus);

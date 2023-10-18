@@ -76,7 +76,6 @@ return array(
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
     'Jfcherng\\Utility\\' => array($vendorDir . '/jfcherng/php-color-output/src', $vendorDir . '/jfcherng/php-mb-string/src'),
     'Jfcherng\\Diff\\' => array($vendorDir . '/jfcherng/php-diff/src', $vendorDir . '/jfcherng/php-sequence-matcher/src'),
-    'Http\\Message\\' => array($vendorDir . '/php-http/message-factory/src'),
     'Fig\\Link\\' => array($vendorDir . '/fig/link-util/src'),
     'FG\\' => array($vendorDir . '/fgrosse/phpasn1/lib'),
     'Doctrine\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Inflector'),

@@ -14,17 +14,10 @@
       ]
     },
     {
-      "name": "com_categories.shared-categories-accordion.es5",
-      "type": "script",
-      "uri": "com_categories/shared-categories-accordion-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "c245aa3a31e900109edb9adf531e26911822a77c"
+      "name": "com_categories.shared-categories-accordion",
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css",
+      "version": "9f06cdde2b1004cbc11b9eef656fc81e563992a7"
     },
     {
       "name": "com_categories.shared-categories-accordion",
@@ -39,10 +32,17 @@
       "version": "f2b649ad259eca8ee54071cbe78c6f788d196540"
     },
     {
-      "name": "com_categories.shared-categories-accordion",
-      "type": "style",
-      "uri": "com_categories/shared-categories-accordion.min.css",
-      "version": "9f06cdde2b1004cbc11b9eef656fc81e563992a7"
+      "name": "com_categories.shared-categories-accordion.es5",
+      "type": "script",
+      "uri": "com_categories/shared-categories-accordion-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "c245aa3a31e900109edb9adf531e26911822a77c"
     }
   ]
 }

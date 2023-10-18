@@ -6,6 +6,19 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_media.edit-images.es5",
+      "type": "script",
+      "uri": "com_media/edit-images-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "f787bb64f7d7778e8442f5d7a7b04088233be48e"
+    },
+    {
       "name": "com_media.edit-images",
       "type": "script",
       "uri": "com_media/edit-images.min.js",
@@ -18,23 +31,10 @@
       "version": "76f6c3fd813f8cb32fa76ffd7934e5a385b31fdc"
     },
     {
-      "name": "com_media.edit-images.es5",
-      "type": "script",
-      "uri": "com_media/edit-images-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "version": "6f6945def0dac2e2d09df864179465a6dbe60a56"
-    },
-    {
       "name": "com_media.mediamanager",
       "type": "style",
       "uri": "com_media/media-manager.min.css",
-      "version": "2abe310c785d4fdfc4dac4bb3a65aa62ea8dbde2"
+      "version": "aadf3eab911dd6b250db3131ee56866f275a7d1f"
     },
     {
       "name": "com_media.mediamanager",
@@ -46,7 +46,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "4428c99e6f51b84b46ecfa28eb332a5d1b98b9fd"
+      "version": "165b6bcfd4210db1014403aa5de391a94b2181e9"
     },
     {
       "name": "com_media.mediamanager.es5",
@@ -60,7 +60,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "b922ff142cea28437efdc3827a3ff69f6f9edcbb"
+      "version": "c85d65496c4fd4f4fcf869ffbae4a9260ad1721f"
     }
   ]
 }

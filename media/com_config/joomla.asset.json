@@ -44,6 +44,18 @@
       "version": "21db6c771cb91eb6491cac6666dea03039ec8336"
     },
     {
+      "name": "com_config.modules",
+      "type": "script",
+      "uri": "com_config/modules-default.min.js",
+      "dependencies": [
+        "com_config.modules.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "67ff688e715cc2ff7bac50be0c7074f32b53821b"
+    },
+    {
       "name": "com_config.templates.es5",
       "type": "script",
       "uri": "com_config/templates-default-es5.min.js",
@@ -55,18 +67,6 @@
         "defer": true
       },
       "version": "394032a4ed091d25ccbe97939c19735e2c951f27"
-    },
-    {
-      "name": "com_config.modules",
-      "type": "script",
-      "uri": "com_config/modules-default.min.js",
-      "dependencies": [
-        "com_config.modules.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "67ff688e715cc2ff7bac50be0c7074f32b53821b"
     },
     {
       "name": "com_config.templates",

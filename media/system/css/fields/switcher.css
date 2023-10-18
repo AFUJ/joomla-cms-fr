@@ -50,7 +50,6 @@
   line-height: 28px;
   text-align: start;
   -webkit-transition: opacity 0.25s ease;
-  -o-transition: opacity 0.25s ease;
   transition: opacity 0.25s ease;
 }
 
@@ -65,7 +64,6 @@
   background: #d3d3d3;
   border: 1px solid rgba(0, 0, 0, 0.18);
   -webkit-transition: 0.2s ease all;
-  -o-transition: 0.2s ease all;
   transition: 0.2s ease all;
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
@@ -82,7 +80,6 @@
   height: 28px;
   background: #fff;
   -webkit-transition: 0.4s ease all;
-  -o-transition: 0.4s ease all;
   transition: 0.4s ease all;
 }
 

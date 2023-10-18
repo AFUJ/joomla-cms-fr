@@ -1,8 +1,8 @@
-import { E as EventHandler, g as getElementFromSelector, M as Manipulator, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, b as getNextActiveElement, r as reflow, c as isRTL } from './dom.js?5.2.3';
+import { E as EventHandler, S as SelectorEngine, M as Manipulator, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, g as getNextActiveElement, r as reflow, b as isRTL } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): carousel.js
+ * Bootstrap carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -263,7 +263,7 @@ class Carousel extends BaseComponent {
     }
     if (!activeElement || !nextElement) {
       // Some weirdness is happening, so we bail
-      // todo: change tests that use empty divs to avoid this check
+      // TODO: change tests that use empty divs to avoid this check
       return;
     }
     const isCycling = Boolean(this._interval);
@@ -340,7 +340,7 @@ class Carousel extends BaseComponent {
  */
 
 EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_SLIDE, function (event) {
-  const target = getElementFromSelector(this);
+  const target = SelectorEngine.getElementFromSelector(this);
   if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
     return;
   }

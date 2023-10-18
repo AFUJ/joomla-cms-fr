@@ -1,8 +1,8 @@
-import { E as EventHandler, g as getElementFromSelector, j as isDisabled, i as isVisible, S as SelectorEngine, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, l as ScrollBarHelper, m as Backdrop, F as FocusTrap } from './dom.js?5.2.3';
+import { E as EventHandler, S as SelectorEngine, f as isDisabled, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): offcanvas.js
+ * Bootstrap offcanvas.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -160,11 +160,11 @@ class Offcanvas extends BaseComponent {
       if (event.key !== ESCAPE_KEY) {
         return;
       }
-      if (!this._config.keyboard) {
-        EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
+      if (this._config.keyboard) {
+        this.hide();
         return;
       }
-      this.hide();
+      EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
     });
   }
 
@@ -188,7 +188,7 @@ class Offcanvas extends BaseComponent {
  */
 
 EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-  const target = getElementFromSelector(this);
+  const target = SelectorEngine.getElementFromSelector(this);
   if (['A', 'AREA'].includes(this.tagName)) {
     event.preventDefault();
   }

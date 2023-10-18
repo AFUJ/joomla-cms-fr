@@ -11,7 +11,6 @@
   margin-right: 0.5rem;
   padding: 0.5rem 1.5rem;
   -webkit-transition: all 0.5s ease;
-  -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
@@ -60,7 +59,6 @@
   margin: 0;
   padding: 0;
   -webkit-transition: color 0.5s ease;
-  -o-transition: color 0.5s ease;
   transition: color 0.5s ease;
 }
 
@@ -141,7 +139,6 @@
   opacity: 0;
   outline: none;
   -webkit-transition: opacity 0.3s, visibility 0.3s;
-  -o-transition: opacity 0.3s, visibility 0.3s;
   transition: opacity 0.3s, visibility 0.3s;
   visibility: hidden;
   width: 100%;
@@ -215,7 +212,6 @@
   position: fixed;
   top: 0;
   -webkit-transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
-  -o-transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
   transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
   width: 100vw;
   z-index: 9997;
@@ -227,7 +223,6 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   -webkit-transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
-  -o-transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
   transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
 }
 

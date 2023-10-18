@@ -22,7 +22,6 @@
   margin-top: 5px;
   text-align: center;
   background-image: -webkit-gradient(linear, left top, left bottom, color-stop(70%, rgba(255, 255, 255, 0)), color-stop(95%, rgb(255, 255, 255)));
-  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 70%, rgb(255, 255, 255) 95%);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 70%, rgb(255, 255, 255) 95%);
 }
 .com-apps-container .com-apps-sidebar .nav .nav {
@@ -61,7 +60,6 @@
 }
 .com-apps-container .list-container .fader {
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), color-stop(25%, rgb(255, 255, 255)));
-  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 25%);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 25%);
 }
 .com-apps-container .list-container .list-group-item {

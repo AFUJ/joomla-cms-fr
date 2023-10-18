@@ -1,9 +1,9 @@
-import { P as Popper, c as createPopper } from './popper.js?5.2.3';
-import { c as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, j as isDisabled, n as noop, M as Manipulator, k as isElement, h as getElement, i as isVisible, b as getNextActiveElement } from './dom.js?5.2.3';
+import { P as Popper, c as createPopper } from './popper.js?5.3.0';
+import { b as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, f as isDisabled, n as noop, M as Manipulator, h as isElement, c as getElement, j as execute, i as isVisible, g as getNextActiveElement } from './dom.js?5.3.0';
 
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.2.3): dropdown.js
+ * Bootstrap dropdown.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -75,7 +75,7 @@ class Dropdown extends BaseComponent {
     super(element, config);
     this._popper = null;
     this._parent = this._element.parentNode; // dropdown wrapper
-    // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
+    // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
     this._menu = SelectorEngine.next(this._element, SELECTOR_MENU)[0] || SelectorEngine.prev(this._element, SELECTOR_MENU)[0] || SelectorEngine.findOne(SELECTOR_MENU, this._parent);
     this._inNavbar = this._detectNavbar();
   }
@@ -249,7 +249,7 @@ class Dropdown extends BaseComponent {
 
     // Disable Popper if we have a static display or Dropdown is in Navbar
     if (this._inNavbar || this._config.display === 'static') {
-      Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // todo:v6 remove
+      Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // TODO: v6 remove
       defaultBsPopperConfig.modifiers = [{
         name: 'applyStyles',
         enabled: false
@@ -257,7 +257,7 @@ class Dropdown extends BaseComponent {
     }
     return {
       ...defaultBsPopperConfig,
-      ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
+      ...execute(this._config.popperConfig, [defaultBsPopperConfig])
     };
   }
   _selectMenuItem(_ref) {
@@ -332,7 +332,7 @@ class Dropdown extends BaseComponent {
     }
     event.preventDefault();
 
-    // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
+    // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
     const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE, event.delegateTarget.parentNode);
     const instance = Dropdown.getOrCreateInstance(getToggleButton);
     if (isUpOrDownEvent) {

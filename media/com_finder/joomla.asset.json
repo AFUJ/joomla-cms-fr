@@ -43,6 +43,19 @@
       "version": "0cfab6c5b1b1dfdb57201f4ae49d5bc8afdc5223"
     },
     {
+      "name": "com_finder.finder.es5",
+      "type": "script",
+      "uri": "com_finder/finder-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "version": "14e4c7fdce4ca11c6d12b74bad128529a294b183"
+    },
+    {
       "name": "com_finder.finder",
       "type": "script",
       "uri": "com_finder/finder.min.js",
@@ -55,17 +68,16 @@
       "version": "c8b55661ed62db937b8d6856090adf9258c4a0fc"
     },
     {
-      "name": "com_finder.finder.es5",
+      "name": "com_finder.finder-edit",
       "type": "script",
-      "uri": "com_finder/finder-es5.min.js",
+      "uri": "com_finder/finder-edit.min.js",
       "dependencies": [
-        "core"
+        "com_finder.finder-edit.es5"
       ],
       "attributes": {
-        "nomodule": true,
-        "defer": true
+        "type": "module"
       },
-      "version": "14e4c7fdce4ca11c6d12b74bad128529a294b183"
+      "version": "8136efad79e2e979f422e821abbbddc2486a0a90"
     },
     {
       "name": "com_finder.finder-edit.es5",
@@ -81,16 +93,10 @@
       "version": "2ad312f3f022664abf2d79c2270704ba4941c412"
     },
     {
-      "name": "com_finder.finder-edit",
-      "type": "script",
-      "uri": "com_finder/finder-edit.min.js",
-      "dependencies": [
-        "com_finder.finder-edit.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "8136efad79e2e979f422e821abbbddc2486a0a90"
+      "name": "com_finder.indexer",
+      "type": "style",
+      "uri": "com_finder/indexer.min.css",
+      "version": "ba73d85fa3f70dcee5085a1c8ae477bd42d03b33"
     },
     {
       "name": "com_finder.indexer.es5",
@@ -141,12 +147,6 @@
         "type": "module"
       },
       "version": "ff16598c533e0a598992c5ad8386c4715d82723d"
-    },
-    {
-      "name": "com_finder.indexer",
-      "type": "style",
-      "uri": "com_finder/indexer.min.css",
-      "version": "ba73d85fa3f70dcee5085a1c8ae477bd42d03b33"
     }
   ]
 }

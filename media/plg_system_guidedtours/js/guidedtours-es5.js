@@ -3,304 +3,304 @@
 
   function _regeneratorRuntime() {
     _regeneratorRuntime = function () {
-      return exports;
+      return e;
     };
-    var exports = {},
-      Op = Object.prototype,
-      hasOwn = Op.hasOwnProperty,
-      defineProperty = Object.defineProperty || function (obj, key, desc) {
-        obj[key] = desc.value;
+    var t,
+      e = {},
+      r = Object.prototype,
+      n = r.hasOwnProperty,
+      o = Object.defineProperty || function (t, e, r) {
+        t[e] = r.value;
       },
-      $Symbol = "function" == typeof Symbol ? Symbol : {},
-      iteratorSymbol = $Symbol.iterator || "@@iterator",
-      asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
-      toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-    function define(obj, key, value) {
-      return Object.defineProperty(obj, key, {
-        value: value,
+      i = "function" == typeof Symbol ? Symbol : {},
+      a = i.iterator || "@@iterator",
+      c = i.asyncIterator || "@@asyncIterator",
+      u = i.toStringTag || "@@toStringTag";
+    function define(t, e, r) {
+      return Object.defineProperty(t, e, {
+        value: r,
         enumerable: !0,
         configurable: !0,
         writable: !0
-      }), obj[key];
+      }), t[e];
     }
     try {
       define({}, "");
-    } catch (err) {
-      define = function (obj, key, value) {
-        return obj[key] = value;
+    } catch (t) {
+      define = function (t, e, r) {
+        return t[e] = r;
       };
     }
-    function wrap(innerFn, outerFn, self, tryLocsList) {
-      var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
-        generator = Object.create(protoGenerator.prototype),
-        context = new Context(tryLocsList || []);
-      return defineProperty(generator, "_invoke", {
-        value: makeInvokeMethod(innerFn, self, context)
-      }), generator;
+    function wrap(t, e, r, n) {
+      var i = e && e.prototype instanceof Generator ? e : Generator,
+        a = Object.create(i.prototype),
+        c = new Context(n || []);
+      return o(a, "_invoke", {
+        value: makeInvokeMethod(t, r, c)
+      }), a;
     }
-    function tryCatch(fn, obj, arg) {
+    function tryCatch(t, e, r) {
       try {
         return {
           type: "normal",
-          arg: fn.call(obj, arg)
+          arg: t.call(e, r)
         };
-      } catch (err) {
+      } catch (t) {
         return {
           type: "throw",
-          arg: err
+          arg: t
         };
       }
     }
-    exports.wrap = wrap;
-    var ContinueSentinel = {};
+    e.wrap = wrap;
+    var h = "suspendedStart",
+      l = "suspendedYield",
+      f = "executing",
+      s = "completed",
+      y = {};
     function Generator() {}
     function GeneratorFunction() {}
     function GeneratorFunctionPrototype() {}
-    var IteratorPrototype = {};
-    define(IteratorPrototype, iteratorSymbol, function () {
+    var p = {};
+    define(p, a, function () {
       return this;
     });
-    var getProto = Object.getPrototypeOf,
-      NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-    NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-    var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-    function defineIteratorMethods(prototype) {
-      ["next", "throw", "return"].forEach(function (method) {
-        define(prototype, method, function (arg) {
-          return this._invoke(method, arg);
+    var d = Object.getPrototypeOf,
+      v = d && d(d(values([])));
+    v && v !== r && n.call(v, a) && (p = v);
+    var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p);
+    function defineIteratorMethods(t) {
+      ["next", "throw", "return"].forEach(function (e) {
+        define(t, e, function (t) {
+          return this._invoke(e, t);
         });
       });
     }
-    function AsyncIterator(generator, PromiseImpl) {
-      function invoke(method, arg, resolve, reject) {
-        var record = tryCatch(generator[method], generator, arg);
-        if ("throw" !== record.type) {
-          var result = record.arg,
-            value = result.value;
-          return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
-            invoke("next", value, resolve, reject);
-          }, function (err) {
-            invoke("throw", err, resolve, reject);
-          }) : PromiseImpl.resolve(value).then(function (unwrapped) {
-            result.value = unwrapped, resolve(result);
-          }, function (error) {
-            return invoke("throw", error, resolve, reject);
+    function AsyncIterator(t, e) {
+      function invoke(r, o, i, a) {
+        var c = tryCatch(t[r], t, o);
+        if ("throw" !== c.type) {
+          var u = c.arg,
+            h = u.value;
+          return h && "object" == typeof h && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) {
+            invoke("next", t, i, a);
+          }, function (t) {
+            invoke("throw", t, i, a);
+          }) : e.resolve(h).then(function (t) {
+            u.value = t, i(u);
+          }, function (t) {
+            return invoke("throw", t, i, a);
           });
         }
-        reject(record.arg);
+        a(c.arg);
       }
-      var previousPromise;
-      defineProperty(this, "_invoke", {
-        value: function (method, arg) {
+      var r;
+      o(this, "_invoke", {
+        value: function (t, n) {
           function callInvokeWithMethodAndArg() {
-            return new PromiseImpl(function (resolve, reject) {
-              invoke(method, arg, resolve, reject);
+            return new e(function (e, r) {
+              invoke(t, n, e, r);
             });
           }
-          return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+          return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
         }
       });
     }
-    function makeInvokeMethod(innerFn, self, context) {
-      var state = "suspendedStart";
-      return function (method, arg) {
-        if ("executing" === state) throw new Error("Generator is already running");
-        if ("completed" === state) {
-          if ("throw" === method) throw arg;
-          return doneResult();
+    function makeInvokeMethod(e, r, n) {
+      var o = h;
+      return function (i, a) {
+        if (o === f) throw new Error("Generator is already running");
+        if (o === s) {
+          if ("throw" === i) throw a;
+          return {
+            value: t,
+            done: !0
+          };
         }
-        for (context.method = method, context.arg = arg;;) {
-          var delegate = context.delegate;
-          if (delegate) {
-            var delegateResult = maybeInvokeDelegate(delegate, context);
-            if (delegateResult) {
-              if (delegateResult === ContinueSentinel) continue;
-              return delegateResult;
+        for (n.method = i, n.arg = a;;) {
+          var c = n.delegate;
+          if (c) {
+            var u = maybeInvokeDelegate(c, n);
+            if (u) {
+              if (u === y) continue;
+              return u;
             }
           }
-          if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
-            if ("suspendedStart" === state) throw state = "completed", context.arg;
-            context.dispatchException(context.arg);
-          } else "return" === context.method && context.abrupt("return", context.arg);
-          state = "executing";
-          var record = tryCatch(innerFn, self, context);
-          if ("normal" === record.type) {
-            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+          if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) {
+            if (o === h) throw o = s, n.arg;
+            n.dispatchException(n.arg);
+          } else "return" === n.method && n.abrupt("return", n.arg);
+          o = f;
+          var p = tryCatch(e, r, n);
+          if ("normal" === p.type) {
+            if (o = n.done ? s : l, p.arg === y) continue;
             return {
-              value: record.arg,
-              done: context.done
+              value: p.arg,
+              done: n.done
             };
           }
-          "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+          "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg);
         }
       };
     }
-    function maybeInvokeDelegate(delegate, context) {
-      var methodName = context.method,
-        method = delegate.iterator[methodName];
-      if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
-      var record = tryCatch(method, delegate.iterator, context.arg);
-      if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
-      var info = record.arg;
-      return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+    function maybeInvokeDelegate(e, r) {
+      var n = r.method,
+        o = e.iterator[n];
+      if (o === t) return r.delegate = null, "throw" === n && e.iterator.return && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
+      var i = tryCatch(o, e.iterator, r.arg);
+      if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y;
+      var a = i.arg;
+      return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y);
     }
-    function pushTryEntry(locs) {
-      var entry = {
-        tryLoc: locs[0]
+    function pushTryEntry(t) {
+      var e = {
+        tryLoc: t[0]
       };
-      1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+      1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e);
     }
-    function resetTryEntry(entry) {
-      var record = entry.completion || {};
-      record.type = "normal", delete record.arg, entry.completion = record;
+    function resetTryEntry(t) {
+      var e = t.completion || {};
+      e.type = "normal", delete e.arg, t.completion = e;
     }
-    function Context(tryLocsList) {
+    function Context(t) {
       this.tryEntries = [{
         tryLoc: "root"
-      }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+      }], t.forEach(pushTryEntry, this), this.reset(!0);
     }
-    function values(iterable) {
-      if (iterable) {
-        var iteratorMethod = iterable[iteratorSymbol];
-        if (iteratorMethod) return iteratorMethod.call(iterable);
-        if ("function" == typeof iterable.next) return iterable;
-        if (!isNaN(iterable.length)) {
-          var i = -1,
-            next = function next() {
-              for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-              return next.value = undefined, next.done = !0, next;
+    function values(e) {
+      if (e || "" === e) {
+        var r = e[a];
+        if (r) return r.call(e);
+        if ("function" == typeof e.next) return e;
+        if (!isNaN(e.length)) {
+          var o = -1,
+            i = function next() {
+              for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next;
+              return next.value = t, next.done = !0, next;
             };
-          return next.next = next;
+          return i.next = i;
         }
       }
-      return {
-        next: doneResult
-      };
+      throw new TypeError(typeof e + " is not iterable");
     }
-    function doneResult() {
-      return {
-        value: undefined,
-        done: !0
-      };
-    }
-    return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+    return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", {
       value: GeneratorFunctionPrototype,
       configurable: !0
-    }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+    }), o(GeneratorFunctionPrototype, "constructor", {
       value: GeneratorFunction,
       configurable: !0
-    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
-      var ctor = "function" == typeof genFun && genFun.constructor;
-      return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-    }, exports.mark = function (genFun) {
-      return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-    }, exports.awrap = function (arg) {
+    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) {
+      var e = "function" == typeof t && t.constructor;
+      return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
+    }, e.mark = function (t) {
+      return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
+    }, e.awrap = function (t) {
       return {
-        __await: arg
+        __await: t
       };
-    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () {
       return this;
-    }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-      void 0 === PromiseImpl && (PromiseImpl = Promise);
-      var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-      return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
-        return result.done ? result.value : iter.next();
+    }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) {
+      void 0 === i && (i = Promise);
+      var a = new AsyncIterator(wrap(t, r, n, o), i);
+      return e.isGeneratorFunction(r) ? a : a.next().then(function (t) {
+        return t.done ? t.value : a.next();
       });
-    }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
+    }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () {
       return this;
-    }), define(Gp, "toString", function () {
+    }), define(g, "toString", function () {
       return "[object Generator]";
-    }), exports.keys = function (val) {
-      var object = Object(val),
-        keys = [];
-      for (var key in object) keys.push(key);
-      return keys.reverse(), function next() {
-        for (; keys.length;) {
-          var key = keys.pop();
-          if (key in object) return next.value = key, next.done = !1, next;
+    }), e.keys = function (t) {
+      var e = Object(t),
+        r = [];
+      for (var n in e) r.push(n);
+      return r.reverse(), function next() {
+        for (; r.length;) {
+          var t = r.pop();
+          if (t in e) return next.value = t, next.done = !1, next;
         }
         return next.done = !0, next;
       };
-    }, exports.values = values, Context.prototype = {
+    }, e.values = values, Context.prototype = {
       constructor: Context,
-      reset: function (skipTempReset) {
-        if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+      reset: function (e) {
+        if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
       },
       stop: function () {
         this.done = !0;
-        var rootRecord = this.tryEntries[0].completion;
-        if ("throw" === rootRecord.type) throw rootRecord.arg;
+        var t = this.tryEntries[0].completion;
+        if ("throw" === t.type) throw t.arg;
         return this.rval;
       },
-      dispatchException: function (exception) {
-        if (this.done) throw exception;
-        var context = this;
-        function handle(loc, caught) {
-          return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+      dispatchException: function (e) {
+        if (this.done) throw e;
+        var r = this;
+        function handle(n, o) {
+          return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o;
         }
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i],
-            record = entry.completion;
-          if ("root" === entry.tryLoc) return handle("end");
-          if (entry.tryLoc <= this.prev) {
-            var hasCatch = hasOwn.call(entry, "catchLoc"),
-              hasFinally = hasOwn.call(entry, "finallyLoc");
-            if (hasCatch && hasFinally) {
-              if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-              if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-            } else if (hasCatch) {
-              if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+        for (var o = this.tryEntries.length - 1; o >= 0; --o) {
+          var i = this.tryEntries[o],
+            a = i.completion;
+          if ("root" === i.tryLoc) return handle("end");
+          if (i.tryLoc <= this.prev) {
+            var c = n.call(i, "catchLoc"),
+              u = n.call(i, "finallyLoc");
+            if (c && u) {
+              if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
+              if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
+            } else if (c) {
+              if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
             } else {
-              if (!hasFinally) throw new Error("try statement without catch or finally");
-              if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+              if (!u) throw new Error("try statement without catch or finally");
+              if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
             }
           }
         }
       },
-      abrupt: function (type, arg) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-            var finallyEntry = entry;
+      abrupt: function (t, e) {
+        for (var r = this.tryEntries.length - 1; r >= 0; --r) {
+          var o = this.tryEntries[r];
+          if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) {
+            var i = o;
             break;
           }
         }
-        finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-        var record = finallyEntry ? finallyEntry.completion : {};
-        return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+        i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
+        var a = i ? i.completion : {};
+        return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a);
       },
-      complete: function (record, afterLoc) {
-        if ("throw" === record.type) throw record.arg;
-        return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+      complete: function (t, e) {
+        if ("throw" === t.type) throw t.arg;
+        return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y;
       },
-      finish: function (finallyLoc) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      finish: function (t) {
+        for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+          var r = this.tryEntries[e];
+          if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y;
         }
       },
-      catch: function (tryLoc) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.tryLoc === tryLoc) {
-            var record = entry.completion;
-            if ("throw" === record.type) {
-              var thrown = record.arg;
-              resetTryEntry(entry);
+      catch: function (t) {
+        for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+          var r = this.tryEntries[e];
+          if (r.tryLoc === t) {
+            var n = r.completion;
+            if ("throw" === n.type) {
+              var o = n.arg;
+              resetTryEntry(r);
             }
-            return thrown;
+            return o;
           }
         }
         throw new Error("illegal catch attempt");
       },
-      delegateYield: function (iterable, resultName, nextLoc) {
+      delegateYield: function (e, r, n) {
         return this.delegate = {
-          iterator: values(iterable),
-          resultName: resultName,
-          nextLoc: nextLoc
-        }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+          iterator: values(e),
+          resultName: r,
+          nextLoc: n
+        }, "next" === this.method && (this.arg = t), y;
       }
-    }, exports;
+    }, e;
   }
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
@@ -382,7 +382,7 @@
     return typeof key === "symbol" ? key : String(key);
   }
 
-  /*! shepherd.js 11.0.1 */
+  /*! shepherd.js 11.2.0 */
 
   var isMergeableObject = function isMergeableObject(value) {
     return isNonNullObject(value) && !isSpecial(value);
@@ -421,7 +421,7 @@
   }
   function getEnumerableOwnPropertySymbols(target) {
     return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function (symbol) {
-      return target.propertyIsEnumerable(symbol);
+      return Object.propertyIsEnumerable.call(target, symbol);
     }) : [];
   }
   function getKeys(target) {
@@ -755,30 +755,144 @@
     }
     return target;
   }
-  var _excluded2 = ["mainAxis", "crossAxis", "fallbackPlacements", "fallbackStrategy", "flipAlignment"],
-    _excluded4 = ["mainAxis", "crossAxis", "limiter"];
+  var min = Math.min;
+  var max = Math.max;
+  var round = Math.round;
+  var floor = Math.floor;
+  var createCoords = function createCoords(v) {
+    return {
+      x: v,
+      y: v
+    };
+  };
+  var oppositeSideMap = {
+    left: 'right',
+    right: 'left',
+    bottom: 'top',
+    top: 'bottom'
+  };
+  var oppositeAlignmentMap = {
+    start: 'end',
+    end: 'start'
+  };
+  function clamp(start, value, end) {
+    return max(start, min(value, end));
+  }
+  function evaluate(value, param) {
+    return typeof value === 'function' ? value(param) : value;
+  }
   function getSide(placement) {
     return placement.split('-')[0];
   }
   function getAlignment(placement) {
     return placement.split('-')[1];
   }
-  function getMainAxisFromPlacement(placement) {
-    return ['top', 'bottom'].includes(getSide(placement)) ? 'x' : 'y';
+  function getOppositeAxis(axis) {
+    return axis === 'x' ? 'y' : 'x';
   }
-  function getLengthFromAxis(axis) {
+  function getAxisLength(axis) {
     return axis === 'y' ? 'height' : 'width';
   }
+  function getSideAxis(placement) {
+    return ['top', 'bottom'].includes(getSide(placement)) ? 'y' : 'x';
+  }
+  function getAlignmentAxis(placement) {
+    return getOppositeAxis(getSideAxis(placement));
+  }
+  function getAlignmentSides(placement, rects, rtl) {
+    if (rtl === void 0) {
+      rtl = false;
+    }
+    var alignment = getAlignment(placement);
+    var alignmentAxis = getAlignmentAxis(placement);
+    var length = getAxisLength(alignmentAxis);
+    var mainAlignmentSide = alignmentAxis === 'x' ? alignment === (rtl ? 'end' : 'start') ? 'right' : 'left' : alignment === 'start' ? 'bottom' : 'top';
+    if (rects.reference[length] > rects.floating[length]) {
+      mainAlignmentSide = getOppositePlacement(mainAlignmentSide);
+    }
+    return [mainAlignmentSide, getOppositePlacement(mainAlignmentSide)];
+  }
+  function getExpandedPlacements(placement) {
+    var oppositePlacement = getOppositePlacement(placement);
+    return [getOppositeAlignmentPlacement(placement), oppositePlacement, getOppositeAlignmentPlacement(oppositePlacement)];
+  }
+  function getOppositeAlignmentPlacement(placement) {
+    return placement.replace(/start|end/g, function (alignment) {
+      return oppositeAlignmentMap[alignment];
+    });
+  }
+  function getSideList(side, isStart, rtl) {
+    var lr = ['left', 'right'];
+    var rl = ['right', 'left'];
+    var tb = ['top', 'bottom'];
+    var bt = ['bottom', 'top'];
+    switch (side) {
+      case 'top':
+      case 'bottom':
+        if (rtl) return isStart ? rl : lr;
+        return isStart ? lr : rl;
+      case 'left':
+      case 'right':
+        return isStart ? tb : bt;
+      default:
+        return [];
+    }
+  }
+  function getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
+    var alignment = getAlignment(placement);
+    var list = getSideList(getSide(placement), direction === 'start', rtl);
+    if (alignment) {
+      list = list.map(function (side) {
+        return side + "-" + alignment;
+      });
+      if (flipAlignment) {
+        list = list.concat(list.map(getOppositeAlignmentPlacement));
+      }
+    }
+    return list;
+  }
+  function getOppositePlacement(placement) {
+    return placement.replace(/left|right|bottom|top/g, function (side) {
+      return oppositeSideMap[side];
+    });
+  }
+  function expandPaddingObject(padding) {
+    return _extends({
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0
+    }, padding);
+  }
+  function getPaddingObject(padding) {
+    return typeof padding !== 'number' ? expandPaddingObject(padding) : {
+      top: padding,
+      right: padding,
+      bottom: padding,
+      left: padding
+    };
+  }
+  function rectToClientRect(rect) {
+    return _extends({}, rect, {
+      top: rect.y,
+      left: rect.x,
+      right: rect.x + rect.width,
+      bottom: rect.y + rect.height
+    });
+  }
+  var _excluded2 = ["mainAxis", "crossAxis", "fallbackPlacements", "fallbackStrategy", "fallbackAxisSideDirection", "flipAlignment"],
+    _excluded4 = ["mainAxis", "crossAxis", "limiter"];
   function computeCoordsFromPlacement(_ref, placement, rtl) {
     var reference = _ref.reference,
       floating = _ref.floating;
+    var sideAxis = getSideAxis(placement);
+    var alignmentAxis = getAlignmentAxis(placement);
+    var alignLength = getAxisLength(alignmentAxis);
+    var side = getSide(placement);
+    var isVertical = sideAxis === 'y';
     var commonX = reference.x + reference.width / 2 - floating.width / 2;
     var commonY = reference.y + reference.height / 2 - floating.height / 2;
-    var mainAxis = getMainAxisFromPlacement(placement);
-    var length = getLengthFromAxis(mainAxis);
-    var commonAlign = reference[length] / 2 - floating[length] / 2;
-    var side = getSide(placement);
-    var isVertical = mainAxis === 'x';
+    var commonAlign = reference[alignLength] / 2 - floating[alignLength] / 2;
     var coords;
     switch (side) {
       case 'top':
@@ -813,10 +927,10 @@
     }
     switch (getAlignment(placement)) {
       case 'start':
-        coords[mainAxis] -= commonAlign * (rtl && isVertical ? -1 : 1);
+        coords[alignmentAxis] -= commonAlign * (rtl && isVertical ? -1 : 1);
         break;
       case 'end':
-        coords[mainAxis] += commonAlign * (rtl && isVertical ? -1 : 1);
+        coords[alignmentAxis] += commonAlign * (rtl && isVertical ? -1 : 1);
         break;
     }
     return coords;
@@ -829,7 +943,6 @@
    * This export does not have any `platform` interface logic. You will need to
    * write one for the platform you are using Floating UI with.
    */
-
   var computePosition$1 = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(reference, floating, config) {
       var _config$placement, placement, _config$strategy, strategy, _config$middleware, middleware, platform, validMiddleware, rtl, rects, _computeCoordsFromPla, x, y, statefulPlacement, middlewareData, resetCount, i, _extends2, _validMiddleware$i, name, fn, _yield$fn, nextX, nextY, data, reset, _computeCoordsFromPla2;
@@ -948,34 +1061,10 @@
       return _ref3.apply(this, arguments);
     };
   }();
-  function expandPaddingObject(padding) {
-    return _extends({
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0
-    }, padding);
-  }
-  function getSideObjectFromPadding(padding) {
-    return typeof padding !== 'number' ? expandPaddingObject(padding) : {
-      top: padding,
-      right: padding,
-      bottom: padding,
-      left: padding
-    };
-  }
-  function rectToClientRect(rect) {
-    return _extends({}, rect, {
-      top: rect.y,
-      left: rect.x,
-      right: rect.x + rect.width,
-      bottom: rect.y + rect.height
-    });
-  }
 
   /**
    * Resolves with an object of overflow side offsets that determine how much the
-   * element is overflowing a given clipping boundary.
+   * element is overflowing a given clipping boundary on each side.
    * - positive = overflowing the boundary by that number of pixels
    * - negative = how many pixels left before it will overflow
    * - 0 = lies flush with the boundary
@@ -984,130 +1073,135 @@
   function detectOverflow(_x4, _x5) {
     return _detectOverflow.apply(this, arguments);
   }
+  /**
+   * Provides data to position an inner element of the floating element so that it
+   * appears centered to the reference element.
+   * @see https://floating-ui.com/docs/arrow
+   */
   function _detectOverflow() {
-    _detectOverflow = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(middlewareArguments, options) {
-      var _await$platform$isEle, x, y, platform, rects, elements, strategy, _options5, _options5$boundary, boundary, _options5$rootBoundar, rootBoundary, _options5$elementCont, elementContext, _options5$altBoundary, altBoundary, _options5$padding, padding, paddingObject, altContext, element, clippingClientRect, rect, offsetParent, offsetScale, elementClientRect;
-      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-        while (1) switch (_context6.prev = _context6.next) {
+    _detectOverflow = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(state, options) {
+      var _await$platform$isEle, x, y, platform, rects, elements, strategy, _evaluate3, _evaluate3$boundary, boundary, _evaluate3$rootBounda, rootBoundary, _evaluate3$elementCon, elementContext, _evaluate3$altBoundar, altBoundary, _evaluate3$padding, padding, paddingObject, altContext, element, clippingClientRect, rect, offsetParent, offsetScale, elementClientRect;
+      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+        while (1) switch (_context7.prev = _context7.next) {
           case 0:
             if (options === void 0) {
               options = {};
             }
-            x = middlewareArguments.x, y = middlewareArguments.y, platform = middlewareArguments.platform, rects = middlewareArguments.rects, elements = middlewareArguments.elements, strategy = middlewareArguments.strategy;
-            _options5 = options, _options5$boundary = _options5.boundary, boundary = _options5$boundary === void 0 ? 'clippingAncestors' : _options5$boundary, _options5$rootBoundar = _options5.rootBoundary, rootBoundary = _options5$rootBoundar === void 0 ? 'viewport' : _options5$rootBoundar, _options5$elementCont = _options5.elementContext, elementContext = _options5$elementCont === void 0 ? 'floating' : _options5$elementCont, _options5$altBoundary = _options5.altBoundary, altBoundary = _options5$altBoundary === void 0 ? false : _options5$altBoundary, _options5$padding = _options5.padding, padding = _options5$padding === void 0 ? 0 : _options5$padding;
-            paddingObject = getSideObjectFromPadding(padding);
+            x = state.x, y = state.y, platform = state.platform, rects = state.rects, elements = state.elements, strategy = state.strategy;
+            _evaluate3 = evaluate(options, state), _evaluate3$boundary = _evaluate3.boundary, boundary = _evaluate3$boundary === void 0 ? 'clippingAncestors' : _evaluate3$boundary, _evaluate3$rootBounda = _evaluate3.rootBoundary, rootBoundary = _evaluate3$rootBounda === void 0 ? 'viewport' : _evaluate3$rootBounda, _evaluate3$elementCon = _evaluate3.elementContext, elementContext = _evaluate3$elementCon === void 0 ? 'floating' : _evaluate3$elementCon, _evaluate3$altBoundar = _evaluate3.altBoundary, altBoundary = _evaluate3$altBoundar === void 0 ? false : _evaluate3$altBoundar, _evaluate3$padding = _evaluate3.padding, padding = _evaluate3$padding === void 0 ? 0 : _evaluate3$padding;
+            paddingObject = getPaddingObject(padding);
             altContext = elementContext === 'floating' ? 'reference' : 'floating';
             element = elements[altBoundary ? altContext : elementContext];
-            _context6.t0 = rectToClientRect;
-            _context6.t1 = platform;
-            _context6.next = 10;
+            _context7.t0 = rectToClientRect;
+            _context7.t1 = platform;
+            _context7.next = 10;
             return platform.isElement == null ? void 0 : platform.isElement(element);
           case 10:
-            _context6.t2 = _await$platform$isEle = _context6.sent;
-            if (!(_context6.t2 != null)) {
-              _context6.next = 15;
+            _context7.t2 = _await$platform$isEle = _context7.sent;
+            if (!(_context7.t2 != null)) {
+              _context7.next = 15;
               break;
             }
-            _context6.t3 = _await$platform$isEle;
-            _context6.next = 16;
+            _context7.t3 = _await$platform$isEle;
+            _context7.next = 16;
             break;
           case 15:
-            _context6.t3 = true;
+            _context7.t3 = true;
           case 16:
-            if (!_context6.t3) {
-              _context6.next = 20;
+            if (!_context7.t3) {
+              _context7.next = 20;
               break;
             }
-            _context6.t4 = element;
-            _context6.next = 26;
+            _context7.t4 = element;
+            _context7.next = 26;
             break;
           case 20:
-            _context6.t5 = element.contextElement;
-            if (_context6.t5) {
-              _context6.next = 25;
+            _context7.t5 = element.contextElement;
+            if (_context7.t5) {
+              _context7.next = 25;
               break;
             }
-            _context6.next = 24;
+            _context7.next = 24;
             return platform.getDocumentElement == null ? void 0 : platform.getDocumentElement(elements.floating);
           case 24:
-            _context6.t5 = _context6.sent;
+            _context7.t5 = _context7.sent;
           case 25:
-            _context6.t4 = _context6.t5;
+            _context7.t4 = _context7.t5;
           case 26:
-            _context6.t6 = _context6.t4;
-            _context6.t7 = boundary;
-            _context6.t8 = rootBoundary;
-            _context6.t9 = strategy;
-            _context6.t10 = {
-              element: _context6.t6,
-              boundary: _context6.t7,
-              rootBoundary: _context6.t8,
-              strategy: _context6.t9
+            _context7.t6 = _context7.t4;
+            _context7.t7 = boundary;
+            _context7.t8 = rootBoundary;
+            _context7.t9 = strategy;
+            _context7.t10 = {
+              element: _context7.t6,
+              boundary: _context7.t7,
+              rootBoundary: _context7.t8,
+              strategy: _context7.t9
             };
-            _context6.next = 33;
-            return _context6.t1.getClippingRect.call(_context6.t1, _context6.t10);
+            _context7.next = 33;
+            return _context7.t1.getClippingRect.call(_context7.t1, _context7.t10);
           case 33:
-            _context6.t11 = _context6.sent;
-            clippingClientRect = (0, _context6.t0)(_context6.t11);
+            _context7.t11 = _context7.sent;
+            clippingClientRect = (0, _context7.t0)(_context7.t11);
             rect = elementContext === 'floating' ? _extends({}, rects.floating, {
               x: x,
               y: y
             }) : rects.reference;
-            _context6.next = 38;
+            _context7.next = 38;
             return platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(elements.floating);
           case 38:
-            offsetParent = _context6.sent;
-            _context6.next = 41;
+            offsetParent = _context7.sent;
+            _context7.next = 41;
             return platform.isElement == null ? void 0 : platform.isElement(offsetParent);
           case 41:
-            if (!_context6.sent) {
-              _context6.next = 50;
+            if (!_context7.sent) {
+              _context7.next = 50;
               break;
             }
-            _context6.next = 44;
+            _context7.next = 44;
             return platform.getScale == null ? void 0 : platform.getScale(offsetParent);
           case 44:
-            _context6.t13 = _context6.sent;
-            if (_context6.t13) {
-              _context6.next = 47;
+            _context7.t13 = _context7.sent;
+            if (_context7.t13) {
+              _context7.next = 47;
               break;
             }
-            _context6.t13 = {
+            _context7.t13 = {
               x: 1,
               y: 1
             };
           case 47:
-            _context6.t12 = _context6.t13;
-            _context6.next = 51;
+            _context7.t12 = _context7.t13;
+            _context7.next = 51;
             break;
           case 50:
-            _context6.t12 = {
+            _context7.t12 = {
               x: 1,
               y: 1
             };
           case 51:
-            offsetScale = _context6.t12;
-            _context6.t14 = rectToClientRect;
+            offsetScale = _context7.t12;
+            _context7.t14 = rectToClientRect;
             if (!platform.convertOffsetParentRelativeRectToViewportRelativeRect) {
-              _context6.next = 59;
+              _context7.next = 59;
               break;
             }
-            _context6.next = 56;
+            _context7.next = 56;
             return platform.convertOffsetParentRelativeRectToViewportRelativeRect({
               rect: rect,
               offsetParent: offsetParent,
               strategy: strategy
             });
           case 56:
-            _context6.t15 = _context6.sent;
-            _context6.next = 60;
+            _context7.t15 = _context7.sent;
+            _context7.next = 60;
             break;
           case 59:
-            _context6.t15 = rect;
+            _context7.t15 = rect;
           case 60:
-            _context6.t16 = _context6.t15;
-            elementClientRect = (0, _context6.t14)(_context6.t16);
-            return _context6.abrupt("return", {
+            _context7.t16 = _context7.t15;
+            elementClientRect = (0, _context7.t14)(_context7.t16);
+            return _context7.abrupt("return", {
               top: (clippingClientRect.top - elementClientRect.top + paddingObject.top) / offsetScale.y,
               bottom: (elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom) / offsetScale.y,
               left: (clippingClientRect.left - elementClientRect.left + paddingObject.left) / offsetScale.x,
@@ -1115,78 +1209,86 @@
             });
           case 63:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
-      }, _callee6);
+      }, _callee7);
     }));
     return _detectOverflow.apply(this, arguments);
   }
-  var min$1 = Math.min;
-  var max$1 = Math.max;
-  function within(min$1$1, value, max$1$1) {
-    return max$1(min$1$1, min$1(value, max$1$1));
-  }
-
-  /**
-   * Positions an inner element of the floating element such that it is centered
-   * to the reference element.
-   * @see https://floating-ui.com/docs/arrow
-   */
   var arrow = function arrow(options) {
     return {
       name: 'arrow',
       options: options,
-      fn: function fn(middlewareArguments) {
+      fn: function fn(state) {
         return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
           var _data, _ref5;
-          var _ref4, element, _ref4$padding, padding, x, y, placement, rects, platform, paddingObject, coords, axis, alignment, length, arrowDimensions, minProp, maxProp, endDiff, startDiff, arrowOffsetParent, clientSize, centerToReference, min, max, center, offset, alignmentPadding, shouldAddOffset, alignmentOffset;
+          var x, y, placement, rects, platform, elements, _ref4, element, _ref4$padding, padding, paddingObject, coords, axis, length, arrowDimensions, isYAxis, minProp, maxProp, clientProp, endDiff, startDiff, arrowOffsetParent, clientSize, centerToReference, largestPossiblePadding, minPadding, maxPadding, min$1, max, center, offset, shouldAddOffset, alignmentOffset;
           return _regeneratorRuntime().wrap(function _callee2$(_context2) {
             while (1) switch (_context2.prev = _context2.next) {
               case 0:
-                // Since `element` is required, we don't Partial<> the type
-                _ref4 = options != null ? options : {}, element = _ref4.element, _ref4$padding = _ref4.padding, padding = _ref4$padding === void 0 ? 0 : _ref4$padding;
-                x = middlewareArguments.x, y = middlewareArguments.y, placement = middlewareArguments.placement, rects = middlewareArguments.rects, platform = middlewareArguments.platform;
+                x = state.x, y = state.y, placement = state.placement, rects = state.rects, platform = state.platform, elements = state.elements; // Since `element` is required, we don't Partial<> the type.
+                _ref4 = evaluate(options, state) || {}, element = _ref4.element, _ref4$padding = _ref4.padding, padding = _ref4$padding === void 0 ? 0 : _ref4$padding;
                 if (!(element == null)) {
                   _context2.next = 4;
                   break;
                 }
                 return _context2.abrupt("return", {});
               case 4:
-                paddingObject = getSideObjectFromPadding(padding);
+                paddingObject = getPaddingObject(padding);
                 coords = {
                   x: x,
                   y: y
                 };
-                axis = getMainAxisFromPlacement(placement);
-                alignment = getAlignment(placement);
-                length = getLengthFromAxis(axis);
-                _context2.next = 11;
+                axis = getAlignmentAxis(placement);
+                length = getAxisLength(axis);
+                _context2.next = 10;
                 return platform.getDimensions(element);
-              case 11:
+              case 10:
                 arrowDimensions = _context2.sent;
-                minProp = axis === 'y' ? 'top' : 'left';
-                maxProp = axis === 'y' ? 'bottom' : 'right';
+                isYAxis = axis === 'y';
+                minProp = isYAxis ? 'top' : 'left';
+                maxProp = isYAxis ? 'bottom' : 'right';
+                clientProp = isYAxis ? 'clientHeight' : 'clientWidth';
                 endDiff = rects.reference[length] + rects.reference[axis] - coords[axis] - rects.floating[length];
                 startDiff = coords[axis] - rects.reference[axis];
-                _context2.next = 18;
+                _context2.next = 19;
                 return platform.getOffsetParent == null ? void 0 : platform.getOffsetParent(element);
-              case 18:
+              case 19:
                 arrowOffsetParent = _context2.sent;
-                clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
-                if (clientSize === 0) {
-                  clientSize = rects.floating[length];
+                clientSize = arrowOffsetParent ? arrowOffsetParent[clientProp] : 0; // DOM platform can return `window` as the `offsetParent`.
+                _context2.t0 = !clientSize;
+                if (_context2.t0) {
+                  _context2.next = 26;
+                  break;
                 }
-                centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the floating element if the center
-                // point is outside the floating element's bounds
-                min = paddingObject[minProp];
-                max = clientSize - arrowDimensions[length] - paddingObject[maxProp];
+                _context2.next = 25;
+                return platform.isElement == null ? void 0 : platform.isElement(arrowOffsetParent);
+              case 25:
+                _context2.t0 = !_context2.sent;
+              case 26:
+                if (!_context2.t0) {
+                  _context2.next = 28;
+                  break;
+                }
+                clientSize = elements.floating[clientProp] || rects.floating[length];
+              case 28:
+                centerToReference = endDiff / 2 - startDiff / 2; // If the padding is large enough that it causes the arrow to no longer be
+                // centered, modify the padding so that it is centered.
+                largestPossiblePadding = clientSize / 2 - arrowDimensions[length] / 2 - 1;
+                minPadding = min(paddingObject[minProp], largestPossiblePadding);
+                maxPadding = min(paddingObject[maxProp], largestPossiblePadding); // Make sure the arrow doesn't overflow the floating element if the center
+                // point is outside the floating element's bounds.
+                min$1 = minPadding;
+                max = clientSize - arrowDimensions[length] - maxPadding;
                 center = clientSize / 2 - arrowDimensions[length] / 2 + centerToReference;
-                offset = within(min, center, max); // Make sure that arrow points at the reference
-                alignmentPadding = alignment === 'start' ? paddingObject[minProp] : paddingObject[maxProp];
-                shouldAddOffset = alignmentPadding > 0 && center !== offset && rects.reference[length] <= rects.floating[length];
-                alignmentOffset = shouldAddOffset ? center < min ? min - center : max - center : 0;
-                return _context2.abrupt("return", (_ref5 = {}, _ref5[axis] = coords[axis] - alignmentOffset, _ref5.data = (_data = {}, _data[axis] = offset, _data.centerOffset = center - offset, _data), _ref5));
-              case 30:
+                offset = clamp(min$1, center, max); // If the reference is small enough that the arrow's padding causes it to
+                // to point to nothing for an aligned placement, adjust the offset of the
+                // floating element itself. This stops `shift()` from taking action, but can
+                // be worked around by calling it again after the `arrow()` if desired.
+                shouldAddOffset = getAlignment(placement) != null && center != offset && rects.reference[length] / 2 - (center < min$1 ? minPadding : maxPadding) - arrowDimensions[length] / 2 < 0;
+                alignmentOffset = shouldAddOffset ? center < min$1 ? min$1 - center : max - center : 0;
+                return _context2.abrupt("return", (_ref5 = {}, _ref5[axis] = coords[axis] - alignmentOffset, _ref5.data = (_data = {}, _data[axis] = offset, _data.centerOffset = center - offset + alignmentOffset, _data), _ref5));
+              case 39:
               case "end":
                 return _context2.stop();
             }
@@ -1195,50 +1297,11 @@
       }
     };
   };
-  var hash$1 = {
-    left: 'right',
-    right: 'left',
-    bottom: 'top',
-    top: 'bottom'
-  };
-  function getOppositePlacement(placement) {
-    return placement.replace(/left|right|bottom|top/g, function (matched) {
-      return hash$1[matched];
-    });
-  }
-  function getAlignmentSides(placement, rects, rtl) {
-    if (rtl === void 0) {
-      rtl = false;
-    }
-    var alignment = getAlignment(placement);
-    var mainAxis = getMainAxisFromPlacement(placement);
-    var length = getLengthFromAxis(mainAxis);
-    var mainAlignmentSide = mainAxis === 'x' ? alignment === (rtl ? 'end' : 'start') ? 'right' : 'left' : alignment === 'start' ? 'bottom' : 'top';
-    if (rects.reference[length] > rects.floating[length]) {
-      mainAlignmentSide = getOppositePlacement(mainAlignmentSide);
-    }
-    return {
-      main: mainAlignmentSide,
-      cross: getOppositePlacement(mainAlignmentSide)
-    };
-  }
-  var hash = {
-    start: 'end',
-    end: 'start'
-  };
-  function getOppositeAlignmentPlacement(placement) {
-    return placement.replace(/start|end/g, function (matched) {
-      return hash[matched];
-    });
-  }
-  function getExpandedPlacements(placement) {
-    var oppositePlacement = getOppositePlacement(placement);
-    return [getOppositeAlignmentPlacement(placement), oppositePlacement, getOppositeAlignmentPlacement(oppositePlacement)];
-  }
 
   /**
-   * Changes the placement of the floating element to one that will fit if the
-   * initially specified `placement` does not.
+   * Optimizes the visibility of the floating element by flipping the `placement`
+   * in order to keep it in view when the preferred placement(s) will overflow the
+   * clipping boundary. Alternative to `autoPlacement`.
    * @see https://floating-ui.com/docs/flip
    */
   var flip = function flip(options) {
@@ -1248,57 +1311,54 @@
     return {
       name: 'flip',
       options: options,
-      fn: function fn(middlewareArguments) {
+      fn: function fn(state) {
         return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-          var _middlewareData$flip, placement, middlewareData, rects, initialPlacement, platform, elements, _options, _options$mainAxis, checkMainAxis, _options$crossAxis, checkCrossAxis, specifiedFallbackPlacements, _options$fallbackStra, fallbackStrategy, _options$flipAlignmen, flipAlignment, detectOverflowOptions, side, isBasePlacement, fallbackPlacements, placements, overflow, overflows, overflowsData, _getAlignmentSides, main, cross, _middlewareData$flip$, _middlewareData$flip2, nextIndex, nextPlacement, resetPlacement, _overflowsData$map$so, _placement;
+          var _middlewareData$flip, placement, middlewareData, rects, initialPlacement, platform, elements, _evaluate2, _evaluate2$mainAxis, checkMainAxis, _evaluate2$crossAxis, checkCrossAxis, specifiedFallbackPlacements, _evaluate2$fallbackSt, fallbackStrategy, _evaluate2$fallbackAx, fallbackAxisSideDirection, _evaluate2$flipAlignm, flipAlignment, detectOverflowOptions, side, isBasePlacement, rtl, fallbackPlacements, placements, overflow, overflows, overflowsData, sides, _middlewareData$flip2, _overflowsData$filter, nextIndex, nextPlacement, resetPlacement, _overflowsData$map$so, _placement;
           return _regeneratorRuntime().wrap(function _callee3$(_context3) {
             while (1) switch (_context3.prev = _context3.next) {
               case 0:
-                placement = middlewareArguments.placement, middlewareData = middlewareArguments.middlewareData, rects = middlewareArguments.rects, initialPlacement = middlewareArguments.initialPlacement, platform = middlewareArguments.platform, elements = middlewareArguments.elements;
-                _options = options, _options$mainAxis = _options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$crossAxis = _options.crossAxis, checkCrossAxis = _options$crossAxis === void 0 ? true : _options$crossAxis, specifiedFallbackPlacements = _options.fallbackPlacements, _options$fallbackStra = _options.fallbackStrategy, fallbackStrategy = _options$fallbackStra === void 0 ? 'bestFit' : _options$fallbackStra, _options$flipAlignmen = _options.flipAlignment, flipAlignment = _options$flipAlignmen === void 0 ? true : _options$flipAlignmen, detectOverflowOptions = _objectWithoutPropertiesLoose(options, _excluded2);
+                placement = state.placement, middlewareData = state.middlewareData, rects = state.rects, initialPlacement = state.initialPlacement, platform = state.platform, elements = state.elements;
+                _evaluate2 = evaluate(options, state), _evaluate2$mainAxis = _evaluate2.mainAxis, checkMainAxis = _evaluate2$mainAxis === void 0 ? true : _evaluate2$mainAxis, _evaluate2$crossAxis = _evaluate2.crossAxis, checkCrossAxis = _evaluate2$crossAxis === void 0 ? true : _evaluate2$crossAxis, specifiedFallbackPlacements = _evaluate2.fallbackPlacements, _evaluate2$fallbackSt = _evaluate2.fallbackStrategy, fallbackStrategy = _evaluate2$fallbackSt === void 0 ? 'bestFit' : _evaluate2$fallbackSt, _evaluate2$fallbackAx = _evaluate2.fallbackAxisSideDirection, fallbackAxisSideDirection = _evaluate2$fallbackAx === void 0 ? 'none' : _evaluate2$fallbackAx, _evaluate2$flipAlignm = _evaluate2.flipAlignment, flipAlignment = _evaluate2$flipAlignm === void 0 ? true : _evaluate2$flipAlignm, detectOverflowOptions = _objectWithoutPropertiesLoose(_evaluate2, _excluded2);
                 side = getSide(placement);
-                isBasePlacement = side === initialPlacement;
+                isBasePlacement = getSide(initialPlacement) === initialPlacement;
+                _context3.next = 6;
+                return platform.isRTL == null ? void 0 : platform.isRTL(elements.floating);
+              case 6:
+                rtl = _context3.sent;
                 fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipAlignment ? [getOppositePlacement(initialPlacement)] : getExpandedPlacements(initialPlacement));
+                if (!specifiedFallbackPlacements && fallbackAxisSideDirection !== 'none') {
+                  fallbackPlacements.push.apply(fallbackPlacements, getOppositeAxisPlacements(initialPlacement, flipAlignment, fallbackAxisSideDirection, rtl));
+                }
                 placements = [initialPlacement].concat(fallbackPlacements);
-                _context3.next = 8;
-                return detectOverflow(middlewareArguments, detectOverflowOptions);
-              case 8:
+                _context3.next = 12;
+                return detectOverflow(state, detectOverflowOptions);
+              case 12:
                 overflow = _context3.sent;
                 overflows = [];
                 overflowsData = ((_middlewareData$flip = middlewareData.flip) == null ? void 0 : _middlewareData$flip.overflows) || [];
                 if (checkMainAxis) {
                   overflows.push(overflow[side]);
                 }
-                if (!checkCrossAxis) {
-                  _context3.next = 23;
-                  break;
+                if (checkCrossAxis) {
+                  sides = getAlignmentSides(placement, rects, rtl);
+                  overflows.push(overflow[sides[0]], overflow[sides[1]]);
                 }
-                _context3.t0 = getAlignmentSides;
-                _context3.t1 = placement;
-                _context3.t2 = rects;
-                _context3.next = 18;
-                return platform.isRTL == null ? void 0 : platform.isRTL(elements.floating);
-              case 18:
-                _context3.t3 = _context3.sent;
-                _getAlignmentSides = (0, _context3.t0)(_context3.t1, _context3.t2, _context3.t3);
-                main = _getAlignmentSides.main;
-                cross = _getAlignmentSides.cross;
-                overflows.push(overflow[main], overflow[cross]);
-              case 23:
                 overflowsData = [].concat(overflowsData, [{
                   placement: placement,
                   overflows: overflows
-                }]); // One or more sides is overflowing
+                }]);
+
+                // One or more sides is overflowing.
                 if (overflows.every(function (side) {
                   return side <= 0;
                 })) {
-                  _context3.next = 40;
+                  _context3.next = 35;
                   break;
                 }
-                nextIndex = ((_middlewareData$flip$ = (_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) != null ? _middlewareData$flip$ : 0) + 1;
+                nextIndex = (((_middlewareData$flip2 = middlewareData.flip) == null ? void 0 : _middlewareData$flip2.index) || 0) + 1;
                 nextPlacement = placements[nextIndex];
                 if (!nextPlacement) {
-                  _context3.next = 29;
+                  _context3.next = 23;
                   break;
                 }
                 return _context3.abrupt("return", {
@@ -1310,31 +1370,41 @@
                     placement: nextPlacement
                   }
                 });
-              case 29:
-                resetPlacement = 'bottom';
-                _context3.t4 = fallbackStrategy;
-                _context3.next = _context3.t4 === 'bestFit' ? 33 : _context3.t4 === 'initialPlacement' ? 36 : 38;
+              case 23:
+                // First, find the candidates that fit on the mainAxis side of overflow,
+                // then find the placement that fits the best on the main crossAxis side.
+                resetPlacement = (_overflowsData$filter = overflowsData.filter(function (d) {
+                  return d.overflows[0] <= 0;
+                }).sort(function (a, b) {
+                  return a.overflows[1] - b.overflows[1];
+                })[0]) == null ? void 0 : _overflowsData$filter.placement; // Otherwise fallback.
+                if (resetPlacement) {
+                  _context3.next = 33;
+                  break;
+                }
+                _context3.t0 = fallbackStrategy;
+                _context3.next = _context3.t0 === 'bestFit' ? 28 : _context3.t0 === 'initialPlacement' ? 31 : 33;
                 break;
-              case 33:
+              case 28:
                 _placement = (_overflowsData$map$so = overflowsData.map(function (d) {
-                  return [d, d.overflows.filter(function (overflow) {
+                  return [d.placement, d.overflows.filter(function (overflow) {
                     return overflow > 0;
                   }).reduce(function (acc, overflow) {
                     return acc + overflow;
                   }, 0)];
                 }).sort(function (a, b) {
                   return a[1] - b[1];
-                })[0]) == null ? void 0 : _overflowsData$map$so[0].placement;
+                })[0]) == null ? void 0 : _overflowsData$map$so[0];
                 if (_placement) {
                   resetPlacement = _placement;
                 }
-                return _context3.abrupt("break", 38);
-              case 36:
+                return _context3.abrupt("break", 33);
+              case 31:
                 resetPlacement = initialPlacement;
-                return _context3.abrupt("break", 38);
-              case 38:
+                return _context3.abrupt("break", 33);
+              case 33:
                 if (!(placement !== resetPlacement)) {
-                  _context3.next = 40;
+                  _context3.next = 35;
                   break;
                 }
                 return _context3.abrupt("return", {
@@ -1342,9 +1412,9 @@
                     placement: resetPlacement
                   }
                 });
-              case 40:
+              case 35:
                 return _context3.abrupt("return", {});
-              case 41:
+              case 36:
               case "end":
                 return _context3.stop();
             }
@@ -1353,13 +1423,10 @@
       }
     };
   };
-  function getCrossAxis(axis) {
-    return axis === 'x' ? 'y' : 'x';
-  }
 
   /**
-   * Shifts the floating element in order to keep it in view when it will overflow
-   * a clipping boundary.
+   * Optimizes the visibility of the floating element by shifting it in order to
+   * keep it in view when it will overflow the clipping boundary.
    * @see https://floating-ui.com/docs/shift
    */
   var shift = function shift(options) {
@@ -1369,15 +1436,15 @@
     return {
       name: 'shift',
       options: options,
-      fn: function fn(middlewareArguments) {
+      fn: function fn(state) {
         return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
           var _extends3;
-          var x, y, placement, _options2, _options2$mainAxis, checkMainAxis, _options2$crossAxis, checkCrossAxis, _options2$limiter, limiter, detectOverflowOptions, coords, overflow, mainAxis, crossAxis, mainAxisCoord, crossAxisCoord, minSide, maxSide, _min, _max, _minSide, _maxSide, _min2, _max2, limitedCoords;
+          var x, y, placement, _evaluate4, _evaluate4$mainAxis, checkMainAxis, _evaluate4$crossAxis, checkCrossAxis, _evaluate4$limiter, limiter, detectOverflowOptions, coords, overflow, crossAxis, mainAxis, mainAxisCoord, crossAxisCoord, minSide, maxSide, _min, _max, _minSide, _maxSide, _min2, _max2, limitedCoords;
           return _regeneratorRuntime().wrap(function _callee4$(_context4) {
             while (1) switch (_context4.prev = _context4.next) {
               case 0:
-                x = middlewareArguments.x, y = middlewareArguments.y, placement = middlewareArguments.placement;
-                _options2 = options, _options2$mainAxis = _options2.mainAxis, checkMainAxis = _options2$mainAxis === void 0 ? true : _options2$mainAxis, _options2$crossAxis = _options2.crossAxis, checkCrossAxis = _options2$crossAxis === void 0 ? false : _options2$crossAxis, _options2$limiter = _options2.limiter, limiter = _options2$limiter === void 0 ? {
+                x = state.x, y = state.y, placement = state.placement;
+                _evaluate4 = evaluate(options, state), _evaluate4$mainAxis = _evaluate4.mainAxis, checkMainAxis = _evaluate4$mainAxis === void 0 ? true : _evaluate4$mainAxis, _evaluate4$crossAxis = _evaluate4.crossAxis, checkCrossAxis = _evaluate4$crossAxis === void 0 ? false : _evaluate4$crossAxis, _evaluate4$limiter = _evaluate4.limiter, limiter = _evaluate4$limiter === void 0 ? {
                   fn: function fn(_ref) {
                     var x = _ref.x,
                       y = _ref.y;
@@ -1386,17 +1453,17 @@
                       y: y
                     };
                   }
-                } : _options2$limiter, detectOverflowOptions = _objectWithoutPropertiesLoose(options, _excluded4);
+                } : _evaluate4$limiter, detectOverflowOptions = _objectWithoutPropertiesLoose(_evaluate4, _excluded4);
                 coords = {
                   x: x,
                   y: y
                 };
                 _context4.next = 5;
-                return detectOverflow(middlewareArguments, detectOverflowOptions);
+                return detectOverflow(state, detectOverflowOptions);
               case 5:
                 overflow = _context4.sent;
-                mainAxis = getMainAxisFromPlacement(getSide(placement));
-                crossAxis = getCrossAxis(mainAxis);
+                crossAxis = getSideAxis(getSide(placement));
+                mainAxis = getOppositeAxis(crossAxis);
                 mainAxisCoord = coords[mainAxis];
                 crossAxisCoord = coords[crossAxis];
                 if (checkMainAxis) {
@@ -1404,16 +1471,16 @@
                   maxSide = mainAxis === 'y' ? 'bottom' : 'right';
                   _min = mainAxisCoord + overflow[minSide];
                   _max = mainAxisCoord - overflow[maxSide];
-                  mainAxisCoord = within(_min, mainAxisCoord, _max);
+                  mainAxisCoord = clamp(_min, mainAxisCoord, _max);
                 }
                 if (checkCrossAxis) {
                   _minSide = crossAxis === 'y' ? 'top' : 'left';
                   _maxSide = crossAxis === 'y' ? 'bottom' : 'right';
                   _min2 = crossAxisCoord + overflow[_minSide];
                   _max2 = crossAxisCoord - overflow[_maxSide];
-                  crossAxisCoord = within(_min2, crossAxisCoord, _max2);
+                  crossAxisCoord = clamp(_min2, crossAxisCoord, _max2);
                 }
-                limitedCoords = limiter.fn(_extends({}, middlewareArguments, (_extends3 = {}, _extends3[mainAxis] = mainAxisCoord, _extends3[crossAxis] = crossAxisCoord, _extends3)));
+                limitedCoords = limiter.fn(_extends({}, state, (_extends3 = {}, _extends3[mainAxis] = mainAxisCoord, _extends3[crossAxis] = crossAxisCoord, _extends3)));
                 return _context4.abrupt("return", _extends({}, limitedCoords, {
                   data: {
                     x: limitedCoords.x - x,
@@ -1429,7 +1496,6 @@
       }
     };
   };
-
   /**
    * Built-in `limiter` that will stop `shift()` at a certain point.
    */
@@ -1439,29 +1505,29 @@
     }
     return {
       options: options,
-      fn: function fn(middlewareArguments) {
+      fn: function fn(state) {
         var _ref6;
-        var x = middlewareArguments.x,
-          y = middlewareArguments.y,
-          placement = middlewareArguments.placement,
-          rects = middlewareArguments.rects,
-          middlewareData = middlewareArguments.middlewareData;
-        var _options3 = options,
-          _options3$offset = _options3.offset,
-          offset = _options3$offset === void 0 ? 0 : _options3$offset,
-          _options3$mainAxis = _options3.mainAxis,
-          checkMainAxis = _options3$mainAxis === void 0 ? true : _options3$mainAxis,
-          _options3$crossAxis = _options3.crossAxis,
-          checkCrossAxis = _options3$crossAxis === void 0 ? true : _options3$crossAxis;
+        var x = state.x,
+          y = state.y,
+          placement = state.placement,
+          rects = state.rects,
+          middlewareData = state.middlewareData;
+        var _evaluate = evaluate(options, state),
+          _evaluate$offset = _evaluate.offset,
+          offset = _evaluate$offset === void 0 ? 0 : _evaluate$offset,
+          _evaluate$mainAxis = _evaluate.mainAxis,
+          checkMainAxis = _evaluate$mainAxis === void 0 ? true : _evaluate$mainAxis,
+          _evaluate$crossAxis = _evaluate.crossAxis,
+          checkCrossAxis = _evaluate$crossAxis === void 0 ? true : _evaluate$crossAxis;
         var coords = {
           x: x,
           y: y
         };
-        var mainAxis = getMainAxisFromPlacement(placement);
-        var crossAxis = getCrossAxis(mainAxis);
+        var crossAxis = getSideAxis(placement);
+        var mainAxis = getOppositeAxis(crossAxis);
         var mainAxisCoord = coords[mainAxis];
         var crossAxisCoord = coords[crossAxis];
-        var rawOffset = typeof offset === 'function' ? offset(middlewareArguments) : offset;
+        var rawOffset = evaluate(offset, state);
         var computedOffset = typeof rawOffset === 'number' ? {
           mainAxis: rawOffset,
           crossAxis: 0
@@ -1480,11 +1546,11 @@
           }
         }
         if (checkCrossAxis) {
-          var _middlewareData$offse, _middlewareData$offse2, _middlewareData$offse3, _middlewareData$offse4;
+          var _middlewareData$offse, _middlewareData$offse2;
           var _len2 = mainAxis === 'y' ? 'width' : 'height';
           var isOriginSide = ['top', 'left'].includes(getSide(placement));
-          var _limitMin = rects.reference[crossAxis] - rects.floating[_len2] + (isOriginSide ? (_middlewareData$offse = (_middlewareData$offse2 = middlewareData.offset) == null ? void 0 : _middlewareData$offse2[crossAxis]) != null ? _middlewareData$offse : 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis);
-          var _limitMax = rects.reference[crossAxis] + rects.reference[_len2] + (isOriginSide ? 0 : (_middlewareData$offse3 = (_middlewareData$offse4 = middlewareData.offset) == null ? void 0 : _middlewareData$offse4[crossAxis]) != null ? _middlewareData$offse3 : 0) - (isOriginSide ? computedOffset.crossAxis : 0);
+          var _limitMin = rects.reference[crossAxis] - rects.floating[_len2] + (isOriginSide ? ((_middlewareData$offse = middlewareData.offset) == null ? void 0 : _middlewareData$offse[crossAxis]) || 0 : 0) + (isOriginSide ? 0 : computedOffset.crossAxis);
+          var _limitMax = rects.reference[crossAxis] + rects.reference[_len2] + (isOriginSide ? 0 : ((_middlewareData$offse2 = middlewareData.offset) == null ? void 0 : _middlewareData$offse2[crossAxis]) || 0) - (isOriginSide ? computedOffset.crossAxis : 0);
           if (crossAxisCoord < _limitMin) {
             crossAxisCoord = _limitMin;
           } else if (crossAxisCoord > _limitMax) {
@@ -1495,151 +1561,81 @@
       }
     };
   };
+  function getNodeName(node) {
+    if (isNode(node)) {
+      return (node.nodeName || '').toLowerCase();
+    }
+    // Mocked nodes in testing environments may not be instances of Node. By
+    // returning `#document` an infinite loop won't occur.
+    // https://github.com/floating-ui/floating-ui/issues/2317
+    return '#document';
+  }
   function getWindow(node) {
     var _node$ownerDocument;
-    return ((_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
+    return (node == null ? void 0 : (_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.defaultView) || window;
   }
-  function getComputedStyle(element) {
-    return getWindow(element).getComputedStyle(element);
-  }
-  function getNodeName(node) {
-    return isNode(node) ? (node.nodeName || '').toLowerCase() : '';
-  }
-  var uaString;
-  function getUAString() {
-    if (uaString) {
-      return uaString;
-    }
-    var uaData = navigator.userAgentData;
-    if (uaData && Array.isArray(uaData.brands)) {
-      uaString = uaData.brands.map(function (item) {
-        return item.brand + "/" + item.version;
-      }).join(' ');
-      return uaString;
-    }
-    return navigator.userAgent;
-  }
-  function isHTMLElement(value) {
-    return value instanceof getWindow(value).HTMLElement;
-  }
-  function isElement(value) {
-    return value instanceof getWindow(value).Element;
+  function getDocumentElement(node) {
+    var _ref;
+    return (_ref = (isNode(node) ? node.ownerDocument : node.document) || window.document) == null ? void 0 : _ref.documentElement;
   }
   function isNode(value) {
-    return value instanceof getWindow(value).Node;
+    return value instanceof Node || value instanceof getWindow(value).Node;
   }
-  function isShadowRoot(node) {
-    // Browsers without `ShadowRoot` support
+  function isElement(value) {
+    return value instanceof Element || value instanceof getWindow(value).Element;
+  }
+  function isHTMLElement(value) {
+    return value instanceof HTMLElement || value instanceof getWindow(value).HTMLElement;
+  }
+  function isShadowRoot(value) {
+    // Browsers without `ShadowRoot` support.
     if (typeof ShadowRoot === 'undefined') {
       return false;
     }
-    var OwnElement = getWindow(node).ShadowRoot;
-    return node instanceof OwnElement || node instanceof ShadowRoot;
+    return value instanceof ShadowRoot || value instanceof getWindow(value).ShadowRoot;
   }
   function isOverflowElement(element) {
-    // Firefox wants us to check `-x` and `-y` variations as well
     var _getComputedStyle = getComputedStyle(element),
       overflow = _getComputedStyle.overflow,
       overflowX = _getComputedStyle.overflowX,
       overflowY = _getComputedStyle.overflowY,
       display = _getComputedStyle.display;
-    return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX) && !['inline', 'contents'].includes(display);
+    return /auto|scroll|overlay|hidden|clip/.test(overflow + overflowY + overflowX) && !['inline', 'contents'].includes(display);
   }
   function isTableElement(element) {
     return ['table', 'td', 'th'].includes(getNodeName(element));
   }
   function isContainingBlock(element) {
-    // TODO: Try and use feature detection here instead
-    var isFirefox = /firefox/i.test(getUAString());
+    var webkit = isWebKit();
     var css = getComputedStyle(element);
-    var backdropFilter = css.backdropFilter || css.WebkitBackdropFilter; // This is non-exhaustive but covers the most common CSS properties that
-    // create a containing block.
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
-    return css.transform !== 'none' || css.perspective !== 'none' || (backdropFilter ? backdropFilter !== 'none' : false) || isFirefox && css.willChange === 'filter' || isFirefox && (css.filter ? css.filter !== 'none' : false) || ['transform', 'perspective'].some(function (value) {
-      return css.willChange.includes(value);
-    }) || ['paint', 'layout', 'strict', 'content'].some(
-    // TS 4.1 compat
-    function (value) {
-      var contain = css.contain;
-      return contain != null ? contain.includes(value) : false;
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+    return css.transform !== 'none' || css.perspective !== 'none' || (css.containerType ? css.containerType !== 'normal' : false) || !webkit && (css.backdropFilter ? css.backdropFilter !== 'none' : false) || !webkit && (css.filter ? css.filter !== 'none' : false) || ['transform', 'perspective', 'filter'].some(function (value) {
+      return (css.willChange || '').includes(value);
+    }) || ['paint', 'layout', 'strict', 'content'].some(function (value) {
+      return (css.contain || '').includes(value);
     });
   }
-  function isLayoutViewport() {
-    // Not Safari
-    return !/^((?!chrome|android).)*safari/i.test(getUAString()); // Feature detection for this fails in various ways
-    // • Always-visible scrollbar or not
-    // • Width of <html>, etc.
-    // const vV = win.visualViewport;
-    // return vV ? Math.abs(win.innerWidth / vV.scale - vV.width) < 0.5 : true;
+  function getContainingBlock(element) {
+    var currentNode = getParentNode(element);
+    while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
+      if (isContainingBlock(currentNode)) {
+        return currentNode;
+      } else {
+        currentNode = getParentNode(currentNode);
+      }
+    }
+    return null;
   }
-
+  function isWebKit() {
+    if (typeof CSS === 'undefined' || !CSS.supports) return false;
+    return CSS.supports('-webkit-backdrop-filter', 'none');
+  }
   function isLastTraversableNode(node) {
     return ['html', 'body', '#document'].includes(getNodeName(node));
   }
-  var FALLBACK_SCALE = {
-    x: 1,
-    y: 1
-  };
-  function getScale(element) {
-    var domElement = !isElement(element) && element.contextElement ? element.contextElement : isElement(element) ? element : null;
-    if (!domElement) {
-      return FALLBACK_SCALE;
-    }
-    var rect = domElement.getBoundingClientRect();
-    var css = getComputedStyle(domElement);
-    var x = rect.width / parseFloat(css.width);
-    var y = rect.height / parseFloat(css.height); // 0, NaN, or Infinity should always fallback to 1.
-
-    if (!x || !Number.isFinite(x)) {
-      x = 1;
-    }
-    if (!y || !Number.isFinite(y)) {
-      y = 1;
-    }
-    return {
-      x: x,
-      y: y
-    };
-  }
-  function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
-    var _win$visualViewport$o, _win$visualViewport, _win$visualViewport$o2, _win$visualViewport2;
-    if (includeScale === void 0) {
-      includeScale = false;
-    }
-    if (isFixedStrategy === void 0) {
-      isFixedStrategy = false;
-    }
-    var clientRect = element.getBoundingClientRect();
-    var scale = FALLBACK_SCALE;
-    if (includeScale) {
-      if (offsetParent) {
-        if (isElement(offsetParent)) {
-          scale = getScale(offsetParent);
-        }
-      } else {
-        scale = getScale(element);
-      }
-    }
-    var win = isElement(element) ? getWindow(element) : window;
-    var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
-    var x = (clientRect.left + (addVisualOffsets ? (_win$visualViewport$o = (_win$visualViewport = win.visualViewport) == null ? void 0 : _win$visualViewport.offsetLeft) != null ? _win$visualViewport$o : 0 : 0)) / scale.x;
-    var y = (clientRect.top + (addVisualOffsets ? (_win$visualViewport$o2 = (_win$visualViewport2 = win.visualViewport) == null ? void 0 : _win$visualViewport2.offsetTop) != null ? _win$visualViewport$o2 : 0 : 0)) / scale.y;
-    var width = clientRect.width / scale.x;
-    var height = clientRect.height / scale.y;
-    return {
-      width: width,
-      height: height,
-      top: y,
-      right: x + width,
-      bottom: y + height,
-      left: x,
-      x: x,
-      y: y
-    };
-  }
-  function getDocumentElement(node) {
-    return ((isNode(node) ? node.ownerDocument : node.document) || window.document).documentElement;
+  function getComputedStyle(element) {
+    return getWindow(element).getComputedStyle(element);
   }
   function getNodeScroll(element) {
     if (isElement(element)) {
@@ -1653,99 +1649,162 @@
       scrollTop: element.pageYOffset
     };
   }
-  function getWindowScrollBarX(element) {
-    // If <html> has a CSS width greater than the viewport, then this will be
-    // incorrect for RTL.
-    return getBoundingClientRect(getDocumentElement(element)).left + getNodeScroll(element).scrollLeft;
-  }
-  function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
-    var isOffsetParentAnElement = isHTMLElement(offsetParent);
-    var documentElement = getDocumentElement(offsetParent);
-    var rect = getBoundingClientRect(element, true, strategy === 'fixed', offsetParent);
-    var scroll = {
-      scrollLeft: 0,
-      scrollTop: 0
-    };
-    var offsets = {
-      x: 0,
-      y: 0
-    };
-    if (isOffsetParentAnElement || !isOffsetParentAnElement && strategy !== 'fixed') {
-      if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
-        scroll = getNodeScroll(offsetParent);
-      }
-      if (isHTMLElement(offsetParent)) {
-        var offsetRect = getBoundingClientRect(offsetParent, true);
-        offsets.x = offsetRect.x + offsetParent.clientLeft;
-        offsets.y = offsetRect.y + offsetParent.clientTop;
-      } else if (documentElement) {
-        offsets.x = getWindowScrollBarX(documentElement);
-      }
-    }
-    return {
-      x: rect.left + scroll.scrollLeft - offsets.x,
-      y: rect.top + scroll.scrollTop - offsets.y,
-      width: rect.width,
-      height: rect.height
-    };
-  }
   function getParentNode(node) {
     if (getNodeName(node) === 'html') {
       return node;
     }
     var result =
-    // Step into the shadow DOM of the parent of a slotted node
+    // Step into the shadow DOM of the parent of a slotted node.
     node.assignedSlot ||
-    // DOM Element detected
-    node.parentNode || (
-    // ShadowRoot detected
-    isShadowRoot(node) ? node.host : null) ||
-    // Fallback
+    // DOM Element detected.
+    node.parentNode ||
+    // ShadowRoot detected.
+    isShadowRoot(node) && node.host ||
+    // Fallback.
     getDocumentElement(node);
     return isShadowRoot(result) ? result.host : result;
   }
-  function getTrueOffsetParent(element) {
-    if (!isHTMLElement(element) || getComputedStyle(element).position === 'fixed') {
-      return null;
+  function getNearestOverflowAncestor(node) {
+    var parentNode = getParentNode(node);
+    if (isLastTraversableNode(parentNode)) {
+      return node.ownerDocument ? node.ownerDocument.body : node.body;
     }
-    return element.offsetParent;
+    if (isHTMLElement(parentNode) && isOverflowElement(parentNode)) {
+      return parentNode;
+    }
+    return getNearestOverflowAncestor(parentNode);
   }
-  function getContainingBlock(element) {
-    var currentNode = getParentNode(element);
-    while (isHTMLElement(currentNode) && !isLastTraversableNode(currentNode)) {
-      if (isContainingBlock(currentNode)) {
-        return currentNode;
+  function getOverflowAncestors(node, list) {
+    var _node$ownerDocument2;
+    if (list === void 0) {
+      list = [];
+    }
+    var scrollableAncestor = getNearestOverflowAncestor(node);
+    var isBody = scrollableAncestor === ((_node$ownerDocument2 = node.ownerDocument) == null ? void 0 : _node$ownerDocument2.body);
+    var win = getWindow(scrollableAncestor);
+    if (isBody) {
+      return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : []);
+    }
+    return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor));
+  }
+  function getCssDimensions(element) {
+    var css = getComputedStyle(element);
+    // In testing environments, the `width` and `height` properties are empty
+    // strings for SVG elements, returning NaN. Fallback to `0` in this case.
+    var width = parseFloat(css.width) || 0;
+    var height = parseFloat(css.height) || 0;
+    var hasOffset = isHTMLElement(element);
+    var offsetWidth = hasOffset ? element.offsetWidth : width;
+    var offsetHeight = hasOffset ? element.offsetHeight : height;
+    var shouldFallback = round(width) !== offsetWidth || round(height) !== offsetHeight;
+    if (shouldFallback) {
+      width = offsetWidth;
+      height = offsetHeight;
+    }
+    return {
+      width: width,
+      height: height,
+      $: shouldFallback
+    };
+  }
+  function unwrapElement(element) {
+    return !isElement(element) ? element.contextElement : element;
+  }
+  function getScale(element) {
+    var domElement = unwrapElement(element);
+    if (!isHTMLElement(domElement)) {
+      return createCoords(1);
+    }
+    var rect = domElement.getBoundingClientRect();
+    var _getCssDimensions = getCssDimensions(domElement),
+      width = _getCssDimensions.width,
+      height = _getCssDimensions.height,
+      $ = _getCssDimensions.$;
+    var x = ($ ? round(rect.width) : rect.width) / width;
+    var y = ($ ? round(rect.height) : rect.height) / height;
+
+    // 0, NaN, or Infinity should always fallback to 1.
+
+    if (!x || !Number.isFinite(x)) {
+      x = 1;
+    }
+    if (!y || !Number.isFinite(y)) {
+      y = 1;
+    }
+    return {
+      x: x,
+      y: y
+    };
+  }
+  var noOffsets = /*#__PURE__*/createCoords(0);
+  function getVisualOffsets(element) {
+    var win = getWindow(element);
+    if (!isWebKit() || !win.visualViewport) {
+      return noOffsets;
+    }
+    return {
+      x: win.visualViewport.offsetLeft,
+      y: win.visualViewport.offsetTop
+    };
+  }
+  function shouldAddVisualOffsets(element, isFixed, floatingOffsetParent) {
+    if (isFixed === void 0) {
+      isFixed = false;
+    }
+    if (!floatingOffsetParent || isFixed && floatingOffsetParent !== getWindow(element)) {
+      return false;
+    }
+    return isFixed;
+  }
+  function getBoundingClientRect(element, includeScale, isFixedStrategy, offsetParent) {
+    if (includeScale === void 0) {
+      includeScale = false;
+    }
+    if (isFixedStrategy === void 0) {
+      isFixedStrategy = false;
+    }
+    var clientRect = element.getBoundingClientRect();
+    var domElement = unwrapElement(element);
+    var scale = createCoords(1);
+    if (includeScale) {
+      if (offsetParent) {
+        if (isElement(offsetParent)) {
+          scale = getScale(offsetParent);
+        }
       } else {
-        currentNode = getParentNode(currentNode);
+        scale = getScale(element);
       }
     }
-    return null;
-  } // Gets the closest ancestor positioned element. Handles some edge cases,
-  // such as table ancestors and cross browser bugs.
-
-  function getOffsetParent(element) {
-    var window = getWindow(element);
-    var offsetParent = getTrueOffsetParent(element);
-    while (offsetParent && isTableElement(offsetParent) && getComputedStyle(offsetParent).position === 'static') {
-      offsetParent = getTrueOffsetParent(offsetParent);
+    var visualOffsets = shouldAddVisualOffsets(domElement, isFixedStrategy, offsetParent) ? getVisualOffsets(domElement) : createCoords(0);
+    var x = (clientRect.left + visualOffsets.x) / scale.x;
+    var y = (clientRect.top + visualOffsets.y) / scale.y;
+    var width = clientRect.width / scale.x;
+    var height = clientRect.height / scale.y;
+    if (domElement) {
+      var win = getWindow(domElement);
+      var offsetWin = offsetParent && isElement(offsetParent) ? getWindow(offsetParent) : offsetParent;
+      var currentIFrame = win.frameElement;
+      while (currentIFrame && offsetParent && offsetWin !== win) {
+        var iframeScale = getScale(currentIFrame);
+        var iframeRect = currentIFrame.getBoundingClientRect();
+        var css = getComputedStyle(currentIFrame);
+        var left = iframeRect.left + (currentIFrame.clientLeft + parseFloat(css.paddingLeft)) * iframeScale.x;
+        var top = iframeRect.top + (currentIFrame.clientTop + parseFloat(css.paddingTop)) * iframeScale.y;
+        x *= iframeScale.x;
+        y *= iframeScale.y;
+        width *= iframeScale.x;
+        height *= iframeScale.y;
+        x += left;
+        y += top;
+        currentIFrame = getWindow(currentIFrame).frameElement;
+      }
     }
-    if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static' && !isContainingBlock(offsetParent))) {
-      return window;
-    }
-    return offsetParent || getContainingBlock(element) || window;
-  }
-  function getDimensions(element) {
-    if (isHTMLElement(element)) {
-      return {
-        width: element.offsetWidth,
-        height: element.offsetHeight
-      };
-    }
-    var rect = getBoundingClientRect(element);
-    return {
-      width: rect.width,
-      height: rect.height
-    };
+    return rectToClientRect({
+      width: width,
+      height: height,
+      x: x,
+      y: y
+    });
   }
   function convertOffsetParentRelativeRectToViewportRelativeRect(_ref) {
     var rect = _ref.rect,
@@ -1760,14 +1819,8 @@
       scrollLeft: 0,
       scrollTop: 0
     };
-    var scale = {
-      x: 1,
-      y: 1
-    };
-    var offsets = {
-      x: 0,
-      y: 0
-    };
+    var scale = createCoords(1);
+    var offsets = createCoords(0);
     if (isOffsetParentAnElement || !isOffsetParentAnElement && strategy !== 'fixed') {
       if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
         scroll = getNodeScroll(offsetParent);
@@ -1777,17 +1830,42 @@
         scale = getScale(offsetParent);
         offsets.x = offsetRect.x + offsetParent.clientLeft;
         offsets.y = offsetRect.y + offsetParent.clientTop;
-      } // This doesn't appear to need to be negated.
-      // else if (documentElement) {
-      //   offsets.x = getWindowScrollBarX(documentElement);
-      // }
+      }
     }
-
     return {
       width: rect.width * scale.x,
       height: rect.height * scale.y,
       x: rect.x * scale.x - scroll.scrollLeft * scale.x + offsets.x,
       y: rect.y * scale.y - scroll.scrollTop * scale.y + offsets.y
+    };
+  }
+  function getClientRects(element) {
+    return Array.from(element.getClientRects());
+  }
+  function getWindowScrollBarX(element) {
+    // If <html> has a CSS width greater than the viewport, then this will be
+    // incorrect for RTL.
+    return getBoundingClientRect(getDocumentElement(element)).left + getNodeScroll(element).scrollLeft;
+  }
+
+  // Gets the entire size of the scrollable document area, even extending outside
+  // of the `<html>` and `<body>` rect bounds if horizontally scrollable.
+  function getDocumentRect(element) {
+    var html = getDocumentElement(element);
+    var scroll = getNodeScroll(element);
+    var body = element.ownerDocument.body;
+    var width = max(html.scrollWidth, html.clientWidth, body.scrollWidth, body.clientWidth);
+    var height = max(html.scrollHeight, html.clientHeight, body.scrollHeight, body.clientHeight);
+    var x = -scroll.scrollLeft + getWindowScrollBarX(element);
+    var y = -scroll.scrollTop;
+    if (getComputedStyle(body).direction === 'rtl') {
+      x += max(html.clientWidth, body.clientWidth) - width;
+    }
+    return {
+      width: width,
+      height: height,
+      x: x,
+      y: y
     };
   }
   function getViewportRect(element, strategy) {
@@ -1801,8 +1879,8 @@
     if (visualViewport) {
       width = visualViewport.width;
       height = visualViewport.height;
-      var layoutViewport = isLayoutViewport();
-      if (layoutViewport || !layoutViewport && strategy === 'fixed') {
+      var visualViewportBased = isWebKit();
+      if (!visualViewportBased || visualViewportBased && strategy === 'fixed') {
         x = visualViewport.offsetLeft;
         y = visualViewport.offsetTop;
       }
@@ -1814,23 +1892,17 @@
       y: y
     };
   }
-  var min = Math.min;
-  var max = Math.max;
 
-  // of the `<html>` and `<body>` rect bounds if horizontally scrollable
-
-  function getDocumentRect(element) {
-    var _element$ownerDocumen;
-    var html = getDocumentElement(element);
-    var scroll = getNodeScroll(element);
-    var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-    var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-    var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-    var x = -scroll.scrollLeft + getWindowScrollBarX(element);
-    var y = -scroll.scrollTop;
-    if (getComputedStyle(body || html).direction === 'rtl') {
-      x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
-    }
+  // Returns the inner client rect, subtracting scrollbars if present.
+  function getInnerBoundingClientRect(element, strategy) {
+    var clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
+    var top = clientRect.top + element.clientTop;
+    var left = clientRect.left + element.clientLeft;
+    var scale = isHTMLElement(element) ? getScale(element) : createCoords(1);
+    var width = element.clientWidth * scale.x;
+    var height = element.clientHeight * scale.y;
+    var x = left * scale.x;
+    var y = top * scale.y;
     return {
       width: width,
       height: height,
@@ -1838,67 +1910,34 @@
       y: y
     };
   }
-  function getNearestOverflowAncestor(node) {
-    var parentNode = getParentNode(node);
-    if (isLastTraversableNode(parentNode)) {
-      // @ts-ignore assume body is always available
-      return node.ownerDocument.body;
+  function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) {
+    var rect;
+    if (clippingAncestor === 'viewport') {
+      rect = getViewportRect(element, strategy);
+    } else if (clippingAncestor === 'document') {
+      rect = getDocumentRect(getDocumentElement(element));
+    } else if (isElement(clippingAncestor)) {
+      rect = getInnerBoundingClientRect(clippingAncestor, strategy);
+    } else {
+      var visualOffsets = getVisualOffsets(element);
+      rect = _extends({}, clippingAncestor, {
+        x: clippingAncestor.x - visualOffsets.x,
+        y: clippingAncestor.y - visualOffsets.y
+      });
     }
-    if (isHTMLElement(parentNode) && isOverflowElement(parentNode)) {
-      return parentNode;
-    }
-    return getNearestOverflowAncestor(parentNode);
+    return rectToClientRect(rect);
   }
-  function getOverflowAncestors(node, list) {
-    var _node$ownerDocument;
-    if (list === void 0) {
-      list = [];
+  function hasFixedPositionAncestor(element, stopNode) {
+    var parentNode = getParentNode(element);
+    if (parentNode === stopNode || !isElement(parentNode) || isLastTraversableNode(parentNode)) {
+      return false;
     }
-    var scrollableAncestor = getNearestOverflowAncestor(node);
-    var isBody = scrollableAncestor === ((_node$ownerDocument = node.ownerDocument) == null ? void 0 : _node$ownerDocument.body);
-    var win = getWindow(scrollableAncestor);
-    if (isBody) {
-      return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : []);
-    }
-    return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor));
+    return getComputedStyle(parentNode).position === 'fixed' || hasFixedPositionAncestor(parentNode, stopNode);
   }
 
-  // Returns the inner client rect, subtracting scrollbars if present
-  function getInnerBoundingClientRect(element, strategy) {
-    var clientRect = getBoundingClientRect(element, true, strategy === 'fixed');
-    var top = clientRect.top + element.clientTop;
-    var left = clientRect.left + element.clientLeft;
-    var scale = isHTMLElement(element) ? getScale(element) : {
-      x: 1,
-      y: 1
-    };
-    var width = element.clientWidth * scale.x;
-    var height = element.clientHeight * scale.y;
-    var x = left * scale.x;
-    var y = top * scale.y;
-    return {
-      top: y,
-      left: x,
-      right: x + width,
-      bottom: y + height,
-      x: x,
-      y: y,
-      width: width,
-      height: height
-    };
-  }
-  function getClientRectFromClippingAncestor(element, clippingAncestor, strategy) {
-    if (clippingAncestor === 'viewport') {
-      return rectToClientRect(getViewportRect(element, strategy));
-    }
-    if (isElement(clippingAncestor)) {
-      return getInnerBoundingClientRect(clippingAncestor, strategy);
-    }
-    return rectToClientRect(getDocumentRect(getDocumentElement(element)));
-  } // A "clipping ancestor" is an `overflow` element with the characteristic of
+  // A "clipping ancestor" is an `overflow` element with the characteristic of
   // clipping (or hiding) child elements. This returns all clipping ancestors
   // of the given element up the tree.
-
   function getClippingElementAncestors(element, cache) {
     var cachedResult = cache.get(element);
     if (cachedResult) {
@@ -1909,28 +1948,33 @@
     });
     var currentContainingBlockComputedStyle = null;
     var elementIsFixed = getComputedStyle(element).position === 'fixed';
-    var currentNode = elementIsFixed ? getParentNode(element) : element; // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+    var currentNode = elementIsFixed ? getParentNode(element) : element;
 
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
     while (isElement(currentNode) && !isLastTraversableNode(currentNode)) {
       var computedStyle = getComputedStyle(currentNode);
-      var containingBlock = isContainingBlock(currentNode);
-      var shouldDropCurrentNode = elementIsFixed ? !containingBlock && !currentContainingBlockComputedStyle : !containingBlock && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && ['absolute', 'fixed'].includes(currentContainingBlockComputedStyle.position);
+      var currentNodeIsContaining = isContainingBlock(currentNode);
+      if (!currentNodeIsContaining && computedStyle.position === 'fixed') {
+        currentContainingBlockComputedStyle = null;
+      }
+      var shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === 'static' && !!currentContainingBlockComputedStyle && ['absolute', 'fixed'].includes(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
       if (shouldDropCurrentNode) {
-        // Drop non-containing blocks
+        // Drop non-containing blocks.
         result = result.filter(function (ancestor) {
           return ancestor !== currentNode;
         });
       } else {
-        // Record last containing block for next iteration
+        // Record last containing block for next iteration.
         currentContainingBlockComputedStyle = computedStyle;
       }
       currentNode = getParentNode(currentNode);
     }
     cache.set(element, result);
     return result;
-  } // Gets the maximum area that the element is visible in due to any number of
-  // clipping ancestors
+  }
 
+  // Gets the maximum area that the element is visible in due to any number of
+  // clipping ancestors.
   function getClippingRect(_ref) {
     var element = _ref.element,
       boundary = _ref.boundary,
@@ -1954,100 +1998,246 @@
       y: clippingRect.top
     };
   }
-  var platform = {
-    getClippingRect: getClippingRect,
-    convertOffsetParentRelativeRectToViewportRelativeRect: convertOffsetParentRelativeRectToViewportRelativeRect,
-    isElement: isElement,
-    getDimensions: getDimensions,
-    getOffsetParent: getOffsetParent,
-    getDocumentElement: getDocumentElement,
-    getScale: getScale,
-    getElementRects: function getElementRects(_ref) {
-      var _this3 = this;
-      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
-        var reference, floating, strategy, getOffsetParentFn, getDimensionsFn;
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-          while (1) switch (_context5.prev = _context5.next) {
-            case 0:
-              reference = _ref.reference, floating = _ref.floating, strategy = _ref.strategy;
-              getOffsetParentFn = _this3.getOffsetParent || getOffsetParent;
-              getDimensionsFn = _this3.getDimensions;
-              _context5.t0 = getRectRelativeToOffsetParent;
-              _context5.t1 = reference;
-              _context5.next = 7;
-              return getOffsetParentFn(floating);
-            case 7:
-              _context5.t2 = _context5.sent;
-              _context5.t3 = strategy;
-              _context5.t4 = (0, _context5.t0)(_context5.t1, _context5.t2, _context5.t3);
-              _context5.t5 = _extends;
-              _context5.t6 = {
-                x: 0,
-                y: 0
-              };
-              _context5.next = 14;
-              return getDimensionsFn(floating);
-            case 14:
-              _context5.t7 = _context5.sent;
-              _context5.t8 = (0, _context5.t5)(_context5.t6, _context5.t7);
-              return _context5.abrupt("return", {
-                reference: _context5.t4,
-                floating: _context5.t8
-              });
-            case 17:
-            case "end":
-              return _context5.stop();
-          }
-        }, _callee5);
-      }))();
-    },
-    getClientRects: function getClientRects(element) {
-      return Array.from(element.getClientRects());
-    },
-    isRTL: function isRTL(element) {
-      return getComputedStyle(element).direction === 'rtl';
+  function getDimensions(element) {
+    return getCssDimensions(element);
+  }
+  function getRectRelativeToOffsetParent(element, offsetParent, strategy) {
+    var isOffsetParentAnElement = isHTMLElement(offsetParent);
+    var documentElement = getDocumentElement(offsetParent);
+    var isFixed = strategy === 'fixed';
+    var rect = getBoundingClientRect(element, true, isFixed, offsetParent);
+    var scroll = {
+      scrollLeft: 0,
+      scrollTop: 0
+    };
+    var offsets = createCoords(0);
+    if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+      if (getNodeName(offsetParent) !== 'body' || isOverflowElement(documentElement)) {
+        scroll = getNodeScroll(offsetParent);
+      }
+      if (isOffsetParentAnElement) {
+        var offsetRect = getBoundingClientRect(offsetParent, true, isFixed, offsetParent);
+        offsets.x = offsetRect.x + offsetParent.clientLeft;
+        offsets.y = offsetRect.y + offsetParent.clientTop;
+      } else if (documentElement) {
+        offsets.x = getWindowScrollBarX(documentElement);
+      }
     }
+    return {
+      x: rect.left + scroll.scrollLeft - offsets.x,
+      y: rect.top + scroll.scrollTop - offsets.y,
+      width: rect.width,
+      height: rect.height
+    };
+  }
+  function getTrueOffsetParent(element, polyfill) {
+    if (!isHTMLElement(element) || getComputedStyle(element).position === 'fixed') {
+      return null;
+    }
+    if (polyfill) {
+      return polyfill(element);
+    }
+    return element.offsetParent;
+  }
+
+  // Gets the closest ancestor positioned element. Handles some edge cases,
+  // such as table ancestors and cross browser bugs.
+  function getOffsetParent(element, polyfill) {
+    var window = getWindow(element);
+    if (!isHTMLElement(element)) {
+      return window;
+    }
+    var offsetParent = getTrueOffsetParent(element, polyfill);
+    while (offsetParent && isTableElement(offsetParent) && getComputedStyle(offsetParent).position === 'static') {
+      offsetParent = getTrueOffsetParent(offsetParent, polyfill);
+    }
+    if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static' && !isContainingBlock(offsetParent))) {
+      return window;
+    }
+    return offsetParent || getContainingBlock(element) || window;
+  }
+  var getElementRects = /*#__PURE__*/function () {
+    var _getElementRects = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(_ref) {
+      var reference, floating, strategy, getOffsetParentFn, getDimensionsFn;
+      return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
+          case 0:
+            reference = _ref.reference, floating = _ref.floating, strategy = _ref.strategy;
+            getOffsetParentFn = this.getOffsetParent || getOffsetParent;
+            getDimensionsFn = this.getDimensions;
+            _context5.t0 = getRectRelativeToOffsetParent;
+            _context5.t1 = reference;
+            _context5.next = 7;
+            return getOffsetParentFn(floating);
+          case 7:
+            _context5.t2 = _context5.sent;
+            _context5.t3 = strategy;
+            _context5.t4 = (0, _context5.t0)(_context5.t1, _context5.t2, _context5.t3);
+            _context5.t5 = _extends;
+            _context5.t6 = {
+              x: 0,
+              y: 0
+            };
+            _context5.next = 14;
+            return getDimensionsFn(floating);
+          case 14:
+            _context5.t7 = _context5.sent;
+            _context5.t8 = (0, _context5.t5)(_context5.t6, _context5.t7);
+            return _context5.abrupt("return", {
+              reference: _context5.t4,
+              floating: _context5.t8
+            });
+          case 17:
+          case "end":
+            return _context5.stop();
+        }
+      }, _callee5, this);
+    }));
+    function getElementRects(_x6) {
+      return _getElementRects.apply(this, arguments);
+    }
+    return getElementRects;
+  }();
+  function isRTL(element) {
+    return getComputedStyle(element).direction === 'rtl';
+  }
+  var platform = {
+    convertOffsetParentRelativeRectToViewportRelativeRect: convertOffsetParentRelativeRectToViewportRelativeRect,
+    getDocumentElement: getDocumentElement,
+    getClippingRect: getClippingRect,
+    getOffsetParent: getOffsetParent,
+    getElementRects: getElementRects,
+    getClientRects: getClientRects,
+    getDimensions: getDimensions,
+    getScale: getScale,
+    isElement: isElement,
+    isRTL: isRTL
   };
+
+  // https://samthor.au/2021/observing-dom/
+  function observeMove(element, onMove) {
+    var io = null;
+    var timeoutId;
+    var root = getDocumentElement(element);
+    function cleanup() {
+      clearTimeout(timeoutId);
+      io && io.disconnect();
+      io = null;
+    }
+    function refresh(skip, threshold) {
+      if (skip === void 0) {
+        skip = false;
+      }
+      if (threshold === void 0) {
+        threshold = 1;
+      }
+      cleanup();
+      var _element$getBoundingC = element.getBoundingClientRect(),
+        left = _element$getBoundingC.left,
+        top = _element$getBoundingC.top,
+        width = _element$getBoundingC.width,
+        height = _element$getBoundingC.height;
+      if (!skip) {
+        onMove();
+      }
+      if (!width || !height) {
+        return;
+      }
+      var insetTop = floor(top);
+      var insetRight = floor(root.clientWidth - (left + width));
+      var insetBottom = floor(root.clientHeight - (top + height));
+      var insetLeft = floor(left);
+      var rootMargin = -insetTop + "px " + -insetRight + "px " + -insetBottom + "px " + -insetLeft + "px";
+      var options = {
+        rootMargin: rootMargin,
+        threshold: max(0, min(1, threshold)) || 1
+      };
+      var isFirstUpdate = true;
+      function handleObserve(entries) {
+        var ratio = entries[0].intersectionRatio;
+        if (ratio !== threshold) {
+          if (!isFirstUpdate) {
+            return refresh();
+          }
+          if (!ratio) {
+            timeoutId = setTimeout(function () {
+              refresh(false, 1e-7);
+            }, 100);
+          } else {
+            refresh(false, ratio);
+          }
+        }
+        isFirstUpdate = false;
+      }
+
+      // Older browsers don't support a `document` as the root and will throw an
+      // error.
+      try {
+        io = new IntersectionObserver(handleObserve, _extends({}, options, {
+          // Handle <iframe>s
+          root: root.ownerDocument
+        }));
+      } catch (e) {
+        io = new IntersectionObserver(handleObserve, options);
+      }
+      io.observe(element);
+    }
+    refresh(true);
+    return cleanup;
+  }
 
   /**
    * Automatically updates the position of the floating element when necessary.
+   * Should only be called when the floating element is mounted on the DOM or
+   * visible on the screen.
+   * @returns cleanup function that should be invoked when the floating element is
+   * removed from the DOM or hidden from the screen.
    * @see https://floating-ui.com/docs/autoUpdate
    */
   function autoUpdate(reference, floating, update, options) {
     if (options === void 0) {
       options = {};
     }
-    var _options4 = options,
-      _options4$ancestorScr = _options4.ancestorScroll,
-      _ancestorScroll = _options4$ancestorScr === void 0 ? true : _options4$ancestorScr,
-      _options4$ancestorRes = _options4.ancestorResize,
-      ancestorResize = _options4$ancestorRes === void 0 ? true : _options4$ancestorRes,
-      _options4$elementResi = _options4.elementResize,
-      elementResize = _options4$elementResi === void 0 ? true : _options4$elementResi,
-      _options4$animationFr = _options4.animationFrame,
-      animationFrame = _options4$animationFr === void 0 ? false : _options4$animationFr;
-    var ancestorScroll = _ancestorScroll && !animationFrame;
-    var ancestors = ancestorScroll || ancestorResize ? [].concat(isElement(reference) ? getOverflowAncestors(reference) : reference.contextElement ? getOverflowAncestors(reference.contextElement) : [], getOverflowAncestors(floating)) : [];
+    var _options = options,
+      _options$ancestorScro = _options.ancestorScroll,
+      ancestorScroll = _options$ancestorScro === void 0 ? true : _options$ancestorScro,
+      _options$ancestorResi = _options.ancestorResize,
+      ancestorResize = _options$ancestorResi === void 0 ? true : _options$ancestorResi,
+      _options$elementResiz = _options.elementResize,
+      elementResize = _options$elementResiz === void 0 ? typeof ResizeObserver === 'function' : _options$elementResiz,
+      _options$layoutShift = _options.layoutShift,
+      layoutShift = _options$layoutShift === void 0 ? typeof IntersectionObserver === 'function' : _options$layoutShift,
+      _options$animationFra = _options.animationFrame,
+      animationFrame = _options$animationFra === void 0 ? false : _options$animationFra;
+    var referenceEl = unwrapElement(reference);
+    var ancestors = ancestorScroll || ancestorResize ? [].concat(referenceEl ? getOverflowAncestors(referenceEl) : [], getOverflowAncestors(floating)) : [];
     ancestors.forEach(function (ancestor) {
       ancestorScroll && ancestor.addEventListener('scroll', update, {
         passive: true
       });
       ancestorResize && ancestor.addEventListener('resize', update);
     });
-    var observer = null;
+    var cleanupIo = referenceEl && layoutShift ? observeMove(referenceEl, update) : null;
+    var reobserveFrame = -1;
+    var resizeObserver = null;
     if (elementResize) {
-      var initialUpdate = true;
-      observer = new ResizeObserver(function () {
-        if (!initialUpdate) {
-          update();
+      resizeObserver = new ResizeObserver(function (_ref) {
+        var firstEntry = _ref[0];
+        if (firstEntry && firstEntry.target === referenceEl && resizeObserver) {
+          // Prevent update loops when using the `size` middleware.
+          // https://github.com/floating-ui/floating-ui/issues/1740
+          resizeObserver.unobserve(floating);
+          cancelAnimationFrame(reobserveFrame);
+          reobserveFrame = requestAnimationFrame(function () {
+            resizeObserver && resizeObserver.observe(floating);
+          });
         }
-        initialUpdate = false;
+        update();
       });
-      isElement(reference) && !animationFrame && observer.observe(reference);
-      if (!isElement(reference) && reference.contextElement && !animationFrame) {
-        observer.observe(reference.contextElement);
+      if (referenceEl && !animationFrame) {
+        resizeObserver.observe(referenceEl);
       }
-      observer.observe(floating);
+      resizeObserver.observe(floating);
     }
     var frameId;
     var prevRefRect = animationFrame ? getBoundingClientRect(reference) : null;
@@ -2064,13 +2254,13 @@
     }
     update();
     return function () {
-      var _observer;
       ancestors.forEach(function (ancestor) {
         ancestorScroll && ancestor.removeEventListener('scroll', update);
         ancestorResize && ancestor.removeEventListener('resize', update);
       });
-      (_observer = observer) == null ? void 0 : _observer.disconnect();
-      observer = null;
+      cleanupIo && cleanupIo();
+      resizeObserver && resizeObserver.disconnect();
+      resizeObserver = null;
       if (animationFrame) {
         cancelAnimationFrame(frameId);
       }
@@ -2082,7 +2272,6 @@
    * next to a reference element when it is given a certain CSS positioning
    * strategy.
    */
-
   var computePosition = function computePosition(reference, floating, options) {
     // This caches the expensive `getClippingElementAncestors` function so that
     // multiple lifecycle resets re-use the same result. It only lives for a
@@ -2194,11 +2383,11 @@
    * @return {function({x: *, y: *, placement: *, middlewareData: *}): Promise<unknown>}
    */
   function floatingUIposition(step, shouldCenter) {
-    return function (_ref) {
-      var x = _ref.x,
-        y = _ref.y,
-        placement = _ref.placement,
-        middlewareData = _ref.middlewareData;
+    return function (_ref7) {
+      var x = _ref7.x,
+        y = _ref7.y,
+        placement = _ref7.placement,
+        middlewareData = _ref7.middlewareData;
       if (!step.el) {
         return step;
       }
@@ -2229,20 +2418,13 @@
    */
   function placeArrow(el, middlewareData) {
     var arrowEl = el.querySelector('.shepherd-arrow');
-    if (arrowEl) {
-      var left, top, right, bottom;
-      if (middlewareData.arrow) {
-        var _middlewareData$arrow = middlewareData.arrow,
-          arrowX = _middlewareData$arrow.x,
-          arrowY = _middlewareData$arrow.y;
-        left = arrowX != null ? arrowX + "px" : '';
-        top = arrowY != null ? arrowY + "px" : '';
-      }
+    if (arrowEl && middlewareData.arrow) {
+      var _middlewareData$arrow = middlewareData.arrow,
+        arrowX = _middlewareData$arrow.x,
+        arrowY = _middlewareData$arrow.y;
       Object.assign(arrowEl.style, {
-        left: left,
-        top: top,
-        right: right,
-        bottom: bottom
+        left: arrowX != null ? arrowX + "px" : '',
+        top: arrowY != null ? arrowY + "px" : ''
       });
     }
   }
@@ -2352,6 +2534,14 @@
   function attr(node, attribute, value) {
     if (value == null) node.removeAttribute(attribute);else if (node.getAttribute(attribute) !== value) node.setAttribute(attribute, value);
   }
+  /**
+   * List of attributes that should always be set through the attr method,
+   * because updating them through the property setter doesn't work reliably.
+   * In the example of `width`/`height`, the problem is that the setter only
+   * accepts numeric values, but the attribute can also be set to a string like `50%`.
+   * If this list becomes too big, rethink this approach.
+   */
+  var always_set_through_set_attribute = ['width', 'height'];
   function set_attributes(node, attributes) {
     // @ts-ignore
     var descriptors = Object.getOwnPropertyDescriptors(node.__proto__);
@@ -2362,7 +2552,7 @@
         node.style.cssText = attributes[key];
       } else if (key === '__value') {
         node.value = node[key] = attributes[key];
-      } else if (descriptors[key] && descriptors[key].set) {
+      } else if (descriptors[key] && descriptors[key].set && always_set_through_set_attribute.indexOf(key) === -1) {
         node[key] = attributes[key];
       } else {
         attr(node, key, attributes[key]);
@@ -2407,7 +2597,7 @@
   var binding_callbacks = [];
   var render_callbacks = [];
   var flush_callbacks = [];
-  var resolved_promise = Promise.resolve();
+  var resolved_promise = /* @__PURE__ */Promise.resolve();
   var update_scheduled = false;
   function schedule_update() {
     if (!update_scheduled) {
@@ -2439,15 +2629,28 @@
   var seen_callbacks = new Set();
   var flushidx = 0; // Do *not* move this inside the flush() function
   function flush() {
+    // Do not reenter flush while dirty components are updated, as this can
+    // result in an infinite loop. Instead, let the inner flush handle it.
+    // Reentrancy is ok afterwards for bindings etc.
+    if (flushidx !== 0) {
+      return;
+    }
     var saved_component = current_component;
     do {
       // first, call beforeUpdate functions
       // and update components
-      while (flushidx < dirty_components.length) {
-        var component = dirty_components[flushidx];
-        flushidx++;
-        set_current_component(component);
-        update(component.$$);
+      try {
+        while (flushidx < dirty_components.length) {
+          var component = dirty_components[flushidx];
+          flushidx++;
+          set_current_component(component);
+          update(component.$$);
+        }
+      } catch (e) {
+        // reset dirty state to not end up in a deadlocked state and then rethrow
+        dirty_components.length = 0;
+        flushidx = 0;
+        throw e;
       }
       set_current_component(null);
       dirty_components.length = 0;
@@ -2482,6 +2685,20 @@
       $$.fragment && $$.fragment.p($$.ctx, dirty);
       $$.after_update.forEach(add_render_callback);
     }
+  }
+  /**
+   * Useful for example to execute remaining `afterUpdate` callbacks before executing `destroy`.
+   */
+  function flush_render_callbacks(fns) {
+    var filtered = [];
+    var targets = [];
+    render_callbacks.forEach(function (c) {
+      return fns.indexOf(c) === -1 ? filtered.push(c) : targets.push(c);
+    });
+    targets.forEach(function (c) {
+      return c();
+    });
+    render_callbacks = filtered;
   }
   var outroing = new Set();
   var outros;
@@ -2584,6 +2801,7 @@
   function destroy_component(component, detaching) {
     var $$ = component.$$;
     if ($$.fragment !== null) {
+      flush_render_callbacks($$.after_update);
       run_all($$.on_destroy);
       $$.fragment && $$.fragment.d(detaching);
       // TODO null out other refs, including component.$$ (but need to
@@ -2688,7 +2906,7 @@
     };
     return SvelteComponent;
   }();
-  /* src/js/components/shepherd-button.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-button.svelte generated by Svelte v3.59.2 */
   function create_fragment$8(ctx) {
     var button;
     var button_aria_label_value;
@@ -2713,8 +2931,8 @@
           mounted = true;
         }
       },
-      p: function p(new_ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(new_ctx, _ref8) {
+        var dirty = _ref8[0];
         ctx = new_ctx;
         if (dirty & /*text*/32) button.innerHTML = /*text*/ctx[5];
         if (dirty & /*label*/8 && button_aria_label_value !== (button_aria_label_value = /*label*/ctx[3] ? /*label*/ctx[3] : null)) {
@@ -2767,17 +2985,17 @@
   var Shepherd_button = /*#__PURE__*/function (_SvelteComponent) {
     _inheritsLoose(Shepherd_button, _SvelteComponent);
     function Shepherd_button(options) {
-      var _this4;
-      _this4 = _SvelteComponent.call(this) || this;
-      init(_assertThisInitialized(_this4), options, instance$8, create_fragment$8, safe_not_equal, {
+      var _this3;
+      _this3 = _SvelteComponent.call(this) || this;
+      init(_assertThisInitialized(_this3), options, instance$8, create_fragment$8, safe_not_equal, {
         config: 6,
         step: 7
       });
-      return _this4;
+      return _this3;
     }
     return Shepherd_button;
   }(SvelteComponent);
-  /* src/js/components/shepherd-footer.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-footer.svelte generated by Svelte v3.59.2 */
   function get_each_context(ctx, list, i) {
     var child_ctx = ctx.slice();
     child_ctx[2] = list[i];
@@ -2807,7 +3025,9 @@
       },
       m: function m(target, anchor) {
         for (var _i2 = 0; _i2 < each_blocks.length; _i2 += 1) {
-          each_blocks[_i2].m(target, anchor);
+          if (each_blocks[_i2]) {
+            each_blocks[_i2].m(target, anchor);
+          }
         }
         insert(target, each_1_anchor, anchor);
         current = true;
@@ -2909,8 +3129,8 @@
         if (if_block) if_block.m(footer, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref9) {
+        var dirty = _ref9[0];
         if ( /*buttons*/ctx[1]) {
           if (if_block) {
             if_block.p(ctx, dirty);
@@ -2962,16 +3182,16 @@
   var Shepherd_footer = /*#__PURE__*/function (_SvelteComponent2) {
     _inheritsLoose(Shepherd_footer, _SvelteComponent2);
     function Shepherd_footer(options) {
-      var _this5;
-      _this5 = _SvelteComponent2.call(this) || this;
-      init(_assertThisInitialized(_this5), options, instance$7, create_fragment$7, safe_not_equal, {
+      var _this4;
+      _this4 = _SvelteComponent2.call(this) || this;
+      init(_assertThisInitialized(_this4), options, instance$7, create_fragment$7, safe_not_equal, {
         step: 0
       });
-      return _this5;
+      return _this4;
     }
     return Shepherd_footer;
   }(SvelteComponent);
-  /* src/js/components/shepherd-cancel-icon.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-cancel-icon.svelte generated by Svelte v3.59.2 */
   function create_fragment$6(ctx) {
     var button;
     var span;
@@ -2996,8 +3216,8 @@
           mounted = true;
         }
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref10) {
+        var dirty = _ref10[0];
         if (dirty & /*cancelIcon*/1 && button_aria_label_value !== (button_aria_label_value = /*cancelIcon*/ctx[0].label ? /*cancelIcon*/ctx[0].label : 'Close Tour')) {
           attr(button, "aria-label", button_aria_label_value);
         }
@@ -3031,17 +3251,17 @@
   var Shepherd_cancel_icon = /*#__PURE__*/function (_SvelteComponent3) {
     _inheritsLoose(Shepherd_cancel_icon, _SvelteComponent3);
     function Shepherd_cancel_icon(options) {
-      var _this6;
-      _this6 = _SvelteComponent3.call(this) || this;
-      init(_assertThisInitialized(_this6), options, instance$6, create_fragment$6, safe_not_equal, {
+      var _this5;
+      _this5 = _SvelteComponent3.call(this) || this;
+      init(_assertThisInitialized(_this5), options, instance$6, create_fragment$6, safe_not_equal, {
         cancelIcon: 0,
         step: 2
       });
-      return _this6;
+      return _this5;
     }
     return Shepherd_cancel_icon;
   }(SvelteComponent);
-  /* src/js/components/shepherd-title.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-title.svelte generated by Svelte v3.59.2 */
   function create_fragment$5(ctx) {
     var h3;
     return {
@@ -3055,8 +3275,8 @@
         /*h3_binding*/
         ctx[3](h3);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref11) {
+        var dirty = _ref11[0];
         if (dirty & /*labelId*/2) {
           attr(h3, "id", /*labelId*/ctx[1]);
         }
@@ -3096,18 +3316,18 @@
   var Shepherd_title = /*#__PURE__*/function (_SvelteComponent4) {
     _inheritsLoose(Shepherd_title, _SvelteComponent4);
     function Shepherd_title(options) {
-      var _this7;
-      _this7 = _SvelteComponent4.call(this) || this;
-      init(_assertThisInitialized(_this7), options, instance$5, create_fragment$5, safe_not_equal, {
+      var _this6;
+      _this6 = _SvelteComponent4.call(this) || this;
+      init(_assertThisInitialized(_this6), options, instance$5, create_fragment$5, safe_not_equal, {
         labelId: 1,
         element: 0,
         title: 2
       });
-      return _this7;
+      return _this6;
     }
     return Shepherd_title;
   }(SvelteComponent);
-  /* src/js/components/shepherd-header.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-header.svelte generated by Svelte v3.59.2 */
   function create_if_block_1$1(ctx) {
     var shepherdtitle;
     var current;
@@ -3205,8 +3425,8 @@
         if (if_block1) if_block1.m(header, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref12) {
+        var dirty = _ref12[0];
         if ( /*title*/ctx[2]) {
           if (if_block0) {
             if_block0.p(ctx, dirty);
@@ -3285,17 +3505,17 @@
   var Shepherd_header = /*#__PURE__*/function (_SvelteComponent5) {
     _inheritsLoose(Shepherd_header, _SvelteComponent5);
     function Shepherd_header(options) {
-      var _this8;
-      _this8 = _SvelteComponent5.call(this) || this;
-      init(_assertThisInitialized(_this8), options, instance$4, create_fragment$4, safe_not_equal, {
+      var _this7;
+      _this7 = _SvelteComponent5.call(this) || this;
+      init(_assertThisInitialized(_this7), options, instance$4, create_fragment$4, safe_not_equal, {
         labelId: 0,
         step: 1
       });
-      return _this8;
+      return _this7;
     }
     return Shepherd_header;
   }(SvelteComponent);
-  /* src/js/components/shepherd-text.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-text.svelte generated by Svelte v3.59.2 */
   function create_fragment$3(ctx) {
     var div;
     return {
@@ -3309,8 +3529,8 @@
         /*div_binding*/
         ctx[3](div);
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref13) {
+        var dirty = _ref13[0];
         if (dirty & /*descriptionId*/2) {
           attr(div, "id", /*descriptionId*/ctx[1]);
         }
@@ -3355,18 +3575,18 @@
   var Shepherd_text = /*#__PURE__*/function (_SvelteComponent6) {
     _inheritsLoose(Shepherd_text, _SvelteComponent6);
     function Shepherd_text(options) {
-      var _this9;
-      _this9 = _SvelteComponent6.call(this) || this;
-      init(_assertThisInitialized(_this9), options, instance$3, create_fragment$3, safe_not_equal, {
+      var _this8;
+      _this8 = _SvelteComponent6.call(this) || this;
+      init(_assertThisInitialized(_this8), options, instance$3, create_fragment$3, safe_not_equal, {
         descriptionId: 1,
         element: 0,
         step: 2
       });
-      return _this9;
+      return _this8;
     }
     return Shepherd_text;
   }(SvelteComponent);
-  /* src/js/components/shepherd-content.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-content.svelte generated by Svelte v3.59.2 */
   function create_if_block_2(ctx) {
     var shepherdheader;
     var current;
@@ -3510,8 +3730,8 @@
         if (if_block2) if_block2.m(div, null);
         current = true;
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref14) {
+        var dirty = _ref14[0];
         if (dirty & /*step*/4) show_if_2 = !isUndefined( /*step*/ctx[2].options.title) || /*step*/ctx[2].options.cancelIcon && /*step*/ctx[2].options.cancelIcon.enabled;
         if (show_if_2) {
           if (if_block0) {
@@ -3608,18 +3828,18 @@
   var Shepherd_content = /*#__PURE__*/function (_SvelteComponent7) {
     _inheritsLoose(Shepherd_content, _SvelteComponent7);
     function Shepherd_content(options) {
-      var _this10;
-      _this10 = _SvelteComponent7.call(this) || this;
-      init(_assertThisInitialized(_this10), options, instance$2, create_fragment$2, safe_not_equal, {
+      var _this9;
+      _this9 = _SvelteComponent7.call(this) || this;
+      init(_assertThisInitialized(_this9), options, instance$2, create_fragment$2, safe_not_equal, {
         descriptionId: 0,
         labelId: 1,
         step: 2
       });
-      return _this10;
+      return _this9;
     }
     return Shepherd_content;
   }(SvelteComponent);
-  /* src/js/components/shepherd-element.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-element.svelte generated by Svelte v3.59.2 */
   function create_if_block(ctx) {
     var div;
     return {
@@ -3690,8 +3910,8 @@
           mounted = true;
         }
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref15) {
+        var dirty = _ref15[0];
         if ( /*step*/ctx[4].options.arrow && /*step*/ctx[4].options.attachTo && /*step*/ctx[4].options.attachTo.element && /*step*/ctx[4].options.attachTo.on) {
           if (if_block) ;else {
             if_block = create_if_block();
@@ -3831,16 +4051,19 @@
           break;
         case KEY_ESC:
           if (tour.options.exitOnEsc) {
+            e.stopPropagation();
             step.cancel();
           }
           break;
         case LEFT_ARROW:
           if (tour.options.keyboardNavigation) {
+            e.stopPropagation();
             tour.back();
           }
           break;
         case RIGHT_ARROW:
           if (tour.options.keyboardNavigation) {
+            e.stopPropagation();
             tour.next();
           }
           break;
@@ -3876,9 +4099,9 @@
   var Shepherd_element = /*#__PURE__*/function (_SvelteComponent8) {
     _inheritsLoose(Shepherd_element, _SvelteComponent8);
     function Shepherd_element(options) {
-      var _this11;
-      _this11 = _SvelteComponent8.call(this) || this;
-      init(_assertThisInitialized(_this11), options, instance$1, create_fragment$1, safe_not_equal, {
+      var _this10;
+      _this10 = _SvelteComponent8.call(this) || this;
+      init(_assertThisInitialized(_this10), options, instance$1, create_fragment$1, safe_not_equal, {
         classPrefix: 11,
         element: 0,
         descriptionId: 2,
@@ -3890,7 +4113,7 @@
         dataStepId: 1,
         getElement: 12
       });
-      return _this11;
+      return _this10;
     }
     _createClass(Shepherd_element, [{
       key: "getElement",
@@ -3995,14 +4218,14 @@
      * @return {Step} The newly created Step instance
      */
     function Step(tour, options) {
-      var _this12;
+      var _this11;
       if (options === void 0) {
         options = {};
       }
-      _this12 = _Evented.call(this, tour, options) || this;
-      _this12.tour = tour;
-      _this12.classPrefix = _this12.tour.options ? normalizePrefix(_this12.tour.options.classPrefix) : '';
-      _this12.styles = tour.styles;
+      _this11 = _Evented.call(this, tour, options) || this;
+      _this11.tour = tour;
+      _this11.classPrefix = _this11.tour.options ? normalizePrefix(_this11.tour.options.classPrefix) : '';
+      _this11.styles = tour.styles;
 
       /**
        * Resolved attachTo options. Due to lazy evaluation, we only resolve the options during `before-show` phase.
@@ -4010,10 +4233,10 @@
        * @type {null|{}|{element, to}}
        * @private
        */
-      _this12._resolvedAttachTo = null;
-      autoBind(_assertThisInitialized(_this12));
-      _this12._setOptions(options);
-      return _assertThisInitialized(_this12) || _assertThisInitialized(_this12);
+      _this11._resolvedAttachTo = null;
+      autoBind(_assertThisInitialized(_this11));
+      _this11._setOptions(options);
+      return _assertThisInitialized(_this11) || _assertThisInitialized(_this11);
     }
 
     /**
@@ -4105,10 +4328,10 @@
      * @return {*|Promise}
      */;
     _proto3.show = function show() {
-      var _this13 = this;
+      var _this12 = this;
       if (isFunction(this.options.beforeShowPromise)) {
         return Promise.resolve(this.options.beforeShowPromise()).then(function () {
-          return _this13._show();
+          return _this12._show();
         });
       }
       return Promise.resolve(this._show());
@@ -4205,7 +4428,7 @@
      * @private
      */;
     _proto3._setOptions = function _setOptions(options) {
-      var _this14 = this;
+      var _this13 = this;
       if (options === void 0) {
         options = {};
       }
@@ -4220,7 +4443,7 @@
       this.id = this.options.id || "step-" + uuid();
       if (when) {
         Object.keys(when).forEach(function (event) {
-          _this14.on(event, when[event], _this14);
+          _this13.on(event, when[event], _this13);
         });
       }
     }
@@ -4249,7 +4472,7 @@
      * @private
      */;
     _proto3._show = function _show() {
-      var _this15 = this;
+      var _this14 = this;
       this.trigger('before-show');
 
       // Force resolve to make sure the options are updated on subsequent shows.
@@ -4265,7 +4488,7 @@
       // start scrolling to target before showing the step
       if (this.options.scrollTo) {
         setTimeout(function () {
-          _this15._scrollTo(_this15.options.scrollTo);
+          _this14._scrollTo(_this14.options.scrollTo);
         });
       }
       this.el.hidden = false;
@@ -4339,36 +4562,36 @@
    * @param {number | { topLeft: number, topRight: number, bottomRight: number, bottomLeft: number }} [r=0] - Corner Radius. Keep this smaller than half of width or height.
    * @returns {string} - Rounded rectangle overlay path data.
    */
-  function makeOverlayPath(_ref) {
-    var width = _ref.width,
-      height = _ref.height,
-      _ref$x = _ref.x,
-      x = _ref$x === void 0 ? 0 : _ref$x,
-      _ref$y = _ref.y,
-      y = _ref$y === void 0 ? 0 : _ref$y,
-      _ref$r = _ref.r,
-      r = _ref$r === void 0 ? 0 : _ref$r;
+  function makeOverlayPath(_ref16) {
+    var width = _ref16.width,
+      height = _ref16.height,
+      _ref16$x = _ref16.x,
+      x = _ref16$x === void 0 ? 0 : _ref16$x,
+      _ref16$y = _ref16.y,
+      y = _ref16$y === void 0 ? 0 : _ref16$y,
+      _ref16$r = _ref16.r,
+      r = _ref16$r === void 0 ? 0 : _ref16$r;
     var _window = window,
       w = _window.innerWidth,
       h = _window.innerHeight;
-    var _ref7 = typeof r === 'number' ? {
+    var _ref17 = typeof r === 'number' ? {
         topLeft: r,
         topRight: r,
         bottomRight: r,
         bottomLeft: r
       } : r,
-      _ref7$topLeft = _ref7.topLeft,
-      topLeft = _ref7$topLeft === void 0 ? 0 : _ref7$topLeft,
-      _ref7$topRight = _ref7.topRight,
-      topRight = _ref7$topRight === void 0 ? 0 : _ref7$topRight,
-      _ref7$bottomRight = _ref7.bottomRight,
-      bottomRight = _ref7$bottomRight === void 0 ? 0 : _ref7$bottomRight,
-      _ref7$bottomLeft = _ref7.bottomLeft,
-      bottomLeft = _ref7$bottomLeft === void 0 ? 0 : _ref7$bottomLeft;
+      _ref17$topLeft = _ref17.topLeft,
+      topLeft = _ref17$topLeft === void 0 ? 0 : _ref17$topLeft,
+      _ref17$topRight = _ref17.topRight,
+      topRight = _ref17$topRight === void 0 ? 0 : _ref17$topRight,
+      _ref17$bottomRight = _ref17.bottomRight,
+      bottomRight = _ref17$bottomRight === void 0 ? 0 : _ref17$bottomRight,
+      _ref17$bottomLeft = _ref17.bottomLeft,
+      bottomLeft = _ref17$bottomLeft === void 0 ? 0 : _ref17$bottomLeft;
     return "M" + w + "," + h + "H0V0H" + w + "V" + h + "ZM" + (x + topLeft) + "," + y + "a" + topLeft + "," + topLeft + ",0,0,0-" + topLeft + "," + topLeft + "V" + (height + y - bottomLeft) + "a" + bottomLeft + "," + bottomLeft + ",0,0,0," + bottomLeft + "," + bottomLeft + "H" + (width + x - bottomRight) + "a" + bottomRight + "," + bottomRight + ",0,0,0," + bottomRight + "-" + bottomRight + "V" + (y + topRight) + "a" + topRight + "," + topRight + ",0,0,0-" + topRight + "-" + topRight + "Z";
   }
 
-  /* src/js/components/shepherd-modal.svelte generated by Svelte v3.54.0 */
+  /* src/js/components/shepherd-modal.svelte generated by Svelte v3.59.2 */
   function create_fragment(ctx) {
     var svg;
     var path;
@@ -4392,8 +4615,8 @@
           mounted = true;
         }
       },
-      p: function p(ctx, _ref) {
-        var dirty = _ref[0];
+      p: function p(ctx, _ref18) {
+        var dirty = _ref18[0];
         if (dirty & /*pathDefinition*/4) {
           attr(path, "d", /*pathDefinition*/ctx[2]);
         }
@@ -4590,9 +4813,9 @@
   var Shepherd_modal = /*#__PURE__*/function (_SvelteComponent9) {
     _inheritsLoose(Shepherd_modal, _SvelteComponent9);
     function Shepherd_modal(options) {
-      var _this16;
-      _this16 = _SvelteComponent9.call(this) || this;
-      init(_assertThisInitialized(_this16), options, instance, create_fragment, safe_not_equal, {
+      var _this15;
+      _this15 = _SvelteComponent9.call(this) || this;
+      init(_assertThisInitialized(_this15), options, instance, create_fragment, safe_not_equal, {
         element: 0,
         openingProperties: 4,
         getElement: 5,
@@ -4602,7 +4825,7 @@
         setupForStep: 9,
         show: 10
       });
-      return _this16;
+      return _this15;
     }
     _createClass(Shepherd_modal, [{
       key: "getElement",
@@ -4647,8 +4870,9 @@
     _inheritsLoose(Tour, _Evented2);
     /**
      * @param {Object} options The options for the tour
-     * @param {boolean} options.confirmCancel If true, will issue a `window.confirm` before cancelling
-     * @param {string} options.confirmCancelMessage The message to display in the confirm dialog
+     * @param {boolean | function(): boolean | Promise<boolean> | function(): Promise<boolean>} options.confirmCancel If true, will issue a `window.confirm` before cancelling.
+     * If it is a function(support Async Function), it will be called and wait for the return value, and will only be cancelled if the value returned is true
+     * @param {string} options.confirmCancelMessage The message to display in the `window.confirm` dialog
      * @param {string} options.classPrefix The prefix to add to the `shepherd-enabled` and `shepherd-target` class names as well as the `data-shepherd-step-id`.
      * @param {Object} options.defaultStepOptions Default options for Steps ({@link Step#constructor}), created through `addStep`
      * @param {boolean} options.exitOnEsc Exiting the tour with the escape key will be enabled unless this is explicitly
@@ -4668,34 +4892,34 @@
      * @returns {Tour}
      */
     function Tour(options) {
-      var _this17;
+      var _this16;
       if (options === void 0) {
         options = {};
       }
-      _this17 = _Evented2.call(this, options) || this;
-      autoBind(_assertThisInitialized(_this17));
+      _this16 = _Evented2.call(this, options) || this;
+      autoBind(_assertThisInitialized(_this16));
       var defaultTourOptions = {
         exitOnEsc: true,
         keyboardNavigation: true
       };
-      _this17.options = Object.assign({}, defaultTourOptions, options);
-      _this17.classPrefix = normalizePrefix(_this17.options.classPrefix);
-      _this17.steps = [];
-      _this17.addSteps(_this17.options.steps);
+      _this16.options = Object.assign({}, defaultTourOptions, options);
+      _this16.classPrefix = normalizePrefix(_this16.options.classPrefix);
+      _this16.steps = [];
+      _this16.addSteps(_this16.options.steps);
 
       // Pass these events onto the global Shepherd object
       var events = ['active', 'cancel', 'complete', 'inactive', 'show', 'start'];
       events.map(function (event) {
         (function (e) {
-          _this17.on(e, function (opts) {
+          _this16.on(e, function (opts) {
             opts = opts || {};
-            opts.tour = _assertThisInitialized(_this17);
+            opts.tour = _assertThisInitialized(_this16);
             Shepherd.trigger(e, opts);
           });
         })(event);
       });
-      _this17._setTourID();
-      return _assertThisInitialized(_this17) || _assertThisInitialized(_this17);
+      _this16._setTourID();
+      return _assertThisInitialized(_this16) || _assertThisInitialized(_this16);
     }
 
     /**
@@ -4726,10 +4950,10 @@
      * @param {Array<object> | Array<Step>} steps The steps to add to the tour
      */;
     _proto4.addSteps = function addSteps(steps) {
-      var _this18 = this;
+      var _this17 = this;
       if (Array.isArray(steps)) {
         steps.forEach(function (step) {
-          _this18.addStep(step);
+          _this17.addStep(step);
         });
       }
       return this;
@@ -4746,22 +4970,59 @@
     /**
      * Calls _done() triggering the 'cancel' event
      * If `confirmCancel` is true, will show a window.confirm before cancelling
+     * If `confirmCancel` is a function, will call it and wait for the return value,
+     * and only cancel when the value returned is true
      */;
-    _proto4.cancel = function cancel() {
-      if (this.options.confirmCancel) {
-        var cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
-        var stopTour = window.confirm(cancelMessage);
-        if (stopTour) {
-          this._done('cancel');
-        }
-      } else {
-        this._done('cancel');
+    _proto4.cancel =
+    /*#__PURE__*/
+    function () {
+      var _cancel = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var confirmCancelIsFunction, cancelMessage, stopTour;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) switch (_context6.prev = _context6.next) {
+            case 0:
+              if (!this.options.confirmCancel) {
+                _context6.next = 14;
+                break;
+              }
+              confirmCancelIsFunction = typeof this.options.confirmCancel === 'function';
+              cancelMessage = this.options.confirmCancelMessage || 'Are you sure you want to stop the tour?';
+              if (!confirmCancelIsFunction) {
+                _context6.next = 9;
+                break;
+              }
+              _context6.next = 6;
+              return this.options.confirmCancel();
+            case 6:
+              _context6.t0 = _context6.sent;
+              _context6.next = 10;
+              break;
+            case 9:
+              _context6.t0 = window.confirm(cancelMessage);
+            case 10:
+              stopTour = _context6.t0;
+              if (stopTour) {
+                this._done('cancel');
+              }
+              _context6.next = 15;
+              break;
+            case 14:
+              this._done('cancel');
+            case 15:
+            case "end":
+              return _context6.stop();
+          }
+        }, _callee6, this);
+      }));
+      function cancel() {
+        return _cancel.apply(this, arguments);
       }
-    }
-
+      return cancel;
+    }()
     /**
      * Calls _done() triggering the `complete` event
-     */;
+     */
+    ;
     _proto4.complete = function complete() {
       this._done('complete');
     }
@@ -4821,7 +5082,7 @@
      * @param {String} name The id for the step to remove
      */;
     _proto4.removeStep = function removeStep(name) {
-      var _this19 = this;
+      var _this18 = this;
       var current = this.getCurrentStep();
 
       // Find the step, destroy it and remove it from this.steps
@@ -4831,7 +5092,7 @@
             step.hide();
           }
           step.destroy();
-          _this19.steps.splice(i, 1);
+          _this18.steps.splice(i, 1);
           return true;
         }
       });

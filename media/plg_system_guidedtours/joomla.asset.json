@@ -24,13 +24,13 @@
       "attributes": {
         "type": "module"
       },
-      "version": "fe26a471a8edef2bf2e840dd95fed8cc45760cd1"
+      "version": "ac62881ddc394f64cb430d18402407597dd2222c"
     },
     {
       "name": "plg_system_guidedtours.guidedtours",
       "type": "style",
       "uri": "plg_system_guidedtours/guidedtours.min.css",
-      "version": "52e8ac98828729e1ef72655e116216ef5cd19762"
+      "version": "f65a3e6a47bdd400930b8b33774888d10721893c"
     },
     {
       "name": "plg_system_guidedtours.guidedtours.es5",
@@ -43,7 +43,7 @@
         "nomodule": true,
         "defer": true
       },
-      "version": "05be9531fb00fbfe0c6364acd7fbeae67851c14c"
+      "version": "164ab86924edb6d94f53121ba968e855831187f1"
     }
   ]
 }

@@ -3,304 +3,304 @@ var JoomlaMediaManager = (function () {
 
   function _regeneratorRuntime() {
     _regeneratorRuntime = function () {
-      return exports;
+      return e;
     };
-    var exports = {},
-      Op = Object.prototype,
-      hasOwn = Op.hasOwnProperty,
-      defineProperty = Object.defineProperty || function (obj, key, desc) {
-        obj[key] = desc.value;
+    var t,
+      e = {},
+      r = Object.prototype,
+      n = r.hasOwnProperty,
+      o = Object.defineProperty || function (t, e, r) {
+        t[e] = r.value;
       },
-      $Symbol = "function" == typeof Symbol ? Symbol : {},
-      iteratorSymbol = $Symbol.iterator || "@@iterator",
-      asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator",
-      toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-    function define(obj, key, value) {
-      return Object.defineProperty(obj, key, {
-        value: value,
+      i = "function" == typeof Symbol ? Symbol : {},
+      a = i.iterator || "@@iterator",
+      c = i.asyncIterator || "@@asyncIterator",
+      u = i.toStringTag || "@@toStringTag";
+    function define(t, e, r) {
+      return Object.defineProperty(t, e, {
+        value: r,
         enumerable: !0,
         configurable: !0,
         writable: !0
-      }), obj[key];
+      }), t[e];
     }
     try {
       define({}, "");
-    } catch (err) {
-      define = function (obj, key, value) {
-        return obj[key] = value;
+    } catch (t) {
+      define = function (t, e, r) {
+        return t[e] = r;
       };
     }
-    function wrap(innerFn, outerFn, self, tryLocsList) {
-      var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator,
-        generator = Object.create(protoGenerator.prototype),
-        context = new Context(tryLocsList || []);
-      return defineProperty(generator, "_invoke", {
-        value: makeInvokeMethod(innerFn, self, context)
-      }), generator;
+    function wrap(t, e, r, n) {
+      var i = e && e.prototype instanceof Generator ? e : Generator,
+        a = Object.create(i.prototype),
+        c = new Context(n || []);
+      return o(a, "_invoke", {
+        value: makeInvokeMethod(t, r, c)
+      }), a;
     }
-    function tryCatch(fn, obj, arg) {
+    function tryCatch(t, e, r) {
       try {
         return {
           type: "normal",
-          arg: fn.call(obj, arg)
+          arg: t.call(e, r)
         };
-      } catch (err) {
+      } catch (t) {
         return {
           type: "throw",
-          arg: err
+          arg: t
         };
       }
     }
-    exports.wrap = wrap;
-    var ContinueSentinel = {};
+    e.wrap = wrap;
+    var h = "suspendedStart",
+      l = "suspendedYield",
+      f = "executing",
+      s = "completed",
+      y = {};
     function Generator() {}
     function GeneratorFunction() {}
     function GeneratorFunctionPrototype() {}
-    var IteratorPrototype = {};
-    define(IteratorPrototype, iteratorSymbol, function () {
+    var p = {};
+    define(p, a, function () {
       return this;
     });
-    var getProto = Object.getPrototypeOf,
-      NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-    NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-    var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-    function defineIteratorMethods(prototype) {
-      ["next", "throw", "return"].forEach(function (method) {
-        define(prototype, method, function (arg) {
-          return this._invoke(method, arg);
+    var d = Object.getPrototypeOf,
+      v = d && d(d(values([])));
+    v && v !== r && n.call(v, a) && (p = v);
+    var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p);
+    function defineIteratorMethods(t) {
+      ["next", "throw", "return"].forEach(function (e) {
+        define(t, e, function (t) {
+          return this._invoke(e, t);
         });
       });
     }
-    function AsyncIterator(generator, PromiseImpl) {
-      function invoke(method, arg, resolve, reject) {
-        var record = tryCatch(generator[method], generator, arg);
-        if ("throw" !== record.type) {
-          var result = record.arg,
-            value = result.value;
-          return value && "object" == typeof value && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) {
-            invoke("next", value, resolve, reject);
-          }, function (err) {
-            invoke("throw", err, resolve, reject);
-          }) : PromiseImpl.resolve(value).then(function (unwrapped) {
-            result.value = unwrapped, resolve(result);
-          }, function (error) {
-            return invoke("throw", error, resolve, reject);
+    function AsyncIterator(t, e) {
+      function invoke(r, o, i, a) {
+        var c = tryCatch(t[r], t, o);
+        if ("throw" !== c.type) {
+          var u = c.arg,
+            h = u.value;
+          return h && "object" == typeof h && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) {
+            invoke("next", t, i, a);
+          }, function (t) {
+            invoke("throw", t, i, a);
+          }) : e.resolve(h).then(function (t) {
+            u.value = t, i(u);
+          }, function (t) {
+            return invoke("throw", t, i, a);
           });
         }
-        reject(record.arg);
+        a(c.arg);
       }
-      var previousPromise;
-      defineProperty(this, "_invoke", {
-        value: function (method, arg) {
+      var r;
+      o(this, "_invoke", {
+        value: function (t, n) {
           function callInvokeWithMethodAndArg() {
-            return new PromiseImpl(function (resolve, reject) {
-              invoke(method, arg, resolve, reject);
+            return new e(function (e, r) {
+              invoke(t, n, e, r);
             });
           }
-          return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+          return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
         }
       });
     }
-    function makeInvokeMethod(innerFn, self, context) {
-      var state = "suspendedStart";
-      return function (method, arg) {
-        if ("executing" === state) throw new Error("Generator is already running");
-        if ("completed" === state) {
-          if ("throw" === method) throw arg;
-          return doneResult();
+    function makeInvokeMethod(e, r, n) {
+      var o = h;
+      return function (i, a) {
+        if (o === f) throw new Error("Generator is already running");
+        if (o === s) {
+          if ("throw" === i) throw a;
+          return {
+            value: t,
+            done: !0
+          };
         }
-        for (context.method = method, context.arg = arg;;) {
-          var delegate = context.delegate;
-          if (delegate) {
-            var delegateResult = maybeInvokeDelegate(delegate, context);
-            if (delegateResult) {
-              if (delegateResult === ContinueSentinel) continue;
-              return delegateResult;
+        for (n.method = i, n.arg = a;;) {
+          var c = n.delegate;
+          if (c) {
+            var u = maybeInvokeDelegate(c, n);
+            if (u) {
+              if (u === y) continue;
+              return u;
             }
           }
-          if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) {
-            if ("suspendedStart" === state) throw state = "completed", context.arg;
-            context.dispatchException(context.arg);
-          } else "return" === context.method && context.abrupt("return", context.arg);
-          state = "executing";
-          var record = tryCatch(innerFn, self, context);
-          if ("normal" === record.type) {
-            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+          if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) {
+            if (o === h) throw o = s, n.arg;
+            n.dispatchException(n.arg);
+          } else "return" === n.method && n.abrupt("return", n.arg);
+          o = f;
+          var p = tryCatch(e, r, n);
+          if ("normal" === p.type) {
+            if (o = n.done ? s : l, p.arg === y) continue;
             return {
-              value: record.arg,
-              done: context.done
+              value: p.arg,
+              done: n.done
             };
           }
-          "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+          "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg);
         }
       };
     }
-    function maybeInvokeDelegate(delegate, context) {
-      var methodName = context.method,
-        method = delegate.iterator[methodName];
-      if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel;
-      var record = tryCatch(method, delegate.iterator, context.arg);
-      if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
-      var info = record.arg;
-      return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+    function maybeInvokeDelegate(e, r) {
+      var n = r.method,
+        o = e.iterator[n];
+      if (o === t) return r.delegate = null, "throw" === n && e.iterator.return && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
+      var i = tryCatch(o, e.iterator, r.arg);
+      if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y;
+      var a = i.arg;
+      return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y);
     }
-    function pushTryEntry(locs) {
-      var entry = {
-        tryLoc: locs[0]
+    function pushTryEntry(t) {
+      var e = {
+        tryLoc: t[0]
       };
-      1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry);
+      1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e);
     }
-    function resetTryEntry(entry) {
-      var record = entry.completion || {};
-      record.type = "normal", delete record.arg, entry.completion = record;
+    function resetTryEntry(t) {
+      var e = t.completion || {};
+      e.type = "normal", delete e.arg, t.completion = e;
     }
-    function Context(tryLocsList) {
+    function Context(t) {
       this.tryEntries = [{
         tryLoc: "root"
-      }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
+      }], t.forEach(pushTryEntry, this), this.reset(!0);
     }
-    function values(iterable) {
-      if (iterable) {
-        var iteratorMethod = iterable[iteratorSymbol];
-        if (iteratorMethod) return iteratorMethod.call(iterable);
-        if ("function" == typeof iterable.next) return iterable;
-        if (!isNaN(iterable.length)) {
-          var i = -1,
-            next = function next() {
-              for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-              return next.value = undefined, next.done = !0, next;
+    function values(e) {
+      if (e || "" === e) {
+        var r = e[a];
+        if (r) return r.call(e);
+        if ("function" == typeof e.next) return e;
+        if (!isNaN(e.length)) {
+          var o = -1,
+            i = function next() {
+              for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next;
+              return next.value = t, next.done = !0, next;
             };
-          return next.next = next;
+          return i.next = i;
         }
       }
-      return {
-        next: doneResult
-      };
+      throw new TypeError(typeof e + " is not iterable");
     }
-    function doneResult() {
-      return {
-        value: undefined,
-        done: !0
-      };
-    }
-    return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+    return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", {
       value: GeneratorFunctionPrototype,
       configurable: !0
-    }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+    }), o(GeneratorFunctionPrototype, "constructor", {
       value: GeneratorFunction,
       configurable: !0
-    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) {
-      var ctor = "function" == typeof genFun && genFun.constructor;
-      return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-    }, exports.mark = function (genFun) {
-      return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun;
-    }, exports.awrap = function (arg) {
+    }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) {
+      var e = "function" == typeof t && t.constructor;
+      return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
+    }, e.mark = function (t) {
+      return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
+    }, e.awrap = function (t) {
       return {
-        __await: arg
+        __await: t
       };
-    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+    }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () {
       return this;
-    }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-      void 0 === PromiseImpl && (PromiseImpl = Promise);
-      var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-      return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) {
-        return result.done ? result.value : iter.next();
+    }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) {
+      void 0 === i && (i = Promise);
+      var a = new AsyncIterator(wrap(t, r, n, o), i);
+      return e.isGeneratorFunction(r) ? a : a.next().then(function (t) {
+        return t.done ? t.value : a.next();
       });
-    }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () {
+    }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () {
       return this;
-    }), define(Gp, "toString", function () {
+    }), define(g, "toString", function () {
       return "[object Generator]";
-    }), exports.keys = function (val) {
-      var object = Object(val),
-        keys = [];
-      for (var key in object) keys.push(key);
-      return keys.reverse(), function next() {
-        for (; keys.length;) {
-          var key = keys.pop();
-          if (key in object) return next.value = key, next.done = !1, next;
+    }), e.keys = function (t) {
+      var e = Object(t),
+        r = [];
+      for (var n in e) r.push(n);
+      return r.reverse(), function next() {
+        for (; r.length;) {
+          var t = r.pop();
+          if (t in e) return next.value = t, next.done = !1, next;
         }
         return next.done = !0, next;
       };
-    }, exports.values = values, Context.prototype = {
+    }, e.values = values, Context.prototype = {
       constructor: Context,
-      reset: function (skipTempReset) {
-        if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+      reset: function (e) {
+        if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
       },
       stop: function () {
         this.done = !0;
-        var rootRecord = this.tryEntries[0].completion;
-        if ("throw" === rootRecord.type) throw rootRecord.arg;
+        var t = this.tryEntries[0].completion;
+        if ("throw" === t.type) throw t.arg;
         return this.rval;
       },
-      dispatchException: function (exception) {
-        if (this.done) throw exception;
-        var context = this;
-        function handle(loc, caught) {
-          return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught;
+      dispatchException: function (e) {
+        if (this.done) throw e;
+        var r = this;
+        function handle(n, o) {
+          return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o;
         }
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i],
-            record = entry.completion;
-          if ("root" === entry.tryLoc) return handle("end");
-          if (entry.tryLoc <= this.prev) {
-            var hasCatch = hasOwn.call(entry, "catchLoc"),
-              hasFinally = hasOwn.call(entry, "finallyLoc");
-            if (hasCatch && hasFinally) {
-              if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-              if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-            } else if (hasCatch) {
-              if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
+        for (var o = this.tryEntries.length - 1; o >= 0; --o) {
+          var i = this.tryEntries[o],
+            a = i.completion;
+          if ("root" === i.tryLoc) return handle("end");
+          if (i.tryLoc <= this.prev) {
+            var c = n.call(i, "catchLoc"),
+              u = n.call(i, "finallyLoc");
+            if (c && u) {
+              if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
+              if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
+            } else if (c) {
+              if (this.prev < i.catchLoc) return handle(i.catchLoc, !0);
             } else {
-              if (!hasFinally) throw new Error("try statement without catch or finally");
-              if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
+              if (!u) throw new Error("try statement without catch or finally");
+              if (this.prev < i.finallyLoc) return handle(i.finallyLoc);
             }
           }
         }
       },
-      abrupt: function (type, arg) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-            var finallyEntry = entry;
+      abrupt: function (t, e) {
+        for (var r = this.tryEntries.length - 1; r >= 0; --r) {
+          var o = this.tryEntries[r];
+          if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) {
+            var i = o;
             break;
           }
         }
-        finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-        var record = finallyEntry ? finallyEntry.completion : {};
-        return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
+        i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
+        var a = i ? i.completion : {};
+        return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a);
       },
-      complete: function (record, afterLoc) {
-        if ("throw" === record.type) throw record.arg;
-        return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel;
+      complete: function (t, e) {
+        if ("throw" === t.type) throw t.arg;
+        return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y;
       },
-      finish: function (finallyLoc) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel;
+      finish: function (t) {
+        for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+          var r = this.tryEntries[e];
+          if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y;
         }
       },
-      catch: function (tryLoc) {
-        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-          var entry = this.tryEntries[i];
-          if (entry.tryLoc === tryLoc) {
-            var record = entry.completion;
-            if ("throw" === record.type) {
-              var thrown = record.arg;
-              resetTryEntry(entry);
+      catch: function (t) {
+        for (var e = this.tryEntries.length - 1; e >= 0; --e) {
+          var r = this.tryEntries[e];
+          if (r.tryLoc === t) {
+            var n = r.completion;
+            if ("throw" === n.type) {
+              var o = n.arg;
+              resetTryEntry(r);
             }
-            return thrown;
+            return o;
           }
         }
         throw new Error("illegal catch attempt");
       },
-      delegateYield: function (iterable, resultName, nextLoc) {
+      delegateYield: function (e, r, n) {
         return this.delegate = {
-          iterator: values(iterable),
-          resultName: resultName,
-          nextLoc: nextLoc
-        }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
+          iterator: values(e),
+          resultName: r,
+          nextLoc: n
+        }, "next" === this.method && (this.arg = t), y;
       }
-    }, exports;
+    }, e;
   }
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
@@ -398,11 +398,11 @@ var JoomlaMediaManager = (function () {
   var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
   var check = function (it) {
-    return it && it.Math == Math && it;
+    return it && it.Math === Math && it;
   };
 
   // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-  var global$u =
+  var global$w =
     // eslint-disable-next-line es/no-global-this -- safe
     check(typeof globalThis == 'object' && globalThis) ||
     check(typeof window == 'object' && window) ||
@@ -410,11 +410,11 @@ var JoomlaMediaManager = (function () {
     check(typeof self == 'object' && self) ||
     check(typeof commonjsGlobal == 'object' && commonjsGlobal) ||
     // eslint-disable-next-line no-new-func -- fallback
-    (function () { return this; })() || Function('return this')();
+    (function () { return this; })() || commonjsGlobal || Function('return this')();
 
   var objectGetOwnPropertyDescriptor = {};
 
-  var fails$I = function (exec) {
+  var fails$J = function (exec) {
     try {
       return !!exec();
     } catch (error) {
@@ -422,17 +422,17 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var fails$H = fails$I;
+  var fails$I = fails$J;
 
   // Detect IE8's incomplete defineProperty implementation
-  var descriptors = !fails$H(function () {
+  var descriptors = !fails$I(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
-    return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] != 7;
+    return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] !== 7;
   });
 
-  var fails$G = fails$I;
+  var fails$H = fails$J;
 
-  var functionBindNative = !fails$G(function () {
+  var functionBindNative = !fails$H(function () {
     // eslint-disable-next-line es/no-function-prototype-bind -- safe
     var test = (function () { /* empty */ }).bind();
     // eslint-disable-next-line no-prototype-builtins -- safe
@@ -494,19 +494,19 @@ var JoomlaMediaManager = (function () {
   };
 
   var uncurryThis$H = functionUncurryThis;
-  var fails$F = fails$I;
+  var fails$G = fails$J;
   var classof$d = classofRaw$2;
 
   var $Object$5 = Object;
   var split$3 = uncurryThis$H(''.split);
 
   // fallback for non-array-like ES3 and non-enumerable old V8 strings
-  var indexedObject = fails$F(function () {
+  var indexedObject = fails$G(function () {
     // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
     // eslint-disable-next-line no-prototype-builtins -- safe
     return !$Object$5('z').propertyIsEnumerable(0);
   }) ? function (it) {
-    return classof$d(it) == 'String' ? split$3(it, '') : $Object$5(it);
+    return classof$d(it) === 'String' ? split$3(it, '') : $Object$5(it);
   } : $Object$5;
 
   // we can't use just `it == null` since of `document.all` special case
@@ -568,7 +568,7 @@ var JoomlaMediaManager = (function () {
     return typeof it == 'object' ? it !== null : isCallable$s(it);
   };
 
-  var global$t = global$u;
+  var global$v = global$w;
   var isCallable$r = isCallable$t;
 
   var aFunction = function (argument) {
@@ -576,7 +576,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var getBuiltIn$a = function (namespace, method) {
-    return arguments.length < 2 ? aFunction(global$t[namespace]) : global$t[namespace] && global$t[namespace][method];
+    return arguments.length < 2 ? aFunction(global$v[namespace]) : global$v[namespace] && global$v[namespace][method];
   };
 
   var uncurryThis$G = functionUncurryThis;
@@ -585,12 +585,12 @@ var JoomlaMediaManager = (function () {
 
   var engineUserAgent = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
 
-  var global$s = global$u;
+  var global$u = global$w;
   var userAgent$5 = engineUserAgent;
 
-  var process$4 = global$s.process;
-  var Deno$1 = global$s.Deno;
-  var versions = process$4 && process$4.versions || Deno$1 && Deno$1.version;
+  var process$3 = global$u.process;
+  var Deno$1 = global$u.Deno;
+  var versions = process$3 && process$3.versions || Deno$1 && Deno$1.version;
   var v8 = versions && versions.v8;
   var match, version$1;
 
@@ -614,22 +614,25 @@ var JoomlaMediaManager = (function () {
   var engineV8Version = version$1;
 
   /* eslint-disable es/no-symbol -- required for testing */
-
   var V8_VERSION$3 = engineV8Version;
-  var fails$E = fails$I;
+  var fails$F = fails$J;
+  var global$t = global$w;
+
+  var $String$7 = global$t.String;
 
   // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
-  var symbolConstructorDetection = !!Object.getOwnPropertySymbols && !fails$E(function () {
-    var symbol = Symbol();
+  var symbolConstructorDetection = !!Object.getOwnPropertySymbols && !fails$F(function () {
+    var symbol = Symbol('symbol detection');
     // Chrome 38 Symbol has incorrect toString conversion
     // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
-    return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
+    // nb: Do not call `String` directly to avoid this being optimized out to `symbol+''` which will,
+    // of course, fail.
+    return !$String$7(symbol) || !(Object(symbol) instanceof Symbol) ||
       // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
       !Symbol.sham && V8_VERSION$3 && V8_VERSION$3 < 41;
   });
 
   /* eslint-disable es/no-symbol -- required for testing */
-
   var NATIVE_SYMBOL$6 = symbolConstructorDetection;
 
   var useSymbolAsUid = NATIVE_SYMBOL$6
@@ -701,24 +704,24 @@ var JoomlaMediaManager = (function () {
 
   var isPure = false;
 
-  var global$r = global$u;
+  var global$s = global$w;
 
   // eslint-disable-next-line es/no-object-defineproperty -- safe
   var defineProperty$9 = Object.defineProperty;
 
   var defineGlobalProperty$3 = function (key, value) {
     try {
-      defineProperty$9(global$r, key, { value: value, configurable: true, writable: true });
+      defineProperty$9(global$s, key, { value: value, configurable: true, writable: true });
     } catch (error) {
-      global$r[key] = value;
+      global$s[key] = value;
     } return value;
   };
 
-  var global$q = global$u;
+  var global$r = global$w;
   var defineGlobalProperty$2 = defineGlobalProperty$3;
 
   var SHARED = '__core-js_shared__';
-  var store$4 = global$q[SHARED] || defineGlobalProperty$2(SHARED, {});
+  var store$4 = global$r[SHARED] || defineGlobalProperty$2(SHARED, {});
 
   var sharedStore = store$4;
 
@@ -727,10 +730,10 @@ var JoomlaMediaManager = (function () {
   (shared$7.exports = function (key, value) {
     return store$3[key] || (store$3[key] = value !== undefined ? value : {});
   })('versions', []).push({
-    version: '3.29.0',
+    version: '3.32.2',
     mode: 'global',
     copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
-    license: 'https://github.com/zloirock/core-js/blob/v3.29.0/LICENSE',
+    license: 'https://github.com/zloirock/core-js/blob/v3.32.2/LICENSE',
     source: 'https://github.com/zloirock/core-js'
   });
 
@@ -766,14 +769,14 @@ var JoomlaMediaManager = (function () {
     return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString$k(++id$2 + postfix, 36);
   };
 
-  var global$p = global$u;
+  var global$q = global$w;
   var shared$6 = shared$7.exports;
   var hasOwn$n = hasOwnProperty_1;
   var uid$5 = uid$6;
   var NATIVE_SYMBOL$5 = symbolConstructorDetection;
   var USE_SYMBOL_AS_UID = useSymbolAsUid;
 
-  var Symbol$1 = global$p.Symbol;
+  var Symbol$1 = global$q.Symbol;
   var WellKnownSymbolsStore$1 = shared$6('wks');
   var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol$1['for'] || Symbol$1 : Symbol$1 && Symbol$1.withoutSetter || uid$5;
 
@@ -821,10 +824,10 @@ var JoomlaMediaManager = (function () {
     return isSymbol$4(key) ? key : key + '';
   };
 
-  var global$o = global$u;
+  var global$p = global$w;
   var isObject$n = isObject$q;
 
-  var document$3 = global$o.document;
+  var document$3 = global$p.document;
   // typeof document.createElement is 'object' in old IE
   var EXISTS$1 = isObject$n(document$3) && isObject$n(document$3.createElement);
 
@@ -833,15 +836,15 @@ var JoomlaMediaManager = (function () {
   };
 
   var DESCRIPTORS$l = descriptors;
-  var fails$D = fails$I;
+  var fails$E = fails$J;
   var createElement$1 = documentCreateElement$2;
 
   // Thanks to IE8 for its funny defineProperty
-  var ie8DomDefine = !DESCRIPTORS$l && !fails$D(function () {
+  var ie8DomDefine = !DESCRIPTORS$l && !fails$E(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(createElement$1('div'), 'a', {
       get: function () { return 7; }
-    }).a != 7;
+    }).a !== 7;
   });
 
   var DESCRIPTORS$k = descriptors;
@@ -870,16 +873,16 @@ var JoomlaMediaManager = (function () {
   var objectDefineProperty = {};
 
   var DESCRIPTORS$j = descriptors;
-  var fails$C = fails$I;
+  var fails$D = fails$J;
 
   // V8 ~ Chrome 36-
   // https://bugs.chromium.org/p/v8/issues/detail?id=3334
-  var v8PrototypeDefineBug = DESCRIPTORS$j && fails$C(function () {
+  var v8PrototypeDefineBug = DESCRIPTORS$j && fails$D(function () {
     // eslint-disable-next-line es/no-object-defineproperty -- required for testing
     return Object.defineProperty(function () { /* empty */ }, 'prototype', {
       value: 42,
       writable: false
-    }).prototype != 42;
+    }).prototype !== 42;
   });
 
   var isObject$m = isObject$q;
@@ -983,10 +986,10 @@ var JoomlaMediaManager = (function () {
 
   var inspectSource$3 = store$2.inspectSource;
 
-  var global$n = global$u;
+  var global$o = global$w;
   var isCallable$m = isCallable$t;
 
-  var WeakMap$2 = global$n.WeakMap;
+  var WeakMap$2 = global$o.WeakMap;
 
   var weakMapBasicDetection = isCallable$m(WeakMap$2) && /native code/.test(String(WeakMap$2));
 
@@ -1002,7 +1005,7 @@ var JoomlaMediaManager = (function () {
   var hiddenKeys$6 = {};
 
   var NATIVE_WEAK_MAP$1 = weakMapBasicDetection;
-  var global$m = global$u;
+  var global$n = global$w;
   var isObject$l = isObject$q;
   var createNonEnumerableProperty$5 = createNonEnumerableProperty$6;
   var hasOwn$k = hasOwnProperty_1;
@@ -1011,8 +1014,8 @@ var JoomlaMediaManager = (function () {
   var hiddenKeys$5 = hiddenKeys$6;
 
   var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
-  var TypeError$6 = global$m.TypeError;
-  var WeakMap$1 = global$m.WeakMap;
+  var TypeError$6 = global$n.TypeError;
+  var WeakMap$1 = global$n.WeakMap;
   var set$5, get$3, has$2;
 
   var enforce = function (it) {
@@ -1073,7 +1076,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var uncurryThis$C = functionUncurryThis;
-  var fails$B = fails$I;
+  var fails$C = fails$J;
   var isCallable$l = isCallable$t;
   var hasOwn$j = hasOwnProperty_1;
   var DESCRIPTORS$f = descriptors;
@@ -1090,7 +1093,7 @@ var JoomlaMediaManager = (function () {
   var replace$9 = uncurryThis$C(''.replace);
   var join$3 = uncurryThis$C([].join);
 
-  var CONFIGURABLE_LENGTH = DESCRIPTORS$f && !fails$B(function () {
+  var CONFIGURABLE_LENGTH = DESCRIPTORS$f && !fails$C(function () {
     return defineProperty$8(function () { /* empty */ }, 'length', { value: 8 }).length !== 8;
   });
 
@@ -1222,10 +1225,10 @@ var JoomlaMediaManager = (function () {
       var value;
       // Array#includes uses SameValueZero equality algorithm
       // eslint-disable-next-line no-self-compare -- NaN check
-      if (IS_INCLUDES && el != el) while (length > index) {
+      if (IS_INCLUDES && el !== el) while (length > index) {
         value = O[index++];
         // eslint-disable-next-line no-self-compare -- NaN check
-        if (value != value) return true;
+        if (value !== value) return true;
       // Array#indexOf ignores holes, Array#includes - not
       } else for (;length > index; index++) {
         if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
@@ -1323,16 +1326,16 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var fails$A = fails$I;
+  var fails$B = fails$J;
   var isCallable$j = isCallable$t;
 
   var replacement = /#|\.prototype\./;
 
   var isForced$4 = function (feature, detection) {
     var value = data[normalize(feature)];
-    return value == POLYFILL ? true
-      : value == NATIVE ? false
-      : isCallable$j(detection) ? fails$A(detection)
+    return value === POLYFILL ? true
+      : value === NATIVE ? false
+      : isCallable$j(detection) ? fails$B(detection)
       : !!detection;
   };
 
@@ -1346,7 +1349,7 @@ var JoomlaMediaManager = (function () {
 
   var isForced_1 = isForced$4;
 
-  var global$l = global$u;
+  var global$m = global$w;
   var getOwnPropertyDescriptor$7 = objectGetOwnPropertyDescriptor.f;
   var createNonEnumerableProperty$4 = createNonEnumerableProperty$6;
   var defineBuiltIn$d = defineBuiltIn$e;
@@ -1375,11 +1378,11 @@ var JoomlaMediaManager = (function () {
     var STATIC = options.stat;
     var FORCED, target, key, targetProperty, sourceProperty, descriptor;
     if (GLOBAL) {
-      target = global$l;
+      target = global$m;
     } else if (STATIC) {
-      target = global$l[TARGET] || defineGlobalProperty(TARGET, {});
+      target = global$m[TARGET] || defineGlobalProperty(TARGET, {});
     } else {
-      target = (global$l[TARGET] || {}).prototype;
+      target = (global$m[TARGET] || {}).prototype;
     }
     if (target) for (key in source) {
       sourceProperty = source[key];
@@ -1414,7 +1417,7 @@ var JoomlaMediaManager = (function () {
   var DESCRIPTORS$e = descriptors;
   var uncurryThis$z = functionUncurryThis;
   var call$p = functionCall;
-  var fails$z = fails$I;
+  var fails$A = fails$J;
   var objectKeys$3 = objectKeys$4;
   var getOwnPropertySymbolsModule$2 = objectGetOwnPropertySymbols;
   var propertyIsEnumerableModule$1 = objectPropertyIsEnumerable;
@@ -1429,7 +1432,7 @@ var JoomlaMediaManager = (function () {
 
   // `Object.assign` method
   // https://tc39.es/ecma262/#sec-object.assign
-  var objectAssign = !$assign || fails$z(function () {
+  var objectAssign = !$assign || fails$A(function () {
     // should have correct order of operations (Edge bug)
     if (DESCRIPTORS$e && $assign({ b: 1 }, $assign(defineProperty$7({}, 'a', {
       enumerable: true,
@@ -1444,11 +1447,11 @@ var JoomlaMediaManager = (function () {
     var A = {};
     var B = {};
     // eslint-disable-next-line es/no-symbol -- safe
-    var symbol = Symbol();
+    var symbol = Symbol('assign detection');
     var alphabet = 'abcdefghijklmnopqrst';
     A[symbol] = 7;
     alphabet.split('').forEach(function (chr) { B[chr] = chr; });
-    return $assign({}, A)[symbol] != 7 || objectKeys$3($assign({}, B)).join('') != alphabet;
+    return $assign({}, A)[symbol] !== 7 || objectKeys$3($assign({}, B)).join('') !== alphabet;
   }) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
     var T = toObject$c(target);
     var argumentsLength = arguments.length;
@@ -1496,7 +1499,7 @@ var JoomlaMediaManager = (function () {
   var $Object$2 = Object;
 
   // ES3 wrong here
-  var CORRECT_ARGUMENTS = classofRaw$1(function () { return arguments; }()) == 'Arguments';
+  var CORRECT_ARGUMENTS = classofRaw$1(function () { return arguments; }()) === 'Arguments';
 
   // fallback for IE11 Script Access Denied error
   var tryGet = function (it, key) {
@@ -1514,7 +1517,7 @@ var JoomlaMediaManager = (function () {
       // builtinTag case
       : CORRECT_ARGUMENTS ? classofRaw$1(O)
       // ES3 arguments fallback
-      : (result = classofRaw$1(O)) == 'Object' && isCallable$i(O.callee) ? 'Arguments' : result;
+      : (result = classofRaw$1(O)) === 'Object' && isCallable$i(O.callee) ? 'Arguments' : result;
   };
 
   var TO_STRING_TAG_SUPPORT$1 = toStringTagSupport;
@@ -1536,19 +1539,85 @@ var JoomlaMediaManager = (function () {
     defineBuiltIn$c(Object.prototype, 'toString', toString$j, { unsafe: true });
   }
 
-  var classof$a = classofRaw$2;
+  var classof$a = classof$c;
+
+  var $String$3 = String;
+
+  var toString$i = function (argument) {
+    if (classof$a(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
+    return $String$3(argument);
+  };
+
+  var anObject$o = anObject$r;
+
+  // `RegExp.prototype.flags` getter implementation
+  // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
+  var regexpFlags$1 = function () {
+    var that = anObject$o(this);
+    var result = '';
+    if (that.hasIndices) result += 'd';
+    if (that.global) result += 'g';
+    if (that.ignoreCase) result += 'i';
+    if (that.multiline) result += 'm';
+    if (that.dotAll) result += 's';
+    if (that.unicode) result += 'u';
+    if (that.unicodeSets) result += 'v';
+    if (that.sticky) result += 'y';
+    return result;
+  };
+
+  var call$o = functionCall;
+  var hasOwn$g = hasOwnProperty_1;
+  var isPrototypeOf$5 = objectIsPrototypeOf;
+  var regExpFlags = regexpFlags$1;
+
+  var RegExpPrototype$2 = RegExp.prototype;
+
+  var regexpGetFlags = function (R) {
+    var flags = R.flags;
+    return flags === undefined && !('flags' in RegExpPrototype$2) && !hasOwn$g(R, 'flags') && isPrototypeOf$5(RegExpPrototype$2, R)
+      ? call$o(regExpFlags, R) : flags;
+  };
+
+  var PROPER_FUNCTION_NAME$2 = functionName.PROPER;
+  var defineBuiltIn$b = defineBuiltIn$e;
+  var anObject$n = anObject$r;
+  var $toString$3 = toString$i;
+  var fails$z = fails$J;
+  var getRegExpFlags = regexpGetFlags;
+
+  var TO_STRING = 'toString';
+  var RegExpPrototype$1 = RegExp.prototype;
+  var nativeToString = RegExpPrototype$1[TO_STRING];
+
+  var NOT_GENERIC = fails$z(function () { return nativeToString.call({ source: 'a', flags: 'b' }) !== '/a/b'; });
+  // FF44- RegExp#toString has a wrong name
+  var INCORRECT_NAME = PROPER_FUNCTION_NAME$2 && nativeToString.name !== TO_STRING;
+
+  // `RegExp.prototype.toString` method
+  // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
+  if (NOT_GENERIC || INCORRECT_NAME) {
+    defineBuiltIn$b(RegExp.prototype, TO_STRING, function toString() {
+      var R = anObject$n(this);
+      var pattern = $toString$3(R.source);
+      var flags = $toString$3(getRegExpFlags(R));
+      return '/' + pattern + '/' + flags;
+    }, { unsafe: true });
+  }
+
+  var classof$9 = classofRaw$2;
 
   // `IsArray` abstract operation
   // https://tc39.es/ecma262/#sec-isarray
   // eslint-disable-next-line es/no-array-isarray -- safe
   var isArray$a = Array.isArray || function isArray(argument) {
-    return classof$a(argument) == 'Array';
+    return classof$9(argument) === 'Array';
   };
 
   var uncurryThis$y = functionUncurryThis;
-  var fails$y = fails$I;
+  var fails$y = fails$J;
   var isCallable$h = isCallable$t;
-  var classof$9 = classof$c;
+  var classof$8 = classof$c;
   var getBuiltIn$7 = getBuiltIn$a;
   var inspectSource$1 = inspectSource$3;
 
@@ -1571,7 +1640,7 @@ var JoomlaMediaManager = (function () {
 
   var isConstructorLegacy = function isConstructor(argument) {
     if (!isCallable$h(argument)) return false;
-    switch (classof$9(argument)) {
+    switch (classof$8(argument)) {
       case 'AsyncFunction':
       case 'GeneratorFunction':
       case 'AsyncGeneratorFunction': return false;
@@ -1608,7 +1677,7 @@ var JoomlaMediaManager = (function () {
     else object[propertyKey] = value;
   };
 
-  var fails$x = fails$I;
+  var fails$x = fails$J;
   var wellKnownSymbol$n = wellKnownSymbol$r;
   var V8_VERSION$2 = engineV8Version;
 
@@ -1686,7 +1755,7 @@ var JoomlaMediaManager = (function () {
   // eslint-disable-next-line es/no-object-is -- safe
   var sameValue$1 = Object.is || function is(x, y) {
     // eslint-disable-next-line no-self-compare -- NaN check
-    return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+    return x === y ? x !== 0 || 1 / x === 1 / y : x !== x && y !== y;
   };
 
   var $$T = _export;
@@ -1703,7 +1772,7 @@ var JoomlaMediaManager = (function () {
   var DESCRIPTORS$d = descriptors;
   var V8_PROTOTYPE_DEFINE_BUG = v8PrototypeDefineBug;
   var definePropertyModule$3 = objectDefineProperty;
-  var anObject$o = anObject$r;
+  var anObject$m = anObject$r;
   var toIndexedObject$5 = toIndexedObject$a;
   var objectKeys$2 = objectKeys$4;
 
@@ -1711,7 +1780,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-object.defineproperties
   // eslint-disable-next-line es/no-object-defineproperties -- safe
   objectDefineProperties.f = DESCRIPTORS$d && !V8_PROTOTYPE_DEFINE_BUG ? Object.defineProperties : function defineProperties(O, Properties) {
-    anObject$o(O);
+    anObject$m(O);
     var props = toIndexedObject$5(Properties);
     var keys = objectKeys$2(Properties);
     var length = keys.length;
@@ -1726,8 +1795,7 @@ var JoomlaMediaManager = (function () {
   var html$2 = getBuiltIn$6('document', 'documentElement');
 
   /* global ActiveXObject -- old IE, WSH */
-
-  var anObject$n = anObject$r;
+  var anObject$l = anObject$r;
   var definePropertiesModule$1 = objectDefineProperties;
   var enumBugKeys = enumBugKeys$3;
   var hiddenKeys$2 = hiddenKeys$6;
@@ -1801,7 +1869,7 @@ var JoomlaMediaManager = (function () {
   var objectCreate = Object.create || function create(O, Properties) {
     var result;
     if (O !== null) {
-      EmptyConstructor[PROTOTYPE$1] = anObject$n(O);
+      EmptyConstructor[PROTOTYPE$1] = anObject$l(O);
       result = new EmptyConstructor();
       EmptyConstructor[PROTOTYPE$1] = null;
       // add "__proto__" for Object.getPrototypeOf polyfill
@@ -1819,7 +1887,7 @@ var JoomlaMediaManager = (function () {
 
   // Array.prototype[@@unscopables]
   // https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
-  if (ArrayPrototype$1[UNSCOPABLES] == undefined) {
+  if (ArrayPrototype$1[UNSCOPABLES] === undefined) {
     defineProperty$6(ArrayPrototype$1, UNSCOPABLES, {
       configurable: true,
       value: create$4(null)
@@ -1833,7 +1901,7 @@ var JoomlaMediaManager = (function () {
 
   var iterators = {};
 
-  var fails$w = fails$I;
+  var fails$w = fails$J;
 
   var correctPrototypeGetter = !fails$w(function () {
     function F() { /* empty */ }
@@ -1842,7 +1910,7 @@ var JoomlaMediaManager = (function () {
     return Object.getPrototypeOf(new F()) !== F.prototype;
   });
 
-  var hasOwn$g = hasOwnProperty_1;
+  var hasOwn$f = hasOwnProperty_1;
   var isCallable$g = isCallable$t;
   var toObject$b = toObject$e;
   var sharedKey$1 = sharedKey$4;
@@ -1855,20 +1923,20 @@ var JoomlaMediaManager = (function () {
   // `Object.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.getprototypeof
   // eslint-disable-next-line es/no-object-getprototypeof -- safe
-  var objectGetPrototypeOf$1 = CORRECT_PROTOTYPE_GETTER$2 ? $Object$1.getPrototypeOf : function (O) {
+  var objectGetPrototypeOf$2 = CORRECT_PROTOTYPE_GETTER$2 ? $Object$1.getPrototypeOf : function (O) {
     var object = toObject$b(O);
-    if (hasOwn$g(object, IE_PROTO)) return object[IE_PROTO];
+    if (hasOwn$f(object, IE_PROTO)) return object[IE_PROTO];
     var constructor = object.constructor;
     if (isCallable$g(constructor) && object instanceof constructor) {
       return constructor.prototype;
     } return object instanceof $Object$1 ? ObjectPrototype$1 : null;
   };
 
-  var fails$v = fails$I;
+  var fails$v = fails$J;
   var isCallable$f = isCallable$t;
   var isObject$j = isObject$q;
-  var getPrototypeOf$3 = objectGetPrototypeOf$1;
-  var defineBuiltIn$b = defineBuiltIn$e;
+  var getPrototypeOf$3 = objectGetPrototypeOf$2;
+  var defineBuiltIn$a = defineBuiltIn$e;
   var wellKnownSymbol$k = wellKnownSymbol$r;
 
   var ITERATOR$7 = wellKnownSymbol$k('iterator');
@@ -1900,7 +1968,7 @@ var JoomlaMediaManager = (function () {
   // `%IteratorPrototype%[@@iterator]()` method
   // https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
   if (!isCallable$f(IteratorPrototype$2[ITERATOR$7])) {
-    defineBuiltIn$b(IteratorPrototype$2, ITERATOR$7, function () {
+    defineBuiltIn$a(IteratorPrototype$2, ITERATOR$7, function () {
       return this;
     });
   }
@@ -1911,14 +1979,14 @@ var JoomlaMediaManager = (function () {
   };
 
   var defineProperty$5 = objectDefineProperty.f;
-  var hasOwn$f = hasOwnProperty_1;
+  var hasOwn$e = hasOwnProperty_1;
   var wellKnownSymbol$j = wellKnownSymbol$r;
 
   var TO_STRING_TAG$1 = wellKnownSymbol$j('toStringTag');
 
   var setToStringTag$8 = function (target, TAG, STATIC) {
     if (target && !STATIC) target = target.prototype;
-    if (target && !hasOwn$f(target, TO_STRING_TAG$1)) {
+    if (target && !hasOwn$e(target, TO_STRING_TAG$1)) {
       defineProperty$5(target, TO_STRING_TAG$1, { configurable: true, value: TAG });
     }
   };
@@ -1951,18 +2019,17 @@ var JoomlaMediaManager = (function () {
 
   var isCallable$e = isCallable$t;
 
-  var $String$3 = String;
+  var $String$2 = String;
   var $TypeError$b = TypeError;
 
   var aPossiblePrototype$1 = function (argument) {
     if (typeof argument == 'object' || isCallable$e(argument)) return argument;
-    throw $TypeError$b("Can't set " + $String$3(argument) + ' as a prototype');
+    throw $TypeError$b("Can't set " + $String$2(argument) + ' as a prototype');
   };
 
   /* eslint-disable no-proto -- safe */
-
   var uncurryThisAccessor = functionUncurryThisAccessor;
-  var anObject$m = anObject$r;
+  var anObject$k = anObject$r;
   var aPossiblePrototype = aPossiblePrototype$1;
 
   // `Object.setPrototypeOf` method
@@ -1979,7 +2046,7 @@ var JoomlaMediaManager = (function () {
       CORRECT_SETTER = test instanceof Array;
     } catch (error) { /* empty */ }
     return function setPrototypeOf(O, proto) {
-      anObject$m(O);
+      anObject$k(O);
       aPossiblePrototype(proto);
       if (CORRECT_SETTER) setter(O, proto);
       else O.__proto__ = proto;
@@ -1988,20 +2055,20 @@ var JoomlaMediaManager = (function () {
   }() : undefined);
 
   var $$S = _export;
-  var call$o = functionCall;
+  var call$n = functionCall;
   var FunctionName = functionName;
   var isCallable$d = isCallable$t;
   var createIteratorConstructor$1 = iteratorCreateConstructor;
-  var getPrototypeOf$2 = objectGetPrototypeOf$1;
+  var getPrototypeOf$2 = objectGetPrototypeOf$2;
   var setPrototypeOf$2 = objectSetPrototypeOf;
   var setToStringTag$6 = setToStringTag$8;
   var createNonEnumerableProperty$3 = createNonEnumerableProperty$6;
-  var defineBuiltIn$a = defineBuiltIn$e;
+  var defineBuiltIn$9 = defineBuiltIn$e;
   var wellKnownSymbol$i = wellKnownSymbol$r;
   var Iterators$3 = iterators;
   var IteratorsCore = iteratorsCore;
 
-  var PROPER_FUNCTION_NAME$2 = FunctionName.PROPER;
+  var PROPER_FUNCTION_NAME$1 = FunctionName.PROPER;
   var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
   var IteratorPrototype = IteratorsCore.IteratorPrototype;
   var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
@@ -2017,12 +2084,15 @@ var JoomlaMediaManager = (function () {
 
     var getIterationMethod = function (KIND) {
       if (KIND === DEFAULT && defaultIterator) return defaultIterator;
-      if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
+      if (!BUGGY_SAFARI_ITERATORS && KIND && KIND in IterablePrototype) return IterablePrototype[KIND];
+
       switch (KIND) {
         case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
         case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
         case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
-      } return function () { return new IteratorConstructor(this); };
+      }
+
+      return function () { return new IteratorConstructor(this); };
     };
 
     var TO_STRING_TAG = NAME + ' Iterator';
@@ -2032,7 +2102,7 @@ var JoomlaMediaManager = (function () {
       || IterablePrototype['@@iterator']
       || DEFAULT && IterablePrototype[DEFAULT];
     var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
-    var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+    var anyNativeIterator = NAME === 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
     var CurrentIteratorPrototype, methods, KEY;
 
     // fix native
@@ -2043,7 +2113,7 @@ var JoomlaMediaManager = (function () {
           if (setPrototypeOf$2) {
             setPrototypeOf$2(CurrentIteratorPrototype, IteratorPrototype);
           } else if (!isCallable$d(CurrentIteratorPrototype[ITERATOR$6])) {
-            defineBuiltIn$a(CurrentIteratorPrototype, ITERATOR$6, returnThis);
+            defineBuiltIn$9(CurrentIteratorPrototype, ITERATOR$6, returnThis);
           }
         }
         // Set @@toStringTag to native iterators
@@ -2052,12 +2122,12 @@ var JoomlaMediaManager = (function () {
     }
 
     // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
-    if (PROPER_FUNCTION_NAME$2 && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    if (PROPER_FUNCTION_NAME$1 && DEFAULT === VALUES && nativeIterator && nativeIterator.name !== VALUES) {
       if (CONFIGURABLE_FUNCTION_NAME) {
         createNonEnumerableProperty$3(IterablePrototype, 'name', VALUES);
       } else {
         INCORRECT_VALUES_NAME = true;
-        defaultIterator = function values() { return call$o(nativeIterator, this); };
+        defaultIterator = function values() { return call$n(nativeIterator, this); };
       }
     }
 
@@ -2070,14 +2140,14 @@ var JoomlaMediaManager = (function () {
       };
       if (FORCED) for (KEY in methods) {
         if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
-          defineBuiltIn$a(IterablePrototype, KEY, methods[KEY]);
+          defineBuiltIn$9(IterablePrototype, KEY, methods[KEY]);
         }
       } else $$S({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
     }
 
     // define iterator
     if (IterablePrototype[ITERATOR$6] !== defaultIterator) {
-      defineBuiltIn$a(IterablePrototype, ITERATOR$6, defaultIterator, { name: DEFAULT });
+      defineBuiltIn$9(IterablePrototype, ITERATOR$6, defaultIterator, { name: DEFAULT });
     }
     Iterators$3[NAME] = defaultIterator;
 
@@ -2131,9 +2201,10 @@ var JoomlaMediaManager = (function () {
       state.target = undefined;
       return createIterResultObject$2(undefined, true);
     }
-    if (kind == 'keys') return createIterResultObject$2(index, false);
-    if (kind == 'values') return createIterResultObject$2(target[index], false);
-    return createIterResultObject$2([index, target[index]], false);
+    switch (kind) {
+      case 'keys': return createIterResultObject$2(index, false);
+      case 'values': return createIterResultObject$2(target[index], false);
+    } return createIterResultObject$2([index, target[index]], false);
   }, 'values');
 
   // argumentsList[@@iterator] is %ArrayProto_values%
@@ -2167,14 +2238,14 @@ var JoomlaMediaManager = (function () {
     var k = toAbsoluteIndex$2(start, length);
     var fin = toAbsoluteIndex$2(end === undefined ? length : end, length);
     var result = $Array$2(max$2(fin - k, 0));
-    for (var n = 0; k < fin; k++, n++) createProperty$3(result, n, O[k]);
+    var n = 0;
+    for (; k < fin; k++, n++) createProperty$3(result, n, O[k]);
     result.length = n;
     return result;
   };
 
   /* eslint-disable es/no-object-getownpropertynames -- safe */
-
-  var classof$8 = classofRaw$2;
+  var classof$7 = classofRaw$2;
   var toIndexedObject$3 = toIndexedObject$a;
   var $getOwnPropertyNames$1 = objectGetOwnPropertyNames.f;
   var arraySlice$5 = arraySliceSimple;
@@ -2192,13 +2263,13 @@ var JoomlaMediaManager = (function () {
 
   // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
   objectGetOwnPropertyNamesExternal.f = function getOwnPropertyNames(it) {
-    return windowNames && classof$8(it) == 'Window'
+    return windowNames && classof$7(it) === 'Window'
       ? getWindowNames(it)
       : $getOwnPropertyNames$1(toIndexedObject$3(it));
   };
 
   // FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
-  var fails$u = fails$I;
+  var fails$u = fails$J;
 
   var arrayBufferNonExtensible = fails$u(function () {
     if (typeof ArrayBuffer == 'function') {
@@ -2208,9 +2279,9 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$t = fails$I;
+  var fails$t = fails$J;
   var isObject$i = isObject$q;
-  var classof$7 = classofRaw$2;
+  var classof$6 = classofRaw$2;
   var ARRAY_BUFFER_NON_EXTENSIBLE = arrayBufferNonExtensible;
 
   // eslint-disable-next-line es/no-object-isextensible -- safe
@@ -2221,11 +2292,11 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-object.isextensible
   var objectIsExtensible = (FAILS_ON_PRIMITIVES$4 || ARRAY_BUFFER_NON_EXTENSIBLE) ? function isExtensible(it) {
     if (!isObject$i(it)) return false;
-    if (ARRAY_BUFFER_NON_EXTENSIBLE && classof$7(it) == 'ArrayBuffer') return false;
+    if (ARRAY_BUFFER_NON_EXTENSIBLE && classof$6(it) === 'ArrayBuffer') return false;
     return $isExtensible$1 ? $isExtensible$1(it) : true;
   } : $isExtensible$1;
 
-  var fails$s = fails$I;
+  var fails$s = fails$J;
 
   var freezing = !fails$s(function () {
     // eslint-disable-next-line es/no-object-isextensible, es/no-object-preventextensions -- required for testing
@@ -2236,7 +2307,7 @@ var JoomlaMediaManager = (function () {
   var uncurryThis$v = functionUncurryThis;
   var hiddenKeys$1 = hiddenKeys$6;
   var isObject$h = isObject$q;
-  var hasOwn$e = hasOwnProperty_1;
+  var hasOwn$d = hasOwnProperty_1;
   var defineProperty$3 = objectDefineProperty.f;
   var getOwnPropertyNamesModule$1 = objectGetOwnPropertyNames;
   var getOwnPropertyNamesExternalModule = objectGetOwnPropertyNamesExternal;
@@ -2258,7 +2329,7 @@ var JoomlaMediaManager = (function () {
   var fastKey$1 = function (it, create) {
     // return a primitive with prefix
     if (!isObject$h(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-    if (!hasOwn$e(it, METADATA)) {
+    if (!hasOwn$d(it, METADATA)) {
       // can't set metadata to uncaught frozen object
       if (!isExtensible$1(it)) return 'F';
       // not necessary to add metadata
@@ -2270,7 +2341,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var getWeakData$1 = function (it, create) {
-    if (!hasOwn$e(it, METADATA)) {
+    if (!hasOwn$d(it, METADATA)) {
       // can't set metadata to uncaught frozen object
       if (!isExtensible$1(it)) return true;
       // not necessary to add metadata
@@ -2283,7 +2354,7 @@ var JoomlaMediaManager = (function () {
 
   // add metadata on freeze-family methods calling
   var onFreeze$1 = function (it) {
-    if (FREEZING$2 && REQUIRED && isExtensible$1(it) && !hasOwn$e(it, METADATA)) setMetadata(it);
+    if (FREEZING$2 && REQUIRED && isExtensible$1(it) && !hasOwn$d(it, METADATA)) setMetadata(it);
     return it;
   };
 
@@ -2357,7 +2428,7 @@ var JoomlaMediaManager = (function () {
     return it !== undefined && (Iterators$1.Array === it || ArrayPrototype[ITERATOR$5] === it);
   };
 
-  var classof$6 = classof$c;
+  var classof$5 = classof$c;
   var getMethod$5 = getMethod$7;
   var isNullOrUndefined$8 = isNullOrUndefined$b;
   var Iterators = iterators;
@@ -2368,12 +2439,12 @@ var JoomlaMediaManager = (function () {
   var getIteratorMethod$4 = function (it) {
     if (!isNullOrUndefined$8(it)) return getMethod$5(it, ITERATOR$4)
       || getMethod$5(it, '@@iterator')
-      || Iterators[classof$6(it)];
+      || Iterators[classof$5(it)];
   };
 
-  var call$n = functionCall;
+  var call$m = functionCall;
   var aCallable$5 = aCallable$9;
-  var anObject$l = anObject$r;
+  var anObject$j = anObject$r;
   var tryToString$4 = tryToString$6;
   var getIteratorMethod$3 = getIteratorMethod$4;
 
@@ -2381,41 +2452,41 @@ var JoomlaMediaManager = (function () {
 
   var getIterator$3 = function (argument, usingIterator) {
     var iteratorMethod = arguments.length < 2 ? getIteratorMethod$3(argument) : usingIterator;
-    if (aCallable$5(iteratorMethod)) return anObject$l(call$n(iteratorMethod, argument));
+    if (aCallable$5(iteratorMethod)) return anObject$j(call$m(iteratorMethod, argument));
     throw $TypeError$a(tryToString$4(argument) + ' is not iterable');
   };
 
-  var call$m = functionCall;
-  var anObject$k = anObject$r;
+  var call$l = functionCall;
+  var anObject$i = anObject$r;
   var getMethod$4 = getMethod$7;
 
   var iteratorClose$2 = function (iterator, kind, value) {
     var innerResult, innerError;
-    anObject$k(iterator);
+    anObject$i(iterator);
     try {
       innerResult = getMethod$4(iterator, 'return');
       if (!innerResult) {
         if (kind === 'throw') throw value;
         return value;
       }
-      innerResult = call$m(innerResult, iterator);
+      innerResult = call$l(innerResult, iterator);
     } catch (error) {
       innerError = true;
       innerResult = error;
     }
     if (kind === 'throw') throw value;
     if (innerError) throw innerResult;
-    anObject$k(innerResult);
+    anObject$i(innerResult);
     return value;
   };
 
   var bind$9 = functionBindContext;
-  var call$l = functionCall;
-  var anObject$j = anObject$r;
+  var call$k = functionCall;
+  var anObject$h = anObject$r;
   var tryToString$3 = tryToString$6;
   var isArrayIteratorMethod$1 = isArrayIteratorMethod$2;
   var lengthOfArrayLike$8 = lengthOfArrayLike$c;
-  var isPrototypeOf$5 = objectIsPrototypeOf;
+  var isPrototypeOf$4 = objectIsPrototypeOf;
   var getIterator$2 = getIterator$3;
   var getIteratorMethod$2 = getIteratorMethod$4;
   var iteratorClose$1 = iteratorClose$2;
@@ -2445,7 +2516,7 @@ var JoomlaMediaManager = (function () {
 
     var callFn = function (value) {
       if (AS_ENTRIES) {
-        anObject$j(value);
+        anObject$h(value);
         return INTERRUPTED ? fn(value[0], value[1], stop) : fn(value[0], value[1]);
       } return INTERRUPTED ? fn(value, stop) : fn(value);
     };
@@ -2461,29 +2532,29 @@ var JoomlaMediaManager = (function () {
       if (isArrayIteratorMethod$1(iterFn)) {
         for (index = 0, length = lengthOfArrayLike$8(iterable); length > index; index++) {
           result = callFn(iterable[index]);
-          if (result && isPrototypeOf$5(ResultPrototype, result)) return result;
+          if (result && isPrototypeOf$4(ResultPrototype, result)) return result;
         } return new Result(false);
       }
       iterator = getIterator$2(iterable, iterFn);
     }
 
     next = IS_RECORD ? iterable.next : iterator.next;
-    while (!(step = call$l(next, iterator)).done) {
+    while (!(step = call$k(next, iterator)).done) {
       try {
         result = callFn(step.value);
       } catch (error) {
         iteratorClose$1(iterator, 'throw', error);
       }
-      if (typeof result == 'object' && result && isPrototypeOf$5(ResultPrototype, result)) return result;
+      if (typeof result == 'object' && result && isPrototypeOf$4(ResultPrototype, result)) return result;
     } return new Result(false);
   };
 
-  var isPrototypeOf$4 = objectIsPrototypeOf;
+  var isPrototypeOf$3 = objectIsPrototypeOf;
 
   var $TypeError$8 = TypeError;
 
   var anInstance$6 = function (it, Prototype) {
-    if (isPrototypeOf$4(Prototype, it)) return it;
+    if (isPrototypeOf$3(Prototype, it)) return it;
     throw $TypeError$8('Incorrect invocation');
   };
 
@@ -2510,7 +2581,9 @@ var JoomlaMediaManager = (function () {
   } catch (error) { /* empty */ }
 
   var checkCorrectnessOfIteration$3 = function (exec, SKIP_CLOSING) {
-    if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+    try {
+      if (!SKIP_CLOSING && !SAFE_CLOSING) return false;
+    } catch (error) { return false; } // workaround of old WebKit + `eval` bug
     var ITERATION_SUPPORT = false;
     try {
       var object = {};
@@ -2546,17 +2619,17 @@ var JoomlaMediaManager = (function () {
   };
 
   var $$Q = _export;
-  var global$k = global$u;
+  var global$l = global$w;
   var uncurryThis$s = functionUncurryThis;
   var isForced$2 = isForced_1;
-  var defineBuiltIn$9 = defineBuiltIn$e;
+  var defineBuiltIn$8 = defineBuiltIn$e;
   var InternalMetadataModule$1 = internalMetadata.exports;
   var iterate$4 = iterate$5;
   var anInstance$5 = anInstance$6;
   var isCallable$b = isCallable$t;
   var isNullOrUndefined$7 = isNullOrUndefined$b;
   var isObject$f = isObject$q;
-  var fails$r = fails$I;
+  var fails$r = fails$J;
   var checkCorrectnessOfIteration$2 = checkCorrectnessOfIteration$3;
   var setToStringTag$5 = setToStringTag$8;
   var inheritIfRequired$1 = inheritIfRequired$2;
@@ -2565,22 +2638,22 @@ var JoomlaMediaManager = (function () {
     var IS_MAP = CONSTRUCTOR_NAME.indexOf('Map') !== -1;
     var IS_WEAK = CONSTRUCTOR_NAME.indexOf('Weak') !== -1;
     var ADDER = IS_MAP ? 'set' : 'add';
-    var NativeConstructor = global$k[CONSTRUCTOR_NAME];
+    var NativeConstructor = global$l[CONSTRUCTOR_NAME];
     var NativePrototype = NativeConstructor && NativeConstructor.prototype;
     var Constructor = NativeConstructor;
     var exported = {};
 
     var fixMethod = function (KEY) {
       var uncurriedNativeMethod = uncurryThis$s(NativePrototype[KEY]);
-      defineBuiltIn$9(NativePrototype, KEY,
-        KEY == 'add' ? function add(value) {
+      defineBuiltIn$8(NativePrototype, KEY,
+        KEY === 'add' ? function add(value) {
           uncurriedNativeMethod(this, value === 0 ? 0 : value);
           return this;
-        } : KEY == 'delete' ? function (key) {
+        } : KEY === 'delete' ? function (key) {
           return IS_WEAK && !isObject$f(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
-        } : KEY == 'get' ? function get(key) {
+        } : KEY === 'get' ? function get(key) {
           return IS_WEAK && !isObject$f(key) ? undefined : uncurriedNativeMethod(this, key === 0 ? 0 : key);
-        } : KEY == 'has' ? function has(key) {
+        } : KEY === 'has' ? function has(key) {
           return IS_WEAK && !isObject$f(key) ? false : uncurriedNativeMethod(this, key === 0 ? 0 : key);
         } : function set(key, value) {
           uncurriedNativeMethod(this, key === 0 ? 0 : key, value);
@@ -2603,7 +2676,7 @@ var JoomlaMediaManager = (function () {
     } else if (isForced$2(CONSTRUCTOR_NAME, true)) {
       var instance = new Constructor();
       // early implementations not supports chaining
-      var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance;
+      var HASNT_CHAINING = instance[ADDER](IS_WEAK ? {} : -0, 1) !== instance;
       // V8 ~ Chromium 40- weak-collections throws on primitives, but should return false
       var THROWS_ON_PRIMITIVES = fails$r(function () { instance.has(1); });
       // most early implementations doesn't supports iterables, most modern - not close it correctly
@@ -2642,7 +2715,7 @@ var JoomlaMediaManager = (function () {
     }
 
     exported[CONSTRUCTOR_NAME] = Constructor;
-    $$Q({ global: true, constructor: true, forced: Constructor != NativeConstructor }, exported);
+    $$Q({ global: true, constructor: true, forced: Constructor !== NativeConstructor }, exported);
 
     setToStringTag$5(Constructor, CONSTRUCTOR_NAME);
 
@@ -2660,10 +2733,10 @@ var JoomlaMediaManager = (function () {
     return defineProperty$2.f(target, name, descriptor);
   };
 
-  var defineBuiltIn$8 = defineBuiltIn$e;
+  var defineBuiltIn$7 = defineBuiltIn$e;
 
   var defineBuiltIns$4 = function (target, src, options) {
-    for (var key in src) defineBuiltIn$8(target, key, src[key], options);
+    for (var key in src) defineBuiltIn$7(target, key, src[key], options);
     return target;
   };
 
@@ -2755,7 +2828,7 @@ var JoomlaMediaManager = (function () {
         if (index !== 'F') return state.index[index];
         // frozen object case
         for (entry = state.first; entry; entry = entry.next) {
-          if (entry.key == key) return entry;
+          if (entry.key === key) return entry;
         }
       };
 
@@ -2792,8 +2865,8 @@ var JoomlaMediaManager = (function () {
             entry.removed = true;
             if (prev) prev.next = next;
             if (next) next.previous = prev;
-            if (state.first == entry) state.first = next;
-            if (state.last == entry) state.last = prev;
+            if (state.first === entry) state.first = next;
+            if (state.last === entry) state.last = prev;
             if (DESCRIPTORS$a) state.size--;
             else that.size--;
           } return !!entry;
@@ -2880,8 +2953,8 @@ var JoomlaMediaManager = (function () {
           return createIterResultObject$1(undefined, true);
         }
         // return step by kind
-        if (kind == 'keys') return createIterResultObject$1(entry.key, false);
-        if (kind == 'values') return createIterResultObject$1(entry.value, false);
+        if (kind === 'keys') return createIterResultObject$1(entry.key, false);
+        if (kind === 'values') return createIterResultObject$1(entry.value, false);
         return createIterResultObject$1([entry.key, entry.value], false);
       }, IS_MAP ? 'entries' : 'values', !IS_MAP, true);
 
@@ -2900,15 +2973,6 @@ var JoomlaMediaManager = (function () {
   collection$2('Set', function (init) {
     return function Set() { return init(this, arguments.length ? arguments[0] : undefined); };
   }, collectionStrong$1);
-
-  var classof$5 = classof$c;
-
-  var $String$2 = String;
-
-  var toString$i = function (argument) {
-    if (classof$5(argument) === 'Symbol') throw TypeError('Cannot convert a Symbol value to a string');
-    return $String$2(argument);
-  };
 
   var uncurryThis$r = functionUncurryThis;
   var toIntegerOrInfinity$5 = toIntegerOrInfinity$8;
@@ -3022,7 +3086,7 @@ var JoomlaMediaManager = (function () {
 
   var domTokenListPrototype = DOMTokenListPrototype$2 === Object.prototype ? undefined : DOMTokenListPrototype$2;
 
-  var global$j = global$u;
+  var global$k = global$w;
   var DOMIterables$1 = domIterables;
   var DOMTokenListPrototype$1 = domTokenListPrototype;
   var ArrayIteratorMethods = es_array_iterator;
@@ -3056,7 +3120,7 @@ var JoomlaMediaManager = (function () {
   };
 
   for (var COLLECTION_NAME$1 in DOMIterables$1) {
-    handlePrototype$1(global$j[COLLECTION_NAME$1] && global$j[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
+    handlePrototype$1(global$k[COLLECTION_NAME$1] && global$k[COLLECTION_NAME$1].prototype, COLLECTION_NAME$1);
   }
 
   handlePrototype$1(DOMTokenListPrototype$1, 'DOMTokenList');
@@ -3103,13 +3167,13 @@ var JoomlaMediaManager = (function () {
 
   // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
   var createMethod$2 = function (TYPE) {
-    var IS_MAP = TYPE == 1;
-    var IS_FILTER = TYPE == 2;
-    var IS_SOME = TYPE == 3;
-    var IS_EVERY = TYPE == 4;
-    var IS_FIND_INDEX = TYPE == 6;
-    var IS_FILTER_REJECT = TYPE == 7;
-    var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
+    var IS_MAP = TYPE === 1;
+    var IS_FILTER = TYPE === 2;
+    var IS_SOME = TYPE === 3;
+    var IS_EVERY = TYPE === 4;
+    var IS_FIND_INDEX = TYPE === 6;
+    var IS_FILTER_REJECT = TYPE === 7;
+    var NO_HOLES = TYPE === 5 || IS_FIND_INDEX;
     return function ($this, callbackfn, that, specificCreate) {
       var O = toObject$a($this);
       var self = IndexedObject$1(O);
@@ -3170,12 +3234,12 @@ var JoomlaMediaManager = (function () {
   var defineBuiltIns$2 = defineBuiltIns$4;
   var getWeakData = internalMetadata.exports.getWeakData;
   var anInstance$3 = anInstance$6;
-  var anObject$i = anObject$r;
+  var anObject$g = anObject$r;
   var isNullOrUndefined$5 = isNullOrUndefined$b;
   var isObject$d = isObject$q;
   var iterate$2 = iterate$5;
   var ArrayIterationModule = arrayIteration;
-  var hasOwn$d = hasOwnProperty_1;
+  var hasOwn$c = hasOwnProperty_1;
   var InternalStateModule$4 = internalState;
 
   var setInternalState$4 = InternalStateModule$4.set;
@@ -3240,7 +3304,7 @@ var JoomlaMediaManager = (function () {
 
       var define = function (that, key, value) {
         var state = getInternalState(that);
-        var data = getWeakData(anObject$i(key), true);
+        var data = getWeakData(anObject$g(key), true);
         if (data === true) uncaughtFrozenStore(state).set(key, value);
         else data[state.id] = value;
         return that;
@@ -3255,7 +3319,7 @@ var JoomlaMediaManager = (function () {
           if (!isObject$d(key)) return false;
           var data = getWeakData(key);
           if (data === true) return uncaughtFrozenStore(state)['delete'](key);
-          return data && hasOwn$d(data, state.id) && delete data[state.id];
+          return data && hasOwn$c(data, state.id) && delete data[state.id];
         },
         // `{ WeakMap, WeakSet }.prototype.has(key)` methods
         // https://tc39.es/ecma262/#sec-weakmap.prototype.has
@@ -3265,7 +3329,7 @@ var JoomlaMediaManager = (function () {
           if (!isObject$d(key)) return false;
           var data = getWeakData(key);
           if (data === true) return uncaughtFrozenStore(state).has(key);
-          return data && hasOwn$d(data, state.id);
+          return data && hasOwn$c(data, state.id);
         }
       });
 
@@ -3298,7 +3362,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var FREEZING$1 = freezing;
-  var global$i = global$u;
+  var global$j = global$w;
   var uncurryThis$o = functionUncurryThis;
   var defineBuiltIns$1 = defineBuiltIns$4;
   var InternalMetadataModule = internalMetadata.exports;
@@ -3306,7 +3370,7 @@ var JoomlaMediaManager = (function () {
   var collectionWeak = collectionWeak$1;
   var isObject$c = isObject$q;
   var enforceInternalState = internalState.enforce;
-  var fails$q = fails$I;
+  var fails$q = fails$J;
   var NATIVE_WEAK_MAP = weakMapBasicDetection;
 
   var $Object = Object;
@@ -3325,7 +3389,7 @@ var JoomlaMediaManager = (function () {
 
   var FROZEN = {};
   var SEALED = {};
-  var IS_IE11 = !global$i.ActiveXObject && 'ActiveXObject' in global$i;
+  var IS_IE11 = !global$j.ActiveXObject && 'ActiveXObject' in global$j;
   var InternalWeakMap;
 
   var wrapper = function (init) {
@@ -3399,8 +3463,8 @@ var JoomlaMediaManager = (function () {
           else if (isSealed(key)) arrayIntegrityLevel = SEALED;
         }
         nativeSet(this, key, value);
-        if (arrayIntegrityLevel == FROZEN) freeze(key);
-        if (arrayIntegrityLevel == SEALED) seal(key);
+        if (arrayIntegrityLevel === FROZEN) freeze(key);
+        if (arrayIntegrityLevel === SEALED) seal(key);
         return this;
       }
     });
@@ -3412,26 +3476,26 @@ var JoomlaMediaManager = (function () {
 
   wellKnownSymbolWrapped.f = wellKnownSymbol$b;
 
-  var global$h = global$u;
+  var global$i = global$w;
 
-  var path$2 = global$h;
+  var path$2 = global$i;
 
   var path$1 = path$2;
-  var hasOwn$c = hasOwnProperty_1;
+  var hasOwn$b = hasOwnProperty_1;
   var wrappedWellKnownSymbolModule$1 = wellKnownSymbolWrapped;
   var defineProperty$1 = objectDefineProperty.f;
 
   var wellKnownSymbolDefine = function (NAME) {
     var Symbol = path$1.Symbol || (path$1.Symbol = {});
-    if (!hasOwn$c(Symbol, NAME)) defineProperty$1(Symbol, NAME, {
+    if (!hasOwn$b(Symbol, NAME)) defineProperty$1(Symbol, NAME, {
       value: wrappedWellKnownSymbolModule$1.f(NAME)
     });
   };
 
-  var call$k = functionCall;
+  var call$j = functionCall;
   var getBuiltIn$4 = getBuiltIn$a;
   var wellKnownSymbol$a = wellKnownSymbol$r;
-  var defineBuiltIn$7 = defineBuiltIn$e;
+  var defineBuiltIn$6 = defineBuiltIn$e;
 
   var symbolDefineToPrimitive = function () {
     var Symbol = getBuiltIn$4('Symbol');
@@ -3443,25 +3507,25 @@ var JoomlaMediaManager = (function () {
       // `Symbol.prototype[@@toPrimitive]` method
       // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
       // eslint-disable-next-line no-unused-vars -- required for .length
-      defineBuiltIn$7(SymbolPrototype, TO_PRIMITIVE, function (hint) {
-        return call$k(valueOf, this);
+      defineBuiltIn$6(SymbolPrototype, TO_PRIMITIVE, function (hint) {
+        return call$j(valueOf, this);
       }, { arity: 1 });
     }
   };
 
   var $$P = _export;
-  var global$g = global$u;
-  var call$j = functionCall;
+  var global$h = global$w;
+  var call$i = functionCall;
   var uncurryThis$n = functionUncurryThis;
   var DESCRIPTORS$9 = descriptors;
   var NATIVE_SYMBOL$4 = symbolConstructorDetection;
-  var fails$p = fails$I;
-  var hasOwn$b = hasOwnProperty_1;
-  var isPrototypeOf$3 = objectIsPrototypeOf;
-  var anObject$h = anObject$r;
+  var fails$p = fails$J;
+  var hasOwn$a = hasOwnProperty_1;
+  var isPrototypeOf$2 = objectIsPrototypeOf;
+  var anObject$f = anObject$r;
   var toIndexedObject$2 = toIndexedObject$a;
   var toPropertyKey$1 = toPropertyKey$5;
-  var $toString$3 = toString$i;
+  var $toString$2 = toString$i;
   var createPropertyDescriptor$2 = createPropertyDescriptor$7;
   var nativeObjectCreate = objectCreate;
   var objectKeys$1 = objectKeys$4;
@@ -3472,7 +3536,7 @@ var JoomlaMediaManager = (function () {
   var definePropertyModule$2 = objectDefineProperty;
   var definePropertiesModule = objectDefineProperties;
   var propertyIsEnumerableModule = objectPropertyIsEnumerable;
-  var defineBuiltIn$6 = defineBuiltIn$e;
+  var defineBuiltIn$5 = defineBuiltIn$e;
   var defineBuiltInAccessor$4 = defineBuiltInAccessor$7;
   var shared$3 = shared$7.exports;
   var sharedKey = sharedKey$4;
@@ -3494,10 +3558,10 @@ var JoomlaMediaManager = (function () {
   var getInternalState$1 = InternalStateModule$3.getterFor(SYMBOL);
 
   var ObjectPrototype = Object[PROTOTYPE];
-  var $Symbol = global$g.Symbol;
+  var $Symbol = global$h.Symbol;
   var SymbolPrototype$1 = $Symbol && $Symbol[PROTOTYPE];
-  var TypeError$5 = global$g.TypeError;
-  var QObject = global$g.QObject;
+  var TypeError$5 = global$h.TypeError;
+  var QObject = global$h.QObject;
   var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule$2.f;
   var nativeDefineProperty = definePropertyModule$2.f;
   var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
@@ -3515,7 +3579,7 @@ var JoomlaMediaManager = (function () {
   var setSymbolDescriptor = DESCRIPTORS$9 && fails$p(function () {
     return nativeObjectCreate(nativeDefineProperty({}, 'a', {
       get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
-    })).a != 7;
+    })).a !== 7;
   }) ? function (O, P, Attributes) {
     var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
     if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
@@ -3538,26 +3602,26 @@ var JoomlaMediaManager = (function () {
 
   var $defineProperty = function defineProperty(O, P, Attributes) {
     if (O === ObjectPrototype) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
-    anObject$h(O);
+    anObject$f(O);
     var key = toPropertyKey$1(P);
-    anObject$h(Attributes);
-    if (hasOwn$b(AllSymbols, key)) {
+    anObject$f(Attributes);
+    if (hasOwn$a(AllSymbols, key)) {
       if (!Attributes.enumerable) {
-        if (!hasOwn$b(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor$2(1, {}));
+        if (!hasOwn$a(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor$2(1, {}));
         O[HIDDEN][key] = true;
       } else {
-        if (hasOwn$b(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
+        if (hasOwn$a(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
         Attributes = nativeObjectCreate(Attributes, { enumerable: createPropertyDescriptor$2(0, false) });
       } return setSymbolDescriptor(O, key, Attributes);
     } return nativeDefineProperty(O, key, Attributes);
   };
 
   var $defineProperties = function defineProperties(O, Properties) {
-    anObject$h(O);
+    anObject$f(O);
     var properties = toIndexedObject$2(Properties);
     var keys = objectKeys$1(properties).concat($getOwnPropertySymbols(properties));
     $forEach$1(keys, function (key) {
-      if (!DESCRIPTORS$9 || call$j($propertyIsEnumerable$1, properties, key)) $defineProperty(O, key, properties[key]);
+      if (!DESCRIPTORS$9 || call$i($propertyIsEnumerable$1, properties, key)) $defineProperty(O, key, properties[key]);
     });
     return O;
   };
@@ -3568,18 +3632,18 @@ var JoomlaMediaManager = (function () {
 
   var $propertyIsEnumerable$1 = function propertyIsEnumerable(V) {
     var P = toPropertyKey$1(V);
-    var enumerable = call$j(nativePropertyIsEnumerable, this, P);
-    if (this === ObjectPrototype && hasOwn$b(AllSymbols, P) && !hasOwn$b(ObjectPrototypeSymbols, P)) return false;
-    return enumerable || !hasOwn$b(this, P) || !hasOwn$b(AllSymbols, P) || hasOwn$b(this, HIDDEN) && this[HIDDEN][P]
+    var enumerable = call$i(nativePropertyIsEnumerable, this, P);
+    if (this === ObjectPrototype && hasOwn$a(AllSymbols, P) && !hasOwn$a(ObjectPrototypeSymbols, P)) return false;
+    return enumerable || !hasOwn$a(this, P) || !hasOwn$a(AllSymbols, P) || hasOwn$a(this, HIDDEN) && this[HIDDEN][P]
       ? enumerable : true;
   };
 
   var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
     var it = toIndexedObject$2(O);
     var key = toPropertyKey$1(P);
-    if (it === ObjectPrototype && hasOwn$b(AllSymbols, key) && !hasOwn$b(ObjectPrototypeSymbols, key)) return;
+    if (it === ObjectPrototype && hasOwn$a(AllSymbols, key) && !hasOwn$a(ObjectPrototypeSymbols, key)) return;
     var descriptor = nativeGetOwnPropertyDescriptor(it, key);
-    if (descriptor && hasOwn$b(AllSymbols, key) && !(hasOwn$b(it, HIDDEN) && it[HIDDEN][key])) {
+    if (descriptor && hasOwn$a(AllSymbols, key) && !(hasOwn$a(it, HIDDEN) && it[HIDDEN][key])) {
       descriptor.enumerable = true;
     }
     return descriptor;
@@ -3589,7 +3653,7 @@ var JoomlaMediaManager = (function () {
     var names = nativeGetOwnPropertyNames(toIndexedObject$2(O));
     var result = [];
     $forEach$1(names, function (key) {
-      if (!hasOwn$b(AllSymbols, key) && !hasOwn$b(hiddenKeys, key)) push$8(result, key);
+      if (!hasOwn$a(AllSymbols, key) && !hasOwn$a(hiddenKeys, key)) push$8(result, key);
     });
     return result;
   };
@@ -3599,7 +3663,7 @@ var JoomlaMediaManager = (function () {
     var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject$2(O));
     var result = [];
     $forEach$1(names, function (key) {
-      if (hasOwn$b(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn$b(ObjectPrototype, key))) {
+      if (hasOwn$a(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn$a(ObjectPrototype, key))) {
         push$8(result, AllSymbols[key]);
       }
     });
@@ -3610,12 +3674,12 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-symbol-constructor
   if (!NATIVE_SYMBOL$4) {
     $Symbol = function Symbol() {
-      if (isPrototypeOf$3(SymbolPrototype$1, this)) throw TypeError$5('Symbol is not a constructor');
-      var description = !arguments.length || arguments[0] === undefined ? undefined : $toString$3(arguments[0]);
+      if (isPrototypeOf$2(SymbolPrototype$1, this)) throw TypeError$5('Symbol is not a constructor');
+      var description = !arguments.length || arguments[0] === undefined ? undefined : $toString$2(arguments[0]);
       var tag = uid$2(description);
       var setter = function (value) {
-        if (this === ObjectPrototype) call$j(setter, ObjectPrototypeSymbols, value);
-        if (hasOwn$b(this, HIDDEN) && hasOwn$b(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
+        if (this === ObjectPrototype) call$i(setter, ObjectPrototypeSymbols, value);
+        if (hasOwn$a(this, HIDDEN) && hasOwn$a(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
         setSymbolDescriptor(this, tag, createPropertyDescriptor$2(1, value));
       };
       if (DESCRIPTORS$9 && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
@@ -3624,11 +3688,11 @@ var JoomlaMediaManager = (function () {
 
     SymbolPrototype$1 = $Symbol[PROTOTYPE];
 
-    defineBuiltIn$6(SymbolPrototype$1, 'toString', function toString() {
+    defineBuiltIn$5(SymbolPrototype$1, 'toString', function toString() {
       return getInternalState$1(this).tag;
     });
 
-    defineBuiltIn$6($Symbol, 'withoutSetter', function (description) {
+    defineBuiltIn$5($Symbol, 'withoutSetter', function (description) {
       return wrap(uid$2(description), description);
     });
 
@@ -3652,7 +3716,7 @@ var JoomlaMediaManager = (function () {
         }
       });
       {
-        defineBuiltIn$6(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable$1, { unsafe: true });
+        defineBuiltIn$5(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable$1, { unsafe: true });
       }
     }
   }
@@ -3708,7 +3772,7 @@ var JoomlaMediaManager = (function () {
 
   var $$O = _export;
   var getBuiltIn$3 = getBuiltIn$a;
-  var hasOwn$a = hasOwnProperty_1;
+  var hasOwn$9 = hasOwnProperty_1;
   var toString$f = toString$i;
   var shared$2 = shared$7.exports;
   var NATIVE_SYMBOL_REGISTRY$1 = symbolRegistryDetection;
@@ -3721,7 +3785,7 @@ var JoomlaMediaManager = (function () {
   $$O({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY$1 }, {
     'for': function (key) {
       var string = toString$f(key);
-      if (hasOwn$a(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
+      if (hasOwn$9(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
       var symbol = getBuiltIn$3('Symbol')(string);
       StringToSymbolRegistry[string] = symbol;
       SymbolToStringRegistry$1[symbol] = string;
@@ -3730,7 +3794,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$N = _export;
-  var hasOwn$9 = hasOwnProperty_1;
+  var hasOwn$8 = hasOwnProperty_1;
   var isSymbol$3 = isSymbol$6;
   var tryToString$2 = tryToString$6;
   var shared$1 = shared$7.exports;
@@ -3743,7 +3807,7 @@ var JoomlaMediaManager = (function () {
   $$N({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
     keyFor: function keyFor(sym) {
       if (!isSymbol$3(sym)) throw TypeError(tryToString$2(sym) + ' is not a symbol');
-      if (hasOwn$9(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
+      if (hasOwn$8(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
     }
   });
 
@@ -3751,11 +3815,11 @@ var JoomlaMediaManager = (function () {
 
   var FunctionPrototype$1 = Function.prototype;
   var apply$4 = FunctionPrototype$1.apply;
-  var call$i = FunctionPrototype$1.call;
+  var call$h = FunctionPrototype$1.call;
 
   // eslint-disable-next-line es/no-reflect -- safe
-  var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND ? call$i.bind(apply$4) : function () {
-    return call$i.apply(apply$4, arguments);
+  var functionApply = typeof Reflect == 'object' && Reflect.apply || (NATIVE_BIND ? call$h.bind(apply$4) : function () {
+    return call$h.apply(apply$4, arguments);
   });
 
   var uncurryThis$m = functionUncurryThis;
@@ -3774,7 +3838,7 @@ var JoomlaMediaManager = (function () {
     for (var i = 0; i < rawLength; i++) {
       var element = replacer[i];
       if (typeof element == 'string') push$7(keys, element);
-      else if (typeof element == 'number' || classof$4(element) == 'Number' || classof$4(element) == 'String') push$7(keys, toString$e(element));
+      else if (typeof element == 'number' || classof$4(element) === 'Number' || classof$4(element) === 'String') push$7(keys, toString$e(element));
     }
     var keysLength = keys.length;
     var root = true;
@@ -3791,9 +3855,9 @@ var JoomlaMediaManager = (function () {
   var $$M = _export;
   var getBuiltIn$2 = getBuiltIn$a;
   var apply$3 = functionApply;
-  var call$h = functionCall;
+  var call$g = functionCall;
   var uncurryThis$l = functionUncurryThis;
-  var fails$o = fails$I;
+  var fails$o = fails$J;
   var isCallable$9 = isCallable$t;
   var isSymbol$2 = isSymbol$6;
   var arraySlice$4 = arraySlice$6;
@@ -3813,13 +3877,13 @@ var JoomlaMediaManager = (function () {
   var hi = /^[\uDC00-\uDFFF]$/;
 
   var WRONG_SYMBOLS_CONVERSION = !NATIVE_SYMBOL$2 || fails$o(function () {
-    var symbol = getBuiltIn$2('Symbol')();
+    var symbol = getBuiltIn$2('Symbol')('stringify detection');
     // MS Edge converts symbol values to JSON as {}
-    return $stringify$1([symbol]) != '[null]'
+    return $stringify$1([symbol]) !== '[null]'
       // WebKit converts symbol values to JSON as null
-      || $stringify$1({ a: symbol }) != '{}'
+      || $stringify$1({ a: symbol }) !== '{}'
       // V8 throws on boxed symbols
-      || $stringify$1(Object(symbol)) != '{}';
+      || $stringify$1(Object(symbol)) !== '{}';
   });
 
   // https://github.com/tc39/proposal-well-formed-stringify
@@ -3834,7 +3898,7 @@ var JoomlaMediaManager = (function () {
     if (!isCallable$9($replacer) && (it === undefined || isSymbol$2(it))) return; // IE8 returns string on undefined
     args[1] = function (key, value) {
       // some old implementations (like WebKit) could pass numbers as keys
-      if (isCallable$9($replacer)) value = call$h($replacer, this, $String$1(key), value);
+      if (isCallable$9($replacer)) value = call$g($replacer, this, $String$1(key), value);
       if (!isSymbol$2(value)) return value;
     };
     return apply$3($stringify$1, null, args);
@@ -3863,7 +3927,7 @@ var JoomlaMediaManager = (function () {
 
   var $$L = _export;
   var NATIVE_SYMBOL$1 = symbolConstructorDetection;
-  var fails$n = fails$I;
+  var fails$n = fails$J;
   var getOwnPropertySymbolsModule = objectGetOwnPropertySymbols;
   var toObject$9 = toObject$e;
 
@@ -3882,16 +3946,16 @@ var JoomlaMediaManager = (function () {
 
   var $$K = _export;
   var DESCRIPTORS$8 = descriptors;
-  var global$f = global$u;
+  var global$g = global$w;
   var uncurryThis$k = functionUncurryThis;
-  var hasOwn$8 = hasOwnProperty_1;
+  var hasOwn$7 = hasOwnProperty_1;
   var isCallable$8 = isCallable$t;
-  var isPrototypeOf$2 = objectIsPrototypeOf;
+  var isPrototypeOf$1 = objectIsPrototypeOf;
   var toString$d = toString$i;
   var defineBuiltInAccessor$3 = defineBuiltInAccessor$7;
   var copyConstructorProperties$1 = copyConstructorProperties$3;
 
-  var NativeSymbol = global$f.Symbol;
+  var NativeSymbol = global$g.Symbol;
   var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
 
   if (DESCRIPTORS$8 && isCallable$8(NativeSymbol) && (!('description' in SymbolPrototype) ||
@@ -3902,7 +3966,7 @@ var JoomlaMediaManager = (function () {
     // wrap Symbol constructor for correct work with undefined description
     var SymbolWrapper = function Symbol() {
       var description = arguments.length < 1 || arguments[0] === undefined ? undefined : toString$d(arguments[0]);
-      var result = isPrototypeOf$2(SymbolPrototype, this)
+      var result = isPrototypeOf$1(SymbolPrototype, this)
         ? new NativeSymbol(description)
         // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
         : description === undefined ? NativeSymbol() : NativeSymbol(description);
@@ -3914,7 +3978,7 @@ var JoomlaMediaManager = (function () {
     SymbolWrapper.prototype = SymbolPrototype;
     SymbolPrototype.constructor = SymbolWrapper;
 
-    var NATIVE_SYMBOL = String(NativeSymbol('test')) == 'Symbol(test)';
+    var NATIVE_SYMBOL = String(NativeSymbol('description detection')) === 'Symbol(description detection)';
     var thisSymbolValue = uncurryThis$k(SymbolPrototype.valueOf);
     var symbolDescriptiveString = uncurryThis$k(SymbolPrototype.toString);
     var regexp = /^Symbol\((.*)\)[^)]+$/;
@@ -3925,7 +3989,7 @@ var JoomlaMediaManager = (function () {
       configurable: true,
       get: function description() {
         var symbol = thisSymbolValue(this);
-        if (hasOwn$8(EmptyStringDescriptionStore, symbol)) return '';
+        if (hasOwn$7(EmptyStringDescriptionStore, symbol)) return '';
         var string = symbolDescriptiveString(symbol);
         var desc = NATIVE_SYMBOL ? stringSlice$9(string, 7, -1) : replace$7(string, regexp, '$1');
         return desc === '' ? undefined : desc;
@@ -3955,7 +4019,7 @@ var JoomlaMediaManager = (function () {
   };
 
   var $$J = _export;
-  var fails$m = fails$I;
+  var fails$m = fails$J;
   var isArray$5 = isArray$a;
   var isObject$b = isObject$q;
   var toObject$8 = toObject$e;
@@ -4012,7 +4076,7 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$l = fails$I;
+  var fails$l = fails$J;
 
   var arrayMethodIsStrict$3 = function (METHOD_NAME, argument) {
     var method = [][METHOD_NAME];
@@ -4034,7 +4098,7 @@ var JoomlaMediaManager = (function () {
   // eslint-disable-next-line es/no-array-prototype-foreach -- safe
   } : [].forEach;
 
-  var global$e = global$u;
+  var global$f = global$w;
   var DOMIterables = domIterables;
   var DOMTokenListPrototype = domTokenListPrototype;
   var forEach = arrayForEach;
@@ -4051,7 +4115,7 @@ var JoomlaMediaManager = (function () {
 
   for (var COLLECTION_NAME in DOMIterables) {
     if (DOMIterables[COLLECTION_NAME]) {
-      handlePrototype(global$e[COLLECTION_NAME] && global$e[COLLECTION_NAME].prototype);
+      handlePrototype(global$f[COLLECTION_NAME] && global$f[COLLECTION_NAME].prototype);
     }
   }
 
@@ -4088,7 +4152,7 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$G = _export;
-  var fails$k = fails$I;
+  var fails$k = fails$J;
   var getOwnPropertyNames$1 = objectGetOwnPropertyNamesExternal.f;
 
   // eslint-disable-next-line es/no-object-getownpropertynames -- required for testing
@@ -4100,30 +4164,30 @@ var JoomlaMediaManager = (function () {
     getOwnPropertyNames: getOwnPropertyNames$1
   });
 
-  var hasOwn$7 = hasOwnProperty_1;
+  var hasOwn$6 = hasOwnProperty_1;
 
   var isDataDescriptor$2 = function (descriptor) {
-    return descriptor !== undefined && (hasOwn$7(descriptor, 'value') || hasOwn$7(descriptor, 'writable'));
+    return descriptor !== undefined && (hasOwn$6(descriptor, 'value') || hasOwn$6(descriptor, 'writable'));
   };
 
   var $$F = _export;
-  var call$g = functionCall;
+  var call$f = functionCall;
   var isObject$a = isObject$q;
-  var anObject$g = anObject$r;
+  var anObject$e = anObject$r;
   var isDataDescriptor$1 = isDataDescriptor$2;
   var getOwnPropertyDescriptorModule$1 = objectGetOwnPropertyDescriptor;
-  var getPrototypeOf$1 = objectGetPrototypeOf$1;
+  var getPrototypeOf$1 = objectGetPrototypeOf$2;
 
   // `Reflect.get` method
   // https://tc39.es/ecma262/#sec-reflect.get
   function get$2(target, propertyKey /* , receiver */) {
     var receiver = arguments.length < 3 ? target : arguments[2];
     var descriptor, prototype;
-    if (anObject$g(target) === receiver) return target[propertyKey];
+    if (anObject$e(target) === receiver) return target[propertyKey];
     descriptor = getOwnPropertyDescriptorModule$1.f(target, propertyKey);
     if (descriptor) return isDataDescriptor$1(descriptor)
       ? descriptor.value
-      : descriptor.get === undefined ? undefined : call$g(descriptor.get, receiver);
+      : descriptor.get === undefined ? undefined : call$f(descriptor.get, receiver);
     if (isObject$a(prototype = getPrototypeOf$1(target))) return get$2(prototype, propertyKey, receiver);
   }
 
@@ -4132,14 +4196,14 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$E = _export;
-  var global$d = global$u;
+  var global$e = global$w;
   var setToStringTag$3 = setToStringTag$8;
 
   $$E({ global: true }, { Reflect: {} });
 
   // Reflect[@@toStringTag] property
   // https://tc39.es/ecma262/#sec-reflect-@@tostringtag
-  setToStringTag$3(global$d.Reflect, 'Reflect', true);
+  setToStringTag$3(global$e.Reflect, 'Reflect', true);
 
   var uncurryThis$j = functionUncurryThis;
 
@@ -4185,16 +4249,16 @@ var JoomlaMediaManager = (function () {
   var $$D = _export;
   var IS_PURE$1 = isPure;
   var DESCRIPTORS$7 = descriptors;
-  var global$c = global$u;
+  var global$d = global$w;
   var path = path$2;
   var uncurryThis$h = functionUncurryThis;
   var isForced$1 = isForced_1;
-  var hasOwn$6 = hasOwnProperty_1;
+  var hasOwn$5 = hasOwnProperty_1;
   var inheritIfRequired = inheritIfRequired$2;
-  var isPrototypeOf$1 = objectIsPrototypeOf;
+  var isPrototypeOf = objectIsPrototypeOf;
   var isSymbol$1 = isSymbol$6;
   var toPrimitive = toPrimitive$2;
-  var fails$j = fails$I;
+  var fails$j = fails$J;
   var getOwnPropertyNames = objectGetOwnPropertyNames.f;
   var getOwnPropertyDescriptor$6 = objectGetOwnPropertyDescriptor.f;
   var defineProperty = objectDefineProperty.f;
@@ -4202,10 +4266,10 @@ var JoomlaMediaManager = (function () {
   var trim = stringTrim.trim;
 
   var NUMBER = 'Number';
-  var NativeNumber = global$c[NUMBER];
+  var NativeNumber = global$d[NUMBER];
   path[NUMBER];
   var NumberPrototype = NativeNumber.prototype;
-  var TypeError$4 = global$c.TypeError;
+  var TypeError$4 = global$d.TypeError;
   var stringSlice$8 = uncurryThis$h(''.slice);
   var charCodeAt$1 = uncurryThis$h(''.charCodeAt);
 
@@ -4230,9 +4294,20 @@ var JoomlaMediaManager = (function () {
         if (third === 88 || third === 120) return NaN; // Number('+0x1') should be NaN, old V8 fix
       } else if (first === 48) {
         switch (charCodeAt$1(it, 1)) {
-          case 66: case 98: radix = 2; maxCode = 49; break; // fast equal of /^0b[01]+$/i
-          case 79: case 111: radix = 8; maxCode = 55; break; // fast equal of /^0o[0-7]+$/i
-          default: return +it;
+          // fast equal of /^0b[01]+$/i
+          case 66:
+          case 98:
+            radix = 2;
+            maxCode = 49;
+            break;
+          // fast equal of /^0o[0-7]+$/i
+          case 79:
+          case 111:
+            radix = 8;
+            maxCode = 55;
+            break;
+          default:
+            return +it;
         }
         digits = stringSlice$8(it, 2);
         length = digits.length;
@@ -4250,7 +4325,7 @@ var JoomlaMediaManager = (function () {
 
   var calledWithNew = function (dummy) {
     // includes check on 1..constructor(foo) case
-    return isPrototypeOf$1(NumberPrototype, dummy) && fails$j(function () { thisNumberValue$1(dummy); });
+    return isPrototypeOf(NumberPrototype, dummy) && fails$j(function () { thisNumberValue$1(dummy); });
   };
 
   // `Number` constructor
@@ -4277,7 +4352,7 @@ var JoomlaMediaManager = (function () {
       // ESNext
       'fromString,range'
     ).split(','), j = 0, key; keys.length > j; j++) {
-      if (hasOwn$6(source, key = keys[j]) && !hasOwn$6(target, key)) {
+      if (hasOwn$5(source, key = keys[j]) && !hasOwn$5(target, key)) {
         defineProperty(target, key, getOwnPropertyDescriptor$6(source, key));
       }
     }
@@ -4285,21 +4360,21 @@ var JoomlaMediaManager = (function () {
   if (FORCED$3 || IS_PURE$1) copyConstructorProperties(path[NUMBER], NativeNumber);
 
   var $$C = _export;
-  var call$f = functionCall;
-  var anObject$f = anObject$r;
+  var call$e = functionCall;
+  var anObject$d = anObject$r;
   var isObject$9 = isObject$q;
   var isDataDescriptor = isDataDescriptor$2;
-  var fails$i = fails$I;
+  var fails$i = fails$J;
   var definePropertyModule$1 = objectDefineProperty;
   var getOwnPropertyDescriptorModule = objectGetOwnPropertyDescriptor;
-  var getPrototypeOf = objectGetPrototypeOf$1;
+  var getPrototypeOf = objectGetPrototypeOf$2;
   var createPropertyDescriptor$1 = createPropertyDescriptor$7;
 
   // `Reflect.set` method
   // https://tc39.es/ecma262/#sec-reflect.set
   function set$4(target, propertyKey, V /* , receiver */) {
     var receiver = arguments.length < 4 ? target : arguments[3];
-    var ownDescriptor = getOwnPropertyDescriptorModule.f(anObject$f(target), propertyKey);
+    var ownDescriptor = getOwnPropertyDescriptorModule.f(anObject$d(target), propertyKey);
     var existingDescriptor, prototype, setter;
     if (!ownDescriptor) {
       if (isObject$9(prototype = getPrototypeOf(target))) {
@@ -4317,7 +4392,7 @@ var JoomlaMediaManager = (function () {
     } else {
       setter = ownDescriptor.set;
       if (setter === undefined) return false;
-      call$f(setter, receiver, V);
+      call$e(setter, receiver, V);
     } return true;
   }
 
@@ -4335,14 +4410,14 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$B = _export;
-  var anObject$e = anObject$r;
+  var anObject$c = anObject$r;
   var getOwnPropertyDescriptor$5 = objectGetOwnPropertyDescriptor.f;
 
   // `Reflect.deleteProperty` method
   // https://tc39.es/ecma262/#sec-reflect.deleteproperty
   $$B({ target: 'Reflect', stat: true }, {
     deleteProperty: function deleteProperty(target, propertyKey) {
-      var descriptor = getOwnPropertyDescriptor$5(anObject$e(target), propertyKey);
+      var descriptor = getOwnPropertyDescriptor$5(anObject$c(target), propertyKey);
       return descriptor && !descriptor.configurable ? false : delete target[propertyKey];
     }
   });
@@ -4367,15 +4442,15 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$y = _export;
-  var anObject$d = anObject$r;
-  var objectGetPrototypeOf = objectGetPrototypeOf$1;
+  var anObject$b = anObject$r;
+  var objectGetPrototypeOf$1 = objectGetPrototypeOf$2;
   var CORRECT_PROTOTYPE_GETTER$1 = correctPrototypeGetter;
 
   // `Reflect.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-reflect.getprototypeof
   $$y({ target: 'Reflect', stat: true, sham: !CORRECT_PROTOTYPE_GETTER$1 }, {
     getPrototypeOf: function getPrototypeOf(target) {
-      return objectGetPrototypeOf(anObject$d(target));
+      return objectGetPrototypeOf$1(anObject$b(target));
     }
   });
 
@@ -4395,34 +4470,16 @@ var JoomlaMediaManager = (function () {
     isExtensible: $isExtensible
   });
 
-  var anObject$c = anObject$r;
-
-  // `RegExp.prototype.flags` getter implementation
-  // https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
-  var regexpFlags$1 = function () {
-    var that = anObject$c(this);
-    var result = '';
-    if (that.hasIndices) result += 'd';
-    if (that.global) result += 'g';
-    if (that.ignoreCase) result += 'i';
-    if (that.multiline) result += 'm';
-    if (that.dotAll) result += 's';
-    if (that.unicode) result += 'u';
-    if (that.unicodeSets) result += 'v';
-    if (that.sticky) result += 'y';
-    return result;
-  };
-
-  var fails$h = fails$I;
-  var global$b = global$u;
+  var fails$h = fails$J;
+  var global$c = global$w;
 
   // babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
-  var $RegExp$2 = global$b.RegExp;
+  var $RegExp$2 = global$c.RegExp;
 
   var UNSUPPORTED_Y$2 = fails$h(function () {
     var re = $RegExp$2('a', 'y');
     re.lastIndex = 2;
-    return re.exec('abcd') != null;
+    return re.exec('abcd') !== null;
   });
 
   // UC Browser bug
@@ -4435,7 +4492,7 @@ var JoomlaMediaManager = (function () {
     // https://bugzilla.mozilla.org/show_bug.cgi?id=773687
     var re = $RegExp$2('^r', 'gy');
     re.lastIndex = 2;
-    return re.exec('str') != null;
+    return re.exec('str') !== null;
   });
 
   var regexpStickyHelpers = {
@@ -4444,22 +4501,22 @@ var JoomlaMediaManager = (function () {
     UNSUPPORTED_Y: UNSUPPORTED_Y$2
   };
 
-  var fails$g = fails$I;
-  var global$a = global$u;
+  var fails$g = fails$J;
+  var global$b = global$w;
 
   // babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
-  var $RegExp$1 = global$a.RegExp;
+  var $RegExp$1 = global$b.RegExp;
 
   var regexpUnsupportedDotAll = fails$g(function () {
     var re = $RegExp$1('.', 's');
     return !(re.dotAll && re.exec('\n') && re.flags === 's');
   });
 
-  var fails$f = fails$I;
-  var global$9 = global$u;
+  var fails$f = fails$J;
+  var global$a = global$w;
 
   // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
-  var $RegExp = global$9.RegExp;
+  var $RegExp = global$a.RegExp;
 
   var regexpUnsupportedNcg = fails$f(function () {
     var re = $RegExp('(?<a>b)', 'g');
@@ -4469,7 +4526,7 @@ var JoomlaMediaManager = (function () {
 
   /* eslint-disable regexp/no-empty-capturing-group, regexp/no-empty-group, regexp/no-lazy-ends -- testing */
   /* eslint-disable regexp/no-useless-quantifier -- testing */
-  var call$e = functionCall;
+  var call$d = functionCall;
   var uncurryThis$g = functionUncurryThis;
   var toString$b = toString$i;
   var regexpFlags = regexpFlags$1;
@@ -4491,8 +4548,8 @@ var JoomlaMediaManager = (function () {
   var UPDATES_LAST_INDEX_WRONG = (function () {
     var re1 = /a/;
     var re2 = /b*/g;
-    call$e(nativeExec, re1, 'a');
-    call$e(nativeExec, re2, 'a');
+    call$d(nativeExec, re1, 'a');
+    call$d(nativeExec, re2, 'a');
     return re1.lastIndex !== 0 || re2.lastIndex !== 0;
   })();
 
@@ -4513,14 +4570,14 @@ var JoomlaMediaManager = (function () {
 
       if (raw) {
         raw.lastIndex = re.lastIndex;
-        result = call$e(patchedExec, raw, str);
+        result = call$d(patchedExec, raw, str);
         re.lastIndex = raw.lastIndex;
         return result;
       }
 
       var groups = state.groups;
       var sticky = UNSUPPORTED_Y$1 && re.sticky;
-      var flags = call$e(regexpFlags, re);
+      var flags = call$d(regexpFlags, re);
       var source = re.source;
       var charsAdded = 0;
       var strCopy = str;
@@ -4548,7 +4605,7 @@ var JoomlaMediaManager = (function () {
       }
       if (UPDATES_LAST_INDEX_WRONG) lastIndex = re.lastIndex;
 
-      match = call$e(nativeExec, sticky ? reCopy : re, strCopy);
+      match = call$d(nativeExec, sticky ? reCopy : re, strCopy);
 
       if (sticky) {
         if (match) {
@@ -4563,7 +4620,7 @@ var JoomlaMediaManager = (function () {
       if (NPCG_INCLUDED && match && match.length > 1) {
         // Fix browsers whose `exec` methods don't consistently return `undefined`
         // for NPCG, like IE8. NOTE: This doesn't work for /(.?)?/
-        call$e(nativeReplace, match[0], reCopy, function () {
+        call$d(nativeReplace, match[0], reCopy, function () {
           for (i = 1; i < arguments.length - 2; i++) {
             if (arguments[i] === undefined) match[i] = undefined;
           }
@@ -4596,14 +4653,14 @@ var JoomlaMediaManager = (function () {
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
   var uncurryThis$f = functionUncurryThisClause;
-  var defineBuiltIn$5 = defineBuiltIn$e;
+  var defineBuiltIn$4 = defineBuiltIn$e;
   var regexpExec$2 = regexpExec$3;
-  var fails$e = fails$I;
+  var fails$e = fails$J;
   var wellKnownSymbol$7 = wellKnownSymbol$r;
   var createNonEnumerableProperty = createNonEnumerableProperty$6;
 
   var SPECIES$2 = wellKnownSymbol$7('species');
-  var RegExpPrototype$2 = RegExp.prototype;
+  var RegExpPrototype = RegExp.prototype;
 
   var fixRegexpWellKnownSymbolLogic = function (KEY, exec, FORCED, SHAM) {
     var SYMBOL = wellKnownSymbol$7(KEY);
@@ -4612,7 +4669,7 @@ var JoomlaMediaManager = (function () {
       // String methods call symbol-named RegEp methods
       var O = {};
       O[SYMBOL] = function () { return 7; };
-      return ''[KEY](O) != 7;
+      return ''[KEY](O) !== 7;
     });
 
     var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL && !fails$e(function () {
@@ -4633,7 +4690,10 @@ var JoomlaMediaManager = (function () {
         re[SYMBOL] = /./[SYMBOL];
       }
 
-      re.exec = function () { execCalled = true; return null; };
+      re.exec = function () {
+        execCalled = true;
+        return null;
+      };
 
       re[SYMBOL]('');
       return !execCalled;
@@ -4648,7 +4708,7 @@ var JoomlaMediaManager = (function () {
       var methods = exec(SYMBOL, ''[KEY], function (nativeMethod, regexp, str, arg2, forceStringMethod) {
         var uncurriedNativeMethod = uncurryThis$f(nativeMethod);
         var $exec = regexp.exec;
-        if ($exec === regexpExec$2 || $exec === RegExpPrototype$2.exec) {
+        if ($exec === regexpExec$2 || $exec === RegExpPrototype.exec) {
           if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
             // The native String method already delegates to @@method (this
             // polyfilled function), leasing to infinite recursion.
@@ -4660,11 +4720,11 @@ var JoomlaMediaManager = (function () {
         return { done: false };
       });
 
-      defineBuiltIn$5(String.prototype, KEY, methods[0]);
-      defineBuiltIn$5(RegExpPrototype$2, SYMBOL, methods[1]);
+      defineBuiltIn$4(String.prototype, KEY, methods[0]);
+      defineBuiltIn$4(RegExpPrototype, SYMBOL, methods[1]);
     }
 
-    if (SHAM) createNonEnumerableProperty(RegExpPrototype$2[SYMBOL], 'sham', true);
+    if (SHAM) createNonEnumerableProperty(RegExpPrototype[SYMBOL], 'sham', true);
   };
 
   var isObject$8 = isObject$q;
@@ -4677,7 +4737,7 @@ var JoomlaMediaManager = (function () {
   // https://tc39.es/ecma262/#sec-isregexp
   var isRegexp = function (it) {
     var isRegExp;
-    return isObject$8(it) && ((isRegExp = it[MATCH$1]) !== undefined ? !!isRegExp : classof$3(it) == 'RegExp');
+    return isObject$8(it) && ((isRegExp = it[MATCH$1]) !== undefined ? !!isRegExp : classof$3(it) === 'RegExp');
   };
 
   var isConstructor$1 = isConstructor$4;
@@ -4691,7 +4751,7 @@ var JoomlaMediaManager = (function () {
     throw $TypeError$6(tryToString$1(argument) + ' is not a constructor');
   };
 
-  var anObject$b = anObject$r;
+  var anObject$a = anObject$r;
   var aConstructor = aConstructor$1;
   var isNullOrUndefined$4 = isNullOrUndefined$b;
   var wellKnownSymbol$5 = wellKnownSymbol$r;
@@ -4701,9 +4761,9 @@ var JoomlaMediaManager = (function () {
   // `SpeciesConstructor` abstract operation
   // https://tc39.es/ecma262/#sec-speciesconstructor
   var speciesConstructor$2 = function (O, defaultConstructor) {
-    var C = anObject$b(O).constructor;
+    var C = anObject$a(O).constructor;
     var S;
-    return C === undefined || isNullOrUndefined$4(S = anObject$b(C)[SPECIES$1]) ? defaultConstructor : aConstructor(S);
+    return C === undefined || isNullOrUndefined$4(S = anObject$a(C)[SPECIES$1]) ? defaultConstructor : aConstructor(S);
   };
 
   var charAt$3 = stringMultibyte.charAt;
@@ -4714,8 +4774,8 @@ var JoomlaMediaManager = (function () {
     return index + (unicode ? charAt$3(S, index).length : 1);
   };
 
-  var call$d = functionCall;
-  var anObject$a = anObject$r;
+  var call$c = functionCall;
+  var anObject$9 = anObject$r;
   var isCallable$7 = isCallable$t;
   var classof$2 = classofRaw$2;
   var regexpExec$1 = regexpExec$3;
@@ -4727,19 +4787,19 @@ var JoomlaMediaManager = (function () {
   var regexpExecAbstract = function (R, S) {
     var exec = R.exec;
     if (isCallable$7(exec)) {
-      var result = call$d(exec, R, S);
-      if (result !== null) anObject$a(result);
+      var result = call$c(exec, R, S);
+      if (result !== null) anObject$9(result);
       return result;
     }
-    if (classof$2(R) === 'RegExp') return call$d(regexpExec$1, R, S);
+    if (classof$2(R) === 'RegExp') return call$c(regexpExec$1, R, S);
     throw $TypeError$5('RegExp#exec called on incompatible receiver');
   };
 
   var apply$2 = functionApply;
-  var call$c = functionCall;
+  var call$b = functionCall;
   var uncurryThis$e = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$3 = fixRegexpWellKnownSymbolLogic;
-  var anObject$9 = anObject$r;
+  var anObject$8 = anObject$r;
   var isNullOrUndefined$3 = isNullOrUndefined$b;
   var isRegExp$1 = isRegexp;
   var requireObjectCoercible$8 = requireObjectCoercible$d;
@@ -4752,7 +4812,7 @@ var JoomlaMediaManager = (function () {
   var callRegExpExec = regexpExecAbstract;
   var regexpExec = regexpExec$3;
   var stickyHelpers = regexpStickyHelpers;
-  var fails$d = fails$I;
+  var fails$d = fails$J;
 
   var UNSUPPORTED_Y = stickyHelpers.UNSUPPORTED_Y;
   var MAX_UINT32 = 0xFFFFFFFF;
@@ -4777,11 +4837,11 @@ var JoomlaMediaManager = (function () {
   fixRegExpWellKnownSymbolLogic$3('split', function (SPLIT, nativeSplit, maybeCallNative) {
     var internalSplit;
     if (
-      'abbc'.split(/(b)*/)[1] == 'c' ||
+      'abbc'.split(/(b)*/)[1] === 'c' ||
       // eslint-disable-next-line regexp/no-empty-group -- required for testing
-      'test'.split(/(?:)/, -1).length != 4 ||
-      'ab'.split(/(?:ab)*/).length != 2 ||
-      '.'.split(/(.?)(.?)/).length != 4 ||
+      'test'.split(/(?:)/, -1).length !== 4 ||
+      'ab'.split(/(?:ab)*/).length !== 2 ||
+      '.'.split(/(.?)(.?)/).length !== 4 ||
       // eslint-disable-next-line regexp/no-empty-capturing-group, regexp/no-empty-group -- required for testing
       '.'.split(/()()/).length > 1 ||
       ''.split(/.?/).length
@@ -4794,7 +4854,7 @@ var JoomlaMediaManager = (function () {
         if (separator === undefined) return [string];
         // If `separator` is not a regex, use native split
         if (!isRegExp$1(separator)) {
-          return call$c(nativeSplit, string, separator, lim);
+          return call$b(nativeSplit, string, separator, lim);
         }
         var output = [];
         var flags = (separator.ignoreCase ? 'i' : '') +
@@ -4805,7 +4865,7 @@ var JoomlaMediaManager = (function () {
         // Make `global` and avoid `lastIndex` issues by working with a copy
         var separatorCopy = new RegExp(separator.source, flags + 'g');
         var match, lastIndex, lastLength;
-        while (match = call$c(regexpExec, separatorCopy, string)) {
+        while (match = call$b(regexpExec, separatorCopy, string)) {
           lastIndex = separatorCopy.lastIndex;
           if (lastIndex > lastLastIndex) {
             push$6(output, stringSlice$6(string, lastLastIndex, match.index));
@@ -4824,7 +4884,7 @@ var JoomlaMediaManager = (function () {
     // Chakra, V8
     } else if ('0'.split(undefined, 0).length) {
       internalSplit = function (separator, limit) {
-        return separator === undefined && limit === 0 ? [] : call$c(nativeSplit, this, separator, limit);
+        return separator === undefined && limit === 0 ? [] : call$b(nativeSplit, this, separator, limit);
       };
     } else internalSplit = nativeSplit;
 
@@ -4835,8 +4895,8 @@ var JoomlaMediaManager = (function () {
         var O = requireObjectCoercible$8(this);
         var splitter = isNullOrUndefined$3(separator) ? undefined : getMethod$3(separator, SPLIT);
         return splitter
-          ? call$c(splitter, separator, O, limit)
-          : call$c(internalSplit, toString$a(O), separator, limit);
+          ? call$b(splitter, separator, O, limit)
+          : call$b(internalSplit, toString$a(O), separator, limit);
       },
       // `RegExp.prototype[@@split]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@split
@@ -4844,7 +4904,7 @@ var JoomlaMediaManager = (function () {
       // NOTE: This cannot be properly polyfilled in engines that don't support
       // the 'y' flag.
       function (string, limit) {
-        var rx = anObject$9(this);
+        var rx = anObject$8(this);
         var S = toString$a(string);
         var res = maybeCallNative(internalSplit, rx, S, limit, internalSplit !== nativeSplit);
 
@@ -4939,11 +4999,11 @@ var JoomlaMediaManager = (function () {
   };
 
   var apply$1 = functionApply;
-  var call$b = functionCall;
+  var call$a = functionCall;
   var uncurryThis$c = functionUncurryThis;
   var fixRegExpWellKnownSymbolLogic$2 = fixRegexpWellKnownSymbolLogic;
-  var fails$c = fails$I;
-  var anObject$8 = anObject$r;
+  var fails$c = fails$J;
+  var anObject$7 = anObject$r;
   var isCallable$6 = isCallable$t;
   var isNullOrUndefined$2 = isNullOrUndefined$b;
   var toIntegerOrInfinity$4 = toIntegerOrInfinity$8;
@@ -5005,13 +5065,13 @@ var JoomlaMediaManager = (function () {
         var O = requireObjectCoercible$7(this);
         var replacer = isNullOrUndefined$2(searchValue) ? undefined : getMethod$2(searchValue, REPLACE);
         return replacer
-          ? call$b(replacer, searchValue, O, replaceValue)
-          : call$b(nativeReplace, toString$9(O), searchValue, replaceValue);
+          ? call$a(replacer, searchValue, O, replaceValue)
+          : call$a(nativeReplace, toString$9(O), searchValue, replaceValue);
       },
       // `RegExp.prototype[@@replace]` method
       // https://tc39.es/ecma262/#sec-regexp.prototype-@@replace
       function (string, replaceValue) {
-        var rx = anObject$8(this);
+        var rx = anObject$7(this);
         var S = toString$9(string);
 
         if (
@@ -5027,13 +5087,16 @@ var JoomlaMediaManager = (function () {
         if (!functionalReplace) replaceValue = toString$9(replaceValue);
 
         var global = rx.global;
+        var fullUnicode;
         if (global) {
-          var fullUnicode = rx.unicode;
+          fullUnicode = rx.unicode;
           rx.lastIndex = 0;
         }
+
         var results = [];
+        var result;
         while (true) {
-          var result = regExpExec$3(rx, S);
+          result = regExpExec$3(rx, S);
           if (result === null) break;
 
           push$5(results, result);
@@ -5051,6 +5114,7 @@ var JoomlaMediaManager = (function () {
           var matched = toString$9(result[0]);
           var position = max$1(min$3(toIntegerOrInfinity$4(result.index), S.length), 0);
           var captures = [];
+          var replacement;
           // NOTE: This is equivalent to
           //   captures = result.slice(1).map(maybeToString)
           // but for some reason `nativeSlice.call(result, 1, result.length)` (called in
@@ -5061,7 +5125,7 @@ var JoomlaMediaManager = (function () {
           if (functionalReplace) {
             var replacerArgs = concat([matched], captures, position, S);
             if (namedCaptures !== undefined) push$5(replacerArgs, namedCaptures);
-            var replacement = toString$9(apply$1(replaceValue, undefined, replacerArgs));
+            replacement = toString$9(apply$1(replaceValue, undefined, replacerArgs));
           } else {
             replacement = getSubstitution(matched, S, position, captures, namedCaptures, replaceValue);
           }
@@ -5070,13 +5134,14 @@ var JoomlaMediaManager = (function () {
             nextSourcePosition = position + matched.length;
           }
         }
+
         return accumulatedResult + stringSlice$4(S, nextSourcePosition);
       }
     ];
   }, !REPLACE_SUPPORTS_NAMED_GROUPS || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
 
-  var PROPER_FUNCTION_NAME$1 = functionName.PROPER;
-  var fails$b = fails$I;
+  var PROPER_FUNCTION_NAME = functionName.PROPER;
+  var fails$b = fails$J;
   var whitespaces = whitespaces$2;
 
   var non = '\u200B\u0085\u180E';
@@ -5087,7 +5152,7 @@ var JoomlaMediaManager = (function () {
     return fails$b(function () {
       return !!whitespaces[METHOD_NAME]()
         || non[METHOD_NAME]() !== non
-        || (PROPER_FUNCTION_NAME$1 && whitespaces[METHOD_NAME].name !== METHOD_NAME);
+        || (PROPER_FUNCTION_NAME && whitespaces[METHOD_NAME].name !== METHOD_NAME);
     });
   };
 
@@ -5102,45 +5167,6 @@ var JoomlaMediaManager = (function () {
       return $trim(this);
     }
   });
-
-  var call$a = functionCall;
-  var hasOwn$5 = hasOwnProperty_1;
-  var isPrototypeOf = objectIsPrototypeOf;
-  var regExpFlags = regexpFlags$1;
-
-  var RegExpPrototype$1 = RegExp.prototype;
-
-  var regexpGetFlags = function (R) {
-    var flags = R.flags;
-    return flags === undefined && !('flags' in RegExpPrototype$1) && !hasOwn$5(R, 'flags') && isPrototypeOf(RegExpPrototype$1, R)
-      ? call$a(regExpFlags, R) : flags;
-  };
-
-  var PROPER_FUNCTION_NAME = functionName.PROPER;
-  var defineBuiltIn$4 = defineBuiltIn$e;
-  var anObject$7 = anObject$r;
-  var $toString$2 = toString$i;
-  var fails$a = fails$I;
-  var getRegExpFlags = regexpGetFlags;
-
-  var TO_STRING = 'toString';
-  var RegExpPrototype = RegExp.prototype;
-  var nativeToString = RegExpPrototype[TO_STRING];
-
-  var NOT_GENERIC = fails$a(function () { return nativeToString.call({ source: 'a', flags: 'b' }) != '/a/b'; });
-  // FF44- RegExp#toString has a wrong name
-  var INCORRECT_NAME = PROPER_FUNCTION_NAME && nativeToString.name != TO_STRING;
-
-  // `RegExp.prototype.toString` method
-  // https://tc39.es/ecma262/#sec-regexp.prototype.tostring
-  if (NOT_GENERIC || INCORRECT_NAME) {
-    defineBuiltIn$4(RegExp.prototype, TO_STRING, function toString() {
-      var R = anObject$7(this);
-      var pattern = $toString$2(R.source);
-      var flags = $toString$2(getRegExpFlags(R));
-      return '/' + pattern + '/' + flags;
-    }, { unsafe: true });
-  }
 
   // TODO: Remove from `core-js@4` since it's moved to entry points
 
@@ -5341,17 +5367,18 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$r = _export;
-  var global$8 = global$u;
+  var global$9 = global$w;
 
   // `globalThis` object
   // https://tc39.es/ecma262/#sec-globalthis
-  $$r({ global: true, forced: global$8.globalThis !== global$8 }, {
-    globalThis: global$8
+  $$r({ global: true, forced: global$9.globalThis !== global$9 }, {
+    globalThis: global$9
   });
 
+  var global$8 = global$w;
   var classof$1 = classofRaw$2;
 
-  var engineIsNode = typeof process != 'undefined' && classof$1(process) == 'process';
+  var engineIsNode = classof$1(global$8.process) === 'process';
 
   var $TypeError$1 = TypeError;
 
@@ -5365,12 +5392,12 @@ var JoomlaMediaManager = (function () {
   // eslint-disable-next-line redos/no-vulnerable -- safe
   var engineIsIos = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent$4);
 
-  var global$7 = global$u;
+  var global$7 = global$w;
   var apply = functionApply;
   var bind$6 = functionBindContext;
   var isCallable$4 = isCallable$t;
   var hasOwn$4 = hasOwnProperty_1;
-  var fails$9 = fails$I;
+  var fails$a = fails$J;
   var html = html$2;
   var arraySlice$2 = arraySlice$6;
   var createElement = documentCreateElement$2;
@@ -5380,7 +5407,7 @@ var JoomlaMediaManager = (function () {
 
   var set$3 = global$7.setImmediate;
   var clear$1 = global$7.clearImmediate;
-  var process$3 = global$7.process;
+  var process$2 = global$7.process;
   var Dispatch = global$7.Dispatch;
   var Function$1 = global$7.Function;
   var MessageChannel = global$7.MessageChannel;
@@ -5390,7 +5417,7 @@ var JoomlaMediaManager = (function () {
   var ONREADYSTATECHANGE = 'onreadystatechange';
   var $location, defer, channel, port;
 
-  fails$9(function () {
+  fails$a(function () {
     // Deno throws a ReferenceError on `location` access without `--location` flag
     $location = global$7.location;
   });
@@ -5436,7 +5463,7 @@ var JoomlaMediaManager = (function () {
     // Node.js 0.8-
     if (IS_NODE$3) {
       defer = function (id) {
-        process$3.nextTick(runner(id));
+        process$2.nextTick(runner(id));
       };
     // Sphere (JS game engine) Dispatch API
     } else if (Dispatch && Dispatch.now) {
@@ -5457,7 +5484,7 @@ var JoomlaMediaManager = (function () {
       isCallable$4(global$7.postMessage) &&
       !global$7.importScripts &&
       $location && $location.protocol !== 'file:' &&
-      !fails$9(globalPostMessageDefer)
+      !fails$a(globalPostMessageDefer)
     ) {
       defer = globalPostMessageDefer;
       global$7.addEventListener('message', eventListener, false);
@@ -5515,7 +5542,7 @@ var JoomlaMediaManager = (function () {
 
   var engineIsWebosWebkit = /web0s(?!.*chrome)/i.test(userAgent$2);
 
-  var global$6 = global$u;
+  var global$6 = global$w;
   var bind$5 = functionBindContext;
   var getOwnPropertyDescriptor$2 = objectGetOwnPropertyDescriptor.f;
   var macrotask = task$1.set;
@@ -5527,7 +5554,7 @@ var JoomlaMediaManager = (function () {
 
   var MutationObserver = global$6.MutationObserver || global$6.WebKitMutationObserver;
   var document$2 = global$6.document;
-  var process$2 = global$6.process;
+  var process$1 = global$6.process;
   var Promise$1 = global$6.Promise;
   // Node.js 11 shows ExperimentalWarning on getting `queueMicrotask`
   var queueMicrotaskDescriptor = getOwnPropertyDescriptor$2(global$6, 'queueMicrotask');
@@ -5540,7 +5567,7 @@ var JoomlaMediaManager = (function () {
 
     var flush = function () {
       var parent, fn;
-      if (IS_NODE$2 && (parent = process$2.domain)) parent.exit();
+      if (IS_NODE$2 && (parent = process$1.domain)) parent.exit();
       while (fn = queue$1.get()) try {
         fn();
       } catch (error) {
@@ -5572,7 +5599,7 @@ var JoomlaMediaManager = (function () {
     // Node.js without promises
     } else if (IS_NODE$2) {
       notify$2 = function () {
-        process$2.nextTick(flush);
+        process$1.nextTick(flush);
       };
     // for other environments - macrotask based on:
     // - setImmediate
@@ -5599,7 +5626,7 @@ var JoomlaMediaManager = (function () {
   var hostReportErrors$1 = function (a, b) {
     try {
       // eslint-disable-next-line no-console -- safe
-      arguments.length == 1 ? console.error(a) : console.error(a, b);
+      arguments.length === 1 ? console.error(a) : console.error(a, b);
     } catch (error) { /* empty */ }
   };
 
@@ -5611,12 +5638,11 @@ var JoomlaMediaManager = (function () {
     }
   };
 
-  var global$5 = global$u;
+  var global$5 = global$w;
 
   var promiseNativeConstructor = global$5.Promise;
 
   /* global Deno -- Deno case */
-
   var engineIsDeno = typeof Deno == 'object' && Deno && typeof Deno.version == 'object';
 
   var IS_DENO$1 = engineIsDeno;
@@ -5626,7 +5652,7 @@ var JoomlaMediaManager = (function () {
     && typeof window == 'object'
     && typeof document == 'object';
 
-  var global$4 = global$u;
+  var global$4 = global$w;
   var NativePromiseConstructor$3 = promiseNativeConstructor;
   var isCallable$3 = isCallable$t;
   var isForced = isForced_1;
@@ -5696,7 +5722,7 @@ var JoomlaMediaManager = (function () {
 
   var $$q = _export;
   var IS_NODE = engineIsNode;
-  var global$3 = global$u;
+  var global$3 = global$w;
   var call$8 = functionCall;
   var defineBuiltIn$3 = defineBuiltIn$e;
   var setPrototypeOf = objectSetPrototypeOf;
@@ -5728,7 +5754,7 @@ var JoomlaMediaManager = (function () {
   var PromisePrototype = NativePromisePrototype$1;
   var TypeError$3 = global$3.TypeError;
   var document$1 = global$3.document;
-  var process$1 = global$3.process;
+  var process = global$3.process;
   var newPromiseCapability$1 = newPromiseCapabilityModule$3.f;
   var newGenericPromiseCapability = newPromiseCapability$1;
 
@@ -5751,7 +5777,7 @@ var JoomlaMediaManager = (function () {
 
   var callReaction = function (reaction, state) {
     var value = state.value;
-    var ok = state.state == FULFILLED;
+    var ok = state.state === FULFILLED;
     var handler = ok ? reaction.ok : reaction.fail;
     var resolve = reaction.resolve;
     var reject = reaction.reject;
@@ -5820,7 +5846,7 @@ var JoomlaMediaManager = (function () {
       if (IS_UNHANDLED) {
         result = perform$2(function () {
           if (IS_NODE) {
-            process$1.emit('unhandledRejection', value, promise);
+            process.emit('unhandledRejection', value, promise);
           } else dispatchEvent(UNHANDLED_REJECTION, promise, value);
         });
         // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
@@ -5838,7 +5864,7 @@ var JoomlaMediaManager = (function () {
     call$8(task, global$3, function () {
       var promise = state.facade;
       if (IS_NODE) {
-        process$1.emit('rejectionHandled', promise);
+        process.emit('rejectionHandled', promise);
       } else dispatchEvent(REJECTION_HANDLED, promise, state.value);
     });
   };
@@ -5926,8 +5952,8 @@ var JoomlaMediaManager = (function () {
       state.parent = true;
       reaction.ok = isCallable$2(onFulfilled) ? onFulfilled : true;
       reaction.fail = isCallable$2(onRejected) && onRejected;
-      reaction.domain = IS_NODE ? process$1.domain : undefined;
-      if (state.state == PENDING) state.reactions.add(reaction);
+      reaction.domain = IS_NODE ? process.domain : undefined;
+      if (state.state === PENDING) state.reactions.add(reaction);
       else microtask(function () {
         callReaction(reaction, state);
       });
@@ -6124,11 +6150,11 @@ var JoomlaMediaManager = (function () {
 
   var $$k = _export;
   var $includes = arrayIncludes.includes;
-  var fails$8 = fails$I;
+  var fails$9 = fails$J;
   var addToUnscopables$4 = addToUnscopables$6;
 
   // FF99+ bug
-  var BROKEN_ON_SPARSE = fails$8(function () {
+  var BROKEN_ON_SPARSE = fails$9(function () {
     // eslint-disable-next-line es/no-array-prototype-includes -- detection
     return !Array(1).includes();
   });
@@ -6233,7 +6259,7 @@ var JoomlaMediaManager = (function () {
   var lengthOfArrayLike$4 = lengthOfArrayLike$c;
   var deletePropertyOrThrow = deletePropertyOrThrow$2;
   var toString$5 = toString$i;
-  var fails$7 = fails$I;
+  var fails$8 = fails$J;
   var internalSort = arraySort$1;
   var arrayMethodIsStrict$1 = arrayMethodIsStrict$3;
   var FF = engineFfVersion;
@@ -6246,17 +6272,17 @@ var JoomlaMediaManager = (function () {
   var push$4 = uncurryThis$9(test.push);
 
   // IE8-
-  var FAILS_ON_UNDEFINED = fails$7(function () {
+  var FAILS_ON_UNDEFINED = fails$8(function () {
     test.sort(undefined);
   });
   // V8 bug
-  var FAILS_ON_NULL = fails$7(function () {
+  var FAILS_ON_NULL = fails$8(function () {
     test.sort(null);
   });
   // Old WebKit
   var STRICT_METHOD = arrayMethodIsStrict$1('sort');
 
-  var STABLE_SORT = !fails$7(function () {
+  var STABLE_SORT = !fails$8(function () {
     // feature detection can be too slow, so check engines versions
     if (V8) return V8 < 70;
     if (FF && FF > 3) return;
@@ -6335,9 +6361,9 @@ var JoomlaMediaManager = (function () {
   var $$h = _export;
   var toObject$4 = toObject$e;
   var nativeKeys = objectKeys$4;
-  var fails$6 = fails$I;
+  var fails$7 = fails$J;
 
-  var FAILS_ON_PRIMITIVES$2 = fails$6(function () { nativeKeys(1); });
+  var FAILS_ON_PRIMITIVES$2 = fails$7(function () { nativeKeys(1); });
 
   // `Object.keys` method
   // https://tc39.es/ecma262/#sec-object.keys
@@ -6481,10 +6507,10 @@ var JoomlaMediaManager = (function () {
   var anObject$3 = anObject$r;
   var toPropertyKey = toPropertyKey$5;
   var definePropertyModule = objectDefineProperty;
-  var fails$5 = fails$I;
+  var fails$6 = fails$J;
 
   // MS Edge has broken Reflect.defineProperty - throwing instead of returning false
-  var ERROR_INSTEAD_OF_FALSE = fails$5(function () {
+  var ERROR_INSTEAD_OF_FALSE = fails$6(function () {
     // eslint-disable-next-line es/no-reflect -- required for testing
     Reflect.defineProperty(definePropertyModule.f({}, 1, { value: 1 }), 1, { value: 2 });
   });
@@ -6561,6 +6587,7 @@ var JoomlaMediaManager = (function () {
   var SKIPS_HOLES$1 = true;
 
   // Shouldn't skip holes
+  // eslint-disable-next-line es/no-array-prototype-findindex -- testing
   if (FIND_INDEX in []) Array(1)[FIND_INDEX](function () { SKIPS_HOLES$1 = false; });
 
   // `Array.prototype.findIndex` method
@@ -6590,12 +6617,12 @@ var JoomlaMediaManager = (function () {
     return p1 + '>' + S + '</' + tag + '>';
   };
 
-  var fails$4 = fails$I;
+  var fails$5 = fails$J;
 
   // check the existence of a method, lowercase
   // of a tag and escaping quotes in arguments
   var stringHtmlForced = function (METHOD_NAME) {
-    return fails$4(function () {
+    return fails$5(function () {
       var test = ''[METHOD_NAME]('"');
       return test !== test.toLowerCase() || test.split('"').length > 3;
     });
@@ -6621,7 +6648,7 @@ var JoomlaMediaManager = (function () {
 
   var nativeJoin = uncurryThis$6([].join);
 
-  var ES3_STRINGS = IndexedObject != Object;
+  var ES3_STRINGS = IndexedObject !== Object;
   var FORCED$1 = ES3_STRINGS || !arrayMethodIsStrict('join', ',');
 
   // `Array.prototype.join` method
@@ -6644,7 +6671,7 @@ var JoomlaMediaManager = (function () {
     var str = toString$2(requireObjectCoercible$2(this));
     var result = '';
     var n = toIntegerOrInfinity$2(count);
-    if (n < 0 || n == Infinity) throw $RangeError$2('Wrong number of repetitions');
+    if (n < 0 || n === Infinity) throw $RangeError$2('Wrong number of repetitions');
     for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
     return result;
   };
@@ -6654,7 +6681,7 @@ var JoomlaMediaManager = (function () {
   var toIntegerOrInfinity$1 = toIntegerOrInfinity$8;
   var thisNumberValue = thisNumberValue$2;
   var $repeat = stringRepeat;
-  var fails$3 = fails$I;
+  var fails$4 = fails$J;
 
   var $RangeError$1 = RangeError;
   var $String = String;
@@ -6711,12 +6738,12 @@ var JoomlaMediaManager = (function () {
     } return s;
   };
 
-  var FORCED = fails$3(function () {
+  var FORCED = fails$4(function () {
     return nativeToFixed(0.00008, 3) !== '0.000' ||
       nativeToFixed(0.9, 0) !== '1' ||
       nativeToFixed(1.255, 2) !== '1.25' ||
       nativeToFixed(1000000000000000128.0, 0) !== '1000000000000000128';
-  }) || !fails$3(function () {
+  }) || !fails$4(function () {
     // V8 ~ Android 4.3-
     nativeToFixed({});
   });
@@ -6735,7 +6762,7 @@ var JoomlaMediaManager = (function () {
       // TODO: ES2018 increased the maximum number of fraction digits to 100, need to improve the implementation
       if (fractDigits < 0 || fractDigits > 20) throw $RangeError$1('Incorrect fraction digits');
       // eslint-disable-next-line no-self-compare -- NaN check
-      if (number != number) return 'NaN';
+      if (number !== number) return 'NaN';
       if (number <= -1e21 || number >= 1e21) return $String(number);
       if (number < 0) {
         sign = '-';
@@ -6780,30 +6807,35 @@ var JoomlaMediaManager = (function () {
     }
   });
 
-  var fails$2 = fails$I;
+  var fails$3 = fails$J;
   var wellKnownSymbol$1 = wellKnownSymbol$r;
   var DESCRIPTORS$3 = descriptors;
   var IS_PURE = isPure;
 
   var ITERATOR$1 = wellKnownSymbol$1('iterator');
 
-  var urlConstructorDetection = !fails$2(function () {
+  var urlConstructorDetection = !fails$3(function () {
     // eslint-disable-next-line unicorn/relative-url-style -- required for testing
     var url = new URL('b?a=1&b=2&c=3', 'http://a');
-    var searchParams = url.searchParams;
+    var params = url.searchParams;
+    var params2 = new URLSearchParams('a=1&a=2&b=3');
     var result = '';
     url.pathname = 'c%20d';
-    searchParams.forEach(function (value, key) {
-      searchParams['delete']('b');
+    params.forEach(function (value, key) {
+      params['delete']('b');
       result += key + value;
     });
-    return (IS_PURE && !url.toJSON)
-      || (!searchParams.size && (IS_PURE || !DESCRIPTORS$3))
-      || !searchParams.sort
+    params2['delete']('a', 2);
+    // `undefined` case is a Chromium 117 bug
+    // https://bugs.chromium.org/p/v8/issues/detail?id=14222
+    params2['delete']('b', undefined);
+    return (IS_PURE && (!url.toJSON || !params2.has('a', 1) || params2.has('a', 2) || !params2.has('a', undefined) || params2.has('b')))
+      || (!params.size && (IS_PURE || !DESCRIPTORS$3))
+      || !params.sort
       || url.href !== 'http://a/c%20d?a=1&c=3'
-      || searchParams.get('c') !== '3'
+      || params.get('c') !== '3'
       || String(new URLSearchParams('?a=1')) !== 'a=1'
-      || !searchParams[ITERATOR$1]
+      || !params[ITERATOR$1]
       // throws in Edge
       || new URL('https://a@b').username !== 'a'
       || new URLSearchParams(new URLSearchParams('a=b')).get('a') !== 'b'
@@ -6861,7 +6893,7 @@ var JoomlaMediaManager = (function () {
       if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
         // It's a high surrogate, and there is a next character.
         var extra = charCodeAt(string, counter++);
-        if ((extra & 0xFC00) == 0xDC00) { // Low surrogate.
+        if ((extra & 0xFC00) === 0xDC00) { // Low surrogate.
           push$3(output, ((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
         } else {
           // It's an unmatched surrogate; only append this code unit, in case the
@@ -6960,12 +6992,12 @@ var JoomlaMediaManager = (function () {
         if (currentValue < n && ++delta > maxInt) {
           throw $RangeError(OVERFLOW_ERROR);
         }
-        if (currentValue == n) {
+        if (currentValue === n) {
           // Represent delta as a generalized variable-length integer.
           var q = delta;
           var k = base;
           while (true) {
-            var t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+            var t = k <= bias ? tMin : k >= bias + tMax ? tMax : k - bias;
             if (q < t) break;
             var qMinusT = q - t;
             var baseMinusT = base - t;
@@ -6975,7 +7007,7 @@ var JoomlaMediaManager = (function () {
           }
 
           push$3(output, fromCharCode(digitToBasic(q)));
-          bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+          bias = adapt(delta, handledCPCountPlusOne, handledCPCount === basicLength);
           delta = 0;
           handledCPCount++;
         }
@@ -7001,7 +7033,7 @@ var JoomlaMediaManager = (function () {
   // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
 
   var $$9 = _export;
-  var global$2 = global$u;
+  var global$2 = global$w;
   var call$2 = functionCall;
   var uncurryThis$3 = functionUncurryThis;
   var DESCRIPTORS$2 = descriptors;
@@ -7204,7 +7236,7 @@ var JoomlaMediaManager = (function () {
     anInstance$1(this, URLSearchParamsPrototype);
     var init = arguments.length > 0 ? arguments[0] : undefined;
     var state = setInternalState$1(this, new URLSearchParamsState(init));
-    if (!DESCRIPTORS$2) this.length = state.entries.length;
+    if (!DESCRIPTORS$2) this.size = state.entries.length;
   };
 
   var URLSearchParamsPrototype = URLSearchParamsConstructor.prototype;
@@ -7213,32 +7245,37 @@ var JoomlaMediaManager = (function () {
     // `URLSearchParams.prototype.append` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-append
     append: function append(name, value) {
-      validateArgumentsLength$1(arguments.length, 2);
       var state = getInternalParamsState(this);
+      validateArgumentsLength$1(arguments.length, 2);
       push$2(state.entries, { key: $toString$1(name), value: $toString$1(value) });
       if (!DESCRIPTORS$2) this.length++;
       state.updateURL();
     },
     // `URLSearchParams.prototype.delete` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-delete
-    'delete': function (name) {
-      validateArgumentsLength$1(arguments.length, 1);
+    'delete': function (name /* , value */) {
       var state = getInternalParamsState(this);
+      var length = validateArgumentsLength$1(arguments.length, 1);
       var entries = state.entries;
       var key = $toString$1(name);
+      var $value = length < 2 ? undefined : arguments[1];
+      var value = $value === undefined ? $value : $toString$1($value);
       var index = 0;
       while (index < entries.length) {
-        if (entries[index].key === key) splice(entries, index, 1);
-        else index++;
+        var entry = entries[index];
+        if (entry.key === key && (value === undefined || entry.value === value)) {
+          splice(entries, index, 1);
+          if (value !== undefined) break;
+        } else index++;
       }
-      if (!DESCRIPTORS$2) this.length = entries.length;
+      if (!DESCRIPTORS$2) this.size = entries.length;
       state.updateURL();
     },
     // `URLSearchParams.prototype.get` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-get
     get: function get(name) {
-      validateArgumentsLength$1(arguments.length, 1);
       var entries = getInternalParamsState(this).entries;
+      validateArgumentsLength$1(arguments.length, 1);
       var key = $toString$1(name);
       var index = 0;
       for (; index < entries.length; index++) {
@@ -7249,8 +7286,8 @@ var JoomlaMediaManager = (function () {
     // `URLSearchParams.prototype.getAll` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-getall
     getAll: function getAll(name) {
-      validateArgumentsLength$1(arguments.length, 1);
       var entries = getInternalParamsState(this).entries;
+      validateArgumentsLength$1(arguments.length, 1);
       var key = $toString$1(name);
       var result = [];
       var index = 0;
@@ -7261,21 +7298,24 @@ var JoomlaMediaManager = (function () {
     },
     // `URLSearchParams.prototype.has` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-has
-    has: function has(name) {
-      validateArgumentsLength$1(arguments.length, 1);
+    has: function has(name /* , value */) {
       var entries = getInternalParamsState(this).entries;
+      var length = validateArgumentsLength$1(arguments.length, 1);
       var key = $toString$1(name);
+      var $value = length < 2 ? undefined : arguments[1];
+      var value = $value === undefined ? $value : $toString$1($value);
       var index = 0;
       while (index < entries.length) {
-        if (entries[index++].key === key) return true;
+        var entry = entries[index++];
+        if (entry.key === key && (value === undefined || entry.value === value)) return true;
       }
       return false;
     },
     // `URLSearchParams.prototype.set` method
     // https://url.spec.whatwg.org/#dom-urlsearchparams-set
     set: function set(name, value) {
-      validateArgumentsLength$1(arguments.length, 1);
       var state = getInternalParamsState(this);
+      validateArgumentsLength$1(arguments.length, 1);
       var entries = state.entries;
       var found = false;
       var key = $toString$1(name);
@@ -7293,7 +7333,7 @@ var JoomlaMediaManager = (function () {
         }
       }
       if (!found) push$2(entries, { key: key, value: val });
-      if (!DESCRIPTORS$2) this.length = entries.length;
+      if (!DESCRIPTORS$2) this.size = entries.length;
       state.updateURL();
     },
     // `URLSearchParams.prototype.sort` method
@@ -7410,7 +7450,7 @@ var JoomlaMediaManager = (function () {
   var $$8 = _export;
   var DESCRIPTORS$1 = descriptors;
   var USE_NATIVE_URL = urlConstructorDetection;
-  var global$1 = global$u;
+  var global$1 = global$w;
   var bind$1 = functionBindContext;
   var uncurryThis$2 = functionUncurryThis;
   var defineBuiltIn = defineBuiltIn$e;
@@ -7477,7 +7517,7 @@ var JoomlaMediaManager = (function () {
   var parseIPv4 = function (input) {
     var parts = split(input, '.');
     var partsLength, numbers, index, part, radix, number, ipv4;
-    if (parts.length && parts[parts.length - 1] == '') {
+    if (parts.length && parts[parts.length - 1] === '') {
       parts.length--;
     }
     partsLength = parts.length;
@@ -7485,23 +7525,23 @@ var JoomlaMediaManager = (function () {
     numbers = [];
     for (index = 0; index < partsLength; index++) {
       part = parts[index];
-      if (part == '') return input;
+      if (part === '') return input;
       radix = 10;
-      if (part.length > 1 && charAt(part, 0) == '0') {
+      if (part.length > 1 && charAt(part, 0) === '0') {
         radix = exec(HEX_START, part) ? 16 : 8;
-        part = stringSlice(part, radix == 8 ? 1 : 2);
+        part = stringSlice(part, radix === 8 ? 1 : 2);
       }
       if (part === '') {
         number = 0;
       } else {
-        if (!exec(radix == 10 ? DEC : radix == 8 ? OCT : HEX, part)) return input;
+        if (!exec(radix === 10 ? DEC : radix === 8 ? OCT : HEX, part)) return input;
         number = parseInt$1(part, radix);
       }
       push$1(numbers, number);
     }
     for (index = 0; index < partsLength; index++) {
       number = numbers[index];
-      if (index == partsLength - 1) {
+      if (index === partsLength - 1) {
         if (number >= pow(256, 5 - partsLength)) return null;
       } else if (number > 255) return null;
     }
@@ -7525,15 +7565,15 @@ var JoomlaMediaManager = (function () {
       return charAt(input, pointer);
     };
 
-    if (chr() == ':') {
-      if (charAt(input, 1) != ':') return;
+    if (chr() === ':') {
+      if (charAt(input, 1) !== ':') return;
       pointer += 2;
       pieceIndex++;
       compress = pieceIndex;
     }
     while (chr()) {
-      if (pieceIndex == 8) return;
-      if (chr() == ':') {
+      if (pieceIndex === 8) return;
+      if (chr() === ':') {
         if (compress !== null) return;
         pointer++;
         pieceIndex++;
@@ -7546,33 +7586,33 @@ var JoomlaMediaManager = (function () {
         pointer++;
         length++;
       }
-      if (chr() == '.') {
-        if (length == 0) return;
+      if (chr() === '.') {
+        if (length === 0) return;
         pointer -= length;
         if (pieceIndex > 6) return;
         numbersSeen = 0;
         while (chr()) {
           ipv4Piece = null;
           if (numbersSeen > 0) {
-            if (chr() == '.' && numbersSeen < 4) pointer++;
+            if (chr() === '.' && numbersSeen < 4) pointer++;
             else return;
           }
           if (!exec(DIGIT, chr())) return;
           while (exec(DIGIT, chr())) {
             number = parseInt$1(chr(), 10);
             if (ipv4Piece === null) ipv4Piece = number;
-            else if (ipv4Piece == 0) return;
+            else if (ipv4Piece === 0) return;
             else ipv4Piece = ipv4Piece * 10 + number;
             if (ipv4Piece > 255) return;
             pointer++;
           }
           address[pieceIndex] = address[pieceIndex] * 256 + ipv4Piece;
           numbersSeen++;
-          if (numbersSeen == 2 || numbersSeen == 4) pieceIndex++;
+          if (numbersSeen === 2 || numbersSeen === 4) pieceIndex++;
         }
-        if (numbersSeen != 4) return;
+        if (numbersSeen !== 4) return;
         break;
-      } else if (chr() == ':') {
+      } else if (chr() === ':') {
         pointer++;
         if (!chr()) return;
       } else if (chr()) return;
@@ -7581,12 +7621,12 @@ var JoomlaMediaManager = (function () {
     if (compress !== null) {
       swaps = pieceIndex - compress;
       pieceIndex = 7;
-      while (pieceIndex != 0 && swaps > 0) {
+      while (pieceIndex !== 0 && swaps > 0) {
         swap = address[pieceIndex];
         address[pieceIndex--] = address[compress + swaps - 1];
         address[compress + --swaps] = swap;
       }
-    } else if (pieceIndex != 8) return;
+    } else if (pieceIndex !== 8) return;
     return address;
   };
 
@@ -7674,15 +7714,15 @@ var JoomlaMediaManager = (function () {
   // https://url.spec.whatwg.org/#windows-drive-letter
   var isWindowsDriveLetter = function (string, normalized) {
     var second;
-    return string.length == 2 && exec(ALPHA, charAt(string, 0))
-      && ((second = charAt(string, 1)) == ':' || (!normalized && second == '|'));
+    return string.length === 2 && exec(ALPHA, charAt(string, 0))
+      && ((second = charAt(string, 1)) === ':' || (!normalized && second === '|'));
   };
 
   // https://url.spec.whatwg.org/#start-with-a-windows-drive-letter
   var startsWithWindowsDriveLetter = function (string) {
     var third;
     return string.length > 1 && isWindowsDriveLetter(stringSlice(string, 0, 2)) && (
-      string.length == 2 ||
+      string.length === 2 ||
       ((third = charAt(string, 2)) === '/' || third === '\\' || third === '?' || third === '#')
     );
   };
@@ -7786,27 +7826,27 @@ var JoomlaMediaManager = (function () {
             break;
 
           case SCHEME:
-            if (chr && (exec(ALPHANUMERIC, chr) || chr == '+' || chr == '-' || chr == '.')) {
+            if (chr && (exec(ALPHANUMERIC, chr) || chr === '+' || chr === '-' || chr === '.')) {
               buffer += toLowerCase(chr);
-            } else if (chr == ':') {
+            } else if (chr === ':') {
               if (stateOverride && (
-                (url.isSpecial() != hasOwn$2(specialSchemes, buffer)) ||
-                (buffer == 'file' && (url.includesCredentials() || url.port !== null)) ||
-                (url.scheme == 'file' && !url.host)
+                (url.isSpecial() !== hasOwn$2(specialSchemes, buffer)) ||
+                (buffer === 'file' && (url.includesCredentials() || url.port !== null)) ||
+                (url.scheme === 'file' && !url.host)
               )) return;
               url.scheme = buffer;
               if (stateOverride) {
-                if (url.isSpecial() && specialSchemes[url.scheme] == url.port) url.port = null;
+                if (url.isSpecial() && specialSchemes[url.scheme] === url.port) url.port = null;
                 return;
               }
               buffer = '';
-              if (url.scheme == 'file') {
+              if (url.scheme === 'file') {
                 state = FILE;
-              } else if (url.isSpecial() && base && base.scheme == url.scheme) {
+              } else if (url.isSpecial() && base && base.scheme === url.scheme) {
                 state = SPECIAL_RELATIVE_OR_AUTHORITY;
               } else if (url.isSpecial()) {
                 state = SPECIAL_AUTHORITY_SLASHES;
-              } else if (codePoints[pointer + 1] == '/') {
+              } else if (codePoints[pointer + 1] === '/') {
                 state = PATH_OR_AUTHORITY;
                 pointer++;
               } else {
@@ -7823,8 +7863,8 @@ var JoomlaMediaManager = (function () {
             break;
 
           case NO_SCHEME:
-            if (!base || (base.cannotBeABaseURL && chr != '#')) return INVALID_SCHEME;
-            if (base.cannotBeABaseURL && chr == '#') {
+            if (!base || (base.cannotBeABaseURL && chr !== '#')) return INVALID_SCHEME;
+            if (base.cannotBeABaseURL && chr === '#') {
               url.scheme = base.scheme;
               url.path = arraySlice(base.path);
               url.query = base.query;
@@ -7833,11 +7873,11 @@ var JoomlaMediaManager = (function () {
               state = FRAGMENT;
               break;
             }
-            state = base.scheme == 'file' ? FILE : RELATIVE;
+            state = base.scheme === 'file' ? FILE : RELATIVE;
             continue;
 
           case SPECIAL_RELATIVE_OR_AUTHORITY:
-            if (chr == '/' && codePoints[pointer + 1] == '/') {
+            if (chr === '/' && codePoints[pointer + 1] === '/') {
               state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
               pointer++;
             } else {
@@ -7846,7 +7886,7 @@ var JoomlaMediaManager = (function () {
             } break;
 
           case PATH_OR_AUTHORITY:
-            if (chr == '/') {
+            if (chr === '/') {
               state = AUTHORITY;
               break;
             } else {
@@ -7856,16 +7896,16 @@ var JoomlaMediaManager = (function () {
 
           case RELATIVE:
             url.scheme = base.scheme;
-            if (chr == EOF) {
+            if (chr === EOF) {
               url.username = base.username;
               url.password = base.password;
               url.host = base.host;
               url.port = base.port;
               url.path = arraySlice(base.path);
               url.query = base.query;
-            } else if (chr == '/' || (chr == '\\' && url.isSpecial())) {
+            } else if (chr === '/' || (chr === '\\' && url.isSpecial())) {
               state = RELATIVE_SLASH;
-            } else if (chr == '?') {
+            } else if (chr === '?') {
               url.username = base.username;
               url.password = base.password;
               url.host = base.host;
@@ -7873,7 +7913,7 @@ var JoomlaMediaManager = (function () {
               url.path = arraySlice(base.path);
               url.query = '';
               state = QUERY;
-            } else if (chr == '#') {
+            } else if (chr === '#') {
               url.username = base.username;
               url.password = base.password;
               url.host = base.host;
@@ -7894,9 +7934,9 @@ var JoomlaMediaManager = (function () {
             } break;
 
           case RELATIVE_SLASH:
-            if (url.isSpecial() && (chr == '/' || chr == '\\')) {
+            if (url.isSpecial() && (chr === '/' || chr === '\\')) {
               state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
-            } else if (chr == '/') {
+            } else if (chr === '/') {
               state = AUTHORITY;
             } else {
               url.username = base.username;
@@ -7909,24 +7949,24 @@ var JoomlaMediaManager = (function () {
 
           case SPECIAL_AUTHORITY_SLASHES:
             state = SPECIAL_AUTHORITY_IGNORE_SLASHES;
-            if (chr != '/' || charAt(buffer, pointer + 1) != '/') continue;
+            if (chr !== '/' || charAt(buffer, pointer + 1) !== '/') continue;
             pointer++;
             break;
 
           case SPECIAL_AUTHORITY_IGNORE_SLASHES:
-            if (chr != '/' && chr != '\\') {
+            if (chr !== '/' && chr !== '\\') {
               state = AUTHORITY;
               continue;
             } break;
 
           case AUTHORITY:
-            if (chr == '@') {
+            if (chr === '@') {
               if (seenAt) buffer = '%40' + buffer;
               seenAt = true;
               bufferCodePoints = arrayFrom(buffer);
               for (var i = 0; i < bufferCodePoints.length; i++) {
                 var codePoint = bufferCodePoints[i];
-                if (codePoint == ':' && !seenPasswordToken) {
+                if (codePoint === ':' && !seenPasswordToken) {
                   seenPasswordToken = true;
                   continue;
                 }
@@ -7936,10 +7976,10 @@ var JoomlaMediaManager = (function () {
               }
               buffer = '';
             } else if (
-              chr == EOF || chr == '/' || chr == '?' || chr == '#' ||
-              (chr == '\\' && url.isSpecial())
+              chr === EOF || chr === '/' || chr === '?' || chr === '#' ||
+              (chr === '\\' && url.isSpecial())
             ) {
-              if (seenAt && buffer == '') return INVALID_AUTHORITY;
+              if (seenAt && buffer === '') return INVALID_AUTHORITY;
               pointer -= arrayFrom(buffer).length + 1;
               buffer = '';
               state = HOST;
@@ -7948,22 +7988,22 @@ var JoomlaMediaManager = (function () {
 
           case HOST:
           case HOSTNAME:
-            if (stateOverride && url.scheme == 'file') {
+            if (stateOverride && url.scheme === 'file') {
               state = FILE_HOST;
               continue;
-            } else if (chr == ':' && !seenBracket) {
-              if (buffer == '') return INVALID_HOST;
+            } else if (chr === ':' && !seenBracket) {
+              if (buffer === '') return INVALID_HOST;
               failure = url.parseHost(buffer);
               if (failure) return failure;
               buffer = '';
               state = PORT;
-              if (stateOverride == HOSTNAME) return;
+              if (stateOverride === HOSTNAME) return;
             } else if (
-              chr == EOF || chr == '/' || chr == '?' || chr == '#' ||
-              (chr == '\\' && url.isSpecial())
+              chr === EOF || chr === '/' || chr === '?' || chr === '#' ||
+              (chr === '\\' && url.isSpecial())
             ) {
-              if (url.isSpecial() && buffer == '') return INVALID_HOST;
-              if (stateOverride && buffer == '' && (url.includesCredentials() || url.port !== null)) return;
+              if (url.isSpecial() && buffer === '') return INVALID_HOST;
+              if (stateOverride && buffer === '' && (url.includesCredentials() || url.port !== null)) return;
               failure = url.parseHost(buffer);
               if (failure) return failure;
               buffer = '';
@@ -7971,8 +8011,8 @@ var JoomlaMediaManager = (function () {
               if (stateOverride) return;
               continue;
             } else {
-              if (chr == '[') seenBracket = true;
-              else if (chr == ']') seenBracket = false;
+              if (chr === '[') seenBracket = true;
+              else if (chr === ']') seenBracket = false;
               buffer += chr;
             } break;
 
@@ -7980,11 +8020,11 @@ var JoomlaMediaManager = (function () {
             if (exec(DIGIT, chr)) {
               buffer += chr;
             } else if (
-              chr == EOF || chr == '/' || chr == '?' || chr == '#' ||
-              (chr == '\\' && url.isSpecial()) ||
+              chr === EOF || chr === '/' || chr === '?' || chr === '#' ||
+              (chr === '\\' && url.isSpecial()) ||
               stateOverride
             ) {
-              if (buffer != '') {
+              if (buffer !== '') {
                 var port = parseInt$1(buffer, 10);
                 if (port > 0xFFFF) return INVALID_PORT;
                 url.port = (url.isSpecial() && port === specialSchemes[url.scheme]) ? null : port;
@@ -7998,31 +8038,35 @@ var JoomlaMediaManager = (function () {
 
           case FILE:
             url.scheme = 'file';
-            if (chr == '/' || chr == '\\') state = FILE_SLASH;
-            else if (base && base.scheme == 'file') {
-              if (chr == EOF) {
-                url.host = base.host;
-                url.path = arraySlice(base.path);
-                url.query = base.query;
-              } else if (chr == '?') {
-                url.host = base.host;
-                url.path = arraySlice(base.path);
-                url.query = '';
-                state = QUERY;
-              } else if (chr == '#') {
-                url.host = base.host;
-                url.path = arraySlice(base.path);
-                url.query = base.query;
-                url.fragment = '';
-                state = FRAGMENT;
-              } else {
-                if (!startsWithWindowsDriveLetter(join(arraySlice(codePoints, pointer), ''))) {
+            if (chr === '/' || chr === '\\') state = FILE_SLASH;
+            else if (base && base.scheme === 'file') {
+              switch (chr) {
+                case EOF:
                   url.host = base.host;
                   url.path = arraySlice(base.path);
-                  url.shortenPath();
-                }
-                state = PATH;
-                continue;
+                  url.query = base.query;
+                  break;
+                case '?':
+                  url.host = base.host;
+                  url.path = arraySlice(base.path);
+                  url.query = '';
+                  state = QUERY;
+                  break;
+                case '#':
+                  url.host = base.host;
+                  url.path = arraySlice(base.path);
+                  url.query = base.query;
+                  url.fragment = '';
+                  state = FRAGMENT;
+                  break;
+                default:
+                  if (!startsWithWindowsDriveLetter(join(arraySlice(codePoints, pointer), ''))) {
+                    url.host = base.host;
+                    url.path = arraySlice(base.path);
+                    url.shortenPath();
+                  }
+                  state = PATH;
+                  continue;
               }
             } else {
               state = PATH;
@@ -8030,11 +8074,11 @@ var JoomlaMediaManager = (function () {
             } break;
 
           case FILE_SLASH:
-            if (chr == '/' || chr == '\\') {
+            if (chr === '/' || chr === '\\') {
               state = FILE_HOST;
               break;
             }
-            if (base && base.scheme == 'file' && !startsWithWindowsDriveLetter(join(arraySlice(codePoints, pointer), ''))) {
+            if (base && base.scheme === 'file' && !startsWithWindowsDriveLetter(join(arraySlice(codePoints, pointer), ''))) {
               if (isWindowsDriveLetter(base.path[0], true)) push$1(url.path, base.path[0]);
               else url.host = base.host;
             }
@@ -8042,17 +8086,17 @@ var JoomlaMediaManager = (function () {
             continue;
 
           case FILE_HOST:
-            if (chr == EOF || chr == '/' || chr == '\\' || chr == '?' || chr == '#') {
+            if (chr === EOF || chr === '/' || chr === '\\' || chr === '?' || chr === '#') {
               if (!stateOverride && isWindowsDriveLetter(buffer)) {
                 state = PATH;
-              } else if (buffer == '') {
+              } else if (buffer === '') {
                 url.host = '';
                 if (stateOverride) return;
                 state = PATH_START;
               } else {
                 failure = url.parseHost(buffer);
                 if (failure) return failure;
-                if (url.host == 'localhost') url.host = '';
+                if (url.host === 'localhost') url.host = '';
                 if (stateOverride) return;
                 buffer = '';
                 state = PATH_START;
@@ -8063,50 +8107,50 @@ var JoomlaMediaManager = (function () {
           case PATH_START:
             if (url.isSpecial()) {
               state = PATH;
-              if (chr != '/' && chr != '\\') continue;
-            } else if (!stateOverride && chr == '?') {
+              if (chr !== '/' && chr !== '\\') continue;
+            } else if (!stateOverride && chr === '?') {
               url.query = '';
               state = QUERY;
-            } else if (!stateOverride && chr == '#') {
+            } else if (!stateOverride && chr === '#') {
               url.fragment = '';
               state = FRAGMENT;
-            } else if (chr != EOF) {
+            } else if (chr !== EOF) {
               state = PATH;
-              if (chr != '/') continue;
+              if (chr !== '/') continue;
             } break;
 
           case PATH:
             if (
-              chr == EOF || chr == '/' ||
-              (chr == '\\' && url.isSpecial()) ||
-              (!stateOverride && (chr == '?' || chr == '#'))
+              chr === EOF || chr === '/' ||
+              (chr === '\\' && url.isSpecial()) ||
+              (!stateOverride && (chr === '?' || chr === '#'))
             ) {
               if (isDoubleDot(buffer)) {
                 url.shortenPath();
-                if (chr != '/' && !(chr == '\\' && url.isSpecial())) {
+                if (chr !== '/' && !(chr === '\\' && url.isSpecial())) {
                   push$1(url.path, '');
                 }
               } else if (isSingleDot(buffer)) {
-                if (chr != '/' && !(chr == '\\' && url.isSpecial())) {
+                if (chr !== '/' && !(chr === '\\' && url.isSpecial())) {
                   push$1(url.path, '');
                 }
               } else {
-                if (url.scheme == 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
+                if (url.scheme === 'file' && !url.path.length && isWindowsDriveLetter(buffer)) {
                   if (url.host) url.host = '';
                   buffer = charAt(buffer, 0) + ':'; // normalize windows drive letter
                 }
                 push$1(url.path, buffer);
               }
               buffer = '';
-              if (url.scheme == 'file' && (chr == EOF || chr == '?' || chr == '#')) {
+              if (url.scheme === 'file' && (chr === EOF || chr === '?' || chr === '#')) {
                 while (url.path.length > 1 && url.path[0] === '') {
                   shift(url.path);
                 }
               }
-              if (chr == '?') {
+              if (chr === '?') {
                 url.query = '';
                 state = QUERY;
-              } else if (chr == '#') {
+              } else if (chr === '#') {
                 url.fragment = '';
                 state = FRAGMENT;
               }
@@ -8115,28 +8159,28 @@ var JoomlaMediaManager = (function () {
             } break;
 
           case CANNOT_BE_A_BASE_URL_PATH:
-            if (chr == '?') {
+            if (chr === '?') {
               url.query = '';
               state = QUERY;
-            } else if (chr == '#') {
+            } else if (chr === '#') {
               url.fragment = '';
               state = FRAGMENT;
-            } else if (chr != EOF) {
+            } else if (chr !== EOF) {
               url.path[0] += percentEncode(chr, C0ControlPercentEncodeSet);
             } break;
 
           case QUERY:
-            if (!stateOverride && chr == '#') {
+            if (!stateOverride && chr === '#') {
               url.fragment = '';
               state = FRAGMENT;
-            } else if (chr != EOF) {
-              if (chr == "'" && url.isSpecial()) url.query += '%27';
-              else if (chr == '#') url.query += '%23';
+            } else if (chr !== EOF) {
+              if (chr === "'" && url.isSpecial()) url.query += '%27';
+              else if (chr === '#') url.query += '%23';
               else url.query += percentEncode(chr, C0ControlPercentEncodeSet);
             } break;
 
           case FRAGMENT:
-            if (chr != EOF) url.fragment += percentEncode(chr, fragmentPercentEncodeSet);
+            if (chr !== EOF) url.fragment += percentEncode(chr, fragmentPercentEncodeSet);
             break;
         }
 
@@ -8146,8 +8190,8 @@ var JoomlaMediaManager = (function () {
     // https://url.spec.whatwg.org/#host-parsing
     parseHost: function (input) {
       var result, codePoints, index;
-      if (charAt(input, 0) == '[') {
-        if (charAt(input, input.length - 1) != ']') return INVALID_HOST;
+      if (charAt(input, 0) === '[') {
+        if (charAt(input, input.length - 1) !== ']') return INVALID_HOST;
         result = parseIPv6(stringSlice(input, 1, -1));
         if (!result) return INVALID_HOST;
         this.host = result;
@@ -8170,11 +8214,11 @@ var JoomlaMediaManager = (function () {
     },
     // https://url.spec.whatwg.org/#cannot-have-a-username-password-port
     cannotHaveUsernamePasswordPort: function () {
-      return !this.host || this.cannotBeABaseURL || this.scheme == 'file';
+      return !this.host || this.cannotBeABaseURL || this.scheme === 'file';
     },
     // https://url.spec.whatwg.org/#include-credentials
     includesCredentials: function () {
-      return this.username != '' || this.password != '';
+      return this.username !== '' || this.password !== '';
     },
     // https://url.spec.whatwg.org/#is-special
     isSpecial: function () {
@@ -8184,7 +8228,7 @@ var JoomlaMediaManager = (function () {
     shortenPath: function () {
       var path = this.path;
       var pathSize = path.length;
-      if (pathSize && (this.scheme != 'file' || pathSize != 1 || !isWindowsDriveLetter(path[0], true))) {
+      if (pathSize && (this.scheme !== 'file' || pathSize !== 1 || !isWindowsDriveLetter(path[0], true))) {
         path.length--;
       }
     },
@@ -8207,7 +8251,7 @@ var JoomlaMediaManager = (function () {
         }
         output += serializeHost(host);
         if (port !== null) output += ':' + port;
-      } else if (scheme == 'file') output += '//';
+      } else if (scheme === 'file') output += '//';
       output += url.cannotBeABaseURL ? path[0] : path.length ? '/' + join(path, '/') : '';
       if (query !== null) output += '?' + query;
       if (fragment !== null) output += '#' + fragment;
@@ -8223,12 +8267,12 @@ var JoomlaMediaManager = (function () {
     getOrigin: function () {
       var scheme = this.scheme;
       var port = this.port;
-      if (scheme == 'blob') try {
+      if (scheme === 'blob') try {
         return new URLConstructor(scheme.path[0]).origin;
       } catch (error) {
         return 'null';
       }
-      if (scheme == 'file' || !this.isSpecial()) return 'null';
+      if (scheme === 'file' || !this.isSpecial()) return 'null';
       return scheme + '://' + serializeHost(this.host) + (port !== null ? ':' + port : '');
     },
     // https://url.spec.whatwg.org/#dom-url-protocol
@@ -8291,7 +8335,7 @@ var JoomlaMediaManager = (function () {
     setPort: function (port) {
       if (this.cannotHaveUsernamePasswordPort()) return;
       port = $toString(port);
-      if (port == '') this.port = null;
+      if (port === '') this.port = null;
       else this.parse(port, PORT);
     },
     // https://url.spec.whatwg.org/#dom-url-pathname
@@ -8311,10 +8355,10 @@ var JoomlaMediaManager = (function () {
     },
     setSearch: function (search) {
       search = $toString(search);
-      if (search == '') {
+      if (search === '') {
         this.query = null;
       } else {
-        if ('?' == charAt(search, 0)) search = stringSlice(search, 1);
+        if (charAt(search, 0) === '?') search = stringSlice(search, 1);
         this.query = '';
         this.parse(search, QUERY);
       }
@@ -8331,11 +8375,11 @@ var JoomlaMediaManager = (function () {
     },
     setHash: function (hash) {
       hash = $toString(hash);
-      if (hash == '') {
+      if (hash === '') {
         this.fragment = null;
         return;
       }
-      if ('#' == charAt(hash, 0)) hash = stringSlice(hash, 1);
+      if (charAt(hash, 0) === '#') hash = stringSlice(hash, 1);
       this.fragment = '';
       this.parse(hash, FRAGMENT);
     },
@@ -8457,6 +8501,7 @@ var JoomlaMediaManager = (function () {
   var SKIPS_HOLES = true;
 
   // Shouldn't skip holes
+  // eslint-disable-next-line es/no-array-prototype-find -- testing
   if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
 
   // `Array.prototype.find` method
@@ -8509,12 +8554,12 @@ var JoomlaMediaManager = (function () {
   });
 
   var $$6 = _export;
-  var fails$1 = fails$I;
+  var fails$2 = fails$J;
   var toObject$1 = toObject$e;
-  var nativeGetPrototypeOf = objectGetPrototypeOf$1;
+  var nativeGetPrototypeOf = objectGetPrototypeOf$2;
   var CORRECT_PROTOTYPE_GETTER = correctPrototypeGetter;
 
-  var FAILS_ON_PRIMITIVES$1 = fails$1(function () { nativeGetPrototypeOf(1); });
+  var FAILS_ON_PRIMITIVES$1 = fails$2(function () { nativeGetPrototypeOf(1); });
 
   // `Object.getPrototypeOf` method
   // https://tc39.es/ecma262/#sec-object.getprototypeof
@@ -8531,7 +8576,7 @@ var JoomlaMediaManager = (function () {
   $$5({ target: 'Number', stat: true }, {
     isNaN: function isNaN(number) {
       // eslint-disable-next-line no-self-compare -- NaN check
-      return number != number;
+      return number !== number;
     }
   });
 
@@ -8573,7 +8618,9 @@ var JoomlaMediaManager = (function () {
   });
 
   var DESCRIPTORS = descriptors;
+  var fails$1 = fails$J;
   var uncurryThis = functionUncurryThis;
+  var objectGetPrototypeOf = objectGetPrototypeOf$2;
   var objectKeys = objectKeys$4;
   var toIndexedObject = toIndexedObject$a;
   var $propertyIsEnumerable = objectPropertyIsEnumerable.f;
@@ -8581,18 +8628,28 @@ var JoomlaMediaManager = (function () {
   var propertyIsEnumerable = uncurryThis($propertyIsEnumerable);
   var push = uncurryThis([].push);
 
+  // in some IE versions, `propertyIsEnumerable` returns incorrect result on integer keys
+  // of `null` prototype objects
+  var IE_BUG = DESCRIPTORS && fails$1(function () {
+    // eslint-disable-next-line es/no-object-create -- safe
+    var O = Object.create(null);
+    O[2] = 2;
+    return !propertyIsEnumerable(O, 2);
+  });
+
   // `Object.{ entries, values }` methods implementation
   var createMethod = function (TO_ENTRIES) {
     return function (it) {
       var O = toIndexedObject(it);
       var keys = objectKeys(O);
+      var IE_WORKAROUND = IE_BUG && objectGetPrototypeOf(O) === null;
       var length = keys.length;
       var i = 0;
       var result = [];
       var key;
       while (length > i) {
         key = keys[i++];
-        if (!DESCRIPTORS || propertyIsEnumerable(O, key)) {
+        if (!DESCRIPTORS || (IE_WORKAROUND ? key in O : propertyIsEnumerable(O, key))) {
           push(result, TO_ENTRIES ? [key, O[key]] : O[key]);
         }
       }
@@ -8683,7 +8740,7 @@ var JoomlaMediaManager = (function () {
 
   var $$1 = _export;
   var FREEZING = freezing;
-  var fails = fails$I;
+  var fails = fails$J;
   var isObject$4 = isObject$q;
   var onFreeze = internalMetadata.exports.onFreeze;
 
@@ -12450,7 +12507,7 @@ var JoomlaMediaManager = (function () {
   var normalizeObjectSlots = function normalizeObjectSlots(rawSlots, slots, instance) {
     var ctx = rawSlots._ctx;
     var _loop3 = function _loop3() {
-      if (isInternalKey(key)) return "continue";
+      if (isInternalKey(key)) return 1; // continue
       var value = rawSlots[key];
       if (isFunction$1(value)) {
         slots[key] = normalizeSlot(key, value, ctx);
@@ -12462,8 +12519,7 @@ var JoomlaMediaManager = (function () {
       }
     };
     for (var key in rawSlots) {
-      var _ret = _loop3();
-      if (_ret === "continue") continue;
+      if (_loop3()) continue;
     }
   };
   var normalizeVNodeSlots = function normalizeVNodeSlots(instance, children) {

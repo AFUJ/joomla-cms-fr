@@ -10,9 +10,10 @@
     throw new Error('Joomla API is not initialized');
   }
   var getCookie = function getCookie() {
-    return document.cookie.length && document.cookie.split('; ').find(function (row) {
+    var _document$cookie$spli;
+    return document.cookie.length && ((_document$cookie$spli = document.cookie.split('; ').find(function (row) {
       return row.startsWith('atumSidebarState=');
-    }).split('=')[1];
+    })) == null ? void 0 : _document$cookie$spli.split('=')[1]);
   };
   var mobile = window.matchMedia('(max-width: 992px)');
   var small = window.matchMedia('(max-width: 575.98px)');
