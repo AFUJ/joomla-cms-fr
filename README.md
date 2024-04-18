@@ -8,7 +8,7 @@ La branche 5.1 de Joomla! développée par l'AFUJ incluant le pack de langue fr-
 
 ## 1- Aperçu
 	* Ceci est un package d'installation/mise à niveau de Joomla! 5.x.
-	* Site officiel de Joomla! : https://www.joomla.org
+	* Site officiel de Joomla! : (https://www.joomla.org)
 	* Historique des versions Joomla! 5.1 - [https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history)
 	* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.1-dev](https://github.com/joomla/joomla-cms/commits/5.1-dev)
 
