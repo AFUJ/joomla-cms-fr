@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, r as reflow, c as getElement } from './dom.js?5.3.0';
+import { E as EventHandler, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, r as reflow, c as getElement } from './dom.js?5.3.2';
 
 /**
  * --------------------------------------------------------------------------
@@ -153,8 +153,7 @@ class Collapse extends BaseComponent {
     this._element.style[dimension] = '';
     this._queueCallback(complete, this._element, true);
   }
-  _isShown() {
-    let element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._element;
+  _isShown(element = this._element) {
     return element.classList.contains(CLASS_NAME_SHOW);
   }
 

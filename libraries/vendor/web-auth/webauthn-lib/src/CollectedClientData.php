@@ -2,70 +2,86 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn;
 
-use Assert\Assertion;
-use Base64Url\Base64Url;
-use InvalidArgumentException;
+use function array_key_exists;
+use function is_array;
+use function is_string;
+use const JSON_THROW_ON_ERROR;
+use ParagonIE\ConstantTime\Base64UrlSafe;
+use Webauthn\Exception\InvalidDataException;
 use Webauthn\TokenBinding\TokenBinding;
 
 class CollectedClientData
 {
     /**
-     * @var string
+     * @var mixed[]
      */
-    private $rawData;
+    private readonly array $data;
+
+    private readonly string $type;
+
+    private readonly string $challenge;
+
+    private readonly string $origin;
+
+    private readonly bool $crossOrigin;
 
     /**
-     * @var array
+     * @var mixed[]|null
+     * @deprecated Since 4.3.0 and will be removed in 5.0.0
      */
-    private $data;
+    private readonly ?array $tokenBinding;
 
     /**
-     * @var string
+     * @param mixed[] $data
      */
-    private $type;
+    public function __construct(
+        private readonly string $rawData,
+        array $data
+    ) {
+        $type = $data['type'] ?? '';
+        (is_string($type) && $type !== '') || throw InvalidDataException::create(
+            $data,
+            'Invalid parameter "type". Shall be a non-empty string.'
+        );
+        $this->type = $type;
 
-    /**
-     * @var string
-     */
-    private $challenge;
+        $challenge = $data['challenge'] ?? '';
+        is_string($challenge) || throw InvalidDataException::create(
+            $data,
+            'Invalid parameter "challenge". Shall be a string.'
+        );
+        $challenge = Base64UrlSafe::decodeNoPadding($challenge);
+        $challenge !== '' || throw InvalidDataException::create(
+            $data,
+            'Invalid parameter "challenge". Shall not be empty.'
+        );
+        $this->challenge = $challenge;
 
-    /**
-     * @var string
-     */
-    private $origin;
+        $origin = $data['origin'] ?? '';
+        (is_string($origin) && $origin !== '') || throw InvalidDataException::create(
+            $data,
+            'Invalid parameter "origin". Shall be a non-empty string.'
+        );
+        $this->origin = $origin;
 
-    /**
-     * @var array|null
-     */
-    private $tokenBinding;
+        $this->crossOrigin = $data['crossOrigin'] ?? false;
 
-    public function __construct(string $rawData, array $data)
-    {
-        $this->type = $this->findData($data, 'type');
-        $this->challenge = $this->findData($data, 'challenge', true, true);
-        $this->origin = $this->findData($data, 'origin');
-        $this->tokenBinding = $this->findData($data, 'tokenBinding', false);
-        $this->rawData = $rawData;
+        $tokenBinding = $data['tokenBinding'] ?? null;
+        $tokenBinding === null || is_array($tokenBinding) || throw InvalidDataException::create(
+            $data,
+            'Invalid parameter "tokenBinding". Shall be an object or .'
+        );
+        $this->tokenBinding = $tokenBinding;
+
         $this->data = $data;
     }
 
     public static function createFormJson(string $data): self
     {
-        $rawData = Base64Url::decode($data);
-        $json = json_decode($rawData, true);
-        Assertion::eq(JSON_ERROR_NONE, json_last_error(), 'Invalid collected client data');
-        Assertion::isArray($json, 'Invalid collected client data');
+        $rawData = Base64UrlSafe::decodeNoPadding($data);
+        $json = json_decode($rawData, true, 512, JSON_THROW_ON_ERROR);
 
         return new self($rawData, $json);
     }
@@ -85,9 +101,17 @@ class CollectedClientData
         return $this->origin;
     }
 
+    public function getCrossOrigin(): bool
+    {
+        return $this->crossOrigin;
+    }
+
+    /**
+     * @deprecated Since 4.3.0 and will be removed in 5.0.0
+     */
     public function getTokenBinding(): ?TokenBinding
     {
-        return null === $this->tokenBinding ? null : TokenBinding::createFormArray($this->tokenBinding);
+        return $this->tokenBinding === null ? null : TokenBinding::createFormArray($this->tokenBinding);
     }
 
     public function getRawData(): string
@@ -105,34 +129,15 @@ class CollectedClientData
 
     public function has(string $key): bool
     {
-        return \array_key_exists($key, $this->data);
+        return array_key_exists($key, $this->data);
     }
 
-    /**
-     * @return mixed
-     */
-    public function get(string $key)
+    public function get(string $key): mixed
     {
-        if (!$this->has($key)) {
-            throw new InvalidArgumentException(sprintf('The key "%s" is missing', $key));
+        if (! $this->has($key)) {
+            throw InvalidDataException::create($this->data, sprintf('The key "%s" is missing', $key));
         }
 
         return $this->data[$key];
-    }
-
-    /**
-     * @return mixed|null
-     */
-    private function findData(array $json, string $key, bool $isRequired = true, bool $isB64 = false)
-    {
-        if (!\array_key_exists($key, $json)) {
-            if ($isRequired) {
-                throw new InvalidArgumentException(sprintf('The key "%s" is missing', $key));
-            }
-
-            return;
-        }
-
-        return $isB64 ? Base64Url::decode($json[$key]) : $json[$key];
     }
 }

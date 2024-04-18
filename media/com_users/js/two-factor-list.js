@@ -6,7 +6,7 @@
 ((Joomla, window) => {
 
   document.addEventListener('DOMContentLoaded', () => {
-    [].slice.call(document.querySelectorAll('.com-users-methods-list-method-record-delete')).forEach(el => {
+    document.querySelectorAll('.com-users-methods-list-method-record-delete').forEach(el => {
       el.addEventListener('click', event => {
         if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
           event.preventDefault();

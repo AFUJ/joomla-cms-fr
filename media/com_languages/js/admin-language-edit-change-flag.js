@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }) => {
     const flagSelectedValue = currentTarget.value;
     const flagimage = document.getElementById('flag').querySelector('img');
-    const src = `${Joomla.getOptions('system.paths').rootFull}/media/mod_languages/images/${flagSelectedValue}.gif`;
     if (flagSelectedValue) {
-      flagimage.setAttribute('src', src);
+      flagimage.setAttribute('src', `${Joomla.getOptions('system.paths').rootFull}/media/mod_languages/images/${flagSelectedValue}.gif`);
       flagimage.setAttribute('alt', flagSelectedValue);
     } else {
       flagimage.removeAttribute('src');

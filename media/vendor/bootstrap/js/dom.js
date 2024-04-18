@@ -199,7 +199,6 @@ const noop = () => {};
 const reflow = element => {
   element.offsetHeight; // eslint-disable-line no-unused-expressions
 };
-
 const getjQuery = () => {
   if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
     return window.jQuery;
@@ -239,13 +238,10 @@ const defineJQueryPlugin = plugin => {
     }
   });
 };
-const execute = function (possibleCallback) {
-  let args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  let defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : possibleCallback;
+const execute = (possibleCallback, args = [], defaultValue = possibleCallback) => {
   return typeof possibleCallback === 'function' ? possibleCallback(...args) : defaultValue;
 };
-const executeAfterTransition = function (callback, transitionElement) {
-  let waitForTransition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
   if (!waitForTransition) {
     execute(callback);
     return;
@@ -253,10 +249,9 @@ const executeAfterTransition = function (callback, transitionElement) {
   const durationPadding = 5;
   const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
   let called = false;
-  const handler = _ref => {
-    let {
-      target
-    } = _ref;
+  const handler = ({
+    target
+  }) => {
     if (target !== transitionElement) {
       return;
     }
@@ -364,8 +359,7 @@ function bootstrapDelegationHandler(element, selector, fn) {
     }
   };
 }
-function findHandler(events, callable) {
-  let delegationSelector = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+function findHandler(events, callable, delegationSelector = null) {
   return Object.values(events).find(event => event.callable === callable && event.delegationSelector === delegationSelector);
 }
 function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
@@ -503,8 +497,7 @@ const EventHandler = {
     return evt;
   }
 };
-function hydrateObj(obj) {
-  let meta = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+function hydrateObj(obj, meta = {}) {
   for (const [key, value] of Object.entries(meta)) {
     try {
       obj[key] = value;
@@ -618,8 +611,7 @@ class Config {
       ...(typeof config === 'object' ? config : {})
     };
   }
-  _typeCheckConfig(config) {
-    let configTypes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.constructor.DefaultType;
+  _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
     for (const [property, expectedTypes] of Object.entries(configTypes)) {
       const value = config[property];
       const valueType = isElement(value) ? 'element' : toType(value);
@@ -667,8 +659,7 @@ class BaseComponent extends Config {
       this[propertyName] = null;
     }
   }
-  _queueCallback(callback, element) {
-    let isAnimated = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+  _queueCallback(callback, element, isAnimated = true) {
     executeAfterTransition(callback, element, isAnimated);
   }
   _getConfig(config) {
@@ -682,8 +673,7 @@ class BaseComponent extends Config {
   static getInstance(element) {
     return Data.get(getElement(element), this.DATA_KEY);
   }
-  static getOrCreateInstance(element) {
-    let config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  static getOrCreateInstance(element, config = {}) {
     return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
   }
   static get VERSION() {
@@ -728,12 +718,10 @@ const getSelector = element => {
   return selector;
 };
 const SelectorEngine = {
-  find(selector) {
-    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+  find(selector, element = document.documentElement) {
     return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
   },
-  findOne(selector) {
-    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+  findOne(selector, element = document.documentElement) {
     return Element.prototype.querySelector.call(element, selector);
   },
   children(element, selector) {
@@ -796,8 +784,7 @@ const SelectorEngine = {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
-const enableDismissTrigger = function (component) {
-  let method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'hide';
+const enableDismissTrigger = (component, method = 'hide') => {
   const clickEvent = `click.dismiss${component.EVENT_KEY}`;
   const name = component.NAME;
   EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
@@ -957,7 +944,6 @@ const Default$2 = {
   // if false, we use the backdrop helper without adding any element to the dom
   rootElement: 'body' // give the choice to place backdrop under different elements
 };
-
 const DefaultType$2 = {
   className: 'string',
   clickCallback: '(function|null)',
@@ -1081,7 +1067,6 @@ const Default$1 = {
   autofocus: true,
   trapElement: null // The element to trap focus inside of
 };
-
 const DefaultType$1 = {
   autofocus: 'boolean',
   trapElement: 'element'

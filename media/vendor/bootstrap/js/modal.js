@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.0';
+import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.2';
 
 /**
  * --------------------------------------------------------------------------

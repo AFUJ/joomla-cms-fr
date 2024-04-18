@@ -185,7 +185,7 @@ Joomla = window.Joomla || {};
       if (document.getElementById('noncoreplugins') !== null) {
         document.getElementById('noncoreplugins').checked = true;
       }
-      [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(el => {
+      document.querySelectorAll('button.submitupdate').forEach(el => {
         el.classList.remove('disabled');
         el.removeAttribute('disabled');
       });
@@ -198,7 +198,7 @@ Joomla = window.Joomla || {};
       const nonCorePluginCheckbox = document.getElementById('noncoreplugins');
       if (nonCorePluginCheckbox.checked) {
         if (window.confirm(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE'))) {
-          [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(el => {
+          document.querySelectorAll('button.submitupdate').forEach(el => {
             el.classList.remove('disabled');
             el.removeAttribute('disabled');
           });
@@ -206,7 +206,7 @@ Joomla = window.Joomla || {};
           nonCorePluginCheckbox.checked = false;
         }
       } else {
-        [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(el => {
+        document.querySelectorAll('button.submitupdate').forEach(el => {
           el.classList.add('disabled');
           el.setAttribute('disabled', '');
         });
@@ -220,34 +220,27 @@ Joomla = window.Joomla || {};
     const joomlaUpdateWrapper = document.getElementById('joomlaupdate-wrapper');
     PreUpdateChecker.joomlaTargetVersion = joomlaUpdateWrapper.getAttribute('data-joomla-target-version');
     PreUpdateChecker.joomlaCurrentVersion = joomlaUpdateWrapper.getAttribute('data-joomla-current-version');
-    [].slice.call(document.querySelectorAll('.compatibilitytoggle')).forEach(el => {
+    document.querySelectorAll('.compatibilitytoggle').forEach(el => {
       el.addEventListener('click', () => {
         const compatibilityTable = el.closest('.compatibilityTable');
         if (el.dataset.state === 'closed') {
           el.dataset.state = 'open';
           el.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION'));
-          [].slice.call(compatibilityTable.querySelectorAll('table .hidden')).forEach(elem => {
-            elem.classList.remove('hidden');
-          });
+          compatibilityTable.querySelectorAll('table .hidden').forEach(elem => elem.classList.remove('hidden'));
         } else {
           el.dataset.state = 'closed';
           el.innerHTML = Joomla.sanitizeHtml(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION'));
-          [].slice.call(compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp')).forEach(elem => {
-            elem.classList.add('hidden');
-          });
+          compatibilityTable.querySelectorAll('table .instver, table .upcomp, table .currcomp').forEach(elem => elem.classList.add('hidden'));
         }
       });
     });
 
     // Grab all extensions based on the selector set in the config object
     const extensionsInformation = [];
-    [].slice.call(extensions).forEach(extension => {
-      const thisInfo = {
-        eid: extension.getAttribute('data-extension-id'),
-        version: extension.getAttribute('data-extension-current-version')
-      };
-      extensionsInformation.push(thisInfo);
-    });
+    extensions.forEach(extension => extensionsInformation.push({
+      eid: extension.getAttribute('data-extension-id'),
+      version: extension.getAttribute('data-extension-current-version')
+    }));
     PreUpdateChecker.checkNextChunk(extensionsInformation);
   };
 
@@ -533,7 +526,7 @@ Joomla = window.Joomla || {};
         document.getElementById('noncoreplugins').checked = true;
       }
       if (PreUpdateChecker.nonCoreCriticalPlugins.length === 0 && status === 'success') {
-        [].slice.call(document.querySelectorAll('button.submitupdate')).forEach(el => {
+        document.querySelectorAll('button.submitupdate').forEach(el => {
           el.classList.remove('disabled');
           el.removeAttribute('disabled');
         });

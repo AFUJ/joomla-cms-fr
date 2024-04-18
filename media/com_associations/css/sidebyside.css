@@ -1,18 +1,10 @@
-/**
- * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
-
+@charset "UTF-8";
 .sidebyside .outer-panel {
   float: left;
   width: 50%;
 }
 
-.sidebyside #left-panel .inner-panel {
-  padding-inline-end: 10px;
-}
-
-.sidebyside #right-panel .inner-panel {
+.sidebyside #left-panel .inner-panel, .sidebyside #right-panel .inner-panel {
   padding-inline-end: 10px;
 }
 
@@ -54,25 +46,11 @@
   width: auto;
 }
 
-/* RTL overrides */
-[dir=rtl] .sidebyside .outer-panel {
+[dir="rtl"] .sidebyside .outer-panel, [dir="rtl"] .sidebyside .langtarget, [dir="rtl"] .sidebyside .modaltarget, [dir="rtl"] .target-text {
   float: right;
 }
 
-[dir=rtl] .sidebyside .langtarget {
-  float: right;
-}
-
-[dir=rtl] .sidebyside .modaltarget {
-  float: right;
-}
-
-[dir=rtl] .target-text {
-  float: right;
-}
-
-/* Responsive layout */
-@media (max-width: 767.98px) {
+@media (width <= 767.98px) {
   .sidebyside .outer-panel {
     float: none;
     width: 100%;
@@ -82,11 +60,7 @@
     margin-top: 0;
   }
 
-  .sidebyside #left-panel .inner-panel {
-    padding: 0;
-  }
-
-  .sidebyside #right-panel .inner-panel {
+  .sidebyside #left-panel .inner-panel, .sidebyside #right-panel .inner-panel {
     padding: 0;
   }
 }

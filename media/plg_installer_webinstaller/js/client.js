@@ -81,10 +81,10 @@ class WebInstaller {
           }
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = Joomla.sanitizeHtml(response.data.html, allowList);
-          document.getElementById('com-apps-searchbox').addEventListener('keypress', ({
-            which
+          document.getElementById('com-apps-searchbox').addEventListener('keydown', ({
+            code
           }) => {
-            if (which === 13) {
+            if (code === 'Enter') {
               this.initiateSearch();
             }
           });

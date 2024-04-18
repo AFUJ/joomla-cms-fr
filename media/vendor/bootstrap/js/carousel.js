@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, M as Manipulator, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, g as getNextActiveElement, r as reflow, b as isRTL } from './dom.js?5.3.0';
+import { E as EventHandler, S as SelectorEngine, M as Manipulator, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, g as getNextActiveElement, r as reflow, b as isRTL } from './dom.js?5.3.2';
 
 /**
  * --------------------------------------------------------------------------
@@ -237,8 +237,7 @@ class Carousel extends BaseComponent {
     const elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
     this._config.interval = elementInterval || this._config.defaultInterval;
   }
-  _slide(order) {
-    let element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  _slide(order, element = null) {
     if (this._isSliding) {
       return;
     }

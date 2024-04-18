@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn\AttestationStatement;
 
-use Assert\Assertion;
+use function array_key_exists;
+use Webauthn\Exception\InvalidDataException;
 
 class AttestationStatementSupportManager
 {
     /**
      * @var AttestationStatementSupport[]
      */
-    private $attestationStatementSupports = [];
+    private array $attestationStatementSupports = [];
+
+    public static function create(): self
+    {
+        return new self();
+    }
 
     public function add(AttestationStatementSupport $attestationStatementSupport): void
     {
@@ -29,12 +26,15 @@ class AttestationStatementSupportManager
 
     public function has(string $name): bool
     {
-        return \array_key_exists($name, $this->attestationStatementSupports);
+        return array_key_exists($name, $this->attestationStatementSupports);
     }
 
     public function get(string $name): AttestationStatementSupport
     {
-        Assertion::true($this->has($name), sprintf('The attestation statement format "%s" is not supported.', $name));
+        $this->has($name) || throw InvalidDataException::create($name, sprintf(
+            'The attestation statement format "%s" is not supported.',
+            $name
+        ));
 
         return $this->attestationStatementSupports[$name];
     }

@@ -11,12 +11,24 @@
     window.Joomla = {};
   }
   Joomla.fieldIns = (id, editor) => {
+    // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+    if (window.parent.JoomlaExpectingPostMessage) {
+      return;
+    }
+    // eslint-disable-next-line no-console
+    console.warn('Method Joomla.fieldIns() is deprecated. Use postMessage() instead.');
     window.parent.Joomla.editors.instances[editor].replaceSelection(`{field ${id}}`);
     if (window.parent.Joomla.Modal) {
       window.parent.Joomla.Modal.getCurrent().close();
     }
   };
   Joomla.fieldgroupIns = (id, editor) => {
+    // Use a JoomlaExpectingPostMessage flag to be able to distinct legacy methods
+    if (window.parent.JoomlaExpectingPostMessage) {
+      return;
+    }
+    // eslint-disable-next-line no-console
+    console.warn('Method Joomla.fieldgroupIns() is deprecated. Use postMessage() instead.');
     window.parent.Joomla.editors.instances[editor].replaceSelection(`{fieldgroup ${id}}`);
     if (window.parent.Joomla.Modal) {
       window.parent.Joomla.Modal.getCurrent().close();

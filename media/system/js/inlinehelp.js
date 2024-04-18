@@ -15,7 +15,7 @@ Joomla.toggleInlineHelp = toggleClass => {
     // The ID of the description whose visibility is toggled.
     const myId = elDiv.id;
     // The ID of the control described by this node (same ID, minus the '-desc' suffix).
-    const controlId = myId ? myId.substr(0, myId.length - 5) : null;
+    const controlId = myId ? myId.substring(0, myId.length - 5) : null;
     // Get the control described by this node.
     const elControl = controlId ? document.getElementById(controlId) : null;
     // Is this node hidden?
@@ -37,8 +37,9 @@ Joomla.toggleInlineHelp = toggleClass => {
 
 // Initialisation. Clicking on anything with the button-inlinehelp class will toggle the inline help.
 [].slice.call(document.querySelectorAll('.button-inlinehelp')).forEach(elToggler => {
+  var _elToggler$dataset$cl;
   // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
-  const toggleClass = elToggler.dataset.class ?? 'hide-aware-inline-help';
+  const toggleClass = (_elToggler$dataset$cl = elToggler.dataset.class) != null ? _elToggler$dataset$cl : 'hide-aware-inline-help';
   const collection = document.getElementsByClassName(toggleClass);
 
   // no description => hide inlinehelp button

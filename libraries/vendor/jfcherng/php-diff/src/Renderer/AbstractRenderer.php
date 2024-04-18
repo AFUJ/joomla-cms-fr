@@ -10,6 +10,8 @@ use Jfcherng\Diff\Utility\Language;
 
 /**
  * Base class for diff renderers.
+ *
+ * @todo use typed properties (BC breaking for public interface) in v7
  */
 abstract class AbstractRenderer implements RendererInterface
 {
@@ -89,7 +91,7 @@ abstract class AbstractRenderer implements RendererInterface
         'outputTagAsString' => false,
         // this option is currently only for the Json renderer.
         // it controls how the output JSON is formatted.
-        // see availabe options on https://www.php.net/manual/en/function.json-encode.php
+        // see available options on https://www.php.net/manual/en/function.json-encode.php
         'jsonEncodeFlags' => \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE,
         // this option is currently effective when the "detailLevel" is "word"
         // characters listed in this array can be used to make diff segments into a whole
@@ -133,7 +135,7 @@ abstract class AbstractRenderer implements RendererInterface
 
         $this->updateLanguage(
             $this->options['language'] ?? '',
-            $newOptions['language']
+            $newOptions['language'],
         );
 
         $this->options = $newOptions;
@@ -152,8 +154,6 @@ abstract class AbstractRenderer implements RendererInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @final
      *
      * @todo mark this method with "final" in the next major release
@@ -176,21 +176,16 @@ abstract class AbstractRenderer implements RendererInterface
      */
     abstract public function getResultForIdenticalsDefault(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     final public function render(Differ $differ): string
     {
         $this->changesAreRaw = true;
+
         // the "no difference" situation may happen frequently
-        return $differ->getOldNewComparison() === 0
+        return $differ->getOldNewComparison() === 0 && !$differ->options['fullContextIfIdentical']
             ? $this->getResultForIdenticals()
             : $this->renderWorker($differ);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     final public function renderArray(array $differArray): string
     {
         $this->changesAreRaw = false;
@@ -241,6 +236,6 @@ abstract class AbstractRenderer implements RendererInterface
     {
         $text = $this->t->translate($text);
 
-        return $escapeHtml ? \htmlspecialchars($text) : $text;
+        return $escapeHtml ? htmlspecialchars($text) : $text;
     }
 }

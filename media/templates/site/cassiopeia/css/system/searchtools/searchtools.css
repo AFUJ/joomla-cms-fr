@@ -1,47 +1,47 @@
+@charset "UTF-8";
 .js-stools-container-bar {
   padding: 10px 20px;
 }
+
 .js-stools-container-bar .btn-toolbar {
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
 }
+
 .js-stools-container-bar .btn-toolbar > * {
   margin: 4px 0;
-  -webkit-margin-end: 8px;
-          margin-inline-end: 8px;
+  margin-inline-end: 8px;
 }
+
 .js-stools-container-bar .btn-toolbar .js-stools-btn-clear {
-  background-color: hsl(207, 49%, 37%);
+  background-color: #30638d;
   border: 0;
 }
+
 .js-stools-container-bar .ordering-select {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 
 .js-stools-container-filters {
-  display: none;
-  padding: 0 20px;
   margin-bottom: 20px;
+  padding: 0 20px;
+  display: none;
 }
+
 .js-stools-container-filters-visible {
-  display: grid;
   grid-gap: 8px;
+  background-color: #fff;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   padding: 10px;
-  background-color: hsl(0, 0%, 100%);
+  display: grid;
 }
+
 .js-stools-container-filters > * {
   margin: 4px 0;
-  -webkit-margin-end: 8px;
-          margin-inline-end: 8px;
+  margin-inline-end: 8px;
 }
 
 .js-stools-field-list + .js-stools-field-list {
-  -webkit-margin-start: 8px;
-          margin-inline-start: 8px;
+  margin-inline-start: 8px;
 }
 
 .js-stools-field-selector .form-select {

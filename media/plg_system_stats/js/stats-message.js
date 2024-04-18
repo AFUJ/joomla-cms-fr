@@ -59,9 +59,9 @@ Joomla = window.Joomla || {};
     });
   };
   const getJson = ({
-    plugin = 'sendStats'
+    plugin: _plugin = 'sendStats'
   } = {}) => {
-    const url = `index.php?option=com_ajax&group=system&plugin=${plugin}&format=raw`;
+    const url = `index.php?option=com_ajax&group=system&plugin=${_plugin}&format=raw`;
     const messageContainer = document.getElementById('system-message-container');
     Joomla.request({
       url,

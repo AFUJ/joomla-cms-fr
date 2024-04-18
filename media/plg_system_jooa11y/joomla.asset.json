@@ -8,33 +8,26 @@
     {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "style",
-      "uri": "plg_system_jooa11y/jooa11y.min.css",
-      "version": "e314fc17845a1a0b0c20eef6c91eb40877c7bf3b"
-    },
-    {
-      "name": "plg_system_jooa11y.jooa11y-es5",
-      "type": "script",
-      "uri": "plg_system_jooa11y/jooa11y-es5.min.js",
+      "uri": "",
+      "deprecated": true,
+      "deprecatedMsg": "Use 'sa11y' style asset instead",
       "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "defer": true,
-        "nomodule": true
-      },
-      "version": "3f7d8a7a62be275d2db39256e72ba66906d10e9b"
+        "sa11y"
+      ]
     },
     {
       "name": "plg_system_jooa11y.jooa11y",
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
-        "plg_system_jooa11y.jooa11y-es5"
+        "core",
+        "sa11y",
+        "sa11y-lang"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "8c0c7195ffd2a8530a7730b5c64e12bf69523eb4"
+      "version": "b04012"
     }
   ]
 }

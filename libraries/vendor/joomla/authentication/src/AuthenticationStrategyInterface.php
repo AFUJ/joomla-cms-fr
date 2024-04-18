@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Part of the Joomla Framework Authentication Package
  *
@@ -15,21 +16,21 @@ namespace Joomla\Authentication;
  */
 interface AuthenticationStrategyInterface
 {
-	/**
-	 * Attempt authentication.
-	 *
-	 * @return  string|boolean  A string containing a username if authentication is successful, false otherwise.
-	 *
-	 * @since   1.0
-	 */
-	public function authenticate();
+    /**
+     * Attempt authentication.
+     *
+     * @return  string|boolean  A string containing a username if authentication is successful, false otherwise.
+     *
+     * @since   1.0
+     */
+    public function authenticate();
 
-	/**
-	 * Get last authentication result.
-	 *
-	 * @return  integer  An integer from Authentication class constants with the authentication result.
-	 *
-	 * @since   1.0
-	 */
-	public function getResult();
+    /**
+     * Get last authentication result.
+     *
+     * @return  integer  An integer from Authentication class constants with the authentication result.
+     *
+     * @since   1.0
+     */
+    public function getResult();
 }

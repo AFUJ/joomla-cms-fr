@@ -33,10 +33,7 @@
     display.appendChild(fragment);
   };
   const onBoot = () => {
-    const diffs = [].slice.call(document.querySelectorAll('.original'));
-    diffs.forEach(fragment => {
-      compare(fragment, fragment.nextElementSibling);
-    });
+    document.querySelectorAll('.original').forEach(fragment => compare(fragment, fragment.nextElementSibling));
 
     // Cleanup
     document.removeEventListener('DOMContentLoaded', onBoot);

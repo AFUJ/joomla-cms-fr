@@ -2,28 +2,23 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Cose\Algorithm\Mac;
 
-use Assert\Assertion;
 use Cose\Key\Key;
+use Cose\Key\SymmetricKey;
+use InvalidArgumentException;
 
+/**
+ * @see \Cose\Tests\Algorithm\Mac\HmacTest
+ */
 abstract class Hmac implements Mac
 {
     public function hash(string $data, Key $key): string
     {
         $this->checKey($key);
-        $signature = hash_hmac($this->getHashAlgorithm(), $data, $key->get(-1), true);
+        $signature = hash_hmac($this->getHashAlgorithm(), $data, (string) $key->get(SymmetricKey::DATA_K), true);
 
-        return mb_substr($signature, 0, $this->getSignatureLength() / 8, '8bit');
+        return mb_substr($signature, 0, intdiv($this->getSignatureLength(), 8), '8bit');
     }
 
     public function verify(string $data, Key $key, string $signature): bool
@@ -31,13 +26,18 @@ abstract class Hmac implements Mac
         return hash_equals($this->hash($data, $key), $signature);
     }
 
-    private function checKey(Key $key): void
-    {
-        Assertion::eq($key->type(), 4, 'Invalid key. Must be of type symmetric');
-        Assertion::true($key->has(-1), 'Invalid key. The value of the key is missing');
-    }
-
     abstract protected function getHashAlgorithm(): string;
 
     abstract protected function getSignatureLength(): int;
+
+    private function checKey(Key $key): void
+    {
+        if ($key->type() !== Key::TYPE_OCT && $key->type() !== Key::TYPE_NAME_OCT) {
+            throw new InvalidArgumentException('Invalid key. Must be of type symmetric');
+        }
+
+        if (! $key->has(SymmetricKey::DATA_K)) {
+            throw new InvalidArgumentException('Invalid key. The value of the key is missing');
+        }
+    }
 }

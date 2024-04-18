@@ -1,5 +1,5 @@
-import { P as Popper, c as createPopper } from './popper.js?5.3.0';
-import { b as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, f as isDisabled, n as noop, M as Manipulator, h as isElement, c as getElement, j as execute, i as isVisible, g as getNextActiveElement } from './dom.js?5.3.0';
+import { P as Popper, c as createPopper } from './popper.js?5.3.2';
+import { b as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, f as isDisabled, n as noop, M as Manipulator, h as isElement, c as getElement, j as execute, i as isVisible, g as getNextActiveElement } from './dom.js?5.3.2';
 
 /**
  * --------------------------------------------------------------------------
@@ -260,11 +260,10 @@ class Dropdown extends BaseComponent {
       ...execute(this._config.popperConfig, [defaultBsPopperConfig])
     };
   }
-  _selectMenuItem(_ref) {
-    let {
-      key,
-      target
-    } = _ref;
+  _selectMenuItem({
+    key,
+    target
+  }) {
     const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element => isVisible(element));
     if (!items.length) {
       return;

@@ -9,12 +9,12 @@ final class Language
     /**
      * @var string[] the translation dict
      */
-    private $translations = [];
+    private array $translations = [];
 
     /**
      * @var string the language name
      */
-    private $language = '_custom_';
+    private string $language = '_custom_';
 
     /**
      * The constructor.
@@ -84,12 +84,10 @@ final class Language
         $file = new \SplFileObject($filePath, 'r');
         $fileContent = $file->fread($file->getSize());
 
-        /** @todo PHP ^7.3 JSON_THROW_ON_ERROR */
-        $decoded = \json_decode($fileContent, true);
-
-        if (\json_last_error() !== \JSON_ERROR_NONE) {
-            $msg = \sprintf('Fail to decode JSON file (code %d): %s', \json_last_error(), \realpath($filePath));
-            throw new \Exception($msg); // workaround single-line throw + 120-char limit
+        try {
+            $decoded = json_decode($fileContent, true, 512, \JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            throw new \Exception(sprintf('Fail to decode JSON file (%s): %s', realpath($filePath), (string) $e));
         }
 
         return (array) $decoded;
@@ -117,12 +115,10 @@ final class Language
             }
 
             // $target is a list of "key-value pairs or language ID"
-            return \array_reduce(
+            return array_reduce(
                 $target,
-                function ($carry, $translation) {
-                    return \array_merge($carry, $this->resolve($translation));
-                },
-                []
+                fn (array $carry, $translation): array => array_merge($carry, $this->resolve($translation)),
+                [],
             );
         }
 

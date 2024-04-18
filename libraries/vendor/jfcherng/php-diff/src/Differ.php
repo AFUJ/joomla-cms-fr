@@ -44,70 +44,64 @@ final class Differ
     /**
      * @var array array of the options that have been applied for generating the diff
      */
-    public $options = [];
+    public array $options = [];
 
     /**
      * @var string[] the old sequence
      */
-    private $old = [];
+    private array $old = [];
 
     /**
      * @var string[] the new sequence
      */
-    private $new = [];
+    private array $new = [];
 
     /**
      * @var bool is any of cached properties dirty?
      */
-    private $isCacheDirty = true;
+    private bool $isCacheDirty = true;
 
     /**
      * @var SequenceMatcher the sequence matcher
      */
-    private $sequenceMatcher;
+    private SequenceMatcher $sequenceMatcher;
 
-    /**
-     * @var int
-     */
-    private $oldSrcLength = 0;
+    private int $oldSrcLength = 0;
 
-    /**
-     * @var int
-     */
-    private $newSrcLength = 0;
+    private int $newSrcLength = 0;
 
     /**
      * @var int the end index for the old if the old has no EOL at EOF
-     *          -1 means the old has an EOL at EOF
+     *          `-1` means the old has an EOL at EOF
      */
-    private $oldNoEolAtEofIdx = -1;
+    private int $oldNoEolAtEofIdx = -1;
 
     /**
      * @var int the end index for the new if the new has no EOL at EOF
-     *          -1 means the new has an EOL at EOF
+     *          `-1` means the new has an EOL at EOF
      */
-    private $newNoEolAtEofIdx = -1;
+    private int $newNoEolAtEofIdx = -1;
 
     /**
      * @var int the result of comparing the old and the new with the spaceship operator
-     *          -1 means old < new, 0 means old == new, 1 means old > new
+     *          `-1` means `old < new`, `0` means `old == new`, `1` means `old > new`
      */
-    private $oldNewComparison = 0;
+    private int $oldNewComparison = 0;
 
     /**
      * @var int[][][] array containing the generated opcodes for the differences between the two items
      */
-    private $groupedOpcodes = [];
+    private array $groupedOpcodes = [];
 
     /**
      * @var int[][][] array containing the generated opcodes for the differences between the two items (GNU version)
      */
-    private $groupedOpcodesGnu = [];
+    private array $groupedOpcodesGnu = [];
 
     /**
      * @var array associative array of the default options available for the Differ class and their default value
      */
-    private static $defaultOptions = [
+    private static array $defaultOptions = [
         // show how many neighbor lines
         // Differ::CONTEXT_ALL can be used to show the whole file
         'context' => 3,
@@ -119,13 +113,15 @@ final class Differ
         'ignoreWhitespace' => false,
         // if the input sequence is too long, it will just gives up (especially for char-level diff)
         'lengthLimit' => 2000,
+        // if truthy, when inputs are identical, the whole inputs will be rendered in the output
+        'fullContextIfIdentical' => false,
     ];
 
     /**
      * The constructor.
      *
      * @param string[] $old     array containing the lines of the old string to compare
-     * @param string[] $new     array containing the lines for the new string to compare
+     * @param string[] $new     array containing the lines of the new string to compare
      * @param array    $options the options
      */
     public function __construct(array $old, array $new, array $options = [])
@@ -183,7 +179,7 @@ final class Differ
      */
     public function setOptions(array $options): self
     {
-        $mergedOptions = $options + static::$defaultOptions;
+        $mergedOptions = $options + self::$defaultOptions;
 
         if ($this->options !== $mergedOptions) {
             $this->options = $mergedOptions;
@@ -266,7 +262,7 @@ final class Differ
     {
         static $singleton;
 
-        return $singleton = $singleton ?? new static([], []);
+        return $singleton ??= new self([], []);
     }
 
     /**
@@ -318,11 +314,21 @@ final class Differ
 
         $old = $this->old;
         $new = $this->new;
+
         $this->getGroupedOpcodesPre($old, $new);
 
-        $opcodes = $this->sequenceMatcher
-            ->setSequences($old, $new)
-            ->getGroupedOpcodes($this->options['context']);
+        if ($this->oldNewComparison === 0 && $this->options['fullContextIfIdentical']) {
+            $opcodes = [
+                [
+                    [SequenceMatcher::OP_EQ, 0, \count($old), 0, \count($new)],
+                ],
+            ];
+        } else {
+            $opcodes = $this->sequenceMatcher
+                ->setSequences($old, $new)
+                ->getGroupedOpcodes($this->options['context'])
+            ;
+        }
 
         $this->getGroupedOpcodesPost($opcodes);
 
@@ -344,11 +350,21 @@ final class Differ
 
         $old = $this->old;
         $new = $this->new;
+
         $this->getGroupedOpcodesGnuPre($old, $new);
 
-        $opcodes = $this->sequenceMatcher
-            ->setSequences($old, $new)
-            ->getGroupedOpcodes($this->options['context']);
+        if ($this->oldNewComparison === 0 && $this->options['fullContextIfIdentical']) {
+            $opcodes = [
+                [
+                    [SequenceMatcher::OP_EQ, 0, \count($old), 0, \count($new)],
+                ],
+            ];
+        } else {
+            $opcodes = $this->sequenceMatcher
+                ->setSequences($old, $new)
+                ->getGroupedOpcodes($this->options['context'])
+            ;
+        }
 
         $this->getGroupedOpcodesGnuPost($opcodes);
 
@@ -372,10 +388,10 @@ final class Differ
         ];
 
         $this->oldSrcLength = \count($old);
-        \array_push($old, ...$eolAtEofHelperLines);
+        array_push($old, ...$eolAtEofHelperLines);
 
         $this->newSrcLength = \count($new);
-        \array_push($new, ...$eolAtEofHelperLines);
+        array_push($new, ...$eolAtEofHelperLines);
     }
 
     /**
@@ -495,7 +511,7 @@ final class Differ
      */
     private function resetCachedResults(): self
     {
-        foreach (static::CACHED_PROPERTIES as $property => $value) {
+        foreach (self::CACHED_PROPERTIES as $property => $value) {
             $this->{$property} = $value;
         }
 

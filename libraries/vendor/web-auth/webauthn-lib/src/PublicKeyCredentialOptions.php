@@ -2,42 +2,55 @@
 
 declare(strict_types=1);
 
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2014-2019 Spomky-Labs
- *
- * This software may be modified and distributed under the terms
- * of the MIT license.  See the LICENSE file for details.
- */
-
 namespace Webauthn;
 
 use JsonSerializable;
+use Webauthn\AuthenticationExtensions\AuthenticationExtension;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 
 abstract class PublicKeyCredentialOptions implements JsonSerializable
 {
-    /**
-     * @var string
-     */
-    protected $challenge;
+    protected ?int $timeout = null;
 
-    /**
-     * @var int|null
-     */
-    protected $timeout;
+    protected AuthenticationExtensionsClientInputs $extensions;
 
-    /**
-     * @var AuthenticationExtensionsClientInputs
-     */
-    protected $extensions;
+    public function __construct(
+        protected string $challenge
+    ) {
+        $this->extensions = new AuthenticationExtensionsClientInputs();
+    }
 
-    public function __construct(string $challenge, ?int $timeout = null, ?AuthenticationExtensionsClientInputs $extensions = null)
+    public function setTimeout(?int $timeout): static
     {
-        $this->challenge = $challenge;
         $this->timeout = $timeout;
-        $this->extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
+
+        return $this;
+    }
+
+    public function addExtension(AuthenticationExtension $extension): static
+    {
+        $this->extensions->add($extension);
+
+        return $this;
+    }
+
+    /**
+     * @param AuthenticationExtension[] $extensions
+     */
+    public function addExtensions(array $extensions): static
+    {
+        foreach ($extensions as $extension) {
+            $this->addExtension($extension);
+        }
+
+        return $this;
+    }
+
+    public function setExtensions(AuthenticationExtensionsClientInputs $extensions): static
+    {
+        $this->extensions = $extensions;
+
+        return $this;
     }
 
     public function getChallenge(): string
@@ -55,7 +68,10 @@ abstract class PublicKeyCredentialOptions implements JsonSerializable
         return $this->extensions;
     }
 
-    abstract public static function createFromString(string $data): self;
+    abstract public static function createFromString(string $data): static;
 
-    abstract public static function createFromArray(array $json): self;
+    /**
+     * @param mixed[] $json
+     */
+    abstract public static function createFromArray(array $json): static;
 }

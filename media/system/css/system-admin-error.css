@@ -1,52 +1,49 @@
-/**
- * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
+@charset "UTF-8";
 .outline {
-  width: 550px;
-  padding: 2px;
-  margin: 0 auto;
   background: #fff;
   border: 1px solid #ccc;
+  width: 550px;
+  margin: 0 auto;
+  padding: 2px;
 }
 
 body {
-  height: 100%;
-  padding: 0;
-  margin: 15px;
-  font-family: Arial, Helvetica, Sans Serif;
-  font-size: 11px;
   color: #333;
   background: #fff;
+  height: 100%;
+  margin: 15px;
+  padding: 0;
+  font-family: Arial, Helvetica, Sans Serif;
+  font-size: 11px;
 }
 
 .frame {
-  padding: 8px;
+  background-color: #fefcf3;
+  border: 1px solid #000;
   margin-top: 13px;
   margin-bottom: 25px;
-  background-color: #fefcf3;
-  border: solid 1px #000;
+  padding: 8px;
 }
 
 h1 {
-  font-size: 18px;
   color: #c33;
+  font-size: 18px;
 }
 
 .table {
-  margin-top: 13px;
   border-collapse: collapse;
+  margin-top: 13px;
 }
 
 td {
+  border: 1px solid #bbb;
   padding: 3px 5px;
   font-size: 10px;
-  border: solid 1px #bbb;
 }
 
 .type {
-  padding: 3px;
-  font-weight: bold;
   color: #fff;
   background-color: #c00;
+  padding: 3px;
+  font-weight: bold;
 }

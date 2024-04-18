@@ -1,32 +1,28 @@
-/**
- * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
+@charset "UTF-8";
 .shepherd-button {
+  color: #ffffffbf;
+  cursor: pointer;
   background: #3288e6;
   border: 0;
   border-radius: 3px;
-  color: hsla(0, 0%, 100%, 0.75);
-  cursor: pointer;
-  margin-right: 0.5rem;
-  padding: 0.5rem 1.5rem;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  margin-right: .5rem;
+  padding: .5rem 1.5rem;
+  transition: all .5s;
 }
 
 .shepherd-button:not(:disabled):hover {
+  color: #ffffffbf;
   background: #196fcc;
-  color: hsla(0, 0%, 100%, 0.75);
 }
 
 .shepherd-button.shepherd-button-secondary {
+  color: #000000bf;
   background: #f1f2f3;
-  color: rgba(0, 0, 0, 0.75);
 }
 
 .shepherd-button.shepherd-button-secondary:not(:disabled):hover {
+  color: #000000bf;
   background: #d6d9db;
-  color: rgba(0, 0, 0, 0.75);
 }
 
 .shepherd-button:disabled {
@@ -34,15 +30,11 @@
 }
 
 .shepherd-footer {
-  border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  border-bottom-left-radius: 5px;
+  justify-content: flex-end;
+  padding: 0 .75rem .75rem;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  padding: 0 0.75rem 0.75rem;
 }
 
 .shepherd-footer .shepherd-button:last-child {
@@ -50,58 +42,47 @@
 }
 
 .shepherd-cancel-icon {
-  background: transparent;
-  border: none;
-  color: hsla(0, 0%, 50%, 0.75);
+  color: #808080bf;
   cursor: pointer;
-  font-size: 2em;
-  font-weight: 400;
+  background: none;
+  border: none;
   margin: 0;
   padding: 0;
-  -webkit-transition: color 0.5s ease;
-  transition: color 0.5s ease;
+  font-size: 2em;
+  font-weight: 400;
+  transition: color .5s;
 }
 
 .shepherd-cancel-icon:hover {
-  color: rgba(0, 0, 0, 0.75);
+  color: #000000bf;
 }
 
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon {
-  color: hsla(0, 0%, 50%, 0.75);
+  color: #808080bf;
 }
 
 .shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
-  color: rgba(0, 0, 0, 0.75);
+  color: #000000bf;
 }
 
 .shepherd-title {
-  color: rgba(0, 0, 0, 0.75);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 0 auto;
-          flex: 1 0 auto;
-  font-size: 1rem;
-  font-weight: 400;
+  color: #000000bf;
+  flex: 1 0 auto;
   margin: 0;
   padding: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  display: flex;
 }
 
 .shepherd-header {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  justify-content: flex-end;
+  align-items: center;
+  padding: .75rem .75rem 0;
   line-height: 2em;
-  padding: 0.75rem 0.75rem 0;
+  display: flex;
 }
 
 .shepherd-has-title .shepherd-content .shepherd-header {
@@ -110,10 +91,10 @@
 }
 
 .shepherd-text {
-  color: rgba(0, 0, 0, 0.75);
+  color: #000000bf;
+  padding: .75em;
   font-size: 1rem;
   line-height: 1.3em;
-  padding: 0.75em;
 }
 
 .shepherd-text p {
@@ -131,18 +112,16 @@
 }
 
 .shepherd-element {
+  opacity: 0;
+  visibility: hidden;
+  z-index: 9999;
   background: #fff;
   border-radius: 5px;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  opacity: 0;
   outline: none;
-  -webkit-transition: opacity 0.3s, visibility 0.3s;
-  transition: opacity 0.3s, visibility 0.3s;
-  visibility: hidden;
   width: 100%;
-  z-index: 9999;
+  max-width: 400px;
+  transition: opacity .3s, visibility .3s;
+  box-shadow: 0 1px 4px #0003;
 }
 
 .shepherd-enabled.shepherd-element {
@@ -157,37 +136,35 @@
 }
 
 .shepherd-element, .shepherd-element *, .shepherd-element :after, .shepherd-element :before {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .shepherd-arrow, .shepherd-arrow:before {
+  z-index: -1;
+  width: 16px;
   height: 16px;
   position: absolute;
-  width: 16px;
-  z-index: -1;
 }
 
 .shepherd-arrow:before {
-  background: #fff;
   content: "";
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  background: #fff;
+  transform: rotate(45deg);
 }
 
-.shepherd-element[data-popper-placement^=top] > .shepherd-arrow {
+.shepherd-element[data-popper-placement^="top"] > .shepherd-arrow {
   bottom: -8px;
 }
 
-.shepherd-element[data-popper-placement^=bottom] > .shepherd-arrow {
+.shepherd-element[data-popper-placement^="bottom"] > .shepherd-arrow {
   top: -8px;
 }
 
-.shepherd-element[data-popper-placement^=left] > .shepherd-arrow {
+.shepherd-element[data-popper-placement^="left"] > .shepherd-arrow {
   right: -8px;
 }
 
-.shepherd-element[data-popper-placement^=right] > .shepherd-arrow {
+.shepherd-element[data-popper-placement^="right"] > .shepherd-arrow {
   left: -8px;
 }
 
@@ -195,7 +172,7 @@
   opacity: 0;
 }
 
-.shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+.shepherd-element.shepherd-has-title[data-popper-placement^="bottom"] > .shepherd-arrow:before {
   background-color: #e6e6e6;
 }
 
@@ -204,30 +181,33 @@
 }
 
 .shepherd-modal-overlay-container {
-  height: 0;
-  left: 0;
   opacity: 0;
-  overflow: hidden;
   pointer-events: none;
+  z-index: 9997;
+  width: 100vw;
+  height: 0;
+  transition: all .3s ease-out, height 0s .3s, opacity .3s;
   position: fixed;
   top: 0;
-  -webkit-transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
-  transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
-  width: 100vw;
-  z-index: 9997;
+  left: 0;
+  overflow: hidden;
 }
 
 .shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  opacity: .5;
   height: 100vh;
-  opacity: 0.5;
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0);
-  -webkit-transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
-  transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+  transition: all .3s ease-out, height, opacity .3s;
+  transform: translateZ(0);
 }
 
 .shepherd-modal-overlay-container.shepherd-modal-is-visible path {
   pointer-events: all;
+}
+
+.shepherd-content {
+  border: 1px solid var(--border-color-translucent);
+  box-shadow: var(--modal-joomla-dialog-box-shadow);
+  border-radius: .3rem;
 }
 
 .shepherd-content img {
@@ -236,9 +216,7 @@
 }
 
 .shepherd-title {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
+  flex: auto;
   line-height: 1.5em;
 }
 
@@ -252,43 +230,40 @@
 }
 
 .shepherd-footer {
-  display: grid;
   grid-template-columns: repeat(3, 1fr);
+  display: grid;
 }
 
 .shepherd-button-primary {
+  color: var(--btn-primary-color);
+  background-color: var(--btn-primary-bg);
+  border: var(--btn-primary-border);
   grid-column-start: 3;
-  color: var(--template-text-light);
-  background-color: var(--template-bg-dark-60);
-  border-color: var(--template-bg-dark-60);
 }
 
 .shepherd-button-primary:not(:disabled):hover {
-  background-color: var(--template-bg-dark-70);
-  border-color: var(--template-bg-dark-90);
+  background-color: var(--btn-primary-bg-hvr);
+  border: var(--btn-primary-border-hvr);
 }
 
-.shepherd-enabled.shepherd-element[data-popper-placement=bottom] {
-  -webkit-transform: translateY(12px);
-          transform: translateY(12px);
+.shepherd-enabled.shepherd-element[data-popper-placement="bottom"] {
+  transform: translateY(12px);
 }
 
-.shepherd-enabled.shepherd-element[data-popper-placement=left] {
-  -webkit-transform: translateX(-12px);
-          transform: translateX(-12px);
+.shepherd-enabled.shepherd-element[data-popper-placement="left"] {
+  transform: translateX(-12px);
 }
 
-.shepherd-enabled.shepherd-element[data-popper-placement=top] {
-  -webkit-transform: translateY(-12px);
-          transform: translateY(-12px);
+.shepherd-enabled.shepherd-element[data-popper-placement="top"] {
+  transform: translateY(-12px);
 }
 
-.shepherd-enabled.shepherd-element[data-popper-placement=right] {
-  -webkit-transform: translateX(12px);
-          transform: translateX(12px);
+.shepherd-enabled.shepherd-element[data-popper-placement="right"] {
+  transform: translateX(12px);
 }
 
 #modGuidedTours-modal a {
+  color: var(--template-link-color);
   font-weight: 500;
   text-decoration: underline;
 }

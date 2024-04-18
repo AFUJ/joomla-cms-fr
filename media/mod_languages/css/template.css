@@ -1,6 +1,7 @@
+@charset "UTF-8";
 div.mod-languages ul {
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -17,9 +18,9 @@ div.mod-languages .dropdown-menu {
 }
 
 div.mod-languages ul.lang-block li {
-  display: block;
-  padding: .5rem 0;
   text-align: start;
+  padding: .5rem 0;
+  display: block;
 }
 
 div.mod-languages ul li.lang-active {
@@ -27,8 +28,8 @@ div.mod-languages ul li.lang-active {
 }
 
 div.mod-languages img {
-  display: inline-block;
   border: none;
+  display: inline-block;
 }
 
 div.mod-languages a {
@@ -37,8 +38,8 @@ div.mod-languages a {
 }
 
 div.mod-languages .btn-group {
-  display: flex !important;
   margin: 0;
+  display: flex !important;
 }
 
 div.mod-languages .btn-group .btn {
