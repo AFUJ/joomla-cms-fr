@@ -4,7 +4,7 @@
 
 ## DESCRIPTION
 
-La branche 5.1 de Joomla! développée par l'AFUJ incluant le pack de langue fr-FR et des traductions d'éléments à l'installation.
+La branche 5.1 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation.
 
 ## 1- Aperçu
 * Ceci est un package d'installation/mise à niveau de Joomla! 5.x.
