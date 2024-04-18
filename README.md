@@ -1,4 +1,4 @@
-# AFUJ: Joomla! CMS™ - Version 5.1 avec pack de langue fr-FR
+# AFUJ: Joomla! CMS™ - Version 5.1 avec pack fr-FR
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/AFUJ/joomla-cms-fr?color=green&include_prereleases&label=release&style=for-the-badge)
 
