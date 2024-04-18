@@ -1,10 +1,6 @@
 # AFUJ: Joomla! CMS™ - Version 5.1 avec pack de langue fr-FR
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/AFUJ/joomla-cms-fr?color=green&include_prereleases&label=release&style=for-the-badge)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/AFUJ/joomla-fr/5.1-dev?style=for-the-badge)
-![GitHub commits since tagged version (branch)](https://img.shields.io/github/commits-since/AFUJ/joomla-fr/5.1.0v1/5.1-dev?style=for-the-badge)
-![GitHub issues by-label](https://img.shields.io/github/issues/AFUJ/joomla-fr/Joomla!%205.x?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/afuj/joomla-fr?style=for-the-badge)
 
 ## DESCRIPTION
 
@@ -12,7 +8,7 @@ La branche 5.1 de Joomla! développée par l'AFUJ incluant le pack de langue fr-
 
 ## 1- Aperçu
 	* Ceci est un package d'installation/mise à niveau de Joomla! 5.x.
-	* Site officiel de Joomla! : [https://www.joomla.org](https://www.joomla.org)
+	* Site officiel de Joomla! : https://www.joomla.org
 	* Historique des versions Joomla! 5.1 - [https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history)
 	* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.1-dev](https://github.com/joomla/joomla-cms/commits/5.1-dev)
 
