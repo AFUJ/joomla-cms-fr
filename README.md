@@ -76,4 +76,4 @@ Voir le tutoriel : [https://docs.joomla.org/Special:MyLanguage/Installing_Joomla
 * Documentation pour les concepteurs web : [https://docs.joomla.org/Special:MyLanguage/Web_designers](https://docs.joomla.org/Special:MyLanguage/Web_designers)
 
 ### LICENCE
-LICENCE PUBLIQUE GÉNÉRALE GNU V2. Veuillez consulter le [fichier de licence](LICENSE) pour plus d'informations.
+LICENCE PUBLIQUE GÉNÉRALE GNU V2. Veuillez consulter la [licence](https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses) pour plus d'informations.
