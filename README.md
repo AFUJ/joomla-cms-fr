@@ -4,10 +4,10 @@
 
 ## DESCRIPTION
 
-La branche 5.1 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation.
+La version 5.1 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
 
 ## 1- Aperçu
-* Ceci est un package d'installation/mise à niveau de Joomla! 5.x.
+* Ceci est un package d'installation 5.1 francisé.
 * Site officiel de Joomla! : (https://www.joomla.org)
 * Historique des versions Joomla! 5.1 - [https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.1_version_history)
 * Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.1-dev](https://github.com/joomla/joomla-cms/commits/5.1-dev)
@@ -57,7 +57,7 @@ Voir le tutoriel : [https://docs.joomla.org/Special:MyLanguage/Installing_Joomla
 * FAQ - Foire aux questions : [https://docs.joomla.org/Special:MyLanguage/Category:FAQ](https://docs.joomla.org/Special:MyLanguage/Category:FAQ)
 * Trouvez les informations dont vous avez besoin : [https://docs.joomla.org/Special:MyLanguage/Start_here](https://docs.joomla.org/Special:MyLanguage/Start_here)
 * Trouvez de l'aide et d'autres utilisateurs : [https://www.joomla.org/about-joomla/create-and-share.html](https://www.joomla.org/about-joomla/create-and-share.html)
-* Posez des questions sur nos forums : [https://forum.joomla.org](https://forum.joomla.org)
+* Posez des questions sur nos forums : [https://forum.joomla.fr](https://forum.joomla.fr)
 * Annuaire des ressources Joomla! (JRD) : [https://community.joomla.org/service-providers-directory/](https://community.joomla.org/service-providers-directory/)
 
 ## 11- Possédez-vous déjà un site Joomla! qui n'est pas construit avec Joomla! 5.x ?
