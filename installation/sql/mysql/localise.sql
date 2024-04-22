@@ -7,17 +7,34 @@
 --
 UPDATE IGNORE `#__extensions` SET `params` = REPLACE(`params`, 'en-GB', 'fr-FR') WHERE `extension_id` = 10;
 
-INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `manifest_cache`, `params`, `custom_data`) VALUES
-(244, 247, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 1, '{"name":"French (fr-FR)","type":"language","creationDate":"2024-04-16","author":"Joomla! Project - French translation team","copyright":"(C) 2005 - 2024 Open Source Matters, Inc. & AFUJ. All rights reserved.","authorEmail":"traduction@joomla.fr","authorUrl":"http:\/\/www.joomla.fr","version":"5.1.0","description":"fr-FR Administrator language","group":"","filename":"install"}' ,'' ,''),
-(245, 247, 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 1, '{"name":"French (fr-FR)","type":"language","creationDate":"2024-04-16","author":"Joomla! Project - French translation team","copyright":"(C) 2005 - 2024 Open Source Matters, Inc. & AFUJ. All rights reserved.","authorEmail":"traduction@joomla.fr","authorUrl":"http:\/\/www.joomla.fr","version":"5.1.0","description":"fr-FR Administrator language","group":"","filename":"install"}' ,'' ,''),
-(246, 247, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 1, '{"name":"French (fr-FR)","type":"language","creationDate":"2024-04-16","author":"Joomla! Project - French translation team","copyright":"(C) 2005 - 2024 Open Source Matters, Inc. & AFUJ. All rights reserved.","authorEmail":"traduction@joomla.fr","authorUrl":"http:\/\/www.joomla.fr","version":"5.1.0","description":"fr-FR Administrator language","group":"","filename":"install"}' ,'' ,''),
-(247, 0, 'French (fr-FR) Language pack', 'package', 'pkg_fr-FR', '', 0, 1, 1, '{"name":"French (fr-FR)","type":"language","creationDate":"2024-04-16","author":"Joomla! Project - French translation team","copyright":"(C) 2005 - 2024 Open Source Matters, Inc. & AFUJ. All rights reserved.","authorEmail":"traduction@joomla.fr","authorUrl":"http:\/\/www.joomla.fr","version":"5.1.0.1","description":"<div style=\"text-align: left;\">\n<h3>Joomla! Full French (fr-FR) Language Package - Version 5.1.0 v1<\/h3>\n<h3>Pack de langue Joomla! fran\u00e7ais (fr-FR) complet - Version 5.1.0 v1<\/h3>\n<p><a href=\"https:\/www.joomla.fr\" target=\"_blank\">www.joomla.fr<\/a> - <a href=\"mailto:traduction@joomla.fr\">traduction@joomla.fr<\/a><\/p>\n<\/div>","group":"","filename":"pkg_fr-FR"}' ,'' ,'');
+UPDATE IGNORE `#__menu_types` SET `description` = REPLACE(`description`, 'The main menu for the site', 'Le menu principal du site') WHERE `id` = 1;
+UPDATE IGNORE `#__menu_types` SET `title` = REPLACE(`title`, 'Main Menu', 'Menu principal') WHERE `id` = 1;
+
+UPDATE IGNORE `#__menu` SET `title` = REPLACE(`title`, 'Home', 'Accueil') WHERE `id` = 101;
+
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
+(0, 'French (fr-FR) Language pack', 'package', 'pkg_fr-FR', '', 0, 1, 1, 0, 0, '', '', '', 0, 0);
+
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR))', 'language', 'fr-FR', '', 1, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
 
 --
 -- Table `#__languages`
 --
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metadesc`, `published`, `access`, `ordering`) VALUES
 (2, 'fr-FR', 'French (fr-FR)', 'French (fr-FR)', 'fr', 'fr_fr', '', '', 1, 1, 2);
+
+--
+-- Table `#__assets`
+--
+INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
+(11, 46, 47, 2, 'com_languages.language.2', 'French (fr-FR)', '{}');
+
+UPDATE IGNORE `#__assets` SET `rgt` = 48 WHERE `id` = 11;
 
 --
 -- Table `#__update_sites_extensions`
