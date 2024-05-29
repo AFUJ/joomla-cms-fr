@@ -15,7 +15,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "7c2ac7"
+      "version": "5bd1ca"
     },
     {
       "name": "com_media.mediamanager",
@@ -34,7 +34,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "60ce55"
+      "version": "d8c43e"
     }
   ]
 }

@@ -1227,6 +1227,7 @@ return array(
     'Joomla\\CMS\\String\\PunycodeHelper' => $baseDir . '/libraries/src/String/PunycodeHelper.php',
     'Joomla\\CMS\\TUF\\DatabaseStorage' => $baseDir . '/libraries/src/TUF/DatabaseStorage.php',
     'Joomla\\CMS\\TUF\\HttpLoader' => $baseDir . '/libraries/src/TUF/HttpLoader.php',
+    'Joomla\\CMS\\TUF\\HttpLoaderException' => $baseDir . '/libraries/src/TUF/HttpLoaderException.php',
     'Joomla\\CMS\\TUF\\TufFetcher' => $baseDir . '/libraries/src/TUF/TufFetcher.php',
     'Joomla\\CMS\\Table\\Asset' => $baseDir . '/libraries/src/Table/Asset.php',
     'Joomla\\CMS\\Table\\Category' => $baseDir . '/libraries/src/Table/Category.php',

@@ -29,6 +29,12 @@
     },
     {
       "name": "com_installer.installer",
+      "type": "style",
+      "uri": "com_installer/installer.min.css",
+      "version": "28212c"
+    },
+    {
+      "name": "com_installer.installer",
       "type": "script",
       "uri": "com_installer/installer.min.js",
       "dependencies": [
@@ -38,12 +44,6 @@
         "type": "module"
       },
       "version": "3aacf0"
-    },
-    {
-      "name": "com_installer.installer",
-      "type": "style",
-      "uri": "com_installer/installer.min.css",
-      "version": "28212c"
     }
   ]
 }

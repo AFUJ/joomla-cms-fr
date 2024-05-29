@@ -30,18 +30,16 @@
       "version": "f3c19c"
     },
     {
-      "name": "com_fields.admin-fields-modal",
+      "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
-      "uri": "com_fields/admin-fields-modal.min.js",
+      "uri": "com_fields/admin-field-typehaschanged.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "deprecated": true,
-      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection.",
-      "version": "be088f"
+      "version": "1fbf0a"
     },
     {
       "name": "com_fields.admin-fields-batch",
@@ -56,16 +54,18 @@
       "version": "eebfc6"
     },
     {
-      "name": "com_fields.admin-field-typehaschanged",
+      "name": "com_fields.admin-fields-modal",
       "type": "script",
-      "uri": "com_fields/admin-field-typehaschanged.min.js",
+      "uri": "com_fields/admin-fields-modal.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "1fbf0a"
+      "deprecated": true,
+      "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection.",
+      "version": "be088f"
     }
   ]
 }

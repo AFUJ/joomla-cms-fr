@@ -30,18 +30,6 @@
       "version": "a96b5d"
     },
     {
-      "name": "com_config.filters",
-      "type": "script",
-      "uri": "com_config/config-filters.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "2cad91"
-    },
-    {
       "name": "com_config.templates",
       "type": "script",
       "uri": "com_config/templates-default.min.js",
@@ -52,6 +40,18 @@
         "type": "module"
       },
       "version": "8e4ec9"
+    },
+    {
+      "name": "com_config.filters",
+      "type": "script",
+      "uri": "com_config/config-filters.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "2cad91"
     }
   ]
 }

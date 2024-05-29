@@ -158,7 +158,7 @@ class Edit {
    * Public
    */
   upload(url, stateChangeCallback) {
-    let format = Joomla.MediaManager.Edit.original.extension === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension;
+    let format = Joomla.MediaManager.Edit.original.extension.toLowerCase() === 'jpg' ? 'jpeg' : Joomla.MediaManager.Edit.original.extension.toLowerCase();
     if (!format) {
       // eslint-disable-next-line prefer-destructuring
       format = /data:image\/(.+);/gm.exec(Joomla.MediaManager.Edit.original.contents)[1];

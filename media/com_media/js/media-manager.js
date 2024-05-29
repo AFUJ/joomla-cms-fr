@@ -6688,7 +6688,7 @@ var script$v = {
       }
 
       // @todo remove the hardcoded extensions here
-      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mp3', 'pdf'];
+      const extensionWithPreview = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'mp4', 'mp3', 'pdf'];
 
       // Show preview
       if (this.item.extension
@@ -7325,6 +7325,7 @@ var script$m = {
       return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
     },
     canOpenEditView() {
+      // @TODO pass the array of allowed to edit files from PHP
       return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },

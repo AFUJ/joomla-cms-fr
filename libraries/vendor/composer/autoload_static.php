@@ -1773,6 +1773,7 @@ class ComposerStaticInitb25e220b440613ef9279a3625e03eb71
         'Joomla\\CMS\\String\\PunycodeHelper' => __DIR__ . '/../../..' . '/libraries/src/String/PunycodeHelper.php',
         'Joomla\\CMS\\TUF\\DatabaseStorage' => __DIR__ . '/../../..' . '/libraries/src/TUF/DatabaseStorage.php',
         'Joomla\\CMS\\TUF\\HttpLoader' => __DIR__ . '/../../..' . '/libraries/src/TUF/HttpLoader.php',
+        'Joomla\\CMS\\TUF\\HttpLoaderException' => __DIR__ . '/../../..' . '/libraries/src/TUF/HttpLoaderException.php',
         'Joomla\\CMS\\TUF\\TufFetcher' => __DIR__ . '/../../..' . '/libraries/src/TUF/TufFetcher.php',
         'Joomla\\CMS\\Table\\Asset' => __DIR__ . '/../../..' . '/libraries/src/Table/Asset.php',
         'Joomla\\CMS\\Table\\Category' => __DIR__ . '/../../..' . '/libraries/src/Table/Category.php',
