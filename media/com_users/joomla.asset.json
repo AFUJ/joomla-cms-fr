@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_users.admin-users-groups",
-      "type": "script",
-      "uri": "com_users/admin-users-groups.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "44aa77"
-    },
-    {
       "name": "com_users.two-factor-focus",
       "type": "script",
       "uri": "com_users/two-factor-focus.min.js",
@@ -28,6 +16,18 @@
         "type": "module"
       },
       "version": "bcc78d"
+    },
+    {
+      "name": "com_users.admin-users-groups",
+      "type": "script",
+      "uri": "com_users/admin-users-groups.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "44aa77"
     },
     {
       "name": "com_users.two-factor-list",

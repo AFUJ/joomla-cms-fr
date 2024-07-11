@@ -10633,7 +10633,7 @@ var script$5 = {
     },
   },
   methods: {
-    /* Check if the the form is valid */
+    /* Check if the form is valid */
     isValid() {
       return (this.folder);
     },
