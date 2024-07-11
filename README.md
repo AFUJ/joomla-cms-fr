@@ -61,7 +61,7 @@ Voir le tutoriel : [https://docs.joomla.org/Special:MyLanguage/Installing_Joomla
 * Annuaire des ressources Joomla! (JRD) : [https://community.joomla.org/service-providers-directory/](https://community.joomla.org/service-providers-directory/)
 
 ## 11- Possédez-vous déjà un site Joomla! qui n'est pas construit avec Joomla! 5.x ?
-* Ce qui est nouveau dans Joomla! 5.x : [https://www.joomla.org/5](https://www.joomla.org/5)
+* Ce qui est nouveau dans Joomla! 5.x : [https://5.joomla.fr/](https://5.joomla.fr)
 * Quelles sont les principales différences entre 4.x et 5.x ? [https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_4.x_and_5.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_4.x_and_5.x)
 * Comment migrer de 4.x à 5.x ? Tutoriel : [https://docs.joomla.org/Special:MyLanguage/Joomla_4.x_to_5.x_Step_by_Step_Migration](https://docs.joomla.org/Special:MyLanguage/Joomla_4.x_to_5.x_Step_by_Step_Migration)
 * Comment migrer de 3.x à 4.x ? Tutoriel : [https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration](https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration)
