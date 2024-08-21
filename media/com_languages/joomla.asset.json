@@ -14,12 +14,6 @@
       ]
     },
     {
-      "name": "com_languages.overrider",
-      "type": "style",
-      "uri": "com_languages/overrider.min.css",
-      "version": "d91526"
-    },
-    {
       "name": "com_languages.admin-language-edit-change-flag",
       "type": "script",
       "uri": "com_languages/admin-language-edit-change-flag.min.js",
@@ -42,6 +36,12 @@
         "type": "module"
       },
       "version": "a1febd"
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "style",
+      "uri": "com_languages/overrider.min.css",
+      "version": "d91526"
     },
     {
       "name": "com_languages.overrider",

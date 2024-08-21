@@ -48,8 +48,8 @@ class JMultiSelect {
     target,
     shiftKey
   }) {
-    // Do not interfere with links, buttons, inputs
-    if (target.tagName && (target.tagName === 'A' || target.tagName === 'BUTTON' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA' || target.tagName === 'INPUT' && !target.matches(this.boxSelector))) {
+    // Do not interfere with links, buttons, inputs and other interactive elements
+    if (target.closest('a, button, input, select, textarea, details, dialog, audio, video')) {
       return;
     }
 

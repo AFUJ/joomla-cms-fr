@@ -13809,6 +13809,10 @@ div.subform-repeatable-group > .btn-toolbar .btn.group-move-down {
   font-size: 1.5rem;
 }
 
+.container-header .navbar-toggler > * {
+  pointer-events: none;
+}
+
 .container-header .container-search {
   margin-top: .5em;
 }
@@ -14622,6 +14626,10 @@ joomla-alert {
 
 .subhead .dropdown-toggle.btn {
   padding-inline-end: 0;
+}
+
+.subhead .dropdown-toggle > * {
+  pointer-events: none;
 }
 
 .subhead .btn-group:not(:last-child) > .dropdown-toggle-split {

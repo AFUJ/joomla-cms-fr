@@ -12,6 +12,18 @@
       "version": "e479b6"
     },
     {
+      "name": "com_finder.debug",
+      "type": "script",
+      "uri": "com_finder/debug.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "d162b4"
+    },
+    {
       "name": "com_finder.filters",
       "type": "script",
       "uri": "com_finder/filters.min.js",
@@ -24,16 +36,10 @@
       "version": "ce7a61"
     },
     {
-      "name": "com_finder.debug",
-      "type": "script",
-      "uri": "com_finder/debug.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "d162b4"
+      "name": "com_finder.finder",
+      "type": "style",
+      "uri": "com_finder/finder.min.css",
+      "version": "ab077f"
     },
     {
       "name": "com_finder.finder",
@@ -64,12 +70,6 @@
       "type": "style",
       "uri": "com_finder/indexer.min.css",
       "version": "d51495"
-    },
-    {
-      "name": "com_finder.finder",
-      "type": "style",
-      "uri": "com_finder/finder.min.css",
-      "version": "ab077f"
     },
     {
       "name": "com_finder.indexer",

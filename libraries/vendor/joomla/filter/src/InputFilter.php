@@ -319,59 +319,59 @@ class InputFilter
         $attr = '';
 
         // Is there a tag? If so it will certainly start with a '<'.
-        $tagOpenStart = strpos($source, '<');
+        $tagOpenStart = StringHelper::strpos($source, '<');
 
         while ($tagOpenStart !== false) {
             // Get some information about the tag we are processing
-            $preTag .= substr($postTag, 0, $tagOpenStart);
-            $postTag     = substr($postTag, $tagOpenStart);
-            $fromTagOpen = substr($postTag, 1);
-            $tagOpenEnd  = strpos($fromTagOpen, '>');
+            $preTag .= StringHelper::substr($postTag, 0, $tagOpenStart);
+            $postTag     = StringHelper::substr($postTag, $tagOpenStart);
+            $fromTagOpen = StringHelper::substr($postTag, 1);
+            $tagOpenEnd  = StringHelper::strpos($fromTagOpen, '>');
 
             // Check for mal-formed tag where we have a second '<' before the first '>'
-            $nextOpenTag = (strlen($postTag) > $tagOpenStart) ? strpos($postTag, '<', $tagOpenStart + 1) : false;
+            $nextOpenTag = (StringHelper::strlen($postTag) > $tagOpenStart) ? StringHelper::strpos($postTag, '<', $tagOpenStart + 1) : false;
 
             if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpenEnd)) {
                 // At this point we have a mal-formed tag -- remove the offending open
-                $postTag      = substr($postTag, 0, $tagOpenStart) . substr($postTag, $tagOpenStart + 1);
-                $tagOpenStart = strpos($postTag, '<');
+                $postTag      = StringHelper::substr($postTag, 0, $tagOpenStart) . StringHelper::substr($postTag, $tagOpenStart + 1);
+                $tagOpenStart = StringHelper::strpos($postTag, '<');
 
                 continue;
             }
 
             // Let's catch any non-terminated tags and skip over them
             if ($tagOpenEnd === false) {
-                $postTag      = substr($postTag, $tagOpenStart + 1);
-                $tagOpenStart = strpos($postTag, '<');
+                $postTag      = StringHelper::substr($postTag, $tagOpenStart + 1);
+                $tagOpenStart = StringHelper::strpos($postTag, '<');
 
                 continue;
             }
 
             // Do we have a nested tag?
-            $tagOpenNested = strpos($fromTagOpen, '<');
+            $tagOpenNested = StringHelper::strpos($fromTagOpen, '<');
 
             if (($tagOpenNested !== false) && ($tagOpenNested < $tagOpenEnd)) {
-                $preTag .= substr($postTag, 1, $tagOpenNested);
-                $postTag      = substr($postTag, ($tagOpenNested + 1));
-                $tagOpenStart = strpos($postTag, '<');
+                $preTag .= StringHelper::substr($postTag, 1, $tagOpenNested);
+                $postTag      = StringHelper::substr($postTag, ($tagOpenNested + 1));
+                $tagOpenStart = StringHelper::strpos($postTag, '<');
 
                 continue;
             }
 
             // Let's get some information about our tag and setup attribute pairs
-            $tagOpenNested = (strpos($fromTagOpen, '<') + $tagOpenStart + 1);
-            $currentTag    = substr($fromTagOpen, 0, $tagOpenEnd);
-            $tagLength     = strlen($currentTag);
+            $tagOpenNested = (StringHelper::strpos($fromTagOpen, '<') + $tagOpenStart + 1);
+            $currentTag    = StringHelper::substr($fromTagOpen, 0, $tagOpenEnd);
+            $tagLength     = StringHelper::strlen($currentTag);
             $tagLeft       = $currentTag;
             $attrSet       = [];
-            $currentSpace  = strpos($tagLeft, ' ');
+            $currentSpace  = StringHelper::strpos($tagLeft, ' ');
 
             // Are we an open tag or a close tag?
-            if (substr($currentTag, 0, 1) === '/') {
+            if (StringHelper::substr($currentTag, 0, 1) === '/') {
                 // Close Tag
                 $isCloseTag    = true;
                 list($tagName) = explode(' ', $currentTag);
-                $tagName       = substr($tagName, 1);
+                $tagName       = StringHelper::substr($tagName, 1);
             } else {
                 // Open Tag
                 $isCloseTag    = false;
@@ -388,8 +388,8 @@ class InputFilter
                 || (!$tagName)
                 || ((\in_array(strtolower($tagName), $this->blockedTags)) && $this->xssAuto)
             ) {
-                $postTag      = substr($postTag, ($tagLength + 2));
-                $tagOpenStart = strpos($postTag, '<');
+                $postTag      = StringHelper::substr($postTag, ($tagLength + 2));
+                $tagOpenStart = StringHelper::strpos($postTag, '<');
 
                 // Strip tag
                 continue;
@@ -401,61 +401,62 @@ class InputFilter
              */
             while ($currentSpace !== false) {
                 $attr        = '';
-                $fromSpace   = substr($tagLeft, ($currentSpace + 1));
-                $nextEqual   = strpos($fromSpace, '=');
-                $nextSpace   = strpos($fromSpace, ' ');
-                $openQuotes  = strpos($fromSpace, '"');
-                $closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
+                $fromSpace   = StringHelper::substr($tagLeft, ($currentSpace + 1));
+                $nextEqual   = StringHelper::strpos($fromSpace, '=');
+                $nextSpace   = StringHelper::strpos($fromSpace, ' ');
+                $openQuotes  = StringHelper::strpos($fromSpace, '"');
+                $closeQuotes = StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
 
                 $startAtt         = '';
                 $startAttPosition = 0;
 
                 // Find position of equal and open quotes ignoring
                 if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, \PREG_OFFSET_CAPTURE)) {
+                    // We have found an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
                     $stringBeforeAttr = substr($fromSpace, 0, $matches[0][1]);
-                    $startAttPosition = strlen($stringBeforeAttr);
+                    $startAttPosition = StringHelper::strlen($stringBeforeAttr);
                     $startAtt         = $matches[0][0];
-                    $closeQuotePos    = strpos(
-                        substr($fromSpace, ($startAttPosition + strlen($startAtt))),
+                    $closeQuotePos    = StringHelper::strpos(
+                        StringHelper::substr($fromSpace, ($startAttPosition + StringHelper::strlen($startAtt))),
                         '"'
                     );
-                    $closeQuotes = $closeQuotePos + $startAttPosition + strlen($startAtt);
-                    $nextEqual   = $startAttPosition + strpos($startAtt, '=');
-                    $openQuotes  = $startAttPosition + strpos($startAtt, '"');
-                    $nextSpace   = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
+                    $closeQuotes = $closeQuotePos + $startAttPosition + StringHelper::strlen($startAtt);
+                    $nextEqual   = $startAttPosition + StringHelper::strpos($startAtt, '=');
+                    $openQuotes  = $startAttPosition + StringHelper::strpos($startAtt, '"');
+                    $nextSpace   = StringHelper::strpos(StringHelper::substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
                 }
 
                 // Do we have an attribute to process? [check for equal sign]
                 if ($fromSpace !== '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual) || !$nextEqual)) {
                     if (!$nextEqual) {
-                        $attribEnd = strpos($fromSpace, '/') - 1;
+                        $attribEnd = StringHelper::strpos($fromSpace, '/') - 1;
                     } else {
                         $attribEnd = $nextSpace - 1;
                     }
 
                     // If there is an ending, use this, if not, do not worry.
                     if ($attribEnd > 0) {
-                        $fromSpace = substr($fromSpace, $attribEnd + 1);
+                        $fromSpace = StringHelper::substr($fromSpace, $attribEnd + 1);
                     }
                 }
 
-                if (strpos($fromSpace, '=') !== false) {
+                if (StringHelper::strpos($fromSpace, '=') !== false) {
                     /*
                      * If the attribute value is wrapped in quotes we need to grab the substring from the closing quote,
                      * otherwise grab until the next space.
                      */
                     if (
                         ($openQuotes !== false)
-                        && (strpos(substr($fromSpace, ($openQuotes + 1)), '"') !== false)
+                        && (StringHelper::strpos(StringHelper::substr($fromSpace, ($openQuotes + 1)), '"') !== false)
                     ) {
-                        $attr = substr($fromSpace, 0, ($closeQuotes + 1));
+                        $attr = StringHelper::substr($fromSpace, 0, ($closeQuotes + 1));
                     } else {
-                        $attr = substr($fromSpace, 0, $nextSpace);
+                        $attr = StringHelper::substr($fromSpace, 0, $nextSpace);
                     }
                 } else {
                     // No more equal signs so add any extra text in the tag into the attribute array [eg. checked]
                     if ($fromSpace !== '/') {
-                        $attr = substr($fromSpace, 0, $nextSpace);
+                        $attr = StringHelper::substr($fromSpace, 0, $nextSpace);
                     }
                 }
 
@@ -468,8 +469,8 @@ class InputFilter
                 $attrSet[] = $attr;
 
                 // Move search point and continue iteration
-                $tagLeft      = substr($fromSpace, strlen($attr));
-                $currentSpace = strpos($tagLeft, ' ');
+                $tagLeft      = StringHelper::substr($fromSpace, StringHelper::strlen($attr));
+                $currentSpace = StringHelper::strpos($tagLeft, ' ');
             }
 
             // Is our tag in the user input array?
@@ -488,7 +489,7 @@ class InputFilter
                     }
 
                     // Reformat single tags to XHTML
-                    if (strpos($fromTagOpen, '</' . $tagName)) {
+                    if (StringHelper::strpos($fromTagOpen, '</' . $tagName)) {
                         $preTag .= '>';
                     } else {
                         $preTag .= ' />';
@@ -500,8 +501,8 @@ class InputFilter
             }
 
             // Find next tag's start and continue iteration
-            $postTag      = substr($postTag, ($tagLength + 2));
-            $tagOpenStart = strpos($postTag, '<');
+            $postTag      = StringHelper::substr($postTag, ($tagLength + 2));
+            $tagOpenStart = StringHelper::strpos($postTag, '<');
         }
 
         // Append any code after the end of tags and return
@@ -658,37 +659,39 @@ class InputFilter
         // Process each portion based on presence of =" and "<space>, "/>, or ">
         // See if there are any more attributes to process
         while (preg_match('#<[^>]*?=\s*?(\"|\')#s', $remainder, $matches, \PREG_OFFSET_CAPTURE)) {
+            // We have found a tag with an attribute, convert its byte position to a UTF-8 string length, using non-multibyte substr()
             $stringBeforeTag = substr($remainder, 0, $matches[0][1]);
-            $tagPosition     = strlen($stringBeforeTag);
+            $tagPosition     = StringHelper::strlen($stringBeforeTag);
 
             // Get the character length before the attribute value
-            $nextBefore = $tagPosition + strlen($matches[0][0]);
+            $nextBefore = $tagPosition + StringHelper::strlen($matches[0][0]);
 
             // Figure out if we have a single or double quote and look for the matching closing quote
             // Closing quote should be "/>, ">, "<space>, or " at the end of the string
-            $quote     = substr($matches[0][0], -1);
+            $quote     = StringHelper::substr($matches[0][0], -1);
             $pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
 
             // Get the portion after attribute value
-            $attributeValueRemainder = substr($remainder, $nextBefore);
+            $attributeValueRemainder = StringHelper::substr($remainder, $nextBefore);
 
             if (preg_match($pregMatch, $attributeValueRemainder, $matches, \PREG_OFFSET_CAPTURE)) {
+                // We have a closing quote, convert its byte position to a UTF-8 string length, using non-multibyte substr()
                 $stringBeforeQuote = substr($attributeValueRemainder, 0, $matches[0][1]);
-                $closeQuoteChars   = strlen($stringBeforeQuote);
+                $closeQuoteChars   = StringHelper::strlen($stringBeforeQuote);
                 $nextAfter         = $nextBefore + $closeQuoteChars;
             } else {
                 // No closing quote
-                $nextAfter = strlen($remainder);
+                $nextAfter = StringHelper::strlen($remainder);
             }
 
             // Get the actual attribute value
-            $attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+            $attributeValue = StringHelper::substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 
             // Escape bad chars
             $attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
             $attributeValue = $this->stripCssExpressions($attributeValue);
-            $alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
-            $remainder = substr($remainder, $nextAfter + 1);
+            $alreadyFiltered .= StringHelper::substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
+            $remainder = StringHelper::substr($remainder, $nextAfter + 1);
         }
 
         // At this point, we just have to return the $alreadyFiltered and the $remainder
