@@ -31,12 +31,6 @@
     },
     {
       "name": "com_templates.admin-templates",
-      "type": "style",
-      "uri": "com_templates/admin-templates-default.min.css",
-      "version": "09765e"
-    },
-    {
-      "name": "com_templates.admin-templates",
       "type": "script",
       "uri": "com_templates/admin-templates-default.min.js",
       "dependencies": [
@@ -46,6 +40,12 @@
         "type": "module"
       },
       "version": "f515a4"
+    },
+    {
+      "name": "com_templates.admin-templates",
+      "type": "style",
+      "uri": "com_templates/admin-templates-default.min.css",
+      "version": "09765e"
     }
   ]
 }
