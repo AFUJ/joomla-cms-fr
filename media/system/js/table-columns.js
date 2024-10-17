@@ -7,7 +7,7 @@ class TableColumns {
     this.tableName = tableName;
     this.storageKey = `joomla-tablecolumns-${this.tableName}`;
     this.$headers = [].slice.call($table.querySelector('thead tr').children);
-    this.$rows = [].slice.call($table.querySelectorAll('tbody tr'));
+    this.$rows = $table.querySelectorAll('tbody tr');
     this.listOfHidden = [];
 
     // Load previous state

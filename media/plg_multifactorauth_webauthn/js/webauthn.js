@@ -140,9 +140,7 @@
     if (Joomla.getOptions('com_users.pagetype') === 'validate') {
       document.getElementById('users-mfa-captive-button-submit').addEventListener('click', onValidateClick);
     } else {
-      document.querySelectorAll('.multifactorauth_webauthn_setup').forEach(btn => {
-        btn.addEventListener('click', setUp);
-      });
+      document.querySelectorAll('.multifactorauth_webauthn_setup').forEach(btn => btn.addEventListener('click', setUp));
     }
   });
 })(Joomla, document);

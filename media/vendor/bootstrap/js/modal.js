@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.2';
+import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.3';
 
 /**
  * --------------------------------------------------------------------------
@@ -448,7 +448,7 @@ if (Joomla && Joomla.getOptions) {
         keyboard: opt.keyboard ? opt.keyboard : true,
         focus: opt.focus ? opt.focus : true
       };
-      Array.from(document.querySelectorAll(modal)).map(modalEl => Joomla.initialiseModal(modalEl, options));
+      document.querySelectorAll(modal).forEach(modalEl => Joomla.initialiseModal(modalEl, options));
     });
   }
 }

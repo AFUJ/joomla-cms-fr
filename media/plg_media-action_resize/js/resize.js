@@ -76,7 +76,7 @@ window.addEventListener('media-manager-edit-init', () => {
         resolve();
       });
     },
-    Deactivate( /* image */
+    Deactivate(/* image */
     ) {
       return new Promise((resolve /* , reject */) => {
         resolve();

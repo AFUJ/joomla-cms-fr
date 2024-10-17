@@ -627,22 +627,21 @@ const autoCloseTags = /*@__PURE__*/EditorView.inputHandler.of((view, from, to, t
     let closeTags = state.changeByRange(range => {
         var _a, _b, _c;
         let didType = state.doc.sliceString(range.from - 1, range.to) == text;
-        let { head } = range, around = syntaxTree(state).resolveInner(head - 1, -1), name;
-        if (around.name == "TagName" || around.name == "StartTag")
-            around = around.parent;
-        if (didType && text == ">" && around.name == "OpenTag") {
-            if (((_b = (_a = around.parent) === null || _a === void 0 ? void 0 : _a.lastChild) === null || _b === void 0 ? void 0 : _b.name) != "CloseTag" &&
-                (name = elementName(state.doc, around.parent, head)) &&
+        let { head } = range, after = syntaxTree(state).resolveInner(head, -1), name;
+        if (didType && text == ">" && after.name == "EndTag") {
+            let tag = after.parent;
+            if (((_b = (_a = tag.parent) === null || _a === void 0 ? void 0 : _a.lastChild) === null || _b === void 0 ? void 0 : _b.name) != "CloseTag" &&
+                (name = elementName(state.doc, tag.parent, head)) &&
                 !selfClosers.has(name)) {
                 let to = head + (state.doc.sliceString(head, head + 1) === ">" ? 1 : 0);
                 let insert = `</${name}>`;
                 return { range, changes: { from: head, to, insert } };
             }
         }
-        else if (didType && text == "/" && around.name == "IncompleteCloseTag") {
-            let base = around.parent;
-            if (around.from == head - 2 && ((_c = base.lastChild) === null || _c === void 0 ? void 0 : _c.name) != "CloseTag" &&
-                (name = elementName(state.doc, base, head)) && !selfClosers.has(name)) {
+        else if (didType && text == "/" && after.name == "IncompleteCloseTag") {
+            let tag = after.parent;
+            if (after.from == head - 2 && ((_c = tag.lastChild) === null || _c === void 0 ? void 0 : _c.name) != "CloseTag" &&
+                (name = elementName(state.doc, tag, head)) && !selfClosers.has(name)) {
                 let to = head + (state.doc.sliceString(head, head + 1) === ">" ? 1 : 0);
                 let insert = `${name}>`;
                 return {

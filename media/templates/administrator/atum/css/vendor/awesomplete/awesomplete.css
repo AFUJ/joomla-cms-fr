@@ -50,6 +50,7 @@
 
   .awesomplete > ul[hidden], .awesomplete > ul:empty {
     opacity: 0;
+    visibility: hidden;
     transition-timing-function: ease;
     display: block;
     transform: scale(0);

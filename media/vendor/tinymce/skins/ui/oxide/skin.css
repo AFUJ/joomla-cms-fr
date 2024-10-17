@@ -48,13 +48,13 @@
 }
 
 .tox:not([dir="rtl"]) {
-  direction: ltr;
   text-align: left;
+  direction: ltr;
 }
 
 .tox[dir="rtl"] {
-  direction: rtl;
   text-align: right;
+  direction: rtl;
 }
 
 .tox-tinymce {

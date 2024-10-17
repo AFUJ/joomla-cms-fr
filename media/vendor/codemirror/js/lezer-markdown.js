@@ -1497,6 +1497,16 @@ class InlineContext {
     addDelimiter(type, from, to, open, close) {
         return this.append(new InlineDelimiter(type, from, to, (open ? 1 /* Mark.Open */ : 0 /* Mark.None */) | (close ? 2 /* Mark.Close */ : 0 /* Mark.None */)));
     }
+    /// Returns true when there is an unmatched link or image opening
+    /// token before the current position.
+    get hasOpenLink() {
+        for (let i = this.parts.length - 1; i >= 0; i--) {
+            let part = this.parts[i];
+            if (part instanceof InlineDelimiter && (part.type == LinkStart || part.type == ImageStart))
+                return true;
+        }
+        return false;
+    }
     /// Add an inline element. Returns the end of the element.
     addElement(elt) {
         return this.append(elt);
@@ -1999,6 +2009,10 @@ const Autolink = {
                     return -1;
                 if (m[1] || m[2]) { // www., http://
                     end = autolinkURLEnd(cx.text, pos + m[0].length);
+                    if (end > -1 && cx.hasOpenLink) {
+                        let noBracket = /([^\[\]]|\[[^\]]*\])*/.exec(cx.text.slice(pos, end));
+                        end = pos + noBracket[0].length;
+                    }
                 }
                 else if (m[3]) { // email address
                     end = autolinkEmailEnd(cx.text, pos);

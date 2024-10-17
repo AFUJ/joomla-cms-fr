@@ -2,18 +2,13 @@
   'use strict';
 
   function _extends() {
-    _extends = Object.assign ? Object.assign.bind() : function (target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i];
-        for (var key in source) {
-          if (Object.prototype.hasOwnProperty.call(source, key)) {
-            target[key] = source[key];
-          }
-        }
+    return _extends = Object.assign ? Object.assign.bind() : function (n) {
+      for (var e = 1; e < arguments.length; e++) {
+        var t = arguments[e];
+        for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
       }
-      return target;
-    };
-    return _extends.apply(this, arguments);
+      return n;
+    }, _extends.apply(null, arguments);
   }
 
   /**
@@ -214,7 +209,7 @@
     if (destination === null) {
       newDestination = {};
     }
-    [].slice.call(Object.keys(source)).forEach(key => {
+    Object.keys(source).forEach(key => {
       newDestination[key] = source[key];
     });
     return destination;
@@ -258,9 +253,8 @@
   Joomla.loadOptions = options => {
     // Load form the script container
     if (!options) {
-      const elements = [].slice.call(document.querySelectorAll('.joomla-script-options.new'));
       let counter = 0;
-      elements.forEach(element => {
+      document.querySelectorAll('.joomla-script-options.new').forEach(element => {
         const str = element.text || element.textContent;
         const option = JSON.parse(str);
         if (option) {
@@ -279,7 +273,7 @@
       Joomla.optionsStorage = options || {};
     } else if (options) {
       // Merge with existing
-      [].slice.call(Object.keys(options)).forEach(key => {
+      Object.keys(options).forEach(key => {
         /**
          * If both existing and new options are objects, merge them with Joomla.extend().
          * But test for new option being null, as null is an object, but we want to allow
@@ -338,7 +332,7 @@
      * @returns {Joomla.Text}
      */
     load: object => {
-      [].slice.call(Object.keys(object)).forEach(key => {
+      Object.keys(object).forEach(key => {
         Joomla.Text.strings[key.toUpperCase()] = object[key];
       });
       return Joomla.Text;
@@ -582,9 +576,8 @@
     if (!/^[0-9A-F]{32}$/i.test(newToken)) {
       return;
     }
-    const elements = [].slice.call(document.getElementsByTagName('input'));
-    elements.forEach(element => {
-      if (element.type === 'hidden' && element.value === '1' && element.name.length === 32) {
+    document.querySelectorAll('input[type="hidden"]').forEach(element => {
+      if (element.value === '1' && element.name.length === 32) {
         element.name = newToken;
       }
     });
@@ -656,7 +649,7 @@
 
       // Custom headers
       if (newOptions.headers) {
-        [].slice.call(Object.keys(newOptions.headers)).forEach(key => {
+        Object.keys(newOptions.headers).forEach(key => {
           // Allow request without Content-Type
           // eslint-disable-next-line no-empty
           if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') ; else {

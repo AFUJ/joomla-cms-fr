@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
+class ComposerStaticInitb4730542e342b0e2e39d4cfb81f5be63
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -125,6 +125,7 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
+            'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
@@ -366,6 +367,10 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Psr\\Clock\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
+        ),
+        'Psr\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
         'ParagonIE\\ConstantTime\\' => 
         array (
@@ -711,6 +716,11 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'DebugBar\\Bridge\\SwiftMailer\\SwiftMailCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/SwiftMailer/SwiftMailCollector.php',
         'DebugBar\\Bridge\\Symfony\\SymfonyMailCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Symfony/SymfonyMailCollector.php',
         'DebugBar\\Bridge\\TwigProfileCollector' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/TwigProfileCollector.php',
+        'DebugBar\\Bridge\\Twig\\DebugTwigExtension' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/DebugTwigExtension.php',
+        'DebugBar\\Bridge\\Twig\\DumpTwigExtension' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/DumpTwigExtension.php',
+        'DebugBar\\Bridge\\Twig\\MeasureTwigExtension' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigExtension.php',
+        'DebugBar\\Bridge\\Twig\\MeasureTwigNode' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigNode.php',
+        'DebugBar\\Bridge\\Twig\\MeasureTwigTokenParser' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/MeasureTwigTokenParser.php',
         'DebugBar\\Bridge\\Twig\\TimeableTwigExtensionProfiler' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TimeableTwigExtensionProfiler.php',
         'DebugBar\\Bridge\\Twig\\TraceableTwigEnvironment' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigEnvironment.php',
         'DebugBar\\Bridge\\Twig\\TraceableTwigTemplate' => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar/Bridge/Twig/TraceableTwigTemplate.php',
@@ -1199,10 +1209,13 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Joomla\\CMS\\Event\\Editor\\EditorSetupEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Editor/EditorSetupEvent.php',
         'Joomla\\CMS\\Event\\ErrorEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/ErrorEvent.php',
         'Joomla\\CMS\\Event\\Extension\\AbstractExtensionEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AbstractExtensionEvent.php',
+        'Joomla\\CMS\\Event\\Extension\\AbstractJoomlaUpdateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AbstractJoomlaUpdateEvent.php',
         'Joomla\\CMS\\Event\\Extension\\AfterInstallEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AfterInstallEvent.php',
+        'Joomla\\CMS\\Event\\Extension\\AfterJoomlaUpdateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AfterJoomlaUpdateEvent.php',
         'Joomla\\CMS\\Event\\Extension\\AfterUninstallEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AfterUninstallEvent.php',
         'Joomla\\CMS\\Event\\Extension\\AfterUpdateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/AfterUpdateEvent.php',
         'Joomla\\CMS\\Event\\Extension\\BeforeInstallEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/BeforeInstallEvent.php',
+        'Joomla\\CMS\\Event\\Extension\\BeforeJoomlaUpdateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/BeforeJoomlaUpdateEvent.php',
         'Joomla\\CMS\\Event\\Extension\\BeforeUninstallEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/BeforeUninstallEvent.php',
         'Joomla\\CMS\\Event\\Extension\\BeforeUpdateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Extension/BeforeUpdateEvent.php',
         'Joomla\\CMS\\Event\\Finder\\AbstractFinderEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Finder/AbstractFinderEvent.php',
@@ -1225,6 +1238,8 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Joomla\\CMS\\Event\\Installer\\BeforeInstallerEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Installer/BeforeInstallerEvent.php',
         'Joomla\\CMS\\Event\\Installer\\BeforePackageDownloadEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Installer/BeforePackageDownloadEvent.php',
         'Joomla\\CMS\\Event\\Installer\\InstallerEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Installer/InstallerEvent.php',
+        'Joomla\\CMS\\Event\\Mail\\BeforeRenderingMailTemplateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Mail/BeforeRenderingMailTemplateEvent.php',
+        'Joomla\\CMS\\Event\\Mail\\MailTemplateEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Mail/MailTemplateEvent.php',
         'Joomla\\CMS\\Event\\Menu\\AfterGetMenuTypeOptionsEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Menu/AfterGetMenuTypeOptionsEvent.php',
         'Joomla\\CMS\\Event\\Menu\\BeforeRenderMenuItemsViewEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Menu/BeforeRenderMenuItemsViewEvent.php',
         'Joomla\\CMS\\Event\\Menu\\PreprocessMenuItemsEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/Menu/PreprocessMenuItemsEvent.php',
@@ -1326,16 +1341,21 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Joomla\\CMS\\Event\\User\\AbstractDeleteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AbstractDeleteEvent.php',
         'Joomla\\CMS\\Event\\User\\AbstractLoginEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AbstractLoginEvent.php',
         'Joomla\\CMS\\Event\\User\\AbstractLogoutEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AbstractLogoutEvent.php',
+        'Joomla\\CMS\\Event\\User\\AbstractResetEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AbstractResetEvent.php',
         'Joomla\\CMS\\Event\\User\\AbstractSaveEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AbstractSaveEvent.php',
         'Joomla\\CMS\\Event\\User\\AfterDeleteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterDeleteEvent.php',
         'Joomla\\CMS\\Event\\User\\AfterLoginEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterLoginEvent.php',
         'Joomla\\CMS\\Event\\User\\AfterLogoutEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterLogoutEvent.php',
         'Joomla\\CMS\\Event\\User\\AfterRemindEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterRemindEvent.php',
+        'Joomla\\CMS\\Event\\User\\AfterResetCompleteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterResetCompleteEvent.php',
+        'Joomla\\CMS\\Event\\User\\AfterResetRequestEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterResetRequestEvent.php',
         'Joomla\\CMS\\Event\\User\\AfterSaveEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AfterSaveEvent.php',
         'Joomla\\CMS\\Event\\User\\AuthenticationEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AuthenticationEvent.php',
         'Joomla\\CMS\\Event\\User\\AuthorisationEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AuthorisationEvent.php',
         'Joomla\\CMS\\Event\\User\\AuthorisationFailureEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/AuthorisationFailureEvent.php',
         'Joomla\\CMS\\Event\\User\\BeforeDeleteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/BeforeDeleteEvent.php',
+        'Joomla\\CMS\\Event\\User\\BeforeResetCompleteEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/BeforeResetCompleteEvent.php',
+        'Joomla\\CMS\\Event\\User\\BeforeResetRequestEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/BeforeResetRequestEvent.php',
         'Joomla\\CMS\\Event\\User\\BeforeSaveEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/BeforeSaveEvent.php',
         'Joomla\\CMS\\Event\\User\\LoginButtonsEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/LoginButtonsEvent.php',
         'Joomla\\CMS\\Event\\User\\LoginEvent' => __DIR__ . '/../../..' . '/libraries/src/Event/User/LoginEvent.php',
@@ -2131,6 +2151,7 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Jose\\Component\\Core\\JWK' => __DIR__ . '/..' . '/web-token/jwt-library/Core/JWK.php',
         'Jose\\Component\\Core\\JWKSet' => __DIR__ . '/..' . '/web-token/jwt-library/Core/JWKSet.php',
         'Jose\\Component\\Core\\JWT' => __DIR__ . '/..' . '/web-token/jwt-library/Core/JWT.php',
+        'Jose\\Component\\Core\\Util\\Base64UrlSafe' => __DIR__ . '/..' . '/web-token/jwt-library/Core/Util/Base64UrlSafe.php',
         'Jose\\Component\\Core\\Util\\BigInteger' => __DIR__ . '/..' . '/web-token/jwt-library/Core/Util/BigInteger.php',
         'Jose\\Component\\Core\\Util\\ECKey' => __DIR__ . '/..' . '/web-token/jwt-library/Core/Util/ECKey.php',
         'Jose\\Component\\Core\\Util\\ECSignature' => __DIR__ . '/..' . '/web-token/jwt-library/Core/Util/ECSignature.php',
@@ -2457,6 +2478,10 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'ParagonIE\\ConstantTime\\Encoding' => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src/Encoding.php',
         'ParagonIE\\ConstantTime\\Hex' => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src/Hex.php',
         'ParagonIE\\ConstantTime\\RFC4648' => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src/RFC4648.php',
+        'Psr\\Cache\\CacheException' => __DIR__ . '/..' . '/psr/cache/src/CacheException.php',
+        'Psr\\Cache\\CacheItemInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemInterface.php',
+        'Psr\\Cache\\CacheItemPoolInterface' => __DIR__ . '/..' . '/psr/cache/src/CacheItemPoolInterface.php',
+        'Psr\\Cache\\InvalidArgumentException' => __DIR__ . '/..' . '/psr/cache/src/InvalidArgumentException.php',
         'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
@@ -2574,6 +2599,7 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\RFC8410EdAlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RFC8410EdAlgorithmIdentifier.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\RFC8410XAlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RFC8410XAlgorithmIdentifier.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\RSAEncryptionAlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RSAEncryptionAlgorithmIdentifier.php',
+        'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\RSAPSSSSAEncryptionAlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/RSAPSSSSAEncryptionAlgorithmIdentifier.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\X25519AlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/X25519AlgorithmIdentifier.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Asymmetric\\X448AlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Asymmetric/X448AlgorithmIdentifier.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\AlgorithmIdentifier\\Cipher\\AES128CBCAlgorithmIdentifier' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/AlgorithmIdentifier/Cipher/AES128CBCAlgorithmIdentifier.php',
@@ -2646,6 +2672,7 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'SpomkyLabs\\Pki\\CryptoTypes\\Asymmetric\\RFC8410\\RFC8410PublicKey' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Asymmetric/RFC8410/RFC8410PublicKey.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\Asymmetric\\RSA\\RSAPrivateKey' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Asymmetric/RSA/RSAPrivateKey.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\Asymmetric\\RSA\\RSAPublicKey' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Asymmetric/RSA/RSAPublicKey.php',
+        'SpomkyLabs\\Pki\\CryptoTypes\\Asymmetric\\RSA\\RSASSAPSSPrivateKey' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Asymmetric/RSA/RSASSAPSSPrivateKey.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\Signature\\ECSignature' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Signature/ECSignature.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\Signature\\Ed25519Signature' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Signature/Ed25519Signature.php',
         'SpomkyLabs\\Pki\\CryptoTypes\\Signature\\Ed448Signature' => __DIR__ . '/..' . '/spomky-labs/pki-framework/src/CryptoTypes/Signature/Ed448Signature.php',
@@ -3401,7 +3428,9 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
         'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
+        'Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
+        'Symfony\\Contracts\\Service\\ServiceMethodsSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceMethodsSubscriberTrait.php',
         'Symfony\\Contracts\\Service\\ServiceProviderInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceProviderInterface.php',
         'Symfony\\Contracts\\Service\\ServiceSubscriberInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberInterface.php',
         'Symfony\\Contracts\\Service\\ServiceSubscriberTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceSubscriberTrait.php',
@@ -3819,8 +3848,10 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
         'phpseclib3\\Exception\\FileNotFoundException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/FileNotFoundException.php',
         'phpseclib3\\Exception\\InconsistentSetupException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/InconsistentSetupException.php',
         'phpseclib3\\Exception\\InsufficientSetupException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/InsufficientSetupException.php',
+        'phpseclib3\\Exception\\InvalidPacketLengthException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/InvalidPacketLengthException.php',
         'phpseclib3\\Exception\\NoKeyLoadedException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/NoKeyLoadedException.php',
         'phpseclib3\\Exception\\NoSupportedAlgorithmsException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/NoSupportedAlgorithmsException.php',
+        'phpseclib3\\Exception\\TimeoutException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/TimeoutException.php',
         'phpseclib3\\Exception\\UnableToConnectException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/UnableToConnectException.php',
         'phpseclib3\\Exception\\UnsupportedAlgorithmException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/UnsupportedAlgorithmException.php',
         'phpseclib3\\Exception\\UnsupportedCurveException' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Exception/UnsupportedCurveException.php',
@@ -3999,9 +4030,9 @@ class ComposerStaticInit352e208dce0ee1a88de02fb4e8870111
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit352e208dce0ee1a88de02fb4e8870111::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit352e208dce0ee1a88de02fb4e8870111::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit352e208dce0ee1a88de02fb4e8870111::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb4730542e342b0e2e39d4cfb81f5be63::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb4730542e342b0e2e39d4cfb81f5be63::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb4730542e342b0e2e39d4cfb81f5be63::$classMap;
 
         }, null, ClassLoader::class);
     }

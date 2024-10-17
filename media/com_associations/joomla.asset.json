@@ -14,43 +14,6 @@
       ]
     },
     {
-      "name": "com_associations.admin-associations-default",
-      "type": "script",
-      "uri": "com_associations/admin-associations-default.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "72d110"
-    },
-    {
-      "name": "com_associations.associations-edit",
-      "type": "script",
-      "uri": "com_associations/associations-edit.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module",
-        "defer": true
-      },
-      "version": "00d001"
-    },
-    {
-      "name": "com_associations.admin-associations-modal",
-      "type": "script",
-      "uri": "com_associations/admin-associations-modal.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "14d673"
-    },
-    {
       "name": "com_associations.sidebyside",
       "type": "style",
       "uri": "com_associations/sidebyside.min.css",
@@ -67,6 +30,43 @@
         "type": "module"
       },
       "version": "dafb01"
+    },
+    {
+      "name": "com_associations.admin-associations-default",
+      "type": "script",
+      "uri": "com_associations/admin-associations-default.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "72d110"
+    },
+    {
+      "name": "com_associations.admin-associations-modal",
+      "type": "script",
+      "uri": "com_associations/admin-associations-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "14d673"
+    },
+    {
+      "name": "com_associations.associations-edit",
+      "type": "script",
+      "uri": "com_associations/associations-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module",
+        "defer": true
+      },
+      "version": "00d001"
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { E as EventHandler, f as isDisabled, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, g as getNextActiveElement } from './dom.js?5.3.2';
+import { E as EventHandler, f as isDisabled, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, g as getNextActiveElement } from './dom.js?5.3.3';
 
 /**
  * --------------------------------------------------------------------------
@@ -318,7 +318,7 @@ Joomla.initialiseTabs = (el, options) => {
       }
     }
   } else {
-    Array.from(document.querySelectorAll(`${el} a`)).map(tab => new window.bootstrap.Tab(tab, options));
+    document.querySelectorAll(`${el} a`).forEach(tab => new window.bootstrap.Tab(tab, options));
   }
 };
 if (Joomla && Joomla.getOptions) {

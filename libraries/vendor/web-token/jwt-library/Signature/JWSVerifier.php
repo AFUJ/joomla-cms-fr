@@ -9,10 +9,10 @@ use Jose\Component\Core\Algorithm;
 use Jose\Component\Core\AlgorithmManager;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\JWKSet;
+use Jose\Component\Core\Util\Base64UrlSafe;
 use Jose\Component\Core\Util\KeyChecker;
 use Jose\Component\Signature\Algorithm\MacAlgorithm;
 use Jose\Component\Signature\Algorithm\SignatureAlgorithm;
-use ParagonIE\ConstantTime\Base64UrlSafe;
 use Throwable;
 
 class JWSVerifier
@@ -59,7 +59,7 @@ class JWSVerifier
         JWKSet $jwkset,
         int $signatureIndex,
         ?string $detachedPayload = null,
-        JWK &$jwk = null
+        ?JWK &$jwk = null
     ): bool {
         if ($jwkset->count() === 0) {
             throw new InvalidArgumentException('There is no key in the key set.');
@@ -78,7 +78,7 @@ class JWSVerifier
         JWKSet $jwkset,
         Signature $signature,
         ?string $detachedPayload = null,
-        JWK &$successJwk = null
+        ?JWK &$successJwk = null
     ): bool {
         $input = $this->getInputToVerify($jws, $signature, $detachedPayload);
         $algorithm = $this->getAlgorithm($signature);

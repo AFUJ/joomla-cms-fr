@@ -52,6 +52,10 @@ div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-copy-clipboard:befor
   content: "";
 }
 
+div.phpdebugbar-widgets-sqlqueries span.phpdebugbar-widgets-copy-clipboard-check:before {
+  content: "";
+}
+
 div.phpdebugbar-widgets-sqlqueries a.phpdebugbar-widgets-editor-link:before {
   content: "";
 }
@@ -104,8 +108,8 @@ div.phpdebugbar-widgets-sqlqueries li.phpdebugbar-widgets-list-item.phpdebugbar-
 
 div.phpdebugbar-widgets-sqlqueries div.phpdebugbar-widgets-toolbar {
   z-index: 1;
-  background: #fff;
-  width: 100%;
+  width: calc(100% - 30px);
+  margin-bottom: 5px;
   display: none;
   position: fixed;
   bottom: 0;

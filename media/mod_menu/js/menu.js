@@ -42,36 +42,36 @@
         spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
       }
       topLevelEl.addEventListener('mouseover', ({
-        target
+        currentTarget
       }) => {
-        const ulChild = target.querySelector('ul');
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
       topLevelEl.addEventListener('mouseout', ({
-        target
+        currentTarget
       }) => {
-        const ulChild = target.querySelector('ul');
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.remove(settings.menuHoverClass);
         }
       });
       topLevelEl.addEventListener('focus', ({
-        target
+        currentTarget
       }) => {
-        const ulChild = target.querySelector('ul');
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
       topLevelEl.addEventListener('blur', ({
-        target
+        currentTarget
       }) => {
-        const ulChild = target.querySelector('ul');
+        const ulChild = currentTarget.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.remove(settings.menuHoverClass);

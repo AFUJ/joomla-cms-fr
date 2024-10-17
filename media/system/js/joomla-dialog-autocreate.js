@@ -71,7 +71,7 @@ document.addEventListener('click', event => {
     const {
       checkinUrl
     } = triggerEl.dataset;
-    const reloadOnClose = ('reloadOnClose' in triggerEl.dataset);
+    const reloadOnClose = 'reloadOnClose' in triggerEl.dataset;
     if (checkinUrl) {
       Joomla.request({
         url: checkinUrl,

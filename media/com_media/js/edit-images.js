@@ -121,7 +121,7 @@ class Edit {
   }
 
   // Reset the image to the initial state
-  Reset( /* current */
+  Reset(/* current */
   ) {
     this.current.contents = `data:image/${this.fileType};base64,${this.options.contents}`;
     this.imagePreview.setAttribute('src', this.current.contents);
@@ -147,7 +147,7 @@ class Edit {
 
   // @TODO Update the progress bar
   // eslint-disable-next-line class-methods-use-this
-  updateProgressBar( /* position */) {}
+  updateProgressBar(/* position */) {}
 
   // @TODO Remove the progress bar
   // eslint-disable-next-line class-methods-use-this

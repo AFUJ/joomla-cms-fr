@@ -199,7 +199,7 @@
       if (!this.select) {
         throw new Error('Simple color field requires a select element');
       }
-      this.options = [].slice.call(this.select.querySelectorAll('option'));
+      this.options = this.select.querySelectorAll('option');
       this.select.classList.add('hidden');
 
       // Build the pop up

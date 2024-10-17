@@ -6,15 +6,12 @@
 if (Joomla && Joomla.getOptions('js-extensions-update')) {
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
-    const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
     if (link) {
       link.classList.add(type);
     }
-    if (linkSpans.length) {
-      linkSpans.forEach(span => {
-        span.innerHTML = Joomla.sanitizeHtml(text);
-      });
-    }
+    link.querySelectorAll('span.j-links-link').forEach(span => {
+      span.innerHTML = Joomla.sanitizeHtml(text);
+    });
   };
   const fetchUpdate = () => {
     const options = Joomla.getOptions('js-joomla-update');
@@ -54,7 +51,5 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
   };
 
   // Give some times to the layout and other scripts to settle their stuff
-  window.addEventListener('load', () => {
-    setTimeout(fetchUpdate, 300);
-  });
+  window.addEventListener('load', () => setTimeout(fetchUpdate, 300));
 }

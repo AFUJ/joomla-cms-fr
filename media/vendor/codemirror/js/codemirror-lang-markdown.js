@@ -11,7 +11,7 @@ const headingProp = /*@__PURE__*/new NodeProp();
 const commonmark = /*@__PURE__*/parser.configure({
     props: [
         /*@__PURE__*/foldNodeProp.add(type => {
-            return !type.is("Block") || type.is("Document") || isHeading(type) != null ? undefined
+            return !type.is("Block") || type.is("Document") || isHeading(type) != null || isList(type) ? undefined
                 : (tree, state) => ({ from: state.doc.lineAt(tree.from).to, to: tree.to });
         }),
         /*@__PURE__*/headingProp.add(isHeading),
@@ -26,6 +26,9 @@ const commonmark = /*@__PURE__*/parser.configure({
 function isHeading(type) {
     let match = /^(?:ATX|Setext)Heading(\d)$/.exec(type.name);
     return match ? +match[1] : undefined;
+}
+function isList(type) {
+    return type.name == "OrderedList" || type.name == "BulletList";
 }
 function findSectionEnd(headerNode, level) {
     let last = headerNode;

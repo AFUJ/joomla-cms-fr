@@ -21,7 +21,7 @@ class Showon {
       //   targets: ['collection of nodes to be controlled control']
       // }
     };
-    this.showonFields = [].slice.call(this.container.querySelectorAll('[data-showon]'));
+    this.showonFields = this.container.querySelectorAll('[data-showon]');
     // Populate the fields data
     if (this.showonFields.length) {
       // @todo refactor this, dry
@@ -35,7 +35,7 @@ class Showon {
         const showonData = JSON.parse(jsondata);
         let localFields;
         if (showonData.length) {
-          localFields = [].slice.call(self.container.querySelectorAll(`[name="${showonData[0].field}"], [name="${showonData[0].field}[]"]`));
+          localFields = self.container.querySelectorAll(`[name="${showonData[0].field}"], [name="${showonData[0].field}[]"]`);
           if (!this.fields[showonData[0].field]) {
             this.fields[showonData[0].field] = {
               origin: [],
@@ -59,7 +59,7 @@ class Showon {
               if (index === 0) {
                 return;
               }
-              localFields = [].slice.call(self.container.querySelectorAll(`[name="${value.field}"], [name="${value.field}[]"]`));
+              localFields = self.container.querySelectorAll(`[name="${value.field}"], [name="${value.field}[]"]`);
               if (!this.fields[showonData[0].field]) {
                 this.fields[showonData[0].field] = {
                   origin: [],
@@ -146,6 +146,13 @@ class Showon {
             // Select lists, text-area etc. Note that multiple-select list returns
             // an Array here so we can always treat 'itemval' as an array
             itemval = document.getElementById(originId).value;
+            // Check data attribute data-global instead of value in <select> for use global
+            if (originField.tagName === 'SELECT') {
+              const selectedOption = document.getElementById(originId).selectedOptions[0];
+              if (selectedOption && 'globalValue' in selectedOption.dataset) {
+                itemval = selectedOption.dataset.globalValue;
+              }
+            }
             // A multi-select <select> $field  will return null when no elements are
             // selected so we need to define itemval accordingly
             if (itemval === null && originField.tagName.toLowerCase() === 'select') {
@@ -257,7 +264,7 @@ document.addEventListener('joomla:updated', ({
 }) => {
   // Check is it subform, then wee need to fix some "showon" config
   if (target.classList.contains('subform-repeatable-group')) {
-    const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
+    const elements = target.querySelectorAll('[data-showon]');
     if (elements.length) {
       const search = [];
       const replace = [];

@@ -66,7 +66,7 @@ ul.phpdebugbar-widgets-list {
 
 ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item {
   border-bottom: 1px solid #eee;
-  padding: 3px 6px;
+  padding: 3px;
   position: relative;
   overflow: hidden;
 }
@@ -113,8 +113,8 @@ div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugb
   content: "";
 }
 
-div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item pre.sf-dump {
-  display: inline;
+dl.phpdebugbar-widgets-kvlist dd.phpdebugbar-widgets-value pre.sf-dump, div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item pre.sf-dump {
+  display: inline-block !important;
 }
 
 div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-collector, div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-label {

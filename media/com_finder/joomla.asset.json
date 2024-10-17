@@ -6,12 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_finder.dates",
-      "type": "style",
-      "uri": "com_finder/dates.min.css",
-      "version": "e479b6"
-    },
-    {
       "name": "com_finder.debug",
       "type": "script",
       "uri": "com_finder/debug.min.js",
@@ -24,22 +18,16 @@
       "version": "d162b4"
     },
     {
-      "name": "com_finder.filters",
-      "type": "script",
-      "uri": "com_finder/filters.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "ce7a61"
-    },
-    {
       "name": "com_finder.finder",
       "type": "style",
       "uri": "com_finder/finder.min.css",
       "version": "ab077f"
+    },
+    {
+      "name": "com_finder.dates",
+      "type": "style",
+      "uri": "com_finder/dates.min.css",
+      "version": "e479b6"
     },
     {
       "name": "com_finder.finder",
@@ -54,16 +42,16 @@
       "version": "5729ed"
     },
     {
-      "name": "com_finder.finder-edit",
+      "name": "com_finder.filters",
       "type": "script",
-      "uri": "com_finder/finder-edit.min.js",
+      "uri": "com_finder/filters.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "ad6ab5"
+      "version": "ce7a61"
     },
     {
       "name": "com_finder.indexer",
@@ -82,6 +70,18 @@
         "type": "module"
       },
       "version": "491cd3"
+    },
+    {
+      "name": "com_finder.finder-edit",
+      "type": "script",
+      "uri": "com_finder/finder-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "ad6ab5"
     },
     {
       "name": "com_finder.maps",

@@ -6,6 +6,18 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_contact.contacts-list",
+      "type": "script",
+      "uri": "com_contact/contacts-list.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "f53819"
+    },
+    {
       "name": "com_contact.admin-contacts-modal",
       "type": "script",
       "uri": "com_contact/admin-contacts-modal.min.js",
@@ -18,18 +30,6 @@
       "deprecated": true,
       "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection.",
       "version": "1400c3"
-    },
-    {
-      "name": "com_contact.contacts-list",
-      "type": "script",
-      "uri": "com_contact/contacts-list.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "f53819"
     }
   ]
 }

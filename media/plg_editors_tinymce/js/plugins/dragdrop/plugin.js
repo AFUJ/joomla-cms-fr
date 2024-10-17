@@ -28,13 +28,7 @@ window.tinymce.PluginManager.add('jdragndrop', editor => {
   registerOption('uploadUri', {
     processor: 'string'
   });
-  registerOption('comMediaAdapter', {
-    processor: 'string'
-  });
   registerOption('parentUploadFolder', {
-    processor: 'string'
-  });
-  registerOption('csrfToken', {
     processor: 'string'
   });
 
@@ -66,10 +60,9 @@ window.tinymce.PluginManager.add('jdragndrop', editor => {
   async function uploadFile(name, content) {
     const settings = editor.options.get;
     Joomla.request({
-      url: `${settings('uploadUri')}&path=${settings('comMediaAdapter')}${settings('parentUploadFolder')}`,
+      url: `${settings('uploadUri')}&path=${settings('parentUploadFolder')}`,
       method: 'POST',
       data: JSON.stringify({
-        [settings('csrfToken')]: 1,
         name,
         content,
         parent: settings('parentUploadFolder')
@@ -77,78 +70,83 @@ window.tinymce.PluginManager.add('jdragndrop', editor => {
       headers: {
         'Content-Type': 'application/json'
       },
-      onSuccess: resp => {
-        let response;
-        try {
-          response = JSON.parse(resp);
-        } catch (e) {
-          editor.windowManager.alert(`${Joomla.Text._('ERROR')}: {${e}}`);
+      promise: true
+    }).then(resp => {
+      let response;
+      try {
+        response = JSON.parse(resp.responseText);
+      } catch (e) {
+        editor.windowManager.alert(`${Joomla.Text._('ERROR')}: {${e}}`);
+      }
+      if (response.data && response.data.path) {
+        const responseData = response.data;
+        let urlPath;
+        const paths = Joomla.getOptions('system.paths');
+        const {
+          rootFull
+        } = paths;
+        const parts = response.data.url.split(rootFull);
+        if (parts.length > 1) {
+          // For local adapters use relative paths
+          urlPath = `${parts[1]}`;
+        } else if (responseData.url) {
+          // Absolute path for different domain
+          urlPath = responseData.url;
         }
-        if (response.data && response.data.path) {
-          const responseData = response.data;
-          let urlPath;
-          const paths = Joomla.getOptions('system.paths');
-          const {
-            rootFull
-          } = paths;
-          const parts = response.data.url.split(rootFull);
-          if (parts.length > 1) {
-            // For local adapters use relative paths
-            urlPath = `${parts[1]}`;
-          } else if (responseData.url) {
-            // Absolute path for different domain
-            urlPath = responseData.url;
-          }
-          const dialogClose = function dialogClose(api) {
-            const dialogData = api.getData();
-            const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
-            const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
-            const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
-            const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
-            const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
-            editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
-          };
-          editor.windowManager.open({
-            title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
-            body: {
-              type: 'panel',
-              items: [{
-                type: 'input',
-                name: 'altText',
-                label: Joomla.Text._('PLG_TINY_DND_ALTTEXT')
-              }, {
-                type: 'checkbox',
-                name: 'altEmpty',
-                label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT')
-              }, {
-                type: 'checkbox',
-                name: 'isLazy',
-                label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED')
-              }]
-            },
-            buttons: [{
-              type: 'cancel',
-              text: 'Cancel'
+        const dialogClose = function dialogClose(api) {
+          const dialogData = api.getData();
+          const altEmpty = dialogData.altEmpty ? ' alt=""' : '';
+          const altValue = dialogData.altText ? ` alt="${dialogData.altText}"` : altEmpty;
+          const lazyValue = dialogData.isLazy ? ' loading="lazy"' : '';
+          const width = dialogData.isLazy ? ` width="${responseData.width}"` : '';
+          const height = dialogData.isLazy ? ` height="${responseData.height}"` : '';
+          editor.execCommand('mceInsertContent', false, `<img src="${urlPath}"${altValue}${lazyValue}${width}${height}/>`);
+        };
+        editor.windowManager.open({
+          title: Joomla.Text._('PLG_TINY_DND_ADDITIONALDATA'),
+          body: {
+            type: 'panel',
+            items: [{
+              type: 'input',
+              name: 'altText',
+              label: Joomla.Text._('PLG_TINY_DND_ALTTEXT')
             }, {
-              type: 'submit',
-              name: 'submitButton',
-              text: 'Save',
-              primary: true
-            }],
-            initialData: {
-              altText: '',
-              isLazy: true,
-              altEmpty: false
-            },
-            onSubmit: api => {
-              dialogClose(api);
-              api.close();
-            },
-            onCancel: api => dialogClose(api)
-          });
-        }
-      },
-      onError: xhr => editor.windowManager.alert(`Error: ${xhr.statusText}`)
+              type: 'checkbox',
+              name: 'altEmpty',
+              label: Joomla.Text._('PLG_TINY_DND_EMPTY_ALT')
+            }, {
+              type: 'checkbox',
+              name: 'isLazy',
+              label: Joomla.Text._('PLG_TINY_DND_LAZYLOADED')
+            }]
+          },
+          buttons: [{
+            type: 'cancel',
+            text: 'Cancel'
+          }, {
+            type: 'submit',
+            name: 'submitButton',
+            text: 'Save',
+            primary: true
+          }],
+          initialData: {
+            altText: '',
+            isLazy: true,
+            altEmpty: false
+          },
+          onSubmit: api => {
+            dialogClose(api);
+            api.close();
+          },
+          onCancel: api => dialogClose(api)
+        });
+      }
+    }).catch(xhr => {
+      let message = `Error: ${xhr.statusText}`;
+      if (xhr.status === 409) {
+        message = Joomla.Text._('PLG_TINY_DND_FILE_EXISTS_ERROR').replace('%s', `${settings('parentUploadFolder')}/${name}`);
+      }
+      editor.windowManager.alert(message);
     });
   }
 

@@ -1,5 +1,5 @@
-import { P as Popper, c as createPopper } from './popper.js?5.3.2';
-import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, n as noop, o as getUID, T as TemplateFactory, j as execute, M as Manipulator, c as getElement, D as DefaultAllowlist } from './dom.js?5.3.2';
+import { P as Popper, c as createPopper } from './popper.js?5.3.3';
+import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler, m as findShadowRoot, n as noop, o as getUID, T as TemplateFactory, j as execute, M as Manipulator, c as getElement, D as DefaultAllowlist } from './dom.js?5.3.3';
 
 /**
  * --------------------------------------------------------------------------

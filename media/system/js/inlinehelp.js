@@ -9,7 +9,7 @@
  * @param {String} toggleClass The class name of the DIVs to toggle display for
  */
 Joomla.toggleInlineHelp = toggleClass => {
-  [].slice.call(document.querySelectorAll(`div.${toggleClass}`)).forEach(elDiv => {
+  document.querySelectorAll(`div.${toggleClass}`).forEach(elDiv => {
     // Toggle the visibility of the node by toggling the 'd-none' Bootstrap class.
     elDiv.classList.toggle('d-none');
     // The ID of the description whose visibility is toggled.
@@ -36,7 +36,7 @@ Joomla.toggleInlineHelp = toggleClass => {
 };
 
 // Initialisation. Clicking on anything with the button-inlinehelp class will toggle the inline help.
-[].slice.call(document.querySelectorAll('.button-inlinehelp')).forEach(elToggler => {
+document.querySelectorAll('.button-inlinehelp').forEach(elToggler => {
   var _elToggler$dataset$cl;
   // The class of the DIVs to toggle visibility on is defined by the data-class attribute of the click target.
   const toggleClass = (_elToggler$dataset$cl = elToggler.dataset.class) != null ? _elToggler$dataset$cl : 'hide-aware-inline-help';

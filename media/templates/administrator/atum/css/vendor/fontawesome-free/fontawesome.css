@@ -4,7 +4,7 @@
   font-weight: var(--fa-style, 900);
 }
 
-.fa, .fa-classic, .fa-sharp, .fas, [class^="icon-"], [class*=" icon-"], .fa-solid, .far, .fa-regular, .fab, .icon-joomla, .fa-brands {
+.fa-solid, .fa-regular, .fa-brands, .fas, [class^="icon-"], [class*=" icon-"], .far, .fab, .icon-joomla, .fa-sharp-solid, .fa-classic, .fa {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   display: var(--fa-display, inline-block);
@@ -124,7 +124,7 @@
 }
 
 .fa-li, .icon-li {
-  left: calc(var(--fa-li-width, 2em) * -1);
+  left: calc(-1 * var(--fa-li-width, 2em));
   text-align: center;
   width: var(--fa-li-width, 2em);
   line-height: inherit;
@@ -371,7 +371,7 @@
 }
 
 .fa-rotate-by {
-  transform: rotate(var(--fa-rotate-angle, none));
+  transform: rotate(var(--fa-rotate-angle, 0));
 }
 
 .fa-stack, .icon-stack {
@@ -1775,6 +1775,10 @@
   content: "";
 }
 
+.fa-thumbtack-slash:before, .fa-thumb-tack-slash:before {
+  content: "";
+}
+
 .fa-heart-pulse:before, .fa-heartbeat:before {
   content: "";
 }
@@ -2593,6 +2597,10 @@
 
 .fa-italic:before {
   content: "";
+}
+
+.fa-table-cells-column-lock:before {
+  content: "";
 }
 
 .fa-church:before {
@@ -4663,6 +4671,10 @@
   content: "";
 }
 
+.fa-table-cells-row-lock:before {
+  content: "";
+}
+
 .fa-rupiah-sign:before {
   content: "";
 }
@@ -5835,6 +5847,10 @@
   content: "";
 }
 
+.fa-table-cells-row-unlock:before {
+  content: "";
+}
+
 .fa-user-injured:before {
   content: "";
 }
@@ -6016,7 +6032,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=023a4a") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=a0cc1c") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=2d89b4") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=370dd5") format("truetype");
 }
 
 .far, .fa-regular {
@@ -6033,7 +6049,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=6c4eee") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=25914c") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=237f4a") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=adec7d") format("truetype");
 }
 
 .fas, [class^="icon-"], [class*=" icon-"], .fa-solid {
@@ -6050,7 +6066,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=b6356c") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=193142") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=715d59") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=56c8d8") format("truetype");
 }
 
 .fab, .icon-joomla, .fa-brands {
@@ -6183,6 +6199,14 @@
 
 .fa-drupal:before {
   content: "";
+}
+
+.fa-jxl:before {
+  content: "";
+}
+
+.fa-dart-lang:before {
+  content: "";
 }
 
 .fa-hire-a-helper:before {
@@ -6553,7 +6577,7 @@
   content: "";
 }
 
-.fa-kickstarter:before {
+.fa-kickstarter:before, .fa-square-kickstarter:before {
   content: "";
 }
 
@@ -7089,6 +7113,10 @@
   content: "";
 }
 
+.fa-web-awesome:before {
+  content: "";
+}
+
 .fa-mandalorian:before {
   content: "";
 }
@@ -7293,6 +7321,10 @@
   content: "";
 }
 
+.fa-square-web-awesome-stroke:before {
+  content: "";
+}
+
 .fa-searchengin:before {
   content: "";
 }
@@ -7331,6 +7363,10 @@
 
 .fa-twitch:before {
   content: "";
+}
+
+.fa-flutter:before {
+  content: "";
 }
 
 .fa-ravelry:before {
@@ -7427,6 +7463,10 @@
 
 .fa-whatsapp:before {
   content: "";
+}
+
+.fa-square-upwork:before {
+  content: "";
 }
 
 .fa-slideshare:before {
@@ -7533,6 +7573,10 @@
   content: "";
 }
 
+.fa-square-web-awesome:before {
+  content: "";
+}
+
 .fa-sass:before {
   content: "";
 }
@@ -7575,6 +7619,10 @@
 
 .fa-waze:before {
   content: "";
+}
+
+.fa-bluesky:before {
+  content: "";
 }
 
 .fa-cc-jcb:before {

@@ -1,4 +1,4 @@
-import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.3.2';
+import { e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, E as EventHandler } from './dom.js?5.3.3';
 
 /**
  * --------------------------------------------------------------------------
@@ -82,7 +82,7 @@ if (Joomla && Joomla.getOptions) {
   // Initialise the elements
   if (alerts && alerts.length) {
     alerts.forEach(selector => {
-      Array.from(document.querySelectorAll(selector)).map(el => new window.bootstrap.Alert(el));
+      document.querySelectorAll(selector).forEach(el => new window.bootstrap.Alert(el));
     });
   }
 }

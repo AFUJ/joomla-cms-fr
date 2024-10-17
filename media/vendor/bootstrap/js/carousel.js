@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, M as Manipulator, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, g as getNextActiveElement, r as reflow, b as isRTL } from './dom.js?5.3.2';
+import { E as EventHandler, S as SelectorEngine, M as Manipulator, d as defineJQueryPlugin, B as BaseComponent, i as isVisible, t as triggerTransitionEnd, a as Swipe, g as getNextActiveElement, r as reflow, b as isRTL } from './dom.js?5.3.3';
 
 /**
  * --------------------------------------------------------------------------

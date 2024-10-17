@@ -6,6 +6,12 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "style",
+      "uri": "com_menus/admin-item-edit_container.min.css",
+      "version": "67209f"
+    },
+    {
       "name": "com_menus.admin-item-edit",
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
@@ -18,10 +24,16 @@
       "version": "23b63d"
     },
     {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "style",
-      "uri": "com_menus/admin-item-edit_container.min.css",
-      "version": "67209f"
+      "name": "com_menus.admin-item-edit-modules",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "bc3cea"
     },
     {
       "name": "com_menus.admin-item-edit-container",
@@ -34,18 +46,6 @@
         "type": "module"
       },
       "version": "47c6ca"
-    },
-    {
-      "name": "com_menus.admin-item-edit-modules",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_modules.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "bc3cea"
     },
     {
       "name": "com_menus.admin-item-modal",

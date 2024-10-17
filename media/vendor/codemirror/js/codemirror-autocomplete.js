@@ -26,14 +26,27 @@ class CompletionContext {
     only return completions when either there is part of a
     completable entity before the cursor, or `explicit` is true.
     */
-    explicit) {
+    explicit, 
+    /**
+    The editor view. May be undefined if the context was created
+    in a situation where there is no such view available, such as
+    in synchronous updates via
+    [`CompletionResult.update`](https://codemirror.net/6/docs/ref/#autocomplete.CompletionResult.update)
+    or when called by test code.
+    */
+    view) {
         this.state = state;
         this.pos = pos;
         this.explicit = explicit;
+        this.view = view;
         /**
         @internal
         */
         this.abortListeners = [];
+        /**
+        @internal
+        */
+        this.abortOnDocChange = false;
     }
     /**
     Get the extent, content, and (if there is a token) type of the
@@ -67,10 +80,21 @@ class CompletionContext {
     Allows you to register abort handlers, which will be called when
     the query is
     [aborted](https://codemirror.net/6/docs/ref/#autocomplete.CompletionContext.aborted).
+    
+    By default, running queries will not be aborted for regular
+    typing or backspacing, on the assumption that they are likely to
+    return a result with a
+    [`validFor`](https://codemirror.net/6/docs/ref/#autocomplete.CompletionResult.validFor) field that
+    allows the result to be used after all. Passing `onDocChange:
+    true` will cause this query to be aborted for any document
+    change.
     */
-    addEventListener(type, listener) {
-        if (type == "abort" && this.abortListeners)
+    addEventListener(type, listener, options) {
+        if (type == "abort" && this.abortListeners) {
             this.abortListeners.push(listener);
+            if (options && options.onDocChange)
+                this.abortOnDocChange = true;
+        }
     }
 }
 function toSet(chars) {
@@ -346,6 +370,7 @@ const completionConfig = /*@__PURE__*/Facet.define({
     combine(configs) {
         return combineConfig(configs, {
             activateOnTyping: true,
+            activateOnCompletion: () => false,
             activateOnTypingDelay: 100,
             selectOnOpen: true,
             override: null,
@@ -849,7 +874,7 @@ class CompletionState {
         return active == this.active && open == this.open ? this : new CompletionState(active, this.id, open);
     }
     get tooltip() { return this.open ? this.open.tooltip : null; }
-    get attrs() { return this.open ? this.open.attrs : baseAttrs; }
+    get attrs() { return this.open ? this.open.attrs : this.active.length ? baseAttrs : noAttrs; }
 }
 function sameResults(a, b) {
     if (a == b)
@@ -869,6 +894,7 @@ function sameResults(a, b) {
 const baseAttrs = {
     "aria-autocomplete": "list"
 };
+const noAttrs = {};
 function makeAttrs(id, selected) {
     let result = {
         "aria-autocomplete": "list",
@@ -880,8 +906,18 @@ function makeAttrs(id, selected) {
     return result;
 }
 const none = [];
-function getUserEvent(tr) {
-    return tr.isUserEvent("input.type") ? "input" : tr.isUserEvent("delete.backward") ? "delete" : null;
+function getUpdateType(tr, conf) {
+    if (tr.isUserEvent("input.complete")) {
+        let completion = tr.annotation(pickedCompletion);
+        if (completion && conf.activateOnCompletion(completion))
+            return 4 /* UpdateType.Activate */ | 8 /* UpdateType.Reset */;
+    }
+    let typing = tr.isUserEvent("input.type");
+    return typing && conf.activateOnTyping ? 4 /* UpdateType.Activate */ | 1 /* UpdateType.Typing */
+        : typing ? 1 /* UpdateType.Typing */
+            : tr.isUserEvent("delete.backward") ? 2 /* UpdateType.Backspacing */
+                : tr.selection ? 8 /* UpdateType.Reset */
+                    : tr.docChanged ? 16 /* UpdateType.ResetIfTouching */ : 0 /* UpdateType.None */;
 }
 class ActiveSource {
     constructor(source, state, explicitPos = -1) {
@@ -891,13 +927,12 @@ class ActiveSource {
     }
     hasResult() { return false; }
     update(tr, conf) {
-        let event = getUserEvent(tr), value = this;
-        if (event)
-            value = value.handleUserEvent(tr, event, conf);
-        else if (tr.docChanged)
-            value = value.handleChange(tr);
-        else if (tr.selection && value.state != 0 /* State.Inactive */)
+        let type = getUpdateType(tr, conf), value = this;
+        if ((type & 8 /* UpdateType.Reset */) || (type & 16 /* UpdateType.ResetIfTouching */) && this.touches(tr))
             value = new ActiveSource(value.source, 0 /* State.Inactive */);
+        if ((type & 4 /* UpdateType.Activate */) && value.state == 0 /* State.Inactive */)
+            value = new ActiveSource(this.source, 1 /* State.Pending */);
+        value = value.updateFor(tr, type);
         for (let effect of tr.effects) {
             if (effect.is(startCompletionEffect))
                 value = new ActiveSource(value.source, 1 /* State.Pending */, effect.value ? cur(tr.state) : -1);
@@ -910,14 +945,12 @@ class ActiveSource {
         }
         return value;
     }
-    handleUserEvent(tr, type, conf) {
-        return type == "delete" || !conf.activateOnTyping ? this.map(tr.changes) : new ActiveSource(this.source, 1 /* State.Pending */);
-    }
-    handleChange(tr) {
-        return tr.changes.touchesRange(cur(tr.startState)) ? new ActiveSource(this.source, 0 /* State.Inactive */) : this.map(tr.changes);
-    }
+    updateFor(tr, type) { return this.map(tr.changes); }
     map(changes) {
         return changes.empty || this.explicitPos < 0 ? this : new ActiveSource(this.source, this.state, changes.mapPos(this.explicitPos));
+    }
+    touches(tr) {
+        return tr.changes.touchesRange(cur(tr.state));
     }
 }
 class ActiveResult extends ActiveSource {
@@ -928,8 +961,10 @@ class ActiveResult extends ActiveSource {
         this.to = to;
     }
     hasResult() { return true; }
-    handleUserEvent(tr, type, conf) {
+    updateFor(tr, type) {
         var _a;
+        if (!(type & 3 /* UpdateType.SimpleInteraction */))
+            return this.map(tr.changes);
         let result = this.result;
         if (result.map && !tr.changes.empty)
             result = result.map(result, tr.changes);
@@ -937,8 +972,8 @@ class ActiveResult extends ActiveSource {
         let pos = cur(tr.state);
         if ((this.explicitPos < 0 ? pos <= from : pos < this.from) ||
             pos > to || !result ||
-            type == "delete" && cur(tr.startState) == this.from)
-            return new ActiveSource(this.source, type == "input" && conf.activateOnTyping ? 1 /* State.Pending */ : 0 /* State.Inactive */);
+            (type & 2 /* UpdateType.Backspacing */) && cur(tr.startState) == this.from)
+            return new ActiveSource(this.source, type & 4 /* UpdateType.Activate */ ? 1 /* State.Pending */ : 0 /* State.Inactive */);
         let explicitPos = this.explicitPos < 0 ? -1 : tr.changes.mapPos(this.explicitPos);
         if (checkValid(result.validFor, tr.state, from, to))
             return new ActiveResult(this.source, explicitPos, result, from, to);
@@ -947,9 +982,6 @@ class ActiveResult extends ActiveSource {
             return new ActiveResult(this.source, explicitPos, result, result.from, (_a = result.to) !== null && _a !== void 0 ? _a : cur(tr.state));
         return new ActiveSource(this.source, 1 /* State.Pending */, explicitPos);
     }
-    handleChange(tr) {
-        return tr.changes.touchesRange(this.from, this.to) ? new ActiveSource(this.source, 0 /* State.Inactive */) : this.map(tr.changes);
-    }
     map(mapping) {
         if (mapping.empty)
             return this;
@@ -957,6 +989,9 @@ class ActiveResult extends ActiveSource {
         if (!result)
             return new ActiveSource(this.source, 0 /* State.Inactive */);
         return new ActiveResult(this.source, this.explicitPos < 0 ? -1 : mapping.mapPos(this.explicitPos), this.result, mapping.mapPos(this.from), mapping.mapPos(this.to, 1));
+    }
+    touches(tr) {
+        return tr.changes.touchesRange(this.from, this.to);
     }
 }
 function checkValid(validFor, state, from, to) {
@@ -1070,14 +1105,17 @@ const completionPlugin = /*@__PURE__*/ViewPlugin.fromClass(class {
     }
     update(update) {
         let cState = update.state.field(completionState);
+        let conf = update.state.facet(completionConfig);
         if (!update.selectionSet && !update.docChanged && update.startState.field(completionState) == cState)
             return;
         let doesReset = update.transactions.some(tr => {
-            return (tr.selection || tr.docChanged) && !getUserEvent(tr);
+            let type = getUpdateType(tr, conf);
+            return (type & 8 /* UpdateType.Reset */) || (tr.selection || tr.docChanged) && !(type & 3 /* UpdateType.SimpleInteraction */);
         });
         for (let i = 0; i < this.running.length; i++) {
             let query = this.running[i];
             if (doesReset ||
+                query.context.abortOnDocChange && update.docChanged ||
                 query.updates.length + update.transactions.length > MaxUpdateCount && Date.now() - query.time > MinAbortTime) {
                 for (let handler of query.context.abortListeners) {
                     try {
@@ -1098,12 +1136,12 @@ const completionPlugin = /*@__PURE__*/ViewPlugin.fromClass(class {
             clearTimeout(this.debounceUpdate);
         if (update.transactions.some(tr => tr.effects.some(e => e.is(startCompletionEffect))))
             this.pendingStart = true;
-        let delay = this.pendingStart ? 50 : update.state.facet(completionConfig).activateOnTypingDelay;
+        let delay = this.pendingStart ? 50 : conf.activateOnTypingDelay;
         this.debounceUpdate = cState.active.some(a => a.state == 1 /* State.Pending */ && !this.running.some(q => q.active.source == a.source))
             ? setTimeout(() => this.startUpdate(), delay) : -1;
         if (this.composing != 0 /* CompositionState.None */)
             for (let tr of update.transactions) {
-                if (getUserEvent(tr) == "input")
+                if (tr.isUserEvent("input.type"))
                     this.composing = 2 /* CompositionState.Changed */;
                 else if (this.composing == 2 /* CompositionState.Changed */ && tr.selection)
                     this.composing = 3 /* CompositionState.ChangedAndMoved */;
@@ -1120,7 +1158,7 @@ const completionPlugin = /*@__PURE__*/ViewPlugin.fromClass(class {
     }
     startQuery(active) {
         let { state } = this.view, pos = cur(state);
-        let context = new CompletionContext(state, pos, active.explicitPos == pos);
+        let context = new CompletionContext(state, pos, active.explicitPos == pos, this.view);
         let pending = new RunningQuery(active, context);
         this.running.push(pending);
         Promise.resolve(active.source(context)).then(result => {
@@ -1279,7 +1317,8 @@ const baseTheme = /*@__PURE__*/EditorView.baseTheme({
         padding: "3px 9px",
         width: "max-content",
         maxWidth: `${400 /* Info.Width */}px`,
-        boxSizing: "border-box"
+        boxSizing: "border-box",
+        whiteSpace: "pre-line"
     },
     ".cm-completionInfo.cm-completionInfo-left": { right: "100%" },
     ".cm-completionInfo.cm-completionInfo-right": { left: "100%" },
@@ -1392,8 +1431,9 @@ class Snippet {
         let fields = [];
         let lines = [], positions = [], m;
         for (let line of template.split(/\r\n?|\n/)) {
-            while (m = /[#$]\{(?:(\d+)(?::([^}]*))?|([^}]*))\}/.exec(line)) {
-                let seq = m[1] ? +m[1] : null, name = m[2] || m[3] || "", found = -1;
+            while (m = /[#$]\{(?:(\d+)(?::([^}]*))?|((?:\\[{}]|[^}])*))\}/.exec(line)) {
+                let seq = m[1] ? +m[1] : null, rawName = m[2] || m[3] || "", found = -1;
+                let name = rawName.replace(/\\[{}]/g, m => m[1]);
                 for (let i = 0; i < fields.length; i++) {
                     if (seq != null ? fields[i].seq == seq : name ? fields[i].name == name : false)
                         found = i;
@@ -1409,16 +1449,16 @@ class Snippet {
                             pos.field++;
                 }
                 positions.push(new FieldPos(found, lines.length, m.index, m.index + name.length));
-                line = line.slice(0, m.index) + name + line.slice(m.index + m[0].length);
+                line = line.slice(0, m.index) + rawName + line.slice(m.index + m[0].length);
             }
-            for (let esc; esc = /\\([{}])/.exec(line);) {
-                line = line.slice(0, esc.index) + esc[1] + line.slice(esc.index + esc[0].length);
+            line = line.replace(/\\([{}])/g, (_, brace, index) => {
                 for (let pos of positions)
-                    if (pos.line == lines.length && pos.from > esc.index) {
+                    if (pos.line == lines.length && pos.from > index) {
                         pos.from--;
                         pos.to--;
                     }
-            }
+                return brace;
+            });
             lines.push(line);
         }
         return new Snippet(lines, positions);

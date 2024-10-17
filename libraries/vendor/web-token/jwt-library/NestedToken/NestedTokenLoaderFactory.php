@@ -22,7 +22,7 @@ class NestedTokenLoaderFactory
      * @param array<string> $jweSerializers
      * @param array<string> $keyEncryptionAlgorithms
      * @param array<string> $contentEncryptionAlgorithms
-     * @param array<string> $compressionMethods
+     * @param null|array<string> $compressionMethods
      * @param array<string> $jweHeaderCheckers
      * @param array<string> $jwsSerializers
      * @param array<string> $signatureAlgorithms
@@ -31,8 +31,8 @@ class NestedTokenLoaderFactory
     public function create(
         array $jweSerializers,
         array $keyEncryptionAlgorithms,
-        array $contentEncryptionAlgorithms,
-        array $compressionMethods,
+        null|array $contentEncryptionAlgorithms,
+        null|array $compressionMethods,
         array $jweHeaderCheckers,
         array $jwsSerializers,
         array $signatureAlgorithms,

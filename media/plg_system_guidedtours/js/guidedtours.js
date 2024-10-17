@@ -2332,7 +2332,7 @@ function create_fragment$8(ctx) {
       button.innerHTML = /*text*/ctx[5];
       if (!mounted) {
         dispose = listen(button, "click", function () {
-          if (is_function( /*action*/ctx[0])) /*action*/ctx[0].apply(this, arguments);
+          if (is_function(/*action*/ctx[0])) /*action*/ctx[0].apply(this, arguments);
         });
         mounted = true;
       }
@@ -2532,7 +2532,7 @@ function create_fragment$7(ctx) {
       current = true;
     },
     p(ctx, [dirty]) {
-      if ( /*buttons*/ctx[1]) {
+      if (/*buttons*/ctx[1]) {
         if (if_block) {
           if_block.p(ctx, dirty);
           if (dirty & /*buttons*/2) {
@@ -2822,7 +2822,7 @@ function create_fragment$4(ctx) {
       current = true;
     },
     p(ctx, [dirty]) {
-      if ( /*title*/ctx[2]) {
+      if (/*title*/ctx[2]) {
         if (if_block0) {
           if_block0.p(ctx, dirty);
           if (dirty & /*title*/4) {
@@ -2841,7 +2841,7 @@ function create_fragment$4(ctx) {
         });
         check_outros();
       }
-      if ( /*cancelIcon*/ctx[3] && /*cancelIcon*/ctx[3].enabled) {
+      if (/*cancelIcon*/ctx[3] && /*cancelIcon*/ctx[3].enabled) {
         if (if_block1) {
           if_block1.p(ctx, dirty);
           if (dirty & /*cancelIcon*/8) {
@@ -3096,11 +3096,11 @@ function create_if_block$1(ctx) {
 }
 function create_fragment$2(ctx) {
   let div;
-  let show_if_2 = !isUndefined( /*step*/ctx[2].options.title) || /*step*/ctx[2].options.cancelIcon && /*step*/ctx[2].options.cancelIcon.enabled;
+  let show_if_2 = !isUndefined(/*step*/ctx[2].options.title) || /*step*/ctx[2].options.cancelIcon && /*step*/ctx[2].options.cancelIcon.enabled;
   let t0;
-  let show_if_1 = !isUndefined( /*step*/ctx[2].options.text);
+  let show_if_1 = !isUndefined(/*step*/ctx[2].options.text);
   let t1;
-  let show_if = Array.isArray( /*step*/ctx[2].options.buttons) && /*step*/ctx[2].options.buttons.length;
+  let show_if = Array.isArray(/*step*/ctx[2].options.buttons) && /*step*/ctx[2].options.buttons.length;
   let current;
   let if_block0 = show_if_2 && create_if_block_2(ctx);
   let if_block1 = show_if_1 && create_if_block_1(ctx);
@@ -3125,7 +3125,7 @@ function create_fragment$2(ctx) {
       current = true;
     },
     p(ctx, [dirty]) {
-      if (dirty & /*step*/4) show_if_2 = !isUndefined( /*step*/ctx[2].options.title) || /*step*/ctx[2].options.cancelIcon && /*step*/ctx[2].options.cancelIcon.enabled;
+      if (dirty & /*step*/4) show_if_2 = !isUndefined(/*step*/ctx[2].options.title) || /*step*/ctx[2].options.cancelIcon && /*step*/ctx[2].options.cancelIcon.enabled;
       if (show_if_2) {
         if (if_block0) {
           if_block0.p(ctx, dirty);
@@ -3145,7 +3145,7 @@ function create_fragment$2(ctx) {
         });
         check_outros();
       }
-      if (dirty & /*step*/4) show_if_1 = !isUndefined( /*step*/ctx[2].options.text);
+      if (dirty & /*step*/4) show_if_1 = !isUndefined(/*step*/ctx[2].options.text);
       if (show_if_1) {
         if (if_block1) {
           if_block1.p(ctx, dirty);
@@ -3165,7 +3165,7 @@ function create_fragment$2(ctx) {
         });
         check_outros();
       }
-      if (dirty & /*step*/4) show_if = Array.isArray( /*step*/ctx[2].options.buttons) && /*step*/ctx[2].options.buttons.length;
+      if (dirty & /*step*/4) show_if = Array.isArray(/*step*/ctx[2].options.buttons) && /*step*/ctx[2].options.buttons.length;
       if (show_if) {
         if (if_block2) {
           if_block2.p(ctx, dirty);
@@ -3266,7 +3266,7 @@ function create_fragment$1(ctx) {
     }
   });
   let div_levels = [{
-    "aria-describedby": div_aria_describedby_value = !isUndefined( /*step*/ctx[4].options.text) ? /*descriptionId*/ctx[2] : null
+    "aria-describedby": div_aria_describedby_value = !isUndefined(/*step*/ctx[4].options.text) ? /*descriptionId*/ctx[2] : null
   }, {
     "aria-labelledby": div_aria_labelledby_value = /*step*/ctx[4].options.title ? /*labelId*/ctx[3] : null
   }, /*dataStepId*/ctx[1], {
@@ -3303,7 +3303,7 @@ function create_fragment$1(ctx) {
       }
     },
     p(ctx, [dirty]) {
-      if ( /*step*/ctx[4].options.arrow && /*step*/ctx[4].options.attachTo && /*step*/ctx[4].options.attachTo.element && /*step*/ctx[4].options.attachTo.on) {
+      if (/*step*/ctx[4].options.arrow && /*step*/ctx[4].options.attachTo && /*step*/ctx[4].options.attachTo.element && /*step*/ctx[4].options.attachTo.on) {
         if (if_block) ;else {
           if_block = create_if_block();
           if_block.c();
@@ -3318,7 +3318,7 @@ function create_fragment$1(ctx) {
       if (dirty & /*labelId*/8) shepherdcontent_changes.labelId = /*labelId*/ctx[3];
       if (dirty & /*step*/16) shepherdcontent_changes.step = /*step*/ctx[4];
       shepherdcontent.$set(shepherdcontent_changes);
-      set_attributes(div, div_data = get_spread_update(div_levels, [(!current || dirty & /*step, descriptionId*/20 && div_aria_describedby_value !== (div_aria_describedby_value = !isUndefined( /*step*/ctx[4].options.text) ? /*descriptionId*/ctx[2] : null)) && {
+      set_attributes(div, div_data = get_spread_update(div_levels, [(!current || dirty & /*step, descriptionId*/20 && div_aria_describedby_value !== (div_aria_describedby_value = !isUndefined(/*step*/ctx[4].options.text) ? /*descriptionId*/ctx[2] : null)) && {
         "aria-describedby": div_aria_describedby_value
       }, (!current || dirty & /*step, labelId*/24 && div_aria_labelledby_value !== (div_aria_labelledby_value = /*step*/ctx[4].options.title ? /*labelId*/ctx[3] : null)) && {
         "aria-labelledby": div_aria_labelledby_value
@@ -4593,6 +4593,70 @@ function emptyStorage() {
   sessionStorage.removeItem('tourId');
   sessionStorage.removeItem('tourToken');
   sessionStorage.removeItem('previousStepUrl');
+  sessionStorage.removeItem('skipTour');
+  sessionStorage.removeItem('autoTourId');
+}
+
+/**
+  Synchronize tour state for this user in their account/profile
+  tid = tour ID
+  sid = step number (the step the user is on)
+  state = state of the tour (completed, skipped, cancelled)
+*/
+function fetchTourState(tid, sid, context) {
+  const fetchUrl = 'index.php?option=com_guidedtours&task=ajax.fetchUserState&format=json';
+  Joomla.request({
+    url: `${fetchUrl}&tid=${tid}&sid=${sid}&context=${context}`,
+    method: 'GET',
+    perform: true,
+    onSuccess: response => {
+      try {
+        JSON.parse(response);
+      } catch (e) {
+        Joomla.renderMessages({
+          error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_INVALID_RESPONSE')]
+        }, 'gt');
+        return false;
+      }
+      return true;
+    },
+    onError: () => {
+      Joomla.renderMessages({
+        error: [Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_TOUR_ERROR_RESPONSE')]
+      });
+      return false;
+    }
+  });
+}
+
+/**
+ Stop tour on some specific context
+  - tour.complete
+  - tour.cancel
+  - tour.skip       Only autostart tours, to never display again
+*/
+function stopTour(tour, context) {
+  const tid = sessionStorage.getItem('tourId');
+  let sid = sessionStorage.getItem('currentStepId');
+  if (sid === 'tourinfo') {
+    sid = 1;
+  } else {
+    sid = Number(sid) + 1;
+  }
+  let trueContext = context;
+  if (context === 'tour.cancel' && sessionStorage.getItem('skipTour') === 'true') {
+    trueContext = 'tour.skip';
+  }
+  if (trueContext === 'tour.cancel' || trueContext === 'tour.skip' || trueContext === 'tour.complete') {
+    // ajax call to set the user state
+    fetchTourState(tid, sid, trueContext);
+
+    // close the tour
+    emptyStorage();
+    tour.steps = [];
+    return true; // cf. https://docs.shepherdpro.com/api/tour/classes/tour/#cancel
+  }
+  return false; // wrong context
 }
 function getTourInstance() {
   const tour = new Shepherd.Tour({
@@ -4611,22 +4675,23 @@ function getTourInstance() {
     keyboardNavigation: true
   });
   tour.on('cancel', () => {
-    emptyStorage();
-    tour.steps = [];
+    // Test that a tour exists still, it may have already been emptied when skipping the tour
+    if (sessionStorage.getItem('tourId')) {
+      stopTour(tour, 'tour.cancel');
+    }
   });
   return tour;
 }
 function addProgressIndicator(stepElement, index, total) {
   const header = stepElement.querySelector('.shepherd-header');
   const progress = document.createElement('div');
-  progress.classList.add('shepherd-progress');
+  progress.classList.add('shepherd-progress', 'badge', 'bg-secondary', 'px-2');
   progress.setAttribute('role', 'status');
-  progress.setAttribute('aria-label', Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total));
   const progressText = document.createElement('span');
-  progressText.setAttribute('aria-hidden', true);
-  progressText.innerText = `${index}/${total}`;
+  progressText.classList.add('m-0');
+  progressText.innerText = Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_STEP_NUMBER_OF').replace('{number}', index).replace('{total}', total);
   progress.appendChild(progressText);
-  header.insertBefore(progress, stepElement.querySelector('.shepherd-cancel-icon'));
+  header.insertBefore(progress, header.querySelector('.shepherd-title'));
 }
 function setFocus(primaryButton, secondaryButton, cancelButton) {
   if (primaryButton && !primaryButton.disabled) {
@@ -4841,33 +4906,53 @@ function addStepToTourButton(tour, stepObj, buttons) {
   }
   tour.addStep(step);
 }
+function addStartButton(tour, buttons, label) {
+  buttons.push({
+    text: label,
+    classes: 'btn btn-primary shepherd-button-primary',
+    action() {
+      return this.next();
+    }
+  });
+}
+function addSkipButton(tour, buttons) {
+  buttons.push({
+    text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_HIDE_FOREVER'),
+    classes: 'btn btn-secondary shepherd-button-secondary',
+    action() {
+      sessionStorage.setItem('skipTour', 'true');
+      return this.cancel();
+    }
+  });
+}
 function showTourInfo(tour, stepObj) {
+  const buttons = [];
+  if (sessionStorage.getItem('autoTourId') === sessionStorage.getItem('tourId')) {
+    addSkipButton(tour, buttons);
+  }
+  addStartButton(tour, buttons, stepObj.start_label);
   tour.addStep({
     title: stepObj.title,
     text: stepObj.description,
     classes: 'shepherd-theme-arrows',
-    buttons: [{
-      classes: 'btn btn-primary shepherd-button-primary',
-      action() {
-        return this.next();
-      },
-      text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_START')
-    }],
+    buttons,
     id: 'tourinfo',
     when: {
       show() {
         sessionStorage.setItem('currentStepId', 'tourinfo');
+        sessionStorage.setItem('skipTour', 'false');
         addProgressIndicator(this.getElement(), 1, sessionStorage.getItem('stepCount'));
       }
     }
   });
 }
-function pushCompleteButton(buttons) {
+function pushCompleteButton(tour, buttons) {
   buttons.push({
     text: Joomla.Text._('PLG_SYSTEM_GUIDEDTOURS_COMPLETE'),
     classes: 'btn btn-primary shepherd-button-primary',
     action() {
-      return this.cancel();
+      stopTour(tour, 'tour.complete');
+      return this.complete();
     }
   });
 }
@@ -5031,7 +5116,7 @@ function startTour(obj) {
         pushNextButton(buttons, obj.steps[index]);
       }
     } else {
-      pushCompleteButton(buttons);
+      pushCompleteButton(obj, buttons);
     }
     addStepToTourButton(tour, obj.steps[index], buttons);
     prevStep = obj.steps[index];
@@ -5094,6 +5179,7 @@ let tourId = sessionStorage.getItem('tourId');
 // Autostart tours have priority
 if (Joomla.getOptions('com_guidedtours.autotour', '') !== '') {
   sessionStorage.setItem('tourToken', String(Joomla.getOptions('com_guidedtours.token')));
+  sessionStorage.setItem('autoTourId', String(Joomla.getOptions('com_guidedtours.autotour')));
   tourId = Joomla.getOptions('com_guidedtours.autotour');
 }
 if ((Number.parseInt(tourId, 10) > 0 || tourId !== '') && sessionStorage.getItem('tourToken') === String(Joomla.getOptions('com_guidedtours.token'))) {
