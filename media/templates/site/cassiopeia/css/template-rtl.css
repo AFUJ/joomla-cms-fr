@@ -13294,6 +13294,14 @@ meter {
   }
 }
 
+#system-message-container:has(joomla-alert) {
+  margin-top: 1em;
+}
+
+#system-message-container:not(:has(joomla-alert)) {
+  margin-top: 0;
+}
+
 .back-to-top-link {
   z-index: 10000;
   color: var(--cassiopeia-color-primary, #112855);

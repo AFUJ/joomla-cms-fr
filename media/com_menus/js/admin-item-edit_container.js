@@ -30,7 +30,7 @@
     const root = getTreeRoot(target);
     const selfChecked = isChecked(target);
     if (root) {
-      getTreeElements(root).map(element => toggleState(element, selfChecked));
+      getTreeElements(root).forEach(element => toggleState(element, selfChecked));
     }
   };
   document.querySelectorAll('.treeselect input[type="checkbox"]').forEach(checkbox => checkbox.addEventListener('click', switchState));

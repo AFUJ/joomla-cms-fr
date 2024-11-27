@@ -1554,17 +1554,17 @@
         },
         {
             "name": "joomla/database",
-            "version": "3.2.0",
-            "version_normalized": "3.2.0.0",
+            "version": "3.2.1",
+            "version_normalized": "3.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "7abff998d4e0d63c0469dae5358822e757928871"
+                "reference": "3927dea8a08927d7d1dd4254bee6c6d66994a202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/7abff998d4e0d63c0469dae5358822e757928871",
-                "reference": "7abff998d4e0d63c0469dae5358822e757928871",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/3927dea8a08927d7d1dd4254bee6c6d66994a202",
+                "reference": "3927dea8a08927d7d1dd4254bee6c6d66994a202",
                 "shasum": ""
             },
             "require": {
@@ -1597,7 +1597,7 @@
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry.",
                 "psr/log": "To use the LoggingMonitor, install psr/log."
             },
-            "time": "2024-08-15T10:09:54+00:00",
+            "time": "2024-08-19T13:09:59+00:00",
             "type": "joomla-package",
             "extra": {
                 "branch-alias": {
@@ -1624,7 +1624,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/database/issues",
-                "source": "https://github.com/joomla-framework/database/tree/3.2.0"
+                "source": "https://github.com/joomla-framework/database/tree/3.2.1"
             },
             "funding": [
                 {

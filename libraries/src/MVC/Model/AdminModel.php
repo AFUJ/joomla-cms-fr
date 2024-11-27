@@ -1106,8 +1106,6 @@ abstract class AdminModel extends FormModel
 
                     // Prune items that you can't change.
                     unset($pks[$i]);
-
-                    return false;
                 }
 
                 /**

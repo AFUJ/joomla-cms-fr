@@ -4,10 +4,12 @@
  */
 (document => {
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function togglePassword() {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach(input => {
       const toggleButton = input.parentNode.querySelector('.input-password-toggle');
-      if (toggleButton) {
+      const hasClickListener = toggleButton.getAttribute('clickListener') === 'true';
+      if (toggleButton && !hasClickListener) {
+        toggleButton.setAttribute('clickListener', 'true');
         toggleButton.addEventListener('click', () => {
           const icon = toggleButton.firstElementChild;
           const srText = toggleButton.lastElementChild;
@@ -72,5 +74,7 @@
         });
       }
     });
-  });
+  }
+  document.addEventListener('joomla:updated', togglePassword);
+  document.addEventListener('DOMContentLoaded', togglePassword);
 })(document);
