@@ -1093,17 +1093,17 @@
         },
         {
             "name": "joomla/application",
-            "version": "3.0.2",
-            "version_normalized": "3.0.2.0",
+            "version": "3.0.3",
+            "version_normalized": "3.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "dd055642fbe8d7b919a6c6c345a0d016b0981e65"
+                "reference": "e063a4a308729b930d853e29a9f7c303cac68629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/dd055642fbe8d7b919a6c6c345a0d016b0981e65",
-                "reference": "dd055642fbe8d7b919a6c6c345a0d016b0981e65",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/e063a4a308729b930d853e29a9f7c303cac68629",
+                "reference": "e063a4a308729b930d853e29a9f7c303cac68629",
                 "shasum": ""
             },
             "require": {
@@ -1140,7 +1140,7 @@
                 "joomla/uri": "^3.0 To use AbstractWebApplication, install joomla/uri",
                 "psr/container": "^1.0 To use the ContainerControllerResolver, install any PSR-11 compatible container"
             },
-            "time": "2024-08-07T16:49:02+00:00",
+            "time": "2024-12-04T18:09:37+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {

@@ -42,6 +42,18 @@
       "version": "1fbf0a"
     },
     {
+      "name": "com_fields.admin-fields-batch",
+      "type": "script",
+      "uri": "com_fields/admin-fields-default-batch.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "eebfc6"
+    },
+    {
       "name": "com_fields.admin-fields-modal",
       "type": "script",
       "uri": "com_fields/admin-fields-modal.min.js",
@@ -54,18 +66,6 @@
       "deprecated": true,
       "deprecatedMsg": "Use postMessage() directly or with help of [modal-content-select] asset. To post the modal selection.",
       "version": "be088f"
-    },
-    {
-      "name": "com_fields.admin-fields-batch",
-      "type": "script",
-      "uri": "com_fields/admin-fields-default-batch.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "eebfc6"
     }
   ]
 }

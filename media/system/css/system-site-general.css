@@ -54,30 +54,30 @@ label.invalid {
 
 .button2-left {
   float: left;
-  background: url("../images/j_button2_left.png?v=173204") no-repeat;
+  background: url("../images/j_button2_left.png?v=173478") no-repeat;
   margin-left: 5px;
 }
 
 .button2-right {
   float: left;
-  background: url("../images/j_button2_right.png?v=173204") 100% 0 no-repeat;
+  background: url("../images/j_button2_right.png?v=173478") 100% 0 no-repeat;
   margin-left: 5px;
 }
 
 .button2-left .image {
-  background: url("../images/j_button2_image.png?v=173204") 100% 0 no-repeat;
+  background: url("../images/j_button2_image.png?v=173478") 100% 0 no-repeat;
 }
 
 .button2-left .readmore, .button2-left .article {
-  background: url("../images/j_button2_readmore.png?v=173204") 100% 0 no-repeat;
+  background: url("../images/j_button2_readmore.png?v=173478") 100% 0 no-repeat;
 }
 
 .button2-left .pagebreak {
-  background: url("../images/j_button2_pagebreak.png?v=173204") 100% 0 no-repeat;
+  background: url("../images/j_button2_pagebreak.png?v=173478") 100% 0 no-repeat;
 }
 
 .button2-left .blank {
-  background: url("../images/j_button2_blank.png?v=173204") 100% 0 no-repeat;
+  background: url("../images/j_button2_blank.png?v=173478") 100% 0 no-repeat;
 }
 
 div.tooltip {
@@ -90,7 +90,7 @@ div.tooltip {
 }
 
 div.tooltip h4 {
-  background: url("../images/selector-arrow.png?v=173204") no-repeat;
+  background: url("../images/selector-arrow.png?v=173478") no-repeat;
   margin: -15px 0 0;
   padding: 15px 0 5px;
   font-size: 95%;

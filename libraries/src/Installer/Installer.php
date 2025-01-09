@@ -2311,12 +2311,13 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $data['creationDate'] = ((string) $xml->creationDate) ?: Text::_('JLIB_UNKNOWN');
         $data['author']       = ((string) $xml->author) ?: Text::_('JLIB_UNKNOWN');
 
-        $data['copyright']   = (string) $xml->copyright;
-        $data['authorEmail'] = (string) $xml->authorEmail;
-        $data['authorUrl']   = (string) $xml->authorUrl;
-        $data['version']     = (string) $xml->version;
-        $data['description'] = (string) $xml->description;
-        $data['group']       = (string) $xml->group;
+        $data['copyright']    = (string) $xml->copyright;
+        $data['authorEmail']  = (string) $xml->authorEmail;
+        $data['authorUrl']    = (string) $xml->authorUrl;
+        $data['version']      = (string) $xml->version;
+        $data['description']  = (string) $xml->description;
+        $data['group']        = (string) $xml->group;
+        $data['changelogurl'] = (string) $xml->changelogurl;
 
         // Child template specific fields.
         if (isset($xml->inheritable)) {

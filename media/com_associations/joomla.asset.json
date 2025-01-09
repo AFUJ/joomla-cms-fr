@@ -38,12 +38,6 @@
       "version": "14d673"
     },
     {
-      "name": "com_associations.sidebyside",
-      "type": "style",
-      "uri": "com_associations/sidebyside.min.css",
-      "version": "579941"
-    },
-    {
       "name": "com_associations.associations-edit",
       "type": "script",
       "uri": "com_associations/associations-edit.min.js",
@@ -55,6 +49,12 @@
         "defer": true
       },
       "version": "00d001"
+    },
+    {
+      "name": "com_associations.sidebyside",
+      "type": "style",
+      "uri": "com_associations/sidebyside.min.css",
+      "version": "579941"
     },
     {
       "name": "com_associations.sidebyside",

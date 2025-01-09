@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
-  "version": "5.2.2",
+  "version": "5.2.3",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
@@ -26,16 +26,6 @@
       "version": "1.10.0"
     },
     {
-      "name": "accessibility",
-      "type": "script",
-      "uri": "vendor/accessibility/accessibility.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "accessibility",
-      "version": "3.0.17"
-    },
-    {
       "name": "short-and-sweet",
       "type": "script",
       "uri": "vendor/short-and-sweet/short-and-sweet.min.js",
@@ -44,6 +34,16 @@
       },
       "package": "short-and-sweet",
       "version": "1.0.4"
+    },
+    {
+      "name": "accessibility",
+      "type": "script",
+      "uri": "vendor/accessibility/accessibility.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "accessibility",
+      "version": "3.0.17"
     },
     {
       "name": "wcpolyfill",
@@ -123,11 +123,31 @@
       "version": "1.6.2"
     },
     {
-      "name": "focus-visible",
+      "name": "choicesjs",
+      "type": "style",
+      "uri": "vendor/choicesjs/choices.min.css",
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
       "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.1"
+      "uri": "vendor/choicesjs/choices.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
+      "type": "preset",
+      "dependencies": [
+        "choicesjs#style",
+        "choicesjs#script"
+      ],
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
       "name": "dragula",
@@ -157,6 +177,13 @@
       "version": "3.7.3"
     },
     {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.1"
+    },
+    {
       "name": "hotkeysjs",
       "type": "script",
       "uri": "vendor/hotkeysjs/hotkeys.min.js",
@@ -165,33 +192,6 @@
       },
       "package": "hotkeys-js",
       "version": "3.13.7"
-    },
-    {
-      "name": "choicesjs",
-      "type": "style",
-      "uri": "vendor/choicesjs/choices.min.css",
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "script",
-      "uri": "vendor/choicesjs/choices.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "preset",
-      "dependencies": [
-        "choicesjs#style",
-        "choicesjs#script"
-      ],
-      "package": "choices.js",
-      "version": "9.1.0"
     },
     {
       "name": "jquery-migrate",
@@ -356,30 +356,6 @@
       "version": "4.1.7"
     },
     {
-      "name": "sa11y",
-      "type": "script",
-      "uri": "vendor/sa11y/sa11y.esm.min.js",
-      "importmap": true,
-      "package": "sa11y",
-      "version": "3.2.2"
-    },
-    {
-      "name": "sa11y-lang",
-      "type": "script",
-      "uri": "vendor/sa11y/en.js",
-      "importmap": true,
-      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
-      "package": "sa11y",
-      "version": "3.2.2"
-    },
-    {
-      "name": "sa11y",
-      "type": "style",
-      "uri": "vendor/sa11y/sa11y.min.css",
-      "package": "sa11y",
-      "version": "3.2.2"
-    },
-    {
       "name": "qrcode",
       "type": "script",
       "uri": "vendor/qrcode/qrcode.js",
@@ -416,6 +392,30 @@
       ],
       "package": "qrcode-generator",
       "version": "1.4.4"
+    },
+    {
+      "name": "sa11y",
+      "type": "script",
+      "uri": "vendor/sa11y/sa11y.esm.min.js",
+      "importmap": true,
+      "package": "sa11y",
+      "version": "3.2.2"
+    },
+    {
+      "name": "sa11y-lang",
+      "type": "script",
+      "uri": "vendor/sa11y/en.js",
+      "importmap": true,
+      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
+      "package": "sa11y",
+      "version": "3.2.2"
+    },
+    {
+      "name": "sa11y",
+      "type": "style",
+      "uri": "vendor/sa11y/sa11y.min.css",
+      "package": "sa11y",
+      "version": "3.2.2"
     },
     {
       "name": "fontawesome",

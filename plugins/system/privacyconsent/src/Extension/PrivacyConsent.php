@@ -289,6 +289,7 @@ final class PrivacyConsent extends CMSPlugin
                 ($option == 'com_users' && $isAllowedUserTask)
                 || ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
                 || ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+                || ($option == 'com_users' && $view == 'captive')
             ) {
                 return;
             }

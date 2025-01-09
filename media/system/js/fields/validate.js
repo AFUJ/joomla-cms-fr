@@ -450,7 +450,7 @@
 	    });
 	    this.setHandler('email', value => {
 	      const newValue = punycode.toASCII(value);
-	      const regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+	      const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 	      return regex.test(newValue);
 	    });
 

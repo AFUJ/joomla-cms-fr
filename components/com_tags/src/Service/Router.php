@@ -286,7 +286,15 @@ class Router extends RouterBase
 
         while (\count($segments)) {
             $id    = array_shift($segments);
-            $ids[] = $this->fixSegment($id);
+            $slug  = $this->fixSegment($id);
+
+            // We did not find the segment as a tag in the DB
+            if ($slug === $id) {
+                array_unshift($segments, $id);
+                break;
+            }
+
+            $ids[] = $slug;
         }
 
         if (\count($ids)) {

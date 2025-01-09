@@ -649,8 +649,10 @@ class User
 
                 $array['password'] = UserHelper::hashPassword($array['password']);
 
-                // Reset the change password flag
-                $array['requireReset'] = 0;
+                // Reset the change password flag if it was set previously
+                if ($this->requireReset) {
+                    $array['requireReset'] = 0;
+                }
             } else {
                 $array['password'] = $this->password;
             }
