@@ -12,6 +12,18 @@
       "version": "67209f"
     },
     {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_container.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "36dfe0"
+    },
+    {
       "name": "com_menus.admin-item-edit",
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
@@ -36,18 +48,6 @@
       "deprecated": true,
       "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6.",
       "version": "9b90e4"
-    },
-    {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_container.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "36dfe0"
     },
     {
       "name": "com_menus.admin-item-edit-modules",

@@ -278,14 +278,33 @@ class Router extends RouterBase
             $vars['view'] = array_shift($segments);
         }
 
-        $ids = [];
+        $ids          = [];
+        $matchedAlias = false;
 
         if ($item && $item->query['view'] == 'tag') {
             $ids = $item->query['id'];
         }
 
+        // Iterate through all URL segments and try to parse tag IDs from them
         while (\count($segments)) {
             $id    = array_shift($segments);
+
+            // We have a numeric ID
+            if (!$matchedAlias && is_numeric($id)) {
+                $ids[] = $id;
+
+                // We allow more than one numeric segment in the URL
+                continue;
+            }
+
+            // We have a comma-separated list of IDs
+            if (!$matchedAlias && str_contains($id, ',')) {
+                $ids[] = $id;
+
+                // We don't allow more than one list of IDs in a URL
+                break;
+            }
+
             $slug  = $this->fixSegment($id);
 
             // We did not find the segment as a tag in the DB
@@ -294,7 +313,9 @@ class Router extends RouterBase
                 break;
             }
 
-            $ids[] = $slug;
+            // We don't want to match numeric or comma-separated segments after we matched an alias
+            $matchedAlias = true;
+            $ids[]        = $slug;
         }
 
         if (\count($ids)) {

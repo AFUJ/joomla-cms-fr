@@ -270,7 +270,7 @@ class HtmlView extends BaseHtmlView implements UserFactoryAwareInterface
                 if ($item->params->get('icon_email')) {
                     $item->params->set(
                         'marker_email',
-                        HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL'), false)
+                        HTMLHelper::_('image', $item->params->get('icon_email', ''), Text::_('COM_CONTACT_EMAIL_LABEL'), false)
                     );
                 }
 

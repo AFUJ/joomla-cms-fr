@@ -13064,6 +13064,10 @@ span.minicolors-swatch-color {
   }
 }
 
+:root:has(.sticky-top) [id] {
+  scroll-margin-top: var(--cassiopeia-scroll-margin-top, 10rem);
+}
+
 html {
   background-color: #fff;
 }

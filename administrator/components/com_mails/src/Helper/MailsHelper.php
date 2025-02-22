@@ -82,6 +82,10 @@ abstract class MailsHelper
             case 'com':
             default:
                 $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+                $lang->load($extension, JPATH_BASE, $language, true)
+                || $lang->load($extension, JPATH_BASE . '/components/' . $extension, $language, true);
+
                 break;
 
             case 'mod':

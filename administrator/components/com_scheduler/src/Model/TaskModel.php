@@ -27,6 +27,7 @@ use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -413,7 +414,7 @@ class TaskModel extends AdminModel
     /**
      * Checks if there are any running tasks in the database.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @return bool True if there are running tasks, false otherwise.
      * @since 4.4.9
      */
@@ -481,7 +482,7 @@ class TaskModel extends AdminModel
     /**
      * Retrieves the ID of the next task based on the given criteria.
      *
-     * @param \JDatabaseDriver $db The database object.
+     * @param DatabaseInterface $db The database object.
      * @param string $now The current time.
      * @param array $options The options for retrieving the next task.
      *                       - includeCliExclusive: Whether to include CLI exclusive tasks.
@@ -534,7 +535,7 @@ class TaskModel extends AdminModel
     /**
      * Fetches a task from the database based on the current time.
      *
-     * @param \JDatabaseDriver $db The database driver to use.
+     * @param DatabaseInterface $db The database driver to use.
      * @param string $now The current time in the database's time format.
      * @return \stdClass|null The fetched task object, or null if no task was found.
      * @since 5.2.0

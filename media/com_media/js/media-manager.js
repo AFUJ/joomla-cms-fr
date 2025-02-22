@@ -6386,7 +6386,7 @@ function _extends() {
  * @param {{}} options
  *
  */
-function notify(message, options) {
+function _notify(message, options) {
   let timer;
   if (options.type === 'message') {
     timer = 3000;
@@ -6396,9 +6396,9 @@ function notify(message, options) {
   }, undefined, true, timer);
 }
 const notifications = {
-  /* Send and success notification */
+  /* Send a success notification */
   success: (message, options) => {
-    notify(message, _extends({
+    _notify(message, _extends({
       type: 'message',
       // @todo rename it to success
       dismiss: true
@@ -6406,9 +6406,16 @@ const notifications = {
   },
   /* Send an error notification */
   error: (message, options) => {
-    notify(message, _extends({
+    _notify(message, _extends({
       type: 'error',
       // @todo rename it to danger
+      dismiss: true
+    }, options));
+  },
+  /* Send a general notification */
+  notify: (message, options) => {
+    _notify(message, _extends({
+      type: 'message',
       dismiss: true
     }, options));
   },
@@ -6486,6 +6493,18 @@ function handleError(error) {
   const response = JSON.parse(error.response);
   if (response.message) {
     notifications.error(response.message);
+    // Check for App messages queue
+    if (response.messages) {
+      Object.keys(response.messages).forEach(type => {
+        response.messages[type].forEach(message => {
+          if (type === 'error') {
+            notifications.error(message);
+          } else {
+            notifications.notify(message);
+          }
+        });
+      });
+    }
   } else {
     switch (error.status) {
       case 409:
@@ -6723,6 +6742,81 @@ var navigable = {
   }
 };
 
+/**
+ * Handle the click event
+ * @param event
+ * @param ctx  the context
+ */
+function onItemClick(event, ctx) {
+  if (ctx.item.path && ctx.item.type === 'file') {
+    window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+      bubbles: true,
+      cancelable: false,
+      detail: {
+        type: ctx.item.type,
+        name: ctx.item.name,
+        path: ctx.item.path,
+        thumb: ctx.item.thumb,
+        fileType: ctx.item.mime_type ? ctx.item.mime_type : false,
+        extension: ctx.item.extension ? ctx.item.extension : false,
+        width: ctx.item.width ? ctx.item.width : 0,
+        height: ctx.item.height ? ctx.item.height : 0
+      }
+    }));
+  }
+  if (ctx.item.type === 'dir') {
+    window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+      bubbles: true,
+      cancelable: false,
+      detail: {
+        type: ctx.item.type,
+        name: ctx.item.name,
+        path: ctx.item.path
+      }
+    }));
+  }
+
+  // Handle clicks when the item was not selected
+  if (!ctx.isSelected()) {
+    // Handle clicks when ctrl key was pressed
+    if (event[/Mac|Mac OS|MacIntel/gi.test(window.navigator.userAgent) ? 'metaKey' : 'ctrlKey'] || event.keyCode === 17) {
+      ctx.$store.commit(SELECT_BROWSER_ITEM, ctx.item);
+      return;
+    }
+
+    // Unselect when shift key is not pressed
+    if (!event.shiftKey && event.keyCode !== 13) {
+      ctx.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+      ctx.$store.commit(SELECT_BROWSER_ITEM, ctx.item);
+      return;
+    }
+    const currentIndex = ctx.localItems.indexOf(ctx.$store.state.selectedItems[0]);
+    const endIndex = ctx.localItems.indexOf(ctx.item);
+    // Handle selections from up to down
+    if (currentIndex < endIndex) {
+      ctx.localItems.slice(currentIndex, endIndex + 1).forEach(element => ctx.$store.commit(SELECT_BROWSER_ITEM, element));
+      return;
+    }
+
+    // Handle selections from down to up
+    ctx.localItems.slice(endIndex, currentIndex).forEach(element => ctx.$store.commit(SELECT_BROWSER_ITEM, element));
+    return;
+  }
+  ctx.$store.dispatch('toggleBrowserItemSelect', ctx.item);
+  window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
+    bubbles: true,
+    cancelable: false,
+    detail: {}
+  }));
+
+  // If more than one item was selected and the user clicks again on the selected item,
+  // he most probably wants to unselect all other items.
+  if (ctx.$store.state.selectedItems.length > 1) {
+    ctx.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
+    ctx.$store.commit(SELECT_BROWSER_ITEM, ctx.item);
+  }
+}
+
 var script$v = {
   name: 'MediaBrowserItemRow',
   mixins: [navigable],
@@ -6730,6 +6824,10 @@ var script$v = {
     item: {
       type: Object,
       default: () => {},
+    },
+    localItems: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
@@ -6811,49 +6909,7 @@ var script$v = {
      * @param event
      */
     onClick(event) {
-      const data = {
-        type: this.item.type,
-        name: this.item.name,
-        path: this.item.path,
-        thumb: false,
-        fileType: this.item.mime_type ? this.item.mime_type : false,
-        extension: this.item.extension ? this.item.extension : false,
-      };
-
-      if (this.item.type === 'file') {
-        data.thumb = this.item.thumb ? this.item.thumb : false;
-        data.width = this.item.width ? this.item.width : 0;
-        data.height = this.item.height ? this.item.height : 0;
-      }
-
-      window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: data,
-          },
-        ),
-      );
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Unselect all other selected items,
-        // if the shift key was not pressed during the click event
-        if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        }
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        return;
-      }
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      }
+      return onItemClick(event, this);
     },
 
   },
@@ -6867,9 +6923,9 @@ const _hoisted_4$b = {
   class: "name"
 };
 const _hoisted_5$a = { class: "size" };
-const _hoisted_6$8 = { key: 0 };
-const _hoisted_7$5 = { class: "dimension" };
-const _hoisted_8$3 = { class: "created" };
+const _hoisted_6$9 = { key: 0 };
+const _hoisted_7$6 = { class: "dimension" };
+const _hoisted_8$4 = { class: "created" };
 const _hoisted_9$2 = { class: "modified" };
 
 function render$v(_ctx, _cache, $props, $setup, $data, $options) {
@@ -6898,11 +6954,11 @@ function render$v(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("td", _hoisted_5$a, [
       createTextVNode(toDisplayString($options.size), 1 /* TEXT */),
       ($options.size !== '')
-        ? (openBlock(), createElementBlock("span", _hoisted_6$8, "KB"))
+        ? (openBlock(), createElementBlock("span", _hoisted_6$9, "KB"))
         : createCommentVNode("v-if", true)
     ]),
-    createBaseVNode("td", _hoisted_7$5, toDisplayString($options.dimension), 1 /* TEXT */),
-    createBaseVNode("td", _hoisted_8$3, toDisplayString($props.item.create_date_formatted), 1 /* TEXT */),
+    createBaseVNode("td", _hoisted_7$6, toDisplayString($options.dimension), 1 /* TEXT */),
+    createBaseVNode("td", _hoisted_8$4, toDisplayString($props.item.create_date_formatted), 1 /* TEXT */),
     createBaseVNode("td", _hoisted_9$2, toDisplayString($props.item.modified_date_formatted), 1 /* TEXT */)
   ], 34 /* CLASS, NEED_HYDRATION */))
 }
@@ -6944,15 +7000,15 @@ const _hoisted_5$9 = {
   class: "size",
   scope: "col"
 };
-const _hoisted_6$7 = {
+const _hoisted_6$8 = {
   class: "dimension",
   scope: "col"
 };
-const _hoisted_7$4 = {
+const _hoisted_7$5 = {
   class: "created",
   scope: "col"
 };
-const _hoisted_8$2 = {
+const _hoisted_8$3 = {
   class: "modified",
   scope: "col"
 };
@@ -7000,7 +7056,7 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 2 /* CLASS */)
           ])
         ]),
-        createBaseVNode("th", _hoisted_6$7, [
+        createBaseVNode("th", _hoisted_6$8, [
           createBaseVNode("button", {
             class: "btn btn-link",
             onClick: _cache[2] || (_cache[2] = $event => ($options.changeOrder('dimension')))
@@ -7016,7 +7072,7 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 2 /* CLASS */)
           ])
         ]),
-        createBaseVNode("th", _hoisted_7$4, [
+        createBaseVNode("th", _hoisted_7$5, [
           createBaseVNode("button", {
             class: "btn btn-link",
             onClick: _cache[3] || (_cache[3] = $event => ($options.changeOrder('date_created')))
@@ -7032,7 +7088,7 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 2 /* CLASS */)
           ])
         ]),
-        createBaseVNode("th", _hoisted_8$2, [
+        createBaseVNode("th", _hoisted_8$3, [
           createBaseVNode("button", {
             class: "btn btn-link",
             onClick: _cache[4] || (_cache[4] = $event => ($options.changeOrder('date_modified')))
@@ -7054,8 +7110,9 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
       (openBlock(true), createElementBlock(Fragment, null, renderList($props.localItems, (item) => {
         return (openBlock(), createBlock(_component_MediaBrowserItemRow, {
           key: item.path,
-          item: item
-        }, null, 8 /* PROPS */, ["item"]))
+          item: item,
+          "local-items": $props.localItems
+        }, null, 8 /* PROPS */, ["item", "local-items"]))
       }), 128 /* KEYED_FRAGMENT */))
     ])
   ]))
@@ -8005,7 +8062,7 @@ const _hoisted_4$9 = {
   "aria-hidden": "true"
 };
 const _hoisted_5$8 = ["title"];
-const _hoisted_6$6 = ["aria-label", "title"];
+const _hoisted_6$7 = ["aria-label", "title"];
 
 function render$j(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8047,7 +8104,7 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_6$6),
+    }, null, 8 /* PROPS */, _hoisted_6$7),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -8286,6 +8343,10 @@ var MediaBrowserItem = {
     item: {
       type: Object,
       default: () => {}
+    },
+    localItems: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -8372,57 +8433,7 @@ var MediaBrowserItem = {
      * @param event
      */
     handleClick(event) {
-      if (this.item.path && this.item.type === 'file') {
-        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: {
-            type: this.item.type,
-            name: this.item.name,
-            path: this.item.path,
-            thumb: this.item.thumb,
-            fileType: this.item.mime_type ? this.item.mime_type : false,
-            extension: this.item.extension ? this.item.extension : false,
-            width: this.item.width ? this.item.width : 0,
-            height: this.item.height ? this.item.height : 0
-          }
-        }));
-      }
-      if (this.item.type === 'dir') {
-        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-          bubbles: true,
-          cancelable: false,
-          detail: {
-            type: this.item.type,
-            name: this.item.name,
-            path: this.item.path
-          }
-        }));
-      }
-
-      // Handle clicks when the item was not selected
-      if (!this.isSelected()) {
-        // Unselect all other selected items,
-        // if the shift key was not pressed during the click event
-        if (!(event.shiftKey || event.keyCode === 13)) {
-          this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        }
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-        return;
-      }
-      this.$store.dispatch('toggleBrowserItemSelect', this.item);
-      window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-        bubbles: true,
-        cancelable: false,
-        detail: {}
-      }));
-
-      // If more than one item was selected and the user clicks again on the selected item,
-      // he most probably wants to unselect all other items.
-      if (this.$store.state.selectedItems.length > 1) {
-        this.$store.commit(UNSELECT_ALL_BROWSER_ITEMS);
-        this.$store.commit(SELECT_BROWSER_ITEM, this.item);
-      }
+      return onItemClick(event, this);
     },
     /**
      * Handle the when an element is focused in the child to display the layover for a11y
@@ -8495,9 +8506,9 @@ const _hoisted_2$e = {
 const _hoisted_3$c = { key: 1 };
 const _hoisted_4$8 = { key: 0 };
 const _hoisted_5$7 = { key: 1 };
-const _hoisted_6$5 = { key: 2 };
-const _hoisted_7$3 = { key: 3 };
-const _hoisted_8$1 = { key: 4 };
+const _hoisted_6$6 = { key: 2 };
+const _hoisted_7$4 = { key: 3 };
+const _hoisted_8$2 = { key: 4 };
 const _hoisted_9$1 = { key: 5 };
 const _hoisted_10$1 = { key: 6 };
 
@@ -8524,15 +8535,15 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
                     ? (openBlock(), createElementBlock("dd", _hoisted_4$8, toDisplayString(_ctx.translate('COM_MEDIA_FILE')), 1 /* TEXT */))
                     : ($options.item.type === 'dir')
                       ? (openBlock(), createElementBlock("dd", _hoisted_5$7, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1 /* TEXT */))
-                      : (openBlock(), createElementBlock("dd", _hoisted_6$5, " - ")),
+                      : (openBlock(), createElementBlock("dd", _hoisted_6$6, " - ")),
                   createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_CREATED')), 1 /* TEXT */),
                   createBaseVNode("dd", null, toDisplayString($options.item.create_date_formatted), 1 /* TEXT */),
                   createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DATE_MODIFIED')), 1 /* TEXT */),
                   createBaseVNode("dd", null, toDisplayString($options.item.modified_date_formatted), 1 /* TEXT */),
                   createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_DIMENSION')), 1 /* TEXT */),
                   ($options.item.width || $options.item.height)
-                    ? (openBlock(), createElementBlock("dd", _hoisted_7$3, toDisplayString($options.item.width) + "px * " + toDisplayString($options.item.height) + "px ", 1 /* TEXT */))
-                    : (openBlock(), createElementBlock("dd", _hoisted_8$1, " - ")),
+                    ? (openBlock(), createElementBlock("dd", _hoisted_7$4, toDisplayString($options.item.width) + "px * " + toDisplayString($options.item.height) + "px ", 1 /* TEXT */))
+                    : (openBlock(), createElementBlock("dd", _hoisted_8$2, " - ")),
                   createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_MEDIA_SIZE')), 1 /* TEXT */),
                   ($options.item.size)
                     ? (openBlock(), createElementBlock("dd", _hoisted_9$1, toDisplayString(($options.item.size / 1024).toFixed(2)) + " KB ", 1 /* TEXT */))
@@ -8777,7 +8788,7 @@ const _hoisted_4$7 = {
   style: {"display":"grid","justify-content":"center","align-content":"center","margin-top":"-1rem","color":"var(--gray-200)","height":"100%"}
 };
 const _hoisted_5$6 = { class: "media-dragoutline" };
-const _hoisted_6$4 = {
+const _hoisted_6$5 = {
   key: 3,
   class: "media-browser-grid"
 };
@@ -8833,7 +8844,7 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
         }, null, 8 /* PROPS */, ["local-items", "current-directory", "style"]))
       : createCommentVNode("v-if", true),
     (($options.listView === 'grid' && !$options.isEmpty))
-      ? (openBlock(), createElementBlock("div", _hoisted_6$4, [
+      ? (openBlock(), createElementBlock("div", _hoisted_6$5, [
           createBaseVNode("div", {
             class: normalizeClass(["media-browser-items", $options.mediaBrowserGridItemsClass]),
             style: normalizeStyle($options.mediaBrowserStyles)
@@ -8841,8 +8852,9 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
             (openBlock(true), createElementBlock(Fragment, null, renderList($options.localItems, (item) => {
               return (openBlock(), createBlock(_component_MediaBrowserItem, {
                 key: item.path,
-                item: item
-              }, null, 8 /* PROPS */, ["item"]))
+                item: item,
+                localItems: $options.localItems
+              }, null, 8 /* PROPS */, ["item", "localItems"]))
             }), 128 /* KEYED_FRAGMENT */))
           ], 6 /* CLASS, STYLE */)
         ]))
@@ -9389,12 +9401,12 @@ const _hoisted_5$5 = {
   class: "media-view-search-input",
   role: "search"
 };
-const _hoisted_6$3 = {
+const _hoisted_6$4 = {
   for: "media_search",
   class: "visually-hidden"
 };
-const _hoisted_7$2 = ["placeholder", "value"];
-const _hoisted_8 = { class: "media-view-icons" };
+const _hoisted_7$3 = ["placeholder", "value"];
+const _hoisted_8$1 = { class: "media-view-icons" };
 const _hoisted_9 = ["aria-label"];
 const _hoisted_10 = ["aria-label"];
 const _hoisted_11 = ["aria-label"];
@@ -9440,7 +9452,7 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       createVNode(_component_MediaBreadcrumb),
       createBaseVNode("div", _hoisted_5$5, [
-        createBaseVNode("label", _hoisted_6$3, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1 /* TEXT */),
+        createBaseVNode("label", _hoisted_6$4, toDisplayString(_ctx.translate('COM_MEDIA_SEARCH')), 1 /* TEXT */),
         createBaseVNode("input", {
           id: "media_search",
           class: "form-control",
@@ -9448,9 +9460,9 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
           placeholder: _ctx.translate('COM_MEDIA_SEARCH'),
           value: $options.search,
           onInput: _cache[1] || (_cache[1] = (...args) => ($options.changeSearch && $options.changeSearch(...args)))
-        }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7$2)
+        }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7$3)
       ]),
-      createBaseVNode("div", _hoisted_8, [
+      createBaseVNode("div", _hoisted_8$1, [
         ($options.isGridView)
           ? (openBlock(), createElementBlock("button", {
               key: 0,
@@ -10736,6 +10748,15 @@ var script$5 = {
       folder: '',
     };
   },
+  computed: {
+    /* Get the contents of the currently selected directory */
+    items() {
+      const directories = this.$store.getters.getSelectedDirectoryDirectories;
+      const files = this.$store.getters.getSelectedDirectoryFiles;
+
+      return [...directories, ...files];
+    },
+  },
   watch: {
     '$store.state.showCreateFolderModal': function (show) {
       this.$nextTick(() => {
@@ -10745,10 +10766,24 @@ var script$5 = {
       });
     },
   },
+
   methods: {
     /* Check if the form is valid */
     isValid() {
       return (this.folder);
+    },
+    /* Check folder name is valid or not */
+    isValidName() {
+      if (this.folder.includes('..')) {
+        return 1;
+      }
+      if ((this.items.filter((file) => file.name.toLowerCase() === (this.folder.toLowerCase())).length !== 0)) {
+        return 2;
+      }
+      if ((!/^[\p{L}\p{N}\-_. ]+$/u.test(this.folder))) {
+        return 3;
+      }
+      return 0;
     },
     /* Close the modal instance */
     close() {
@@ -10785,7 +10820,22 @@ const _hoisted_1$5 = {
 const _hoisted_2$5 = { class: "p-3" };
 const _hoisted_3$5 = { class: "form-group" };
 const _hoisted_4$3 = { for: "folder" };
-const _hoisted_5$3 = ["disabled"];
+const _hoisted_5$3 = {
+  key: 0,
+  id: "folderFeedback",
+  class: "invalid-feedback"
+};
+const _hoisted_6$3 = {
+  key: 1,
+  id: "folderFeedback",
+  class: "invalid-feedback"
+};
+const _hoisted_7$2 = {
+  key: 2,
+  id: "folderFeedback",
+  class: "invalid-feedback"
+};
+const _hoisted_8 = ["disabled"];
 
 function render$5(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaModal = resolveComponent("MediaModal");
@@ -10813,19 +10863,29 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
                   id: "folder",
                   ref: "input",
                   "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => (($data.folder) = $event)),
-                  class: "form-control",
+                  class: normalizeClass(["form-control", ($options.isValidName()!==0 && $options.isValid())?'is-invalid':'']),
                   type: "text",
                   required: "",
                   autocomplete: "off",
+                  "aria-describedby": "folderFeedback",
                   onInput: _cache[1] || (_cache[1] = $event => ($data.folder = $event.target.value))
-                }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [
+                }, null, 34 /* CLASS, NEED_HYDRATION */), [
                   [
                     vModelText,
                     $data.folder,
                     void 0,
                     { trim: true }
                   ]
-                ])
+                ]),
+                ($options.isValidName()===1)
+                  ? (openBlock(), createElementBlock("div", _hoisted_5$3, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER_RELATIVE_PATH_ERROR')), 1 /* TEXT */))
+                  : createCommentVNode("v-if", true),
+                ($options.isValidName()===2)
+                  ? (openBlock(), createElementBlock("div", _hoisted_6$3, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER_EXISTING_FOLDER_ERROR')), 1 /* TEXT */))
+                  : createCommentVNode("v-if", true),
+                ($options.isValidName()===3 && $options.isValid())
+                  ? (openBlock(), createElementBlock("div", _hoisted_7$2, toDisplayString(_ctx.translate('COM_MEDIA_CREATE_NEW_FOLDER_UNEXPECTED_CHARACTER')), 1 /* TEXT */))
+                  : createCommentVNode("v-if", true)
               ])
             ], 32 /* NEED_HYDRATION */)
           ])
@@ -10838,9 +10898,9 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
             }, toDisplayString(_ctx.translate('JCANCEL')), 1 /* TEXT */),
             createBaseVNode("button", {
               class: "btn btn-success",
-              disabled: !$options.isValid(),
+              disabled: !$options.isValid() || $options.isValidName()!==0,
               onClick: _cache[4] || (_cache[4] = $event => ($options.save()))
-            }, toDisplayString(_ctx.translate('JACTION_CREATE')), 9 /* TEXT, PROPS */, _hoisted_5$3)
+            }, toDisplayString(_ctx.translate('JACTION_CREATE')), 9 /* TEXT, PROPS */, _hoisted_8)
           ])
         ]),
         _: 1 /* STABLE */

@@ -177,7 +177,10 @@ class WebAssetItem implements WebAssetItemInterface
                     break;
                 default:
                     // Asset for the ES modules may give us a folder for ESM import map
-                    if (str_ends_with($path, '/') && !str_starts_with($path, '.')) {
+                    if (
+                        $this->getOption('importmap') && !$this->isPathExternal($path) &&
+                        str_ends_with($path, '/') && !str_starts_with($path, '.')
+                    ) {
                         $path = Uri::root(true) . '/' . $path;
                     }
                     break;

@@ -156,8 +156,12 @@ html[dir="rtl"] .infobar-leave-active {
   background-color: var(--com-media-manager-content-bg, #fff);
 }
 
-.media-breadcrumb-item:last-of-type:after {
-  border-inline-start-color: var(--com-media-manager-content-bg, #fff);
+.media-breadcrumb-item:last-of-type a {
+  color: var(--body-color);
+}
+
+.media-breadcrumb-item:last-of-type:before, .media-breadcrumb-item:last-of-type:after {
+  border: none;
 }
 
 .media-breadcrumb-item:hover {
