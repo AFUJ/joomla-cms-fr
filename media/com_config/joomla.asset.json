@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_config.config",
-      "type": "script",
-      "uri": "com_config/config-default.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "752453"
-    },
-    {
       "name": "com_config.modules",
       "type": "script",
       "uri": "com_config/modules-default.min.js",
@@ -28,6 +16,18 @@
         "type": "module"
       },
       "version": "a96b5d"
+    },
+    {
+      "name": "com_config.config",
+      "type": "script",
+      "uri": "com_config/config-default.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "752453"
     },
     {
       "name": "com_config.templates",

@@ -160,8 +160,8 @@ html[dir="rtl"] .infobar-leave-active {
   color: var(--body-color);
 }
 
-.media-breadcrumb-item:last-of-type:before, .media-breadcrumb-item:last-of-type:after {
-  border: none;
+.media-breadcrumb-item:last-of-type:after {
+  border-inline-start-color: var(--com-media-manager-content-bg, #fff);
 }
 
 .media-breadcrumb-item:hover {
@@ -189,7 +189,7 @@ html[dir="rtl"] .infobar-leave-active {
 }
 
 .media-breadcrumb-item:before {
-  border-inline-start-color: var(--template-bg-dark-7);
+  border-inline-start-color: var(--gray-400);
 }
 
 .media-breadcrumb-item:after {

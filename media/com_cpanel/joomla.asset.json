@@ -18,18 +18,6 @@
       "deprecated": true
     },
     {
-      "name": "com_cpanel.admin-cpanel",
-      "type": "script",
-      "uri": "com_cpanel/admin-cpanel-default.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "5ca2c9"
-    },
-    {
       "name": "com_cpanel.admin-system-loader",
       "type": "script",
       "uri": "com_cpanel/admin-system-loader.min.js",
@@ -40,6 +28,18 @@
         "type": "module"
       },
       "version": "70012e"
+    },
+    {
+      "name": "com_cpanel.admin-cpanel",
+      "type": "script",
+      "uri": "com_cpanel/admin-cpanel-default.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "5ca2c9"
     }
   ]
 }

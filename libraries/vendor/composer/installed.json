@@ -2981,17 +2981,17 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.23.0",
-            "version_normalized": "1.23.0.0",
+            "version": "v1.23.6",
+            "version_normalized": "1.23.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "0143b7c17daad5336ebd406c279333c84723cc41"
+                "url": "https://github.com/php-debugbar/php-debugbar.git",
+                "reference": "4b3d5f1afe09a7db5a9d3282890f49f6176d6542"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0143b7c17daad5336ebd406c279333c84723cc41",
-                "reference": "0143b7c17daad5336ebd406c279333c84723cc41",
+                "url": "https://api.github.com/repos/php-debugbar/php-debugbar/zipball/4b3d5f1afe09a7db5a9d3282890f49f6176d6542",
+                "reference": "4b3d5f1afe09a7db5a9d3282890f49f6176d6542",
                 "shasum": ""
             },
             "require": {
@@ -3010,7 +3010,7 @@
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
-            "time": "2024-09-10T17:28:47+00:00",
+            "time": "2025-02-13T12:22:36+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -3045,8 +3045,8 @@
                 "debugbar"
             ],
             "support": {
-                "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.23.0"
+                "issues": "https://github.com/php-debugbar/php-debugbar/issues",
+                "source": "https://github.com/php-debugbar/php-debugbar/tree/v1.23.6"
             },
             "install-path": "../maximebf/debugbar"
         },

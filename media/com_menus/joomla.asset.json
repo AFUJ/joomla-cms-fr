@@ -7,12 +7,6 @@
   "assets": [
     {
       "name": "com_menus.admin-item-edit-container",
-      "type": "style",
-      "uri": "com_menus/admin-item-edit_container.min.css",
-      "version": "67209f"
-    },
-    {
-      "name": "com_menus.admin-item-edit-container",
       "type": "script",
       "uri": "com_menus/admin-item-edit_container.min.js",
       "dependencies": [
@@ -24,16 +18,10 @@
       "version": "36dfe0"
     },
     {
-      "name": "com_menus.admin-item-edit",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "23b63d"
+      "name": "com_menus.admin-item-edit-container",
+      "type": "style",
+      "uri": "com_menus/admin-item-edit_container.min.css",
+      "version": "67209f"
     },
     {
       "name": "com_menus.admin-item-modal",
@@ -48,18 +36,6 @@
       "deprecated": true,
       "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6.",
       "version": "9b90e4"
-    },
-    {
-      "name": "com_menus.admin-item-edit-modules",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_modules.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "bc3cea"
     },
     {
       "name": "com_menus.admin-items-modal",
@@ -88,6 +64,18 @@
       "version": "8c28f6"
     },
     {
+      "name": "com_menus.admin-item-edit",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "23b63d"
+    },
+    {
       "name": "com_menus.batch-body",
       "type": "script",
       "uri": "com_menus/default-batch-body.min.js",
@@ -98,6 +86,18 @@
         "type": "module"
       },
       "version": "457f2a"
+    },
+    {
+      "name": "com_menus.admin-item-edit-modules",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "bc3cea"
     }
   ]
 }
