@@ -37,18 +37,6 @@
     },
     {
       "name": "com_finder.finder",
-      "type": "script",
-      "uri": "com_finder/finder.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "5729ed"
-    },
-    {
-      "name": "com_finder.finder",
       "type": "style",
       "uri": "com_finder/finder.min.css",
       "version": "ab077f"
@@ -58,6 +46,30 @@
       "type": "style",
       "uri": "com_finder/indexer.min.css",
       "version": "d51495"
+    },
+    {
+      "name": "com_finder.finder-edit",
+      "type": "script",
+      "uri": "com_finder/finder-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "ad6ab5"
+    },
+    {
+      "name": "com_finder.finder",
+      "type": "script",
+      "uri": "com_finder/finder.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "5729ed"
     },
     {
       "name": "com_finder.indexer",
@@ -82,18 +94,6 @@
         "type": "module"
       },
       "version": "63e1cd"
-    },
-    {
-      "name": "com_finder.finder-edit",
-      "type": "script",
-      "uri": "com_finder/finder-edit.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "ad6ab5"
     }
   ]
 }

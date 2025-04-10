@@ -26,18 +26,6 @@
       "version": "2e2c65"
     },
     {
-      "name": "com_languages.admin-override-edit-refresh-searchstring",
-      "type": "script",
-      "uri": "com_languages/admin-override-edit-refresh-searchstring.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "a1febd"
-    },
-    {
       "name": "com_languages.overrider",
       "type": "style",
       "uri": "com_languages/overrider.min.css",
@@ -54,6 +42,18 @@
         "type": "module"
       },
       "version": "30ce08"
+    },
+    {
+      "name": "com_languages.admin-override-edit-refresh-searchstring",
+      "type": "script",
+      "uri": "com_languages/admin-override-edit-refresh-searchstring.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "a1febd"
     }
   ]
 }

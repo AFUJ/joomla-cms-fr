@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_templates.admin-template-toggle-assignment",
-      "type": "script",
-      "uri": "com_templates/admin-template-toggle-assignment.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "0480c2"
-    },
-    {
       "name": "com_templates.admin-template-toggle-switch",
       "type": "script",
       "uri": "com_templates/admin-template-toggle-switch.min.js",
@@ -28,6 +16,18 @@
         "type": "module"
       },
       "version": "8e5d80"
+    },
+    {
+      "name": "com_templates.admin-template-toggle-assignment",
+      "type": "script",
+      "uri": "com_templates/admin-template-toggle-assignment.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "0480c2"
     },
     {
       "name": "com_templates.admin-templates",

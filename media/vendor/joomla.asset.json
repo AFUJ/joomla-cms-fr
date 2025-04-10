@@ -1,20 +1,10 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
-  "version": "5.2.5",
+  "version": "5.2.6",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
-    {
-      "name": "diff",
-      "type": "script",
-      "uri": "vendor/diff/diff.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "diff",
-      "version": "5.2.0"
-    },
     {
       "name": "es-module-shims",
       "type": "script",
@@ -24,6 +14,16 @@
       },
       "package": "es-module-shims",
       "version": "1.10.0"
+    },
+    {
+      "name": "diff",
+      "type": "script",
+      "uri": "vendor/diff/diff.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "diff",
+      "version": "5.2.0"
     },
     {
       "name": "accessibility",
@@ -87,33 +87,6 @@
       "version": "1.1.7"
     },
     {
-      "name": "choicesjs",
-      "type": "style",
-      "uri": "vendor/choicesjs/choices.min.css",
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "script",
-      "uri": "vendor/choicesjs/choices.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
-      "name": "choicesjs",
-      "type": "preset",
-      "dependencies": [
-        "choicesjs#style",
-        "choicesjs#script"
-      ],
-      "package": "choices.js",
-      "version": "9.1.0"
-    },
-    {
       "name": "cropperjs",
       "type": "style",
       "uri": "vendor/cropperjs/cropper.min.css",
@@ -148,6 +121,33 @@
       ],
       "package": "cropperjs",
       "version": "1.6.2"
+    },
+    {
+      "name": "choicesjs",
+      "type": "style",
+      "uri": "vendor/choicesjs/choices.min.css",
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
+      "type": "script",
+      "uri": "vendor/choicesjs/choices.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "choices.js",
+      "version": "9.1.0"
+    },
+    {
+      "name": "choicesjs",
+      "type": "preset",
+      "dependencies": [
+        "choicesjs#style",
+        "choicesjs#script"
+      ],
+      "package": "choices.js",
+      "version": "9.1.0"
     },
     {
       "name": "dragula",
@@ -316,16 +316,6 @@
       "version": "1.4.0"
     },
     {
-      "name": "skipto",
-      "type": "script",
-      "uri": "vendor/skipto/skipto.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "skipto",
-      "version": "4.1.7"
-    },
-    {
       "name": "minicolors",
       "type": "style",
       "uri": "vendor/minicolors/jquery.minicolors.css",
@@ -354,6 +344,16 @@
       ],
       "package": "@claviska/jquery-minicolors",
       "version": "2.3.6"
+    },
+    {
+      "name": "skipto",
+      "type": "script",
+      "uri": "vendor/skipto/skipto.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "skipto",
+      "version": "4.1.7"
     },
     {
       "name": "sa11y",
