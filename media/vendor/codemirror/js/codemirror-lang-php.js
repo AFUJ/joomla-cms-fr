@@ -1,7 +1,7 @@
 import { parser } from '@lezer/php';
 import { parseMixed } from '@lezer/common';
 import { html } from '@codemirror/lang-html';
-import { LRLanguage, indentNodeProp, continuedIndent, delimitedIndent, foldNodeProp, foldInside, LanguageSupport } from '@codemirror/language';
+import { LRLanguage, indentNodeProp, foldNodeProp, continuedIndent, delimitedIndent, foldInside, LanguageSupport } from '@codemirror/language';
 
 /**
 A language provider based on the [Lezer PHP

@@ -41,7 +41,7 @@ abstract class AbstractSerializer implements SerializerInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributes($model, array $fields = null)
+    public function getAttributes($model, ?array $fields = null)
     {
         return [];
     }

@@ -477,9 +477,9 @@ fieldset {
 
 legend {
   float: left;
+  width: 100%;
   font-size: calc(1.275rem + .3vw);
   line-height: inherit;
-  width: 100%;
   margin-bottom: .5rem;
   padding: 0;
 }
@@ -683,9 +683,9 @@ progress {
 .container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
   --gutter-x: 2rem;
   --gutter-y: 0;
+  width: 100%;
   padding-right: calc(var(--gutter-x) * .5);
   padding-left: calc(var(--gutter-x) * .5);
-  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -740,12 +740,12 @@ progress {
 }
 
 .row > * {
+  width: 100%;
+  max-width: 100%;
   padding-right: calc(var(--gutter-x) * .5);
   padding-left: calc(var(--gutter-x) * .5);
   margin-top: var(--gutter-y);
   flex-shrink: 0;
-  width: 100%;
-  max-width: 100%;
 }
 
 .col {
@@ -2217,13 +2217,13 @@ progress {
 }
 
 .form-control {
+  width: 100%;
   color: var(--body-color);
   appearance: none;
   background-color: var(--body-bg);
   border: var(--border-width) solid var(--input-border-color);
   border-radius: var(--border-radius);
   background-clip: padding-box;
-  width: 100%;
   padding: .5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -2301,11 +2301,11 @@ progress {
 }
 
 .form-control-plaintext {
+  width: 100%;
   color: var(--body-color);
   border: solid #0000;
   border-width: var(--border-width) 0;
   background-color: #0000;
-  width: 100%;
   margin-bottom: 0;
   padding: .5rem 0;
   line-height: 1.5;
@@ -2360,8 +2360,8 @@ textarea.form-control-lg {
 }
 
 .form-control-color {
-  height: calc(1.5em + 1rem + calc(var(--border-width) * 2));
   width: 3rem;
+  height: calc(1.5em + 1rem + calc(var(--border-width) * 2));
   padding: .5rem;
 }
 
@@ -2389,6 +2389,7 @@ textarea.form-control-lg {
 
 .form-select, .custom-select {
   --form-select-bg-img: url("../images/select-bg.svg?v=5ebba0");
+  width: 100%;
   color: var(--body-color);
   appearance: none;
   background-color: var(--template-bg-light);
@@ -2398,7 +2399,6 @@ textarea.form-control-lg {
   background-repeat: no-repeat;
   background-size: max(100%, 116rem);
   border-radius: 4px;
-  width: 100%;
   padding: .5rem 3rem .5rem 1rem;
   font-size: 1rem;
   font-weight: 400;
@@ -2863,8 +2863,8 @@ textarea.form-control-lg {
 }
 
 .valid-feedback {
-  color: var(--form-valid-color);
   width: 100%;
+  color: var(--form-valid-color);
   margin-top: .25rem;
   font-size: .875em;
   display: none;
@@ -2952,8 +2952,8 @@ textarea.form-control-lg {
 }
 
 .invalid-feedback {
-  color: var(--form-invalid-color);
   width: 100%;
+  color: var(--form-invalid-color);
   margin-top: .25rem;
   font-size: .875em;
   display: none;
@@ -3823,14 +3823,15 @@ textarea.form-control-lg {
 }
 
 .dropdown-divider {
+  height: 0;
   margin: var(--dropdown-divider-margin-y) 0;
   border-top: 1px solid var(--dropdown-divider-bg);
   opacity: 1;
-  height: 0;
   overflow: hidden;
 }
 
 .dropdown-item {
+  width: 100%;
   padding: var(--dropdown-item-padding-y) var(--dropdown-item-padding-x);
   clear: both;
   color: var(--dropdown-link-color);
@@ -3839,7 +3840,6 @@ textarea.form-control-lg {
   border-radius: var(--dropdown-item-border-radius, 0);
   background-color: #0000;
   border: 0;
-  width: 100%;
   font-weight: 400;
   display: block;
 }
@@ -4632,6 +4632,7 @@ textarea.form-control-lg {
   --card-bg: var(--card-bg);
   --card-img-overlay-padding: 1rem;
   --card-group-margin: 1rem;
+  min-width: 0;
   height: var(--card-height);
   color: var(--body-color);
   word-wrap: break-word;
@@ -4640,7 +4641,6 @@ textarea.form-control-lg {
   border-radius: var(--card-border-radius);
   background-clip: border-box;
   flex-direction: column;
-  min-width: 0;
   display: flex;
   position: relative;
 }
@@ -4829,6 +4829,7 @@ textarea.form-control-lg {
 }
 
 .accordion-button {
+  width: 100%;
   padding: var(--accordion-btn-padding-y) var(--accordion-btn-padding-x);
   color: var(--accordion-btn-color);
   text-align: left;
@@ -4838,7 +4839,6 @@ textarea.form-control-lg {
   border: 0;
   border-radius: 0;
   align-items: center;
-  width: 100%;
   font-size: 1rem;
   display: flex;
   position: relative;
@@ -5327,9 +5327,9 @@ textarea.form-control-lg {
 }
 
 .list-group-item-action {
+  width: 100%;
   color: var(--list-group-action-color);
   text-align: inherit;
-  width: 100%;
 }
 
 .list-group-item-action:hover, .list-group-item-action:focus {
@@ -5715,13 +5715,13 @@ textarea.form-control-lg {
   --btn-close-disabled-opacity: .25;
   --btn-close-white-filter: invert(1) grayscale(100%) brightness(200%);
   box-sizing: content-box;
+  width: 1em;
+  height: 1em;
   color: var(--btn-close-color);
   background: transparent var(--btn-close-bg) center / 1em auto no-repeat;
   opacity: var(--btn-close-opacity);
   border: 0;
   border-radius: .25rem;
-  width: 1em;
-  height: 1em;
   padding: .25em;
 }
 
@@ -5764,6 +5764,7 @@ textarea.form-control-lg {
   --toast-header-bg: rgba(var(--body-bg-rgb), .85);
   --toast-header-border-color: var(--border-color-translucent);
   width: var(--toast-max-width);
+  max-width: 100%;
   font-size: var(--toast-font-size);
   color: var(--toast-color);
   pointer-events: auto;
@@ -5772,7 +5773,6 @@ textarea.form-control-lg {
   box-shadow: var(--toast-box-shadow);
   border-radius: var(--toast-border-radius);
   background-clip: padding-box;
-  max-width: 100%;
 }
 
 .toast.showing {
@@ -5852,9 +5852,9 @@ textarea.form-control-lg {
 }
 
 .modal-dialog {
+  width: auto;
   margin: var(--modal-margin);
   pointer-events: none;
-  width: auto;
   position: relative;
 }
 
@@ -5897,6 +5897,7 @@ textarea.form-control-lg {
 }
 
 .modal-content {
+  width: 100%;
   color: var(--modal-color);
   pointer-events: auto;
   background-color: var(--modal-bg);
@@ -5905,7 +5906,6 @@ textarea.form-control-lg {
   background-clip: padding-box;
   outline: 0;
   flex-direction: column;
-  width: 100%;
   display: flex;
   position: relative;
 }
@@ -6697,6 +6697,7 @@ textarea.form-control-lg {
 @media (width <= 575.98px) {
   .offcanvas-sm {
     z-index: var(--offcanvas-zindex);
+    max-width: 100%;
     color: var(--offcanvas-color);
     visibility: hidden;
     background-color: var(--offcanvas-bg);
@@ -6704,7 +6705,6 @@ textarea.form-control-lg {
     background-clip: padding-box;
     outline: 0;
     flex-direction: column;
-    max-width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -6785,6 +6785,7 @@ textarea.form-control-lg {
 @media (width <= 767.98px) {
   .offcanvas-md {
     z-index: var(--offcanvas-zindex);
+    max-width: 100%;
     color: var(--offcanvas-color);
     visibility: hidden;
     background-color: var(--offcanvas-bg);
@@ -6792,7 +6793,6 @@ textarea.form-control-lg {
     background-clip: padding-box;
     outline: 0;
     flex-direction: column;
-    max-width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -6873,6 +6873,7 @@ textarea.form-control-lg {
 @media (width <= 991.98px) {
   .offcanvas-lg {
     z-index: var(--offcanvas-zindex);
+    max-width: 100%;
     color: var(--offcanvas-color);
     visibility: hidden;
     background-color: var(--offcanvas-bg);
@@ -6880,7 +6881,6 @@ textarea.form-control-lg {
     background-clip: padding-box;
     outline: 0;
     flex-direction: column;
-    max-width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -6961,6 +6961,7 @@ textarea.form-control-lg {
 @media (width <= 1199.98px) {
   .offcanvas-xl {
     z-index: var(--offcanvas-zindex);
+    max-width: 100%;
     color: var(--offcanvas-color);
     visibility: hidden;
     background-color: var(--offcanvas-bg);
@@ -6968,7 +6969,6 @@ textarea.form-control-lg {
     background-clip: padding-box;
     outline: 0;
     flex-direction: column;
-    max-width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -7049,6 +7049,7 @@ textarea.form-control-lg {
 @media (width <= 1399.98px) {
   .offcanvas-xxl {
     z-index: var(--offcanvas-zindex);
+    max-width: 100%;
     color: var(--offcanvas-color);
     visibility: hidden;
     background-color: var(--offcanvas-bg);
@@ -7056,7 +7057,6 @@ textarea.form-control-lg {
     background-clip: padding-box;
     outline: 0;
     flex-direction: column;
-    max-width: 100%;
     display: flex;
     position: fixed;
     bottom: 0;
@@ -7136,6 +7136,7 @@ textarea.form-control-lg {
 
 .offcanvas {
   z-index: var(--offcanvas-zindex);
+  max-width: 100%;
   color: var(--offcanvas-color);
   visibility: hidden;
   background-color: var(--offcanvas-bg);
@@ -7143,7 +7144,6 @@ textarea.form-control-lg {
   background-clip: padding-box;
   outline: 0;
   flex-direction: column;
-  max-width: 100%;
   display: flex;
   position: fixed;
   bottom: 0;
@@ -13946,8 +13946,8 @@ span.minicolors-swatch-color {
 
 .btn-group .dropdown-menu {
   background: var(--body-bg);
-  box-shadow: var(--dropdown-box-shadow);
   min-width: 100%;
+  box-shadow: var(--dropdown-box-shadow);
 }
 
 .btn-group .dropdown-menu joomla-toolbar-button {
@@ -14917,10 +14917,10 @@ div.subform-repeatable-group > .btn-toolbar .btn.group-move-down {
 }
 
 .tbody-icon .icon-checkedout, .tbody-icon .icon-lock, .tbody-icon .fa-lock {
-  color: var(--icon-checkedout-color);
-  border: 0;
   width: auto;
   height: auto;
+  color: var(--icon-checkedout-color);
+  border: 0;
   font-size: 1.2rem;
   line-height: 1rem;
 }
@@ -14957,19 +14957,19 @@ iframe {
 }
 
 .options-form {
+  width: 100%;
   color: var(--options-form-color);
   background: var(--options-form-bg);
   border: var(--options-form-border);
-  width: 100%;
   margin-bottom: 1rem;
   padding: 1vw 2vw;
 }
 
 .options-form > legend {
   float: none;
+  width: auto;
   color: var(--options-form-legend-color);
   background-color: var(--options-form-legend-bg);
-  width: auto;
   padding: 0 1rem;
   font-weight: 700;
 }
@@ -14994,12 +14994,12 @@ iframe {
 }
 
 .view-login .login, .task-logout .login {
+  width: 100%;
+  max-width: 25rem;
   color: var(--template-text-dark);
   background: var(--body-bg);
   box-shadow: var(--login-box-shadow);
   border-radius: 10px;
-  width: 100%;
-  max-width: 25rem;
   margin: 1rem;
   padding: 30px;
 }
@@ -15130,10 +15130,10 @@ iframe {
 
 .view-login #sidebar, .task-logout #sidebar {
   --body-color: var(--template-text-light);
+  width: 100%;
   color: var(--template-text-light);
   text-align: center;
   align-self: flex-end;
-  width: 100%;
   font-size: .875rem;
 }
 
@@ -15222,7 +15222,7 @@ label {
 }
 
 .view-login .invalid .form-control-feedback {
-  color: var(--danger);
+  color: var(--danger-text);
 }
 
 .login_message {
@@ -15370,11 +15370,11 @@ label {
 
 joomla-dialog dialog {
   border: 1px solid var(--border-color-translucent);
-  box-shadow: var(--modal-joomla-dialog-box-shadow);
-  border-radius: .3rem;
   width: 96vw;
   max-width: 1700px;
   height: 96vh;
+  box-shadow: var(--modal-joomla-dialog-box-shadow);
+  border-radius: .3rem;
   padding: 0;
 }
 
@@ -15833,8 +15833,8 @@ joomla-dialog.loaded .joomla-dialog-body {
 .sidebar-wrapper {
   z-index: 1010;
   background-color: var(--sidebarwrapper-bg);
-  box-shadow: var(--atum-box-shadow);
   min-height: calc(100vh - 66px);
+  box-shadow: var(--atum-box-shadow);
   overflow: hidden;
 }
 
@@ -16160,12 +16160,12 @@ joomla-dialog.loaded .joomla-dialog-body {
 
 .subhead {
   z-index: 1000;
+  width: auto;
+  min-height: 43px;
   color: var(--atum-subhead-color);
   background: var(--atum-subhead-bg);
   background-image: var(--atum-subhead-bg-img);
   box-shadow: var(--atum-box-shadow);
-  width: auto;
-  min-height: 43px;
   padding: 8px 1rem;
   position: sticky;
   top: 0;
@@ -16828,9 +16828,9 @@ joomla-editor-codemirror.fullscreen .cm-editor {
 }
 
 .com_content.layout-edit joomla-tab #attrib-basic[active] .form-group, .com_content.layout-edit joomla-tab #editor[active] .form-group {
+  max-width: 50%;
   box-shadow: none;
   flex: 0 0 50%;
-  max-width: 50%;
 }
 
 .com_content.layout-edit joomla-tab #attrib-basic[active] .form-group:first-child, .com_content.layout-edit joomla-tab #attrib-basic[active] .form-group:nth-child(19), .com_content.layout-edit joomla-tab #editor[active] .form-group:first-child, .com_content.layout-edit joomla-tab #editor[active] .form-group:nth-child(19), .com_content.layout-edit joomla-tab #attrib-basic[active] .field-spacer, .com_content.layout-edit joomla-tab #editor[active] .field-spacer {
@@ -16884,6 +16884,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
 }
 
 .com_cpanel .cpanel-add-module {
+  width: 100%;
+  min-height: 130px;
   color: var(--template-quickicon-color);
   background-color: var(--body-bg);
   border: 1px solid var(--body-bg);
@@ -16891,8 +16893,6 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  width: 100%;
-  min-height: 130px;
   padding: 0 1rem;
   font-size: .875rem;
   font-weight: 700;
@@ -17411,6 +17411,10 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   margin-inline-start: 2rem;
 }
 
+.com_users.view-user table thead th {
+  color: var(--bs-body-color);
+}
+
 [data-bs-theme="dark"] .com-apps-container .grid-container .card:hover, [data-bs-theme="dark"] .com-apps-container .grid-container .com_users.view-user .com-users-methods-list-method:hover, .com_users.view-user [data-bs-theme="dark"] .com-apps-container .grid-container .com-users-methods-list-method:hover, [data-bs-theme="dark"] .com-apps-container .grid-container .com_users.view-methods .com-users-methods-list-method:hover, .com_users.view-methods [data-bs-theme="dark"] .com-apps-container .grid-container .com-users-methods-list-method:hover, [data-bs-theme="dark"] .com-apps-container .grid-container .com_users.view-captive .com-users-methods-list-method:hover, .com_users.view-captive [data-bs-theme="dark"] .com-apps-container .grid-container .com-users-methods-list-method:hover, [data-bs-theme="dark"] .com-apps-container .list-container .list-group-item:hover {
   background-color: var(--gray-800);
 }
@@ -17731,8 +17735,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #999;
   --atum-calendar-disabled-bg: #fff;
   --atum-calendar-select-bg: var(--template-bg-light);
-  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=174395");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=174395");
+  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=174420");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=174420");
   --permissions-sliders-oddCol-bg: var(--template-bg-light);
   --respTable-border-bottom: 1em solid var(--template-bg-dark-80);
   --treeselect-line-color: hsl(var(--hue), 40%, 93%);
@@ -18078,8 +18082,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #4b4b4b;
   --atum-calendar-disabled-bg: #00000080;
   --atum-calendar-select-bg: #007db0;
-  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=174395");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=174395");
+  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=174420");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=174420");
   --permissions-sliders-oddCol-bg: var(--template-bg-dark);
   --respTable-border-bottom: 1em solid #007db0;
   --treeselect-line-color: #fff6;

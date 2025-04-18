@@ -1,20 +1,10 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
-  "version": "5.2.6",
+  "version": "5.3.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
-    {
-      "name": "es-module-shims",
-      "type": "script",
-      "uri": "vendor/es-module-shims/es-module-shims.min.js",
-      "attributes": {
-        "async": true
-      },
-      "package": "es-module-shims",
-      "version": "1.10.0"
-    },
     {
       "name": "diff",
       "type": "script",
@@ -24,6 +14,30 @@
       },
       "package": "diff",
       "version": "5.2.0"
+    },
+    {
+      "name": "es-module-shims",
+      "type": "script",
+      "uri": "vendor/es-module-shims/es-module-shims.min.js",
+      "attributes": {
+        "async": true
+      },
+      "package": "es-module-shims",
+      "version": "1.10.1"
+    },
+    {
+      "name": "wcpolyfill",
+      "type": "script",
+      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "core"
+      ],
+      "package": "@webcomponents/webcomponentsjs",
+      "version": "2.8.0"
     },
     {
       "name": "accessibility",
@@ -44,20 +58,6 @@
       },
       "package": "short-and-sweet",
       "version": "1.0.4"
-    },
-    {
-      "name": "wcpolyfill",
-      "type": "script",
-      "uri": "vendor/webcomponentsjs/webcomponents-bundle.js",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "core"
-      ],
-      "package": "@webcomponents/webcomponentsjs",
-      "version": "2.8.0"
     },
     {
       "name": "awesomplete",
@@ -150,6 +150,13 @@
       "version": "9.1.0"
     },
     {
+      "name": "focus-visible",
+      "type": "script",
+      "uri": "vendor/focus-visible/focus-visible.min.js",
+      "package": "focus-visible",
+      "version": "5.2.1"
+    },
+    {
       "name": "dragula",
       "type": "style",
       "uri": "vendor/dragula/dragula.min.css",
@@ -177,11 +184,11 @@
       "version": "3.7.3"
     },
     {
-      "name": "focus-visible",
+      "name": "jquery",
       "type": "script",
-      "uri": "vendor/focus-visible/focus-visible.min.js",
-      "package": "focus-visible",
-      "version": "5.2.1"
+      "uri": "vendor/jquery/jquery.min.js",
+      "package": "jquery",
+      "version": "3.7.1"
     },
     {
       "name": "hotkeysjs",
@@ -191,7 +198,7 @@
         "defer": true
       },
       "package": "hotkeys-js",
-      "version": "3.13.7"
+      "version": "3.13.9"
     },
     {
       "name": "jquery-migrate",
@@ -204,79 +211,34 @@
       "version": "3.5.2"
     },
     {
-      "name": "jquery",
-      "type": "script",
-      "uri": "vendor/jquery/jquery.min.js",
-      "package": "jquery",
-      "version": "3.7.1"
-    },
-    {
-      "name": "webcomponent.joomla-alert",
+      "name": "minicolors",
       "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
+      "uri": "vendor/minicolors/jquery.minicolors.css",
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
     },
     {
-      "name": "webcomponent.joomla-alert-legacy",
+      "name": "minicolors",
       "type": "script",
-      "uri": "",
+      "uri": "vendor/minicolors/jquery.minicolors.min.js",
+      "dependencies": [
+        "jquery"
+      ],
       "attributes": {
-        "nomodule": true,
         "defer": true
       },
-      "dependencies": [
-        "wcpolyfill"
-      ],
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
     },
     {
-      "name": "webcomponent.joomla-alert",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
-      "attributes": {
-        "type": "module"
-      },
+      "name": "minicolors",
+      "type": "preset",
       "dependencies": [
-        "wcpolyfill"
+        "minicolors#style",
+        "minicolors#script"
       ],
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
-    },
-    {
-      "name": "webcomponent.joomla-tab",
-      "type": "style",
-      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
-    },
-    {
-      "name": "webcomponent.joomla-tab-legacy",
-      "type": "script",
-      "uri": "",
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ],
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
-    },
-    {
-      "name": "webcomponent.joomla-tab",
-      "type": "script",
-      "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
-      "attributes": {
-        "type": "module"
-      },
-      "dependencies": [
-        "wcpolyfill"
-      ],
-      "package": "joomla-ui-custom-elements",
-      "version": "0.2.0"
+      "package": "@claviska/jquery-minicolors",
+      "version": "2.3.6"
     },
     {
       "name": "chosen",
@@ -316,36 +278,6 @@
       "version": "1.4.0"
     },
     {
-      "name": "minicolors",
-      "type": "style",
-      "uri": "vendor/minicolors/jquery.minicolors.css",
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "script",
-      "uri": "vendor/minicolors/jquery.minicolors.min.js",
-      "dependencies": [
-        "jquery"
-      ],
-      "attributes": {
-        "defer": true
-      },
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
-      "name": "minicolors",
-      "type": "preset",
-      "dependencies": [
-        "minicolors#style",
-        "minicolors#script"
-      ],
-      "package": "@claviska/jquery-minicolors",
-      "version": "2.3.6"
-    },
-    {
       "name": "skipto",
       "type": "script",
       "uri": "vendor/skipto/skipto.min.js",
@@ -356,28 +288,72 @@
       "version": "4.1.7"
     },
     {
-      "name": "sa11y",
-      "type": "script",
-      "uri": "vendor/sa11y/sa11y.esm.min.js",
-      "importmap": true,
-      "package": "sa11y",
-      "version": "3.2.2"
-    },
-    {
-      "name": "sa11y-lang",
-      "type": "script",
-      "uri": "vendor/sa11y/en.js",
-      "importmap": true,
-      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
-      "package": "sa11y",
-      "version": "3.2.2"
-    },
-    {
-      "name": "sa11y",
+      "name": "webcomponent.joomla-alert",
       "type": "style",
-      "uri": "vendor/sa11y/sa11y.min.css",
-      "package": "sa11y",
-      "version": "3.2.2"
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
+    },
+    {
+      "name": "webcomponent.joomla-alert-legacy",
+      "type": "script",
+      "uri": "",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
+    },
+    {
+      "name": "webcomponent.joomla-alert",
+      "type": "script",
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
+    },
+    {
+      "name": "webcomponent.joomla-tab-legacy",
+      "type": "script",
+      "uri": "",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "script",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "wcpolyfill"
+      ],
+      "package": "joomla-ui-custom-elements",
+      "version": "0.4.1"
     },
     {
       "name": "qrcode",
@@ -418,11 +394,35 @@
       "version": "1.4.4"
     },
     {
+      "name": "sa11y",
+      "type": "script",
+      "uri": "vendor/sa11y/sa11y.esm.min.js",
+      "importmap": true,
+      "package": "sa11y",
+      "version": "4.1.1"
+    },
+    {
+      "name": "sa11y-lang",
+      "type": "script",
+      "uri": "vendor/sa11y/en.js",
+      "importmap": true,
+      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
+      "package": "sa11y",
+      "version": "4.1.1"
+    },
+    {
+      "name": "sa11y",
+      "type": "style",
+      "uri": "vendor/sa11y/sa11y.min.css",
+      "package": "sa11y",
+      "version": "4.1.1"
+    },
+    {
       "name": "fontawesome",
       "type": "style",
       "uri": "vendor/fontawesome-free/fontawesome.min.css",
       "package": "@fortawesome/fontawesome-free",
-      "version": "6.6.0"
+      "version": "6.7.2"
     },
     {
       "name": "bootstrap.css",

@@ -30,9 +30,7 @@ joomla-alert {
   margin: var(--jui-alert-margin, 0 0 1rem 0);
   border: var(--jui-alert-border, 1px solid transparent);
   border-radius: var(--jui-alert-border-radius, .25rem);
-  -webkit-animation-duration: var(--jui-alert-animation-duration, .5s);
   animation-duration: var(--jui-alert-animation-duration, .5s);
-  -webkit-animation-timing-function: var(--jui-alert-animation-timing-function, ease-in-out);
   animation-timing-function: var(--jui-alert-animation-timing-function, ease-in-out);
   display: block;
 }
@@ -122,24 +120,8 @@ html[dir="rtl"] joomla-alert .joomla-alert--close, html[dir="rtl"] joomla-alert 
   right: auto;
 }
 
-@-webkit-keyframes joomla-alert-fade-in {
-  0% {
-    opacity: 0;
-  }
-}
-
 @keyframes joomla-alert-fade-in {
   0% {
-    opacity: 0;
-  }
-}
-
-@-webkit-keyframes joomla-alert-fade-out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
     opacity: 0;
   }
 }
@@ -156,7 +138,6 @@ html[dir="rtl"] joomla-alert .joomla-alert--close, html[dir="rtl"] joomla-alert 
 
 @media (prefers-reduced-motion: reduce) {
   joomla-alert {
-    -webkit-animation-duration: 1ms !important;
     animation-duration: 1ms !important;
   }
 }

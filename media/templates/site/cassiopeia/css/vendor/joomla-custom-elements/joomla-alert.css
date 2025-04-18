@@ -7,12 +7,12 @@
 }
 
 #system-message-container joomla-alert {
+  width: 100%;
+  min-width: 16rem;
   color: var(--gray-dark);
   border: 1px solid var(--alert-accent-color, transparent);
   background-color: #fff;
   border-radius: .25rem;
-  width: 100%;
-  min-width: 16rem;
   margin-bottom: 0;
   padding: 0;
   transition: opacity .15s linear;

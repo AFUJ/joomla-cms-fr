@@ -1,9 +1,9 @@
 import { parser } from '@lezer/javascript';
-import { syntaxTree, LRLanguage, indentNodeProp, continuedIndent, flatIndent, delimitedIndent, foldNodeProp, foldInside, sublanguageProp, LanguageSupport, defineLanguageFacet } from '@codemirror/language';
+import { LRLanguage, syntaxTree, indentNodeProp, foldNodeProp, continuedIndent, delimitedIndent, flatIndent, foldInside, sublanguageProp, defineLanguageFacet, LanguageSupport } from '@codemirror/language';
 import { EditorSelection } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { snippetCompletion, ifNotIn, completeFromList } from '@codemirror/autocomplete';
-import { IterMode, NodeWeakMap } from '@lezer/common';
+import { NodeWeakMap, IterMode } from '@lezer/common';
 
 /**
 A collection of JavaScript-related
@@ -150,6 +150,7 @@ const dontComplete = [
     "VariableDefinition", "TypeDefinition", "Label",
     "PropertyDefinition", "PropertyName",
     "PrivatePropertyDefinition", "PrivatePropertyName",
+    "JSXText", "JSXAttributeValue", "JSXOpenTag", "JSXCloseTag", "JSXSelfClosingTag",
     ".", "?."
 ];
 /**

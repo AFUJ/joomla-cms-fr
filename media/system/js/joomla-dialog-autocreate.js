@@ -5,6 +5,7 @@ import JoomlaDialog from 'joomla.dialog';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 /**
  * Auto create a popup dynamically on click, eg:
  *

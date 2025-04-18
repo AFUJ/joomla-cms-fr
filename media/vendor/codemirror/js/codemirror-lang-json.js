@@ -1,5 +1,5 @@
 import { parser } from '@lezer/json';
-import { LRLanguage, indentNodeProp, continuedIndent, foldNodeProp, foldInside, LanguageSupport } from '@codemirror/language';
+import { LRLanguage, indentNodeProp, foldNodeProp, continuedIndent, foldInside, LanguageSupport } from '@codemirror/language';
 
 /**
 Calls

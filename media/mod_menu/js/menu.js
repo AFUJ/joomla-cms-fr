@@ -21,9 +21,7 @@
   }
   function setupNavigation(nav) {
     const settings = {
-      menuHoverClass: 'show-menu',
-      dir: 'ltr'
-    };
+      menuHoverClass: 'show-menu'};
 
     // Set tabIndex to -1 so that top_level_childs can't receive focus until menu is open
     nav.querySelectorAll(':scope > li').forEach(topLevelEl => {
@@ -93,17 +91,13 @@
         switch (keyName) {
           case 'ArrowLeft':
             event.preventDefault();
-            if (settings.dir === 'rtl') {
-              nextLiEl.children[0].focus();
-            } else {
+            {
               prevLiEl.children[0].focus();
             }
             break;
           case 'ArrowRight':
             event.preventDefault();
-            if (settings.dir === 'rtl') {
-              prevLiEl.children[0].focus();
-            } else {
+            {
               nextLiEl.children[0].focus();
             }
             break;

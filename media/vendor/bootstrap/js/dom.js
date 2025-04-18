@@ -299,6 +299,7 @@ const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed
  * --------------------------------------------------------------------------
  */
 
+
 /**
  * Constants
  */
@@ -577,6 +578,7 @@ const Manipulator = {
  * --------------------------------------------------------------------------
  */
 
+
 /**
  * Class definition
  */
@@ -628,6 +630,7 @@ class Config {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 
 /**
  * Constants
@@ -696,6 +699,7 @@ class BaseComponent extends Config {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 const getSelector = element => {
   let selector = element.getAttribute('data-bs-target');
   if (!selector || selector === '#') {
@@ -784,6 +788,7 @@ const SelectorEngine = {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 const enableDismissTrigger = (component, method = 'hide') => {
   const clickEvent = `click.dismiss${component.EVENT_KEY}`;
   const name = component.NAME;
@@ -808,6 +813,7 @@ const enableDismissTrigger = (component, method = 'hide') => {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 
 /**
  * Constants
@@ -927,6 +933,7 @@ class Swipe extends Config {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 
 /**
  * Constants
@@ -1051,6 +1058,7 @@ class Backdrop extends Config {
  * --------------------------------------------------------------------------
  */
 
+
 /**
  * Constants
  */
@@ -1147,6 +1155,7 @@ class FocusTrap extends Config {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 
 /**
  * Constants
@@ -1340,6 +1349,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
+
 
 /**
  * Constants

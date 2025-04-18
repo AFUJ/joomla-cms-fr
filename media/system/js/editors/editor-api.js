@@ -6,6 +6,7 @@ export { default as JoomlaEditorDecorator } from 'editor-decorator';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 /**
  * Editor API.
  */

@@ -5,6 +5,7 @@ import JoomlaDialog from 'joomla.dialog';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 /**
  * Helper method to set values on the fields, and trigger "change" event
  *

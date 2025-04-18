@@ -4,6 +4,15 @@ import JoomlaDialog from 'joomla.dialog';
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+/**
+ * Provides the manual-run functionality for tasks over the com_scheduler administrator backend.
+ *
+ * @package  Joomla.Components
+ * @subpackage Scheduler.Tasks
+ *
+ * @since    4.1.0
+ */
+// eslint-disable-next-line import/no-unresolved
 
 /**
  * Helper to create an element

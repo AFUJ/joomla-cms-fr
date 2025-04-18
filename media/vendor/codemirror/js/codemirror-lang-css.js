@@ -1,6 +1,6 @@
 import { parser } from '@lezer/css';
-import { syntaxTree, LRLanguage, indentNodeProp, continuedIndent, foldNodeProp, foldInside, LanguageSupport } from '@codemirror/language';
-import { IterMode, NodeWeakMap } from '@lezer/common';
+import { LRLanguage, syntaxTree, indentNodeProp, foldNodeProp, continuedIndent, foldInside, LanguageSupport } from '@codemirror/language';
+import { NodeWeakMap, IterMode } from '@lezer/common';
 
 let _properties = null;
 function properties() {
@@ -17,7 +17,7 @@ function properties() {
                     }
                 }
             }
-        _properties = names.sort().map(name => ({ type: "property", label: name }));
+        _properties = names.sort().map(name => ({ type: "property", label: name, apply: name + ": " }));
     }
     return _properties || [];
 }
@@ -128,6 +128,11 @@ const tags = /*@__PURE__*/[
     "p", "pre", "ruby", "section", "select", "small", "source", "span", "strong", "sub", "summary",
     "sup", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead", "tr", "u", "ul"
 ].map(name => ({ type: "type", label: name }));
+const atRules = /*@__PURE__*/[
+    "@charset", "@color-profile", "@container", "@counter-style", "@font-face", "@font-feature-values",
+    "@font-palette-values", "@import", "@keyframes", "@layer", "@media", "@namespace", "@page",
+    "@position-try", "@property", "@scope", "@starting-style", "@supports", "@view-transition"
+].map(label => ({ type: "keyword", label }));
 const identifier = /^(\w[\w-]*|-\w[\w-]*|)$/, variable = /^-(-[\w-]*)?$/;
 function isVarArg(node, doc) {
     var _a;
@@ -208,6 +213,8 @@ const defineCSSCompletionSource = (isVariable) => context => {
                 return { from: node.from, options: properties(), validFor: identifier };
         return { from: node.from, options: tags, validFor: identifier };
     }
+    if (node.name == "AtKeyword")
+        return { from: node.from, options: atRules, validFor: identifier };
     if (!context.explicit)
         return null;
     let above = node.resolve(pos), before = above.childBefore(pos);

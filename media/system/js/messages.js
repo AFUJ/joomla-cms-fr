@@ -208,6 +208,7 @@ if (!customElements.get('joomla-alert')) {
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 /**
  * Returns the container of the Messages
  *

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .sidebyside .outer-panel {
-  float: left;
+  float: inline-start;
   width: 50%;
 }
 
@@ -25,11 +25,11 @@
 }
 
 .sidebyside .langtarget {
-  float: left;
+  float: inline-start;
 }
 
 .sidebyside .modaltarget {
-  float: left;
+  float: inline-start;
   margin-inline-start: .5rem;
 }
 
@@ -42,12 +42,8 @@
 }
 
 .target-text {
-  float: left;
+  float: inline-start;
   width: auto;
-}
-
-[dir="rtl"] .sidebyside .outer-panel, [dir="rtl"] .sidebyside .langtarget, [dir="rtl"] .sidebyside .modaltarget, [dir="rtl"] .target-text {
-  float: right;
 }
 
 @media (width <= 767.98px) {

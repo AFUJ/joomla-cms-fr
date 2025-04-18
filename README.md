@@ -1,17 +1,17 @@
-# AFUJ: Joomla! CMS™ - Version 5.2.6 avec pack fr-FR
+# AFUJ: Joomla! CMS™ - Version 5.3.0 avec pack fr-FR
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/AFUJ/joomla-cms-fr?color=green&include_prereleases&label=release&style=for-the-badge)
 
 ## DESCRIPTION
 
-La version 5.2 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
+La version 5.3 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
 
 ## 1- Aperçu
-* Ceci est un package d'installation 5.2.6 francisé.
+* Ceci est un package d'installation 5.3.0 francisé.
 * Site officiel de Joomla! : (https://www.joomla.org)
-* Historique des versions Joomla! 5.2 - 
-[https://docs.joomla.org/Special:MyLanguage/Joomla_5.2_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.2_version_history)
-* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.2-dev](https://github.com/joomla/joomla-cms/commits/5.2-dev)
+* Historique des versions Joomla! 5.3 - 
+[https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history)
+* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.3-dev](https://github.com/joomla/joomla-cms/commits/5.3-dev)
 
 ## 2- Qu'est-ce que Joomla?
 * Joomla! est un système de gestion de contenu (CMS) qui vous permet de créer des sites web et des applications en ligne puissantes.

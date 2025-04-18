@@ -1,9 +1,9 @@
 import { EditorSelection, countColumn, Prec, EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
-import { syntaxTree, LanguageSupport, Language, indentUnit, defineLanguageFacet, foldNodeProp, indentNodeProp, languageDataProp, foldService, LanguageDescription, ParseContext } from '@codemirror/language';
+import { Language, defineLanguageFacet, foldService, syntaxTree, LanguageSupport, foldNodeProp, indentNodeProp, languageDataProp, indentUnit, LanguageDescription, ParseContext } from '@codemirror/language';
 import { CompletionContext } from '@codemirror/autocomplete';
-import { MarkdownParser, parseCode, parser, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
-import { htmlCompletionSource, html } from '@codemirror/lang-html';
+import { parser, MarkdownParser, parseCode, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
+import { html, htmlCompletionSource } from '@codemirror/lang-html';
 import { NodeProp } from '@lezer/common';
 
 const data = /*@__PURE__*/defineLanguageFacet({ commentTokens: { block: { open: "<!--", close: "-->" } } });
@@ -120,19 +120,17 @@ class Context {
     }
 }
 function getContext(node, doc) {
-    let nodes = [];
-    for (let cur = node; cur && cur.name != "Document"; cur = cur.parent) {
-        if (cur.name == "ListItem" || cur.name == "Blockquote" || cur.name == "FencedCode")
+    let nodes = [], context = [];
+    for (let cur = node; cur; cur = cur.parent) {
+        if (cur.name == "FencedCode")
+            return context;
+        if (cur.name == "ListItem" || cur.name == "Blockquote")
             nodes.push(cur);
     }
-    let context = [];
     for (let i = nodes.length - 1; i >= 0; i--) {
         let node = nodes[i], match;
         let line = doc.lineAt(node.from), startPos = node.from - line.from;
-        if (node.name == "FencedCode") {
-            context.push(new Context(node, startPos, startPos, "", "", "", null));
-        }
-        else if (node.name == "Blockquote" && (match = /^ *>( ?)/.exec(line.text.slice(startPos)))) {
+        if (node.name == "Blockquote" && (match = /^ *>( ?)/.exec(line.text.slice(startPos)))) {
             context.push(new Context(node, startPos, startPos + match[0].length, "", match[1], ">", null));
         }
         else if (node.name == "ListItem" && node.parent.name == "OrderedList" &&
@@ -212,7 +210,7 @@ document, HTML and code regions might use a different language).
 const insertNewlineContinueMarkup = ({ state, dispatch }) => {
     let tree = syntaxTree(state), { doc } = state;
     let dont = null, changes = state.changeByRange(range => {
-        if (!range.empty || !markdownLanguage.isActiveAt(state, range.from))
+        if (!range.empty || !markdownLanguage.isActiveAt(state, range.from, 0))
             return dont = { range };
         let pos = range.from, line = doc.lineAt(pos);
         let context = getContext(tree.resolveInner(pos, -1), doc);
@@ -303,7 +301,9 @@ function nonTightList(node, doc) {
 function blankLine(context, state, line) {
     let insert = "";
     for (let i = 0, e = context.length - 2; i <= e; i++) {
-        insert += context[i].blank(i < e ? countColumn(line.text, 4, context[i + 1].from) - insert.length : null, i < e);
+        insert += context[i].blank(i < e
+            ? countColumn(line.text, 4, Math.min(line.text.length, context[i + 1].from)) - insert.length
+            : null, i < e);
     }
     return normalizeIndent(insert, state);
 }
@@ -395,11 +395,11 @@ const htmlNoMatch = /*@__PURE__*/html({ matchClosingTags: false });
 Markdown language support.
 */
 function markdown(config = {}) {
-    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser } = commonmarkLanguage, completeHTMLTags = true } = config;
+    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser } = commonmarkLanguage, completeHTMLTags = true, htmlTagLanguage = htmlNoMatch } = config;
     if (!(parser instanceof MarkdownParser))
         throw new RangeError("Base parser provided to `markdown` should be a Markdown parser");
     let extensions = config.extensions ? [config.extensions] : [];
-    let support = [htmlNoMatch.support], defaultCode;
+    let support = [htmlTagLanguage.support], defaultCode;
     if (defaultCodeLanguage instanceof LanguageSupport) {
         support.push(defaultCodeLanguage.support);
         defaultCode = defaultCodeLanguage.language;
@@ -408,7 +408,7 @@ function markdown(config = {}) {
         defaultCode = defaultCodeLanguage;
     }
     let codeParser = codeLanguages || defaultCode ? getCodeParser(codeLanguages, defaultCode) : undefined;
-    extensions.push(parseCode({ codeParser, htmlParser: htmlNoMatch.language.parser }));
+    extensions.push(parseCode({ codeParser, htmlParser: htmlTagLanguage.language.parser }));
     if (addKeymap)
         support.push(Prec.high(keymap.of(markdownKeymap)));
     let lang = mkLang(parser.configure(extensions));

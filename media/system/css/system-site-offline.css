@@ -26,7 +26,7 @@ img {
 }
 
 #frame form {
-  text-align: left;
+  text-align: start;
 }
 
 .outline {
@@ -61,10 +61,10 @@ label {
 
 input {
   box-sizing: border-box;
+  width: 100%;
   font-family: inherit;
   font-size: inherit;
   border: 1px solid #0e67a1;
-  width: 100%;
   padding: 5px 10px;
 }
 
@@ -82,7 +82,7 @@ input.button:hover {
 }
 
 fieldset.input p {
-  clear: left;
+  clear: inline-start;
 }
 
 #frmlogin {
@@ -90,7 +90,7 @@ fieldset.input p {
 }
 
 #frmlogin fieldset.button {
-  text-align: right;
+  text-align: end;
 }
 
 .alert {

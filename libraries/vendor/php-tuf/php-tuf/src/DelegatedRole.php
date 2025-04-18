@@ -39,7 +39,7 @@ class DelegatedRole extends Role
         parent::__construct($name, $threshold, $keyIds);
     }
 
-    public static function createFromMetadata(iterable $roleInfo, string $name = null): Role
+    public static function createFromMetadata(iterable $roleInfo, ?string $name = null): Role
     {
         $roleConstraints = static::getRoleConstraints();
         $roleConstraints->fields += [

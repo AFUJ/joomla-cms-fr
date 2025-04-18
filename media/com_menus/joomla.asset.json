@@ -6,10 +6,34 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "com_menus.admin-item-edit",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "23b63d"
+    },
+    {
       "name": "com_menus.admin-item-edit-container",
       "type": "style",
       "uri": "com_menus/admin-item-edit_container.min.css",
       "version": "67209f"
+    },
+    {
+      "name": "com_menus.admin-item-edit-container",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_container.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "36dfe0"
     },
     {
       "name": "com_menus.admin-item-edit-modules",
@@ -36,30 +60,6 @@
       "deprecated": true,
       "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6.",
       "version": "9b90e4"
-    },
-    {
-      "name": "com_menus.admin-item-edit",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "23b63d"
-    },
-    {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_container.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "36dfe0"
     },
     {
       "name": "com_menus.admin-items-modal",

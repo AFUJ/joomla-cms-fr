@@ -581,7 +581,7 @@ class DOMIterator {
  * @example
  * new Mark(document.querySelector(".context")).markRegExp(/lorem/gmi);
  */
-class Mark$1 {
+let Mark$1 = class Mark {
   // eslint-disable-line no-unused-vars
 
   /**
@@ -1772,7 +1772,7 @@ class Mark$1 {
       }
     }, this.opt.done);
   }
-}
+};
 
 function Mark(ctx) {
   const instance = new Mark$1(ctx);

@@ -51,7 +51,7 @@ class Document implements JsonSerializable
     /**
      * @param ElementInterface $data
      */
-    public function __construct(ElementInterface $data = null)
+    public function __construct(?ElementInterface $data = null)
     {
         $this->data = $data;
     }

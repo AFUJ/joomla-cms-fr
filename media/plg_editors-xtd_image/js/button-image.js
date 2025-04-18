@@ -6,6 +6,7 @@ import JoomlaDialog from 'joomla.dialog';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 // Register modal-media action
 JoomlaEditorButton.registerAction('modal-media', (editor, options) => {
   // Create a dialog popup

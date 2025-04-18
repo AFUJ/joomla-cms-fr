@@ -6,6 +6,7 @@ import { keymap, createFromTextarea, EditorState } from 'codemirror';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 /**
  * Codemirror Decorator for JoomlaEditor
  */

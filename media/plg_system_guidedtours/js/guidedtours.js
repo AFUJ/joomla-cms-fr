@@ -2253,7 +2253,6 @@ function init(component, options, instance, create_fragment, not_equal, props, a
     skip_bound: false,
     root: options.target || parent_component.$$.root
   };
-  append_styles && append_styles($$.root);
   let ready = false;
   $$.ctx = instance ? instance(component, options.props || {}, (i, ret, ...rest) => {
     const value = rest.length ? rest[0] : ret;
@@ -4584,6 +4583,7 @@ if (isServerSide) {
  * @copyright   (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 if (!Joomla) {
   throw new Error('Joomla API is not properly initialised');
 }

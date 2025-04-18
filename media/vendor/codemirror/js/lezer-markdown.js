@@ -1,4 +1,4 @@
-import { NodeType, NodeProp, NodeSet, Tree, Parser, parseMixed } from '@lezer/common';
+import { NodeType, NodeProp, NodeSet, Parser, Tree, parseMixed } from '@lezer/common';
 import { styleTags, tags, Tag } from '@lezer/highlight';
 
 class CompositeBlock {
@@ -82,62 +82,100 @@ var Type;
     Type[Type["LinkLabel"] = 43] = "LinkLabel";
     Type[Type["URL"] = 44] = "URL";
 })(Type || (Type = {}));
-/// Data structure used to accumulate a block's content during [leaf
-/// block parsing](#BlockParser.leaf).
+/**
+Data structure used to accumulate a block's content during [leaf
+block parsing](#BlockParser.leaf).
+*/
 class LeafBlock {
-    /// @internal
+    /**
+    @internal
+    */
     constructor(
-    /// The start position of the block.
+    /**
+    The start position of the block.
+    */
     start, 
-    /// The block's text content.
+    /**
+    The block's text content.
+    */
     content) {
         this.start = start;
         this.content = content;
-        /// @internal
+        /**
+        @internal
+        */
         this.marks = [];
-        /// The block parsers active for this block.
+        /**
+        The block parsers active for this block.
+        */
         this.parsers = [];
     }
 }
-/// Data structure used during block-level per-line parsing.
+/**
+Data structure used during block-level per-line parsing.
+*/
 class Line {
     constructor() {
-        /// The line's full text.
+        /**
+        The line's full text.
+        */
         this.text = "";
-        /// The base indent provided by the composite contexts (that have
-        /// been handled so far).
+        /**
+        The base indent provided by the composite contexts (that have
+        been handled so far).
+        */
         this.baseIndent = 0;
-        /// The string position corresponding to the base indent.
+        /**
+        The string position corresponding to the base indent.
+        */
         this.basePos = 0;
-        /// The number of contexts handled @internal
+        /**
+        The number of contexts handled @internal
+        */
         this.depth = 0;
-        /// Any markers (i.e. block quote markers) parsed for the contexts. @internal
+        /**
+        Any markers (i.e. block quote markers) parsed for the contexts. @internal
+        */
         this.markers = [];
-        /// The position of the next non-whitespace character beyond any
-        /// list, blockquote, or other composite block markers.
+        /**
+        The position of the next non-whitespace character beyond any
+        list, blockquote, or other composite block markers.
+        */
         this.pos = 0;
-        /// The column of the next non-whitespace character.
+        /**
+        The column of the next non-whitespace character.
+        */
         this.indent = 0;
-        /// The character code of the character after `pos`.
+        /**
+        The character code of the character after `pos`.
+        */
         this.next = -1;
     }
-    /// @internal
+    /**
+    @internal
+    */
     forward() {
         if (this.basePos > this.pos)
             this.forwardInner();
     }
-    /// @internal
+    /**
+    @internal
+    */
     forwardInner() {
         let newPos = this.skipSpace(this.basePos);
         this.indent = this.countIndent(newPos, this.pos, this.indent);
         this.pos = newPos;
         this.next = newPos == this.text.length ? -1 : this.text.charCodeAt(newPos);
     }
-    /// Skip whitespace after the given position, return the position of
-    /// the next non-space character or the end of the line if there's
-    /// only space after `from`.
+    /**
+    Skip whitespace after the given position, return the position of
+    the next non-space character or the end of the line if there's
+    only space after `from`.
+    */
     skipSpace(from) { return skipSpace(this.text, from); }
-    /// @internal
+    /**
+    @internal
+    */
     reset(text) {
         this.text = text;
         this.baseIndent = this.basePos = this.pos = this.indent = 0;
@@ -146,40 +184,52 @@ class Line {
         while (this.markers.length)
             this.markers.pop();
     }
-    /// Move the line's base position forward to the given position.
-    /// This should only be called by composite [block
-    /// parsers](#BlockParser.parse) or [markup skipping
-    /// functions](#NodeSpec.composite).
+    /**
+    Move the line's base position forward to the given position.
+    This should only be called by composite [block
+    parsers](#BlockParser.parse) or [markup skipping
+    functions](#NodeSpec.composite).
+    */
     moveBase(to) {
         this.basePos = to;
         this.baseIndent = this.countIndent(to, this.pos, this.indent);
     }
-    /// Move the line's base position forward to the given _column_.
+    /**
+    Move the line's base position forward to the given _column_.
+    */
     moveBaseColumn(indent) {
         this.baseIndent = indent;
         this.basePos = this.findColumn(indent);
     }
-    /// Store a composite-block-level marker. Should be called from
-    /// [markup skipping functions](#NodeSpec.composite) when they
-    /// consume any non-whitespace characters.
+    /**
+    Store a composite-block-level marker. Should be called from
+    [markup skipping functions](#NodeSpec.composite) when they
+    consume any non-whitespace characters.
+    */
     addMarker(elt) {
         this.markers.push(elt);
     }
-    /// Find the column position at `to`, optionally starting at a given
-    /// position and column.
+    /**
+    Find the column position at `to`, optionally starting at a given
+    position and column.
+    */
     countIndent(to, from = 0, indent = 0) {
         for (let i = from; i < to; i++)
             indent += this.text.charCodeAt(i) == 9 ? 4 - indent % 4 : 1;
         return indent;
     }
-    /// Find the position corresponding to the given column.
+    /**
+    Find the position corresponding to the given column.
+    */
     findColumn(goal) {
         let i = 0;
         for (let indent = 0; i < this.text.length && indent < goal; i++)
             indent += this.text.charCodeAt(i) == 9 ? 4 - indent % 4 : 1;
         return i;
     }
-    /// @internal
+    /**
+    @internal
+    */
     scrub() {
         if (!this.baseIndent)
             return this.text;
@@ -259,7 +309,8 @@ function isHorizontalRule(line, cx, breaking) {
             return -1;
     }
     // Setext headers take precedence
-    if (breaking && line.next == 45 && isSetextUnderline(line) > -1 && line.depth == cx.stack.length)
+    if (breaking && line.next == 45 && isSetextUnderline(line) > -1 && line.depth == cx.stack.length &&
+        cx.parser.leafBlockParsers.indexOf(DefaultLeafBlocks.SetextHeading) > -1)
         return -1;
     return count < 3 ? -1 : 1;
 }
@@ -638,28 +689,42 @@ const DefaultEndLeaf = [
     (p, line) => isHTMLBlock(line, p, true) >= 0
 ];
 const scanLineResult = { text: "", end: 0 };
-/// Block-level parsing functions get access to this context object.
+/**
+Block-level parsing functions get access to this context object.
+*/
 class BlockContext {
-    /// @internal
+    /**
+    @internal
+    */
     constructor(
-    /// The parser configuration used.
+    /**
+    The parser configuration used.
+    */
     parser, 
-    /// @internal
+    /**
+    @internal
+    */
     input, fragments, 
-    /// @internal
+    /**
+    @internal
+    */
     ranges) {
         this.parser = parser;
         this.input = input;
         this.ranges = ranges;
         this.line = new Line();
         this.atEnd = false;
-        /// For reused nodes on gaps, we can't directly put the original
-        /// node into the tree, since that may be bitter than its parent.
-        /// When this happens, we create a dummy tree that is replaced by
-        /// the proper node in `injectGaps` @internal
+        /**
+        For reused nodes on gaps, we can't directly put the original
+        node into the tree, since that may be bigger than its parent.
+        When this happens, we create a dummy tree that is replaced by
+        the proper node in `injectGaps` @internal
+        */
         this.reusePlaceholders = new Map;
         this.stoppedAt = null;
-        /// The range index that absoluteLineStart points into @internal
+        /**
+        The range index that absoluteLineStart points into @internal
+        */
         this.rangeI = 0;
         this.to = ranges[ranges.length - 1].to;
         this.lineStart = this.absoluteLineStart = this.absoluteLineEnd = ranges[0].from;
@@ -758,20 +823,26 @@ class BlockContext {
         }
         return true;
     }
-    /// The number of parent blocks surrounding the current block.
+    /**
+    The number of parent blocks surrounding the current block.
+    */
     get depth() {
         return this.stack.length;
     }
-    /// Get the type of the parent block at the given depth. When no
-    /// depth is passed, return the type of the innermost parent.
+    /**
+    Get the type of the parent block at the given depth. When no
+    depth is passed, return the type of the innermost parent.
+    */
     parentType(depth = this.depth - 1) {
         return this.parser.nodeSet.types[this.stack[depth].type];
     }
-    /// Move to the next input line. This should only be called by
-    /// (non-composite) [block parsers](#BlockParser.parse) that consume
-    /// the line directly, or leaf block parser
-    /// [`nextLine`](#LeafBlockParser.nextLine) methods when they
-    /// consume the current line (and return true).
+    /**
+    Move to the next input line. This should only be called by
+    (non-composite) [block parsers](#BlockParser.parse) that consume
+    the line directly, or leaf block parser
+    [`nextLine`](#LeafBlockParser.nextLine) methods when they
+    consume the current line (and return true).
+    */
     nextLine() {
         this.lineStart += this.line.text.length;
         if (this.absoluteLineEnd >= this.to) {
@@ -788,13 +859,23 @@ class BlockContext {
             return true;
         }
     }
+    /**
+    Retrieve the text of the line after the current one, without
+    actually moving the context's current line forward.
+    */
+    peekLine() {
+        return this.scanLine(this.absoluteLineEnd + 1).text;
+    }
     moveRangeI() {
         while (this.rangeI < this.ranges.length - 1 && this.absoluteLineStart >= this.ranges[this.rangeI].to) {
             this.rangeI++;
             this.absoluteLineStart = Math.max(this.absoluteLineStart, this.ranges[this.rangeI].from);
         }
     }
-    /// @internal
+    /**
+    @internal
+    Collect the text for the next line.
+    */
     scanLine(start) {
         let r = scanLineResult;
         r.end = start;
@@ -818,7 +899,11 @@ class BlockContext {
         }
         return r;
     }
-    /// @internal
+    /**
+    @internal
+    Populate this.line with the content of the next line. Skip
+    leading characters covered by composite blocks.
+    */
     readLine() {
         let { line } = this, { text, end } = this.scanLine(this.absoluteLineStart);
         this.absoluteLineEnd = end;
@@ -843,38 +928,52 @@ class BlockContext {
         }
         return pos + text.length > this.to ? text.slice(0, this.to - pos) : text;
     }
-    /// The end position of the previous line.
+    /**
+    The end position of the previous line.
+    */
     prevLineEnd() { return this.atEnd ? this.lineStart : this.lineStart - 1; }
-    /// @internal
+    /**
+    @internal
+    */
     startContext(type, start, value = 0) {
         this.block = CompositeBlock.create(type, value, this.lineStart + start, this.block.hash, this.lineStart + this.line.text.length);
         this.stack.push(this.block);
     }
-    /// Start a composite block. Should only be called from [block
-    /// parser functions](#BlockParser.parse) that return null.
+    /**
+    Start a composite block. Should only be called from [block
+    parser functions](#BlockParser.parse) that return null.
+    */
     startComposite(type, start, value = 0) {
         this.startContext(this.parser.getNodeType(type), start, value);
     }
-    /// @internal
+    /**
+    @internal
+    */
     addNode(block, from, to) {
         if (typeof block == "number")
             block = new Tree(this.parser.nodeSet.types[block], none, none, (to !== null && to !== void 0 ? to : this.prevLineEnd()) - from);
         this.block.addChild(block, from - this.block.from);
     }
-    /// Add a block element. Can be called by [block
-    /// parsers](#BlockParser.parse).
+    /**
+    Add a block element. Can be called by [block
+    parsers](#BlockParser.parse).
+    */
     addElement(elt) {
         this.block.addChild(elt.toTree(this.parser.nodeSet), elt.from - this.block.from);
     }
-    /// Add a block element from a [leaf parser](#LeafBlockParser). This
-    /// makes sure any extra composite block markup (such as blockquote
-    /// markers) inside the block are also added to the syntax tree.
+    /**
+    Add a block element from a [leaf parser](#LeafBlockParser). This
+    makes sure any extra composite block markup (such as blockquote
+    markers) inside the block are also added to the syntax tree.
+    */
     addLeafElement(leaf, elt) {
         this.addNode(this.buffer
             .writeElements(injectMarks(elt.children, leaf.marks), -elt.from)
             .finish(elt.type, elt.to - elt.from), elt.from);
     }
-    /// @internal
+    /**
+    @internal
+    */
     finishContext() {
         let cx = this.stack.pop();
         let top = this.stack[this.stack.length - 1];
@@ -890,7 +989,9 @@ class BlockContext {
         return this.ranges.length > 1 ?
             injectGaps(this.ranges, 0, tree.topNode, this.ranges[0].from, this.reusePlaceholders) : tree;
     }
-    /// @internal
+    /**
+    @internal
+    */
     finishLeaf(leaf) {
         for (let parser of leaf.parsers)
             if (parser.finish(this, leaf))
@@ -905,7 +1006,9 @@ class BlockContext {
             return elt(this.parser.getNodeType(type), from, to, children);
         return new TreeElement(type, from);
     }
-    /// @internal
+    /**
+    @internal
+    */
     get buffer() { return new Buffer(this.parser.nodeSet); }
 }
 function injectGaps(ranges, rangeI, tree, offset, dummies) {
@@ -939,28 +1042,50 @@ function injectGaps(ranges, rangeI, tree, offset, dummies) {
     movePastNext(tree.to + offset, false);
     return new Tree(tree.type, children, positions, tree.to + offset - start, tree.tree ? tree.tree.propValues : undefined);
 }
-/// A Markdown parser configuration.
+/**
+A Markdown parser configuration.
+*/
 class MarkdownParser extends Parser {
-    /// @internal
+    /**
+    @internal
+    */
     constructor(
-    /// The parser's syntax [node
-    /// types](https://lezer.codemirror.net/docs/ref/#common.NodeSet).
+    /**
+    The parser's syntax [node
+    types](https://lezer.codemirror.net/docs/ref/#common.NodeSet).
+    */
     nodeSet, 
-    /// @internal
+    /**
+    @internal
+    */
     blockParsers, 
-    /// @internal
+    /**
+    @internal
+    */
     leafBlockParsers, 
-    /// @internal
+    /**
+    @internal
+    */
     blockNames, 
-    /// @internal
+    /**
+    @internal
+    */
     endLeafBlock, 
-    /// @internal
+    /**
+    @internal
+    */
     skipContextMarkup, 
-    /// @internal
+    /**
+    @internal
+    */
     inlineParsers, 
-    /// @internal
+    /**
+    @internal
+    */
     inlineNames, 
-    /// @internal
+    /**
+    @internal
+    */
     wrappers) {
         super();
         this.nodeSet = nodeSet;
@@ -972,7 +1097,9 @@ class MarkdownParser extends Parser {
         this.inlineParsers = inlineParsers;
         this.inlineNames = inlineNames;
         this.wrappers = wrappers;
-        /// @internal
+        /**
+        @internal
+        */
         this.nodeTypes = Object.create(null);
         for (let t of nodeSet.types)
             this.nodeTypes[t.name] = t.id;
@@ -983,7 +1110,9 @@ class MarkdownParser extends Parser {
             parse = w(parse, input, fragments, ranges);
         return parse;
     }
-    /// Reconfigure the parser.
+    /**
+    Reconfigure the parser.
+    */
     configure(spec) {
         let config = resolveConfig(spec);
         if (!config)
@@ -1068,16 +1197,20 @@ class MarkdownParser extends Parser {
             wrappers = wrappers.concat(config.wrap);
         return new MarkdownParser(nodeSet, blockParsers, leafBlockParsers, blockNames, endLeafBlock, skipContextMarkup, inlineParsers, inlineNames, wrappers);
     }
-    /// @internal
+    /**
+    @internal
+    */
     getNodeType(name) {
         let found = this.nodeTypes[name];
         if (found == null)
             throw new RangeError(`Unknown node type '${name}'`);
         return found;
     }
-    /// Parse the given piece of inline text at the given offset,
-    /// returning an array of [`Element`](#Element) objects representing
-    /// the inline content.
+    /**
+    Parse the given piece of inline text at the given offset,
+    returning an array of [`Element`](#Element) objects representing
+    the inline content.
+    */
     parseInline(text, offset) {
         let cx = new InlineContext(this, text, offset);
         outer: for (let pos = offset; pos < cx.end;) {
@@ -1162,31 +1295,47 @@ class Buffer {
         });
     }
 }
-/// Elements are used to compose syntax nodes during parsing.
+/**
+Elements are used to compose syntax nodes during parsing.
+*/
 class Element {
-    /// @internal
+    /**
+    @internal
+    */
     constructor(
-    /// The node's
-    /// [id](https://lezer.codemirror.net/docs/ref/#common.NodeType.id).
+    /**
+    The node's
+    [id](https://lezer.codemirror.net/docs/ref/#common.NodeType.id).
+    */
     type, 
-    /// The start of the node, as an offset from the start of the document.
+    /**
+    The start of the node, as an offset from the start of the document.
+    */
     from, 
-    /// The end of the node.
+    /**
+    The end of the node.
+    */
     to, 
-    /// The node's child nodes @internal
+    /**
+    The node's child nodes @internal
+    */
     children = none) {
         this.type = type;
         this.from = from;
         this.to = to;
         this.children = children;
     }
-    /// @internal
+    /**
+    @internal
+    */
     writeTo(buf, offset) {
         let startOff = buf.content.length;
         buf.writeElements(this.children, offset);
         buf.content.push(this.type, this.from + offset, this.to + offset, buf.content.length + 4 - startOff);
     }
-    /// @internal
+    /**
+    @internal
+    */
     toTree(nodeSet) {
         return new Buffer(nodeSet).writeElements(this.children, -this.from).finish(this.type, this.to - this.from);
     }
@@ -1222,7 +1371,7 @@ class InlineDelimiter {
 const Escapable = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 let Punctuation = /[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~\xA1\u2010-\u2027]/;
 try {
-    Punctuation = new RegExp("[\\p{Pc}|\\p{Pd}|\\p{Pe}|\\p{Pf}|\\p{Pi}|\\p{Po}|\\p{Ps}]", "u");
+    Punctuation = new RegExp("[\\p{S}|\\p{P}]", "u");
 }
 catch (_) { }
 const DefaultInline = {
@@ -1460,45 +1609,69 @@ function parseLinkLabel(text, start, offset, requireNonWS) {
     }
     return null;
 }
-/// Inline parsing functions get access to this context, and use it to
-/// read the content and emit syntax nodes.
+/**
+Inline parsing functions get access to this context, and use it to
+read the content and emit syntax nodes.
+*/
 class InlineContext {
-    /// @internal
+    /**
+    @internal
+    */
     constructor(
-    /// The parser that is being used.
+    /**
+    The parser that is being used.
+    */
     parser, 
-    /// The text of this inline section.
+    /**
+    The text of this inline section.
+    */
     text, 
-    /// The starting offset of the section in the document.
+    /**
+    The starting offset of the section in the document.
+    */
     offset) {
         this.parser = parser;
         this.text = text;
         this.offset = offset;
-        /// @internal
+        /**
+        @internal
+        */
         this.parts = [];
     }
-    /// Get the character code at the given (document-relative)
-    /// position.
+    /**
+    Get the character code at the given (document-relative)
+    position.
+    */
     char(pos) { return pos >= this.end ? -1 : this.text.charCodeAt(pos - this.offset); }
-    /// The position of the end of this inline section.
+    /**
+    The position of the end of this inline section.
+    */
     get end() { return this.offset + this.text.length; }
-    /// Get a substring of this inline section. Again uses
-    /// document-relative positions.
+    /**
+    Get a substring of this inline section. Again uses
+    document-relative positions.
+    */
     slice(from, to) { return this.text.slice(from - this.offset, to - this.offset); }
-    /// @internal
+    /**
+    @internal
+    */
     append(elt) {
         this.parts.push(elt);
         return elt.to;
     }
-    /// Add a [delimiter](#DelimiterType) at this given position. `open`
-    /// and `close` indicate whether this delimiter is opening, closing,
-    /// or both. Returns the end of the delimiter, for convenient
-    /// returning from [parse functions](#InlineParser.parse).
+    /**
+    Add a [delimiter](#DelimiterType) at this given position. `open`
+    and `close` indicate whether this delimiter is opening, closing,
+    or both. Returns the end of the delimiter, for convenient
+    returning from [parse functions](#InlineParser.parse).
+    */
     addDelimiter(type, from, to, open, close) {
         return this.append(new InlineDelimiter(type, from, to, (open ? 1 /* Mark.Open */ : 0 /* Mark.None */) | (close ? 2 /* Mark.Close */ : 0 /* Mark.None */)));
     }
-    /// Returns true when there is an unmatched link or image opening
-    /// token before the current position.
+    /**
+    Returns true when there is an unmatched link or image opening
+    token before the current position.
+    */
     get hasOpenLink() {
         for (let i = this.parts.length - 1; i >= 0; i--) {
             let part = this.parts[i];
@@ -1507,12 +1680,16 @@ class InlineContext {
         }
         return false;
     }
-    /// Add an inline element. Returns the end of the element.
+    /**
+    Add an inline element. Returns the end of the element.
+    */
     addElement(elt) {
         return this.append(elt);
     }
-    /// Resolve markers between this.parts.length and from, wrapping matched markers in the
-    /// appropriate node and updating the content of this.parts. @internal
+    /**
+    Resolve markers between this.parts.length and from, wrapping matched markers in the
+    appropriate node and updating the content of this.parts. @internal
+    */
     resolveMarkers(from) {
         // Scan forward, looking for closing tokens
         for (let i = from; i < this.parts.length; i++) {
@@ -1574,9 +1751,11 @@ class InlineContext {
         }
         return result;
     }
-    /// Find an opening delimiter of the given type. Returns `null` if
-    /// no delimiter is found, or an index that can be passed to
-    /// [`takeContent`](#InlineContext.takeContent) otherwise.
+    /**
+    Find an opening delimiter of the given type. Returns `null` if
+    no delimiter is found, or an index that can be passed to
+    [`takeContent`](#InlineContext.takeContent) otherwise.
+    */
     findOpeningDelimiter(type) {
         for (let i = this.parts.length - 1; i >= 0; i--) {
             let part = this.parts[i];
@@ -1585,19 +1764,23 @@ class InlineContext {
         }
         return null;
     }
-    /// Remove all inline elements and delimiters starting from the
-    /// given index (which you should get from
-    /// [`findOpeningDelimiter`](#InlineContext.findOpeningDelimiter),
-    /// resolve delimiters inside of them, and return them as an array
-    /// of elements.
+    /**
+    Remove all inline elements and delimiters starting from the
+    given index (which you should get from
+    [`findOpeningDelimiter`](#InlineContext.findOpeningDelimiter),
+    resolve delimiters inside of them, and return them as an array
+    of elements.
+    */
     takeContent(startIndex) {
         let content = this.resolveMarkers(startIndex);
         this.parts.length = startIndex;
         return content;
     }
-    /// Skip space after the given (document) position, returning either
-    /// the position of the next non-space character or the end of the
-    /// section.
+    /**
+    Skip space after the given (document) position, returning either
+    the position of the next non-space character or the end of the
+    section.
+    */
     skipSpace(from) { return skipSpace(this.text, from - this.offset) + this.offset; }
     elt(type, from, to, children) {
         if (typeof type == "string")
@@ -1760,7 +1943,9 @@ const markdownHighlighting = styleTags({
     LinkTitle: tags.string,
     Paragraph: tags.content
 });
-/// The default CommonMark parser.
+/**
+The default CommonMark parser.
+*/
 const parser = new MarkdownParser(new NodeSet(nodeTypes).extend(markdownHighlighting), Object.keys(DefaultBlockParsers).map(n => DefaultBlockParsers[n]), Object.keys(DefaultBlockParsers).map(n => DefaultLeafBlocks[n]), Object.keys(DefaultBlockParsers), DefaultEndLeaf, DefaultSkipMarkup, Object.keys(DefaultInline).map(n => DefaultInline[n]), Object.keys(DefaultInline), []);
 
 function leftOverSpace(node, from, to) {
@@ -1775,8 +1960,10 @@ function leftOverSpace(node, from, to) {
     }
     return ranges;
 }
-/// Create a Markdown extension to enable nested parsing on code
-/// blocks and/or embedded HTML.
+/**
+Create a Markdown extension to enable nested parsing on code
+blocks and/or embedded HTML.
+*/
 function parseCode(config) {
     let { codeParser, htmlParser } = config;
     let wrap = parseMixed((node, input) => {
@@ -1801,9 +1988,11 @@ function parseCode(config) {
 }
 
 const StrikethroughDelim = { resolve: "Strikethrough", mark: "StrikethroughMark" };
-/// An extension that implements
-/// [GFM-style](https://github.github.com/gfm/#strikethrough-extension-)
-/// Strikethrough syntax using `~~` delimiters.
+/**
+An extension that implements
+[GFM-style](https://github.github.com/gfm/#strikethrough-extension-)
+Strikethrough syntax using `~~` delimiters.
+*/
 const Strikethrough = {
     defineNodes: [{
             name: "Strikethrough",
@@ -1825,6 +2014,8 @@ const Strikethrough = {
             after: "Emphasis"
         }]
 };
+// Parse a line as a table row and return the row count. When `elts`
+// is given, push syntax elements for the content onto it.
 function parseRow(cx, line, startI = 0, elts, offset = 0) {
     let count = 0, first = true, cellStart = -1, cellEnd = -1, esc = false;
     let parseCell = () => {
@@ -1901,15 +2092,17 @@ class TableParser {
         return true;
     }
 }
-/// This extension provides
-/// [GFM-style](https://github.github.com/gfm/#tables-extension-)
-/// tables, using syntax like this:
-///
-/// ```
-/// | head 1 | head 2 |
-/// | ---    | ---    |
-/// | cell 1 | cell 2 |
-/// ```
+/**
+This extension provides
+[GFM-style](https://github.github.com/gfm/#tables-extension-)
+tables, using syntax like this:
+
+```
+| head 1 | head 2 |
+| ---    | ---    |
+| cell 1 | cell 2 |
+```
+*/
 const Table = {
     defineNodes: [
         { name: "Table", block: true },
@@ -1924,7 +2117,7 @@ const Table = {
             endLeaf(cx, line, leaf) {
                 if (leaf.parsers.some(p => p instanceof TableParser) || !hasPipe(line.text, line.basePos))
                     return false;
-                let next = cx.scanLine(cx.absoluteLineEnd + 1).text;
+                let next = cx.peekLine();
                 return delimiterLine.test(next) && parseRow(cx, line.text, line.basePos) == parseRow(cx, next, line.basePos);
             },
             before: "SetextHeading"
@@ -1940,10 +2133,12 @@ class TaskParser {
         return true;
     }
 }
-/// Extension providing
-/// [GFM-style](https://github.github.com/gfm/#task-list-items-extension-)
-/// task list items, where list items can be prefixed with `[ ]` or
-/// `[x]` to add a checkbox.
+/**
+Extension providing
+[GFM-style](https://github.github.com/gfm/#task-list-items-extension-)
+task list items, where list items can be prefixed with `[ ]` or
+`[x]` to add a checkbox.
+*/
 const TaskList = {
     defineNodes: [
         { name: "Task", block: true, style: tags.list },
@@ -1957,7 +2152,7 @@ const TaskList = {
             after: "SetextHeading"
         }]
 };
-const autolinkRE = /(www\.)|(https?:\/\/)|([\w.+-]+@)|(mailto:|xmpp:)/gy;
+const autolinkRE = /(www\.)|(https?:\/\/)|([\w.+-]{1,100}@)|(mailto:|xmpp:)/gy;
 const urlRE = /[\w-]+(\.[\w-]+)+(\/[^\s<]*)?/gy;
 const lastTwoDomainWords = /[\w-]+\.[\w-]+($|\/)/;
 const emailRE = /[\w.+-]+@[\w-]+(\.[\w.-]+)+/gy;
@@ -1995,14 +2190,18 @@ function autolinkEmailEnd(text, from) {
     let last = m[0][m[0].length - 1];
     return last == "_" || last == "-" ? -1 : from + m[0].length - (last == "." ? 1 : 0);
 }
-/// Extension that implements autolinking for
-/// `www.`/`http://`/`https://`/`mailto:`/`xmpp:` URLs and email
-/// addresses.
+/**
+Extension that implements autolinking for
+`www.`/`http://`/`https://`/`mailto:`/`xmpp:` URLs and email
+addresses.
+*/
 const Autolink = {
     parseInline: [{
             name: "Autolink",
             parse(cx, next, absPos) {
                 let pos = absPos - cx.offset;
+                if (pos && /\w/.test(cx.text[pos - 1]))
+                    return -1;
                 autolinkRE.lastIndex = pos;
                 let m = autolinkRE.exec(cx.text), end = -1;
                 if (!m)
@@ -2033,9 +2232,11 @@ const Autolink = {
             }
         }]
 };
-/// Extension bundle containing [`Table`](#Table),
-/// [`TaskList`](#TaskList), [`Strikethrough`](#Strikethrough), and
-/// [`Autolink`](#Autolink).
+/**
+Extension bundle containing [`Table`](#Table),
+[`TaskList`](#TaskList), [`Strikethrough`](#Strikethrough), and
+[`Autolink`](#Autolink).
+*/
 const GFM = [Table, TaskList, Strikethrough, Autolink];
 function parseSubSuper(ch, node, mark) {
     return (cx, next, pos) => {
@@ -2054,9 +2255,11 @@ function parseSubSuper(ch, node, mark) {
         return -1;
     };
 }
-/// Extension providing
-/// [Pandoc-style](https://pandoc.org/MANUAL.html#superscripts-and-subscripts)
-/// superscript using `^` markers.
+/**
+Extension providing
+[Pandoc-style](https://pandoc.org/MANUAL.html#superscripts-and-subscripts)
+superscript using `^` markers.
+*/
 const Superscript = {
     defineNodes: [
         { name: "Superscript", style: tags.special(tags.content) },
@@ -2067,9 +2270,11 @@ const Superscript = {
             parse: parseSubSuper(94 /* '^' */, "Superscript", "SuperscriptMark")
         }]
 };
-/// Extension providing
-/// [Pandoc-style](https://pandoc.org/MANUAL.html#superscripts-and-subscripts)
-/// subscript using `~` markers.
+/**
+Extension providing
+[Pandoc-style](https://pandoc.org/MANUAL.html#superscripts-and-subscripts)
+subscript using `~` markers.
+*/
 const Subscript = {
     defineNodes: [
         { name: "Subscript", style: tags.special(tags.content) },
@@ -2080,8 +2285,10 @@ const Subscript = {
             parse: parseSubSuper(126 /* '~' */, "Subscript", "SubscriptMark")
         }]
 };
-/// Extension that parses two colons with only letters, underscores,
-/// and numbers between them as `Emoji` nodes.
+/**
+Extension that parses two colons with only letters, underscores,
+and numbers between them as `Emoji` nodes.
+*/
 const Emoji = {
     defineNodes: [{ name: "Emoji", style: tags.character }],
     parseInline: [{

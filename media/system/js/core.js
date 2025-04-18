@@ -17,6 +17,7 @@
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+
   // js-docs-end allow-list
 
   const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
@@ -72,6 +73,7 @@
    * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
    * @license    GNU General Public License version 2 or later; see LICENSE.txt
    */
+
   const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
   const DATA_ATTRIBUTE_PATTERN = /^data-[\w-]*$/i;
   const DefaultAllowlist = {

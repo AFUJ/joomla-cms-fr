@@ -88,17 +88,10 @@ final class AmpResponse implements ResponseInterface, StreamableInterface
         $info['max_duration'] = $options['max_duration'];
         $info['debug'] = '';
 
-        $resolve = static function (string $host, ?string $ip = null) use ($multi): ?string {
-            if (null !== $ip) {
-                $multi->dnsCache[$host] = $ip;
-            }
-
-            return $multi->dnsCache[$host] ?? null;
-        };
         $onProgress = $options['on_progress'] ?? static function () {};
-        $onProgress = $this->onProgress = static function () use (&$info, $onProgress, $resolve) {
+        $onProgress = $this->onProgress = static function () use (&$info, $onProgress) {
             $info['total_time'] = microtime(true) - $info['start_time'];
-            $onProgress((int) $info['size_download'], ((int) (1 + $info['download_content_length']) ?: 1) - 1, (array) $info, $resolve);
+            $onProgress((int) $info['size_download'], ((int) (1 + $info['download_content_length']) ?: 1) - 1, (array) $info);
         };
 
         $pauseDeferred = new Deferred();
@@ -186,19 +179,17 @@ final class AmpResponse implements ResponseInterface, StreamableInterface
     /**
      * @param AmpClientState $multi
      */
-    private static function perform(ClientState $multi, ?array &$responses = null): void
+    private static function perform(ClientState $multi, ?array $responses = null): void
     {
-        if ($responses) {
-            foreach ($responses as $response) {
-                try {
-                    if ($response->info['start_time']) {
-                        $response->info['total_time'] = microtime(true) - $response->info['start_time'];
-                        ($response->onProgress)();
-                    }
-                } catch (\Throwable $e) {
-                    $multi->handlesActivity[$response->id][] = null;
-                    $multi->handlesActivity[$response->id][] = $e;
+        foreach ($responses ?? [] as $response) {
+            try {
+                if ($response->info['start_time']) {
+                    $response->info['total_time'] = microtime(true) - $response->info['start_time'];
+                    ($response->onProgress)();
                 }
+            } catch (\Throwable $e) {
+                $multi->handlesActivity[$response->id][] = null;
+                $multi->handlesActivity[$response->id][] = $e;
             }
         }
     }
@@ -338,16 +329,14 @@ final class AmpResponse implements ResponseInterface, StreamableInterface
             $request->setTlsHandshakeTimeout($originRequest->getTlsHandshakeTimeout());
             $request->setTransferTimeout($originRequest->getTransferTimeout());
 
-            if (\in_array($status, [301, 302, 303], true)) {
+            if (303 === $status || \in_array($status, [301, 302], true) && 'POST' === $response->getRequest()->getMethod()) {
+                // Do like curl and browsers: turn POST to GET on 301, 302 and 303
                 $originRequest->removeHeader('transfer-encoding');
                 $originRequest->removeHeader('content-length');
                 $originRequest->removeHeader('content-type');
 
-                // Do like curl and browsers: turn POST to GET on 301, 302 and 303
-                if ('POST' === $response->getRequest()->getMethod() || 303 === $status) {
-                    $info['http_method'] = 'HEAD' === $response->getRequest()->getMethod() ? 'HEAD' : 'GET';
-                    $request->setMethod($info['http_method']);
-                }
+                $info['http_method'] = 'HEAD' === $response->getRequest()->getMethod() ? 'HEAD' : 'GET';
+                $request->setMethod($info['http_method']);
             } else {
                 $request->setBody(AmpBody::rewind($response->getRequest()->getBody()));
             }

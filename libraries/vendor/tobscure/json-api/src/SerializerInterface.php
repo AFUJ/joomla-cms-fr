@@ -39,7 +39,7 @@ interface SerializerInterface
      *
      * @return array
      */
-    public function getAttributes($model, array $fields = null);
+    public function getAttributes($model, ?array $fields = null);
 
     /**
      * Get the links array.

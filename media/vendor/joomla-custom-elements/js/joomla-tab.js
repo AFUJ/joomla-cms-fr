@@ -144,11 +144,17 @@ class TabsElement extends HTMLElement {
 
       // Create tab button
       const tabButton = document.createElement('button');
-      tabButton.setAttribute('aria-expanded', !!tab.hasAttribute('active'));
+      tabButton.setAttribute('aria-selected', !!tab.hasAttribute('active'));
       tabButton.setAttribute('aria-controls', tab.id);
       tabButton.setAttribute('role', 'tab');
       tabButton.setAttribute('type', 'button');
+      tabButton.setAttribute('tabindex', -1);
       tabButton.innerHTML = `${tab.getAttribute('name')}`;
+
+      if (tab.hasAttribute('active')) {
+        tabButton.setAttribute('tabindex', 0);
+      }
+
       this.tabButtonContainer.appendChild(tabButton);
 
       tabButton.addEventListener('click', this.activateTab);
@@ -240,7 +246,8 @@ class TabsElement extends HTMLElement {
   deactivateTabs() {
     this.tabs.map((tabObj) => {
       tabObj.accordionButton.removeAttribute('aria-disabled');
-      tabObj.tabButton.removeAttribute('aria-expanded');
+      tabObj.tabButton.setAttribute('aria-selected', false);
+      tabObj.tabButton.setAttribute('tabindex', -1);
       tabObj.accordionButton.setAttribute('aria-expanded', false);
 
       if (tabObj.tab.hasAttribute('active')) {
@@ -279,7 +286,7 @@ class TabsElement extends HTMLElement {
       // Remove current active
       this.deactivateTabs();
       // Set new active
-      currentTrigger.tabButton.setAttribute('aria-expanded', true);
+      currentTrigger.tabButton.setAttribute('aria-selected', true);
       currentTrigger.accordionButton.setAttribute('aria-expanded', true);
       currentTrigger.accordionButton.setAttribute('aria-disabled', true);
       currentTrigger.tab.setAttribute('active', '');
@@ -299,7 +306,7 @@ class TabsElement extends HTMLElement {
 
   // Create navigation elements for inserted tabs
   createNavs(tab) {
-    if ((tab instanceof Element && tab.tagName.toLowerCase() !== 'joomla-tab-element') || ![].some.call(this.children, (el) => el === tab).length || !tab.getAttribute('name') || !tab.getAttribute('id')) return;
+    if ((tab instanceof Element && tab.tagName.toLowerCase() !== 'joomla-tab-element') || ![].some.call(this.children, (el) => el === tab) || !tab.getAttribute('name') || !tab.getAttribute('id')) return;
     const tabs = [].slice.call(this.children).filter((el) => el.tagName.toLowerCase() === 'joomla-tab-element');
     const index = tabs.findIndex((tb) => tb === tab);
 
@@ -355,7 +362,7 @@ class TabsElement extends HTMLElement {
 
   // Remove navigation elements for removed tabs
   removeNavs(tab) {
-    if ((tab instanceof Element && tab.tagName.toLowerCase() !== 'joomla-tab-element') || ![].some.call(this.children, (el) => el === tab).length || !tab.getAttribute('name') || !tab.getAttribute('id')) return;
+    if ((tab instanceof Element && tab.tagName.toLowerCase() !== 'joomla-tab-element') || ![].some.call(this.children, (el) => el === tab) || !tab.getAttribute('name') || !tab.getAttribute('id')) return;
     const accordionButton = tab.previousSilbingElement;
     if (accordionButton && accordionButton.tagName.toLowerCase() === 'button') {
       accordionButton.removeEventListener('click', this.keyBehaviour);

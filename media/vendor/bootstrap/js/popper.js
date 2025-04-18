@@ -885,7 +885,6 @@ function detectOverflow(state, options) {
   var popperOffsets = computeOffsets({
     reference: referenceClientRect,
     element: popperRect,
-    strategy: 'absolute',
     placement: placement
   });
   var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
@@ -1178,7 +1177,6 @@ function popperOffsets(_ref) {
   state.modifiersData[name] = computeOffsets({
     reference: state.rects.reference,
     element: state.rects.popper,
-    strategy: 'absolute',
     placement: state.placement
   });
 } // eslint-disable-next-line import/no-unused-modules
@@ -1623,44 +1621,44 @@ var createPopper = /*#__PURE__*/popperGenerator({
 
 var Popper = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  popperGenerator: popperGenerator,
-  detectOverflow: detectOverflow,
-  createPopperBase: createPopper$2,
-  createPopper: createPopper,
-  createPopperLite: createPopper$1,
-  top: top,
-  bottom: bottom,
-  right: right,
-  left: left,
-  auto: auto,
-  basePlacements: basePlacements,
-  start: start,
-  end: end,
-  clippingParents: clippingParents,
-  viewport: viewport,
-  popper: popper,
-  reference: reference,
-  variationPlacements: variationPlacements,
-  placements: placements,
-  beforeRead: beforeRead,
-  read: read,
-  afterRead: afterRead,
-  beforeMain: beforeMain,
-  main: main,
   afterMain: afterMain,
-  beforeWrite: beforeWrite,
-  write: write,
+  afterRead: afterRead,
   afterWrite: afterWrite,
-  modifierPhases: modifierPhases,
   applyStyles: applyStyles$1,
   arrow: arrow$1,
+  auto: auto,
+  basePlacements: basePlacements,
+  beforeMain: beforeMain,
+  beforeRead: beforeRead,
+  beforeWrite: beforeWrite,
+  bottom: bottom,
+  clippingParents: clippingParents,
   computeStyles: computeStyles$1,
+  createPopper: createPopper,
+  createPopperBase: createPopper$2,
+  createPopperLite: createPopper$1,
+  detectOverflow: detectOverflow,
+  end: end,
   eventListeners: eventListeners,
   flip: flip$1,
   hide: hide$1,
+  left: left,
+  main: main,
+  modifierPhases: modifierPhases,
   offset: offset$1,
+  placements: placements,
+  popper: popper,
+  popperGenerator: popperGenerator,
   popperOffsets: popperOffsets$1,
-  preventOverflow: preventOverflow$1
+  preventOverflow: preventOverflow$1,
+  read: read,
+  reference: reference,
+  right: right,
+  start: start,
+  top: top,
+  variationPlacements: variationPlacements,
+  viewport: viewport,
+  write: write
 });
 
 export { Popper as P, createPopper as c };
