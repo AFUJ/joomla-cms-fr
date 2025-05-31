@@ -6019,37 +6019,1003 @@
   overflow: hidden;
 }
 
-.fa.fa-dropbox, .fa.fa-stack-overflow, .fa.fa-instagram, .fa.fa-flickr, .fa.fa-adn, .fa.fa-bitbucket, .fa.fa-bitbucket-square, .fa.fa-tumblr, .fa.fa-tumblr-square, .fa.fa-apple, .fa.fa-windows, .fa.fa-android, .fa.fa-linux, .fa.fa-dribbble, .fa.fa-skype, .fa.fa-foursquare, .fa.fa-trello, .fa.fa-gratipay, .fa.fa-gittip {
+.fa.fa-envelope-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-star-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-remove, .fa.fa-close {
+  --fa: "";
+}
+
+.fa.fa-trash-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-clock-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-arrow-circle-o-down {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-arrow-circle-o-up {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-play-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-repeat, .fa.fa-rotate-right {
+  --fa: "";
+}
+
+.fa.fa-list-alt {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-picture-o, .fa.fa-photo, .fa.fa-image {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-pencil-square-o, .fa.fa-edit {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-check-square-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-times-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-check-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-eye, .fa.fa-eye-slash {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-bar-chart, .fa.fa-bar-chart-o {
+  --fa: "";
+}
+
+.fa.fa-twitter-square {
+  --fa: "";
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-yahoo, .fa.fa-google, .fa.fa-reddit, .fa.fa-reddit-square, .fa.fa-stumbleupon-circle, .fa.fa-stumbleupon, .fa.fa-delicious, .fa.fa-digg, .fa.fa-pied-piper-pp, .fa.fa-pied-piper-alt, .fa.fa-drupal, .fa.fa-joomla, .fa.fa-behance, .fa.fa-behance-square, .fa.fa-steam, .fa.fa-steam-square, .fa.fa-spotify, .fa.fa-deviantart, .fa.fa-soundcloud {
+.fa.fa-facebook-square {
+  --fa: "";
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-lastfm, .fa.fa-lastfm-square, .fa.fa-ioxhost, .fa.fa-angellist {
+.fa.fa-thumbs-o-up {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-thumbs-o-down {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-heart-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-linkedin-square {
+  --fa: "";
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-pinterest-p, .fa.fa-whatsapp, .fa.fa-viacoin, .fa.fa-medium, .fa.fa-y-combinator, .fa.fa-yc, .fa.fa-optin-monster, .fa.fa-opencart, .fa.fa-expeditedssl {
+.fa.fa-github-square {
+  --fa: "";
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-creative-commons, .fa.fa-gg, .fa.fa-gg-circle, .fa.fa-odnoklassniki, .fa.fa-odnoklassniki-square, .fa.fa-get-pocket, .fa.fa-wikipedia-w, .fa.fa-safari, .fa.fa-chrome, .fa.fa-firefox, .fa.fa-opera, .fa.fa-internet-explorer, .fa.fa-contao, .fa.fa-500px, .fa.fa-amazon {
+.fa.fa-lemon-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-square-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-bookmark-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-twitter, .fa.fa-facebook {
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-houzz, .fa.fa-vimeo, .fa.fa-black-tie, .fa.fa-fonticons, .fa.fa-reddit-alien, .fa.fa-edge, .fa.fa-codiepie, .fa.fa-modx, .fa.fa-fort-awesome, .fa.fa-usb, .fa.fa-product-hunt, .fa.fa-mixcloud, .fa.fa-scribd {
+.fa.fa-facebook-f {
+  --fa: "";
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }
 
-.fa.fa-glide, .fa.fa-glide-g, .fa.fa-viadeo, .fa.fa-viadeo-square, .fa.fa-snapchat, .fa.fa-snapchat-ghost {
+.fa.fa-hdd-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-o-right {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-o-left {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-o-up {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-o-down {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-files-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-floppy-o, .fa.fa-save {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-navicon, .fa.fa-reorder {
+  --fa: "";
+}
+
+.fa.fa-pinterest, .fa.fa-pinterest-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-google-plus-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-google-plus {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-linkedin {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-tachometer, .fa.fa-dashboard {
+  --fa: "";
+}
+
+.fa.fa-comment-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-comments-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-lightbulb-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-bell-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-text-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-building-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hospital-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-mobile, .fa.fa-mobile-phone {
+  --fa: "";
+}
+
+.fa.fa-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-folder-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-folder-open-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-smile-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-frown-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-meh-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-keyboard-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-flag-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-star-half-o, .fa.fa-star-half-empty, .fa.fa-star-half-full {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-chain-broken, .fa.fa-unlink {
+  --fa: "";
+}
+
+.fa.fa-calendar-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-maxcdn, .fa.fa-html5, .fa.fa-css3 {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-minus-square-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-compass, .fa.fa-caret-square-o-down {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-toggle-down {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-caret-square-o-up, .fa.fa-toggle-up {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-caret-square-o-right, .fa.fa-toggle-right {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-eur, .fa.fa-euro {
+  --fa: "";
+}
+
+.fa.fa-usd, .fa.fa-dollar {
+  --fa: "$";
+}
+
+.fa.fa-inr, .fa.fa-rupee {
+  --fa: "";
+}
+
+.fa.fa-jpy, .fa.fa-cny, .fa.fa-rmb, .fa.fa-yen {
+  --fa: "";
+}
+
+.fa.fa-rub, .fa.fa-ruble, .fa.fa-rouble {
+  --fa: "";
+}
+
+.fa.fa-krw, .fa.fa-won {
+  --fa: "";
+}
+
+.fa.fa-btc, .fa.fa-bitcoin {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-youtube-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-youtube, .fa.fa-xing, .fa.fa-xing-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-youtube-play {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-dropbox, .fa.fa-stack-overflow, .fa.fa-instagram, .fa.fa-flickr, .fa.fa-adn, .fa.fa-bitbucket, .fa.fa-bitbucket-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-tumblr, .fa.fa-tumblr-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-apple, .fa.fa-windows, .fa.fa-android, .fa.fa-linux, .fa.fa-dribbble, .fa.fa-skype, .fa.fa-foursquare, .fa.fa-trello, .fa.fa-gratipay, .fa.fa-gittip {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-sun-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-moon-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-vk, .fa.fa-weibo, .fa.fa-renren, .fa.fa-pagelines, .fa.fa-stack-exchange {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-arrow-circle-o-right {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-arrow-circle-o-left {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-caret-square-o-left, .fa.fa-toggle-left {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-dot-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-vimeo-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-try, .fa.fa-turkish-lira {
+  --fa: "";
+}
+
+.fa.fa-plus-square-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-slack, .fa.fa-wordpress, .fa.fa-openid {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-institution, .fa.fa-bank {
+  --fa: "";
+}
+
+.fa.fa-yahoo, .fa.fa-google, .fa.fa-reddit, .fa.fa-reddit-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-stumbleupon-circle, .fa.fa-stumbleupon, .fa.fa-delicious, .fa.fa-digg, .fa.fa-pied-piper-pp, .fa.fa-pied-piper-alt, .fa.fa-drupal, .fa.fa-joomla, .fa.fa-behance, .fa.fa-behance-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-steam, .fa.fa-steam-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-spotify, .fa.fa-deviantart, .fa.fa-soundcloud {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-file-pdf-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-word-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-excel-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-powerpoint-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-image-o, .fa.fa-file-photo-o, .fa.fa-file-picture-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-archive-o, .fa.fa-file-zip-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-audio-o, .fa.fa-file-sound-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-video-o, .fa.fa-file-movie-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-file-code-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-vine, .fa.fa-codepen, .fa.fa-jsfiddle {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-life-bouy, .fa.fa-life-buoy, .fa.fa-life-saver, .fa.fa-support {
+  --fa: "";
+}
+
+.fa.fa-rebel, .fa.fa-ra {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-resistance {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-empire, .fa.fa-ge {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-git-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-git, .fa.fa-hacker-news, .fa.fa-y-combinator-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-yc-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-tencent-weibo, .fa.fa-qq, .fa.fa-weixin, .fa.fa-wechat {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-paper-plane-o, .fa.fa-send-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-circle-thin {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-futbol-o, .fa.fa-soccer-ball-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-slideshare, .fa.fa-twitch, .fa.fa-yelp {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-newspaper-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-paypal, .fa.fa-google-wallet, .fa.fa-cc-visa, .fa.fa-cc-mastercard, .fa.fa-cc-discover, .fa.fa-cc-amex, .fa.fa-cc-paypal, .fa.fa-cc-stripe {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-bell-slash-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-lastfm, .fa.fa-lastfm-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-ioxhost, .fa.fa-angellist {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-cc {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-ils, .fa.fa-shekel, .fa.fa-sheqel {
+  --fa: "";
+}
+
+.fa.fa-buysellads, .fa.fa-connectdevelop, .fa.fa-dashcube, .fa.fa-forumbee, .fa.fa-leanpub, .fa.fa-sellsy, .fa.fa-shirtsinbulk, .fa.fa-simplybuilt, .fa.fa-skyatlas {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-diamond {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-transgender, .fa.fa-intersex {
+  --fa: "";
+}
+
+.fa.fa-facebook-official {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-pinterest-p, .fa.fa-whatsapp {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-viacoin, .fa.fa-medium, .fa.fa-y-combinator, .fa.fa-yc {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-optin-monster, .fa.fa-opencart, .fa.fa-expeditedssl {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-battery-4, .fa.fa-battery {
+  --fa: "";
+}
+
+.fa.fa-object-group, .fa.fa-object-ungroup, .fa.fa-sticky-note-o {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-cc-jcb, .fa.fa-cc-diners-club {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-hand-rock-o, .fa.fa-hand-grab-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-paper-o, .fa.fa-hand-stop-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-scissors-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-lizard-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-spock-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-pointer-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-hand-peace-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-creative-commons, .fa.fa-gg, .fa.fa-gg-circle, .fa.fa-odnoklassniki, .fa.fa-odnoklassniki-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-get-pocket, .fa.fa-wikipedia-w, .fa.fa-safari, .fa.fa-chrome, .fa.fa-firefox, .fa.fa-opera, .fa.fa-internet-explorer {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-contao, .fa.fa-500px, .fa.fa-amazon {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-calendar-plus-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-calendar-minus-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-calendar-times-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-calendar-check-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-map-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-commenting-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-houzz, .fa.fa-vimeo {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-black-tie, .fa.fa-fonticons, .fa.fa-reddit-alien, .fa.fa-edge {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-codiepie, .fa.fa-modx, .fa.fa-fort-awesome, .fa.fa-usb, .fa.fa-product-hunt, .fa.fa-mixcloud, .fa.fa-scribd {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-pause-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-stop-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-bluetooth, .fa.fa-bluetooth-b, .fa.fa-gitlab, .fa.fa-wpbeginner, .fa.fa-wpforms, .fa.fa-envira, .fa.fa-wheelchair-alt {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-question-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-deafness, .fa.fa-hard-of-hearing {
+  --fa: "";
+}
+
+.fa.fa-glide, .fa.fa-glide-g {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-viadeo, .fa.fa-viadeo-square {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-snapchat, .fa.fa-snapchat-ghost {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-snapchat-square {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-pied-piper, .fa.fa-first-order, .fa.fa-yoast, .fa.fa-themeisle, .fa.fa-google-plus-official {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-google-plus-circle {
+  --fa: "";
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-font-awesome, .fa.fa-fa {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-handshake-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-envelope-open-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-address-book-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-address-card-o, .fa.fa-vcard-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-user-circle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-user-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-id-card-o, .fa.fa-drivers-license-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-quora, .fa.fa-free-code-camp, .fa.fa-telegram {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-thermometer-4, .fa.fa-thermometer {
+  --fa: "";
+}
+
+.fa.fa-bathtub, .fa.fa-s15 {
+  --fa: "";
+}
+
+.fa.fa-window-maximize, .fa.fa-window-restore {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-window-close-o, .fa.fa-times-rectangle-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-bandcamp, .fa.fa-grav, .fa.fa-etsy, .fa.fa-imdb, .fa.fa-ravelry, .fa.fa-eercast {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+.fa.fa-snowflake-o {
+  --fa: "";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+}
+
+.fa.fa-superpowers, .fa.fa-wpexplorer, .fa.fa-meetup {
   font-family: "Font Awesome 6 Brands";
   font-weight: 400;
 }

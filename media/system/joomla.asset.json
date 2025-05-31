@@ -422,12 +422,6 @@
       "version": "61f142"
     },
     {
-      "name": "field.calendar",
-      "type": "style",
-      "uri": "system/fields/calendar.css",
-      "version": "5da368"
-    },
-    {
       "name": "field.passwordstrength",
       "type": "script",
       "uri": "system/fields/passwordstrength.min.js",
@@ -442,6 +436,18 @@
     },
     {
       "name": "field.calendar",
+      "type": "style",
+      "uri": "system/fields/calendar.css",
+      "version": "5da368"
+    },
+    {
+      "name": "field.calendar-rtl",
+      "type": "style",
+      "uri": "system/fields/calendar-rtl.css",
+      "version": "1e99b9"
+    },
+    {
+      "name": "field.calendar",
       "type": "script",
       "uri": "system/fields/calendar.min.js",
       "attributes": {
@@ -450,13 +456,16 @@
       "dependencies": [
         "field.calendar.helper"
       ],
-      "version": "1903da"
+      "version": "3221d3"
     },
     {
-      "name": "field.calendar-rtl",
-      "type": "style",
-      "uri": "system/fields/calendar-rtl.css",
-      "version": "1e99b9"
+      "name": "field.color-slider",
+      "type": "script",
+      "uri": "system/fields/joomla-field-color-slider.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "version": "01c1ec"
     },
     {
       "name": "field.modal-fields",
@@ -473,15 +482,6 @@
       "version": "21a476"
     },
     {
-      "name": "field.color-slider",
-      "type": "script",
-      "uri": "system/fields/joomla-field-color-slider.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "version": "01c1ec"
-    },
-    {
       "name": "webcomponent.field-fancy-select",
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select.min.js",
@@ -492,7 +492,7 @@
         "choicesjs",
         "webcomponent.field-fancy-select-legacy"
       ],
-      "version": "8fe001"
+      "version": "aad668"
     },
     {
       "name": "webcomponent.field-media",

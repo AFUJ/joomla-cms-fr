@@ -2276,6 +2276,7 @@ progress {
 }
 
 .form-control::file-selector-button {
+  margin: -.5rem -1rem;
   color: var(--white);
   background-color: var(--tertiary-bg);
   pointer-events: none;
@@ -2283,7 +2284,6 @@ progress {
   border-style: solid;
   border-width: 0;
   border-inline-end-width: var(--border-width);
-  margin: -.5rem -1rem;
   border-radius: 0;
   margin-inline-end: 1rem;
   padding: .5rem 1rem;
@@ -14807,11 +14807,7 @@ label.valid {
   position: absolute;
 }
 
-.filter-search-bar__description {
-  bottom: 100%;
-}
-
-.container-popup .filter-search-bar__description {
+.filter-search-bar__description, .container-popup .filter-search-bar__description {
   top: 100%;
   bottom: auto;
 }
@@ -15052,16 +15048,16 @@ iframe {
 }
 
 .view-login .form-group .form-control-feedback, .task-logout .form-group .form-control-feedback {
-  text-align: end;
   inset-inline-end: 0;
+  text-align: end;
   font-size: .75rem;
   position: absolute;
   bottom: -1.5rem;
 }
 
 .view-login .form-group .form-control-hint, .task-logout .form-group .form-control-hint {
-  text-align: end;
   top: .1rem;
+  text-align: end;
   font-size: .75rem;
   position: absolute;
   inset-inline-end: 0;
@@ -15658,8 +15654,8 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .quick-icons .quickicon a .quickicon-icon {
-  color: var(--icon-color);
   margin-top: .5rem;
+  color: var(--icon-color);
   margin-inline-start: .2rem;
 }
 
@@ -15956,7 +15952,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .main-nav .has-arrow:after {
-  content: "";
+  content: "" ;
   justify-content: center;
   align-items: center;
   width: 2rem;
@@ -16126,7 +16122,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .sidebar-nav li a:before {
-  content: "";
+  content: "" ;
   margin-inline-end: .5rem;
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
@@ -16408,9 +16404,9 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .treeselect li:before {
+  top: 14px;
   content: "";
   background-color: var(--treeselect-line-color);
-  top: 14px;
   width: 10px;
   height: 1px;
   margin: auto;
@@ -16419,10 +16415,10 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .treeselect li:after {
-  content: "";
-  background-color: var(--treeselect-line-color);
   top: 0;
   bottom: 0;
+  content: "";
+  background-color: var(--treeselect-line-color);
   width: 1px;
   height: 100%;
   position: absolute;
@@ -17735,8 +17731,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #999;
   --atum-calendar-disabled-bg: #fff;
   --atum-calendar-select-bg: var(--template-bg-light);
-  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=174420");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=174420");
+  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=174769");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=174769");
   --permissions-sliders-oddCol-bg: var(--template-bg-light);
   --respTable-border-bottom: 1em solid var(--template-bg-dark-80);
   --treeselect-line-color: hsl(var(--hue), 40%, 93%);
@@ -18082,8 +18078,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #4b4b4b;
   --atum-calendar-disabled-bg: #00000080;
   --atum-calendar-select-bg: #007db0;
-  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=174420");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=174420");
+  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=174769");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=174769");
   --permissions-sliders-oddCol-bg: var(--template-bg-dark);
   --respTable-border-bottom: 1em solid #007db0;
   --treeselect-line-color: #fff6;

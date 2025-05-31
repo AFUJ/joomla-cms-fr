@@ -492,8 +492,8 @@
 }
 
 .choices[data-type*="select-one"] .choices__button_joomla {
-  opacity: .5;
   top: 50%;
+  opacity: .5;
   border-radius: 10em;
   width: 20px;
   height: 20px;
