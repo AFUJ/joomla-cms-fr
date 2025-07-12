@@ -81,18 +81,6 @@
       "version": "9c9433"
     },
     {
-      "name": "com_content.articles-status",
-      "type": "script",
-      "uri": "com_content/articles-status.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "31fff5"
-    },
-    {
       "name": "com_content.articles-list",
       "type": "script",
       "uri": "com_content/articles-list.min.js",
@@ -103,6 +91,18 @@
         "type": "module"
       },
       "version": "f53819"
+    },
+    {
+      "name": "com_content.articles-status",
+      "type": "script",
+      "uri": "com_content/articles-status.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "31fff5"
     }
   ]
 }
