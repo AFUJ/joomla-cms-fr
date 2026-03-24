@@ -1,17 +1,17 @@
-# AFUJ: Joomla! CMS™ - Version 5.3.2 avec pack fr-FR
+# AFUJ: Joomla! CMS™ - Version 6.0.3 avec pack fr-FR
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/AFUJ/joomla-cms-fr?color=green&include_prereleases&label=release&style=for-the-badge)
 
 ## DESCRIPTION
 
-La version 5.3.2 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
+La version 6.0.3 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
 
 ## 1- Aperçu
-* Ceci est un package d'installation 5.3.2 francisé.
+* Ceci est un package d'installation 6.0.3 francisé.
 * Site officiel de Joomla! : (https://www.joomla.org)
 * Historique des versions Joomla! 5.3 - 
-[https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_5.3_version_history)
-* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/5.3-dev](https://github.com/joomla/joomla-cms/commits/5.3-dev)
+[https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history)
+* Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/6.0-dev](https://github.com/joomla/joomla-cms/commits/6.0-dev)
 
 ## 2- Qu'est-ce que Joomla?
 * Joomla! est un système de gestion de contenu (CMS) qui vous permet de créer des sites web et des applications en ligne puissantes.
@@ -61,8 +61,8 @@ Voir le tutoriel : [https://docs.joomla.org/Special:MyLanguage/Installing_Joomla
 * Posez des questions sur nos forums : [https://forum.joomla.fr](https://forum.joomla.fr)
 * Annuaire des ressources Joomla! (JRD) : [https://community.joomla.org/service-providers-directory/](https://community.joomla.org/service-providers-directory/)
 
-## 11- Possédez-vous déjà un site Joomla! qui n'est pas construit avec Joomla! 5.x ?
-* Ce qui est nouveau dans Joomla! 5.x : [https://5.joomla.fr/](https://5.joomla.fr)
+## 11- Possédez-vous déjà un site Joomla! qui n'est pas construit avec Joomla! 6.x ?
+* Ce qui est nouveau dans Joomla! 6.x : [https://6.joomla.org/](https://6.joomla.org/)
 * Quelles sont les principales différences entre 4.x et 5.x ? [https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_4.x_and_5.x](https://docs.joomla.org/Special:MyLanguage/What_are_the_major_differences_between_Joomla!_4.x_and_5.x)
 * Comment migrer de 4.x à 5.x ? Tutoriel : [https://docs.joomla.org/Special:MyLanguage/Joomla_4.x_to_5.x_Step_by_Step_Migration](https://docs.joomla.org/Special:MyLanguage/Joomla_4.x_to_5.x_Step_by_Step_Migration)
 * Comment migrer de 3.x à 4.x ? Tutoriel : [https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration](https://docs.joomla.org/Special:MyLanguage/Joomla_3.x_to_4.x_Step_by_Step_Migration)
