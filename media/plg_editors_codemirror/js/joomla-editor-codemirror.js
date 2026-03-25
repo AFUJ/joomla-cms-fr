@@ -6,11 +6,9 @@ import { keymap, createFromTextarea, EditorState } from 'codemirror';
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
 /**
  * Codemirror Decorator for JoomlaEditor
  */
-// eslint-disable-next-line max-classes-per-file
 class CodemirrorDecorator extends JoomlaEditorDecorator {
   /**
    * @returns {string}

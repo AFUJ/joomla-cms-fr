@@ -49,9 +49,9 @@ class Language
     protected $metadata;
 
     /**
-     * Array holding the language locale or boolean null if none.
+     * Array holding the language locale or null.
      *
-     * @var    array|boolean
+     * @var    ?array
      * @since  1.0
      */
     protected $locale;
@@ -108,7 +108,7 @@ class Language
      * The localisation object.
      *
      * @var    LocaliseInterface
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     protected $localise;
 
@@ -116,7 +116,7 @@ class Language
      * LanguageHelper object
      *
      * @var    LanguageHelper
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     protected $helper;
 
@@ -124,7 +124,7 @@ class Language
      * The base path to the language folder
      *
      * @var    string
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     protected $basePath;
 
@@ -132,7 +132,7 @@ class Language
      * MessageCatalogue object
      *
      * @var    MessageCatalogue
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     protected $catalogue;
 
@@ -140,7 +140,7 @@ class Language
      * Language parser registry
      *
      * @var    ParserRegistry
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     protected $parserRegistry;
 
@@ -177,13 +177,9 @@ class Language
         $filename = $basePath . "/overrides/$lang.override.ini";
 
         if (file_exists($filename) && $contents = $this->parse($filename)) {
-            if (\is_array($contents)) {
-                // Sort the underlying heap by key values to optimize merging
-                ksort($contents, SORT_STRING);
-                $this->override = $contents;
-            }
-
-            unset($contents);
+            // Sort the underlying heap by key values to optimize merging
+            ksort($contents, SORT_STRING);
+            $this->override = $contents;
         }
 
         // Grab a localisation file
@@ -205,35 +201,7 @@ class Language
      *
      * @return  string  The translation of the string
      *
-     * @see     Language::translate()
-     * @since   1.0
-     * @deprecated  3.0  Use translate instead
-     */
-    public function _($string, $jsSafe = false, $interpretBackSlashes = true)
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::translate() instead.',
-            __METHOD__,
-            self::class
-        );
-
-        return $this->translate((string) $string, (bool) $jsSafe, (bool) $interpretBackSlashes);
-    }
-
-    /**
-     * Translate function, mimics the php gettext (alias _) function.
-     *
-     * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
-     *
-     * @param   string   $string                The string to translate
-     * @param   boolean  $jsSafe                Make the result JavaScript safe
-     * @param   boolean  $interpretBackSlashes  Interpret \t and \n
-     *
-     * @return  string  The translation of the string
-     *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function translate(string $string, bool $jsSafe = false, bool $interpretBackSlashes = true): string
     {
@@ -299,14 +267,14 @@ class Language
      */
     public function transliterate($string)
     {
-        $string = $this->localise->transliterate($string);
+        $transliterated_string = $this->localise->transliterate($string);
 
         // The transliterate method can return false if there isn't a fully valid UTF-8 string entered
-        if ($string === false) {
-            throw new \RuntimeException('Invalid UTF-8 was detected in the string "%s"', $string);
+        if ($transliterated_string === false) {
+            throw new \RuntimeException(sprintf('Invalid UTF-8 was detected in the string "%s"', $string));
         }
 
-        return $string;
+        return $transliterated_string;
     }
 
     /**
@@ -321,33 +289,6 @@ class Language
     public function getPluralSuffixes($count)
     {
         return $this->localise->getPluralSuffixes($count);
-    }
-
-    /**
-     * Checks if a language exists.
-     *
-     * This is a simple, quick check for the directory that should contain language files for the given user.
-     *
-     * @param   string  $lang      Language to check.
-     * @param   string  $basePath  Optional path to check.
-     *
-     * @return  boolean  True if the language exists.
-     *
-     * @see     LanguageHelper::exists()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::exists() instead
-     */
-    public static function exists($lang, $basePath = '')
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::exists() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->exists($lang, $basePath);
     }
 
     /**
@@ -400,14 +341,11 @@ class Language
         $this->counter++;
 
         $result  = false;
-        $strings = false;
 
         if (file_exists($filename)) {
             $strings = $this->parse($filename);
-        }
 
-        if ($strings) {
-            if (\is_array($strings) && \count($strings)) {
+            if (\count($strings)) {
                 $this->catalogue->addMessages(array_replace($strings, $this->override));
                 $result = true;
             }
@@ -434,14 +372,6 @@ class Language
      */
     protected function parse($filename)
     {
-        // Capture hidden PHP errors from the parsing.
-        if ($this->debug) {
-            // See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
-            $php_errormsg = null;
-            $trackErrors  = ini_get('track_errors');
-            ini_set('track_errors', true);
-        }
-
         try {
             $strings = $this->parserRegistry->get(pathinfo($filename, PATHINFO_EXTENSION))->loadFile($filename);
         } catch (\RuntimeException $exception) {
@@ -449,14 +379,7 @@ class Language
             $strings = [];
         }
 
-        if ($this->debug) {
-            // Restore error tracking to what it was before.
-            ini_set('track_errors', $trackErrors);
-
-            $this->debugFile($filename);
-        }
-
-        return \is_array($strings) ? $strings : [];
+        return $strings;
     }
 
     /**
@@ -466,7 +389,7 @@ class Language
      *
      * @return  integer  A count of the number of parsing errors
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function debugFile(string $filename): int
     {
@@ -478,8 +401,7 @@ class Language
         }
 
         // Initialise variables for manually parsing the file for common errors.
-        $debug        = $this->setDebug(false);
-        $php_errormsg = null;
+        $debug = $this->setDebug(false);
 
         $parser = $this->parserRegistry->get(pathinfo($filename, PATHINFO_EXTENSION));
 
@@ -492,9 +414,6 @@ class Language
         // Check if we encountered any errors.
         if (\count($errors)) {
             $this->errorfiles[$filename] = $filename . ' - error(s) ' . implode(', ', $errors);
-        } elseif ($php_errormsg) {
-            // We didn't find any errors but there's probably a parse notice.
-            $this->errorfiles['PHP' . $filename] = 'PHP parser errors -' . $php_errormsg;
         }
 
         $this->setDebug($debug);
@@ -522,7 +441,7 @@ class Language
      *
      * @return  string
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function getBasePath(): string
     {
@@ -735,80 +654,6 @@ class Language
     }
 
     /**
-     * Returns a associative array holding the metadata.
-     *
-     * @param   string  $lang      The name of the language.
-     * @param   string  $basePath  The filepath to the language folder.
-     *
-     * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
-     *
-     * @see     LanguageHelper::getMetadata()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::getMetadata() instead
-     */
-    public static function getMetadata($lang, $basePath)
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::getMetadata() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->getMetadata($lang, $basePath);
-    }
-
-    /**
-     * Returns a list of known languages for an area
-     *
-     * @param   string  $basePath  The basepath to use
-     *
-     * @return  array  key/value pair with the language file and real name.
-     *
-     * @see     LanguageHelper::getKnownLanguages()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::getKnownLanguages() instead
-     */
-    public static function getKnownLanguages($basePath = '')
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::getKnownLanguages() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->getKnownLanguages($basePath);
-    }
-
-    /**
-     * Get the path to a language
-     *
-     * @param   string  $basePath  The basepath to use.
-     * @param   string  $language  The language tag.
-     *
-     * @return  string  language related path or null.
-     *
-     * @see     LanguageHelper::getLanguagePath()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::getLanguagePath() instead
-     */
-    public static function getLanguagePath($basePath = '', $language = '')
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::getLanguagePath() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->getLanguagePath($basePath, $language);
-    }
-
-    /**
      * Get the current language code.
      *
      * @return  string  The language code
@@ -825,7 +670,7 @@ class Language
      *
      * @return  MessageCatalogue
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function getCatalogue(): MessageCatalogue
     {
@@ -839,7 +684,7 @@ class Language
      *
      * @return  void
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function setCatalogue(MessageCatalogue $catalogue): void
     {
@@ -881,58 +726,10 @@ class Language
      *
      * @return  string  The weekend days of the week separated by a comma according to the language
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function getWeekEnd(): string
     {
         return $this->metadata['weekEnd'] ?? '0,6';
-    }
-
-    /**
-     * Searches for language directories within a certain base dir.
-     *
-     * @param   string  $dir  directory of files.
-     *
-     * @return  array  Array holding the found languages as filename => real name pairs.
-     *
-     * @see     LanguageHelper::parseLanguageFiles()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::parseLanguageFiles() instead
-     */
-    public static function parseLanguageFiles($dir = null)
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::parseLanguageFiles() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->parseLanguageFiles($dir);
-    }
-
-    /**
-     * Parse XML file for language information.
-     *
-     * @param   string  $path  Path to the XML files.
-     *
-     * @return  mixed  Array holding the found metadata as a key => value pair or null on an invalid XML file
-     *
-     * @see     LanguageHelper::parseXMLLanguageFile()
-     * @since   1.0
-     * @deprecated  3.0  Use LanguageHelper::parseXMLLanguageFile() instead
-     */
-    public static function parseXmlLanguageFile($path)
-    {
-        trigger_deprecation(
-            'joomla/language',
-            '2.0.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::parseXmlLanguageFile() instead.',
-            __METHOD__,
-            LanguageHelper::class
-        );
-
-        return (new LanguageHelper())->parseXMLLanguageFile($path);
     }
 }

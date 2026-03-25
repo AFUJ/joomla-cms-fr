@@ -36,7 +36,7 @@ class Gzip implements ExtractableInterface
     /**
      * Gzip file data buffer
      *
-     * @var    string
+     * @var    ?string
      * @since  1.0
      */
     private $data;
@@ -81,7 +81,7 @@ class Gzip implements ExtractableInterface
      */
     public function extract($archive, $destination)
     {
-        $this->data = null;
+        $this->data = '';
 
         if (!isset($this->options['use_streams']) || $this->options['use_streams'] == false) {
             $this->data = file_get_contents($archive);

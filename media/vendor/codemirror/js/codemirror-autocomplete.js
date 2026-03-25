@@ -187,16 +187,20 @@ selection range that has the same text in front of it.
 */
 function insertCompletionText(state, text, from, to) {
     let { main } = state.selection, fromOff = from - main.from, toOff = to - main.from;
-    return Object.assign(Object.assign({}, state.changeByRange(range => {
-        if (range != main && from != to &&
-            state.sliceDoc(range.from + fromOff, range.from + toOff) != state.sliceDoc(from, to))
-            return { range };
-        let lines = state.toText(text);
-        return {
-            changes: { from: range.from + fromOff, to: to == main.from ? range.to : range.from + toOff, insert: lines },
-            range: EditorSelection.cursor(range.from + fromOff + lines.length)
-        };
-    })), { scrollIntoView: true, userEvent: "input.complete" });
+    return {
+        ...state.changeByRange(range => {
+            if (range != main && from != to &&
+                state.sliceDoc(range.from + fromOff, range.from + toOff) != state.sliceDoc(from, to))
+                return { range };
+            let lines = state.toText(text);
+            return {
+                changes: { from: range.from + fromOff, to: to == main.from ? range.to : range.from + toOff, insert: lines },
+                range: EditorSelection.cursor(range.from + fromOff + lines.length)
+            };
+        }),
+        scrollIntoView: true,
+        userEvent: "input.complete"
+    };
 }
 const SourceCache = /*@__PURE__*/new WeakMap();
 function asSource(source) {
@@ -841,7 +845,7 @@ class CompletionDialog {
         }, prev ? prev.timestamp : Date.now(), selected, false);
     }
     map(changes) {
-        return new CompletionDialog(this.options, this.attrs, Object.assign(Object.assign({}, this.tooltip), { pos: changes.mapPos(this.tooltip.pos) }), this.timestamp, this.selected, this.disabled);
+        return new CompletionDialog(this.options, this.attrs, { ...this.tooltip, pos: changes.mapPos(this.tooltip.pos) }, this.timestamp, this.selected, this.disabled);
     }
     setDisabled() {
         return new CompletionDialog(this.options, this.attrs, this.tooltip, this.timestamp, this.selected, true);
@@ -1026,7 +1030,10 @@ function applyCompletion(view, option) {
     if (!(result instanceof ActiveResult))
         return false;
     if (typeof apply == "string")
-        view.dispatch(Object.assign(Object.assign({}, insertCompletionText(view.state, apply, result.from, result.to)), { annotations: pickedCompletion.of(option.completion) }));
+        view.dispatch({
+            ...insertCompletionText(view.state, apply, result.from, result.to),
+            annotations: pickedCompletion.of(option.completion)
+        });
     else
         apply(view, option.completion, result.from, result.to);
     return true;
@@ -1443,7 +1450,7 @@ class Snippet {
         let fields = [];
         let lines = [], positions = [], m;
         for (let line of template.split(/\r\n?|\n/)) {
-            while (m = /[#$]\{(?:(\d+)(?::([^}]*))?|((?:\\[{}]|[^}])*))\}/.exec(line)) {
+            while (m = /[#$]\{(?:(\d+)(?::([^{}]*))?|((?:\\[{}]|[^{}])*))\}/.exec(line)) {
                 let seq = m[1] ? +m[1] : null, rawName = m[2] || m[3] || "", found = -1;
                 let name = rawName.replace(/\\[{}]/g, m => m[1]);
                 for (let i = 0; i < fields.length; i++) {
@@ -1460,6 +1467,12 @@ class Snippet {
                         if (pos.field >= found)
                             pos.field++;
                 }
+                for (let pos of positions)
+                    if (pos.line == lines.length && pos.from > m.index) {
+                        let snip = m[2] ? 3 + (m[1] || "").length : 2;
+                        pos.from -= snip;
+                        pos.to -= snip;
+                    }
                 positions.push(new FieldPos(found, lines.length, m.index, m.index + name.length));
                 line = line.slice(0, m.index) + rawName + line.slice(m.index + m[0].length);
             }
@@ -1489,7 +1502,7 @@ class ActiveSnippet {
     constructor(ranges, active) {
         this.ranges = ranges;
         this.active = active;
-        this.deco = Decoration.set(ranges.map(r => (r.from == r.to ? fieldMarker : fieldRange).range(r.from, r.to)));
+        this.deco = Decoration.set(ranges.map(r => (r.from == r.to ? fieldMarker : fieldRange).range(r.from, r.to)), true);
     }
     map(changes) {
         let ranges = [];
@@ -1649,7 +1662,7 @@ properties from `completion`, plus an `apply` function that
 applies the snippet.
 */
 function snippetCompletion(template, completion) {
-    return Object.assign(Object.assign({}, completion), { apply: snippet(template) });
+    return { ...completion, apply: snippet(template) };
 }
 const snippetPointerHandler = /*@__PURE__*/EditorView.domEventHandlers({
     mousedown(event, view) {
@@ -2007,17 +2020,18 @@ function autocompletion(config = {}) {
 /**
 Basic keybindings for autocompletion.
 
- - Ctrl-Space (and Alt-\` on macOS): [`startCompletion`](https://codemirror.net/6/docs/ref/#autocomplete.startCompletion)
+ - Ctrl-Space (and Alt-\` or Alt-i on macOS): [`startCompletion`](https://codemirror.net/6/docs/ref/#autocomplete.startCompletion)
  - Escape: [`closeCompletion`](https://codemirror.net/6/docs/ref/#autocomplete.closeCompletion)
  - ArrowDown: [`moveCompletionSelection`](https://codemirror.net/6/docs/ref/#autocomplete.moveCompletionSelection)`(true)`
  - ArrowUp: [`moveCompletionSelection`](https://codemirror.net/6/docs/ref/#autocomplete.moveCompletionSelection)`(false)`
  - PageDown: [`moveCompletionSelection`](https://codemirror.net/6/docs/ref/#autocomplete.moveCompletionSelection)`(true, "page")`
- - PageDown: [`moveCompletionSelection`](https://codemirror.net/6/docs/ref/#autocomplete.moveCompletionSelection)`(true, "page")`
+ - PageUp: [`moveCompletionSelection`](https://codemirror.net/6/docs/ref/#autocomplete.moveCompletionSelection)`(false, "page")`
  - Enter: [`acceptCompletion`](https://codemirror.net/6/docs/ref/#autocomplete.acceptCompletion)
 */
 const completionKeymap = [
     { key: "Ctrl-Space", run: startCompletion },
     { mac: "Alt-`", run: startCompletion },
+    { mac: "Alt-i", run: startCompletion },
     { key: "Escape", run: closeCompletion },
     { key: "ArrowDown", run: /*@__PURE__*/moveCompletionSelection(true) },
     { key: "ArrowUp", run: /*@__PURE__*/moveCompletionSelection(false) },

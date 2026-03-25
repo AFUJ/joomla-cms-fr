@@ -18,7 +18,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
 SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 0, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
-SELECT `extension_id`, 'French (fr-FR))', 'language', 'fr-FR', '', 1, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
+SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 1, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`)
 SELECT `extension_id`, 'French (fr-FR)', 'language', 'fr-FR', '', 3, 1, 1, 0, 0, '', '', '', 0, 0 FROM `#__extensions` WHERE `name` = 'French (fr-FR) Language pack';
 
@@ -39,7 +39,10 @@ UPDATE IGNORE `#__assets` SET `rgt` = 48 WHERE `id` = 11;
 --
 -- Table `#__update_sites_extensions`
 --
-INSERT INTO `#__update_sites_extensions` VALUES (2, 247);
+INSERT IGNORE INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`)
+SELECT 2, `extension_id`
+FROM `#__extensions`
+WHERE `name` = 'French (fr-FR) Language pack';
 
 --
 -- Table `#__usergroups`

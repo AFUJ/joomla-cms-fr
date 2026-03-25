@@ -973,8 +973,8 @@ service.
 const indentService = /*@__PURE__*/Facet.define();
 /**
 Facet for overriding the unit by which indentation happens. Should
-be a string consisting either entirely of the same whitespace
-character. When not set, this defaults to 2 spaces.
+be a string consisting entirely of the same whitespace character.
+When not set, this defaults to 2 spaces.
 */
 const indentUnit = /*@__PURE__*/Facet.define({
     combine: values => {
@@ -1168,7 +1168,8 @@ function syntaxIndentation(cx, ast, pos) {
     let inner = ast.resolveInner(pos, -1).resolve(pos, 0).enterUnfinishedNodesBefore(pos);
     if (inner != stack.node) {
         let add = [];
-        for (let cur = inner; cur && !(cur.from == stack.node.from && cur.type == stack.node.type); cur = cur.parent)
+        for (let cur = inner; cur && !(cur.from < stack.node.from || cur.to > stack.node.to ||
+            cur.from == stack.node.from && cur.type == stack.node.type); cur = cur.parent)
             add.push(cur);
         for (let i = add.length - 1; i >= 0; i--)
             stack = { node: add[i], next: stack };
@@ -1487,6 +1488,8 @@ const foldState = /*@__PURE__*/StateField.define({
         return Decoration.none;
     },
     update(folded, tr) {
+        if (tr.isUserEvent("delete"))
+            tr.changes.iterChangedRanges((fromA, toA) => folded = clearTouchedFolds(folded, fromA, toA));
         folded = folded.map(tr.changes);
         for (let e of tr.effects) {
             if (e.is(foldEffect) && !foldExists(folded, e.value.from, e.value.to)) {
@@ -1501,17 +1504,8 @@ const foldState = /*@__PURE__*/StateField.define({
             }
         }
         // Clear folded ranges that cover the selection head
-        if (tr.selection) {
-            let onSelection = false, { head } = tr.selection.main;
-            folded.between(head, head, (a, b) => { if (a < head && b > head)
-                onSelection = true; });
-            if (onSelection)
-                folded = folded.update({
-                    filterFrom: head,
-                    filterTo: head,
-                    filter: (a, b) => b <= head || a >= head
-                });
-        }
+        if (tr.selection)
+            folded = clearTouchedFolds(folded, tr.selection.main.head);
         return folded;
     },
     provide: f => EditorView.decorations.from(f),
@@ -1533,6 +1527,16 @@ const foldState = /*@__PURE__*/StateField.define({
         return Decoration.set(ranges, true);
     }
 });
+function clearTouchedFolds(folded, from, to = from) {
+    let touched = false;
+    folded.between(from, to, (a, b) => { if (a < to && b > from)
+        touched = true; });
+    return !touched ? folded : folded.update({
+        filterFrom: from,
+        filterTo: to,
+        filter: (a, b) => a >= to || b <= from
+    });
+}
 /**
 Get a [range set](https://codemirror.net/6/docs/ref/#state.RangeSet) containing the folded ranges
 in the given state.
@@ -1749,7 +1753,7 @@ fold status indicator before foldable lines (which can be clicked
 to fold or unfold the line).
 */
 function foldGutter(config = {}) {
-    let fullConfig = Object.assign(Object.assign({}, foldGutterDefaults), config);
+    let fullConfig = { ...foldGutterDefaults, ...config };
     let canFold = new FoldMarker(fullConfig, true), canUnfold = new FoldMarker(fullConfig, false);
     let markers = ViewPlugin.fromClass(class {
         constructor(view) {
@@ -1784,7 +1788,9 @@ function foldGutter(config = {}) {
             initialSpacer() {
                 return new FoldMarker(fullConfig, false);
             },
-            domEventHandlers: Object.assign(Object.assign({}, domEventHandlers), { click: (view, line, event) => {
+            domEventHandlers: {
+                ...domEventHandlers,
+                click: (view, line, event) => {
                     if (domEventHandlers.click && domEventHandlers.click(view, line, event))
                         return true;
                     let folded = findFold(view.state, line.from, line.to);
@@ -1798,7 +1804,8 @@ function foldGutter(config = {}) {
                         return true;
                     }
                     return false;
-                } })
+                }
+            }
         }),
         codeFolding()
     ];
@@ -2503,7 +2510,7 @@ class Parse {
     advance() {
         let context = ParseContext.get();
         let parseEnd = this.stoppedAt == null ? this.to : Math.min(this.to, this.stoppedAt);
-        let end = Math.min(parseEnd, this.chunkStart + 2048 /* C.ChunkSize */);
+        let end = Math.min(parseEnd, this.chunkStart + 512 /* C.ChunkSize */);
         if (context)
             end = Math.min(end, context.viewport.to);
         while (this.parsedPos < end)
@@ -2609,7 +2616,7 @@ class Parse {
             length: this.parsedPos - this.chunkStart,
             nodeSet,
             topID: 0,
-            maxBufferLength: 2048 /* C.ChunkSize */,
+            maxBufferLength: 512 /* C.ChunkSize */,
             reused: this.chunkReused
         });
         tree = new Tree(tree.type, tree.children, tree.positions, tree.length, [[this.lang.stateAfter, this.lang.streamParser.copyState(this.state)]]);

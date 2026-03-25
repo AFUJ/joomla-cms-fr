@@ -272,6 +272,9 @@ class InputFilter
         $attrSubSet[0] = strtolower($attrSubSet[0]);
         $attrSubSet[1] = html_entity_decode(strtolower($attrSubSet[1]), ENT_QUOTES | ENT_HTML401, 'UTF-8');
 
+        // Remove common XSS-evasion characters
+        $attrSubSet[1] = str_replace(["\t", "\n", " ", "\0"], "", $attrSubSet[1]);
+
         return (strpos($attrSubSet[1], 'expression') !== false && $attrSubSet[0] === 'style')
             || preg_match('/(?:(?:java|vb|live)script|behaviour|mocha)(?::|&colon;|&column;)/', $attrSubSet[1]) !== 0;
     }
@@ -625,21 +628,6 @@ class InputFilter
     }
 
     /**
-     * Try to convert to plaintext
-     *
-     * @param   string  $source  The source string.
-     *
-     * @return  string  Plaintext string
-     *
-     * @since   1.0
-     * @deprecated  This method will be removed once support for PHP 5.3 is discontinued.
-     */
-    protected function decode($source)
-    {
-        return html_entity_decode($source, \ENT_QUOTES, 'UTF-8');
-    }
-
-    /**
      * Escape < > and " inside attribute values
      *
      * @param   string  $source  The source string.
@@ -889,7 +877,7 @@ class InputFilter
      */
     private function cleanString($source)
     {
-        return $this->remove($this->decode($source));
+        return $this->remove(html_entity_decode($source, \ENT_QUOTES, 'UTF-8'));
     }
 
     /**

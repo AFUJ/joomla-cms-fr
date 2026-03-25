@@ -28,7 +28,7 @@ class LanguageFactory
      * Path to the directory containing the application's language folder
      *
      * @var    string
-     * @since  2.0.0-alpha
+     * @since  2.0
      */
     private $languageDirectory = '';
 
@@ -86,7 +86,7 @@ class LanguageFactory
      *
      * @return  LocaliseInterface
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function getLocalise(string $lang, string $basePath = ''): LocaliseInterface
     {
@@ -103,31 +103,25 @@ class LanguageFactory
             return new $class();
         }
 
-        $paths = [];
-
         $basePath = $basePath ?: $this->getLanguageDirectory();
 
         // Get the LanguageHelper to set the proper language directory
         $basePath = (new LanguageHelper())->getLanguagePath($basePath);
 
-        // Explicitly set the keys to define the lookup order
-        $paths[0] = $basePath . "/overrides/$lang.localise.php";
-        $paths[1] = $basePath . "/$lang/$lang.localise.php";
+        $paths = [
+            $basePath . "/overrides/$lang.localise.php",
+            $basePath . "/$lang/$lang.localise.php",
+        ];
 
-        ksort($paths);
-        $path = reset($paths);
-
-        while (!class_exists($class) && $path) {
+        foreach ($paths as $path) {
             if (file_exists($path)) {
                 require_once $path;
+
+                /* @phpstan-ignore if.alwaysFalse */
+                if (class_exists($class, false)) {
+                    return new $class();
+                }
             }
-
-            $path = next($paths);
-        }
-
-        // If we have found a match initialise it and return it
-        if (class_exists($class)) {
-            return new $class();
         }
 
         // Return the en_GB class if no specific instance is found
@@ -142,6 +136,7 @@ class LanguageFactory
      * @return  StemmerInterface
      *
      * @since   1.3.0
+     * @deprecated  5.0  Use wamania/php-stemmer instead
      * @throws  \RuntimeException on invalid stemmer
      */
     public function getStemmer($adapter)
@@ -165,7 +160,7 @@ class LanguageFactory
      *
      * @return  Text
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function getText(?Language $language = null): Text
     {
@@ -197,7 +192,7 @@ class LanguageFactory
      *
      * @return  $this
      *
-     * @since   2.0.0-alpha
+     * @since   2.0
      */
     public function setLanguageDirectory(string $directory): self
     {

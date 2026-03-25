@@ -170,14 +170,13 @@ class TableColumns {
 if (window.innerWidth > 992) {
   // Look for dataset name else page-title
   [...document.querySelectorAll('table:not(.columns-order-ignore)')].forEach($table => {
-    const tableName = $table.dataset.name ? $table.dataset.name : document.querySelector('.page-title').textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
+    var _document$querySelect;
+    const tableName = $table.dataset.name ? $table.dataset.name : (_document$querySelect = document.querySelector('.page-title')) == null ? void 0 : _document$querySelect.textContent.trim().replace(/[^a-z0-9]/gi, '-').toLowerCase();
 
     // Skip unnamed table
     if (!tableName) {
       return;
     }
-
-    /* eslint-disable-next-line no-new */
     new TableColumns($table, tableName);
   });
 }

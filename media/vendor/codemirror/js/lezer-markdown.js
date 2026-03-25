@@ -1979,7 +1979,7 @@ function parseCode(config) {
             if (parser)
                 return { parser, overlay: node => node.type.id == Type.CodeText };
         }
-        else if (htmlParser && (id == Type.HTMLBlock || id == Type.HTMLTag)) {
+        else if (htmlParser && (id == Type.HTMLBlock || id == Type.HTMLTag || id == Type.CommentBlock)) {
             return { parser: htmlParser, overlay: leftOverSpace(node.node, node.from, node.to) };
         }
         return null;

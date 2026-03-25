@@ -4,7 +4,7 @@ import JoomlaDialog from 'joomla.dialog';
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// eslint-disable-next-line import/no-unresolved
+
 class JoomlaFieldUser extends HTMLElement {
   constructor() {
     super();
@@ -73,7 +73,6 @@ class JoomlaFieldUser extends HTMLElement {
       // Check for onchange callback,
       this.onchangeStr = this.input.getAttribute('data-onchange');
       if (this.onchangeStr) {
-        // eslint-disable-next-line no-new-func
         this.onUserSelect = new Function(this.onchangeStr);
         this.input.addEventListener('change', this.onUserSelect);
       }

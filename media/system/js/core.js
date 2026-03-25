@@ -28,7 +28,6 @@
    *
    * Shout-out to Angular https://github.com/angular/angular/blob/15.2.8/packages/core/src/sanitization/url_sanitizer.ts#L38
    */
-  // eslint-disable-next-line unicorn/better-regex
   const SAFE_URL_PATTERN = /^(?!javascript:)(?:[a-z0-9+.-]+:|[^&:/?#]*(?:[/?#]|$))/i;
   const allowedAttribute = (attribute, allowedAttributeList) => {
     const attributeName = attribute.nodeName.toLowerCase();
@@ -112,7 +111,9 @@
     input: ['accept', 'alt', 'autocomplete', 'autofocus', 'capture', 'checked', 'dirname', 'disabled', 'height', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple', 'type', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'size', 'src', 'step', 'value', 'width', 'inputmode'],
     select: ['name'],
     textarea: ['name'],
-    option: ['value', 'selected']
+    option: ['value', 'selected'],
+    details: ['open'],
+    summary: []
   };
 
   // Only define the Joomla namespace if not defined.
@@ -346,7 +347,7 @@
    *
    * @type {{}}
    *
-   * @deprecated   4.0 will be removed in 6.0
+   * @deprecated   4.0 will be removed in 7.0
    *               Example: Joomla.Text._('...');
    *                        Joomla.Text.load(...);
    */
@@ -494,8 +495,6 @@
     let i;
     let e;
     let n;
-
-    // eslint-disable-next-line no-plusplus
     for (i = 0, n = newForm.elements.length; i < n; i++) {
       e = newForm.elements[i];
       if (e.type === 'checkbox' && e.name !== 'checkall-toggle' && !e.checked) {
@@ -551,8 +550,6 @@
     if (!cb) {
       return false;
     }
-
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       cbx = newForm[`cb${i}`];
       if (!cbx) {
@@ -653,7 +650,6 @@
       if (newOptions.headers) {
         Object.keys(newOptions.headers).forEach(key => {
           // Allow request without Content-Type
-          // eslint-disable-next-line no-empty
           if (key === 'Content-Type' && newOptions.headers['Content-Type'] === 'false') ; else {
             xhr.setRequestHeader(key, newOptions.headers[key]);
           }
@@ -707,7 +703,6 @@
     try {
       return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
     } catch (error) {
-      // eslint-disable-next-line no-unused-expressions,no-console
       console.error(error);
       return false;
     }
@@ -768,8 +763,6 @@
 
       // Html entity encode.
       let encodedJson = xhr.responseText.trim();
-
-      // eslint-disable-next-line no-plusplus
       for (let i = encodedJson.length - 1; i >= 0; i--) {
         buf.unshift(['&#', encodedJson[i].charCodeAt(), ';'].join(''));
       }

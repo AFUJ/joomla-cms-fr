@@ -253,7 +253,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
     #[\ReturnTypeWillChange]
     public function getIterator()
     {
-        return new \ArrayIterator($this->data);
+        return new \ArrayIterator($this->toArray());
     }
 
     /**
@@ -261,14 +261,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
      *
      * @param  array    $array      Associative array of value to load
      * @param  boolean  $flattened  Load from a one-dimensional array
-     * @param  string   $separator  The key separator
      *
      * @return  $this
      *
      * @since   1.0.0
      * @since   2.0.0  The parameter `$array` is now type hinted as `array`. Before 2.0.0, the type was not enforced.
      */
-    public function loadArray(array $array, $flattened = false, $separator = null)
+    public function loadArray(array $array, $flattened = false)
     {
         if (!$flattened) {
             $this->bindData($this->data, $array);
@@ -277,7 +276,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
         }
 
         foreach ($array as $k => $v) {
-            $this->set($k, $v, $separator);
+            $this->set($k, $v);
         }
 
         return $this;
@@ -451,35 +450,22 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
      *
      * @param  string  $path       Registry Path (e.g. joomla.content.showauthor)
      * @param  mixed   $value      Value of entry
-     * @param  string  $separator  The key separator. Will be removed in version 4.
      *
      * @return  mixed  The value of the that has been set.
      *
      * @since   1.0.0
      */
-    public function set($path, $value, $separator = null)
+    public function set($path, $value)
     {
-        if ($separator === null) {
-            $separator = $this->separator;
-        } else {
-            \trigger_deprecation(
-                'joomla/registry',
-                '__DEPLOY_VERSION__',
-                'The $separator parameter will be removed in version 4.',
-                self::class,
-                self::class
-            );
-        }
-
         /*
          * Explode the registry path into an array and remove empty
          * nodes that occur as a result of a double separator. ex: joomla..test
          * Finally, re-key the array so they are sequential.
          */
-        if ($separator === null || $separator === '') {
+        if ($this->separator === null || $this->separator === '') {
             $nodes = [$path];
         } else {
-            $nodes = \array_values(\array_filter(\explode($separator, $path), 'strlen'));
+            $nodes = \array_values(\array_filter(\explode($this->separator, $path), 'strlen'));
         }
 
         if (!$nodes) {
@@ -756,7 +742,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
     /**
      * Method to recursively convert an object of data to an array.
      *
-     * @param  object  $data  An object of data to return as an array.
+     * @param  object|array  $data  An object of data to return as an array.
      *
      * @return  array  Array representation of the input object.
      *
@@ -836,106 +822,6 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
             }
 
             $array[$key] = $v;
-        }
-    }
-
-    /**
-     * Magic method to access separator property.
-     *
-     * @param  string  $name  The name of the property.
-     *
-     * @return string|null A value if the property name is valid, null otherwise.
-     *
-     * @since       __DEPLOY_VERSION__
-     * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
-     */
-    public function __get($name)
-    {
-        switch ($name) {
-            case 'separator':
-                \trigger_deprecation(
-                    'joomla/registry',
-                    '__DEPLOY_VERSION__',
-                    'The $separator parameter will be removed in version 3.',
-                    self::class,
-                    self::class
-                );
-
-                return $this->separator;
-
-            default:
-                if (property_exists($this, $name)) {
-                    throw new \RuntimeException(
-                        \sprintf(
-                            'Cannot access protected or private property %s::$%s',
-                            __CLASS__,
-                            $name
-                        )
-                    );
-                }
-
-                $trace = \debug_backtrace();
-                \trigger_error(
-                    \sprintf(
-                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
-                        $name,
-                        $trace[0]['file'],
-                        $trace[0]['line']
-                    ),
-                    E_USER_NOTICE
-                );
-
-                return null;
-        }
-    }
-
-    /**
-     * Magic method to access separator property.
-     *
-     * @param  string  $name   The name of the property.
-     * @param  mixed   $value  The value of the property.
-     *
-     * @return void
-     *
-     * @since       __DEPLOY_VERSION__
-     * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
-     */
-    public function __set($name, $value)
-    {
-        switch ($name) {
-            case 'separator':
-                \trigger_deprecation(
-                    'joomla/registry',
-                    '__DEPLOY_VERSION__',
-                    'The $separator parameter will be removed in version 3.',
-                    self::class,
-                    self::class
-                );
-
-                $this->separator = $value;
-                break;
-
-            default:
-                if (property_exists($this, $name)) {
-                    throw new \RuntimeException(
-                        \sprintf(
-                            'Cannot access protected or private property %s::$%s',
-                            __CLASS__,
-                            $name
-                        )
-                    );
-                }
-
-                \trigger_deprecation(
-                    'joomla/registry',
-                    '__DEPLOY_VERSION__',
-                    'Creating a property will be removed in version 3.',
-                    self::class,
-                    self::class
-                );
-
-                $this->$name = $value;
-                break;
         }
     }
 }

@@ -47,7 +47,7 @@ class Tar implements ExtractableInterface
     /**
      * Tar file data buffer
      *
-     * @var    string
+     * @var    ?string
      * @since  1.0
      */
     private $data;
@@ -194,7 +194,7 @@ class Tar implements ExtractableInterface
 
             $position += 512;
             $contents = substr($data, $position, octdec($info['size']));
-            $position += ceil(octdec($info['size']) / 512) * 512;
+            $position += (int) ceil(octdec($info['size']) / 512) * 512;
 
             if ($info['filename']) {
                 $file = [

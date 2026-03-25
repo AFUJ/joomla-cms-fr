@@ -12,7 +12,6 @@ import JoomlaDialog from 'joomla.dialog';
  *
  * @since    4.1.0
  */
-// eslint-disable-next-line import/no-unresolved
 
 /**
  * Helper to create an element

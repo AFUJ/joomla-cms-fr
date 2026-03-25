@@ -20,7 +20,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Function to use to get apache request headers; present only to simplify mocking.
      *
-     * @var callable
+     * @var callable|string
      */
     private static $apacheRequestHeaders = 'apache_request_headers';
 
@@ -35,11 +35,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      *
      * @see fromServer()
      *
-     * @param array $server $_SERVER superglobal
-     * @param array $query $_GET superglobal
-     * @param array $body $_POST superglobal
-     * @param array $cookies $_COOKIE superglobal
-     * @param array $files $_FILES superglobal
+     * @param null|array $server $_SERVER superglobal
+     * @param null|array $query $_GET superglobal
+     * @param null|array $body $_POST superglobal
+     * @param null|array $cookies $_COOKIE superglobal
+     * @param null|array $files $_FILES superglobal
      * @param null|FilterServerRequestInterface $requestFilter If present, the
      *     generated request will be passed to this instance and the result
      *     returned by this method. When not present, a default instance of
@@ -53,14 +53,14 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         ?array $cookies = null,
         ?array $files = null,
         ?FilterServerRequestInterface $requestFilter = null
-    ): ServerRequest {
-        $requestFilter = $requestFilter ?: FilterUsingXForwardedHeaders::trustReservedSubnets();
+    ): ServerRequestInterface {
+        $requestFilter ??= FilterUsingXForwardedHeaders::trustReservedSubnets();
 
         $server  = normalizeServer(
-            $server ?: $_SERVER,
+            $server ?? $_SERVER,
             is_callable(self::$apacheRequestHeaders) ? self::$apacheRequestHeaders : null
         );
-        $files   = normalizeUploadedFiles($files ?: $_FILES);
+        $files   = normalizeUploadedFiles($files ?? $_FILES);
         $headers = marshalHeadersFromSapi($server);
 
         if (null === $cookies && array_key_exists('cookie', $headers)) {
@@ -74,9 +74,9 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             marshalMethodFromSapi($server),
             'php://input',
             $headers,
-            $cookies ?: $_COOKIE,
-            $query ?: $_GET,
-            $body ?: $_POST,
+            $cookies ?? $_COOKIE,
+            $query ?? $_GET,
+            $body ?? $_POST,
             marshalProtocolVersionFromSapi($server)
         ));
     }

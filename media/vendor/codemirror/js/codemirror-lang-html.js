@@ -349,8 +349,8 @@ for (let a of eventAttributes)
     GlobalAttrs[a] = null;
 class Schema {
     constructor(extraTags, extraAttrs) {
-        this.tags = Object.assign(Object.assign({}, Tags), extraTags);
-        this.globalAttrs = Object.assign(Object.assign({}, GlobalAttrs), extraAttrs);
+        this.tags = { ...Tags, ...extraTags };
+        this.globalAttrs = { ...GlobalAttrs, ...extraAttrs };
         this.allTags = Object.keys(this.tags);
         this.globalAttrNames = Object.keys(this.globalAttrs);
     }
@@ -529,12 +529,6 @@ const defaultAttrs = /*@__PURE__*/[
     { name: "style",
         parser: /*@__PURE__*/cssLanguage.parser.configure({ top: "Styles" }) }
 ].concat(/*@__PURE__*/eventAttributes.map(name => ({ name, parser: javascriptLanguage.parser })));
-/**
-A language provider based on the [Lezer HTML
-parser](https://github.com/lezer-parser/html), extended with the
-JavaScript and CSS parsers to parse the content of `<script>` and
-`<style>` tags.
-*/
 const htmlPlain = /*@__PURE__*/LRLanguage.define({
     name: "html",
     parser: /*@__PURE__*/parser.configure({
@@ -580,7 +574,7 @@ const htmlPlain = /*@__PURE__*/LRLanguage.define({
     languageData: {
         commentTokens: { block: { open: "<!--", close: "-->" } },
         indentOnInput: /^\s*<\/\w+\W$/,
-        wordChars: "-._"
+        wordChars: "-_"
     }
 });
 /**
@@ -664,4 +658,4 @@ const autoCloseTags = /*@__PURE__*/EditorView.inputHandler.of((view, from, to, t
     return true;
 });
 
-export { autoCloseTags, html, htmlCompletionSource, htmlCompletionSourceWith, htmlLanguage, htmlPlain };
+export { autoCloseTags, html, htmlCompletionSource, htmlCompletionSourceWith, htmlLanguage };

@@ -261,7 +261,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
         className: csscls('kvlist htmlvarlist'),
 
         itemRenderer: function(dt, dd, key, value) {
-            $('<span />').attr('title', $('<i />').html(key || '').text()).html(key || '').appendTo(dt);
+            $('<span />').attr('title', $('<i />').html(key ?? '').text()).html(key ?? '').appendTo(dt);
             dd.html(value && value.value || value);
 
             if (value && value.xdebug_link) {
@@ -279,6 +279,100 @@ if (typeof(PhpDebugBar) == 'undefined') {
             }
         }
 
+    });
+
+    // ------------------------------------------------------------------
+
+    /**
+     * Displays array element in a <table> list, columns keys map
+     * useful for showing a multiple values table
+     *
+     * Options:
+     *  - data
+     *  - key_map: list of keys to be displayed with an optional label
+     *             example: {key1: label1, key2: label2} or [key1, key2]
+     */
+    var TableVariableListWidget = PhpDebugBar.Widgets.TableVariableListWidget =  PhpDebugBar.Widget.extend({
+
+        tagName: 'div',
+
+        className: csscls('tablevarlist'),
+
+        render: function() {
+            this.bindAttr('data', function(data) {
+                this.$el.empty();
+
+                if (!this.has('data')) {
+                    return;
+                }
+
+                this.$table = $('<table />').addClass(csscls('tablevar')).appendTo(this.$el);
+                var $header = $('<tr />').addClass(csscls('header')).append('<td />').appendTo(this.$table);
+                var key_map = data.key_map || {value: 'Value'};
+
+                if (Array.isArray(key_map)) {
+                    key_map = Object.fromEntries(key_map.map(k => [k, null]));
+                }
+
+                $.each(key_map, function(key, label) {
+                    var colTitle = $('<td />').text(label ?? key).appendTo($header);
+
+                    if (data.badges && data.badges[key]) {
+                        $('<span />').text(data.badges[key]).addClass(csscls('badge')).appendTo(colTitle);
+                    }
+                });
+
+                var self = this;
+                $.each(data.data, function(key, values) {
+                    var $tr = $('<tr />').addClass(csscls('item')).appendTo(self.$table);
+                    $('<td />').addClass(csscls('key')).text(key).appendTo($tr);
+
+                    if (typeof values !== 'object' || values === null) {
+                        $('<td />').addClass(csscls('value')).text(values ?? '').appendTo($tr);
+                        return;
+                    }
+
+                    $.each(key_map, function(key) {
+                        $('<td />').addClass(csscls('value')).text(values[key] ?? '').appendTo($tr);
+                    });
+
+                    if (values.xdebug_link) {
+                        var filename = $('<span />').addClass(csscls('filename'))
+                            .text(values.xdebug_link.filename + ( values.xdebug_link.line ? "#" + values.xdebug_link.line : ''))
+                            .appendTo($('<td />').addClass(csscls('editor')).appendTo($tr));
+                        if (values.xdebug_link.ajax) {
+                            $('<a title="' + values.xdebug_link.url + '"></a>').on('click', function () {
+                                $.ajax(values.xdebug_link.url);
+                            }).addClass(csscls('editor-link')).appendTo(filename);
+                        } else {
+                            $('<a href="' + values.xdebug_link.url + '"></a>').addClass(csscls('editor-link')).appendTo(filename);
+                        }
+
+                        if (!data.xdebug_link) {
+                            data.xdebug_link = true;
+                            $header.append($('<td />'));
+                        }
+                    }
+                });
+
+                if (!data.summary) return;
+
+                var $tr = $('<tr />').addClass(csscls('summary')).appendTo(self.$table);
+                $('<td />').addClass(csscls('key')).appendTo($tr);
+
+                if (typeof data.summary !== 'object' || data.summary === null) {
+                    $('<td />').addClass(csscls('value')).text(data.summary ?? '').appendTo($tr);
+                } else {
+                    $.each(key_map, function(key) {
+                        $('<td />').addClass(csscls('value')).text(data.summary[key] ?? '').appendTo($tr);
+                    });
+                }
+
+                if (data.xdebug_link) {
+                    $('<td />').appendTo($tr);
+                }
+            });
+        }
     });
 
     // ------------------------------------------------------------------
@@ -366,7 +460,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
                             $('<a href="' + value.xdebug_link.url + '"></a>').addClass(csscls('editor-link')).appendTo(header);
                         }
                     }
-                    header.appendTo(li);
+                    header.prependTo(li);
                 }
                 if (value.collector) {
                     $('<span />').addClass(csscls('collector')).text(value.collector).prependTo(li);
@@ -545,7 +639,7 @@ if (typeof(PhpDebugBar) == 'undefined') {
                             }
                             li.css('cursor', 'pointer').click(function() {
                                 if (window.getSelection().type == "Range") {
-                                    return''
+                                    return '';
                                 }
                                 var table = $(this).find('table');
                                 if (table.is(':visible')) {
@@ -553,6 +647,8 @@ if (typeof(PhpDebugBar) == 'undefined') {
                                 } else {
                                     table.show();
                                 }
+                            }).on('click', '.sf-dump', function(event) {
+                                event.stopPropagation();
                             });
                         }
                     }
@@ -635,6 +731,8 @@ if (typeof(PhpDebugBar) == 'undefined') {
                 }
                 if (e.stack_trace_html) {
                     var $trace = $('<span />').addClass(csscls('filename')).html(e.stack_trace_html);
+                    $trace.find('samp[data-depth="1"]').removeClass('sf-dump-expanded').addClass('sf-dump-compact').parent()
+                        .find('>.sf-dump-note').html((_, t) => t.replace(/^array:/, '<span class="sf-dump-key">Stack Trace:</span> ') + ' files');
                     $trace.appendTo(li);
                 } else if (e.stack_trace) {
                     e.stack_trace.split("\n").forEach(function (trace) {

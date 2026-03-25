@@ -1,4 +1,4 @@
-import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.3';
+import { E as EventHandler, S as SelectorEngine, i as isVisible, e as enableDismissTrigger, d as defineJQueryPlugin, B as BaseComponent, k as ScrollBarHelper, l as Backdrop, F as FocusTrap, r as reflow, b as isRTL } from './dom.js?5.3.8';
 
 /**
  * --------------------------------------------------------------------------
@@ -316,8 +316,6 @@ Joomla.initialiseModal = (modal, options) => {
   if (!(modal instanceof Element)) {
     return;
   }
-
-  // eslint-disable-next-line no-new
   new window.bootstrap.Modal(modal, options);
 
   // Comply with the Joomla API - Bound element.open/close
@@ -351,7 +349,6 @@ Joomla.initialiseModal = (modal, options) => {
         let el;
         idFieldArr[0] = idFieldArr[0].replace(/&quot;/g, '"');
         if (!document.getElementById(idFieldArr[1])) {
-          // eslint-disable-next-line no-new-func
           const fn = new Function(`return ${idFieldArr[0]}`); // This is UNSAFE!!!!
           el = fn.call(null);
         } else {

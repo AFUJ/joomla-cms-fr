@@ -10,6 +10,7 @@
 namespace Joomla\Data;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * DataObject is a class that is used to store data but allowing you to access the data by mimicking the way PHP handles class properties.
@@ -166,7 +167,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
-    public function dump($depth = 3, \SplObjectStorage $dumped = null)
+    public function dump($depth = 3, ?\SplObjectStorage $dumped = null)
     {
         // Check if we should initialise the recursion tracker.
         if ($dumped === null) {
@@ -198,18 +199,22 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      * @see     IteratorAggregate::getIterator()
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
-        return new \ArrayIterator($this->dump(0));
+        $value = ArrayHelper::fromObject($this->dump(0));
+
+        return new \ArrayIterator($value);
     }
 
     /**
      * Gets the data properties in a form that can be serialised to JSON format.
      *
-     * @return  mixed
+     * @return  \stdClass
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->dump();
@@ -304,6 +309,7 @@ class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializ
      *
      * @since   1.0
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->properties);

@@ -3,8 +3,105 @@
  * Copyright (c) 2021 Rik Schennink <rik@pqina.nl> (https://pqina.nl/)
  */
 
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t="undefined"!=typeof globalThis?globalThis:t||self).shortAndSweet=e()}(this,(function(){"use strict";return function(t){if(typeof window==="undefined"?null:window){var e=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=document.createElement(t);return Object.keys(e).forEach((function(t){n.setAttribute(t,e[t])})),n},n=0,i=function(t,i){if(t.getAttribute("maxlength")){var a=t.dataset.counterLabel||i.counterLabel,r=function(t){var i=t.assistDelay,a=t.counterClassName,r=e("span",{class:a,"aria-hidden":"true"}),o=e("span",{style:"position:absolute;overflow:hidden;height:1px;width:1px;padding:0;border:0;clip:rect(1px, 1px, 1px, 1px);clip-path:inset(50%);white-space:nowrap;",id:"short-and-sweet-counter-".concat(n++),role:"status","aria-live":"polite"}),s=document.createDocumentFragment();s.appendChild(r),s.appendChild(o);var u=null;return{id:o.id,fragment:s,updateText:function(t){r.textContent=t},updateAssist:function(t,e){clearTimeout(u),e?o.textContent=t:u=setTimeout((function(){o.textContent=t}),i)},syncAssist:function(){clearTimeout(u),o.textContent=r.textContent},resetAssist:function(){clearTimeout(u),o.textContent=""}}}(i);t.setAttribute("aria-controls",r.id),i.append(t,r.fragment);var o=!0,s=function(){var e,n=null!=(e=t.getAttribute("maxlength"))?parseInt(e,10):null,i=t.value.length>n;i&&function(e){t.value=t.value.substr(0,e)}(n);var s,u=t.value.length,l=(s={maxlength:n,length:u,remaining:n-u},a.replace(/(?:{([a-zA-Z]+)})/g,(function(t,e){return s[e]})));r.updateText(l),o?o=!1:r.updateAssist(l,i)};t.addEventListener("focus",r.syncAssist),t.addEventListener("blur",r.resetAssist),t.addEventListener("input",s),s()}},a={counterClassName:"short-and-sweet-counter",counterLabel:"{remaining} characters left",assistDelay:2e3,append:function(t,e){t.parentNode.appendChild(e)}},r=function(t){var e=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return t.map((function(t){return i(t,Object.assign({},a,e))}))};return function(t,e){return"string"==typeof t?r((n=document.querySelectorAll(t),Array.prototype.slice.call(n)),e):r([t],e)[0];var n}}}()}));
+var t = function (t) {
+  if (typeof window === "undefined" ? null : window) {
+    var e = function e(t) {
+        var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {},
+          n = document.createElement(t);
+        return Object.keys(e).forEach(function (t) {
+          n.setAttribute(t, e[t]);
+        }), n;
+      },
+      n = 0,
+      a = function a(t, a) {
+        if (t.getAttribute("maxlength")) {
+          var r = t.dataset.counterLabel || a.counterLabel,
+            i = function (t) {
+              var a = t.assistDelay,
+                r = t.counterClassName,
+                i = e("span", {
+                  class: r,
+                  "aria-hidden": "true"
+                }),
+                s = e("span", {
+                  style: "position:absolute;overflow:hidden;height:1px;width:1px;padding:0;border:0;clip:rect(1px, 1px, 1px, 1px);clip-path:inset(50%);white-space:nowrap;",
+                  id: "short-and-sweet-counter-".concat(n++),
+                  role: "status",
+                  "aria-live": "polite"
+                }),
+                o = document.createDocumentFragment();
+              o.appendChild(i), o.appendChild(s);
+              var u = null;
+              return {
+                id: s.id,
+                fragment: o,
+                updateText: function (t) {
+                  i.textContent = t;
+                },
+                updateAssist: function (t, e) {
+                  clearTimeout(u), e ? s.textContent = t : u = setTimeout(function () {
+                    s.textContent = t;
+                  }, a);
+                },
+                syncAssist: function () {
+                  clearTimeout(u), s.textContent = i.textContent;
+                },
+                resetAssist: function () {
+                  clearTimeout(u), s.textContent = "";
+                }
+              };
+            }(a);
+          t.setAttribute("aria-controls", i.id), a.append(t, i.fragment);
+          var s = true,
+            o = function o() {
+              var e,
+                n = null != (e = t.getAttribute("maxlength")) ? parseInt(e, 10) : null,
+                a = t.value.length > n;
+              a && function (e) {
+                t.value = t.value.substr(0, e);
+              }(n);
+              var _o,
+                u = t.value.length,
+                l = (_o = {
+                  maxlength: n,
+                  length: u,
+                  remaining: n - u
+                }, r.replace(/(?:{([a-zA-Z]+)})/g, function (t, e) {
+                  return _o[e];
+                }));
+              i.updateText(l), s ? s = false : i.updateAssist(l, a);
+            };
+          t.addEventListener("focus", i.syncAssist), t.addEventListener("blur", i.resetAssist), t.addEventListener("input", o), o();
+        }
+      },
+      r = {
+        counterClassName: "short-and-sweet-counter",
+        counterLabel: "{remaining} characters left",
+        assistDelay: 2e3,
+        append: function (t, e) {
+          t.parentNode.appendChild(e);
+        }
+      },
+      i = function i(t) {
+        var e = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {};
+        return t.map(function (t) {
+          return a(t, Object.assign({}, r, e));
+        });
+      };
+    return function (t, e) {
+      return "string" == typeof t ? i((n = document.querySelectorAll(t), Array.prototype.slice.call(n)), e) : i([t], e)[0];
+      var n;
+    };
+  }
+}();
 
-shortAndSweet('textarea.charcount,input.charcount', {counterClassName: 'small text-muted'});
+t('textarea.charcount,input.charcount', {
+  counterClassName: 'small text-muted'
+});
+
 /** Repeatable */
-document.addEventListener("joomla:updated", (event) => [].slice.call(event.target.querySelectorAll('textarea.charcount,input.charcount')).map((el) => shortAndSweet(el, {counterClassName: 'small text-muted'})));
+document.addEventListener('joomla:updated', event => {
+  event.target.querySelectorAll('textarea.charcount,input.charcount').forEach(el => t(el, {
+    counterClassName: 'small text-muted'
+  }));
+});

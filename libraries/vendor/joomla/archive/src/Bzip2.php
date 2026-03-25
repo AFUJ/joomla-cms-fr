@@ -22,7 +22,7 @@ class Bzip2 implements ExtractableInterface
     /**
      * Bzip2 file data buffer
      *
-     * @var    string
+     * @var    ?string
      * @since  1.0
      */
     private $data;
@@ -38,7 +38,7 @@ class Bzip2 implements ExtractableInterface
     /**
      * Create a new Archive object.
      *
-     * @param   array|\ArrayAccess  $options  An array of options
+     * @param \ArrayAccess|array $options An array of options
      *
      * @since   1.0
      * @throws  \InvalidArgumentException
@@ -67,7 +67,7 @@ class Bzip2 implements ExtractableInterface
      */
     public function extract($archive, $destination)
     {
-        $this->data = null;
+        $this->data = '';
 
         if (!isset($this->options['use_streams']) || $this->options['use_streams'] == false) {
             // Old style: read the whole file and then parse it

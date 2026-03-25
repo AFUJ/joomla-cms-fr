@@ -103,7 +103,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
 
     // Ask for User confirmation when needed
     if (this.confirmMessage && !this.confirmationReceived) {
-      // eslint-disable-next-line import/no-unresolved,no-undef
       import('joomla.dialog').then(m => m.default.confirm(this.confirmMessage, Joomla.Text._('WARNING', 'Warning'))).then(confirmed => {
         if (confirmed) {
           // Set confirmation flag, and emulate the click again

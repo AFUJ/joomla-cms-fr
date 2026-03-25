@@ -2,8 +2,8 @@
 <extension type="package" method="upgrade">
 	<name>French (fr-FR) Language pack</name>
 	<packagename>fr-FR</packagename>
-	<version>5.3.2.1</version>
-	<creationDate>2025-07-08</creationDate>
+	<version>6.0.3.2</version>
+	<creationDate>2026-03-23</creationDate>
 	<author>Joomla! Project - French translation team</author>
 	<authorEmail>traduction@joomla.fr</authorEmail>
 	<authorUrl>www.joomla.fr</authorUrl>
@@ -12,11 +12,11 @@
 	<url>https://github.com/joomla/joomla-cms</url>
 	<packager>Joomla! Project - French translation team</packager>
 	<packagerurl>www.joomla.fr</packagerurl>
-	<description><![CDATA[<div style="background: #fff; color: #333; font-weight: normal; padding: 10px 15px; text-align: left;">
-		<h4>Joomla! 5 Full French (fr-FR) Language Package</h4>
-		<h4>Pack de langue Joomla! 5 français (fr-FR) complet</h4>
-		<div style="font-size: 90%"><a href="https:/www.joomla.fr" target="_blank">www.joomla.fr</a> - <a href="mailto:traduction@joomla.fr">traduction@joomla.fr</a></div>
-	</div>]]></description>
+	<description><![CDATA[<div style="color:#444; background: #fff; font-weight: bold; padding: 10px; text-align: left;">
+					Joomla! 6 Full French (fr-FR) Language Package</br>
+					Pack de langue Joomla! 6 français (fr-FR) complet</br>
+					<a href="https:/www.joomla.fr" target="_blank">www.joomla.fr</a> - <a href="mailto:traduction@joomla.fr">traduction@joomla.fr</a></div>]]>
+	</description>
 	<blockChildUninstall>true</blockChildUninstall>
 	<files>
 		<folder type="language" client="site" id="fr-FR">language/fr-FR</folder>
@@ -25,7 +25,7 @@
 	</files>
 	<updateservers>
 		<server type="collection" priority="1" name="Traductions accréditées de Joomla!">
-			https://update.joomla.org/language/translationlist_5.xml
+			https://update.joomla.org/language/translationlist_6.xml
 		</server>
 	</updateservers>
 </extension>

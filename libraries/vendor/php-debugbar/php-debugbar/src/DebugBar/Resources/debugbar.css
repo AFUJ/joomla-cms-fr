@@ -75,7 +75,7 @@ div.phpdebugbar {
   border-top: 0;
   font-family: var(--debugbar-font-sans);
   background: var(--debugbar-background);
-  z-index: 10000;
+  z-index: 10000000000;
   font-size: 14px;
   color: var(--debugbar-text);
   text-align: left;
@@ -189,8 +189,27 @@ div.phpdebugbar code, div.phpdebugbar pre {
 }
 
 div.phpdebugbar pre.sf-dump {
+  background: none !important;
+  z-index: 0 !important;
+  display: block !important;
   color: #a0a000;
   outline: 0;
+}
+
+div.phpdebugbar pre.sf-dump .sf-dump-private {
+  color: grey;
+}
+
+div.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-public {
+  color: #ffcc00;
+}
+
+div.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-protected {
+  color: #a0a000;
+}
+
+div.phpdebugbar[data-theme='dark'] pre.sf-dump .sf-dump-private {
+  color: #9d9266;
 }
 
 a.phpdebugbar-restore-btn {

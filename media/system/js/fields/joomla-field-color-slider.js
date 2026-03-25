@@ -591,7 +591,6 @@
     const fields = document.querySelectorAll('.color-slider-wrapper');
     if (fields) {
       Array.prototype.forEach.call(fields, slider => {
-        // eslint-disable-next-line no-new
         new JoomlaFieldColorSlider(slider);
       });
     }

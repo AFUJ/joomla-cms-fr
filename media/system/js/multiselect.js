@@ -38,7 +38,6 @@ class JMultiSelect {
   }
 
   // Changes the row class depends on selection
-  // eslint-disable-next-line class-methods-use-this
   changeBg(row, isChecked) {
     row.classList.toggle('row-selected', isChecked);
   }
@@ -105,7 +104,6 @@ const onBoot = container => {
   container.querySelectorAll(selector).forEach(formElement => {
     if (formElement && !('multiselect' in formElement.dataset)) {
       formElement.dataset.multiselect = '';
-      // eslint-disable-next-line no-new
       new JMultiSelect(formElement);
     }
   });

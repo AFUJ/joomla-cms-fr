@@ -22,6 +22,7 @@ const scriptText = 54,
   missingCloseTag = 57,
   IncompleteCloseTag = 14,
   commentContent$1 = 58,
+  Text = 16,
   Element = 20,
   TagName = 22,
   Attribute = 23,
@@ -78,17 +79,11 @@ function nameChar(ch) {
   return ch == 45 || ch == 46 || ch == 58 || ch >= 65 && ch <= 90 || ch == 95 || ch >= 97 && ch <= 122 || ch >= 161
 }
 
-function isSpace(ch) {
-  return ch == 9 || ch == 10 || ch == 13 || ch == 32
-}
-
 let cachedName = null, cachedInput = null, cachedPos = 0;
 function tagNameAfter(input, offset) {
   let pos = input.pos + offset;
   if (cachedPos == pos && cachedInput == input) return cachedName
-  let next = input.peek(offset);
-  while (isSpace(next)) next = input.peek(++offset);
-  let name = "";
+  let next = input.peek(offset), name = "";
   for (;;) {
     if (!nameChar(next)) break
     name += String.fromCharCode(next);
@@ -135,7 +130,7 @@ const tagStart = new ExternalTokenizer((input, stack) => {
   if (close) input.advance();
   let name = tagNameAfter(input, 0);
   if (name === undefined) return
-  if (!name) return input.acceptToken(close ? IncompleteCloseTag : StartTag)
+  if (!name) return input.acceptToken(close ? IncompleteCloseTag : Text)
 
   let parent = stack.context ? stack.context.name : null;
   if (close) {
@@ -193,7 +188,7 @@ function contentTokenizer(tag, textToken, endToken) {
     // state means:
     // - 0 nothing matched
     // - 1 '<' matched
-    // - 2 '</' + possibly whitespace matched
+    // - 2 '</'
     // - 3-(1+tag.length) part of the tag matched
     // - lastState whole tag + possibly whitespace matched
     for (let state = 0, matchedLen = 0, i = 0;; i++) {
@@ -205,8 +200,6 @@ function contentTokenizer(tag, textToken, endToken) {
           state == 1 && input.next == slash ||
           state >= 2 && state < lastState && input.next == tag.charCodeAt(state - 2)) {
         state++;
-        matchedLen++;
-      } else if ((state == 2 || state == lastState) && isSpace(input.next)) {
         matchedLen++;
       } else if (state == lastState && input.next == greaterThan) {
         if (i > matchedLen)

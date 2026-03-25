@@ -1,5 +1,5 @@
-import { P as Popper, c as createPopper } from './popper.js?5.3.3';
-import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, D as DefaultAllowlist, E as EventHandler, m as findShadowRoot, n as noop, o as getUID, T as TemplateFactory, j as execute, M as Manipulator, c as getElement } from './dom.js?5.3.3';
+import { P as Popper, c as createPopper } from './popper.js?5.3.8';
+import { b as isRTL, d as defineJQueryPlugin, B as BaseComponent, D as DefaultAllowlist, E as EventHandler, m as findShadowRoot, n as noop, o as getUID, T as TemplateFactory, j as execute, M as Manipulator, c as getElement } from './dom.js?5.3.8';
 
 /**
  * --------------------------------------------------------------------------
@@ -88,7 +88,7 @@ const DefaultType$1 = {
 class Tooltip extends BaseComponent {
   constructor(element, config) {
     if (typeof Popper === 'undefined') {
-      throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org)');
+      throw new TypeError('Bootstrap\'s tooltips require Popper (https://popper.js.org/docs/v2/)');
     }
     super(element, config);
 
@@ -134,7 +134,6 @@ class Tooltip extends BaseComponent {
     if (!this._isEnabled) {
       return;
     }
-    this._activeTrigger.click = !this._activeTrigger.click;
     if (this._isShown()) {
       this._leave();
       return;
@@ -322,7 +321,7 @@ class Tooltip extends BaseComponent {
     return offset;
   }
   _resolvePossibleFunction(arg) {
-    return execute(arg, [this._element]);
+    return execute(arg, [this._element, this._element]);
   }
   _getPopperConfig(attachment) {
     const defaultBsPopperConfig = {
@@ -360,7 +359,7 @@ class Tooltip extends BaseComponent {
     };
     return {
       ...defaultBsPopperConfig,
-      ...execute(this._config.popperConfig, [defaultBsPopperConfig])
+      ...execute(this._config.popperConfig, [undefined, defaultBsPopperConfig])
     };
   }
   _setListeners() {
@@ -369,6 +368,7 @@ class Tooltip extends BaseComponent {
       if (trigger === 'click') {
         EventHandler.on(this._element, this.constructor.eventName(EVENT_CLICK), this._config.selector, event => {
           const context = this._initializeOnDelegatedTarget(event);
+          context._activeTrigger[TRIGGER_CLICK] = !(context._isShown() && context._activeTrigger[TRIGGER_CLICK]);
           context.toggle();
         });
       } else if (trigger !== TRIGGER_MANUAL) {

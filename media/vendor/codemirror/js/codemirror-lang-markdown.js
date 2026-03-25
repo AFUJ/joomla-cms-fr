@@ -1,6 +1,6 @@
 import { EditorSelection, countColumn, Prec, EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
-import { Language, defineLanguageFacet, foldService, syntaxTree, LanguageSupport, foldNodeProp, indentNodeProp, languageDataProp, indentUnit, LanguageDescription, ParseContext } from '@codemirror/language';
+import { Language, defineLanguageFacet, syntaxTree, foldService, LanguageSupport, foldNodeProp, indentNodeProp, languageDataProp, indentUnit, LanguageDescription, ParseContext } from '@codemirror/language';
 import { CompletionContext } from '@codemirror/autocomplete';
 import { parser, MarkdownParser, parseCode, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
 import { html, htmlCompletionSource } from '@codemirror/lang-html';
@@ -54,7 +54,7 @@ const headerIndent = /*@__PURE__*/foldService.of((state, start, end) => {
     return null;
 });
 function mkLang(parser) {
-    return new Language(data, parser, [headerIndent], "markdown");
+    return new Language(data, parser, [], "markdown");
 }
 /**
 Language support for strict CommonMark.
@@ -210,7 +210,7 @@ document, HTML and code regions might use a different language).
 const insertNewlineContinueMarkup = ({ state, dispatch }) => {
     let tree = syntaxTree(state), { doc } = state;
     let dont = null, changes = state.changeByRange(range => {
-        if (!range.empty || !markdownLanguage.isActiveAt(state, range.from, 0))
+        if (!range.empty || !markdownLanguage.isActiveAt(state, range.from, -1) && !markdownLanguage.isActiveAt(state, range.from, 1))
             return dont = { range };
         let pos = range.from, line = doc.lineAt(pos);
         let context = getContext(tree.resolveInner(pos, -1), doc);
@@ -302,7 +302,7 @@ function blankLine(context, state, line) {
     let insert = "";
     for (let i = 0, e = context.length - 2; i <= e; i++) {
         insert += context[i].blank(i < e
-            ? countColumn(line.text, 4, Math.min(line.text.length, context[i + 1].from)) - insert.length
+            ? countColumn(line.text, 4, context[i + 1].from) - insert.length
             : null, i < e);
     }
     return normalizeIndent(insert, state);
@@ -399,7 +399,7 @@ function markdown(config = {}) {
     if (!(parser instanceof MarkdownParser))
         throw new RangeError("Base parser provided to `markdown` should be a Markdown parser");
     let extensions = config.extensions ? [config.extensions] : [];
-    let support = [htmlTagLanguage.support], defaultCode;
+    let support = [htmlTagLanguage.support, headerIndent], defaultCode;
     if (defaultCodeLanguage instanceof LanguageSupport) {
         support.push(defaultCodeLanguage.support);
         defaultCode = defaultCodeLanguage.language;

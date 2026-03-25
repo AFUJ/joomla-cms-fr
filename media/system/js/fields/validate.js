@@ -471,8 +471,6 @@ class JFormValidator {
       exec: func
     };
   }
-
-  // eslint-disable-next-line class-methods-use-this
   markValid(element) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -498,8 +496,6 @@ class JFormValidator {
       label.classList.remove('invalid');
     }
   }
-
-  // eslint-disable-next-line class-methods-use-this
   markInvalid(element, empty) {
     // Get a label
     const label = element.form.querySelector(`label[for="${element.id}"]`);
@@ -535,8 +531,6 @@ class JFormValidator {
       label.classList.add('invalid');
     }
   }
-
-  // eslint-disable-next-line class-methods-use-this
   removeMarking(element) {
     // Get the associated label
     let message;

@@ -22,6 +22,8 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
 
     protected $durationBackground = false;
 
+    protected $slowThreshold;
+
     /**
      * @param \PDO $pdo
      * @param TimeDataCollector $timeCollector
@@ -53,6 +55,16 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
     public function setDurationBackground($enabled)
     {
         $this->durationBackground = $enabled;
+    }
+
+    /**
+     * Highlights queries that exceed the threshold
+     *
+     * @param  int|float $threshold miliseconds value
+     */
+    public function setSlowThreshold($threshold)
+    {
+        $this->slowThreshold = $threshold / 1000;
     }
 
     /**
@@ -149,6 +161,7 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
         foreach ($pdo->getExecutedStatements() as $stmt) {
             $stmts[] = array(
                 'sql' => $this->renderSqlWithParams ? $stmt->getSqlWithParams($this->sqlQuotationChar) : $stmt->getSql(),
+                'type' => $stmt->getQueryType(),
                 'row_count' => $stmt->getRowCount(),
                 'stmt_id' => $stmt->getPreparedId(),
                 'prepared_stmt' => $stmt->getSql(),
@@ -161,7 +174,8 @@ class PDOCollector extends DataCollector implements Renderable, AssetProvider
                 'end_memory_str' => $this->getDataFormatter()->formatBytes($stmt->getEndMemory()),
                 'is_success' => $stmt->isSuccess(),
                 'error_code' => $stmt->getErrorCode(),
-                'error_message' => $stmt->getErrorMessage()
+                'error_message' => $stmt->getErrorMessage(),
+                'slow' => $this->slowThreshold && $this->slowThreshold <= $stmt->getDuration()
             );
             if ($timeCollector !== null) {
                 $timeCollector->addMeasure($stmt->getSql(), $stmt->getStartTime(), $stmt->getEndTime(), array(), $connectionName);

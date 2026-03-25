@@ -243,7 +243,6 @@ document.getElementById('target-association').addEventListener('load', ({
         const langAssociation = parse[0].replace(/-/, '_');
         const formAssociationId = content.querySelector(`#jform_associations_${langAssociation}_id`);
         if (formAssociationId) {
-          // eslint-disable-next-line prefer-destructuring
           content.querySelector(`#jform_associations_${langAssociation}_id`).value = parse[1];
         }
 
@@ -251,7 +250,6 @@ document.getElementById('target-association').addEventListener('load', ({
         chosenField = content.querySelector(`#jform_associations_${langAssociation}`);
         if (chosenField) {
           chosenField.appendChild(createOption(parse[1], ''));
-          // eslint-disable-next-line prefer-destructuring
           chosenField.value = parse[1];
         }
       }

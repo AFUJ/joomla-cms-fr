@@ -1,4 +1,4 @@
-import { E as EventHandler, f as isDisabled, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, g as getNextActiveElement } from './dom.js?5.3.3';
+import { E as EventHandler, f as isDisabled, S as SelectorEngine, d as defineJQueryPlugin, B as BaseComponent, g as getNextActiveElement } from './dom.js?5.3.8';
 
 /**
  * --------------------------------------------------------------------------
@@ -311,8 +311,6 @@ Joomla.initialiseTabs = (el, options) => {
             li.setAttribute('role', 'presentation');
             li.appendChild(link);
             ul.appendChild(li);
-
-            // eslint-disable-next-line no-new
             new window.bootstrap.Tab(li);
           }
         });

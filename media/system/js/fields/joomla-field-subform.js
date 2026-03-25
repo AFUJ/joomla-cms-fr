@@ -278,9 +278,7 @@ class JoomlaFieldSubform extends HTMLElement {
         if (!countMulti) {
           // Look for <fieldset class="checkboxes"></fieldset> or <fieldset><div class="checkboxes"></div></fieldset>
           let fieldset = $el.closest('.checkboxes, fieldset');
-          // eslint-disable-next-line no-nested-ternary
           if (fieldset) {
-            // eslint-disable-next-line no-nested-ternary
             fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false;
           }
           if (fieldset) {
@@ -310,7 +308,6 @@ class JoomlaFieldSubform extends HTMLElement {
            */
           let fieldset = $el.closest('.radio, .switcher, fieldset');
           if (fieldset) {
-            // eslint-disable-next-line no-nested-ternary
             fieldset = fieldset.nodeName === 'FIELDSET' ? fieldset : fieldset.parentElement.nodeName === 'FIELDSET' ? fieldset.parentElement : false;
           }
           if (fieldset) {

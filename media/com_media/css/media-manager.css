@@ -479,6 +479,10 @@ html[dir="rtl"] .infobar-leave-active {
   padding-bottom: 100%;
 }
 
+.file-background.with-thumbnail, .folder-background.with-thumbnail {
+  padding-bottom: 0;
+}
+
 .file-icon, .folder-icon {
   color: hsl(var(--hue), 20%, 60%);
   justify-content: center;

@@ -1,13 +1,4 @@
 @charset "UTF-8";
-.mod-articles-item {
-  flex-direction: column;
-  display: flex;
-}
-
-.mod-articles-item .mod-articles-item-content {
-  order: 1;
-}
-
 .mod-articles-image {
   margin-bottom: .5rem;
 }

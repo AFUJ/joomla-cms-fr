@@ -19,7 +19,6 @@ const insertReadmoreHandler = editor => {
 
 // @TODO: Remove in Joomla 6
 window.insertReadmore = () => {
-  // eslint-disable-next-line no-console
   console.warn('Method window.insertReadmore() is deprecated, use button action "insert-readmore."');
   const editor = JoomlaEditor.getActive();
   if (!editor) {

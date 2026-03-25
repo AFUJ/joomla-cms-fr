@@ -48,7 +48,7 @@
         "type": "module",
         "defer": true
       },
-      "version": "00d001"
+      "version": "2c1f61"
     },
     {
       "name": "com_associations.sidebyside",

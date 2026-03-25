@@ -40,6 +40,18 @@
         "type": "module"
       },
       "version": "7fa9d4"
+    },
+    {
+      "name": "com_users.activate-user-send-email",
+      "type": "script",
+      "uri": "com_users/activate-user-send-email.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "3ff4a4"
     }
   ]
 }

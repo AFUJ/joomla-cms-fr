@@ -12,6 +12,7 @@ namespace Joomla\OAuth1;
 use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\Http\Http;
 use Joomla\Http\HttpFactory;
+use Joomla\Http\Response;
 use Joomla\Input\Input;
 use Joomla\Uri\Uri;
 
@@ -83,17 +84,11 @@ abstract class Client
      */
     public function __construct(
         SessionAwareWebApplicationInterface $application,
-        Http $client = null,
-        Input $input = null,
+        ?Http $client = null,
+        ?Input $input = null,
         $options = [],
         $version = '1.0a'
     ) {
-        if (!\is_array($options) && !($options instanceof \ArrayAccess)) {
-            throw new \InvalidArgumentException(
-                'The options param must be an array or implement the ArrayAccess interface.'
-            );
-        }
-
         $this->application = $application;
         $this->client      = $client ?: (new HttpFactory())->getHttp($options);
         $this->input       = $input ?: $application->getInput();
@@ -104,7 +99,7 @@ abstract class Client
     /**
      * Method to form the oauth flow.
      *
-     * @return  array|null  The access token.
+     * @return  array  The access token.
      *
      * @since   1.0
      * @throws  \DomainException
@@ -119,7 +114,7 @@ abstract class Client
                 return $this->token;
             }
 
-            $this->token = null;
+            $this->token = [];
         }
 
         // Check for callback.
@@ -160,6 +155,8 @@ abstract class Client
 
         // Authenticate the user and authorise the app.
         $this->authorise();
+
+        return $this->token;
     }
 
     /**
@@ -182,7 +179,7 @@ abstract class Client
         // Make an OAuth request for the Request Token.
         $response = $this->oauthRequest($this->getOption('requestTokenURL'), 'POST', $parameters);
 
-        parse_str($response->body, $params);
+        parse_str((string) $response->getBody(), $params);
 
         if (strcmp($this->version, '1.0a') === 0 && strcmp($params['oauth_callback_confirmed'], 'true') !== 0) {
             throw new \DomainException('Bad request token!');
@@ -239,7 +236,7 @@ abstract class Client
         // Make an OAuth request for the Access Token.
         $response = $this->oauthRequest($this->getOption('accessTokenURL'), 'POST', $parameters);
 
-        parse_str($response->body, $params);
+        parse_str((string) $response->getBody(), $params);
 
         // Save the access token.
         $this->token = ['key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']];
@@ -261,6 +258,10 @@ abstract class Client
      */
     public function oauthRequest($url, $method, $parameters, $data = [], $headers = [])
     {
+        if (!in_array(strtoupper($method), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])) {
+            throw new \DomainException('Invalid request method!');
+        }
+
         // Set the parameters.
         $defaults = [
             'oauth_consumer_key'     => $this->getOption('consumer_key'),
@@ -463,15 +464,11 @@ abstract class Client
             return array_map([$this, 'safeEncode'], $data);
         }
 
-        if (is_scalar($data)) {
-            return str_ireplace(
-                ['+', '%7E'],
-                [' ', '~'],
-                rawurlencode($data)
-            );
-        }
-
-        return '';
+        return str_ireplace(
+            ['+', '%7E'],
+            [' ', '~'],
+            rawurlencode((string) $data)
+        );
     }
 
     /**

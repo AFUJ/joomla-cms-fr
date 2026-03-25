@@ -163,7 +163,7 @@ class Archive
                 throw new UnsupportedArchiveException($type, sprintf('Archive adapter "%s" (class "%s") not found.', $type, $class));
             }
 
-            if (!$class::isSupported()) {
+            if (\is_object($class) && !$class::isSupported()) {
                 throw new UnsupportedArchiveException($type, sprintf('Archive adapter "%s" (class "%s") not supported.', $type, $class));
             }
 

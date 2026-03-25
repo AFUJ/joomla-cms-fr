@@ -57,8 +57,6 @@ const sampledataAjax = (type, steps, step) => {
           if (value === null) {
             return;
           }
-
-          // eslint-disable-next-line prefer-destructuring
           success = value.success;
           progressClass = success ? 'bg-success' : 'bg-danger';
 
@@ -144,7 +142,6 @@ const sampledataApply = element => {
   // Make sure that use run this not by random clicking on the page links
   // @todo use the CE Modal here
   if (!window.confirm(Joomla.Text._('MOD_SAMPLEDATA_CONFIRM_START'))) {
-    // eslint-disable-next-line consistent-return
     return false;
   }
 
@@ -155,8 +152,6 @@ const sampledataApply = element => {
   element.setAttribute('data-processed', true);
   SampleData.inProgress = true;
   sampledataAjax(type, steps, 1);
-
-  // eslint-disable-next-line consistent-return
   return false;
 };
 const sampleDataWrapper = document.getElementById('sample-data-wrapper');

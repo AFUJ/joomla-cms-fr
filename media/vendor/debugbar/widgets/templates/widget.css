@@ -64,6 +64,11 @@ div.phpdebugbar-widgets-templates table.phpdebugbar-widgets-params td {
 }
 
 div.phpdebugbar-widgets-templates table.phpdebugbar-widgets-params .phpdebugbar-widgets-name {
+  vertical-align: top;
   width: 20%;
   font-weight: bold;
+}
+
+div.phpdebugbar[data-theme="dark"] div.phpdebugbar-widgets-templates div.phpdebugbar-widgets-callgraph > pre * {
+  background-color: inherit !important;
 }

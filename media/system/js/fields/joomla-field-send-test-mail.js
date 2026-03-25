@@ -51,7 +51,6 @@
           try {
             response = JSON.parse(resp);
           } catch (e) {
-            // eslint-disable-next-line no-console
             console.error(e);
           }
           if (typeof response.messages === 'object' && response.messages !== null) {

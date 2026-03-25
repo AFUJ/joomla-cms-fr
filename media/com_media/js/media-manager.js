@@ -1,9 +1,8 @@
 /**
-* @vue/shared v3.5.13
+* @vue/shared v3.5.22
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
-/*! #__NO_SIDE_EFFECTS__ */
 // @__NO_SIDE_EFFECTS__
 function makeMap(str) {
   const map = /* @__PURE__ */Object.create(null);
@@ -54,9 +53,9 @@ const cacheStringFunction = fn => {
     return hit || (cache[str] = fn(str));
   };
 };
-const camelizeRE = /-(\w)/g;
+const camelizeRE = /-\w/g;
 const camelize = cacheStringFunction(str => {
-  return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
+  return str.replace(camelizeRE, c => c.slice(1).toUpperCase());
 });
 const hyphenateRE = /\B([A-Z])/g;
 const hyphenate = cacheStringFunction(str => str.replace(hyphenateRE, "-$1").toLowerCase());
@@ -195,7 +194,7 @@ const stringifySymbol = function stringifySymbol(v, i) {
 };
 
 /**
-* @vue/reactivity v3.5.13
+* @vue/reactivity v3.5.22
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -210,6 +209,10 @@ class EffectScope {
      * @internal
      */
     this._active = true;
+    /**
+     * @internal track `on` calls, allow `on` call multiple times
+     */
+    this._on = 0;
     /**
      * @internal
      */
@@ -276,14 +279,20 @@ class EffectScope {
    * @internal
    */
   on() {
-    activeEffectScope = this;
+    if (++this._on === 1) {
+      this.prevScope = activeEffectScope;
+      activeEffectScope = this;
+    }
   }
   /**
    * This should only be called on non-detached scopes
    * @internal
    */
   off() {
-    activeEffectScope = this.parent;
+    if (this._on > 0 && --this._on === 0) {
+      activeEffectScope = this.prevScope;
+      this.prevScope = void 0;
+    }
   }
   stop(fromParent) {
     if (this._active) {
@@ -526,12 +535,11 @@ function refreshComputed(computed) {
     return;
   }
   computed.globalVersion = globalVersion;
-  const dep = computed.dep;
-  computed.flags |= 2;
-  if (dep.version > 0 && !computed.isSSR && computed.deps && !isDirty(computed)) {
-    computed.flags &= -3;
+  if (!computed.isSSR && computed.flags & 128 && (!computed.deps && !computed._dirty || !isDirty(computed))) {
     return;
   }
+  computed.flags |= 2;
+  const dep = computed.dep;
   const prevSub = activeSub;
   const prevShouldTrack = shouldTrack;
   activeSub = computed;
@@ -540,6 +548,7 @@ function refreshComputed(computed) {
     prepareDeps(computed);
     const value = computed.fn(computed._value);
     if (dep.version === 0 || hasChanged(value, computed._value)) {
+      computed.flags |= 128;
       computed._value = value;
       dep.version++;
     }
@@ -632,6 +641,7 @@ class Link {
   }
 }
 class Dep {
+  // TODO isolatedDeclarations "__v_skip"
   constructor(computed) {
     this.computed = computed;
     this.version = 0;
@@ -652,6 +662,10 @@ class Dep {
      * Subscriber counter
      */
     this.sc = 0;
+    /**
+     * @internal
+     */
+    this.__v_skip = true;
   }
   track(debugInfo) {
     if (!activeSub || !shouldTrack || activeSub === this.computed) {
@@ -876,7 +890,7 @@ const arrayInstrumentations = {
   join(separator) {
     return reactiveReadArray(this).join(separator);
   },
-  // keys() iterator only reads `length`, no optimisation required
+  // keys() iterator only reads `length`, no optimization required
   lastIndexOf() {
     for (var _len5 = arguments.length, args = new Array(_len5), _key6 = 0; _key6 < _len5; _key6++) {
       args[_key6] = arguments[_key6];
@@ -915,8 +929,8 @@ const arrayInstrumentations = {
     return apply(this, "some", fn, thisArg, void 0, arguments);
   },
   splice() {
-    for (var _len9 = arguments.length, args = new Array(_len9), _key10 = 0; _key10 < _len9; _key10++) {
-      args[_key10] = arguments[_key10];
+    for (var _len9 = arguments.length, args = new Array(_len9), _key0 = 0; _key0 < _len9; _key0++) {
+      args[_key0] = arguments[_key0];
     }
     return noTracking(this, "splice", args);
   },
@@ -930,8 +944,8 @@ const arrayInstrumentations = {
     return reactiveReadArray(this).toSpliced(...arguments);
   },
   unshift() {
-    for (var _len10 = arguments.length, args = new Array(_len10), _key11 = 0; _key11 < _len10; _key11++) {
-      args[_key11] = arguments[_key11];
+    for (var _len0 = arguments.length, args = new Array(_len0), _key1 = 0; _key1 < _len0; _key1++) {
+      args[_key1] = arguments[_key1];
     }
     return noTracking(this, "unshift", args);
   },
@@ -946,7 +960,7 @@ function iterator(self, method, wrapValue) {
     iter._next = iter.next;
     iter.next = () => {
       const result = iter._next();
-      if (result.value) {
+      if (!result.done) {
         result.value = wrapValue(result.value);
       }
       return result;
@@ -1078,7 +1092,8 @@ class BaseReactiveHandler {
       return res;
     }
     if (isRef(res)) {
-      return targetIsArray && isIntegerKey(key) ? res : res.value;
+      const value = targetIsArray && isIntegerKey(key) ? res : res.value;
+      return isReadonly2 && isObject$1(value) ? readonly(value) : value;
     }
     if (isObject$1(res)) {
       return isReadonly2 ? readonly(res) : reactive(res);
@@ -1103,7 +1118,7 @@ class MutableReactiveHandler extends BaseReactiveHandler {
       }
       if (!isArray(target) && isRef(oldValue) && !isRef(value)) {
         if (isOldValueReadonly) {
-          return false;
+          return true;
         } else {
           oldValue.value = value;
           return true;
@@ -1226,7 +1241,7 @@ function createInstrumentations(readonly, shallow) {
     get size() {
       const target = this["__v_raw"];
       !readonly && track(toRaw(target), "iterate", ITERATE_KEY);
-      return Reflect.get(target, "size", target);
+      return target.size;
     },
     has(key) {
       const target = this["__v_raw"];
@@ -1395,13 +1410,13 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   if (target["__v_raw"] && !(isReadonly2 && target["__v_isReactive"])) {
     return target;
   }
-  const existingProxy = proxyMap.get(target);
-  if (existingProxy) {
-    return existingProxy;
-  }
   const targetType = getTargetType(target);
   if (targetType === 0 /* INVALID */) {
     return target;
+  }
+  const existingProxy = proxyMap.get(target);
+  if (existingProxy) {
+    return existingProxy;
   }
   const proxy = new Proxy(target, targetType === 2 /* COLLECTION */ ? collectionHandlers : baseHandlers);
   proxyMap.set(target, proxy);
@@ -1721,10 +1736,10 @@ function watch$1(source, cb, options) {
           const args = [newValue,
           // pass undefined as the old value when it's changed for the first time
           oldValue === INITIAL_WATCHER_VALUE ? void 0 : isMultiSource && oldValue[0] === INITIAL_WATCHER_VALUE ? [] : oldValue, boundCleanup];
+          oldValue = newValue;
           call ? call(cb, 3, args) :
           // @ts-expect-error
           cb(...args);
-          oldValue = newValue;
         } finally {
           activeWatcher = currentWatcher;
         }
@@ -1773,11 +1788,11 @@ function traverse(value, depth, seen) {
   if (depth <= 0 || !isObject$1(value) || value["__v_skip"]) {
     return value;
   }
-  seen = seen || /* @__PURE__ */new Set();
-  if (seen.has(value)) {
+  seen = seen || /* @__PURE__ */new Map();
+  if ((seen.get(value) || 0) >= depth) {
     return value;
   }
-  seen.add(value);
+  seen.set(value, depth);
   depth--;
   if (isRef(value)) {
     traverse(value.value, depth, seen);
@@ -1803,7 +1818,7 @@ function traverse(value, depth, seen) {
 }
 
 /**
-* @vue/runtime-core v3.5.13
+* @vue/runtime-core v3.5.22
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -2272,7 +2287,7 @@ const BaseTransitionImpl = {
         setTransitionHooks(innerChild, enterHooks);
       }
       let oldInnerChild = instance.subTree && getInnerChild$1(instance.subTree);
-      if (oldInnerChild && oldInnerChild.type !== Comment && !isSameVNodeType(innerChild, oldInnerChild) && recursiveGetSubtree(instance).type !== Comment) {
+      if (oldInnerChild && oldInnerChild.type !== Comment && !isSameVNodeType(oldInnerChild, innerChild) && recursiveGetSubtree(instance).type !== Comment) {
         let leavingHooks = resolveTransitionHooks(oldInnerChild, rawProps, state, instance);
         setTransitionHooks(oldInnerChild, leavingHooks);
         if (mode === "out-in" && innerChild.type !== Comment) {
@@ -2477,6 +2492,9 @@ function getInnerChild$1(vnode) {
     }
     return vnode;
   }
+  if (vnode.component) {
+    return vnode.component.subTree;
+  }
   const {
     shapeFlag,
     children
@@ -2526,6 +2544,7 @@ function getTransitionRawChildren(children, keepComment, parentKey) {
 function markAsyncBoundary(instance) {
   instance.ids = [instance.ids[0] + instance.ids[2]++ + "-", 0, 0];
 }
+const pendingSetRefMap = /* @__PURE__ */new WeakMap();
 function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
   if (isUnmount === void 0) {
     isUnmount = false;
@@ -2550,17 +2569,22 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
   const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
   const setupState = owner.setupState;
   const rawSetupState = toRaw(setupState);
-  const canSetSetupRef = setupState === EMPTY_OBJ ? () => false : key => {
+  const canSetSetupRef = setupState === EMPTY_OBJ ? NO : key => {
     return hasOwn(rawSetupState, key);
   };
   if (oldRef != null && oldRef !== ref) {
+    invalidatePendingSetRef(oldRawRef);
     if (isString(oldRef)) {
       refs[oldRef] = null;
       if (canSetSetupRef(oldRef)) {
         setupState[oldRef] = null;
       }
     } else if (isRef(oldRef)) {
-      oldRef.value = null;
+      {
+        oldRef.value = null;
+      }
+      const oldRawRefAtom = oldRawRef;
+      if (oldRawRefAtom.k) refs[oldRawRefAtom.k] = null;
     }
   }
   if (isFunction(ref)) {
@@ -2571,7 +2595,7 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
     if (_isString || _isRef) {
       const doSet = () => {
         if (rawRef.f) {
-          const existing = _isString ? canSetSetupRef(ref) ? setupState[ref] : refs[ref] : ref.value;
+          const existing = _isString ? canSetSetupRef(ref) ? setupState[ref] : refs[ref] : ref.value ;
           if (isUnmount) {
             isArray(existing) && remove(existing, refValue);
           } else {
@@ -2582,8 +2606,11 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
                   setupState[ref] = refs[ref];
                 }
               } else {
-                ref.value = [refValue];
-                if (rawRef.k) refs[rawRef.k] = ref.value;
+                const newVal = [refValue];
+                {
+                  ref.value = newVal;
+                }
+                if (rawRef.k) refs[rawRef.k] = newVal;
               }
             } else if (!existing.includes(refValue)) {
               existing.push(refValue);
@@ -2595,17 +2622,32 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
             setupState[ref] = value;
           }
         } else if (_isRef) {
-          ref.value = value;
+          {
+            ref.value = value;
+          }
           if (rawRef.k) refs[rawRef.k] = value;
         } else ;
       };
       if (value) {
-        doSet.id = -1;
-        queuePostRenderEffect(doSet, parentSuspense);
+        const job = () => {
+          doSet();
+          pendingSetRefMap.delete(rawRef);
+        };
+        job.id = -1;
+        pendingSetRefMap.set(rawRef, job);
+        queuePostRenderEffect(job, parentSuspense);
       } else {
+        invalidatePendingSetRef(rawRef);
         doSet();
       }
     }
+  }
+}
+function invalidatePendingSetRef(rawRef) {
+  const pendingSetRef = pendingSetRefMap.get(rawRef);
+  if (pendingSetRef) {
+    pendingSetRef.flags |= 8;
+    pendingSetRefMap.delete(rawRef);
   }
 }
 getGlobalThis().requestIdleCallback || (cb => setTimeout(cb, 1));
@@ -2743,13 +2785,15 @@ function renderList(source, renderItem, cache, index) {
   if (sourceIsArray || isString(source)) {
     const sourceIsReactiveArray = sourceIsArray && isReactive(source);
     let needsWrap = false;
+    let isReadonlySource = false;
     if (sourceIsReactiveArray) {
       needsWrap = !isShallow(source);
+      isReadonlySource = isReadonly(source);
       source = shallowReadArray(source);
     }
     ret = new Array(source.length);
     for (let i = 0, l = source.length; i < l; i++) {
-      ret[i] = renderItem(needsWrap ? toReactive(source[i]) : source[i], i, void 0, cached);
+      ret[i] = renderItem(needsWrap ? isReadonlySource ? toReadonly(toReactive(source[i])) : toReactive(source[i]) : source[i], i, void 0, cached);
     }
   } else if (typeof source === "number") {
     ret = new Array(source);
@@ -2777,8 +2821,9 @@ function renderSlot(slots, name, props, fallback, noSlotted) {
     props = {};
   }
   if (currentRenderingInstance.ce || currentRenderingInstance.parent && isAsyncWrapper(currentRenderingInstance.parent) && currentRenderingInstance.parent.ce) {
+    const hasProps = Object.keys(props).length > 0;
     if (name !== "default") props.name = name;
-    return openBlock(), createBlock(Fragment, null, [createVNode("slot", props, fallback)], 64);
+    return openBlock(), createBlock(Fragment, null, [createVNode("slot", props, fallback)], hasProps ? -2 : 64);
   }
   let slot = slots[name];
   if (slot && slot._c) {
@@ -2793,7 +2838,7 @@ function renderSlot(slots, name, props, fallback, noSlotted) {
   const rendered = createBlock(Fragment, {
     key: (slotKey && !isSymbol(slotKey) ? slotKey : "_" + name) + (
     // #7256 force differentiate fallback content from actual content
-    "")
+    !validSlotContent && fallback ? "_fb" : "")
   }, validSlotContent || ([]), validSlotContent && slots._ === 1 ? 64 : -2);
   if (rendered.scopeId) {
     rendered.slotScopeIds = [rendered.scopeId + "-s"];
@@ -2841,10 +2886,10 @@ extend(/* @__PURE__ */Object.create(null), {
 });
 const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
 const PublicInstanceProxyHandlers = {
-  get(_ref10, key) {
+  get(_ref0, key) {
     let {
       _: instance
-    } = _ref10;
+    } = _ref0;
     if (key === "__v_skip") {
       return true;
     }
@@ -2912,10 +2957,10 @@ const PublicInstanceProxyHandlers = {
       }
     } else ;
   },
-  set(_ref11, key, value) {
+  set(_ref1, key, value) {
     let {
       _: instance
-    } = _ref11;
+    } = _ref1;
     const {
       data,
       setupState,
@@ -2939,7 +2984,7 @@ const PublicInstanceProxyHandlers = {
     }
     return true;
   },
-  has(_ref12, key) {
+  has(_ref10, key) {
     let {
       _: {
         data,
@@ -2947,11 +2992,12 @@ const PublicInstanceProxyHandlers = {
         accessCache,
         ctx,
         appContext,
-        propsOptions
+        propsOptions,
+        type
       }
-    } = _ref12;
-    let normalizedProps;
-    return !!accessCache[key] || data !== EMPTY_OBJ && hasOwn(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key);
+    } = _ref10;
+    let normalizedProps, cssModules;
+    return !!(accessCache[key] || data !== EMPTY_OBJ && key[0] !== "$" && hasOwn(data, key) || hasSetupBinding(setupState, key) || (normalizedProps = propsOptions[0]) && hasOwn(normalizedProps, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key) || (cssModules = type.__cssModules) && cssModules[key]);
   },
   defineProperty(target, key, descriptor) {
     if (descriptor.get != null) {
@@ -3083,7 +3129,8 @@ function applyOptions(instance) {
       expose.forEach(key => {
         Object.defineProperty(exposed, key, {
           get: () => publicThis[key],
-          set: val => publicThis[key] = val
+          set: val => publicThis[key] = val,
+          enumerable: true
         });
       });
     } else if (!instance.exposed) {
@@ -3437,9 +3484,9 @@ function inject(key, defaultValue, treatDefaultAsFactory) {
   if (treatDefaultAsFactory === void 0) {
     treatDefaultAsFactory = false;
   }
-  const instance = currentInstance || currentRenderingInstance;
+  const instance = getCurrentInstance();
   if (instance || currentApp) {
-    const provides = currentApp ? currentApp._context.provides : instance ? instance.parent == null ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides : void 0;
+    let provides = currentApp ? currentApp._context.provides : instance ? instance.parent == null || instance.ce ? instance.vnode.appContext && instance.vnode.appContext.provides : instance.parent.provides : void 0;
     if (provides && key in provides) {
       return provides[key];
     } else if (arguments.length > 1) {
@@ -3712,14 +3759,14 @@ function validatePropName(key) {
   }
   return false;
 }
-const isInternalKey = key => key[0] === "_" || key === "$stable";
+const isInternalKey = key => key === "_" || key === "_ctx" || key === "$stable";
 const normalizeSlotValue = value => isArray(value) ? value.map(normalizeVNode) : [normalizeVNode(value)];
 const normalizeSlot = (key, rawSlot, ctx) => {
   if (rawSlot._n) {
     return rawSlot;
   }
   const normalized = withCtx(function () {
-    if (!!("production" !== "production") && currentInstance && (!ctx || ctx.root === currentInstance.root)) ;
+    if (!!("production" !== "production") && currentInstance && !(ctx === null && currentRenderingInstance) && !(ctx && ctx.root !== currentInstance.root)) ;
     return normalizeSlotValue(rawSlot(...arguments));
   }, ctx);
   normalized._c = false;
@@ -3744,7 +3791,7 @@ const normalizeVNodeSlots = (instance, children) => {
 };
 const assignSlots = (slots, children, optimized) => {
   for (const key in children) {
-    if (optimized || key !== "_") {
+    if (optimized || !isInternalKey(key)) {
       slots[key] = children[key];
     }
   }
@@ -3892,6 +3939,8 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
     if (ref != null && parentComponent) {
       setRef(ref, n1 && n1.ref, parentSuspense, n2 || n1, !n2);
+    } else if (ref == null && n1 && n1.ref != null) {
+      setRef(n1.ref, null, parentSuspense, n1, true);
     }
   };
   const processText = (n1, n2, container, anchor) => {
@@ -3914,11 +3963,11 @@ function baseCreateRenderer(options, createHydrationFns) {
   const mountStaticNode = (n2, container, anchor, namespace) => {
     [n2.el, n2.anchor] = hostInsertStaticContent(n2.children, container, anchor, namespace, n2.el, n2.anchor);
   };
-  const moveStaticNode = (_ref13, container, nextSibling) => {
+  const moveStaticNode = (_ref11, container, nextSibling) => {
     let {
       el,
       anchor
-    } = _ref13;
+    } = _ref11;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -3927,11 +3976,11 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
     hostInsert(anchor, container, nextSibling);
   };
-  const removeStaticNode = _ref14 => {
+  const removeStaticNode = _ref12 => {
     let {
       el,
       anchor
-    } = _ref14;
+    } = _ref12;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -4107,7 +4156,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       // which also requires the correct parent container
       !isSameVNodeType(oldVNode, newVNode) ||
       // - In the case of a component, it could contain anything.
-      oldVNode.shapeFlag & (6 | 64)) ? hostParentNode(oldVNode.el) :
+      oldVNode.shapeFlag & (6 | 64 | 128)) ? hostParentNode(oldVNode.el) :
       // In other cases, the parent container is not actually used so we
       // just pass the block element here to avoid a DOM parentNode call.
       fallbackContainer;
@@ -4200,6 +4249,7 @@ function baseCreateRenderer(options, createHydrationFns) {
       if (!initialVNode.el) {
         const placeholder = instance.subTree = createVNode(Comment);
         processCommentNode(null, placeholder, container, anchor);
+        initialVNode.placeholder = placeholder.el;
       }
     } else {
       setupRenderEffect(instance, initialVNode, container, anchor, parentSuspense, namespace, optimized);
@@ -4245,7 +4295,9 @@ function baseCreateRenderer(options, createHydrationFns) {
         }
         toggleRecurse(instance, true);
         {
-          if (root.ce) {
+          if (root.ce &&
+          // @ts-expect-error _def is private
+          root.ce._def.shadowRoot !== false) {
             root.ce._injectChildStyle(type);
           }
           const subTree = instance.subTree = renderComponentRoot(instance);
@@ -4498,7 +4550,10 @@ function baseCreateRenderer(options, createHydrationFns) {
       for (i = toBePatched - 1; i >= 0; i--) {
         const nextIndex = s2 + i;
         const nextChild = c2[nextIndex];
-        const anchor = nextIndex + 1 < l2 ? c2[nextIndex + 1].el : parentAnchor;
+        const anchorVNode = c2[nextIndex + 1];
+        const anchor = nextIndex + 1 < l2 ?
+        // #13559, fallback to el placeholder for unresolved async component
+        anchorVNode.el || anchorVNode.placeholder : parentAnchor;
         if (newIndexToOldIndexMap[i] === 0) {
           patch(null, nextChild, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized);
         } else if (moved) {
@@ -4558,8 +4613,18 @@ function baseCreateRenderer(options, createHydrationFns) {
           delayLeave,
           afterLeave
         } = transition;
-        const remove2 = () => hostInsert(el, container, anchor);
+        const remove2 = () => {
+          if (vnode.ctx.isUnmounted) {
+            hostRemove(el);
+          } else {
+            hostInsert(el, container, anchor);
+          }
+        };
         const performLeave = () => {
+          if (el._isLeaving) {
+            el[leaveCbKey](true
+            /* cancelled */);
+          }
           leave(el, () => {
             remove2();
             afterLeave && afterLeave();
@@ -4597,7 +4662,9 @@ function baseCreateRenderer(options, createHydrationFns) {
       optimized = false;
     }
     if (ref != null) {
+      pauseTracking();
       setRef(ref, null, parentSuspense, vnode, true);
+      resetTracking();
     }
     if (cacheIndex != null) {
       parentComponent.renderCache[cacheIndex] = void 0;
@@ -4721,12 +4788,6 @@ function baseCreateRenderer(options, createHydrationFns) {
     queuePostRenderEffect(() => {
       instance.isUnmounted = true;
     }, parentSuspense);
-    if (parentSuspense && parentSuspense.pendingBranch && !parentSuspense.isUnmounted && instance.asyncDep && !instance.asyncResolved && instance.suspenseId === parentSuspense.pendingId) {
-      parentSuspense.deps--;
-      if (parentSuspense.deps === 0) {
-        parentSuspense.resolve();
-      }
-    }
   };
   const unmountChildren = function unmountChildren(children, parentComponent, parentSuspense, doRemove, optimized, start) {
     if (doRemove === void 0) {
@@ -4789,18 +4850,18 @@ function baseCreateRenderer(options, createHydrationFns) {
     createApp: createAppAPI(render)
   };
 }
-function resolveChildrenNamespace(_ref15, currentNamespace) {
+function resolveChildrenNamespace(_ref13, currentNamespace) {
   let {
     type,
     props
-  } = _ref15;
+  } = _ref13;
   return currentNamespace === "svg" && type === "foreignObject" || currentNamespace === "mathml" && type === "annotation-xml" && props && props.encoding && props.encoding.includes("html") ? void 0 : currentNamespace;
 }
-function toggleRecurse(_ref16, allowed) {
+function toggleRecurse(_ref14, allowed) {
   let {
     effect,
     job
-  } = _ref16;
+  } = _ref14;
   if (allowed) {
     effect.flags |= 32;
     job.flags |= 4;
@@ -4825,7 +4886,12 @@ function traverseStaticChildren(n1, n2, shallow) {
           c2.el = c1.el;
         }
       }
-      if (c2.type === Text) {
+      if (c2.type === Text &&
+      // avoid cached text nodes retaining detached dom nodes
+      c2.patchFlag !== -1) {
+        c2.el = c1.el;
+      }
+      if (c2.type === Comment && !c2.el) {
         c2.el = c1.el;
       }
     }
@@ -5026,11 +5092,12 @@ function emit(instance, event) {
     callWithAsyncErrorHandling(onceHandler, instance, 6, args);
   }
 }
+const mixinEmitsCache = /* @__PURE__ */new WeakMap();
 function normalizeEmitsOptions(comp, appContext, asMixin) {
   if (asMixin === void 0) {
     asMixin = false;
   }
-  const cache = appContext.emitsCache;
+  const cache = asMixin ? mixinEmitsCache : appContext.emitsCache;
   const cached = cache.get(comp);
   if (cached !== void 0) {
     return cached;
@@ -5246,11 +5313,11 @@ function hasPropsChanged(prevProps, nextProps, emitsOptions) {
   }
   return false;
 }
-function updateHOCHostEl(_ref17, el) {
+function updateHOCHostEl(_ref15, el) {
   let {
     vnode,
     parent
-  } = _ref17;
+  } = _ref15;
   while (parent) {
     const root = parent.subTree;
     if (root.suspense && root.suspense.activeBranch === vnode) {
@@ -5322,18 +5389,18 @@ function isVNode(value) {
 function isSameVNodeType(n1, n2) {
   return n1.type === n2.type && n1.key === n2.key;
 }
-const normalizeKey = _ref19 => {
+const normalizeKey = _ref17 => {
   let {
     key
-  } = _ref19;
+  } = _ref17;
   return key != null ? key : null;
 };
-const normalizeRef = _ref20 => {
+const normalizeRef = _ref18 => {
   let {
     ref,
     ref_key,
     ref_for
-  } = _ref20;
+  } = _ref18;
   if (typeof ref === "number") {
     ref = "" + ref;
   }
@@ -5534,6 +5601,7 @@ function cloneVNode(vnode, extraProps, mergeRef, cloneTransition) {
     suspense: vnode.suspense,
     ssContent: vnode.ssContent && cloneVNode(vnode.ssContent),
     ssFallback: vnode.ssFallback && cloneVNode(vnode.ssFallback),
+    placeholder: vnode.placeholder,
     el: vnode.el,
     anchor: vnode.anchor,
     ctx: vnode.ctx,
@@ -5791,7 +5859,7 @@ function setupComponent(instance, isSSR, optimized) {
   } = instance.vnode;
   const isStateful = isStatefulComponent(instance);
   initProps(instance, props, isStateful, isSSR);
-  initSlots(instance, children, optimized);
+  initSlots(instance, children, optimized || isSSR);
   const setupResult = isStateful ? setupStatefulComponent(instance, isSSR) : void 0;
   isSSR && setInSSRSetupState(false);
   return setupResult;
@@ -5916,7 +5984,7 @@ function getComponentPublicInstance(instance) {
     return instance.proxy;
   }
 }
-const classifyRE = /(?:^|[-_])(\w)/g;
+const classifyRE = /(?:^|[-_])\w/g;
 const classify = str => str.replace(classifyRE, c => c.toUpperCase()).replace(/[-_]/g, "");
 function getComponentName(Component, includeInferred) {
   if (includeInferred === void 0) {
@@ -5955,29 +6023,34 @@ const computed = (getterOrOptions, debugOptions) => {
   return c;
 };
 function h(type, propsOrChildren, children) {
-  const l = arguments.length;
-  if (l === 2) {
-    if (isObject$1(propsOrChildren) && !isArray(propsOrChildren)) {
-      if (isVNode(propsOrChildren)) {
-        return createVNode(type, null, [propsOrChildren]);
+  try {
+    setBlockTracking(-1);
+    const l = arguments.length;
+    if (l === 2) {
+      if (isObject$1(propsOrChildren) && !isArray(propsOrChildren)) {
+        if (isVNode(propsOrChildren)) {
+          return createVNode(type, null, [propsOrChildren]);
+        }
+        return createVNode(type, propsOrChildren);
+      } else {
+        return createVNode(type, null, propsOrChildren);
       }
-      return createVNode(type, propsOrChildren);
     } else {
-      return createVNode(type, null, propsOrChildren);
+      if (l > 3) {
+        children = Array.prototype.slice.call(arguments, 2);
+      } else if (l === 3 && isVNode(children)) {
+        children = [children];
+      }
+      return createVNode(type, propsOrChildren, children);
     }
-  } else {
-    if (l > 3) {
-      children = Array.prototype.slice.call(arguments, 2);
-    } else if (l === 3 && isVNode(children)) {
-      children = [children];
-    }
-    return createVNode(type, propsOrChildren, children);
+  } finally {
+    setBlockTracking(1);
   }
 }
-const version = "3.5.13";
+const version = "3.5.22";
 
 /**
-* @vue/runtime-dom v3.5.13
+* @vue/runtime-dom v3.5.22
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -6187,11 +6260,11 @@ function resolveTransitionProps(rawProps) {
       const resolve = () => finishLeave(el, done);
       addTransitionClass(el, leaveFromClass);
       if (!el._enterCancelled) {
-        forceReflow();
+        forceReflow(el);
         addTransitionClass(el, leaveActiveClass);
       } else {
         addTransitionClass(el, leaveActiveClass);
-        forceReflow();
+        forceReflow(el);
       }
       nextFrame(() => {
         if (!el._isLeaving) {
@@ -6318,7 +6391,7 @@ function getTransitionInfo(el, expectedType) {
     type = timeout > 0 ? transitionTimeout > animationTimeout ? TRANSITION : ANIMATION : null;
     propCount = type ? type === TRANSITION ? transitionDurations.length : animationDurations.length : 0;
   }
-  const hasTransform = type === TRANSITION && /\b(transform|all)(,|$)/.test(getStyleProperties(TRANSITION + "Property").toString());
+  const hasTransform = type === TRANSITION && /\b(?:transform|all)(?:,|$)/.test(getStyleProperties(TRANSITION + "Property").toString());
   return {
     type,
     timeout,
@@ -6336,8 +6409,9 @@ function toMs(s) {
   if (s === "auto") return 0;
   return Number(s.slice(0, -1).replace(",", ".")) * 1e3;
 }
-function forceReflow() {
-  return document.body.offsetHeight;
+function forceReflow(el) {
+  const targetDocument = el ? el.ownerDocument : document;
+  return targetDocument.body.offsetHeight;
 }
 function patchClass(el, value, isSVG) {
   const transitionClasses = el[vtcKey];
@@ -6355,6 +6429,8 @@ function patchClass(el, value, isSVG) {
 const vShowOriginalDisplay = Symbol("_vod");
 const vShowHidden = Symbol("_vsh");
 const vShow = {
+  // used for prop mismatch check during hydration
+  name: "show",
   beforeMount(el, _ref2, _ref3) {
     let {
       value
@@ -6415,7 +6491,7 @@ function setDisplay(el, value) {
   el[vShowHidden] = !value;
 }
 const CSS_VAR_TEXT = Symbol("");
-const displayRE = /(^|;)\s*display\s*:/;
+const displayRE = /(?:^|;)\s*display\s*:/;
 function patchStyle(el, prev, next) {
   const style = el.style;
   const isCssString = isString(next);
@@ -6674,7 +6750,7 @@ function shouldSetAsProp(el, key, value, isSVG) {
     }
     return false;
   }
-  if (key === "spellcheck" || key === "draggable" || key === "translate") {
+  if (key === "spellcheck" || key === "draggable" || key === "translate" || key === "autocorrect") {
     return false;
   }
   if (key === "form") {
@@ -6713,14 +6789,14 @@ function onCompositionEnd(e) {
 }
 const assignKey = Symbol("_assign");
 const vModelText = {
-  created(el, _ref11, vnode) {
+  created(el, _ref1, vnode) {
     let {
       modifiers: {
         lazy,
         trim,
         number
       }
-    } = _ref11;
+    } = _ref1;
     el[assignKey] = getModelAssigner(vnode);
     const castToNumber = number || vnode.props && vnode.props.type === "number";
     addEventListener(el, lazy ? "change" : "input", e => {
@@ -6746,13 +6822,13 @@ const vModelText = {
     }
   },
   // set value on mounted so it's after min/max for type="range"
-  mounted(el, _ref12) {
+  mounted(el, _ref10) {
     let {
       value
-    } = _ref12;
+    } = _ref10;
     el.value = value == null ? "" : value;
   },
-  beforeUpdate(el, _ref13, vnode) {
+  beforeUpdate(el, _ref11, vnode) {
     let {
       value,
       oldValue,
@@ -6761,7 +6837,7 @@ const vModelText = {
         trim,
         number
       }
-    } = _ref13;
+    } = _ref11;
     el[assignKey] = getModelAssigner(vnode);
     if (el.composing) return;
     const elValue = (number || el.type === "number") && !/^0\d/.test(el.value) ? looseToNumber(el.value) : el.value;
@@ -7486,13 +7562,13 @@ var script$v = {
 };
 
 const _hoisted_1$v = { key: 0 };
-const _hoisted_2$k = ["src", "width", "height"];
-const _hoisted_3$h = ["data-type"];
-const _hoisted_4$b = {
+const _hoisted_2$n = ["src", "width", "height"];
+const _hoisted_3$m = ["data-type"];
+const _hoisted_4$f = {
   scope: "row",
   class: "name"
 };
-const _hoisted_5$a = { class: "size" };
+const _hoisted_5$c = { class: "size" };
 const _hoisted_6$9 = { key: 0 };
 const _hoisted_7$6 = { class: "dimension" };
 const _hoisted_8$4 = { class: "created" };
@@ -7513,15 +7589,15 @@ function render$v(_ctx, _cache, $props, $setup, $data, $options) {
             alt: "",
             style: {"width":"100%","height":"auto"},
             onLoad: _cache[0] || (_cache[0] = (...args) => ($options.setSize && $options.setSize(...args)))
-          }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_2$k)
+          }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_2$n)
         ]))
       : (openBlock(), createElementBlock("td", {
           key: 1,
           class: "type",
           "data-type": $props.item.extension
-        }, null, 8 /* PROPS */, _hoisted_3$h)),
-    createBaseVNode("th", _hoisted_4$b, toDisplayString($props.item.name), 1 /* TEXT */),
-    createBaseVNode("td", _hoisted_5$a, [
+        }, null, 8 /* PROPS */, _hoisted_3$m)),
+    createBaseVNode("th", _hoisted_4$f, toDisplayString($props.item.name), 1 /* TEXT */),
+    createBaseVNode("td", _hoisted_5$c, [
       createTextVNode(toDisplayString($options.size), 1 /* TEXT */),
       ($options.size !== '')
         ? (openBlock(), createElementBlock("span", _hoisted_6$9, "KB"))
@@ -7560,13 +7636,13 @@ var script$u = {
 };
 
 const _hoisted_1$u = { class: "table media-browser-table" };
-const _hoisted_2$j = { class: "visually-hidden" };
-const _hoisted_3$g = { class: "media-browser-table-head" };
-const _hoisted_4$a = {
+const _hoisted_2$m = { class: "visually-hidden" };
+const _hoisted_3$l = { class: "media-browser-table-head" };
+const _hoisted_4$e = {
   class: "name",
   scope: "col"
 };
-const _hoisted_5$9 = {
+const _hoisted_5$b = {
   class: "size",
   scope: "col"
 };
@@ -7587,14 +7663,14 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserItemRow = resolveComponent("MediaBrowserItemRow");
 
   return (openBlock(), createElementBlock("table", _hoisted_1$u, [
-    createBaseVNode("caption", _hoisted_2$j, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $props.currentDirectory)), 1 /* TEXT */),
-    createBaseVNode("thead", _hoisted_3$g, [
+    createBaseVNode("caption", _hoisted_2$m, toDisplayString(_ctx.sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', $props.currentDirectory)), 1 /* TEXT */),
+    createBaseVNode("thead", _hoisted_3$l, [
       createBaseVNode("tr", null, [
         _cache[5] || (_cache[5] = createBaseVNode("th", {
           class: "type",
           scope: "col"
-        }, null, -1 /* HOISTED */)),
-        createBaseVNode("th", _hoisted_4$a, [
+        }, null, -1 /* CACHED */)),
+        createBaseVNode("th", _hoisted_4$e, [
           createBaseVNode("button", {
             class: "btn btn-link",
             onClick: _cache[0] || (_cache[0] = $event => ($options.changeOrder('name')))
@@ -7610,7 +7686,7 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
             }, null, 2 /* CLASS */)
           ])
         ]),
-        createBaseVNode("th", _hoisted_5$9, [
+        createBaseVNode("th", _hoisted_5$b, [
           createBaseVNode("button", {
             class: "btn btn-link",
             onClick: _cache[1] || (_cache[1] = $event => ($options.changeOrder('size')))
@@ -7732,7 +7808,7 @@ function render$t(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action icon-pencil-alt",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$t, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_EDIT')), 1 /* TEXT */)
   ], 32 /* NEED_HYDRATION */))
 }
@@ -7778,7 +7854,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action icon-trash",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$s, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_DELETE')), 1 /* TEXT */)
   ], 32 /* NEED_HYDRATION */))
 }
@@ -7824,7 +7900,7 @@ function render$r(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action icon-download",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$r, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_DOWNLOAD')), 1 /* TEXT */)
   ], 32 /* NEED_HYDRATION */))
 }
@@ -7870,7 +7946,7 @@ function render$q(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action icon-search-plus",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$q, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_PREVIEW')), 1 /* TEXT */)
   ], 32 /* NEED_HYDRATION */))
 }
@@ -7917,7 +7993,7 @@ function render$p(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action fa fa-i-cursor",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$p, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_RENAME')), 1 /* TEXT */)
   ], 544 /* NEED_HYDRATION, NEED_PATCH */))
 }
@@ -7963,7 +8039,7 @@ function render$o(_ctx, _cache, $props, $setup, $data, $options) {
     _cache[6] || (_cache[6] = createBaseVNode("span", {
       class: "image-browser-action icon-link",
       "aria-hidden": "true"
-    }, null, -1 /* HOISTED */)),
+    }, null, -1 /* CACHED */)),
     createBaseVNode("span", _hoisted_1$o, toDisplayString(_ctx.translate('COM_MEDIA_ACTION_SHARE')), 1 /* TEXT */)
   ], 32 /* NEED_HYDRATION */))
 }
@@ -8190,8 +8266,8 @@ var script$m = {
 };
 
 const _hoisted_1$m = ["aria-label", "title"];
-const _hoisted_2$i = ["aria-label"];
-const _hoisted_3$f = {
+const _hoisted_2$l = ["aria-label"];
+const _hoisted_3$k = {
   "aria-hidden": "true",
   class: "media-browser-actions-item-name"
 };
@@ -8243,7 +8319,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
             "aria-orientation": "vertical",
             "aria-label": _ctx.sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(_ctx.$parent.$props.item.name))
           }, [
-            createBaseVNode("span", _hoisted_3$f, [
+            createBaseVNode("span", _hoisted_3$k, [
               createBaseVNode("strong", null, toDisplayString(_ctx.$parent.$props.item.name), 1 /* TEXT */)
             ]),
             ($props.previewable)
@@ -8384,7 +8460,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
                   ]
                 }, null, 8 /* PROPS */, ["on-focused", "main-action", "hide-actions", "onKeyup", "onKeydown"]))
               : createCommentVNode("v-if", true)
-          ], 8 /* PROPS */, _hoisted_2$i))
+          ], 8 /* PROPS */, _hoisted_2$l))
         : createCommentVNode("v-if", true)
     ], 2 /* CLASS */)
   ], 64 /* STABLE_FRAGMENT */))
@@ -8410,6 +8486,26 @@ var script$l = {
     return {
       showActions: false,
     };
+  },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
   },
   methods: {
     /* Handle the on preview double click event */
@@ -8440,7 +8536,12 @@ var script$l = {
   },
 };
 
-const _hoisted_1$l = { class: "media-browser-item-info" };
+const _hoisted_1$l = ["src", "loading", "width", "height"];
+const _hoisted_2$k = {
+  key: 1,
+  class: "folder-icon"
+};
+const _hoisted_3$j = { class: "media-browser-item-info" };
 
 function render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8454,14 +8555,29 @@ function render$l(_ctx, _cache, $props, $setup, $data, $options) {
       tabindex: "0",
       onDblclick: _cache[0] || (_cache[0] = withModifiers($event => ($options.onPreviewDblClick()), ["stop","prevent"])),
       onKeyup: _cache[1] || (_cache[1] = withKeys($event => ($options.onPreviewDblClick()), ["enter"]))
-    }, _cache[3] || (_cache[3] = [
-      createBaseVNode("div", { class: "file-background" }, [
-        createBaseVNode("div", { class: "folder-icon" }, [
-          createBaseVNode("span", { class: "icon-folder" })
-        ])
-      ], -1 /* HOISTED */)
-    ]), 32 /* NEED_HYDRATION */),
-    createBaseVNode("div", _hoisted_1$l, toDisplayString($props.item.name), 1 /* TEXT */),
+    }, [
+      createBaseVNode("div", {
+        class: normalizeClass(["file-background", { 'with-thumbnail': $options.thumbURL }])
+      }, [
+        ($options.thumbURL)
+          ? (openBlock(), createElementBlock("img", {
+              key: 0,
+              class: "image-cropped",
+              alt: "",
+              src: $options.thumbURL,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight
+            }, null, 8 /* PROPS */, _hoisted_1$l))
+          : createCommentVNode("v-if", true),
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("div", _hoisted_2$k, [...(_cache[3] || (_cache[3] = [
+              createBaseVNode("span", { class: "icon-folder" }, null, -1 /* CACHED */)
+            ]))]))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */)
+    ], 32 /* NEED_HYDRATION */),
+    createBaseVNode("div", _hoisted_3$j, toDisplayString($props.item.name), 1 /* TEXT */),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -8494,6 +8610,26 @@ var script$k = {
       showActions: false,
     };
   },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
+  },
   methods: {
     /* Hide actions dropdown */
     hideActions() {
@@ -8511,8 +8647,14 @@ var script$k = {
   },
 };
 
-const _hoisted_1$k = { class: "media-browser-item-info" };
-const _hoisted_2$h = ["aria-label", "title"];
+const _hoisted_1$k = { class: "media-browser-item-preview" };
+const _hoisted_2$j = ["src", "loading", "width", "height"];
+const _hoisted_3$i = {
+  key: 1,
+  class: "file-icon"
+};
+const _hoisted_4$d = { class: "media-browser-item-info" };
+const _hoisted_5$a = ["aria-label", "title"];
 
 function render$k(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8521,19 +8663,34 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
     class: "media-browser-item-file",
     onMouseleave: _cache[0] || (_cache[0] = $event => ($options.hideActions()))
   }, [
-    _cache[1] || (_cache[1] = createBaseVNode("div", { class: "media-browser-item-preview" }, [
-      createBaseVNode("div", { class: "file-background" }, [
-        createBaseVNode("div", { class: "file-icon" }, [
-          createBaseVNode("span", { class: "icon-file-alt" })
-        ])
-      ])
-    ], -1 /* HOISTED */)),
-    createBaseVNode("div", _hoisted_1$k, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createBaseVNode("div", _hoisted_1$k, [
+      createBaseVNode("div", {
+        class: normalizeClass(["file-background", { 'with-thumbnail': $options.thumbURL }])
+      }, [
+        ($options.thumbURL)
+          ? (openBlock(), createElementBlock("img", {
+              key: 0,
+              class: "image-cropped",
+              alt: "",
+              src: $options.thumbURL,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight
+            }, null, 8 /* PROPS */, _hoisted_2$j))
+          : createCommentVNode("v-if", true),
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("div", _hoisted_3$i, [...(_cache[1] || (_cache[1] = [
+              createBaseVNode("span", { class: "icon-file-alt" }, null, -1 /* CACHED */)
+            ]))]))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */)
+    ]),
+    createBaseVNode("div", _hoisted_4$d, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_2$h),
+    }, null, 8 /* PROPS */, _hoisted_5$a),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -8564,7 +8721,7 @@ var script$j = {
     };
   },
   computed: {
-    getURL() {
+    thumbURL() {
       if (!this.item.thumb_path) {
         return '';
       }
@@ -8573,16 +8730,16 @@ var script$j = {
         ? `${this.item.thumb_path}?${this.item.modified_date ? new Date(this.item.modified_date).valueOf() : api.mediaVersion}`
         : `${this.item.thumb_path}`;
     },
-    width() {
-      return this.item.width > 0 ? this.item.width : null;
+    thumbWidth() {
+      return this.item.thumb_width || this.item.width || null;
     },
-    height() {
-      return this.item.height > 0 ? this.item.height : null;
+    thumbHeight() {
+      return this.item.thumb_height || this.item.height || null;
     },
-    loading() {
-      return this.item.width > 0 ? 'lazy' : null;
+    thumbLoading() {
+      return this.thumbWidth ? 'lazy' : null;
     },
-    altTag() {
+    thumbAlt() {
       return this.item.name;
     },
   },
@@ -8624,14 +8781,14 @@ var script$j = {
 };
 
 const _hoisted_1$j = ["title"];
-const _hoisted_2$g = { class: "image-background" };
-const _hoisted_3$e = ["src", "alt", "loading", "width", "height"];
-const _hoisted_4$9 = {
+const _hoisted_2$i = { class: "image-background" };
+const _hoisted_3$h = ["src", "alt", "loading", "width", "height"];
+const _hoisted_4$c = {
   key: 1,
   class: "icon-eye-slash image-placeholder",
   "aria-hidden": "true"
 };
-const _hoisted_5$8 = ["title"];
+const _hoisted_5$9 = ["title"];
 const _hoisted_6$7 = ["aria-label", "title"];
 
 function render$j(_ctx, _cache, $props, $setup, $data, $options) {
@@ -8648,28 +8805,28 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
       class: "media-browser-item-preview",
       title: $props.item.name
     }, [
-      createBaseVNode("div", _hoisted_2$g, [
-        ($options.getURL)
+      createBaseVNode("div", _hoisted_2$i, [
+        ($options.thumbURL)
           ? (openBlock(), createElementBlock("img", {
               key: 0,
               class: "image-cropped",
-              src: $options.getURL,
-              alt: $options.altTag,
-              loading: $options.loading,
-              width: $options.width,
-              height: $options.height,
+              src: $options.thumbURL,
+              alt: $options.thumbAlt,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight,
               onLoad: _cache[0] || (_cache[0] = (...args) => ($options.setSize && $options.setSize(...args)))
-            }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_3$e))
+            }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_3$h))
           : createCommentVNode("v-if", true),
-        (!$options.getURL)
-          ? (openBlock(), createElementBlock("span", _hoisted_4$9))
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("span", _hoisted_4$c))
           : createCommentVNode("v-if", true)
       ])
     ], 8 /* PROPS */, _hoisted_1$j),
     createBaseVNode("div", {
       class: "media-browser-item-info",
       title: $props.item.name
-    }, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 9 /* TEXT, PROPS */, _hoisted_5$8),
+    }, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 9 /* TEXT, PROPS */, _hoisted_5$9),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
@@ -8711,6 +8868,26 @@ var script$i = {
       showActions: false,
     };
   },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
+  },
   methods: {
     /* Hide actions dropdown */
     hideActions() {
@@ -8728,7 +8905,13 @@ var script$i = {
   },
 };
 
-const _hoisted_1$i = { class: "media-browser-item-info" };
+const _hoisted_1$i = { class: "media-browser-item-preview" };
+const _hoisted_2$h = ["src", "loading", "width", "height"];
+const _hoisted_3$g = {
+  key: 1,
+  class: "file-icon"
+};
+const _hoisted_4$b = { class: "media-browser-item-info" };
 
 function render$i(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8738,14 +8921,29 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
     onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
     onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    _cache[2] || (_cache[2] = createBaseVNode("div", { class: "media-browser-item-preview" }, [
-      createBaseVNode("div", { class: "file-background" }, [
-        createBaseVNode("div", { class: "file-icon" }, [
-          createBaseVNode("span", { class: "fas fa-file-video" })
-        ])
-      ])
-    ], -1 /* HOISTED */)),
-    createBaseVNode("div", _hoisted_1$i, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createBaseVNode("div", _hoisted_1$i, [
+      createBaseVNode("div", {
+        class: normalizeClass(["file-background", { 'with-thumbnail': $options.thumbURL }])
+      }, [
+        ($options.thumbURL)
+          ? (openBlock(), createElementBlock("img", {
+              key: 0,
+              class: "image-cropped",
+              alt: "",
+              src: $options.thumbURL,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight
+            }, null, 8 /* PROPS */, _hoisted_2$h))
+          : createCommentVNode("v-if", true),
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("div", _hoisted_3$g, [...(_cache[2] || (_cache[2] = [
+              createBaseVNode("span", { class: "fas fa-file-video" }, null, -1 /* CACHED */)
+            ]))]))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */)
+    ]),
+    createBaseVNode("div", _hoisted_4$b, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -8781,6 +8979,26 @@ var script$h = {
       showActions: false,
     };
   },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
+  },
   methods: {
     /* Hide actions dropdown */
     hideActions() {
@@ -8798,7 +9016,13 @@ var script$h = {
   },
 };
 
-const _hoisted_1$h = { class: "media-browser-item-info" };
+const _hoisted_1$h = { class: "media-browser-item-preview" };
+const _hoisted_2$g = ["src", "loading", "width", "height"];
+const _hoisted_3$f = {
+  key: 1,
+  class: "file-icon"
+};
+const _hoisted_4$a = { class: "media-browser-item-info" };
 
 function render$h(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8810,14 +9034,29 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
     onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions())),
     onKeyup: _cache[2] || (_cache[2] = withKeys($event => ($options.openPreview()), ["enter"]))
   }, [
-    _cache[3] || (_cache[3] = createBaseVNode("div", { class: "media-browser-item-preview" }, [
-      createBaseVNode("div", { class: "file-background" }, [
-        createBaseVNode("div", { class: "file-icon" }, [
-          createBaseVNode("span", { class: "fas fa-file-audio" })
-        ])
-      ])
-    ], -1 /* HOISTED */)),
-    createBaseVNode("div", _hoisted_1$h, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createBaseVNode("div", _hoisted_1$h, [
+      createBaseVNode("div", {
+        class: normalizeClass(["file-background", { 'with-thumbnail': $options.thumbURL }])
+      }, [
+        ($options.thumbURL)
+          ? (openBlock(), createElementBlock("img", {
+              key: 0,
+              class: "image-cropped",
+              alt: "",
+              src: $options.thumbURL,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight
+            }, null, 8 /* PROPS */, _hoisted_2$g))
+          : createCommentVNode("v-if", true),
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("div", _hoisted_3$f, [...(_cache[3] || (_cache[3] = [
+              createBaseVNode("span", { class: "fas fa-file-audio" }, null, -1 /* CACHED */)
+            ]))]))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */)
+    ]),
+    createBaseVNode("div", _hoisted_4$a, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -8853,6 +9092,26 @@ var script$g = {
       showActions: false,
     };
   },
+  computed: {
+    thumbURL() {
+      let path = this.item.thumb_path || '';
+
+      if (path && this.item.modified_date) {
+        path = path + (path.includes('?') ? '&' : '?') + this.item.modified_date;
+      }
+
+      return path;
+    },
+    thumbWidth() {
+      return this.item.thumb_width || null;
+    },
+    thumbHeight() {
+      return this.item.thumb_height || null;
+    },
+    thumbLoading() {
+      return this.item.thumb_width ? 'lazy' : null;
+    },
+  },
   methods: {
     /* Hide actions dropdown */
     hideActions() {
@@ -8870,8 +9129,14 @@ var script$g = {
   },
 };
 
-const _hoisted_1$g = { class: "media-browser-item-info" };
-const _hoisted_2$f = ["aria-label", "title"];
+const _hoisted_1$g = { class: "media-browser-item-preview" };
+const _hoisted_2$f = ["src", "loading", "width", "height"];
+const _hoisted_3$e = {
+  key: 1,
+  class: "file-icon"
+};
+const _hoisted_4$9 = { class: "media-browser-item-info" };
+const _hoisted_5$8 = ["aria-label", "title"];
 
 function render$g(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_MediaBrowserActionItemsContainer = resolveComponent("MediaBrowserActionItemsContainer");
@@ -8881,19 +9146,34 @@ function render$g(_ctx, _cache, $props, $setup, $data, $options) {
     onDblclick: _cache[0] || (_cache[0] = $event => ($options.openPreview())),
     onMouseleave: _cache[1] || (_cache[1] = $event => ($options.hideActions()))
   }, [
-    _cache[2] || (_cache[2] = createBaseVNode("div", { class: "media-browser-item-preview" }, [
-      createBaseVNode("div", { class: "file-background" }, [
-        createBaseVNode("div", { class: "file-icon" }, [
-          createBaseVNode("span", { class: "fas fa-file" })
-        ])
-      ])
-    ], -1 /* HOISTED */)),
-    createBaseVNode("div", _hoisted_1$g, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
+    createBaseVNode("div", _hoisted_1$g, [
+      createBaseVNode("div", {
+        class: normalizeClass(["file-background", { 'with-thumbnail': $options.thumbURL }])
+      }, [
+        ($options.thumbURL)
+          ? (openBlock(), createElementBlock("img", {
+              key: 0,
+              class: "image-cropped",
+              alt: "",
+              src: $options.thumbURL,
+              loading: $options.thumbLoading,
+              width: $options.thumbWidth,
+              height: $options.thumbHeight
+            }, null, 8 /* PROPS */, _hoisted_2$f))
+          : createCommentVNode("v-if", true),
+        (!$options.thumbURL)
+          ? (openBlock(), createElementBlock("div", _hoisted_3$e, [...(_cache[2] || (_cache[2] = [
+              createBaseVNode("span", { class: "fas fa-file" }, null, -1 /* CACHED */)
+            ]))]))
+          : createCommentVNode("v-if", true)
+      ], 2 /* CLASS */)
+    ]),
+    createBaseVNode("div", _hoisted_4$9, toDisplayString($props.item.name) + " " + toDisplayString($props.item.filetype), 1 /* TEXT */),
     createBaseVNode("span", {
       class: "media-browser-select",
       "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM'),
       title: _ctx.translate('COM_MEDIA_TOGGLE_SELECT_ITEM')
-    }, null, 8 /* PROPS */, _hoisted_2$f),
+    }, null, 8 /* PROPS */, _hoisted_5$8),
     createVNode(_component_MediaBrowserActionItemsContainer, {
       ref: "container",
       item: $props.item,
@@ -9095,10 +9375,10 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
               }, "×"),
               createBaseVNode("h2", null, toDisplayString($options.item.name), 1 /* TEXT */),
               ($options.item.path === '/')
-                ? (openBlock(), createElementBlock("div", _hoisted_3$d, _cache[1] || (_cache[1] = [
-                    createBaseVNode("span", { class: "icon-file placeholder-icon" }, null, -1 /* HOISTED */),
-                    createTextVNode(" Select file or folder to view its details. ")
-                  ])))
+                ? (openBlock(), createElementBlock("div", _hoisted_3$d, [...(_cache[1] || (_cache[1] = [
+                    createBaseVNode("span", { class: "icon-file placeholder-icon" }, null, -1 /* CACHED */),
+                    createTextVNode(" Select file or folder to view its details. ", -1 /* CACHED */)
+                  ]))]))
                 : (openBlock(), createElementBlock("dl", _hoisted_4$8, [
                     createBaseVNode("dt", null, toDisplayString(_ctx.translate('COM_MEDIA_FOLDER')), 1 /* TEXT */),
                     createBaseVNode("dd", null, toDisplayString($options.item.directory), 1 /* TEXT */),
@@ -9212,8 +9492,7 @@ var script$e = {
       return this.$store.state.search !== '' && this.localItems.length === 0;
     },
     isEmpty() {
-      return ![...this.$store.getters.getSelectedDirectoryDirectories, ...this.$store.getters.getSelectedDirectoryFiles].length
-       && !this.$store.state.isLoading;
+      return !this.localItems.length && !this.$store.state.isLoading;
     },
     /* The styles for the media-browser element */
     listView() {
@@ -9386,7 +9665,7 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
             _cache[4] || (_cache[4] = createBaseVNode("span", {
               class: "icon-info-circle",
               "aria-hidden": "true"
-            }, null, -1 /* HOISTED */)),
+            }, null, -1 /* CACHED */)),
             createBaseVNode("span", _hoisted_3$c, toDisplayString(_ctx.translate('NOTICE')), 1 /* TEXT */),
             createTextVNode(" " + toDisplayString(_ctx.translate('JGLOBAL_NO_MATCHING_RESULTS')), 1 /* TEXT */)
           ])
@@ -9397,7 +9676,7 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
           _cache[5] || (_cache[5] = createBaseVNode("span", {
             class: "fa-8x icon-cloud-upload upload-icon",
             "aria-hidden": "true"
-          }, null, -1 /* HOISTED */)),
+          }, null, -1 /* CACHED */)),
           createBaseVNode("p", null, toDisplayString(_ctx.translate("COM_MEDIA_DROP_FILE")), 1 /* TEXT */)
         ]))
       : createCommentVNode("v-if", true),
@@ -9405,7 +9684,7 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
       _cache[6] || (_cache[6] = createBaseVNode("span", {
         class: "icon-cloud-upload upload-icon",
         "aria-hidden": "true"
-      }, null, -1 /* HOISTED */)),
+      }, null, -1 /* CACHED */)),
       createBaseVNode("p", null, toDisplayString(_ctx.translate('COM_MEDIA_DROP_FILE')), 1 /* TEXT */)
     ]),
     (($options.listView === 'table' && !$options.isEmpty && !$options.isEmptySearch))
@@ -10048,12 +10327,12 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
               class: normalizeClass(["media-toolbar-icon", { active: $data.sortingOptions }]),
               "aria-label": _ctx.translate('COM_MEDIA_CHANGE_ORDERING'),
               onClick: _cache[2] || (_cache[2] = $event => ($options.showSortOptions()))
-            }, _cache[9] || (_cache[9] = [
+            }, [...(_cache[9] || (_cache[9] = [
               createBaseVNode("span", {
                 class: "fas fa-sort-amount-down-alt",
                 "aria-hidden": "true"
-              }, null, -1 /* HOISTED */)
-            ]), 10 /* CLASS, PROPS */, _hoisted_9))
+              }, null, -1 /* CACHED */)
+            ]))], 10 /* CLASS, PROPS */, _hoisted_9))
           : createCommentVNode("v-if", true),
         ($options.isGridView)
           ? (openBlock(), createElementBlock("button", {
@@ -10062,12 +10341,12 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
               class: normalizeClass(["media-toolbar-icon media-toolbar-decrease-grid-size", {disabled: $options.isGridSize('sm')}]),
               "aria-label": _ctx.translate('COM_MEDIA_DECREASE_GRID'),
               onClick: _cache[3] || (_cache[3] = withModifiers($event => ($options.decreaseGridSize()), ["stop","prevent"]))
-            }, _cache[10] || (_cache[10] = [
+            }, [...(_cache[10] || (_cache[10] = [
               createBaseVNode("span", {
                 class: "icon-search-minus",
                 "aria-hidden": "true"
-              }, null, -1 /* HOISTED */)
-            ]), 10 /* CLASS, PROPS */, _hoisted_10))
+              }, null, -1 /* CACHED */)
+            ]))], 10 /* CLASS, PROPS */, _hoisted_10))
           : createCommentVNode("v-if", true),
         ($options.isGridView)
           ? (openBlock(), createElementBlock("button", {
@@ -10076,12 +10355,12 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
               class: normalizeClass(["media-toolbar-icon media-toolbar-increase-grid-size", {disabled: $options.isGridSize('xl')}]),
               "aria-label": _ctx.translate('COM_MEDIA_INCREASE_GRID'),
               onClick: _cache[4] || (_cache[4] = withModifiers($event => ($options.increaseGridSize()), ["stop","prevent"]))
-            }, _cache[11] || (_cache[11] = [
+            }, [...(_cache[11] || (_cache[11] = [
               createBaseVNode("span", {
                 class: "icon-search-plus",
                 "aria-hidden": "true"
-              }, null, -1 /* HOISTED */)
-            ]), 10 /* CLASS, PROPS */, _hoisted_11))
+              }, null, -1 /* CACHED */)
+            ]))], 10 /* CLASS, PROPS */, _hoisted_11))
           : createCommentVNode("v-if", true),
         createBaseVNode("button", {
           type: "button",
@@ -10099,12 +10378,12 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
           class: "media-toolbar-icon media-toolbar-info",
           "aria-label": _ctx.translate('COM_MEDIA_TOGGLE_INFO'),
           onClick: _cache[6] || (_cache[6] = withModifiers((...args) => ($options.toggleInfoBar && $options.toggleInfoBar(...args)), ["stop","prevent"]))
-        }, _cache[12] || (_cache[12] = [
+        }, [...(_cache[12] || (_cache[12] = [
           createBaseVNode("span", {
             class: "icon-info",
             "aria-hidden": "true"
-          }, null, -1 /* HOISTED */)
-        ]), 8 /* PROPS */, _hoisted_13)
+          }, null, -1 /* CACHED */)
+        ]))], 8 /* PROPS */, _hoisted_13)
       ])
     ], 8 /* PROPS */, _hoisted_1$9),
     ($options.isGridView && $data.sortingOptions)
@@ -11613,9 +11892,9 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
             type: "button",
             class: "media-preview-close",
             onClick: _cache[0] || (_cache[0] = $event => ($options.close()))
-          }, _cache[2] || (_cache[2] = [
-            createBaseVNode("span", { class: "icon-times" }, null, -1 /* HOISTED */)
-          ]))
+          }, [...(_cache[2] || (_cache[2] = [
+            createBaseVNode("span", { class: "icon-times" }, null, -1 /* CACHED */)
+          ]))])
         ]),
         _: 1 /* STABLE */
       }))
@@ -11905,12 +12184,12 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
                         type: "button",
                         title: _ctx.translate('COM_MEDIA_SHARE_COPY'),
                         onClick: _cache[2] || (_cache[2] = (...args) => ($options.copyToClipboard && $options.copyToClipboard(...args)))
-                      }, _cache[5] || (_cache[5] = [
+                      }, [...(_cache[5] || (_cache[5] = [
                         createBaseVNode("span", {
                           class: "icon-clipboard",
                           "aria-hidden": "true"
-                        }, null, -1 /* HOISTED */)
-                      ]), 8 /* PROPS */, _hoisted_7)
+                        }, null, -1 /* CACHED */)
+                      ]))], 8 /* PROPS */, _hoisted_7)
                     ])
                   ]))
             ])
@@ -11978,7 +12257,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         body: withCtx(() => [
           createBaseVNode("div", _hoisted_2$1, [
-            createBaseVNode("div", _hoisted_3$1, toDisplayString(_ctx.translate('JGLOBAL_CONFIRM_DELETE')), 1 /* TEXT */)
+            createBaseVNode("div", _hoisted_3$1, toDisplayString(_ctx.translate('COM_MEDIA_DELETE')), 1 /* TEXT */)
           ])
         ]),
         footer: withCtx(() => [

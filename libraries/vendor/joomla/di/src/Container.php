@@ -104,7 +104,7 @@ class Container implements ContainerInterface
      *
      * @since   1.5.0
      */
-    public function has($resourceName)
+    public function has($resourceName): bool
     {
         $key = $this->resolveAlias($resourceName);
 
@@ -117,29 +117,6 @@ class Container implements ContainerInterface
         }
 
         return true;
-    }
-
-    /**
-     * Method to check if specified dataStore key exists.
-     *
-     * @param   string  $key  Name of the dataStore key to check.
-     *
-     * @return  boolean  True for success
-     *
-     * @since   1.0
-     * @deprecated  3.0  Use ContainerInterface::has() instead
-     */
-    public function exists($key)
-    {
-        trigger_deprecation(
-            'joomla/di',
-            '1.5.0',
-            '%s() is deprecated and will be removed in 3.0, use %s::has() instead.',
-            __METHOD__,
-            ContainerInterface::class
-        );
-
-        return $this->has($key);
     }
 
     /**
@@ -211,7 +188,7 @@ class Container implements ContainerInterface
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   3.0.0
      */
     private function isLocal(string $resourceName): bool
     {
@@ -369,15 +346,11 @@ class Container implements ContainerInterface
         // If there are no parameters, just return a new object.
         if ($constructor === null) {
             // There is no constructor, just return a new object.
-            $callback = function () use ($key) {
-                return new $key();
-            };
+            $callback = fn() => new $key();
         } else {
             $newInstanceArgs = $this->getMethodArgs($constructor);
 
-            $callback = function () use ($reflection, $newInstanceArgs) {
-                return $reflection->newInstanceArgs($newInstanceArgs);
-            };
+            $callback = fn() => $reflection->newInstanceArgs($newInstanceArgs);
         }
 
         $this->set($key, $callback, $shared);
@@ -434,9 +407,7 @@ class Container implements ContainerInterface
         $key      = $this->resolveAlias($resourceName);
         $resource = $this->getResource($key, true);
 
-        $closure = function ($c) use ($callable, $resource) {
-            return $callable($resource->getInstance(), $c);
-        };
+        $closure = fn($c) => $callable($resource->getInstance(), $c);
 
         $this->set($key, $closure, $resource->isShared());
     }
@@ -663,6 +634,26 @@ class Container implements ContainerInterface
     public function share($key, $value, $protected = false)
     {
         return $this->set($key, $value, true, $protected);
+    }
+
+    /**
+     * Create a lazy proxy factory for given class.
+     *
+     * @param   string         $class      Full class name of the resource.
+     * @param   callable       $factory    Callback to create the class instance. The callback must return instance of the given class.
+     *
+     * @return  callable
+     *
+     * @since   3.1.0
+     */
+    final public function lazy(string $class, callable $factory): callable
+    {
+        if (PHP_VERSION_ID < 80400) {
+            return $factory;
+        }
+
+        // Create a Lazy Proxy factory
+        return fn() => (new \ReflectionClass($class))->newLazyProxy(fn() => $factory($this));
     }
 
     /**

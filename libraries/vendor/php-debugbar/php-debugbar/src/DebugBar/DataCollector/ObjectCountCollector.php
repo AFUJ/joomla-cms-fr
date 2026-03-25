@@ -19,6 +19,12 @@ class ObjectCountCollector extends DataCollector implements DataCollectorInterfa
     protected $classCount = 0;
     /** @var array */
     protected $classList = [];
+    /** @var array */
+    protected $classSummary = [];
+    /** @var bool */
+    protected $collectSummary = false;
+    /** @var array */
+    protected $keyMap = ['value' => 'Count'];
 
     /**
      * @param string $name
@@ -31,15 +37,40 @@ class ObjectCountCollector extends DataCollector implements DataCollectorInterfa
     }
 
     /**
+     * Allows to define an array to map internal keys to human-readable labels
+     */
+    public function setKeyMap(array $keyMap)
+    {
+        $this->keyMap = $keyMap;
+    }
+
+    /**
+     * Allows to add a summary row
+     */
+    public function collectCountSummary(bool $enable = true)
+    {
+        $this->collectSummary = $enable;
+    }
+
+    /**
      * @param string|mixed $class
      * @param int $count
+     * @param string $key
      */
-    public function countClass($class, $count = 1) {
+    public function countClass($class, $count = 1, $key = 'value') {
         if (! is_string($class)) {
             $class = get_class($class);
         }
 
-        $this->classList[$class] = ($this->classList[$class] ?? 0) + $count;
+        if (!isset($this->classList[$class])) {
+            $this->classList[$class] = [];
+        }
+
+        if ($this->collectSummary) {
+            $this->classSummary[$key] = ($this->classSummary[$key] ?? 0) + $count;
+        }
+
+        $this->classList[$class][$key] = ($this->classList[$class][$key] ?? 0) + $count;
         $this->classCount += $count;
     }
 
@@ -48,27 +79,32 @@ class ObjectCountCollector extends DataCollector implements DataCollectorInterfa
      */
     public function collect()
     {
-        arsort($this->classList, SORT_NUMERIC);
+        uasort($this->classList, fn($a, $b) => array_sum($b) <=> array_sum($a));
 
-        if (! $this->getXdebugLinkTemplate()) {
-            return ['data' => $this->classList, 'count' => $this->classCount, 'is_counter' => true];
+        $collect = [
+            'data' => $this->classList,
+            'count' => $this->classCount,
+            'key_map' => $this->keyMap,
+            'is_counter' => true
+        ];
+
+        if ($this->collectSummary) {
+            $collect['badges'] = $this->classSummary;
         }
 
-        $data = [];
+        if (! $this->getXdebugLinkTemplate()) {
+            return $collect;
+        }
+
         foreach ($this->classList as $class => $count) {
             $reflector = class_exists($class) ? new \ReflectionClass($class) : null;
 
             if ($reflector && $link = $this->getXdebugLink($reflector->getFileName())) {
-                $data[$class] = [
-                    'value' => $count,
-                    'xdebug_link' => $link,
-                ];
-            } else {
-                $data[$class] = $count;
+                $collect['data'][$class]['xdebug_link'] = $link;
             }
         }
 
-        return ['data' => $data, 'count' => $this->classCount, 'is_counter' => true];
+        return $collect;
     }
 
     /**
@@ -89,8 +125,8 @@ class ObjectCountCollector extends DataCollector implements DataCollectorInterfa
         return [
             "$name" => [
                 'icon' => $this->icon,
-                'widget' => 'PhpDebugBar.Widgets.HtmlVariableListWidget',
-                'map' => "$name.data",
+                'widget' => 'PhpDebugBar.Widgets.TableVariableListWidget',
+                'map' => "$name",
                 'default' => '{}'
             ],
             "$name:badge" => [

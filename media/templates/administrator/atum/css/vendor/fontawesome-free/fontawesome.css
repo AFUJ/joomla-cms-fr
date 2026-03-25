@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/*!
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
 .fa {
   font-family: var(--fa-style-family, "Font Awesome 6 Free");
   font-weight: var(--fa-style, 900);
@@ -7030,7 +7035,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=896727") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=262525") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=177040") format("truetype");
 }
 
 .far, .fa-regular {
@@ -7047,7 +7052,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=4a6591") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=269f97") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=177040") format("truetype");
 }
 
 .fas, [class^="icon-"], [class*=" icon-"], .fa-solid {
@@ -7064,7 +7069,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=cbcf42") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=15d54d") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=177040") format("truetype");
 }
 
 .fab, .icon-joomla, .fa-brands {

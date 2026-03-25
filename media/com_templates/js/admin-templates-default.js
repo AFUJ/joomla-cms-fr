@@ -101,8 +101,6 @@
     if (image) {
       const width = document.getElementById('imageWidth').value;
       const height = document.getElementById('imageHeight').value;
-
-      // eslint-disable-next-line no-new
       new window.Cropper(image, {
         viewMode: 1,
         scalable: true,

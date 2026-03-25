@@ -10,6 +10,7 @@ pre.phpdebugbar-widgets-code-block {
   }
   pre.phpdebugbar-widgets-code-block code.phpdebugbar-widgets-numbered-code {
     padding: 5px;
+    line-height: normal;
   }
   pre.phpdebugbar-widgets-code-block ul li.phpdebugbar-widgets-highlighted-line {
     font-weight: bolder;
@@ -31,7 +32,8 @@ pre.phpdebugbar-widgets-code-block {
   }
 
   .phpdebugbar-widgets-kvlist span.phpdebugbar-widgets-filename,
-  li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-filename {
+  li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-filename,
+  table.phpdebugbar-widgets-tablevar span.phpdebugbar-widgets-filename {
     display: block;
     font-style: italic;
     float: right;
@@ -110,6 +112,7 @@ div.phpdebugbar-widgets-messages {
   div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item span.phpdebugbar-widgets-value.phpdebugbar-widgets-critical:before {
     content: "\f057";
   }
+  .phpdebugbar-widgets-params .phpdebugbar-widgets-value pre.sf-dump,
   dl.phpdebugbar-widgets-kvlist dd.phpdebugbar-widgets-value pre.sf-dump,
   div.phpdebugbar-widgets-messages li.phpdebugbar-widgets-list-item pre.sf-dump {
     display: inline-block !important;
@@ -275,6 +278,7 @@ ul.phpdebugbar-widgets-timeline {
       ul.phpdebugbar-widgets-timeline table.phpdebugbar-widgets-params .phpdebugbar-widgets-name {
         width: 20%;
         font-weight: bold;
+        vertical-align: top;
       }
 
 /* -------------------------------------- */
@@ -313,3 +317,53 @@ ul.phpdebugbar-widgets-timeline table.phpdebugbar-widgets-params {
     width: 99%;
 }
 
+div.phpdebugbar[data-theme='dark'] code.phpdebugbar-widgets-sql,
+div.phpdebugbar[data-theme='dark'] .phpdebugbar-widgets-name,
+div.phpdebugbar[data-theme='dark'] .phpdebugbar-widgets-key,
+div.phpdebugbar[data-theme='dark'] .phpdebugbar-widgets-success > pre.sf-dump > .sf-dump-note {
+    color: #fdfd96;
+}
+
+table.phpdebugbar-widgets-tablevar {
+  width: 100%;
+  table-layout: auto;
+}
+
+table.phpdebugbar-widgets-tablevar td:first-child {
+  width: 150px;
+  white-space: nowrap;
+  font-family: var(--debugbar-font-mono);
+}
+
+table.phpdebugbar-widgets-tablevar td.phpdebugbar-widgets-editor {
+  width: 5%;
+  white-space: nowrap;
+  text-align: right;
+}
+
+table.phpdebugbar-widgets-tablevar tr.phpdebugbar-widgets-header td,
+table.phpdebugbar-widgets-tablevar tr.phpdebugbar-widgets-summary td {
+  font-weight: bold;
+}
+
+table.phpdebugbar-widgets-tablevar td {
+  padding: 2px 4px;
+  border-bottom: 1px solid var(--debugbar-border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: normal;
+}
+
+table.phpdebugbar-widgets-tablevar .phpdebugbar-widgets-header span.phpdebugbar-widgets-badge {
+  margin: 0 5px 0 8px;
+  font-size: 11px;
+  line-height: 14px;
+  padding: 0 6px;
+  background: var(--debugbar-badge-active);
+  border-radius: 4px;
+  color: var(--debugbar-badge-active-text);
+  font-weight: normal;
+  text-shadow: none;
+  vertical-align: middle;
+}

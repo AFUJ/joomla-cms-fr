@@ -44,10 +44,9 @@ class LintState {
     }
     static init(diagnostics, panel, state) {
         // Filter the list of diagnostics for which to create markers
-        let markedDiagnostics = diagnostics;
         let diagnosticFilter = state.facet(lintConfig).markerFilter;
         if (diagnosticFilter)
-            markedDiagnostics = diagnosticFilter(markedDiagnostics, state);
+            diagnostics = diagnosticFilter(diagnostics, state);
         let sorted = diagnostics.slice().sort((a, b) => a.from - b.from || a.to - b.to);
         let deco = new RangeSetBuilder(), active = [], pos = 0;
         for (let i = 0;;) {

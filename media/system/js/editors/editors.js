@@ -5,7 +5,6 @@ import JoomlaDialog from 'joomla.dialog';
  * @copyright  (C) 2023 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 if (!window.Joomla) {
   throw new Error('JoomlaEditors API require Joomla to be loaded.');
 }
@@ -20,18 +19,15 @@ Joomla.editors = Joomla.editors || {};
 // An object to hold each editor instance on page, only define if not defined.
 Joomla.editors.instances = new Proxy({}, {
   set(target, p, editor) {
-    // eslint-disable-next-line no-use-before-define
     if (!(editor instanceof JoomlaEditorDecorator)) {
       // Add missed method in Legacy editor
       editor.getId = () => p;
-      // eslint-disable-next-line no-console
       console.warn('Legacy editors is deprecated. Register the editor instance with JoomlaEditor.register().', p, editor);
     }
     target[p] = editor;
     return true;
   },
   get(target, p) {
-    // eslint-disable-next-line no-console
     console.warn('Direct access to Joomla.editors.instances is deprecated. Use JoomlaEditor.getActive() or JoomlaEditor.get(id) to retrieve the editor instance.');
     return target[p];
   }

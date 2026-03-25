@@ -302,7 +302,7 @@ const javascriptLanguage = /*@__PURE__*/LRLanguage.define({
                 Block: /*@__PURE__*/delimitedIndent({ closing: "}" }),
                 ArrowFunction: cx => cx.baseIndent + cx.unit,
                 "TemplateString BlockComment": () => null,
-                "Statement Property": /*@__PURE__*/continuedIndent({ except: /^{/ }),
+                "Statement Property": /*@__PURE__*/continuedIndent({ except: /^\s*{/ }),
                 JSXElement(context) {
                     let closed = /^\s*<\//.test(context.textAfter);
                     return context.lineIndent(context.node.from) + (closed ? 0 : context.unit);
@@ -456,7 +456,8 @@ function esLint(eslint, config) {
             rules: {}
         };
         eslint.getRules().forEach((desc, name) => {
-            if (desc.meta.docs.recommended)
+            var _a;
+            if ((_a = desc.meta.docs) === null || _a === void 0 ? void 0 : _a.recommended)
                 config.rules[name] = 2;
         });
     }

@@ -597,6 +597,14 @@
   overflow: hidden;
 }
 
+.mejs-captions-button-toggle {
+  opacity: .7;
+}
+
+.mejs-captions-button-toggle-on {
+  opacity: 1;
+}
+
 .mejs-chapters-button > .mejs-chapters-selector {
   width: 6.875rem;
   margin-right: -3.4375rem;
