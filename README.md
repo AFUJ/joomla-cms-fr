@@ -1,15 +1,15 @@
-# AFUJ: Joomla! CMS™ - Version 6.0.3 avec pack fr-FR
+# AFUJ: Joomla! CMS™ - Version 6.0.4 avec pack fr-FR
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/AFUJ/joomla-cms-fr?color=green&include_prereleases&label=release&style=for-the-badge)
 
 ## DESCRIPTION
 
-La version 6.0.3 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
+La version 6.0.4 de Joomla! incluant le pack de langue fr-FR et des traductions d'éléments à l'installation
 
 ## 1- Aperçu
-* Ceci est un package d'installation 6.0.3 francisé.
+* Ceci est un package d'installation 6.0.4 francisé.
 * Site officiel de Joomla! : (https://www.joomla.org)
-* Historique des versions Joomla! 5.3 - 
+* Historique des versions Joomla! 5.4 - 
 [https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history](https://docs.joomla.org/Special:MyLanguage/Joomla_6.0_version_history)
 * Modifications détaillées dans le journal des modifications : [https://github.com/joomla/joomla-cms/commits/6.0-dev](https://github.com/joomla/joomla-cms/commits/6.0-dev)
 
