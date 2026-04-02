@@ -1,5 +1,5 @@
-import { getPanel, EditorView, ViewPlugin, showPanel, Decoration, runScopeHandlers } from '@codemirror/view';
-import { StateEffect, codePointAt, fromCodePoint, codePointSize, EditorState, StateField, EditorSelection, Facet, Prec, combineConfig, CharCategory, RangeSetBuilder, findClusterBreak } from '@codemirror/state';
+import { getPanel, EditorView, showPanel, ViewPlugin, Decoration, runScopeHandlers } from '@codemirror/view';
+import { codePointAt, fromCodePoint, codePointSize, EditorState, StateEffect, EditorSelection, StateField, Facet, combineConfig, Prec, CharCategory, RangeSetBuilder, findClusterBreak } from '@codemirror/state';
 
 function crelt() {
   var elt = arguments[0];

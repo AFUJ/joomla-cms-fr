@@ -1,6 +1,6 @@
 import { NodeType, NodeProp, Tree, IterMode, TreeFragment, Parser, NodeSet } from '@lezer/common';
-import { EditorState, Facet, StateEffect, StateField, countColumn, RangeSetBuilder, RangeSet, Prec, combineConfig } from '@codemirror/state';
-import { Decoration, Direction, ViewPlugin, EditorView, logException, gutter, GutterMarker, WidgetType } from '@codemirror/view';
+import { EditorState, Facet, countColumn, StateEffect, RangeSetBuilder, RangeSet, StateField, Prec, combineConfig } from '@codemirror/state';
+import { Decoration, Direction, EditorView, ViewPlugin, logException, gutter, GutterMarker, WidgetType } from '@codemirror/view';
 import { tags, styleTags, tagHighlighter, highlightTree } from '@lezer/highlight';
 
 const C = "\u037c";

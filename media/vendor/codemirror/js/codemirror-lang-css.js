@@ -1,5 +1,5 @@
 import { parser } from '@lezer/css';
-import { LRLanguage, syntaxTree, indentNodeProp, foldNodeProp, continuedIndent, foldInside, LanguageSupport } from '@codemirror/language';
+import { syntaxTree, LRLanguage, indentNodeProp, continuedIndent, foldNodeProp, foldInside, LanguageSupport } from '@codemirror/language';
 import { NodeWeakMap, IterMode } from '@lezer/common';
 
 let _properties = null;

@@ -1,5 +1,5 @@
-import { ViewPlugin, gutter, EditorView, getPanel, hoverTooltip, showPanel, Decoration, showTooltip, GutterMarker, WidgetType, logException } from '@codemirror/view';
-import { StateEffect, StateField, RangeSet, Facet, combineConfig, RangeSetBuilder } from '@codemirror/state';
+import { getPanel, showPanel, EditorView, Decoration, ViewPlugin, gutter, showTooltip, hoverTooltip, GutterMarker, WidgetType, logException } from '@codemirror/view';
+import { RangeSet, StateEffect, StateField, Facet, combineConfig, RangeSetBuilder } from '@codemirror/state';
 
 function crelt() {
   var elt = arguments[0];

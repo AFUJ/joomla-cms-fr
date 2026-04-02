@@ -1,5 +1,5 @@
 import { P as Popper, c as createPopper } from './popper.js?5.3.8';
-import { b as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, f as isDisabled, n as noop, M as Manipulator, h as isElement, c as getElement, j as execute, i as isVisible, g as getNextActiveElement } from './dom.js?5.3.8';
+import { c as isRTL, E as EventHandler, d as defineJQueryPlugin, B as BaseComponent, S as SelectorEngine, f as isDisabled, n as noop, M as Manipulator, h as isElement, g as getElement, j as execute, i as isVisible, b as getNextActiveElement } from './dom.js?5.3.8';
 
 /**
  * --------------------------------------------------------------------------

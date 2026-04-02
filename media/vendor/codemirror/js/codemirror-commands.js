@@ -1,6 +1,6 @@
-import { StateField, Facet, Annotation, Transaction, ChangeSet, ChangeDesc, EditorSelection, StateEffect, countColumn, findClusterBreak, Text, combineConfig, CharCategory } from '@codemirror/state';
+import { Annotation, Facet, StateField, Transaction, ChangeSet, ChangeDesc, EditorSelection, StateEffect, Text, findClusterBreak, countColumn, combineConfig, CharCategory } from '@codemirror/state';
 import { EditorView, Direction } from '@codemirror/view';
-import { getIndentUnit, IndentContext, getIndentation, indentString, syntaxTree, matchBrackets, indentUnit } from '@codemirror/language';
+import { IndentContext, getIndentation, indentString, syntaxTree, matchBrackets, getIndentUnit, indentUnit } from '@codemirror/language';
 import { NodeProp } from '@lezer/common';
 
 /**

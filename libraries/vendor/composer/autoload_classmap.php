@@ -1168,6 +1168,7 @@ return array(
     'Joomla\\CMS\\Pagination\\PaginationObject' => $baseDir . '/libraries/src/Pagination/PaginationObject.php',
     'Joomla\\CMS\\Pathway\\Pathway' => $baseDir . '/libraries/src/Pathway/Pathway.php',
     'Joomla\\CMS\\Pathway\\SitePathway' => $baseDir . '/libraries/src/Pathway/SitePathway.php',
+    'Joomla\\CMS\\Plugin\\Attribute\\AllowUnauthorizedAdministratorAccess' => $baseDir . '/libraries/src/Plugin/Attribute/AllowUnauthorizedAdministratorAccess.php',
     'Joomla\\CMS\\Plugin\\CMSPlugin' => $baseDir . '/libraries/src/Plugin/CMSPlugin.php',
     'Joomla\\CMS\\Plugin\\PluginHelper' => $baseDir . '/libraries/src/Plugin/PluginHelper.php',
     'Joomla\\CMS\\Profiler\\Profiler' => $baseDir . '/libraries/src/Profiler/Profiler.php',

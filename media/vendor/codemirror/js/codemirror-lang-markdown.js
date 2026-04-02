@@ -1,9 +1,9 @@
 import { EditorSelection, countColumn, Prec, EditorState } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
-import { Language, defineLanguageFacet, syntaxTree, foldService, LanguageSupport, foldNodeProp, indentNodeProp, languageDataProp, indentUnit, LanguageDescription, ParseContext } from '@codemirror/language';
+import { syntaxTree, LanguageSupport, Language, indentUnit, foldService, LanguageDescription, ParseContext, defineLanguageFacet, foldNodeProp, indentNodeProp, languageDataProp } from '@codemirror/language';
 import { CompletionContext } from '@codemirror/autocomplete';
-import { parser, MarkdownParser, parseCode, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
-import { html, htmlCompletionSource } from '@codemirror/lang-html';
+import { MarkdownParser, parseCode, parser, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
+import { htmlCompletionSource, html } from '@codemirror/lang-html';
 import { NodeProp } from '@lezer/common';
 
 const data = /*@__PURE__*/defineLanguageFacet({ commentTokens: { block: { open: "<!--", close: "-->" } } });

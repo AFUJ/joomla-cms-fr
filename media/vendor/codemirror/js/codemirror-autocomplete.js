@@ -1,5 +1,5 @@
-import { RangeValue, Annotation, Facet, EditorSelection, StateField, StateEffect, Transaction, Text, Prec, codePointSize, codePointAt, CharCategory, combineConfig, RangeSet, fromCodePoint, MapMode } from '@codemirror/state';
-import { getTooltip, EditorView, keymap, ViewPlugin, showTooltip, Decoration, logException, Direction, WidgetType } from '@codemirror/view';
+import { RangeValue, Annotation, EditorSelection, Transaction, Text, StateEffect, Facet, Prec, codePointSize, codePointAt, CharCategory, StateField, combineConfig, RangeSet, fromCodePoint, MapMode } from '@codemirror/state';
+import { getTooltip, keymap, EditorView, showTooltip, Decoration, ViewPlugin, logException, Direction, WidgetType } from '@codemirror/view';
 import { syntaxTree, indentUnit } from '@codemirror/language';
 
 /**

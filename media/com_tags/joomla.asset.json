@@ -18,9 +18,9 @@
       "version": "db210b"
     },
     {
-      "name": "com_tags.tag-default",
+      "name": "com_tags.tags-default",
       "type": "script",
-      "uri": "com_tags/tag-default.min.js",
+      "uri": "com_tags/tags-default.min.js",
       "dependencies": [
         "core"
       ],
@@ -30,9 +30,9 @@
       "version": "db210b"
     },
     {
-      "name": "com_tags.tags-default",
+      "name": "com_tags.tag-default",
       "type": "script",
-      "uri": "com_tags/tags-default.min.js",
+      "uri": "com_tags/tag-default.min.js",
       "dependencies": [
         "core"
       ],

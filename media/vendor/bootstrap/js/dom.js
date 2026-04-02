@@ -1480,4 +1480,4 @@ class TemplateFactory extends Config {
   }
 }
 
-export { BaseComponent as B, DefaultAllowlist as D, EventHandler as E, FocusTrap as F, Manipulator as M, SelectorEngine as S, TemplateFactory as T, Swipe as a, isRTL as b, getElement as c, defineJQueryPlugin as d, enableDismissTrigger as e, isDisabled as f, getNextActiveElement as g, isElement as h, isVisible as i, execute as j, ScrollBarHelper as k, Backdrop as l, findShadowRoot as m, noop as n, getUID as o, reflow as r, triggerTransitionEnd as t };
+export { BaseComponent as B, DefaultAllowlist as D, EventHandler as E, FocusTrap as F, Manipulator as M, SelectorEngine as S, TemplateFactory as T, Swipe as a, getNextActiveElement as b, isRTL as c, defineJQueryPlugin as d, enableDismissTrigger as e, isDisabled as f, getElement as g, isElement as h, isVisible as i, execute as j, ScrollBarHelper as k, Backdrop as l, findShadowRoot as m, noop as n, getUID as o, reflow as r, triggerTransitionEnd as t };

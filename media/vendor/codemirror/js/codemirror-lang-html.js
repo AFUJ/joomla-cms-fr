@@ -1,9 +1,9 @@
-import { parser, configureNesting } from '@lezer/html';
+import { configureNesting, parser } from '@lezer/html';
 import { cssLanguage, css } from '@codemirror/lang-css';
 import { typescriptLanguage, jsxLanguage, tsxLanguage, javascriptLanguage, javascript } from '@codemirror/lang-javascript';
 import { EditorView } from '@codemirror/view';
 import { EditorSelection } from '@codemirror/state';
-import { LRLanguage, indentNodeProp, foldNodeProp, bracketMatchingHandle, LanguageSupport, syntaxTree } from '@codemirror/language';
+import { LanguageSupport, syntaxTree, LRLanguage, indentNodeProp, foldNodeProp, bracketMatchingHandle } from '@codemirror/language';
 
 const Targets = ["_blank", "_self", "_top", "_parent"];
 const Charsets = ["ascii", "utf-8", "utf-16", "latin1", "latin1"];

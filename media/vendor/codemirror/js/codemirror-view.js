@@ -1,4 +1,4 @@
-import { RangeSet, MapMode, Facet, EditorSelection, RangeValue, EditorState, findClusterBreak, Annotation, StateEffect, Transaction, Prec, RangeSetBuilder, ChangeSet, Text, StateField, combineConfig, codePointAt, countColumn, codePointSize, findColumn, CharCategory } from '@codemirror/state';
+import { RangeSet, MapMode, EditorSelection, RangeValue, Facet, EditorState, findClusterBreak, Annotation, Transaction, Prec, RangeSetBuilder, ChangeSet, Text, StateEffect, StateField, combineConfig, codePointAt, countColumn, codePointSize, findColumn, CharCategory } from '@codemirror/state';
 
 const C = "\u037c";
 const COUNT = typeof Symbol == "undefined" ? "__" + C : Symbol.for(C);

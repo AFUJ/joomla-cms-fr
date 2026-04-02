@@ -7035,7 +7035,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=177040") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=177408") format("truetype");
 }
 
 .far, .fa-regular {
@@ -7052,7 +7052,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=177040") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=177408") format("truetype");
 }
 
 .fas, [class^="icon-"], [class*=" icon-"], .fa-solid {
@@ -7069,7 +7069,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=177040") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=177040") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=177408") format("truetype");
 }
 
 .fab, .icon-joomla, .fa-brands {

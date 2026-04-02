@@ -1,5 +1,5 @@
 import { parser } from '@lezer/javascript';
-import { LRLanguage, syntaxTree, indentNodeProp, foldNodeProp, continuedIndent, delimitedIndent, flatIndent, foldInside, sublanguageProp, defineLanguageFacet, LanguageSupport } from '@codemirror/language';
+import { syntaxTree, LRLanguage, indentNodeProp, flatIndent, continuedIndent, delimitedIndent, foldNodeProp, foldInside, sublanguageProp, LanguageSupport, defineLanguageFacet } from '@codemirror/language';
 import { EditorSelection } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { snippetCompletion, ifNotIn, completeFromList } from '@codemirror/autocomplete';

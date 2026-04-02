@@ -1662,6 +1662,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Joomla\\CMS\\Pagination\\PaginationObject' => __DIR__ . '/../../..' . '/libraries/src/Pagination/PaginationObject.php',
         'Joomla\\CMS\\Pathway\\Pathway' => __DIR__ . '/../../..' . '/libraries/src/Pathway/Pathway.php',
         'Joomla\\CMS\\Pathway\\SitePathway' => __DIR__ . '/../../..' . '/libraries/src/Pathway/SitePathway.php',
+        'Joomla\\CMS\\Plugin\\Attribute\\AllowUnauthorizedAdministratorAccess' => __DIR__ . '/../../..' . '/libraries/src/Plugin/Attribute/AllowUnauthorizedAdministratorAccess.php',
         'Joomla\\CMS\\Plugin\\CMSPlugin' => __DIR__ . '/../../..' . '/libraries/src/Plugin/CMSPlugin.php',
         'Joomla\\CMS\\Plugin\\PluginHelper' => __DIR__ . '/../../..' . '/libraries/src/Plugin/PluginHelper.php',
         'Joomla\\CMS\\Profiler\\Profiler' => __DIR__ . '/../../..' . '/libraries/src/Profiler/Profiler.php',

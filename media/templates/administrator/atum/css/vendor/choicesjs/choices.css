@@ -431,7 +431,7 @@
 }
 
 .choices .choices__list--dropdown .choices__item {
-  padding-inline-end: 10px;
+  padding-inline-end: 25px;
 }
 
 .choices .choices__list--dropdown .choices__item--selectable:after {
@@ -541,7 +541,6 @@
   top: 50%;
   color: var(--success);
   content: " ✓";
-  background: var(--body-bg);
   opacity: 1;
   border-radius: 2.5px;
   padding: 0 .2em;

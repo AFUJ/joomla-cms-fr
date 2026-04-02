@@ -241,7 +241,7 @@ Joomla = window.Joomla || {};
         self.searchField.value = '';
       }
       self.getFilterFields().forEach(i => {
-        if (exceptElement && i === exceptElement || !i.closest(this.options.filterContainerSelector)) {
+        if (exceptElement && i === exceptElement || !i.closest(`${this.options.filterContainerSelector}, .js-stools-container-selector`)) {
           return;
         }
         i.value = '';

@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_menus.admin-item-edit-container",
-      "type": "script",
-      "uri": "com_menus/admin-item-edit_container.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "36dfe0"
-    },
-    {
       "name": "com_menus.admin-item-edit",
       "type": "script",
       "uri": "com_menus/admin-item-edit.min.js",
@@ -36,18 +24,28 @@
       "version": "67209f"
     },
     {
-      "name": "com_menus.admin-items-modal",
+      "name": "com_menus.admin-item-edit-container",
       "type": "script",
-      "uri": "com_menus/admin-items-modal.min.js",
+      "uri": "com_menus/admin-item-edit_container.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "deprecated": true,
-      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6.",
-      "version": "18f50c"
+      "version": "36dfe0"
+    },
+    {
+      "name": "com_menus.admin-item-edit-modules",
+      "type": "script",
+      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "bc3cea"
     },
     {
       "name": "com_menus.admin-item-modal",
@@ -64,16 +62,18 @@
       "version": "9b90e4"
     },
     {
-      "name": "com_menus.admin-menus",
+      "name": "com_menus.admin-items-modal",
       "type": "script",
-      "uri": "com_menus/admin-menus-default.min.js",
+      "uri": "com_menus/admin-items-modal.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "8c28f6"
+      "deprecated": true,
+      "deprecatedMsg": "Replaced with [modal-content-select-field] asset. To be removed in Joomla 6.",
+      "version": "18f50c"
     },
     {
       "name": "com_menus.batch-body",
@@ -88,16 +88,16 @@
       "version": "457f2a"
     },
     {
-      "name": "com_menus.admin-item-edit-modules",
+      "name": "com_menus.admin-menus",
       "type": "script",
-      "uri": "com_menus/admin-item-edit_modules.min.js",
+      "uri": "com_menus/admin-menus-default.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "bc3cea"
+      "version": "8c28f6"
     }
   ]
 }
