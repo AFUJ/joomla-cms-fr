@@ -6,17 +6,16 @@
   "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
-      "name": "com_scheduler.test-task",
+      "name": "com_scheduler.admin-view-select-task-search",
       "type": "script",
-      "uri": "com_scheduler/admin-view-run-test-task.js",
+      "uri": "com_scheduler/admin-view-select-task-search.js",
       "dependencies": [
-        "core",
-        "joomla.dialog"
+        "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "6d6fc2"
+      "version": "878d30"
     },
     {
       "name": "com_scheduler.scheduler-config",
@@ -31,28 +30,29 @@
       "version": "ab7203"
     },
     {
-      "name": "com_scheduler.admin-view-tasks-css",
-      "type": "style",
-      "uri": "com_scheduler/admin-view-tasks.css",
-      "version": "adee39"
-    },
-    {
-      "name": "com_scheduler.admin-view-select-task-search",
+      "name": "com_scheduler.test-task",
       "type": "script",
-      "uri": "com_scheduler/admin-view-select-task-search.js",
+      "uri": "com_scheduler/admin-view-run-test-task.js",
       "dependencies": [
-        "core"
+        "core",
+        "joomla.dialog"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "878d30"
+      "version": "6d6fc2"
     },
     {
       "name": "com_scheduler.admin-view-task-css",
       "type": "style",
       "uri": "com_scheduler/admin-view-task.css",
       "version": "b5f92b"
+    },
+    {
+      "name": "com_scheduler.admin-view-tasks-css",
+      "type": "style",
+      "uri": "com_scheduler/admin-view-tasks.css",
+      "version": "adee39"
     }
   ]
 }

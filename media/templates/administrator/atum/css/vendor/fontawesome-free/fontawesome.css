@@ -255,7 +255,7 @@
 
 @keyframes fa-bounce {
   0% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 
   10% {
@@ -275,11 +275,11 @@
   }
 
   64% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 
   100% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -7027,7 +7027,7 @@
 
 :root, :host {
   --fa-style-family-classic: "Font Awesome 6 Free";
-  --fa-font-regular: normal 400 1em / 1 "Font Awesome 6 Free";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
 }
 
 @font-face {
@@ -7035,7 +7035,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=177408") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.woff2?v=177616") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-regular-400.ttf?v=177616") format("truetype");
 }
 
 .far, .fa-regular {
@@ -7044,7 +7044,7 @@
 
 :root, :host {
   --fa-style-family-classic: "Font Awesome 6 Free";
-  --fa-font-solid: normal 900 1em / 1 "Font Awesome 6 Free";
+  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
 }
 
 @font-face {
@@ -7052,7 +7052,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=177408") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.woff2?v=177616") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-solid-900.ttf?v=177616") format("truetype");
 }
 
 .fas, [class^="icon-"], [class*=" icon-"], .fa-solid {
@@ -7061,7 +7061,7 @@
 
 :root, :host {
   --fa-style-family-brands: "Font Awesome 6 Brands";
-  --fa-font-brands: normal 400 1em / 1 "Font Awesome 6 Brands";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
 }
 
 @font-face {
@@ -7069,7 +7069,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=177408") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=177408") format("truetype");
+  src: url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.woff2?v=177616") format("woff2"), url("../../../../../../vendor/fontawesome-free/webfonts/fa-brands-400.ttf?v=177616") format("truetype");
 }
 
 .fab, .icon-joomla, .fa-brands {

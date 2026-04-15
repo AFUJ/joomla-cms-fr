@@ -1,5 +1,5 @@
-import { getPanel, EditorView, showPanel, ViewPlugin, Decoration, runScopeHandlers } from '@codemirror/view';
-import { codePointAt, fromCodePoint, codePointSize, EditorState, StateEffect, EditorSelection, StateField, Facet, combineConfig, Prec, CharCategory, RangeSetBuilder, findClusterBreak } from '@codemirror/state';
+import { getPanel, showDialog, EditorView, showPanel, ViewPlugin, Decoration, runScopeHandlers } from '@codemirror/view';
+import { codePointAt, fromCodePoint, codePointSize, EditorState, EditorSelection, StateEffect, StateField, Facet, combineConfig, Prec, CharCategory, RangeSetBuilder, findClusterBreak } from '@codemirror/state';
 
 function crelt() {
   var elt = arguments[0];
@@ -333,40 +333,31 @@ function toCharEnd(text, pos) {
     return pos;
 }
 
-function createLineDialog(view) {
-    let line = String(view.state.doc.lineAt(view.state.selection.main.head).number);
-    let input = crelt("input", { class: "cm-textfield", name: "line", value: line });
-    let dom = crelt("form", {
-        class: "cm-gotoLine",
-        onkeydown: (event) => {
-            if (event.keyCode == 27) { // Escape
-                event.preventDefault();
-                view.dispatch({ effects: dialogEffect.of(false) });
-                view.focus();
-            }
-            else if (event.keyCode == 13) { // Enter
-                event.preventDefault();
-                go();
-            }
-        },
-        onsubmit: (event) => {
-            event.preventDefault();
-            go();
-        }
-    }, crelt("label", view.state.phrase("Go to line"), ": ", input), " ", crelt("button", { class: "cm-button", type: "submit" }, view.state.phrase("go")), crelt("button", {
-        name: "close",
-        onclick: () => {
-            view.dispatch({ effects: dialogEffect.of(false) });
-            view.focus();
-        },
-        "aria-label": view.state.phrase("close"),
-        type: "button"
-    }, ["×"]));
-    function go() {
-        let match = /^([+-])?(\d+)?(:\d+)?(%)?$/.exec(input.value);
-        if (!match)
+/**
+Command that shows a dialog asking the user for a line number, and
+when a valid position is provided, moves the cursor to that line.
+
+Supports line numbers, relative line offsets prefixed with `+` or
+`-`, document percentages suffixed with `%`, and an optional
+column position by adding `:` and a second number after the line
+number.
+*/
+const gotoLine = view => {
+    let { state } = view;
+    let line = String(state.doc.lineAt(view.state.selection.main.head).number);
+    let { close, result } = showDialog(view, {
+        label: state.phrase("Go to line"),
+        input: { type: "text", name: "line", value: line },
+        focus: true,
+        submitLabel: state.phrase("go"),
+    });
+    result.then(form => {
+        let match = form && /^([+-])?(\d+)?(:\d+)?(%)?$/.exec(form.elements["line"].value);
+        if (!match) {
+            view.dispatch({ effects: close });
             return;
-        let { state } = view, startLine = state.doc.lineAt(state.selection.main.head);
+        }
+        let startLine = state.doc.lineAt(state.selection.main.head);
         let [, sign, ln, cl, percent] = match;
         let col = cl ? +cl.slice(1) : 0;
         let line = ln ? +ln : startLine.number;
@@ -382,62 +373,12 @@ function createLineDialog(view) {
         let docLine = state.doc.line(Math.max(1, Math.min(state.doc.lines, line)));
         let selection = EditorSelection.cursor(docLine.from + Math.max(0, Math.min(col, docLine.length)));
         view.dispatch({
-            effects: [dialogEffect.of(false), EditorView.scrollIntoView(selection.from, { y: 'center' })],
+            effects: [close, EditorView.scrollIntoView(selection.from, { y: 'center' })],
             selection,
         });
-        view.focus();
-    }
-    return { dom };
-}
-const dialogEffect = /*@__PURE__*/StateEffect.define();
-const dialogField = /*@__PURE__*/StateField.define({
-    create() { return true; },
-    update(value, tr) {
-        for (let e of tr.effects)
-            if (e.is(dialogEffect))
-                value = e.value;
-        return value;
-    },
-    provide: f => showPanel.from(f, val => val ? createLineDialog : null)
-});
-/**
-Command that shows a dialog asking the user for a line number, and
-when a valid position is provided, moves the cursor to that line.
-
-Supports line numbers, relative line offsets prefixed with `+` or
-`-`, document percentages suffixed with `%`, and an optional
-column position by adding `:` and a second number after the line
-number.
-*/
-const gotoLine = view => {
-    let panel = getPanel(view, createLineDialog);
-    if (!panel) {
-        let effects = [dialogEffect.of(true)];
-        if (view.state.field(dialogField, false) == null)
-            effects.push(StateEffect.appendConfig.of([dialogField, baseTheme$1]));
-        view.dispatch({ effects });
-        panel = getPanel(view, createLineDialog);
-    }
-    if (panel)
-        panel.dom.querySelector("input").select();
+    });
     return true;
 };
-const baseTheme$1 = /*@__PURE__*/EditorView.baseTheme({
-    ".cm-panel.cm-gotoLine": {
-        padding: "2px 6px 4px",
-        position: "relative",
-        "& label": { fontSize: "80%" },
-        "& [name=close]": {
-            position: "absolute",
-            top: "0", bottom: "0",
-            right: "4px",
-            backgroundColor: "inherit",
-            border: "none",
-            font: "inherit",
-            padding: "0"
-        }
-    }
-});
 
 const defaultHighlightOptions = {
     highlightWordAroundCursor: false,
@@ -635,6 +576,7 @@ class SearchQuery {
         this.valid = !!this.search && (!this.regexp || validRegExp(this.search));
         this.unquoted = this.unquote(this.search);
         this.wholeWord = !!config.wholeWord;
+        this.test = config.test;
     }
     /**
     @internal
@@ -649,7 +591,7 @@ class SearchQuery {
     eq(other) {
         return this.search == other.search && this.replace == other.replace &&
             this.caseSensitive == other.caseSensitive && this.regexp == other.regexp &&
-            this.wholeWord == other.wholeWord;
+            this.wholeWord == other.wholeWord && this.test == other.test;
     }
     /**
     @internal
@@ -673,8 +615,23 @@ class QueryType {
         this.spec = spec;
     }
 }
+function wrapStringTest(test, state, inner) {
+    return (from, to, buffer, bufferPos) => {
+        if (inner && !inner(from, to, buffer, bufferPos))
+            return false;
+        let match = from >= bufferPos && to <= bufferPos + buffer.length
+            ? buffer.slice(from - bufferPos, to - bufferPos)
+            : state.doc.sliceString(from, to);
+        return test(match, state, from, to);
+    };
+}
 function stringCursor(spec, state, from, to) {
-    return new SearchCursor(state.doc, spec.unquoted, from, to, spec.caseSensitive ? undefined : x => x.toLowerCase(), spec.wholeWord ? stringWordTest(state.doc, state.charCategorizer(state.selection.main.head)) : undefined);
+    let test;
+    if (spec.wholeWord)
+        test = stringWordTest(state.doc, state.charCategorizer(state.selection.main.head));
+    if (spec.test)
+        test = wrapStringTest(spec.test, state, test);
+    return new SearchCursor(state.doc, spec.unquoted, from, to, spec.caseSensitive ? undefined : x => x.toLowerCase(), test);
 }
 function stringWordTest(doc, categorizer) {
     return (from, to, buf, bufPos) => {
@@ -737,11 +694,18 @@ class StringQuery extends QueryType {
             add(cursor.value.from, cursor.value.to);
     }
 }
+function wrapRegexpTest(test, state, inner) {
+    return (from, to, match) => {
+        return (!inner || inner(from, to, match)) && test(match[0], state, from, to);
+    };
+}
 function regexpCursor(spec, state, from, to) {
-    return new RegExpCursor(state.doc, spec.search, {
-        ignoreCase: !spec.caseSensitive,
-        test: spec.wholeWord ? regexpWordTest(state.charCategorizer(state.selection.main.head)) : undefined
-    }, from, to);
+    let test;
+    if (spec.wholeWord)
+        test = regexpWordTest(state.charCategorizer(state.selection.main.head));
+    if (spec.test)
+        test = wrapRegexpTest(spec.test, state, test);
+    return new RegExpCursor(state.doc, spec.search, { ignoreCase: !spec.caseSensitive, test }, from, to);
 }
 function charBefore(str, index) {
     return str.slice(findClusterBreak(str, index, false), index);

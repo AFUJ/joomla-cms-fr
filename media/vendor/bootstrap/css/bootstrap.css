@@ -2563,8 +2563,8 @@ textarea.form-control-lg {
   background-image: var(--bs-form-check-bg-image);
   border: var(--bs-border-width) solid var(--bs-border-color);
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
   print-color-adjust: exact;
+  color-adjust: exact;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -2847,11 +2847,11 @@ textarea.form-control-lg {
 }
 
 .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-control-plaintext ~ label, .form-floating > .form-select ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 
 .form-floating > .form-control:-webkit-autofill ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 
 .form-floating > textarea:focus ~ label:after, .form-floating > textarea:not(:placeholder-shown) ~ label:after {
@@ -3601,7 +3601,7 @@ textarea.form-control-lg {
   --bs-dropdown-border-color: var(--bs-border-color-translucent);
   --bs-dropdown-border-radius: var(--bs-border-radius);
   --bs-dropdown-border-width: var(--bs-border-width);
-  --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius)  - var(--bs-border-width));
+  --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
   --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
   --bs-dropdown-divider-margin-y: .5rem;
   --bs-dropdown-box-shadow: var(--bs-box-shadow);
@@ -4639,7 +4639,7 @@ textarea.form-control-lg {
   --bs-card-border-color: var(--bs-border-color-translucent);
   --bs-card-border-radius: var(--bs-border-radius);
   --bs-card-box-shadow: ;
-  --bs-card-inner-border-radius: calc(var(--bs-border-radius)  - (var(--bs-border-width)));
+  --bs-card-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
   --bs-card-cap-padding-y: .5rem;
   --bs-card-cap-padding-x: 1rem;
   --bs-card-cap-bg: rgba(var(--bs-body-color-rgb), .03);
@@ -4828,7 +4828,7 @@ textarea.form-control-lg {
   --bs-accordion-border-color: var(--bs-border-color);
   --bs-accordion-border-width: var(--bs-border-width);
   --bs-accordion-border-radius: var(--bs-border-radius);
-  --bs-accordion-inner-border-radius: calc(var(--bs-border-radius)  - (var(--bs-border-width)));
+  --bs-accordion-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
   --bs-accordion-btn-padding-x: 1.25rem;
   --bs-accordion-btn-padding-y: 1rem;
   --bs-accordion-btn-color: var(--bs-body-color);
@@ -4999,7 +4999,7 @@ textarea.form-control-lg {
   float: left;
   padding-right: var(--bs-breadcrumb-item-padding-x);
   color: var(--bs-breadcrumb-divider-color);
-  content: var(--bs-breadcrumb-divider, "/");
+  content: var(--bs-breadcrumb-divider, "/") /* rtl: var(--bs-breadcrumb-divider, "/") */;
 }
 
 .breadcrumb-item.active {
@@ -5696,7 +5696,7 @@ textarea.form-control-lg {
   width: 1em;
   height: 1em;
   color: var(--bs-btn-close-color);
-  background: transparent var(--bs-btn-close-bg) center / 1em auto no-repeat;
+  background: transparent var(--bs-btn-close-bg) center/1em auto no-repeat;
   filter: var(--bs-btn-close-filter);
   opacity: var(--bs-btn-close-opacity);
   border: 0;
@@ -5790,8 +5790,8 @@ textarea.form-control-lg {
   color: var(--bs-toast-header-color);
   background-color: var(--bs-toast-header-bg);
   border-bottom: var(--bs-toast-border-width) solid var(--bs-toast-header-border-color);
-  border-top-left-radius: calc(var(--bs-toast-border-radius)  - var(--bs-toast-border-width));
-  border-top-right-radius: calc(var(--bs-toast-border-radius)  - var(--bs-toast-border-width));
+  border-top-left-radius: calc(var(--bs-toast-border-radius) - var(--bs-toast-border-width));
+  border-top-right-radius: calc(var(--bs-toast-border-radius) - var(--bs-toast-border-width));
   background-clip: padding-box;
   align-items: center;
   display: flex;
@@ -5818,7 +5818,7 @@ textarea.form-control-lg {
   --bs-modal-border-width: var(--bs-border-width);
   --bs-modal-border-radius: var(--bs-border-radius-lg);
   --bs-modal-box-shadow: var(--bs-box-shadow-sm);
-  --bs-modal-inner-border-radius: calc(var(--bs-border-radius-lg)  - (var(--bs-border-width)));
+  --bs-modal-inner-border-radius: calc(var(--bs-border-radius-lg) - (var(--bs-border-width)));
   --bs-modal-header-padding-x: 1rem;
   --bs-modal-header-padding-y: 1rem;
   --bs-modal-header-padding: 1rem 1rem;
@@ -5950,7 +5950,7 @@ textarea.form-control-lg {
 }
 
 .modal-footer {
-  padding: calc(var(--bs-modal-padding)  - var(--bs-modal-footer-gap) * .5);
+  padding: calc(var(--bs-modal-padding) - var(--bs-modal-footer-gap) * .5);
   background-color: var(--bs-modal-footer-bg);
   border-top: var(--bs-modal-footer-border-width) solid var(--bs-modal-footer-border-color);
   border-bottom-right-radius: var(--bs-modal-inner-border-radius);
@@ -6244,7 +6244,7 @@ textarea.form-control-lg {
   --bs-popover-border-width: var(--bs-border-width);
   --bs-popover-border-color: var(--bs-border-color-translucent);
   --bs-popover-border-radius: var(--bs-border-radius-lg);
-  --bs-popover-inner-border-radius: calc(var(--bs-border-radius-lg)  - var(--bs-border-width));
+  --bs-popover-inner-border-radius: calc(var(--bs-border-radius-lg) - var(--bs-border-width));
   --bs-popover-box-shadow: var(--bs-box-shadow);
   --bs-popover-header-padding-x: 1rem;
   --bs-popover-header-padding-y: .5rem;
@@ -6296,7 +6296,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-top > .popover-arrow, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow {
-  bottom: calc(-1 * (var(--bs-popover-arrow-height))  - var(--bs-popover-border-width));
+  bottom: calc(-1 * (var(--bs-popover-arrow-height)) - var(--bs-popover-border-width));
 }
 
 .bs-popover-top > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:before, .bs-popover-top > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:after {
@@ -6314,7 +6314,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-end > .popover-arrow, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow {
-  left: calc(-1 * (var(--bs-popover-arrow-height))  - var(--bs-popover-border-width));
+  left: calc(-1 * (var(--bs-popover-arrow-height)) - var(--bs-popover-border-width));
   width: var(--bs-popover-arrow-height);
   height: var(--bs-popover-arrow-width);
 }
@@ -6334,7 +6334,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-bottom > .popover-arrow, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow {
-  top: calc(-1 * (var(--bs-popover-arrow-height))  - var(--bs-popover-border-width));
+  top: calc(-1 * (var(--bs-popover-arrow-height)) - var(--bs-popover-border-width));
 }
 
 .bs-popover-bottom > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:before, .bs-popover-bottom > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:after {
@@ -6363,7 +6363,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-start > .popover-arrow, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow {
-  right: calc(-1 * (var(--bs-popover-arrow-height))  - var(--bs-popover-border-width));
+  right: calc(-1 * (var(--bs-popover-arrow-height)) - var(--bs-popover-border-width));
   width: var(--bs-popover-arrow-height);
   height: var(--bs-popover-arrow-width);
 }

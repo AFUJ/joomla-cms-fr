@@ -2322,7 +2322,7 @@ function create_fragment$8(ctx) {
     c() {
       button = element("button");
       attr(button, "aria-label", button_aria_label_value = /*label*/ctx[3] ? /*label*/ctx[3] : null);
-      attr(button, "class", button_class_value = `${/*classes*/ctx[1] || ''} shepherd-button ${/*secondary*/ctx[4] ? 'shepherd-button-secondary' : ''}`);
+      attr(button, "class", button_class_value = `${ /*classes*/ctx[1] || ''} shepherd-button ${ /*secondary*/ctx[4] ? 'shepherd-button-secondary' : ''}`);
       button.disabled = /*disabled*/ctx[2];
       attr(button, "tabindex", "0");
     },
@@ -2342,7 +2342,7 @@ function create_fragment$8(ctx) {
       if (dirty & /*label*/8 && button_aria_label_value !== (button_aria_label_value = /*label*/ctx[3] ? /*label*/ctx[3] : null)) {
         attr(button, "aria-label", button_aria_label_value);
       }
-      if (dirty & /*classes, secondary*/18 && button_class_value !== (button_class_value = `${/*classes*/ctx[1] || ''} shepherd-button ${/*secondary*/ctx[4] ? 'shepherd-button-secondary' : ''}`)) {
+      if (dirty & /*classes, secondary*/18 && button_class_value !== (button_class_value = `${ /*classes*/ctx[1] || ''} shepherd-button ${ /*secondary*/ctx[4] ? 'shepherd-button-secondary' : ''}`)) {
         attr(button, "class", button_class_value);
       }
       if (dirty & /*disabled*/4) {
@@ -3986,7 +3986,7 @@ function create_fragment(ctx) {
       svg = svg_element("svg");
       path = svg_element("path");
       attr(path, "d", /*pathDefinition*/ctx[2]);
-      attr(svg, "class", svg_class_value = `${/*modalIsVisible*/ctx[1] ? 'shepherd-modal-is-visible' : ''} shepherd-modal-overlay-container`);
+      attr(svg, "class", svg_class_value = `${ /*modalIsVisible*/ctx[1] ? 'shepherd-modal-is-visible' : ''} shepherd-modal-overlay-container`);
     },
     m(target, anchor) {
       insert(target, svg, anchor);
@@ -4002,7 +4002,7 @@ function create_fragment(ctx) {
       if (dirty & /*pathDefinition*/4) {
         attr(path, "d", /*pathDefinition*/ctx[2]);
       }
-      if (dirty & /*modalIsVisible*/2 && svg_class_value !== (svg_class_value = `${/*modalIsVisible*/ctx[1] ? 'shepherd-modal-is-visible' : ''} shepherd-modal-overlay-container`)) {
+      if (dirty & /*modalIsVisible*/2 && svg_class_value !== (svg_class_value = `${ /*modalIsVisible*/ctx[1] ? 'shepherd-modal-is-visible' : ''} shepherd-modal-overlay-container`)) {
         attr(svg, "class", svg_class_value);
       }
     },

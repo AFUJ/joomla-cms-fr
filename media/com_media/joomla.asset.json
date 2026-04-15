@@ -6,12 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_media.mediamanager",
-      "type": "style",
-      "uri": "com_media/media-manager.min.css",
-      "version": "7249a4"
-    },
-    {
       "name": "com_media.edit-images",
       "type": "script",
       "uri": "com_media/edit-images.min.js",
@@ -25,6 +19,12 @@
     },
     {
       "name": "com_media.mediamanager",
+      "type": "style",
+      "uri": "com_media/media-manager.min.css",
+      "version": "846963"
+    },
+    {
+      "name": "com_media.mediamanager",
       "type": "script",
       "uri": "com_media/media-manager.min.js",
       "dependencies": [
@@ -34,7 +34,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "a05729"
+      "version": "8eaeca"
     }
   ]
 }

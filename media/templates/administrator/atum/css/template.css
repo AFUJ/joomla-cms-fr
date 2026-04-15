@@ -2774,11 +2774,11 @@ textarea.form-control-lg {
 }
 
 .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-control-plaintext ~ label, .form-floating > .form-select ~ label, .form-floating > .custom-select ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 
 .form-floating > .form-control:-webkit-autofill ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem);
 }
 
 .form-floating > textarea:focus ~ label:after, .form-floating > textarea:not(:placeholder-shown) ~ label:after {
@@ -3593,7 +3593,7 @@ textarea.form-control-lg {
   --dropdown-border-color: var(--border-color-translucent);
   --dropdown-border-radius: var(--border-radius);
   --dropdown-border-width: 1px;
-  --dropdown-inner-border-radius: calc(var(--border-radius)  - 1px);
+  --dropdown-inner-border-radius: calc(var(--border-radius) - 1px);
   --dropdown-divider-bg: var(--border-color-translucent);
   --dropdown-divider-margin-y: .5rem;
   --dropdown-box-shadow: var(--dropdown-box-shadow);
@@ -4638,7 +4638,7 @@ textarea.form-control-lg {
   --card-border-color: transparent;
   --card-border-radius: var(--border-radius);
   --card-box-shadow: ;
-  --card-inner-border-radius: calc(var(--border-radius)  - 0);
+  --card-inner-border-radius: calc(var(--border-radius) - 0);
   --card-cap-padding-y: .5rem;
   --card-cap-padding-x: 1rem;
   --card-cap-bg: rgba(var(--body-color-rgb), .03);
@@ -4827,7 +4827,7 @@ textarea.form-control-lg {
   --accordion-border-color: var(--border-color);
   --accordion-border-width: var(--border-width);
   --accordion-border-radius: var(--border-radius);
-  --accordion-inner-border-radius: calc(var(--border-radius)  - (var(--border-width)));
+  --accordion-inner-border-radius: calc(var(--border-radius) - (var(--border-width)));
   --accordion-btn-padding-x: 1.25rem;
   --accordion-btn-padding-y: 1rem;
   --accordion-btn-color: var(--body-color);
@@ -4998,7 +4998,7 @@ textarea.form-control-lg {
   float: left;
   padding-right: var(--breadcrumb-item-padding-x);
   color: var(--breadcrumb-divider-color);
-  content: var(--breadcrumb-divider, "/");
+  content: var(--breadcrumb-divider, "/") /* rtl: var(--breadcrumb-divider, "/") */;
 }
 
 .breadcrumb-item.active {
@@ -5733,7 +5733,7 @@ textarea.form-control-lg {
   width: 1em;
   height: 1em;
   color: var(--btn-close-color);
-  background: transparent var(--btn-close-bg) center / 1em auto no-repeat;
+  background: transparent var(--btn-close-bg) center/1em auto no-repeat;
   filter: var(--btn-close-filter);
   opacity: var(--btn-close-opacity);
   border: 0;
@@ -5825,8 +5825,8 @@ textarea.form-control-lg {
   color: var(--toast-header-color);
   background-color: var(--toast-header-bg);
   border-bottom: var(--toast-border-width) solid var(--toast-header-border-color);
-  border-top-left-radius: calc(var(--toast-border-radius)  - var(--toast-border-width));
-  border-top-right-radius: calc(var(--toast-border-radius)  - var(--toast-border-width));
+  border-top-left-radius: calc(var(--toast-border-radius) - var(--toast-border-width));
+  border-top-right-radius: calc(var(--toast-border-radius) - var(--toast-border-width));
   background-clip: padding-box;
   align-items: center;
   display: flex;
@@ -5853,7 +5853,7 @@ textarea.form-control-lg {
   --modal-border-width: var(--border-width);
   --modal-border-radius: var(--border-radius-lg);
   --modal-box-shadow: var(--box-shadow-sm);
-  --modal-inner-border-radius: calc(var(--border-radius-lg)  - (var(--border-width)));
+  --modal-inner-border-radius: calc(var(--border-radius-lg) - (var(--border-width)));
   --modal-header-padding-x: 1rem;
   --modal-header-padding-y: 1rem;
   --modal-header-padding: 1rem 1rem;
@@ -5985,7 +5985,7 @@ textarea.form-control-lg {
 }
 
 .modal-footer {
-  padding: calc(var(--modal-padding)  - var(--modal-footer-gap) * .5);
+  padding: calc(var(--modal-padding) - var(--modal-footer-gap) * .5);
   background-color: var(--modal-footer-bg);
   border-top: var(--modal-footer-border-width) solid var(--modal-footer-border-color);
   border-bottom-right-radius: var(--modal-inner-border-radius);
@@ -6279,7 +6279,7 @@ textarea.form-control-lg {
   --popover-border-width: var(--border-width);
   --popover-border-color: var(--border-color-translucent);
   --popover-border-radius: var(--border-radius-lg);
-  --popover-inner-border-radius: calc(var(--border-radius-lg)  - var(--border-width));
+  --popover-inner-border-radius: calc(var(--border-radius-lg) - var(--border-width));
   --popover-box-shadow: var(--box-shadow);
   --popover-header-padding-x: 1rem;
   --popover-header-padding-y: .5rem;
@@ -6331,7 +6331,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-top > .popover-arrow, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow {
-  bottom: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  bottom: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
 }
 
 .bs-popover-top > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:before, .bs-popover-top > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:after {
@@ -6349,7 +6349,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-end > .popover-arrow, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow {
-  left: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  left: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
   width: var(--popover-arrow-height);
   height: var(--popover-arrow-width);
 }
@@ -6369,7 +6369,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-bottom > .popover-arrow, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow {
-  top: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  top: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
 }
 
 .bs-popover-bottom > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:before, .bs-popover-bottom > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:after {
@@ -6398,7 +6398,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-start > .popover-arrow, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow {
-  right: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  right: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
   width: var(--popover-arrow-height);
   height: var(--popover-arrow-width);
 }
@@ -13338,146 +13338,146 @@ textarea.form-control-lg {
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=177616") format("woff");
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Regular;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Regular.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=177616") format("woff");
   font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-RegularItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-RegularItalic.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=177616") format("woff");
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Light;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Light.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=177616") format("woff");
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-LightItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-LightItalic.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=177616") format("woff");
   font-weight: 100;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Thin;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Thin.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=177616") format("woff");
   font-weight: 100;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-ThinItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-ThinItalic.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=177616") format("woff");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Medium;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Medium.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=177616") format("woff");
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-MediumItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-MediumItalic.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=177616") format("woff");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Bold;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Bold.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=177616") format("woff");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-BoldItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BoldItalic.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=177616") format("woff");
   font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: Roboto-Black;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-Black.woff?v=177616") format("woff");
 }
 
 @font-face {
   font-family: Roboto;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=177616") format("woff");
   font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: Roboto-BlackItalic;
-  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=177408") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=177408") format("woff");
+  src: url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff2?v=177616") format("woff2"), url("../../../../../media/vendor/roboto-fontface/fonts/roboto/Roboto-BlackItalic.woff?v=177616") format("woff");
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
@@ -14468,7 +14468,7 @@ fieldset .alert.alert-info {
   --calendar-select-color: var(--body-color);
   --calendar-disabled-color: var(--atum-calendar-disabled-color);
   --calendar-disabled-bg: var(--atum-calendar-disabled-bg);
-  --calendar-select-bg-url: var(--atum-calendar-select-bg-url);
+  --calendar-select-bg-url: var(--atum-calendar-select-bg-url) /* rtl:$atum-calendar-select-bg-url-rtl*/;
 }
 
 .calendar-container tr.time:hover, .calendar-container tr.time:focus, .calendar-container tr.time:active {
@@ -14932,6 +14932,38 @@ div.subform-repeatable-group > .btn-toolbar .btn.group-move-down {
   transform: translateY(-50%);
 }
 
+.subform-repeatable-grid > .subform-repeatable-group {
+  padding-top: 16px;
+}
+
+.subform-grid-row {
+  flex-flow: wrap;
+  column-gap: 1rem;
+  display: flex;
+}
+
+.subform-grid-row > .control-group {
+  flex-flow: column;
+  flex: 220px;
+}
+
+.subform-grid-row > .control-group > .control-label {
+  width: 100%;
+}
+
+.subform-grid-row > .control-group > .controls {
+  width: 100%;
+  min-width: unset;
+}
+
+.subform-grid-row > fieldset {
+  flex: 220px;
+}
+
+.subform-grid-row > fieldset > .control-group > .control-label {
+  width: 100%;
+}
+
 .subform-repeatable-group[draggable="true"], .subform-repeatable-group[draggable="true"] > td {
   background-color: #20c997;
 }
@@ -15089,7 +15121,7 @@ iframe {
   z-index: -1;
   max-inline-size: 500px;
   position: absolute;
-  transform: rotate(12deg)translate(40%, 10%);
+  transform: rotate(12deg) translate(40%, 10%);
 }
 
 .view-login .form-group, .task-logout .form-group {
@@ -15127,7 +15159,7 @@ iframe {
   box-shadow: var(--login-focus-box-shadow);
 }
 
-.view-login h1, .view-login .h1, .task-logout h1, .task-logout .h1 {
+.view-login .h1, .task-logout .h1 {
   color: #fff;
   text-align: center;
   margin-block-end: .25rem;
@@ -16040,7 +16072,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .main-nav .has-arrow:after {
-  content: "" ;
+  content: "" /*!rtl:"\f053"*/;
   justify-content: center;
   align-items: center;
   inline-size: 2rem;
@@ -16209,7 +16241,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .sidebar-nav li a:before {
-  content: "" ;
+  content: "" /*!rtl:"\f053"*/;
   margin-inline-end: .5rem;
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
@@ -16639,7 +16671,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .form-grid .span-1 {
-  grid-column: 1 / var(--span-1);
+  grid-column: 1/var(--span-1);
 }
 
 .form-grid .span-1-inline {
@@ -16647,7 +16679,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .form-grid .span-2 {
-  grid-column: 1 / var(--span-2);
+  grid-column: 1/var(--span-2);
 }
 
 .form-grid .span-2-inline {
@@ -16661,7 +16693,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .form-grid .span-3 {
-  grid-column: 1 / var(--span-3);
+  grid-column: 1/var(--span-3);
 }
 
 .form-grid .span-3-inline {
@@ -16669,7 +16701,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .form-grid .span-4 {
-  grid-column: 1 / var(--span-4);
+  grid-column: 1/var(--span-4);
 }
 
 .form-grid .span-4-inline {
@@ -16677,7 +16709,7 @@ joomla-dialog.loaded .joomla-dialog-body {
 }
 
 .form-grid .span-5 {
-  grid-column: 1 / var(--span-5);
+  grid-column: 1/var(--span-5);
 }
 
 .form-grid .span-5-inline {
@@ -16874,6 +16906,7 @@ joomla-editor-codemirror.fullscreen .cm-editor {
 }
 
 .tox-tinymce {
+  z-index: 1 !important;
   border-radius: 0 !important;
 }
 
@@ -17231,11 +17264,11 @@ joomla-editor-codemirror.fullscreen .cm-editor {
 }
 
 .new-modules {
-  --text-color: $ new-modules-color;
-  --bg-color: $ new-modules-bg;
-  --bg-color-hvr: $ new-modules-bg-hvr;
-  --icon-color: $ new-modules-icon-color;
-  --icon-color-hvr: $ new-modules-icon-color-hvr;
+  --text-color: $new-modules-color;
+  --bg-color: $new-modules-bg;
+  --bg-color-hvr: $new-modules-bg-hvr;
+  --icon-color: $new-modules-icon-color;
+  --icon-color-hvr: $new-modules-icon-color-hvr;
 }
 
 .new-modules .card-columns {
@@ -17549,8 +17582,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   --form-check-input-checked-bg-color: #2a69b7;
   --form-check-input-border: var(--border-width) solid var(--template-bg-dark-20);
-  --form-select-background: var(--template-bg-light) url("../images/select-bg.svg?v=5ebba0") no-repeat right center / max(100%, 116rem);
-  --form-select-background-rtl: var(--template-bg-light) url("../images/select-bg-rtl.svg?v=e50af2") no-repeat left center / max(100%, 116rem);
+  --form-select-background: var(--template-bg-light) url("../images/select-bg.svg?v=5ebba0") no-repeat right center/max(100%, 116rem);
+  --form-select-background-rtl: var(--template-bg-light) url("../images/select-bg-rtl.svg?v=e50af2") no-repeat left center/max(100%, 116rem);
   --form-select-border: var(--form-control-border);
   --form-select-success-bg: var(--white-offset);
   --form-select-danger-bg: var(--white-offset);
@@ -17810,8 +17843,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #999;
   --atum-calendar-disabled-bg: #fff;
   --atum-calendar-select-bg: var(--template-bg-light);
-  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=177408");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=177408");
+  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=177616");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=177616");
   --permissions-sliders-oddCol-bg: var(--template-bg-light);
   --respTable-border-bottom: 1em solid var(--template-bg-dark-80);
   --treeselect-line-color: hsl(var(--hue), 40%, 93%);
@@ -17902,8 +17935,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   --form-check-input-checked-bg-color: #007db0;
   --form-check-input-border: 1px solid #fff3;
-  --form-select-background: #007db0 url("../images/select-bg-dark.svg?v=506196") no-repeat right center / max(100%, 116rem);
-  --form-select-background-rtl: #007db0 url("../images/select-bg-rtl-dark.svg?v=5f59e1") no-repeat left center / max(100%, 116rem);
+  --form-select-background: #007db0 url("../images/select-bg-dark.svg?v=506196") no-repeat right center/max(100%, 116rem);
+  --form-select-background-rtl: #007db0 url("../images/select-bg-rtl-dark.svg?v=5f59e1") no-repeat left center/max(100%, 116rem);
   --form-select-border: var(--form-control-border);
   --form-select-success-bg: var(--template-sidebar-bg);
   --form-select-danger-bg: var(--template-sidebar-bg);
@@ -18158,8 +18191,8 @@ joomla-editor-codemirror.fullscreen .cm-editor {
   --atum-calendar-disabled-color: #4b4b4b;
   --atum-calendar-disabled-bg: #00000080;
   --atum-calendar-select-bg: #007db0;
-  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=177408");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=177408");
+  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=177616");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=177616");
   --permissions-sliders-oddCol-bg: var(--template-bg-dark);
   --respTable-border-bottom: 1em solid #007db0;
   --treeselect-line-color: #fff6;

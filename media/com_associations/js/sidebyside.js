@@ -136,7 +136,10 @@ document.getElementById('target-association').addEventListener('load', ({
   // We need to check if we are not loading a blank iframe.
   if (target.getAttribute('src') !== '') {
     document.getElementById('toolbar-target').classList.remove('hidden');
-    document.getElementById('toolbar-copy').classList.remove('hidden');
+    const toolbarCopy = document.getElementById('toolbar-copy');
+    if (toolbarCopy) {
+      toolbarCopy.classList.remove('hidden');
+    }
     document.getElementById('select-change').classList.remove('hidden');
     const targetLanguage = target.getAttribute('data-language');
     const targetId = target.getAttribute('data-id');

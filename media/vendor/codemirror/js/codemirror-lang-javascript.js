@@ -227,6 +227,7 @@ function completionPath(context) {
     }
 }
 function enumeratePropertyCompletions(obj, top) {
+    let originalObj = obj;
     let options = [], seen = new Set;
     for (let depth = 0;; depth++) {
         for (let name of (Object.getOwnPropertyNames || Object.keys)(obj)) {
@@ -235,7 +236,7 @@ function enumeratePropertyCompletions(obj, top) {
             seen.add(name);
             let value;
             try {
-                value = obj[name];
+                value = originalObj[name];
             }
             catch (_) {
                 continue;
@@ -317,7 +318,21 @@ const javascriptLanguage = /*@__PURE__*/LRLanguage.define({
             }),
             /*@__PURE__*/foldNodeProp.add({
                 "Block ClassBody SwitchBody EnumBody ObjectExpression ArrayExpression ObjectType": foldInside,
-                BlockComment(tree) { return { from: tree.from + 2, to: tree.to - 2 }; }
+                BlockComment(tree) { return { from: tree.from + 2, to: tree.to - 2 }; },
+                JSXElement(tree) {
+                    let open = tree.firstChild;
+                    if (!open || open.name == "JSXSelfClosingTag")
+                        return null;
+                    let close = tree.lastChild;
+                    return { from: open.to, to: close.type.isError ? tree.to : close.from };
+                },
+                "JSXSelfClosingTag JSXOpenTag"(tree) {
+                    var _a;
+                    let name = (_a = tree.firstChild) === null || _a === void 0 ? void 0 : _a.nextSibling, close = tree.lastChild;
+                    if (!name || name.type.isError)
+                        return null;
+                    return { from: name.to, to: close.type.isError ? tree.to : close.from };
+                }
             })
         ]
     }),

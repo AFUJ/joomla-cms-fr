@@ -76,6 +76,13 @@ Joomla = window.Joomla || {};
 
       // Initialise selectors
       this.theForm = document.querySelector(this.options.formSelector);
+      // Prevent duplicate initialization when joomla:updated fires
+      if (this.theForm && this.theForm.dataset.searchtoolsInitialized) {
+        return;
+      }
+      if (this.theForm) {
+        this.theForm.dataset.searchtoolsInitialized = 'true';
+      }
 
       // Filters
       this.filterButton = document.querySelector(`${this.options.formSelector} ${this.options.filterBtnSelector}`);

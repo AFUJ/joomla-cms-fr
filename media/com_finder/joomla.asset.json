@@ -24,22 +24,16 @@
       "version": "a5c136"
     },
     {
-      "name": "com_finder.filters",
+      "name": "com_finder.finder-edit",
       "type": "script",
-      "uri": "com_finder/filters.min.js",
+      "uri": "com_finder/finder-edit.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "ce7a61"
-    },
-    {
-      "name": "com_finder.finder",
-      "type": "style",
-      "uri": "com_finder/finder.min.css",
-      "version": "ab077f"
+      "version": "ad6ab5"
     },
     {
       "name": "com_finder.finder",
@@ -54,22 +48,28 @@
       "version": "755761"
     },
     {
-      "name": "com_finder.finder-edit",
+      "name": "com_finder.filters",
       "type": "script",
-      "uri": "com_finder/finder-edit.min.js",
+      "uri": "com_finder/filters.min.js",
       "dependencies": [
         "core"
       ],
       "attributes": {
         "type": "module"
       },
-      "version": "ad6ab5"
+      "version": "ce7a61"
     },
     {
       "name": "com_finder.indexer",
-      "type": "style",
-      "uri": "com_finder/indexer.min.css",
-      "version": "d51495"
+      "type": "script",
+      "uri": "com_finder/indexer.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "deca30"
     },
     {
       "name": "com_finder.maps",
@@ -85,15 +85,15 @@
     },
     {
       "name": "com_finder.indexer",
-      "type": "script",
-      "uri": "com_finder/indexer.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "491cd3"
+      "type": "style",
+      "uri": "com_finder/indexer.min.css",
+      "version": "d51495"
+    },
+    {
+      "name": "com_finder.finder",
+      "type": "style",
+      "uri": "com_finder/finder.min.css",
+      "version": "ab077f"
     }
   ]
 }

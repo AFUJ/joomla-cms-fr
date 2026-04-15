@@ -59,6 +59,17 @@
       ]
     },
     {
+      "name": "plg_editors_tinymce.abbr",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/abbr/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
       "name": "plg_editors_tinymce",
       "type": "script",
       "uri": "plg_editors_tinymce/tinymce.min.js",

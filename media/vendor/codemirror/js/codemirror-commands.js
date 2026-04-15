@@ -139,13 +139,15 @@ function changeBlockComment(option, state, ranges = state.selection.ranges) {
 function changeLineComment(option, state, ranges = state.selection.ranges) {
     let lines = [];
     let prevLine = -1;
-    for (let { from, to } of ranges) {
-        let startI = lines.length, minIndent = 1e9;
-        let token = getConfig(state, from).line;
-        if (!token)
-            continue;
+    ranges: for (let { from, to } of ranges) {
+        let startI = lines.length, minIndent = 1e9, token;
         for (let pos = from; pos <= to;) {
             let line = state.doc.lineAt(pos);
+            if (token == undefined) {
+                token = getConfig(state, line.from).line;
+                if (!token)
+                    continue ranges;
+            }
             if (line.from > prevLine && (from == to || to > line.from)) {
                 prevLine = line.from;
                 let indent = /^\s*/.exec(line.text)[0].length;
@@ -509,7 +511,8 @@ class HistoryState {
         let branch = side == 0 /* BranchName.Done */ ? this.done : this.undone;
         if (branch.length == 0)
             return null;
-        let event = branch[branch.length - 1], selection = event.selectionsAfter[0] || state.selection;
+        let event = branch[branch.length - 1], selection = event.selectionsAfter[0] ||
+            (event.startSelection ? event.startSelection.map(event.changes.invertedDesc, 1) : state.selection);
         if (onlySelection && event.selectionsAfter.length) {
             return state.update({
                 selection: event.selectionsAfter[event.selectionsAfter.length - 1],
@@ -887,7 +890,7 @@ const selectMatchingBracket = ({ state, dispatch }) => toMatchingBracket(state, 
 function extendSel(target, how) {
     let selection = updateSel(target.state.selection, range => {
         let head = how(range);
-        return EditorSelection.range(range.anchor, head.head, head.goalColumn, head.bidiLevel || undefined);
+        return EditorSelection.range(range.anchor, head.head, head.goalColumn, head.bidiLevel || undefined, head.assoc);
     });
     if (selection.eq(target.state.selection))
         return false;
@@ -1087,6 +1090,41 @@ const selectParentSyntax = ({ state, dispatch }) => {
     dispatch(setSel(state, selection));
     return true;
 };
+function addCursorVertically(view, forward) {
+    let { state } = view, sel = state.selection, ranges = state.selection.ranges.slice();
+    for (let range of state.selection.ranges) {
+        let line = state.doc.lineAt(range.head);
+        if (forward ? line.to < view.state.doc.length : line.from > 0)
+            for (let cur = range;;) {
+                let next = view.moveVertically(cur, forward);
+                if (next.head < line.from || next.head > line.to) {
+                    if (!ranges.some(r => r.head == next.head))
+                        ranges.push(next);
+                    break;
+                }
+                else if (next.head == cur.head) {
+                    break;
+                }
+                else {
+                    cur = next;
+                }
+            }
+    }
+    if (ranges.length == sel.ranges.length)
+        return false;
+    view.dispatch(setSel(state, EditorSelection.create(ranges, ranges.length - 1)));
+    return true;
+}
+/**
+Expand the selection by adding a cursor above the heads of
+currently selected ranges.
+*/
+const addCursorAbove = view => addCursorVertically(view, false);
+/**
+Expand the selection by adding a cursor below the heads of
+currently selected ranges.
+*/
+const addCursorBelow = view => addCursorVertically(view, true);
 /**
 Simplify the current selection. When multiple ranges are selected,
 reduce it to its main range. Otherwise, if the selection is
@@ -1211,6 +1249,12 @@ const deleteGroupBackward = target => deleteByGroup(target, false);
 Delete the selection or forward until the end of the next group.
 */
 const deleteGroupForward = target => deleteByGroup(target, true);
+/**
+Variant of [`deleteGroupForward`](https://codemirror.net/6/docs/ref/#commands.deleteGroupForward)
+that uses the Windows convention of also deleting the whitespace
+after a word.
+*/
+const deleteGroupForwardWin = view => deleteBy(view, range => view.moveByChar(range, true, start => toGroupStart(view, range.head, start)).head);
 /**
 Delete the selection, or, if it is a cursor selection, delete to
 the end of the line. If the cursor is directly at the end of the
@@ -1373,7 +1417,13 @@ function copyLine(state, dispatch, forward) {
         else
             changes.push({ from: block.to, insert: state.lineBreak + state.doc.slice(block.from, block.to) });
     }
-    dispatch(state.update({ changes, scrollIntoView: true, userEvent: "input.copyline" }));
+    let changeSet = state.changes(changes);
+    dispatch(state.update({
+        changes: changeSet,
+        selection: state.selection.map(changeSet, forward ? 1 : -1),
+        scrollIntoView: true,
+        userEvent: "input.copyline"
+    }));
     return true;
 }
 /**
@@ -1680,12 +1730,12 @@ const standardKeymap = /*@__PURE__*/[
     { key: "Mod-End", run: cursorDocEnd, shift: selectDocEnd },
     { key: "Enter", run: insertNewlineAndIndent, shift: insertNewlineAndIndent },
     { key: "Mod-a", run: selectAll },
-    { key: "Backspace", run: deleteCharBackward, shift: deleteCharBackward },
-    { key: "Delete", run: deleteCharForward },
-    { key: "Mod-Backspace", mac: "Alt-Backspace", run: deleteGroupBackward },
-    { key: "Mod-Delete", mac: "Alt-Delete", run: deleteGroupForward },
-    { mac: "Mod-Backspace", run: deleteLineBoundaryBackward },
-    { mac: "Mod-Delete", run: deleteLineBoundaryForward }
+    { key: "Backspace", run: deleteCharBackward, shift: deleteCharBackward, preventDefault: true },
+    { key: "Delete", run: deleteCharForward, preventDefault: true },
+    { key: "Mod-Backspace", mac: "Alt-Backspace", run: deleteGroupBackward, preventDefault: true },
+    { key: "Mod-Delete", mac: "Alt-Delete", run: deleteGroupForward, preventDefault: true },
+    { mac: "Mod-Backspace", run: deleteLineBoundaryBackward, preventDefault: true },
+    { mac: "Mod-Delete", run: deleteLineBoundaryForward, preventDefault: true }
 ].concat(/*@__PURE__*/emacsStyleKeymap.map(b => ({ mac: b.key, run: b.run, shift: b.shift })));
 /**
 The default keymap. Includes all bindings from
@@ -1697,6 +1747,8 @@ The default keymap. Includes all bindings from
 - Alt-ArrowDown: [`moveLineDown`](https://codemirror.net/6/docs/ref/#commands.moveLineDown)
 - Shift-Alt-ArrowUp: [`copyLineUp`](https://codemirror.net/6/docs/ref/#commands.copyLineUp)
 - Shift-Alt-ArrowDown: [`copyLineDown`](https://codemirror.net/6/docs/ref/#commands.copyLineDown)
+- Ctrl-Alt-ArrowUp (Cmd-Alt-ArrowUp on macOS): [`addCursorAbove`](https://codemirror.net/6/docs/ref/#commands.addCursorAbove).
+- Ctrl-Alt-ArrowDown (Cmd-Alt-ArrowDown on macOS): [`addCursorBelow`](https://codemirror.net/6/docs/ref/#commands.addCursorBelow).
 - Escape: [`simplifySelection`](https://codemirror.net/6/docs/ref/#commands.simplifySelection)
 - Ctrl-Enter (Cmd-Enter on macOS): [`insertBlankLine`](https://codemirror.net/6/docs/ref/#commands.insertBlankLine)
 - Alt-l (Ctrl-l on macOS): [`selectLine`](https://codemirror.net/6/docs/ref/#commands.selectLine)
@@ -1717,6 +1769,8 @@ const defaultKeymap = /*@__PURE__*/[
     { key: "Shift-Alt-ArrowUp", run: copyLineUp },
     { key: "Alt-ArrowDown", run: moveLineDown },
     { key: "Shift-Alt-ArrowDown", run: copyLineDown },
+    { key: "Mod-Alt-ArrowUp", run: addCursorAbove },
+    { key: "Mod-Alt-ArrowDown", run: addCursorBelow },
     { key: "Escape", run: simplifySelection },
     { key: "Mod-Enter", run: insertBlankLine },
     { key: "Alt-l", mac: "Ctrl-l", run: selectLine },
@@ -1738,4 +1792,4 @@ this.
 */
 const indentWithTab = { key: "Tab", run: indentMore, shift: indentLess };
 
-export { blockComment, blockUncomment, copyLineDown, copyLineUp, cursorCharBackward, cursorCharBackwardLogical, cursorCharForward, cursorCharForwardLogical, cursorCharLeft, cursorCharRight, cursorDocEnd, cursorDocStart, cursorGroupBackward, cursorGroupForward, cursorGroupForwardWin, cursorGroupLeft, cursorGroupRight, cursorLineBoundaryBackward, cursorLineBoundaryForward, cursorLineBoundaryLeft, cursorLineBoundaryRight, cursorLineDown, cursorLineEnd, cursorLineStart, cursorLineUp, cursorMatchingBracket, cursorPageDown, cursorPageUp, cursorSubwordBackward, cursorSubwordForward, cursorSyntaxLeft, cursorSyntaxRight, defaultKeymap, deleteCharBackward, deleteCharBackwardStrict, deleteCharForward, deleteGroupBackward, deleteGroupForward, deleteLine, deleteLineBoundaryBackward, deleteLineBoundaryForward, deleteToLineEnd, deleteToLineStart, deleteTrailingWhitespace, emacsStyleKeymap, history, historyField, historyKeymap, indentLess, indentMore, indentSelection, indentWithTab, insertBlankLine, insertNewline, insertNewlineAndIndent, insertNewlineKeepIndent, insertTab, invertedEffects, isolateHistory, lineComment, lineUncomment, moveLineDown, moveLineUp, redo, redoDepth, redoSelection, selectAll, selectCharBackward, selectCharBackwardLogical, selectCharForward, selectCharForwardLogical, selectCharLeft, selectCharRight, selectDocEnd, selectDocStart, selectGroupBackward, selectGroupForward, selectGroupForwardWin, selectGroupLeft, selectGroupRight, selectLine, selectLineBoundaryBackward, selectLineBoundaryForward, selectLineBoundaryLeft, selectLineBoundaryRight, selectLineDown, selectLineEnd, selectLineStart, selectLineUp, selectMatchingBracket, selectPageDown, selectPageUp, selectParentSyntax, selectSubwordBackward, selectSubwordForward, selectSyntaxLeft, selectSyntaxRight, simplifySelection, splitLine, standardKeymap, temporarilySetTabFocusMode, toggleBlockComment, toggleBlockCommentByLine, toggleComment, toggleLineComment, toggleTabFocusMode, transposeChars, undo, undoDepth, undoSelection };
+export { addCursorAbove, addCursorBelow, blockComment, blockUncomment, copyLineDown, copyLineUp, cursorCharBackward, cursorCharBackwardLogical, cursorCharForward, cursorCharForwardLogical, cursorCharLeft, cursorCharRight, cursorDocEnd, cursorDocStart, cursorGroupBackward, cursorGroupForward, cursorGroupForwardWin, cursorGroupLeft, cursorGroupRight, cursorLineBoundaryBackward, cursorLineBoundaryForward, cursorLineBoundaryLeft, cursorLineBoundaryRight, cursorLineDown, cursorLineEnd, cursorLineStart, cursorLineUp, cursorMatchingBracket, cursorPageDown, cursorPageUp, cursorSubwordBackward, cursorSubwordForward, cursorSyntaxLeft, cursorSyntaxRight, defaultKeymap, deleteCharBackward, deleteCharBackwardStrict, deleteCharForward, deleteGroupBackward, deleteGroupForward, deleteGroupForwardWin, deleteLine, deleteLineBoundaryBackward, deleteLineBoundaryForward, deleteToLineEnd, deleteToLineStart, deleteTrailingWhitespace, emacsStyleKeymap, history, historyField, historyKeymap, indentLess, indentMore, indentSelection, indentWithTab, insertBlankLine, insertNewline, insertNewlineAndIndent, insertNewlineKeepIndent, insertTab, invertedEffects, isolateHistory, lineComment, lineUncomment, moveLineDown, moveLineUp, redo, redoDepth, redoSelection, selectAll, selectCharBackward, selectCharBackwardLogical, selectCharForward, selectCharForwardLogical, selectCharLeft, selectCharRight, selectDocEnd, selectDocStart, selectGroupBackward, selectGroupForward, selectGroupForwardWin, selectGroupLeft, selectGroupRight, selectLine, selectLineBoundaryBackward, selectLineBoundaryForward, selectLineBoundaryLeft, selectLineBoundaryRight, selectLineDown, selectLineEnd, selectLineStart, selectLineUp, selectMatchingBracket, selectPageDown, selectPageUp, selectParentSyntax, selectSubwordBackward, selectSubwordForward, selectSyntaxLeft, selectSyntaxRight, simplifySelection, splitLine, standardKeymap, temporarilySetTabFocusMode, toggleBlockComment, toggleBlockCommentByLine, toggleComment, toggleLineComment, toggleTabFocusMode, transposeChars, undo, undoDepth, undoSelection };

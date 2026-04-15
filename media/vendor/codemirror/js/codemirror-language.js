@@ -316,7 +316,7 @@ Language.setState = /*@__PURE__*/StateEffect.define();
 function topNodeAt(state, pos, side) {
     let topLang = state.facet(language), tree = syntaxTree(state).topNode;
     if (!topLang || topLang.allowsNesting) {
-        for (let node = tree; node; node = node.enter(pos, side, IterMode.ExcludeBuffers))
+        for (let node = tree; node; node = node.enter(pos, side, IterMode.ExcludeBuffers | IterMode.EnterBracketed))
             if (node.type.isTop)
                 tree = node;
     }
@@ -1827,7 +1827,7 @@ const baseTheme$1 = /*@__PURE__*/EditorView.baseTheme({
 });
 
 /**
-A highlight style associates CSS styles with higlighting
+A highlight style associates CSS styles with highlighting
 [tags](https://lezer.codemirror.net/docs/ref#highlight.Tag).
 */
 class HighlightStyle {
@@ -2032,30 +2032,44 @@ function defaultRenderMatch(match) {
         decorations.push(mark.range(match.end.from, match.end.to));
     return decorations;
 }
-const bracketMatchingState = /*@__PURE__*/StateField.define({
-    create() { return Decoration.none; },
-    update(deco, tr) {
-        if (!tr.docChanged && !tr.selection)
-            return deco;
-        let decorations = [];
-        let config = tr.state.facet(bracketMatchingConfig);
-        for (let range of tr.state.selection.ranges) {
-            if (!range.empty)
-                continue;
-            let match = matchBrackets(tr.state, range.head, -1, config)
-                || (range.head > 0 && matchBrackets(tr.state, range.head - 1, 1, config))
-                || (config.afterCursor &&
-                    (matchBrackets(tr.state, range.head, 1, config) ||
-                        (range.head < tr.state.doc.length && matchBrackets(tr.state, range.head + 1, -1, config))));
-            if (match)
-                decorations = decorations.concat(config.renderMatch(match, tr.state));
+function bracketDeco(state) {
+    let decorations = [];
+    let config = state.facet(bracketMatchingConfig);
+    for (let range of state.selection.ranges) {
+        if (!range.empty)
+            continue;
+        let match = matchBrackets(state, range.head, -1, config)
+            || (range.head > 0 && matchBrackets(state, range.head - 1, 1, config))
+            || (config.afterCursor &&
+                (matchBrackets(state, range.head, 1, config) ||
+                    (range.head < state.doc.length && matchBrackets(state, range.head + 1, -1, config))));
+        if (match)
+            decorations = decorations.concat(config.renderMatch(match, state));
+    }
+    return Decoration.set(decorations, true);
+}
+const bracketMatcher = /*@__PURE__*/ViewPlugin.fromClass(class {
+    constructor(view) {
+        this.paused = false;
+        this.decorations = bracketDeco(view.state);
+    }
+    update(update) {
+        if (update.docChanged || update.selectionSet || this.paused) {
+            if (update.view.composing) {
+                this.decorations = this.decorations.map(update.changes);
+                this.paused = true;
+            }
+            else {
+                this.decorations = bracketDeco(update.state);
+                this.paused = false;
+            }
         }
-        return Decoration.set(decorations, true);
-    },
-    provide: f => EditorView.decorations.from(f)
+    }
+}, {
+    decorations: v => v.decorations
 });
 const bracketMatchingUnique = [
-    bracketMatchingState,
+    bracketMatcher,
     baseTheme
 ];
 /**

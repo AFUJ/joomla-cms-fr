@@ -24,6 +24,7 @@ class NodeProp {
         this.deserialize = config.deserialize || (() => {
             throw new Error("This node type doesn't define a deserialize function");
         });
+        this.combine = config.combine || null;
     }
     /**
     This is meant to be used with
@@ -123,10 +124,17 @@ class MountedTree {
     /**
     The parser used to create this subtree.
     */
-    parser) {
+    parser, 
+    /**
+    [Indicates](#common.IterMode.EnterBracketed) that the nested
+    content is delineated with some kind
+    of bracket token.
+    */
+    bracketed = false) {
         this.tree = tree;
         this.overlay = overlay;
         this.parser = parser;
+        this.bracketed = bracketed;
     }
     /**
     @internal
@@ -288,7 +296,10 @@ class NodeSet {
                 if (add) {
                     if (!newProps)
                         newProps = Object.assign({}, type.props);
-                    newProps[add[0].id] = add[1];
+                    let value = add[1], prop = add[0];
+                    if (prop.combine && prop.id in newProps)
+                        value = prop.combine(newProps[prop.id], value);
+                    newProps[prop.id] = value;
                 }
             }
             newTypes.push(newProps ? new NodeType(type.name, newProps, type.id, type.flags) : type);
@@ -328,6 +339,13 @@ var IterMode;
     position.
     */
     IterMode[IterMode["IgnoreOverlays"] = 8] = "IgnoreOverlays";
+    /**
+    When set, positions on the boundary of a mounted overlay tree
+    that has its [`bracketed`](#common.NestedParse.bracketed) flag
+    set will enter that tree regardless of side. Only supported in
+    [`enter`](#common.SyntaxNode.enter), not in cursors.
+    */
+    IterMode[IterMode["EnterBracketed"] = 16] = "EnterBracketed";
 })(IterMode || (IterMode = {}));
 /**
 A piece of syntax tree. There are two ways to approach these
@@ -727,8 +745,11 @@ class TreeNode extends BaseNode {
     nextChild(i, dir, pos, side, mode = 0) {
         for (let parent = this;;) {
             for (let { children, positions } = parent._tree, e = dir > 0 ? children.length : -1; i != e; i += dir) {
-                let next = children[i], start = positions[i] + parent.from;
-                if (!checkSide(side, pos, start, start + next.length))
+                let next = children[i], start = positions[i] + parent.from, mounted;
+                if (!((mode & IterMode.EnterBracketed) && next instanceof Tree &&
+                    (mounted = MountedTree.get(next)) && !mounted.overlay && mounted.bracketed &&
+                    pos >= start && pos <= start + next.length) &&
+                    !checkSide(side, pos, start, start + next.length))
                     continue;
                 if (next instanceof TreeBuffer) {
                     if (mode & IterMode.ExcludeBuffers)
@@ -743,7 +764,7 @@ class TreeNode extends BaseNode {
                         return new TreeNode(mounted.tree, start, i, parent);
                     let inner = new TreeNode(next, start, i, parent);
                     return (mode & IterMode.IncludeAnonymous) || !inner.type.isAnonymous ? inner
-                        : inner.nextChild(dir < 0 ? next.children.length - 1 : 0, dir, pos, side);
+                        : inner.nextChild(dir < 0 ? next.children.length - 1 : 0, dir, pos, side, mode);
                 }
             }
             if ((mode & IterMode.IncludeAnonymous) || !parent.type.isAnonymous)
@@ -761,13 +782,14 @@ class TreeNode extends BaseNode {
     get lastChild() { return this.nextChild(this._tree.children.length - 1, -1, 0, 4 /* Side.DontCare */); }
     childAfter(pos) { return this.nextChild(0, 1, pos, 2 /* Side.After */); }
     childBefore(pos) { return this.nextChild(this._tree.children.length - 1, -1, pos, -2 /* Side.Before */); }
+    prop(prop) { return this._tree.prop(prop); }
     enter(pos, side, mode = 0) {
         let mounted;
         if (!(mode & IterMode.IgnoreOverlays) && (mounted = MountedTree.get(this._tree)) && mounted.overlay) {
-            let rPos = pos - this.from;
+            let rPos = pos - this.from, enterBracketed = (mode & IterMode.EnterBracketed) && mounted.bracketed;
             for (let { from, to } of mounted.overlay) {
-                if ((side > 0 ? from <= rPos : from < rPos) &&
-                    (side < 0 ? to >= rPos : to > rPos))
+                if ((side > 0 || enterBracketed ? from <= rPos : from < rPos) &&
+                    (side < 0 || enterBracketed ? to >= rPos : to > rPos))
                     return new TreeNode(mounted.tree, mounted.overlay[0].from + this.from, -1, this);
             }
         }
@@ -854,6 +876,7 @@ class BufferNode extends BaseNode {
     get lastChild() { return this.child(-1, 0, 4 /* Side.DontCare */); }
     childAfter(pos) { return this.child(1, pos, 2 /* Side.After */); }
     childBefore(pos) { return this.child(-1, pos, -2 /* Side.Before */); }
+    prop(prop) { return this.type.prop(prop); }
     enter(pos, side, mode = 0) {
         if (mode & IterMode.ExcludeBuffers)
             return null;
@@ -955,12 +978,7 @@ class TreeCursor {
     /**
     @internal
     */
-    constructor(node, 
-    /**
-    @internal
-    */
-    mode = 0) {
-        this.mode = mode;
+    constructor(node, mode = 0) {
         /**
         @internal
         */
@@ -971,6 +989,7 @@ class TreeCursor {
         */
         this.index = 0;
         this.bufferNode = null;
+        this.mode = mode & ~IterMode.EnterBracketed;
         if (node instanceof TreeNode) {
             this.yieldNode(node);
         }
@@ -1271,7 +1290,7 @@ function buildTree(data) {
     function takeNode(parentStart, minPos, children, positions, inRepeat, depth) {
         let { id, start, end, size } = cursor;
         let lookAheadAtStart = lookAhead, contextAtStart = contextHash;
-        while (size < 0) {
+        if (size < 0) {
             cursor.next();
             if (size == -1 /* SpecialRecord.Reuse */) {
                 let node = reused[id];
@@ -1435,7 +1454,7 @@ function buildTree(data) {
             fork.next();
             while (fork.pos > startPos) {
                 if (fork.size < 0) {
-                    if (fork.size == -3 /* SpecialRecord.ContextChange */)
+                    if (fork.size == -3 /* SpecialRecord.ContextChange */ || fork.size == -4 /* SpecialRecord.LookAhead */)
                         localSkipped += 4;
                     else
                         break scan;
@@ -1762,10 +1781,11 @@ function parseMixed(nest) {
     return (parse, input, fragments, ranges) => new MixedParse(parse, nest, input, fragments, ranges);
 }
 class InnerParse {
-    constructor(parser, parse, overlay, target, from) {
+    constructor(parser, parse, overlay, bracketed, target, from) {
         this.parser = parser;
         this.parse = parse;
         this.overlay = overlay;
+        this.bracketed = bracketed;
         this.target = target;
         this.from = from;
     }
@@ -1775,12 +1795,13 @@ function checkRanges(ranges) {
         throw new RangeError("Invalid inner parse ranges given: " + JSON.stringify(ranges));
 }
 class ActiveOverlay {
-    constructor(parser, predicate, mounts, index, start, target, prev) {
+    constructor(parser, predicate, mounts, index, start, bracketed, target, prev) {
         this.parser = parser;
         this.predicate = predicate;
         this.mounts = mounts;
         this.index = index;
         this.start = start;
+        this.bracketed = bracketed;
         this.target = target;
         this.prev = prev;
         this.depth = 0;
@@ -1826,7 +1847,7 @@ class MixedParse {
             // presumably not aliased anywhere else) to hold the information
             // about the inner parse.
             let props = Object.assign(Object.create(null), inner.target.props);
-            props[NodeProp.mounted.id] = new MountedTree(done, inner.overlay, inner.parser);
+            props[NodeProp.mounted.id] = new MountedTree(done, inner.overlay, inner.parser, inner.bracketed);
             inner.target.props = props;
         }
         return null;
@@ -1876,11 +1897,18 @@ class MixedParse {
             }
             else if (!cursor.type.isAnonymous && (nest = this.nest(cursor, this.input)) &&
                 (cursor.from < cursor.to || !nest.overlay)) {
-                if (!cursor.tree)
+                if (!cursor.tree) {
                     materialize(cursor);
+                    // materialize create one more level of nesting
+                    // we need to add depth to active overlay for going backwards
+                    if (overlay)
+                        overlay.depth++;
+                    if (covered)
+                        covered.depth++;
+                }
                 let oldMounts = fragmentCursor.findMounts(cursor.from, nest.parser);
                 if (typeof nest.overlay == "function") {
-                    overlay = new ActiveOverlay(nest.parser, nest.overlay, oldMounts, this.inner.length, cursor.from, cursor.tree, overlay);
+                    overlay = new ActiveOverlay(nest.parser, nest.overlay, oldMounts, this.inner.length, cursor.from, !!nest.bracketed, cursor.tree, overlay);
                 }
                 else {
                     let ranges = punchRanges(this.ranges, nest.overlay ||
@@ -1889,7 +1917,7 @@ class MixedParse {
                         checkRanges(ranges);
                     if (ranges.length || !nest.overlay)
                         this.inner.push(new InnerParse(nest.parser, ranges.length ? nest.parser.startParse(this.input, enterFragments(oldMounts, ranges), ranges)
-                            : nest.parser.startParse(""), nest.overlay ? nest.overlay.map(r => new Range(r.from - cursor.from, r.to - cursor.from)) : null, cursor.tree, ranges.length ? ranges[0].from : cursor.from));
+                            : nest.parser.startParse(""), nest.overlay ? nest.overlay.map(r => new Range(r.from - cursor.from, r.to - cursor.from)) : null, !!nest.bracketed, cursor.tree, ranges.length ? ranges[0].from : cursor.from));
                     if (!nest.overlay)
                         enter = false;
                     else if (ranges.length)
@@ -1923,7 +1951,7 @@ class MixedParse {
                         let ranges = punchRanges(this.ranges, overlay.ranges);
                         if (ranges.length) {
                             checkRanges(ranges);
-                            this.inner.splice(overlay.index, 0, new InnerParse(overlay.parser, overlay.parser.startParse(this.input, enterFragments(overlay.mounts, ranges), ranges), overlay.ranges.map(r => new Range(r.from - overlay.start, r.to - overlay.start)), overlay.target, ranges[0].from));
+                            this.inner.splice(overlay.index, 0, new InnerParse(overlay.parser, overlay.parser.startParse(this.input, enterFragments(overlay.mounts, ranges), ranges), overlay.ranges.map(r => new Range(r.from - overlay.start, r.to - overlay.start)), overlay.bracketed, overlay.target, ranges[0].from));
                         }
                         overlay = overlay.prev;
                     }

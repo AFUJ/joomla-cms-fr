@@ -1,5 +1,5 @@
 import { EditorSelection, countColumn, Prec, EditorState } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
+import { keymap, EditorView } from '@codemirror/view';
 import { syntaxTree, LanguageSupport, Language, indentUnit, foldService, LanguageDescription, ParseContext, defineLanguageFacet, foldNodeProp, indentNodeProp, languageDataProp } from '@codemirror/language';
 import { CompletionContext } from '@codemirror/autocomplete';
 import { MarkdownParser, parseCode, parser, GFM, Subscript, Superscript, Emoji } from '@lezer/markdown';
@@ -197,17 +197,11 @@ function normalizeIndent(content, state) {
     return space + content.slice(blank);
 }
 /**
-This command, when invoked in Markdown context with cursor
-selection(s), will create a new line with the markup for
-blockquotes and lists that were active on the old line. If the
-cursor was directly after the end of the markup for the old line,
-trailing whitespace and list markers are removed from that line.
-
-The command does nothing in non-Markdown context, so it should
-not be used as the only binding for Enter (even in a Markdown
-document, HTML and code regions might use a different language).
+Returns a command like
+[`insertNewlineContinueMarkup`](https://codemirror.net/6/docs/ref/#lang-markdown.insertNewlineContinueMarkup),
+allowing further configuration.
 */
-const insertNewlineContinueMarkup = ({ state, dispatch }) => {
+const insertNewlineContinueMarkupCommand = (config = {}) => ({ state, dispatch }) => {
     let tree = syntaxTree(state), { doc } = state;
     let dont = null, changes = state.changeByRange(range => {
         if (!range.empty || !markdownLanguage.isActiveAt(state, range.from, -1) && !markdownLanguage.isActiveAt(state, range.from, 1))
@@ -227,7 +221,8 @@ const insertNewlineContinueMarkup = ({ state, dispatch }) => {
             let first = inner.node.firstChild, second = inner.node.getChild("ListItem", "ListItem");
             // Not second item or blank line before: delete a level of markup
             if (first.to >= pos || second && second.to < pos ||
-                line.from > 0 && !/[^\s>]/.test(doc.lineAt(line.from - 1).text)) {
+                line.from > 0 && !/[^\s>]/.test(doc.lineAt(line.from - 1).text) ||
+                config.nonTightLists === false) {
                 let next = context.length > 1 ? context[context.length - 2] : null;
                 let delTo, insert = "";
                 if (next && next.item) { // Re-add marker for the list at the next level
@@ -285,6 +280,18 @@ const insertNewlineContinueMarkup = ({ state, dispatch }) => {
     dispatch(state.update(changes, { scrollIntoView: true, userEvent: "input" }));
     return true;
 };
+/**
+This command, when invoked in Markdown context with cursor
+selection(s), will create a new line with the markup for
+blockquotes and lists that were active on the old line. If the
+cursor was directly after the end of the markup for the old line,
+trailing whitespace and list markers are removed from that line.
+
+The command does nothing in non-Markdown context, so it should
+not be used as the only binding for Enter (even in a Markdown
+document, HTML and code regions might use a different language).
+*/
+const insertNewlineContinueMarkup = /*@__PURE__*/insertNewlineContinueMarkupCommand();
 function isMark(node) {
     return node.name == "QuoteMark" || node.name == "ListMark";
 }
@@ -395,11 +402,13 @@ const htmlNoMatch = /*@__PURE__*/html({ matchClosingTags: false });
 Markdown language support.
 */
 function markdown(config = {}) {
-    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser } = commonmarkLanguage, completeHTMLTags = true, htmlTagLanguage = htmlNoMatch } = config;
+    let { codeLanguages, defaultCodeLanguage, addKeymap = true, base: { parser } = commonmarkLanguage, completeHTMLTags = true, pasteURLAsLink: pasteURL = true, htmlTagLanguage = htmlNoMatch } = config;
     if (!(parser instanceof MarkdownParser))
         throw new RangeError("Base parser provided to `markdown` should be a Markdown parser");
     let extensions = config.extensions ? [config.extensions] : [];
     let support = [htmlTagLanguage.support, headerIndent], defaultCode;
+    if (pasteURL)
+        support.push(pasteURLAsLink);
     if (defaultCodeLanguage instanceof LanguageSupport) {
         support.push(defaultCodeLanguage.support);
         defaultCode = defaultCodeLanguage.language;
@@ -440,5 +449,44 @@ function htmlTagCompletions() {
     let result = htmlCompletionSource(new CompletionContext(EditorState.create({ extensions: htmlNoMatch }), 0, true));
     return _tagCompletions = result ? result.options : [];
 }
+const nonPlainText = /code|horizontalrule|html|link|comment|processing|escape|entity|image|mark|url/i;
+/**
+An extension that intercepts pastes when the pasted content looks
+like a URL and the selection is non-empty and selects regular
+text, making the selection a link with the pasted URL as target.
+*/
+const pasteURLAsLink = /*@__PURE__*/EditorView.domEventHandlers({
+    paste: (event, view) => {
+        var _a;
+        let { main } = view.state.selection;
+        if (main.empty)
+            return false;
+        let link = (_a = event.clipboardData) === null || _a === void 0 ? void 0 : _a.getData("text/plain");
+        if (!link || !/^(https?:\/\/|mailto:|xmpp:|www\.)/.test(link))
+            return false;
+        if (/^www\./.test(link))
+            link = "https://" + link;
+        if (!markdownLanguage.isActiveAt(view.state, main.from, 1))
+            return false;
+        let tree = syntaxTree(view.state), crossesNode = false;
+        // Verify that no nodes are started/ended between the selection
+        // points, and we're not inside any non-plain-text construct.
+        tree.iterate({
+            from: main.from, to: main.to,
+            enter: node => { if (node.from > main.from || nonPlainText.test(node.name))
+                crossesNode = true; },
+            leave: node => { if (node.to < main.to)
+                crossesNode = true; }
+        });
+        if (crossesNode)
+            return false;
+        view.dispatch({
+            changes: [{ from: main.from, insert: "[" }, { from: main.to, insert: `](${link})` }],
+            userEvent: "input.paste",
+            scrollIntoView: true
+        });
+        return true;
+    }
+});
 
-export { commonmarkLanguage, deleteMarkupBackward, insertNewlineContinueMarkup, markdown, markdownKeymap, markdownLanguage };
+export { commonmarkLanguage, deleteMarkupBackward, insertNewlineContinueMarkup, insertNewlineContinueMarkupCommand, markdown, markdownKeymap, markdownLanguage, pasteURLAsLink };

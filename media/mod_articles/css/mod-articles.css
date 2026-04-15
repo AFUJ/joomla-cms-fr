@@ -24,7 +24,7 @@
 .mod-articles-grid {
   --grid-layout-gap: 2rem;
   --grid-item--min-width: 100px;
-  --gap-count: calc(var(--grid-column-count)  - 1);
+  --gap-count: calc(var(--grid-column-count) - 1);
   --total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
   --grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
   grid-gap: var(--grid-layout-gap);

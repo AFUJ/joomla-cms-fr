@@ -49,6 +49,7 @@ class LintState {
             diagnostics = diagnosticFilter(diagnostics, state);
         let sorted = diagnostics.slice().sort((a, b) => a.from - b.from || a.to - b.to);
         let deco = new RangeSetBuilder(), active = [], pos = 0;
+        let scan = state.doc.iter(), scanPos = 0, docLen = state.doc.length;
         for (let i = 0;;) {
             let next = i == sorted.length ? null : sorted[i];
             if (!next && !active.length)
@@ -60,6 +61,8 @@ class LintState {
             }
             else {
                 from = next.from;
+                if (from > docLen)
+                    break;
                 to = next.to;
                 active.push(next);
                 i++;
@@ -76,8 +79,31 @@ class LintState {
                     break;
                 }
             }
+            to = Math.min(to, docLen);
+            let widget = false;
+            if (active.some(d => d.from == from && (d.to == to || to == docLen))) {
+                widget = from == to;
+                if (!widget && to - from < 10) {
+                    let behind = from - (scanPos + scan.value.length);
+                    if (behind > 0) {
+                        scan.next(behind);
+                        scanPos = from;
+                    }
+                    for (let check = from;;) {
+                        if (check >= to) {
+                            widget = true;
+                            break;
+                        }
+                        if (!scan.lineBreak && scanPos + scan.value.length > check)
+                            break;
+                        check = scanPos + scan.value.length;
+                        scanPos += scan.value.length;
+                        scan.next();
+                    }
+                }
+            }
             let sev = maxSeverity(active);
-            if (active.some(d => d.from == d.to || (d.from == d.to - 1 && state.doc.lineAt(d.from).to == d.from))) {
+            if (widget) {
                 deco.add(from, from, Decoration.widget({
                     widget: new DiagnosticWidget(sev),
                     diagnostics: active.slice()
@@ -92,6 +118,8 @@ class LintState {
                 }));
             }
             pos = to;
+            if (pos == docLen)
+                break;
             for (let i = 0; i < active.length; i++)
                 if (active[i].to <= pos)
                     active.splice(i--, 1);
@@ -240,10 +268,10 @@ const nextDiagnostic = (view) => {
     let field = view.state.field(lintState, false);
     if (!field)
         return false;
-    let sel = view.state.selection.main, next = field.diagnostics.iter(sel.to + 1);
-    if (!next.value) {
-        next = field.diagnostics.iter(0);
-        if (!next.value || next.from == sel.from && next.to == sel.to)
+    let sel = view.state.selection.main, next = findDiagnostic(field.diagnostics, null, sel.to + 1);
+    if (!next) {
+        next = findDiagnostic(field.diagnostics, null, 0);
+        if (!next || next.from == sel.from && next.to == sel.to)
             return false;
     }
     view.dispatch({ selection: { anchor: next.from, head: next.to }, scrollIntoView: true });
@@ -344,22 +372,36 @@ function batchResults(promises, sink, error) {
 }
 const lintConfig = /*@__PURE__*/Facet.define({
     combine(input) {
-        return Object.assign({ sources: input.map(i => i.source).filter(x => x != null) }, combineConfig(input.map(i => i.config), {
-            delay: 750,
-            markerFilter: null,
-            tooltipFilter: null,
-            needsRefresh: null,
-            hideOn: () => null,
-        }, {
-            needsRefresh: (a, b) => !a ? b : !b ? a : u => a(u) || b(u)
-        }));
+        return {
+            sources: input.map(i => i.source).filter(x => x != null),
+            ...combineConfig(input.map(i => i.config), {
+                delay: 750,
+                markerFilter: null,
+                tooltipFilter: null,
+                needsRefresh: null,
+                hideOn: () => null,
+            }, {
+                delay: Math.max,
+                markerFilter: combineFilter,
+                tooltipFilter: combineFilter,
+                needsRefresh: (a, b) => !a ? b : !b ? a : u => a(u) || b(u),
+                hideOn: (a, b) => !a ? b : !b ? a : (t, x, y) => a(t, x, y) || b(t, x, y),
+                autoPanel: (a, b) => a || b
+            })
+        };
     }
 });
+function combineFilter(a, b) {
+    return !a ? b : !b ? a : (d, s) => b(a(d, s), s);
+}
 /**
 Given a diagnostic source, this function returns an extension that
 enables linting with that source. It will be called whenever the
-editor is idle (after its content changed). If `null` is given as
-source, this only configures the lint extension.
+editor is idle (after its content changed).
+
+Note that settings given here will apply to all linters active in
+the editor. If `null` is given as source, this only configures the
+lint extension.
 */
 function linter(source, config = {}) {
     return [
@@ -409,9 +451,10 @@ function renderDiagnostic(view, diagnostic, inPanel) {
         let nameElt = keyIndex < 0 ? name : [name.slice(0, keyIndex),
             crelt("u", name.slice(keyIndex, keyIndex + 1)),
             name.slice(keyIndex + 1)];
+        let markClass = action.markClass ? " " + action.markClass : "";
         return crelt("button", {
             type: "button",
-            class: "cm-diagnosticAction",
+            class: "cm-diagnosticAction" + markClass,
             onclick: click,
             onmousedown: click,
             "aria-label": ` Action: ${name}${keyIndex < 0 ? "" : ` (access key "${keys[i]})"`}.`
@@ -442,6 +485,8 @@ class LintPanel {
         this.view = view;
         this.items = [];
         let onkeydown = (event) => {
+            if (event.ctrlKey || event.altKey || event.metaKey)
+                return;
             if (event.keyCode == 27) { // Escape
                 closeLintPanel(this.view);
                 this.view.focus();
@@ -706,6 +751,12 @@ const baseTheme = /*@__PURE__*/EditorView.baseTheme({
             padding: 0,
             margin: 0
         }
+    },
+    "&dark .cm-lintRange-active": { backgroundColor: "#86714a80" },
+    "&dark .cm-panel.cm-panel-lint ul": {
+        "& [aria-selected]": {
+            backgroundColor: "#2e343e",
+        },
     }
 });
 function severityWeight(sev) {
@@ -834,7 +885,7 @@ const lintGutterTooltip = /*@__PURE__*/StateField.define({
     create() { return null; },
     update(tooltip, tr) {
         if (tooltip && tr.docChanged)
-            tooltip = hideTooltip(tr, tooltip) ? null : Object.assign(Object.assign({}, tooltip), { pos: tr.changes.mapPos(tooltip.pos) });
+            tooltip = hideTooltip(tr, tooltip) ? null : { ...tooltip, pos: tr.changes.mapPos(tooltip.pos) };
         return tr.effects.reduce((t, e) => e.is(setLintGutterTooltip) ? e.value : t, tooltip);
     },
     provide: field => showTooltip.from(field)

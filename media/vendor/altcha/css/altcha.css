@@ -1,0 +1,307 @@
+@charset "UTF-8";
+.altcha {
+  background: var(--altcha-color-base, transparent);
+  border: var(--altcha-border-width, 1px) solid var(--altcha-color-border, #a0a0a0);
+  border-radius: var(--altcha-border-radius, 3px);
+  color: var(--altcha-color-text, currentColor);
+  max-width: var(--altcha-max-width, 260px);
+  flex-direction: column;
+  display: flex;
+  position: relative;
+}
+
+.altcha:focus-within {
+  border-color: var(--altcha-color-border-focus, currentColor);
+}
+
+.altcha[data-floating] {
+  background: var(--altcha-color-base, white);
+  filter: drop-shadow(3px 3px 6px #0003);
+  width: var(--altcha-max-width, 260px);
+  z-index: 999999;
+  display: none;
+  position: fixed;
+  top: -100%;
+  left: -100%;
+}
+
+.altcha[data-floating="top"] .altcha-anchor-arrow {
+  border-bottom-color: #0000;
+  border-top-color: var(--altcha-color-border, #a0a0a0);
+  top: auto;
+  bottom: -12px;
+}
+
+.altcha[data-floating="bottom"]:focus-within:after {
+  border-bottom-color: var(--altcha-color-border-focus, currentColor);
+}
+
+.altcha[data-floating="top"]:focus-within:after {
+  border-top-color: var(--altcha-color-border-focus, currentColor);
+}
+
+.altcha[data-floating]:not([data-state="unverified"]) {
+  display: block;
+}
+
+.altcha-anchor-arrow {
+  border: 6px solid #0000;
+  border-bottom-color: var(--altcha-color-border, #a0a0a0);
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -12px;
+  left: 12px;
+}
+
+.altcha-main {
+  align-items: center;
+  gap: .4rem;
+  padding: .7rem;
+  display: flex;
+  position: relative;
+}
+
+.altcha-code-challenge {
+  background: var(--altcha-color-base, white);
+  border: 1px solid var(--altcha-color-border-focus, currentColor);
+  border-radius: var(--altcha-border-radius, 3px);
+  filter: drop-shadow(3px 3px 6px #0003);
+  z-index: 9999999;
+  padding: .5rem;
+  position: absolute;
+  top: 2.5rem;
+}
+
+.altcha-code-challenge > form {
+  flex-direction: column;
+  gap: .5rem;
+  display: flex;
+}
+
+.altcha-code-challenge-input {
+  box-sizing: border-box;
+  border: 1px solid;
+  border-radius: 3px;
+  outline: none;
+  width: 220px;
+  padding: .35rem;
+  font-size: 16px;
+}
+
+.altcha-code-challenge-input:focus {
+  outline: 2px solid color-mix(in srgb,var(--altcha-color-active, #1d1dc9) 20%,transparent);
+}
+
+.altcha-code-challenge-input:disabled {
+  opacity: .7;
+}
+
+.altcha-code-challenge-image {
+  box-sizing: border-box;
+  object-fit: contain;
+  background-color: #fff;
+  border: 1px solid;
+  border-radius: 3px;
+  width: 220px;
+  height: 50px;
+}
+
+.altcha-code-challenge-audio, .altcha-code-challenge-reload {
+  background: color-mix(in srgb,var(--altcha-color-text, currentColor) 10%,transparent);
+  color: var(--altcha-color-text, currentColor);
+  cursor: pointer;
+  border: 0;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  padding: .35rem;
+  display: flex;
+}
+
+.altcha-code-challenge-audio:disabled, .altcha-code-challenge-reload:disabled {
+  opacity: .7;
+  pointer-events: none;
+}
+
+.altcha-code-challenge-audio > *, .altcha-code-challenge-reload > * {
+  width: 20px;
+  height: 20px;
+}
+
+.altcha-code-challenge-buttons {
+  justify-content: space-between;
+  display: flex;
+}
+
+.altcha-code-challenge-buttons-left {
+  gap: .25rem;
+  display: flex;
+}
+
+.altcha-code-challenge-verify {
+  background: var(--altcha-color-active, #1d1dc9);
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  border-radius: 3px;
+  align-items: center;
+  gap: .5rem;
+  padding: .35rem 1rem;
+  font-size: 100%;
+  display: flex;
+}
+
+.altcha-code-challenge-verify:disabled {
+  opacity: .7;
+  pointer-events: none;
+}
+
+.altcha-code-challenge-arrow {
+  border: 6px solid #0000;
+  border-bottom-color: var(--altcha-color-border, currentColor);
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -12px;
+  left: .15rem;
+}
+
+.altcha[data-floating="top"] .altcha-code-challenge {
+  top: -150px;
+}
+
+.altcha[data-floating="top"] .altcha-code-challenge-arrow {
+  border-bottom-color: #0000;
+  border-top-color: var(--altcha-color-border, currentColor);
+  top: auto;
+  bottom: -12px;
+}
+
+.altcha-label {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.altcha-logo {
+  opacity: .7;
+  color: currentColor !important;
+}
+
+.altcha-logo:hover {
+  opacity: 1;
+}
+
+.altcha-error {
+  color: var(--altcha-color-error-text, #f23939);
+  gap: .3rem;
+  padding: 0 .7rem .7rem;
+  font-size: .85rem;
+  display: flex;
+}
+
+.altcha-footer {
+  background-color: var(--altcha-color-footer-bg, transparent);
+  opacity: .7;
+  justify-content: end;
+  align-items: center;
+  padding: .2rem .7rem;
+  font-size: .75rem;
+  display: flex;
+}
+
+.altcha-footer:hover {
+  opacity: 1;
+}
+
+.altcha-footer a {
+  color: currentColor;
+}
+
+.altcha-checkbox {
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  position: relative;
+}
+
+.altcha-checkbox .altcha-spinner {
+  position: absolute;
+  inset: 0;
+}
+
+.altcha-checkbox input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.altcha-checkbox-verifying input {
+  appearance: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.altcha-spinner {
+  transform-origin: center;
+  animation: .75s linear infinite altcha-spinner;
+}
+
+.altcha-overlay {
+  --altcha-color-base: #fff;
+  --altcha-color-text: #000;
+  opacity: 0;
+  flex-direction: column;
+  gap: .5rem;
+  width: 260px;
+  animation: .5s forwards overlay-slidein;
+  display: flex;
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.altcha-overlay-backdrop {
+  z-index: 99999999;
+  background: #00000080;
+  display: none;
+  position: fixed;
+  inset: 0;
+}
+
+.altcha-overlay-close-button {
+  cursor: pointer;
+  color: currentColor;
+  opacity: .7;
+  background: none;
+  border: none;
+  align-self: flex-end;
+  padding: .25rem;
+  font-size: 130%;
+  line-height: 1;
+}
+
+@media (height <= 450px) {
+  .altcha-overlay {
+    transform: translate(-50%);
+    top: 10% !important;
+  }
+}
+
+@keyframes overlay-slidein {
+  to {
+    opacity: 1;
+    top: 50%;
+  }
+}
+
+@keyframes altcha-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}

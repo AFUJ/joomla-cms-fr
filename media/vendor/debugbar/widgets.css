@@ -330,6 +330,7 @@ div.phpdebugbar[data-theme="dark"] code.phpdebugbar-widgets-sql, div.phpdebugbar
 table.phpdebugbar-widgets-tablevar {
   table-layout: auto;
   width: 100%;
+  font-size: 1em;
 }
 
 table.phpdebugbar-widgets-tablevar td:first-child {
@@ -357,7 +358,7 @@ table.phpdebugbar-widgets-tablevar td {
   overflow: hidden;
 }
 
-table.phpdebugbar-widgets-tablevar .phpdebugbar-widgets-header span.phpdebugbar-widgets-badge {
+div.phpdebugbar span.phpdebugbar-widgets-badge {
   background: var(--debugbar-badge-active);
   color: var(--debugbar-badge-active-text);
   text-shadow: none;

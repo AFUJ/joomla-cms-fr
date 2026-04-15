@@ -389,7 +389,7 @@ const completionConfig = /*@__PURE__*/Facet.define({
             addToOptions: [],
             positionInfo: defaultPositionInfo,
             filterStrict: false,
-            compareCompletions: (a, b) => a.label.localeCompare(b.label),
+            compareCompletions: (a, b) => (a.sortText || a.label).localeCompare(b.sortText || b.label),
             interactionDelay: 75,
             updateSyncTime: 100
         }, {
@@ -439,6 +439,7 @@ function defaultPositionInfo(view, list, option, info, space, tooltip) {
     };
 }
 
+const setSelectedEffect = /*@__PURE__*/StateEffect.define();
 function optionContent(config) {
     let content = config.addToOptions.slice();
     if (config.icons)
@@ -530,6 +531,16 @@ class CompletionTooltip {
                     return;
                 }
             }
+            if (e.target == this.list) {
+                let move = this.list.classList.contains("cm-completionListIncompleteTop") &&
+                    e.clientY < this.list.firstChild.getBoundingClientRect().top ? this.range.from - 1 :
+                    this.list.classList.contains("cm-completionListIncompleteBottom") &&
+                        e.clientY > this.list.lastChild.getBoundingClientRect().bottom ? this.range.to : null;
+                if (move != null) {
+                    view.dispatch({ effects: setSelectedEffect.of(move) });
+                    e.preventDefault();
+                }
+            }
         });
         this.dom.addEventListener("focusout", (e) => {
             let state = view.state.field(this.stateField, false);
@@ -588,7 +599,8 @@ class CompletionTooltip {
             this.range = rangeAroundSelected(open.options.length, open.selected, this.view.state.facet(completionConfig).maxRenderedOptions);
             this.showOptions(open.options, cState.id);
         }
-        if (this.updateSelectedOption(open.selected)) {
+        let newSel = this.updateSelectedOption(open.selected);
+        if (newSel) {
             this.destroyInfo();
             let { completion } = open.options[open.selected];
             let { info } = completion;
@@ -605,6 +617,7 @@ class CompletionTooltip {
             }
             else {
                 this.addInfoPane(infoResult, completion);
+                newSel.setAttribute("aria-describedby", this.info.id);
             }
         }
     }
@@ -612,6 +625,7 @@ class CompletionTooltip {
         this.destroyInfo();
         let wrap = this.info = document.createElement("div");
         wrap.className = "cm-tooltip cm-completionInfo";
+        wrap.id = "cm-completionInfo-" + Math.floor(Math.random() * 0xffff).toString(16);
         if (content.nodeType != null) {
             wrap.appendChild(content);
             this.infoDestroy = null;
@@ -637,8 +651,10 @@ class CompletionTooltip {
                 }
             }
             else {
-                if (opt.hasAttribute("aria-selected"))
+                if (opt.hasAttribute("aria-selected")) {
                     opt.removeAttribute("aria-selected");
+                    opt.removeAttribute("aria-describedby");
+                }
             }
         }
         if (set)
@@ -752,7 +768,7 @@ function score(option) {
 }
 function sortOptions(active, state) {
     let options = [];
-    let sections = null;
+    let sections = null, dynamicSectionScore = null;
     let addOption = (option) => {
         options.push(option);
         let { section } = option.completion;
@@ -779,13 +795,24 @@ function sortOptions(active, state) {
                 for (let option of a.result.options)
                     if (match = matcher.match(option.label)) {
                         let matched = !option.displayLabel ? match.matched : getMatch ? getMatch(option, match.matched) : [];
-                        addOption(new Option(option, a.source, matched, match.score + (option.boost || 0)));
+                        let score = match.score + (option.boost || 0);
+                        addOption(new Option(option, a.source, matched, score));
+                        if (typeof option.section == "object" && option.section.rank === "dynamic") {
+                            let { name } = option.section;
+                            if (!dynamicSectionScore)
+                                dynamicSectionScore = Object.create(null);
+                            dynamicSectionScore[name] = Math.max(score, dynamicSectionScore[name] || -1e9);
+                        }
                     }
             }
         }
     if (sections) {
         let sectionOrder = Object.create(null), pos = 0;
-        let cmp = (a, b) => { var _a, _b; return ((_a = a.rank) !== null && _a !== void 0 ? _a : 1e9) - ((_b = b.rank) !== null && _b !== void 0 ? _b : 1e9) || (a.name < b.name ? -1 : 1); };
+        let cmp = (a, b) => {
+            return (a.rank === "dynamic" && b.rank === "dynamic" ? dynamicSectionScore[b.name] - dynamicSectionScore[a.name] : 0) ||
+                (typeof a.rank == "number" ? a.rank : 1e9) - (typeof b.rank == "number" ? b.rank : 1e9) ||
+                (a.name < b.name ? -1 : 1);
+        };
         for (let s of sections.sort(cmp)) {
             pos -= 1e5;
             sectionOrder[s.name] = pos;
@@ -1015,7 +1042,6 @@ function checkValid(validFor, state, from, to) {
 const setActiveEffect = /*@__PURE__*/StateEffect.define({
     map(sources, mapping) { return sources.map(s => s.map(mapping)); }
 });
-const setSelectedEffect = /*@__PURE__*/StateEffect.define();
 const completionState = /*@__PURE__*/StateField.define({
     create() { return CompletionState.start(); },
     update(value, tr) { return value.update(tr); },
@@ -1749,7 +1775,8 @@ A completion source that will scan the document for words (using a
 return those as completions.
 */
 const completeAnyWord = context => {
-    let wordChars = context.state.languageDataAt("wordChars", context.pos).join("");
+    var _a;
+    let wordChars = (_a = context.state.languageDataAt("wordChars", context.pos)[0]) !== null && _a !== void 0 ? _a : "";
     let re = wordRE(wordChars);
     let token = context.matchBefore(mapRE(re, s => s + "$"));
     if (!token && !context.explicit)

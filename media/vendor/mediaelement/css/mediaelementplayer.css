@@ -76,6 +76,18 @@
   overflow: hidden;
 }
 
+.mejs__container-fullscreen video {
+  object-fit: contain;
+  width: 100vw !important;
+  height: 100vh !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  -webkit-transform: translate(-50%, -50%) !important;
+  -ms-transform: translate(-50%, -50%) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
 .mejs__background {
   position: absolute;
   top: 0;

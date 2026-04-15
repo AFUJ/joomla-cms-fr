@@ -235,6 +235,9 @@ if (typeof(PhpDebugBar) == 'undefined') {
             }
             var prettyVal = null;
             dd.text(v).click(function() {
+                if (window.getSelection().type == "Range") {
+                    return '';
+                }
                 if (dd.hasClass(csscls('pretty'))) {
                     dd.text(v).removeClass(csscls('pretty'));
                 } else {
@@ -698,7 +701,8 @@ if (typeof(PhpDebugBar) == 'undefined') {
 
         render: function() {
             this.$list = new ListWidget({ itemRenderer: function(li, e) {
-                $('<span />').addClass(csscls('message')).text(e.message).appendTo(li);
+                $('<span />').addClass(csscls('message')).text(e.message)
+                    .prepend(e.count>1 ? $('<span />').addClass(csscls('badge')).text(e.count+'x') : '').appendTo(li);
                 if (e.file) {
                     var header = $('<span />').addClass(csscls('filename')).text(e.file + "#" + e.line);
                     if (e.xdebug_link) {

@@ -456,7 +456,7 @@ const DefaultBlockParsers = {
         let marks = [elt(Type.CodeMark, from, from + len)];
         if (infoFrom < infoTo)
             marks.push(elt(Type.CodeInfo, cx.lineStart + infoFrom, cx.lineStart + infoTo));
-        for (let first = true; cx.nextLine() && line.depth >= cx.stack.length; first = false) {
+        for (let first = true, empty = true, hasLine = false; cx.nextLine() && line.depth >= cx.stack.length; first = false) {
             let i = line.pos;
             if (line.indent - line.baseIndent < 4)
                 while (i < line.text.length && line.text.charCodeAt(i) == ch)
@@ -464,18 +464,25 @@ const DefaultBlockParsers = {
             if (i - line.pos >= len && line.skipSpace(i) == line.text.length) {
                 for (let m of line.markers)
                     marks.push(m);
+                if (empty && hasLine)
+                    addCodeText(marks, cx.lineStart - 1, cx.lineStart);
                 marks.push(elt(Type.CodeMark, cx.lineStart + line.pos, cx.lineStart + i));
                 cx.nextLine();
                 break;
             }
             else {
-                if (!first)
+                hasLine = true;
+                if (!first) {
                     addCodeText(marks, cx.lineStart - 1, cx.lineStart);
+                    empty = false;
+                }
                 for (let m of line.markers)
                     marks.push(m);
                 let textStart = cx.lineStart + line.basePos, textEnd = cx.lineStart + line.text.length;
-                if (textStart < textEnd)
+                if (textStart < textEnd) {
                     addCodeText(marks, textStart, textEnd);
+                    empty = false;
+                }
             }
         }
         cx.addNode(cx.buffer.writeElements(marks, -from)
@@ -912,8 +919,13 @@ class BlockContext {
             let cx = this.stack[line.depth], handler = this.parser.skipContextMarkup[cx.type];
             if (!handler)
                 throw new Error("Unhandled block context " + Type[cx.type]);
-            if (!handler(cx, this, line))
+            let marks = this.line.markers.length;
+            if (!handler(cx, this, line)) {
+                if (this.line.markers.length > marks)
+                    cx.end = this.line.markers[this.line.markers.length - 1].to;
+                line.forward();
                 break;
+            }
             line.forward();
         }
     }
@@ -1759,7 +1771,7 @@ class InlineContext {
     findOpeningDelimiter(type) {
         for (let i = this.parts.length - 1; i >= 0; i--) {
             let part = this.parts[i];
-            if (part instanceof InlineDelimiter && part.type == type)
+            if (part instanceof InlineDelimiter && part.type == type && (part.side & 1 /* Mark.Open */))
                 return i;
         }
         return null;
@@ -1777,6 +1789,16 @@ class InlineContext {
         return content;
     }
     /**
+    Return the delimiter at the given index. Mostly useful to get
+    additional info out of a delimiter index returned by
+    [`findOpeningDelimiter`](#InlineContext.findOpeningDelimiter).
+    Returns null if there is no delimiter at this index.
+    */
+    getDelimiterAt(index) {
+        let part = this.parts[index];
+        return part instanceof InlineDelimiter ? part : null;
+    }
+    /**
     Skip space after the given (document) position, returning either
     the position of the next non-space character or the end of the
     section.
@@ -1788,6 +1810,14 @@ class InlineContext {
         return new TreeElement(type, from);
     }
 }
+/**
+The opening delimiter type used by the standard link parser.
+*/
+InlineContext.linkStart = LinkStart;
+/**
+Opening delimiter type used for standard images.
+*/
+InlineContext.imageStart = ImageStart;
 function injectMarks(elements, marks) {
     if (!marks.length)
         return elements;
@@ -1893,9 +1923,9 @@ class FragmentCursor {
                 else {
                     end = prevEnd;
                     blockI = prevI;
-                    prevEnd = cur.to - off;
-                    prevI = cx.block.children.length;
                 }
+                prevEnd = cur.to - off;
+                prevI = cx.block.children.length;
             }
             if (!cur.nextSibling())
                 break;
@@ -1977,7 +2007,7 @@ function parseCode(config) {
             }
             let parser = codeParser(info);
             if (parser)
-                return { parser, overlay: node => node.type.id == Type.CodeText };
+                return { parser, overlay: node => node.type.id == Type.CodeText, bracketed: id == Type.FencedCode };
         }
         else if (htmlParser && (id == Type.HTMLBlock || id == Type.HTMLTag || id == Type.CommentBlock)) {
             return { parser: htmlParser, overlay: leftOverSpace(node.node, node.from, node.to) };

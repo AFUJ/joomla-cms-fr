@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
+class ComposerStaticInitaa87aaad19b64476610fbf5d74307b48
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -23,6 +23,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        '606a39d89246991a373564698c2d8383' => __DIR__ . '/..' . '/symfony/polyfill-php85/bootstrap.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'b45b351e6b6f7487d819961fef2fda77' => __DIR__ . '/..' . '/jakeasmith/http_build_url/src/http_build_url.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
@@ -30,33 +31,33 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
     );
 
     public static $prefixLengthsPsr4 = array (
-        'p' => 
+        'p' =>
         array (
             'phpseclib3\\' => 11,
         ),
-        'e' => 
+        'e' =>
         array (
             'enshrined\\svgSanitize\\' => 22,
         ),
-        'b' => 
+        'b' =>
         array (
             'bcmath_compat\\' => 14,
         ),
-        'W' => 
+        'W' =>
         array (
-            'Webmozart\\Assert\\' => 17,
             'Webauthn\\MetadataService\\' => 25,
             'Webauthn\\' => 9,
             'Wamania\\Snowball\\' => 17,
         ),
-        'T' => 
+        'T' =>
         array (
             'Tuf\\' => 4,
             'Tobscure\\JsonApi\\' => 17,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Uuid\\' => 22,
+            'Symfony\\Polyfill\\Php85\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
@@ -77,11 +78,11 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
             'Symfony\\Component\\Console\\' => 26,
             'SpomkyLabs\\Pki\\' => 15,
         ),
-        'R' => 
+        'R' =>
         array (
             'ReCaptcha\\' => 10,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
@@ -94,17 +95,17 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'N' => 
+        'N' =>
         array (
             'Negotiation\\' => 12,
         ),
-        'L' => 
+        'L' =>
         array (
             'Lcobucci\\JWT\\' => 13,
             'Lcobucci\\Clock\\' => 15,
             'Laminas\\Diactoros\\' => 18,
         ),
-        'J' => 
+        'J' =>
         array (
             'Jose\\Component\\' => 15,
             'Joomla\\Utilities\\' => 17,
@@ -133,367 +134,372 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
             'Jfcherng\\Utility\\' => 17,
             'Jfcherng\\Diff\\' => 14,
         ),
-        'G' => 
+        'G' =>
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
         ),
-        'F' => 
+        'F' =>
         array (
             'Fig\\Link\\' => 9,
         ),
-        'D' => 
+        'D' =>
         array (
             'Doctrine\\Inflector\\' => 19,
             'Defuse\\Crypto\\' => 14,
             'DebugBar\\' => 9,
         ),
-        'C' => 
+        'C' =>
         array (
             'Cron\\' => 5,
             'Cose\\' => 5,
             'Composer\\CaBundle\\' => 18,
             'CBOR\\' => 5,
         ),
-        'B' => 
+        'B' =>
         array (
             'Brick\\Math\\' => 11,
         ),
-        'A' => 
+        'A' =>
         array (
+            'AltchaOrg\\Altcha\\' => 17,
             'Algo26\\IdnaConvert\\' => 19,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpseclib3\\' => 
+        'phpseclib3\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
-        'enshrined\\svgSanitize\\' => 
+        'enshrined\\svgSanitize\\' =>
         array (
             0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
-        'bcmath_compat\\' => 
+        'bcmath_compat\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpseclib/bcmath_compat/src',
         ),
-        'Webmozart\\Assert\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/webmozart/assert/src',
-        ),
-        'Webauthn\\MetadataService\\' => 
+        'Webauthn\\MetadataService\\' =>
         array (
             0 => __DIR__ . '/..' . '/web-auth/metadata-service/src',
         ),
-        'Webauthn\\' => 
+        'Webauthn\\' =>
         array (
             0 => __DIR__ . '/..' . '/web-auth/webauthn-lib/src',
         ),
-        'Wamania\\Snowball\\' => 
+        'Wamania\\Snowball\\' =>
         array (
             0 => __DIR__ . '/..' . '/wamania/php-stemmer/src',
         ),
-        'Tuf\\' => 
+        'Tuf\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-tuf/php-tuf/src',
         ),
-        'Tobscure\\JsonApi\\' => 
+        'Tobscure\\JsonApi\\' =>
         array (
             0 => __DIR__ . '/..' . '/tobscure/json-api/src',
         ),
-        'Symfony\\Polyfill\\Uuid\\' => 
+        'Symfony\\Polyfill\\Uuid\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Php85\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php85',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
-        'Symfony\\Polyfill\\Intl\\Grapheme\\' => 
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\Translation\\' => 
+        'Symfony\\Contracts\\Translation\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/translation-contracts',
         ),
-        'Symfony\\Contracts\\Service\\' => 
+        'Symfony\\Contracts\\Service\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'Symfony\\Contracts\\HttpClient\\' => 
+        'Symfony\\Contracts\\HttpClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
         ),
-        'Symfony\\Component\\Yaml\\' => 
+        'Symfony\\Component\\Yaml\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Symfony\\Component\\WebLink\\' => 
+        'Symfony\\Component\\WebLink\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/web-link',
         ),
-        'Symfony\\Component\\VarDumper\\' => 
+        'Symfony\\Component\\VarDumper\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Symfony\\Component\\Validator\\' => 
+        'Symfony\\Component\\Validator\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/validator',
         ),
-        'Symfony\\Component\\Uid\\' => 
+        'Symfony\\Component\\Uid\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/uid',
         ),
-        'Symfony\\Component\\String\\' => 
+        'Symfony\\Component\\String\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
         ),
-        'Symfony\\Component\\OptionsResolver\\' => 
+        'Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\Ldap\\' => 
+        'Symfony\\Component\\Ldap\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/ldap',
         ),
-        'Symfony\\Component\\HttpClient\\' => 
+        'Symfony\\Component\\HttpClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client',
         ),
-        'Symfony\\Component\\ErrorHandler\\' => 
+        'Symfony\\Component\\ErrorHandler\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/error-handler',
         ),
-        'Symfony\\Component\\Console\\' => 
+        'Symfony\\Component\\Console\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'SpomkyLabs\\Pki\\' => 
+        'SpomkyLabs\\Pki\\' =>
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/pki-framework/src',
         ),
-        'ReCaptcha\\' => 
+        'ReCaptcha\\' =>
         array (
             0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Psr\\Link\\' => 
+        'Psr\\Link\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' => 
+        'Psr\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Psr\\EventDispatcher\\' => 
+        'Psr\\EventDispatcher\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
-        'Psr\\Container\\' => 
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Psr\\Clock\\' => 
+        'Psr\\Clock\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
-        'Psr\\Cache\\' => 
+        'Psr\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'ParagonIE\\ConstantTime\\' => 
+        'ParagonIE\\ConstantTime\\' =>
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
-        'PHPMailer\\PHPMailer\\' => 
+        'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Negotiation\\' => 
+        'Negotiation\\' =>
         array (
             0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
         ),
-        'Lcobucci\\JWT\\' => 
+        'Lcobucci\\JWT\\' =>
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
-        'Lcobucci\\Clock\\' => 
+        'Lcobucci\\Clock\\' =>
         array (
             0 => __DIR__ . '/..' . '/lcobucci/clock/src',
         ),
-        'Laminas\\Diactoros\\' => 
+        'Laminas\\Diactoros\\' =>
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-diactoros/src',
         ),
-        'Jose\\Component\\' => 
+        'Jose\\Component\\' =>
         array (
             0 => __DIR__ . '/..' . '/web-token/jwt-library',
         ),
-        'Joomla\\Utilities\\' => 
+        'Joomla\\Utilities\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
         ),
-        'Joomla\\Uri\\' => 
+        'Joomla\\Uri\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
         ),
-        'Joomla\\String\\' => 
+        'Joomla\\String\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
-        'Joomla\\Session\\' => 
+        'Joomla\\Session\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/session/src',
         ),
-        'Joomla\\Router\\' => 
+        'Joomla\\Router\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/router/src',
         ),
-        'Joomla\\Registry\\' => 
+        'Joomla\\Registry\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
-        'Joomla\\OAuth2\\' => 
+        'Joomla\\OAuth2\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth2/src',
         ),
-        'Joomla\\OAuth1\\' => 
+        'Joomla\\OAuth1\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
-        'Joomla\\Language\\' => 
+        'Joomla\\Language\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/language/src',
         ),
-        'Joomla\\Input\\' => 
+        'Joomla\\Input\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
-        'Joomla\\Http\\' => 
+        'Joomla\\Http\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/http/src',
         ),
-        'Joomla\\Filter\\' => 
+        'Joomla\\Filter\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
         ),
-        'Joomla\\Filesystem\\' => 
+        'Joomla\\Filesystem\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
-        'Joomla\\Event\\' => 
+        'Joomla\\Event\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Database\\' => 
+        'Joomla\\Database\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
-        'Joomla\\Data\\' => 
+        'Joomla\\Data\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
-        'Joomla\\DI\\' => 
+        'Joomla\\DI\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
-        'Joomla\\Crypt\\' => 
+        'Joomla\\Crypt\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
         ),
-        'Joomla\\Console\\' => 
+        'Joomla\\Console\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/console/src',
         ),
-        'Joomla\\CMS\\' => 
+        'Joomla\\CMS\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
-        'Joomla\\Authentication\\' => 
+        'Joomla\\Authentication\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/authentication/src',
         ),
-        'Joomla\\Archive\\' => 
+        'Joomla\\Archive\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/archive/src',
         ),
-        'Joomla\\Application\\' => 
+        'Joomla\\Application\\' =>
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
-        'Jfcherng\\Utility\\' => 
+        'Jfcherng\\Utility\\' =>
         array (
-            0 => __DIR__ . '/..' . '/jfcherng/php-color-output/src',
-            1 => __DIR__ . '/..' . '/jfcherng/php-mb-string/src',
+            0 => __DIR__ . '/..' . '/jfcherng/php-mb-string/src',
+            1 => __DIR__ . '/..' . '/jfcherng/php-color-output/src',
         ),
-        'Jfcherng\\Diff\\' => 
+        'Jfcherng\\Diff\\' =>
         array (
             0 => __DIR__ . '/..' . '/jfcherng/php-diff/src',
             1 => __DIR__ . '/..' . '/jfcherng/php-sequence-matcher/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
+        'GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' => 
+        'GuzzleHttp\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'Fig\\Link\\' => 
+        'Fig\\Link\\' =>
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
-        'Doctrine\\Inflector\\' => 
+        'Doctrine\\Inflector\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/src',
         ),
-        'Defuse\\Crypto\\' => 
+        'Defuse\\Crypto\\' =>
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
         ),
-        'DebugBar\\' => 
+        'DebugBar\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
         ),
-        'Cron\\' => 
+        'Cron\\' =>
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
-        'Cose\\' => 
+        'Cose\\' =>
         array (
             0 => __DIR__ . '/..' . '/web-auth/cose-lib/src',
         ),
-        'Composer\\CaBundle\\' => 
+        'Composer\\CaBundle\\' =>
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
-        'CBOR\\' => 
+        'CBOR\\' =>
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/cbor-php/src',
         ),
-        'Brick\\Math\\' => 
+        'Brick\\Math\\' =>
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
-        'Algo26\\IdnaConvert\\' => 
+        'AltchaOrg\\Altcha\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/altcha-org/altcha/src',
+        ),
+        'Algo26\\IdnaConvert\\' =>
         array (
             0 => __DIR__ . '/..' . '/algo26-matthias/idna-convert/src',
         ),
@@ -526,6 +532,20 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Algo26\\IdnaConvert\\TranscodeUnicode\\ByteLengthTrait' => __DIR__ . '/..' . '/algo26-matthias/idna-convert/src/TranscodeUnicode/ByteLengthTrait.php',
         'Algo26\\IdnaConvert\\TranscodeUnicode\\TranscodeUnicode' => __DIR__ . '/..' . '/algo26-matthias/idna-convert/src/TranscodeUnicode/TranscodeUnicode.php',
         'Algo26\\IdnaConvert\\TranscodeUnicode\\TranscodeUnicodeInterface' => __DIR__ . '/..' . '/algo26-matthias/idna-convert/src/TranscodeUnicode/TranscodeUnicodeInterface.php',
+        'AltchaOrg\\Altcha\\Altcha' => __DIR__ . '/..' . '/altcha-org/altcha/src/Altcha.php',
+        'AltchaOrg\\Altcha\\BaseChallengeOptions' => __DIR__ . '/..' . '/altcha-org/altcha/src/BaseChallengeOptions.php',
+        'AltchaOrg\\Altcha\\Challenge' => __DIR__ . '/..' . '/altcha-org/altcha/src/Challenge.php',
+        'AltchaOrg\\Altcha\\ChallengeOptions' => __DIR__ . '/..' . '/altcha-org/altcha/src/ChallengeOptions.php',
+        'AltchaOrg\\Altcha\\CheckChallengeOptions' => __DIR__ . '/..' . '/altcha-org/altcha/src/CheckChallengeOptions.php',
+        'AltchaOrg\\Altcha\\Hasher\\Algorithm' => __DIR__ . '/..' . '/altcha-org/altcha/src/Hasher/Algorithm.php',
+        'AltchaOrg\\Altcha\\Hasher\\Hasher' => __DIR__ . '/..' . '/altcha-org/altcha/src/Hasher/Hasher.php',
+        'AltchaOrg\\Altcha\\Hasher\\HasherInterface' => __DIR__ . '/..' . '/altcha-org/altcha/src/Hasher/HasherInterface.php',
+        'AltchaOrg\\Altcha\\Obfuscator' => __DIR__ . '/..' . '/altcha-org/altcha/src/Obfuscator.php',
+        'AltchaOrg\\Altcha\\Payload' => __DIR__ . '/..' . '/altcha-org/altcha/src/Payload.php',
+        'AltchaOrg\\Altcha\\ServerSignaturePayload' => __DIR__ . '/..' . '/altcha-org/altcha/src/ServerSignaturePayload.php',
+        'AltchaOrg\\Altcha\\ServerSignatureVerification' => __DIR__ . '/..' . '/altcha-org/altcha/src/ServerSignatureVerification.php',
+        'AltchaOrg\\Altcha\\ServerSignatureVerificationData' => __DIR__ . '/..' . '/altcha-org/altcha/src/ServerSignatureVerificationData.php',
+        'AltchaOrg\\Altcha\\Solution' => __DIR__ . '/..' . '/altcha-org/altcha/src/Solution.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
         'Brick\\Math\\BigNumber' => __DIR__ . '/..' . '/brick/math/src/BigNumber.php',
@@ -546,6 +566,8 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'CBOR\\CBORObject' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/CBORObject.php',
         'CBOR\\Decoder' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/Decoder.php',
         'CBOR\\DecoderInterface' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/DecoderInterface.php',
+        'CBOR\\Encoder' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/Encoder.php',
+        'CBOR\\EncoderInterface' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/EncoderInterface.php',
         'CBOR\\IndefiniteLengthByteStringObject' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/IndefiniteLengthByteStringObject.php',
         'CBOR\\IndefiniteLengthListObject' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/IndefiniteLengthListObject.php',
         'CBOR\\IndefiniteLengthMapObject' => __DIR__ . '/..' . '/spomky-labs/cbor-php/src/IndefiniteLengthMapObject.php',
@@ -628,12 +650,19 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Cose\\Algorithm\\Signature\\Signature' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Algorithm/Signature/Signature.php',
         'Cose\\Algorithms' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Algorithms.php',
         'Cose\\BigInteger' => __DIR__ . '/..' . '/web-auth/cose-lib/src/BigInteger.php',
+        'Cose\\Encryption\\CoseEncrypt0Tag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Encryption/CoseEncrypt0Tag.php',
+        'Cose\\Encryption\\CoseEncryptTag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Encryption/CoseEncryptTag.php',
         'Cose\\Hash' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Hash.php',
         'Cose\\Key\\Ec2Key' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Key/Ec2Key.php',
         'Cose\\Key\\Key' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Key/Key.php',
         'Cose\\Key\\OkpKey' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Key/OkpKey.php',
         'Cose\\Key\\RsaKey' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Key/RsaKey.php',
         'Cose\\Key\\SymmetricKey' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Key/SymmetricKey.php',
+        'Cose\\Mac\\CoseMac0Tag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Mac/CoseMac0Tag.php',
+        'Cose\\Mac\\CoseMacTag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Mac/CoseMacTag.php',
+        'Cose\\Signature\\CoseSign1Tag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Signature/CoseSign1Tag.php',
+        'Cose\\Signature\\CoseSignTag' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Signature/CoseSignTag.php',
+        'Cose\\Signature\\Signature1' => __DIR__ . '/..' . '/web-auth/cose-lib/src/Signature/Signature1.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/DayOfMonthField.php',
@@ -989,9 +1018,11 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Joomla\\CMS\\Console\\CleanCacheCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/CleanCacheCommand.php',
         'Joomla\\CMS\\Console\\CoreUpdateChannelCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/CoreUpdateChannelCommand.php',
         'Joomla\\CMS\\Console\\DeleteUserCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/DeleteUserCommand.php',
+        'Joomla\\CMS\\Console\\ExtensionDisableCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionDisableCommand.php',
         'Joomla\\CMS\\Console\\ExtensionDiscoverCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionDiscoverCommand.php',
         'Joomla\\CMS\\Console\\ExtensionDiscoverInstallCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionDiscoverInstallCommand.php',
         'Joomla\\CMS\\Console\\ExtensionDiscoverListCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionDiscoverListCommand.php',
+        'Joomla\\CMS\\Console\\ExtensionEnableCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionEnableCommand.php',
         'Joomla\\CMS\\Console\\ExtensionInstallCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionInstallCommand.php',
         'Joomla\\CMS\\Console\\ExtensionRemoveCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionRemoveCommand.php',
         'Joomla\\CMS\\Console\\ExtensionsListCommand' => __DIR__ . '/../../..' . '/libraries/src/Console/ExtensionsListCommand.php',
@@ -2391,6 +2422,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Negotiation\\Exception\\InvalidMediaType' => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation/Exception/InvalidMediaType.php',
         'Negotiation\\LanguageNegotiator' => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation/LanguageNegotiator.php',
         'Negotiation\\Negotiator' => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation/Negotiator.php',
+        'NoDiscard' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/NoDiscard.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
         'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
@@ -2752,7 +2784,12 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\Console\\Application' => __DIR__ . '/..' . '/symfony/console/Application.php',
         'Symfony\\Component\\Console\\Attribute\\Argument' => __DIR__ . '/..' . '/symfony/console/Attribute/Argument.php',
         'Symfony\\Component\\Console\\Attribute\\AsCommand' => __DIR__ . '/..' . '/symfony/console/Attribute/AsCommand.php',
+        'Symfony\\Component\\Console\\Attribute\\Ask' => __DIR__ . '/..' . '/symfony/console/Attribute/Ask.php',
+        'Symfony\\Component\\Console\\Attribute\\Interact' => __DIR__ . '/..' . '/symfony/console/Attribute/Interact.php',
+        'Symfony\\Component\\Console\\Attribute\\InteractiveAttributeInterface' => __DIR__ . '/..' . '/symfony/console/Attribute/InteractiveAttributeInterface.php',
+        'Symfony\\Component\\Console\\Attribute\\MapInput' => __DIR__ . '/..' . '/symfony/console/Attribute/MapInput.php',
         'Symfony\\Component\\Console\\Attribute\\Option' => __DIR__ . '/..' . '/symfony/console/Attribute/Option.php',
+        'Symfony\\Component\\Console\\Attribute\\Reflection\\ReflectionMember' => __DIR__ . '/..' . '/symfony/console/Attribute/Reflection/ReflectionMember.php',
         'Symfony\\Component\\Console\\CI\\GithubActionReporter' => __DIR__ . '/..' . '/symfony/console/CI/GithubActionReporter.php',
         'Symfony\\Component\\Console\\Color' => __DIR__ . '/..' . '/symfony/console/Color.php',
         'Symfony\\Component\\Console\\CommandLoader\\CommandLoaderInterface' => __DIR__ . '/..' . '/symfony/console/CommandLoader/CommandLoaderInterface.php',
@@ -2832,6 +2869,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\Console\\Helper\\TableRows' => __DIR__ . '/..' . '/symfony/console/Helper/TableRows.php',
         'Symfony\\Component\\Console\\Helper\\TableSeparator' => __DIR__ . '/..' . '/symfony/console/Helper/TableSeparator.php',
         'Symfony\\Component\\Console\\Helper\\TableStyle' => __DIR__ . '/..' . '/symfony/console/Helper/TableStyle.php',
+        'Symfony\\Component\\Console\\Helper\\TerminalInputHelper' => __DIR__ . '/..' . '/symfony/console/Helper/TerminalInputHelper.php',
         'Symfony\\Component\\Console\\Helper\\TreeHelper' => __DIR__ . '/..' . '/symfony/console/Helper/TreeHelper.php',
         'Symfony\\Component\\Console\\Helper\\TreeNode' => __DIR__ . '/..' . '/symfony/console/Helper/TreeNode.php',
         'Symfony\\Component\\Console\\Helper\\TreeStyle' => __DIR__ . '/..' . '/symfony/console/Helper/TreeStyle.php',
@@ -2845,6 +2883,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\Console\\Input\\InputOption' => __DIR__ . '/..' . '/symfony/console/Input/InputOption.php',
         'Symfony\\Component\\Console\\Input\\StreamableInputInterface' => __DIR__ . '/..' . '/symfony/console/Input/StreamableInputInterface.php',
         'Symfony\\Component\\Console\\Input\\StringInput' => __DIR__ . '/..' . '/symfony/console/Input/StringInput.php',
+        'Symfony\\Component\\Console\\Interaction\\Interaction' => __DIR__ . '/..' . '/symfony/console/Interaction/Interaction.php',
         'Symfony\\Component\\Console\\Logger\\ConsoleLogger' => __DIR__ . '/..' . '/symfony/console/Logger/ConsoleLogger.php',
         'Symfony\\Component\\Console\\Messenger\\RunCommandContext' => __DIR__ . '/..' . '/symfony/console/Messenger/RunCommandContext.php',
         'Symfony\\Component\\Console\\Messenger\\RunCommandMessage' => __DIR__ . '/..' . '/symfony/console/Messenger/RunCommandMessage.php',
@@ -2900,6 +2939,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\HttpClient\\AmpHttpClient' => __DIR__ . '/..' . '/symfony/http-client/AmpHttpClient.php',
         'Symfony\\Component\\HttpClient\\AsyncDecoratorTrait' => __DIR__ . '/..' . '/symfony/http-client/AsyncDecoratorTrait.php',
         'Symfony\\Component\\HttpClient\\CachingHttpClient' => __DIR__ . '/..' . '/symfony/http-client/CachingHttpClient.php',
+        'Symfony\\Component\\HttpClient\\Caching\\Freshness' => __DIR__ . '/..' . '/symfony/http-client/Caching/Freshness.php',
         'Symfony\\Component\\HttpClient\\Chunk\\DataChunk' => __DIR__ . '/..' . '/symfony/http-client/Chunk/DataChunk.php',
         'Symfony\\Component\\HttpClient\\Chunk\\ErrorChunk' => __DIR__ . '/..' . '/symfony/http-client/Chunk/ErrorChunk.php',
         'Symfony\\Component\\HttpClient\\Chunk\\FirstChunk' => __DIR__ . '/..' . '/symfony/http-client/Chunk/FirstChunk.php',
@@ -2911,6 +2951,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\HttpClient\\DecoratorTrait' => __DIR__ . '/..' . '/symfony/http-client/DecoratorTrait.php',
         'Symfony\\Component\\HttpClient\\DependencyInjection\\HttpClientPass' => __DIR__ . '/..' . '/symfony/http-client/DependencyInjection/HttpClientPass.php',
         'Symfony\\Component\\HttpClient\\EventSourceHttpClient' => __DIR__ . '/..' . '/symfony/http-client/EventSourceHttpClient.php',
+        'Symfony\\Component\\HttpClient\\Exception\\ChunkCacheItemNotFoundException' => __DIR__ . '/..' . '/symfony/http-client/Exception/ChunkCacheItemNotFoundException.php',
         'Symfony\\Component\\HttpClient\\Exception\\ClientException' => __DIR__ . '/..' . '/symfony/http-client/Exception/ClientException.php',
         'Symfony\\Component\\HttpClient\\Exception\\EventSourceException' => __DIR__ . '/..' . '/symfony/http-client/Exception/EventSourceException.php',
         'Symfony\\Component\\HttpClient\\Exception\\HttpExceptionTrait' => __DIR__ . '/..' . '/symfony/http-client/Exception/HttpExceptionTrait.php',
@@ -3329,7 +3370,6 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Component\\VarDumper\\Cloner\\Cursor' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Cursor.php',
         'Symfony\\Component\\VarDumper\\Cloner\\Data' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Data.php',
         'Symfony\\Component\\VarDumper\\Cloner\\DumperInterface' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/DumperInterface.php',
-        'Symfony\\Component\\VarDumper\\Cloner\\Internal\\NoDefault' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Internal/NoDefault.php',
         'Symfony\\Component\\VarDumper\\Cloner\\Stub' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/Stub.php',
         'Symfony\\Component\\VarDumper\\Cloner\\VarCloner' => __DIR__ . '/..' . '/symfony/var-dumper/Cloner/VarCloner.php',
         'Symfony\\Component\\VarDumper\\Command\\Descriptor\\CliDescriptor' => __DIR__ . '/..' . '/symfony/var-dumper/Command/Descriptor/CliDescriptor.php',
@@ -3395,6 +3435,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Symfony\\Polyfill\\Intl\\Grapheme\\Grapheme' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/Grapheme.php',
         'Symfony\\Polyfill\\Intl\\Normalizer\\Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Normalizer.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
+        'Symfony\\Polyfill\\Php85\\Php85' => __DIR__ . '/..' . '/symfony/polyfill-php85/Php85.php',
         'Symfony\\Polyfill\\Uuid\\Uuid' => __DIR__ . '/..' . '/symfony/polyfill-uuid/Uuid.php',
         'Tobscure\\JsonApi\\AbstractSerializer' => __DIR__ . '/..' . '/tobscure/json-api/src/AbstractSerializer.php',
         'Tobscure\\JsonApi\\Collection' => __DIR__ . '/..' . '/tobscure/json-api/src/Collection.php',
@@ -3604,9 +3645,6 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'Webauthn\\U2FPublicKey' => __DIR__ . '/..' . '/web-auth/webauthn-lib/src/U2FPublicKey.php',
         'Webauthn\\Util\\Base64' => __DIR__ . '/..' . '/web-auth/webauthn-lib/src/Util/Base64.php',
         'Webauthn\\Util\\CoseSignatureFixer' => __DIR__ . '/..' . '/web-auth/webauthn-lib/src/Util/CoseSignatureFixer.php',
-        'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
-        'Webmozart\\Assert\\InvalidArgumentException' => __DIR__ . '/..' . '/webmozart/assert/src/InvalidArgumentException.php',
-        'Webmozart\\Assert\\Mixin' => __DIR__ . '/..' . '/webmozart/assert/src/Mixin.php',
         'bcmath_compat\\BCMath' => __DIR__ . '/..' . '/phpseclib/bcmath_compat/src/BCMath.php',
         'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
         'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
@@ -3948,6 +3986,7 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
         'phpseclib3\\Math\\Common\\FiniteField\\Integer' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Math/Common/FiniteField/Integer.php',
         'phpseclib3\\Math\\PrimeField' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Math/PrimeField.php',
         'phpseclib3\\Math\\PrimeField\\Integer' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Math/PrimeField/Integer.php',
+        'phpseclib3\\Net\\SCP' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SCP.php',
         'phpseclib3\\Net\\SFTP' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SFTP.php',
         'phpseclib3\\Net\\SFTP\\Stream' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SFTP/Stream.php',
         'phpseclib3\\Net\\SSH2' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/Net/SSH2.php',
@@ -3959,9 +3998,9 @@ class ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc042b3291a38f5e7c0bf873b33acb298::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitaa87aaad19b64476610fbf5d74307b48::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitaa87aaad19b64476610fbf5d74307b48::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitaa87aaad19b64476610fbf5d74307b48::$classMap;
 
         }, null, ClassLoader::class);
     }

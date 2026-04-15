@@ -2,7 +2,7 @@
 .gu-mirror {
   opacity: .8;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity= 80);
+  filter: alpha(opacity=80);
   z-index: 9999 !important;
   margin: 0 !important;
   position: fixed !important;
@@ -22,5 +22,5 @@
 .gu-transit {
   opacity: .2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-  filter: alpha(opacity= 20);
+  filter: alpha(opacity=20);
 }
