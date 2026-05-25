@@ -36,7 +36,7 @@
 
 @keyframes fa-bounce {
   0% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 
   10% {
@@ -56,11 +56,11 @@
   }
 
   64% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 
   100% {
-    transform: scale(1)translateY(0);
+    transform: scale(1) translateY(0);
   }
 }
 
@@ -11291,7 +11291,7 @@ input .icon-square:before {
 
 :root, :host {
   --fa-style-family-classic: "Font Awesome 6 Free";
-  --fa-font-regular: normal 400 1em / 1 "Font Awesome 6 Free";
+  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
 }
 
 @font-face {
@@ -11308,7 +11308,7 @@ input .icon-square:before {
 
 :root, :host {
   --fa-style-family-classic: "Font Awesome 6 Free";
-  --fa-font-solid: normal 900 1em / 1 "Font Awesome 6 Free";
+  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
 }
 
 @font-face {
@@ -11325,7 +11325,7 @@ input .icon-square:before {
 
 :root, :host {
   --fa-style-family-brands: "Font Awesome 6 Brands";
-  --fa-font-brands: normal 400 1em / 1 "Font Awesome 6 Brands";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
 }
 
 @font-face {
@@ -18601,7 +18601,7 @@ textarea.form-control-lg {
   background-color: var(--template-bg-light);
   background-image: var(--form-select-bg-img), var(--form-select-bg-icon, none);
   border: var(--border-width) solid var(--input-border-color);
-  background-position: 1rem 50%;
+  background-position: 1rem;
   background-repeat: no-repeat;
   background-size: max(100%, 116rem);
   border-radius: 4px;
@@ -18965,11 +18965,11 @@ textarea.form-control-lg {
 }
 
 .form-floating > .form-control:focus ~ label, .form-floating > .form-control:not(:placeholder-shown) ~ label, .form-floating > .form-control-plaintext ~ label, .form-floating > .form-select ~ label, .form-floating > .custom-select ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(-.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(-.15rem);
 }
 
 .form-floating > .form-control:-webkit-autofill ~ label {
-  transform: scale(.85)translateY(-.5rem)translateX(-.15rem);
+  transform: scale(.85) translateY(-.5rem) translateX(-.15rem);
 }
 
 .form-floating > textarea:focus ~ label:after, .form-floating > textarea:not(:placeholder-shown) ~ label:after {
@@ -19098,7 +19098,7 @@ textarea.form-control-lg {
 .was-validated .form-control:valid, .form-control.is-valid {
   border-color: var(--form-valid-border-color);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23457d54' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1'/%3e%3c/svg%3e");
-  background-position: calc(.375em + .25rem) 50%;
+  background-position: calc(.375em + .25rem);
   background-repeat: no-repeat;
   background-size: calc(.75em + .5rem) calc(.75em + .5rem);
   padding-left: calc(1.5em + 1rem);
@@ -19120,7 +19120,7 @@ textarea.form-control-lg {
 
 .was-validated .form-select:valid:not([multiple]):not([size]), .was-validated .custom-select:valid:not([multiple]):not([size]), .was-validated .form-select:valid:not([multiple])[size="1"], .was-validated .custom-select:valid:not([multiple])[size="1"], .form-select.is-valid:not([multiple]):not([size]), .is-valid.custom-select:not([multiple]):not([size]), .form-select.is-valid:not([multiple])[size="1"], .is-valid.custom-select:not([multiple])[size="1"] {
   --form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23457d54' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1'/%3e%3c/svg%3e");
-  background-position: 1rem 50%, 3rem 50%;
+  background-position: 1rem, 3rem;
   background-size: max(100%, 116rem), calc(.75em + .5rem) calc(.75em + .5rem);
   padding-left: 5.5rem;
 }
@@ -19187,7 +19187,7 @@ textarea.form-control-lg {
 .was-validated .form-control:invalid, .form-control.is-invalid {
   border-color: var(--form-invalid-border-color);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23c52827'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23c52827' stroke='none'/%3e%3c/svg%3e");
-  background-position: calc(.375em + .25rem) 50%;
+  background-position: calc(.375em + .25rem);
   background-repeat: no-repeat;
   background-size: calc(.75em + .5rem) calc(.75em + .5rem);
   padding-left: calc(1.5em + 1rem);
@@ -19209,7 +19209,7 @@ textarea.form-control-lg {
 
 .was-validated .form-select:invalid:not([multiple]):not([size]), .was-validated .custom-select:invalid:not([multiple]):not([size]), .was-validated .form-select:invalid:not([multiple])[size="1"], .was-validated .custom-select:invalid:not([multiple])[size="1"], .form-select.is-invalid:not([multiple]):not([size]), .is-invalid.custom-select:not([multiple]):not([size]), .form-select.is-invalid:not([multiple])[size="1"], .is-invalid.custom-select:not([multiple])[size="1"] {
   --form-select-bg-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23c52827'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23c52827' stroke='none'/%3e%3c/svg%3e");
-  background-position: 1rem 50%, 3rem 50%;
+  background-position: 1rem, 3rem;
   background-size: max(100%, 116rem), calc(.75em + .5rem) calc(.75em + .5rem);
   padding-left: 5.5rem;
 }
@@ -19784,7 +19784,7 @@ textarea.form-control-lg {
   --dropdown-border-color: var(--border-color-translucent);
   --dropdown-border-radius: var(--border-radius);
   --dropdown-border-width: 1px;
-  --dropdown-inner-border-radius: calc(var(--border-radius)  - 1px);
+  --dropdown-inner-border-radius: calc(var(--border-radius) - 1px);
   --dropdown-divider-bg: var(--border-color-translucent);
   --dropdown-divider-margin-y: .5rem;
   --dropdown-box-shadow: var(--dropdown-box-shadow);
@@ -20829,7 +20829,7 @@ textarea.form-control-lg {
   --card-border-color: transparent;
   --card-border-radius: var(--border-radius);
   --card-box-shadow: ;
-  --card-inner-border-radius: calc(var(--border-radius)  - 0);
+  --card-inner-border-radius: calc(var(--border-radius) - 0);
   --card-cap-padding-y: .5rem;
   --card-cap-padding-x: 1rem;
   --card-cap-bg: rgba(var(--body-color-rgb), .03);
@@ -21018,7 +21018,7 @@ textarea.form-control-lg {
   --accordion-border-color: var(--border-color);
   --accordion-border-width: var(--border-width);
   --accordion-border-radius: var(--border-radius);
-  --accordion-inner-border-radius: calc(var(--border-radius)  - (var(--border-width)));
+  --accordion-inner-border-radius: calc(var(--border-radius) - (var(--border-width)));
   --accordion-btn-padding-x: 1.25rem;
   --accordion-btn-padding-y: 1rem;
   --accordion-btn-color: var(--body-color);
@@ -21924,7 +21924,7 @@ textarea.form-control-lg {
   width: 1em;
   height: 1em;
   color: var(--btn-close-color);
-  background: transparent var(--btn-close-bg) center / 1em auto no-repeat;
+  background: transparent var(--btn-close-bg) center/1em auto no-repeat;
   filter: var(--btn-close-filter);
   opacity: var(--btn-close-opacity);
   border: 0;
@@ -22016,8 +22016,8 @@ textarea.form-control-lg {
   color: var(--toast-header-color);
   background-color: var(--toast-header-bg);
   border-bottom: var(--toast-border-width) solid var(--toast-header-border-color);
-  border-top-right-radius: calc(var(--toast-border-radius)  - var(--toast-border-width));
-  border-top-left-radius: calc(var(--toast-border-radius)  - var(--toast-border-width));
+  border-top-right-radius: calc(var(--toast-border-radius) - var(--toast-border-width));
+  border-top-left-radius: calc(var(--toast-border-radius) - var(--toast-border-width));
   background-clip: padding-box;
   align-items: center;
   display: flex;
@@ -22044,7 +22044,7 @@ textarea.form-control-lg {
   --modal-border-width: var(--border-width);
   --modal-border-radius: var(--border-radius-lg);
   --modal-box-shadow: var(--box-shadow-sm);
-  --modal-inner-border-radius: calc(var(--border-radius-lg)  - (var(--border-width)));
+  --modal-inner-border-radius: calc(var(--border-radius-lg) - (var(--border-width)));
   --modal-header-padding-x: 1rem;
   --modal-header-padding-y: 1rem;
   --modal-header-padding: 1rem 1rem;
@@ -22176,7 +22176,7 @@ textarea.form-control-lg {
 }
 
 .modal-footer {
-  padding: calc(var(--modal-padding)  - var(--modal-footer-gap) * .5);
+  padding: calc(var(--modal-padding) - var(--modal-footer-gap) * .5);
   background-color: var(--modal-footer-bg);
   border-top: var(--modal-footer-border-width) solid var(--modal-footer-border-color);
   border-bottom-left-radius: var(--modal-inner-border-radius);
@@ -22470,7 +22470,7 @@ textarea.form-control-lg {
   --popover-border-width: var(--border-width);
   --popover-border-color: var(--border-color-translucent);
   --popover-border-radius: var(--border-radius-lg);
-  --popover-inner-border-radius: calc(var(--border-radius-lg)  - var(--border-width));
+  --popover-inner-border-radius: calc(var(--border-radius-lg) - var(--border-width));
   --popover-box-shadow: var(--box-shadow);
   --popover-header-padding-x: 1rem;
   --popover-header-padding-y: .5rem;
@@ -22522,7 +22522,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-top > .popover-arrow, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow {
-  bottom: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  bottom: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
 }
 
 .bs-popover-top > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:before, .bs-popover-top > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow:after {
@@ -22540,7 +22540,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-end > .popover-arrow, .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow {
-  left: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  left: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
   width: var(--popover-arrow-height);
   height: var(--popover-arrow-width);
 }
@@ -22560,7 +22560,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-bottom > .popover-arrow, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow {
-  top: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  top: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
 }
 
 .bs-popover-bottom > .popover-arrow:before, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:before, .bs-popover-bottom > .popover-arrow:after, .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow:after {
@@ -22589,7 +22589,7 @@ textarea.form-control-lg {
 }
 
 .bs-popover-start > .popover-arrow, .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow {
-  right: calc(-1 * (var(--popover-arrow-height))  - var(--popover-border-width));
+  right: calc(-1 * (var(--popover-arrow-height)) - var(--popover-border-width));
   width: var(--popover-arrow-height);
   height: var(--popover-arrow-width);
 }
@@ -30422,8 +30422,8 @@ th {
   --form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   --form-check-input-checked-bg-color: #2a69b7;
   --form-check-input-border: var(--border-width) solid var(--template-bg-dark-20);
-  --form-select-background: var(--template-bg-light) url("../images/select-bg.svg?v=5ebba0") no-repeat right center / max(100%, 116rem);
-  --form-select-background-rtl: var(--template-bg-light) url("../images/select-bg-rtl.svg?v=e50af2") no-repeat left center / max(100%, 116rem);
+  --form-select-background: var(--template-bg-light) url("../images/select-bg.svg?v=5ebba0") no-repeat right center/max(100%, 116rem);
+  --form-select-background-rtl: var(--template-bg-light) url("../images/select-bg-rtl.svg?v=e50af2") no-repeat left center/max(100%, 116rem);
   --form-select-border: var(--form-control-border);
   --form-select-success-bg: var(--white-offset);
   --form-select-danger-bg: var(--white-offset);
@@ -30683,8 +30683,8 @@ th {
   --atum-calendar-disabled-color: #999;
   --atum-calendar-disabled-bg: #fff;
   --atum-calendar-select-bg: var(--template-bg-light);
-  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=177408");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=177408");
+  --atum-calendar-select-bg-url: url("../../images/select-bg.svg?v=177616");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-rtl.svg?v=177616");
   --permissions-sliders-oddCol-bg: var(--template-bg-light);
   --respTable-border-bottom: 1em solid var(--template-bg-dark-80);
   --treeselect-line-color: hsl(var(--hue), 40%, 93%);
@@ -30775,8 +30775,8 @@ th {
   --form-check-input-checked-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23eee' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
   --form-check-input-checked-bg-color: #007db0;
   --form-check-input-border: 1px solid #fff3;
-  --form-select-background: #007db0 url("../images/select-bg-dark.svg?v=97d2dc") no-repeat right center / max(100%, 116rem);
-  --form-select-background-rtl: #007db0 url("../images/select-bg-rtl-dark.svg?v=5f59e1") no-repeat left center / max(100%, 116rem);
+  --form-select-background: #007db0 url("../images/select-bg-dark.svg?v=97d2dc") no-repeat right center/max(100%, 116rem);
+  --form-select-background-rtl: #007db0 url("../images/select-bg-rtl-dark.svg?v=5f59e1") no-repeat left center/max(100%, 116rem);
   --form-select-border: var(--form-control-border);
   --form-select-success-bg: var(--template-sidebar-bg);
   --form-select-danger-bg: var(--template-sidebar-bg);
@@ -31031,8 +31031,8 @@ th {
   --atum-calendar-disabled-color: #4b4b4b;
   --atum-calendar-disabled-bg: #00000080;
   --atum-calendar-select-bg: #007db0;
-  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=177408");
-  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=177408");
+  --atum-calendar-select-bg-url: url("../../images/select-bg-dark.svg?v=177616");
+  --atum-calendar-select-bg-url-rtl: url("../../images/select-bg-dark-rtl.svg?v=177616");
   --permissions-sliders-oddCol-bg: var(--template-bg-dark);
   --respTable-border-bottom: 1em solid #007db0;
   --treeselect-line-color: #fff6;
