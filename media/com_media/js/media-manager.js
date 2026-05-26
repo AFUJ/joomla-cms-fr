@@ -9989,7 +9989,7 @@ function render$d(_ctx, _cache, $props, $setup, $data, $options) {
           role: "treeitem",
           "aria-level": $props.level,
           "aria-setsize": $options.directories.length,
-          "aria-posinset": index,
+          "aria-posinset": index + 1,
           tabindex: $options.getTabindex(item),
           onClick: withModifiers($event => ($options.onItemClick(item)), ["stop","prevent"]),
           onKeyup: [

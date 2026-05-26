@@ -18,6 +18,18 @@
       "version": "752453"
     },
     {
+      "name": "com_config.modules",
+      "type": "script",
+      "uri": "com_config/modules-default.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "a96b5d"
+    },
+    {
       "name": "com_config.templates",
       "type": "script",
       "uri": "com_config/templates-default.min.js",
@@ -40,18 +52,6 @@
         "type": "module"
       },
       "version": "2cad91"
-    },
-    {
-      "name": "com_config.modules",
-      "type": "script",
-      "uri": "com_config/modules-default.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "a96b5d"
     }
   ]
 }

@@ -18,18 +18,6 @@
       }
     },
     {
-      "name": "com_contenthistory.admin-history-modal",
-      "type": "script",
-      "uri": "com_contenthistory/admin-history-modal.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "6e466b"
-    },
-    {
       "name": "com_contenthistory.admin-compare-compare",
       "type": "script",
       "uri": "com_contenthistory/admin-compare-compare.min.js",
@@ -41,6 +29,18 @@
         "type": "module"
       },
       "version": "a8bb66"
+    },
+    {
+      "name": "com_contenthistory.admin-history-modal",
+      "type": "script",
+      "uri": "com_contenthistory/admin-history-modal.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "6e466b"
     }
   ]
 }

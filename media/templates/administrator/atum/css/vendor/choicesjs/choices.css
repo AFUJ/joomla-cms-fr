@@ -446,7 +446,7 @@
   display: none;
 }
 
-[data-bs-theme="dark"] .choices .choices__list--dropdown .choices__item--selectable.is-highlighted {
+[data-bs-theme="dark"] .choices .choices__list--dropdown .choices__item--selectable.is-highlighted, [data-bs-theme="dark"] .choices .choices__list--dropdown .choices__item--selectable.is-selected {
   background-color: var(--gray-800);
 }
 

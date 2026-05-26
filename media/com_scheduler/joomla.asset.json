@@ -6,6 +6,19 @@
   "license": "GNU General Public License version 2 or later; see LICENSE.txt",
   "assets": [
     {
+      "name": "com_scheduler.test-task",
+      "type": "script",
+      "uri": "com_scheduler/admin-view-run-test-task.js",
+      "dependencies": [
+        "core",
+        "joomla.dialog"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "6d6fc2"
+    },
+    {
       "name": "com_scheduler.admin-view-select-task-search",
       "type": "script",
       "uri": "com_scheduler/admin-view-select-task-search.js",
@@ -28,19 +41,6 @@
         "type": "module"
       },
       "version": "ab7203"
-    },
-    {
-      "name": "com_scheduler.test-task",
-      "type": "script",
-      "uri": "com_scheduler/admin-view-run-test-task.js",
-      "dependencies": [
-        "core",
-        "joomla.dialog"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "6d6fc2"
     },
     {
       "name": "com_scheduler.admin-view-task-css",

@@ -25,6 +25,12 @@
     },
     {
       "name": "com_workflow.workflowgraphclient",
+      "type": "style",
+      "uri": "com_workflow/workflow-graph-client.min.css",
+      "version": "47a3eb"
+    },
+    {
+      "name": "com_workflow.workflowgraphclient",
       "type": "script",
       "uri": "com_workflow/workflow-graph-client.min.js",
       "dependencies": [
@@ -34,12 +40,6 @@
         "type": "module"
       },
       "version": "41dd8e"
-    },
-    {
-      "name": "com_workflow.workflowgraphclient",
-      "type": "style",
-      "uri": "com_workflow/workflow-graph-client.min.css",
-      "version": "47a3eb"
     },
     {
       "name": "com_workflow.workflowgraph",

@@ -377,6 +377,7 @@
 }
 
 .choices {
+  --choices-item-disabled-color: var(--gray-700);
   border: var(--border-width) solid #ced4da;
   border-radius: var(--border-radius);
 }
@@ -406,7 +407,7 @@
   opacity: 1;
 }
 
-.choices__list--dropdown {
+.choices__list--dropdown, .choices__list[aria-expanded] {
   z-index: 1060;
 }
 

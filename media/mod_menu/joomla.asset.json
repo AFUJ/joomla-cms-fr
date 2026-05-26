@@ -14,10 +14,16 @@
       ]
     },
     {
-      "name": "mod_menu.menu",
-      "type": "style",
-      "uri": "mod_menu/mod-menu.min.css",
-      "version": "a45ede"
+      "name": "mod_menu.admin-menu",
+      "type": "script",
+      "uri": "mod_menu/admin-menu.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "06b3de"
     },
     {
       "name": "mod_menu.menu",
@@ -32,16 +38,10 @@
       "version": "5a565f"
     },
     {
-      "name": "mod_menu.admin-menu",
-      "type": "script",
-      "uri": "mod_menu/admin-menu.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "06b3de"
+      "name": "mod_menu.menu",
+      "type": "style",
+      "uri": "mod_menu/mod-menu.min.css",
+      "version": "a45ede"
     }
   ]
 }
