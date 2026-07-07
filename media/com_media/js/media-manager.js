@@ -212,7 +212,8 @@ const replacer = (_key, val) => {
   } else if (isMap(val)) {
     return {
       ["Map(" + val.size + ")"]: [...val.entries()].reduce((entries, _ref, i) => {
-        let [key, val2] = _ref;
+        let key = _ref[0],
+          val2 = _ref[1];
         entries[stringifySymbol(key, i) + " =>"] = val2;
         return entries;
       }, {})
@@ -615,11 +616,9 @@ function removeSub(link, soft) {
   if (soft === void 0) {
     soft = false;
   }
-  const {
-    dep,
-    prevSub,
-    nextSub
-  } = link;
+  const dep = link.dep,
+    prevSub = link.prevSub,
+    nextSub = link.nextSub;
   if (prevSub) {
     prevSub.nextSub = nextSub;
     link.prevSub = void 0;
@@ -642,10 +641,8 @@ function removeSub(link, soft) {
   }
 }
 function removeDep(link) {
-  const {
-    prevDep,
-    nextDep
-  } = link;
+  const prevDep = link.prevDep,
+    nextDep = link.nextDep;
   if (prevDep) {
     prevDep.nextDep = nextDep;
     link.prevDep = void 0;
@@ -666,9 +663,7 @@ function resetTracking() {
   shouldTrack = last === void 0 ? true : last;
 }
 function cleanupEffect(e) {
-  const {
-    cleanup
-  } = e;
+  const cleanup = e.cleanup;
   e.cleanup = void 0;
   if (cleanup) {
     const prevSub = activeSub;
@@ -1256,10 +1251,9 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
     Object.create(innerIterator), {
       // iterator protocol
       next() {
-        const {
-          value,
-          done
-        } = innerIterator.next();
+        const _innerIterator$next = innerIterator.next(),
+          value = _innerIterator$next.value,
+          done = _innerIterator$next.done;
         return done ? {
           value,
           done
@@ -1288,9 +1282,8 @@ function createInstrumentations(readonly, shallow) {
         }
         track(rawTarget, "get", rawKey);
       }
-      const {
-        has
-      } = getProto(rawTarget);
+      const _getProto = getProto(rawTarget),
+        has = _getProto.has;
       const wrap = shallow ? toShallow : readonly ? toReadonly : toReactive;
       if (has.call(rawTarget, key)) {
         return wrap(target.get(key));
@@ -1351,10 +1344,9 @@ function createInstrumentations(readonly, shallow) {
         value = toRaw(value);
       }
       const target = toRaw(this);
-      const {
-        has,
-        get
-      } = getProto(target);
+      const _getProto2 = getProto(target),
+        has = _getProto2.has,
+        get = _getProto2.get;
       let hadKey = has.call(target, key);
       if (!hadKey) {
         key = toRaw(key);
@@ -1371,10 +1363,9 @@ function createInstrumentations(readonly, shallow) {
     },
     delete(key) {
       const target = toRaw(this);
-      const {
-        has,
-        get
-      } = getProto(target);
+      const _getProto3 = getProto(target),
+        has = _getProto3.has,
+        get = _getProto3.get;
       let hadKey = has.call(target, key);
       if (!hadKey) {
         key = toRaw(key);
@@ -1731,14 +1722,13 @@ function watch$1(source, cb, options) {
   if (options === void 0) {
     options = EMPTY_OBJ;
   }
-  const {
-    immediate,
-    deep,
-    once,
-    scheduler,
-    augmentJob,
-    call
-  } = options;
+  const _options = options,
+    immediate = _options.immediate,
+    deep = _options.deep,
+    once = _options.once,
+    scheduler = _options.scheduler,
+    augmentJob = _options.augmentJob,
+    call = _options.call;
   const reactiveGetter = source2 => {
     if (deep) return source2;
     if (isShallow(source2) || deep === false || deep === 0) return traverse(source2, 1);
@@ -1934,9 +1924,7 @@ function warn$1(msg) {
       var _a, _b;
       return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) != null ? _b : JSON.stringify(a);
     }).join(""), instance && instance.proxy, trace.map(_ref => {
-      let {
-        vnode
-      } = _ref;
+      let vnode = _ref.vnode;
       return "at <" + formatComponentName(instance, vnode.type) + ">";
     }).join("\n"), trace]);
   } else {
@@ -1980,10 +1968,8 @@ function formatTrace(trace) {
   return logs;
 }
 function formatTraceEntry(_ref2) {
-  let {
-    vnode,
-    recurseCount
-  } = _ref2;
+  let vnode = _ref2.vnode,
+    recurseCount = _ref2.recurseCount;
   const postfix = recurseCount > 0 ? "... (" + recurseCount + " recursive calls)" : "";
   const isRoot = vnode.component ? vnode.component.parent == null : false;
   const open = " at <" + formatComponentName(vnode.component, vnode.type, isRoot);
@@ -2047,10 +2033,9 @@ function handleError$1(err, instance, type, throwInDev) {
     throwInDev = true;
   }
   const contextVNode = instance ? instance.vnode : null;
-  const {
-    errorHandler,
-    throwUnhandledErrorInProduction
-  } = instance && instance.appContext.config || EMPTY_OBJ;
+  const _ref3 = instance && instance.appContext.config || EMPTY_OBJ,
+    errorHandler = _ref3.errorHandler,
+    throwUnhandledErrorInProduction = _ref3.throwUnhandledErrorInProduction;
   if (instance) {
     let cur = instance.parent;
     const exposedInstance = instance.proxy;
@@ -2264,7 +2249,12 @@ function withDirectives(vnode, directives) {
   const instance = getComponentPublicInstance(currentRenderingInstance);
   const bindings = vnode.dirs || (vnode.dirs = []);
   for (let i = 0; i < directives.length; i++) {
-    let [dir, value, arg, modifiers = EMPTY_OBJ] = directives[i];
+    let _directives$i = directives[i],
+      dir = _directives$i[0],
+      value = _directives$i[1],
+      arg = _directives$i[2],
+      _directives$i$ = _directives$i[3],
+      modifiers = _directives$i$ === void 0 ? EMPTY_OBJ : _directives$i$;
     if (dir) {
       if (isFunction(dir)) {
         dir = {
@@ -2341,12 +2331,11 @@ function doWatch(source, cb, options) {
   if (options === void 0) {
     options = EMPTY_OBJ;
   }
-  const {
-    immediate,
-    deep,
-    flush,
-    once
-  } = options;
+  const _options = options,
+    immediate = _options.immediate;
+    _options.deep;
+    const flush = _options.flush;
+    _options.once;
   const baseWatchOptions = extend({}, options);
   const runsImmediately = cb && immediate || !cb && flush !== "post";
   let ssrCleanup;
@@ -2473,10 +2462,8 @@ const recursiveGetSubtree = instance => {
 const BaseTransitionImpl = {
   name: "BaseTransition",
   props: BaseTransitionPropsValidators,
-  setup(props, _ref7) {
-    let {
-      slots
-    } = _ref7;
+  setup(props, _ref8) {
+    let slots = _ref8.slots;
     const instance = getCurrentInstance();
     const state = useTransitionState();
     return () => {
@@ -2486,9 +2473,7 @@ const BaseTransitionImpl = {
       }
       const child = findNonCommentChild(children);
       const rawProps = toRaw(props);
-      const {
-        mode
-      } = rawProps;
+      const mode = rawProps.mode;
       if (state.isLeaving) {
         return emptyPlaceholder(child);
       }
@@ -2557,9 +2542,7 @@ function findNonCommentChild(children) {
 }
 const BaseTransition = BaseTransitionImpl;
 function getLeavingNodesForType(state, vnode) {
-  const {
-    leavingVNodes
-  } = state;
+  const leavingVNodes = state.leavingVNodes;
   let leavingVNodesCache = leavingVNodes.get(vnode.type);
   if (!leavingVNodesCache) {
     leavingVNodesCache = /* @__PURE__ */Object.create(null);
@@ -2568,23 +2551,22 @@ function getLeavingNodesForType(state, vnode) {
   return leavingVNodesCache;
 }
 function resolveTransitionHooks(vnode, props, state, instance, postClone) {
-  const {
-    appear,
-    mode,
-    persisted = false,
-    onBeforeEnter,
-    onEnter,
-    onAfterEnter,
-    onEnterCancelled,
-    onBeforeLeave,
-    onLeave,
-    onAfterLeave,
-    onLeaveCancelled,
-    onBeforeAppear,
-    onAppear,
-    onAfterAppear,
-    onAppearCancelled
-  } = props;
+  const appear = props.appear,
+    mode = props.mode,
+    _props$persisted = props.persisted,
+    persisted = _props$persisted === void 0 ? false : _props$persisted,
+    onBeforeEnter = props.onBeforeEnter,
+    onEnter = props.onEnter,
+    onAfterEnter = props.onAfterEnter,
+    onEnterCancelled = props.onEnterCancelled,
+    onBeforeLeave = props.onBeforeLeave,
+    onLeave = props.onLeave,
+    onAfterLeave = props.onAfterLeave,
+    onLeaveCancelled = props.onLeaveCancelled,
+    onBeforeAppear = props.onBeforeAppear,
+    onAppear = props.onAppear,
+    onAfterAppear = props.onAfterAppear,
+    onAppearCancelled = props.onAppearCancelled;
   const key = String(vnode.key);
   const leavingVNodesCache = getLeavingNodesForType(state, vnode);
   const callHook = (hook, args) => {
@@ -2714,10 +2696,8 @@ function getInnerChild$1(vnode) {
   if (vnode.component) {
     return vnode.component.subTree;
   }
-  const {
-    shapeFlag,
-    children
-  } = vnode;
+  const shapeFlag = vnode.shapeFlag,
+    children = vnode.children;
   if (children) {
     if (shapeFlag & 16) {
       return children[0];
@@ -2784,10 +2764,8 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
   }
   const refValue = vnode.shapeFlag & 4 ? getComponentPublicInstance(vnode.component) : vnode.el;
   const value = isUnmount ? null : refValue;
-  const {
-    i: owner,
-    r: ref
-  } = rawRef;
+  const owner = rawRef.i,
+    ref = rawRef.r;
   const oldRef = oldRawRef && oldRawRef.r;
   const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
   const setupState = owner.setupState;
@@ -3120,22 +3098,18 @@ extend(/* @__PURE__ */Object.create(null), {
 });
 const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
 const PublicInstanceProxyHandlers = {
-  get(_ref0, key) {
-    let {
-      _: instance
-    } = _ref0;
+  get(_ref11, key) {
+    let instance = _ref11._;
     if (key === "__v_skip") {
       return true;
     }
-    const {
-      ctx,
-      setupState,
-      data,
-      props,
-      accessCache,
-      type,
-      appContext
-    } = instance;
+    const ctx = instance.ctx,
+      setupState = instance.setupState,
+      data = instance.data,
+      props = instance.props,
+      accessCache = instance.accessCache,
+      type = instance.type,
+      appContext = instance.appContext;
     if (key[0] !== "$") {
       const n = accessCache[key];
       if (n !== void 0) {
@@ -3187,15 +3161,11 @@ const PublicInstanceProxyHandlers = {
       }
     } else ;
   },
-  set(_ref1, key, value) {
-    let {
-      _: instance
-    } = _ref1;
-    const {
-      data,
-      setupState,
-      ctx
-    } = instance;
+  set(_ref12, key, value) {
+    let instance = _ref12._;
+    const data = instance.data,
+      setupState = instance.setupState,
+      ctx = instance.ctx;
     if (hasSetupBinding(setupState, key)) {
       setupState[key] = value;
       return true;
@@ -3214,18 +3184,15 @@ const PublicInstanceProxyHandlers = {
     }
     return true;
   },
-  has(_ref10, key) {
-    let {
-      _: {
-        data,
-        setupState,
-        accessCache,
-        ctx,
-        appContext,
-        props,
-        type
-      }
-    } = _ref10;
+  has(_ref13, key) {
+    let _ref13$_ = _ref13._,
+      data = _ref13$_.data,
+      setupState = _ref13$_.setupState,
+      accessCache = _ref13$_.accessCache,
+      ctx = _ref13$_.ctx,
+      appContext = _ref13$_.appContext,
+      props = _ref13$_.props,
+      type = _ref13$_.type;
     let cssModules;
     return !!(accessCache[key] || data !== EMPTY_OBJ && key[0] !== "$" && hasOwn(data, key) || hasSetupBinding(setupState, key) || hasOwn(props, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key) || (cssModules = type.__cssModules) && cssModules[key]);
   },
@@ -3250,39 +3217,33 @@ function applyOptions(instance) {
   if (options.beforeCreate) {
     callHook$1(options.beforeCreate, instance, "bc");
   }
-  const {
-    // state
-    data: dataOptions,
-    computed: computedOptions,
-    methods,
-    watch: watchOptions,
-    provide: provideOptions,
-    inject: injectOptions,
-    // lifecycle
-    created,
-    beforeMount,
-    mounted,
-    beforeUpdate,
-    updated,
-    activated,
-    deactivated,
-    beforeDestroy,
-    beforeUnmount,
-    destroyed,
-    unmounted,
-    render,
-    renderTracked,
-    renderTriggered,
-    errorCaptured,
-    serverPrefetch,
-    // public API
-    expose,
-    inheritAttrs,
-    // assets
-    components,
-    directives,
-    filters
-  } = options;
+  const dataOptions = options.data,
+    computedOptions = options.computed,
+    methods = options.methods,
+    watchOptions = options.watch,
+    provideOptions = options.provide,
+    injectOptions = options.inject,
+    created = options.created,
+    beforeMount = options.beforeMount,
+    mounted = options.mounted,
+    beforeUpdate = options.beforeUpdate,
+    updated = options.updated,
+    activated = options.activated,
+    deactivated = options.deactivated;
+    options.beforeDestroy;
+    const beforeUnmount = options.beforeUnmount;
+    options.destroyed;
+    const unmounted = options.unmounted,
+    render = options.render,
+    renderTracked = options.renderTracked,
+    renderTriggered = options.renderTriggered,
+    errorCaptured = options.errorCaptured,
+    serverPrefetch = options.serverPrefetch,
+    expose = options.expose,
+    inheritAttrs = options.inheritAttrs,
+    components = options.components,
+    directives = options.directives;
+    options.filters;
   if (injectOptions) {
     resolveInjections(injectOptions, ctx);
   }
@@ -3436,17 +3397,12 @@ function createWatcher(raw, ctx, publicThis, key) {
 }
 function resolveMergedOptions(instance) {
   const base = instance.type;
-  const {
-    mixins,
-    extends: extendsOptions
-  } = base;
-  const {
-    mixins: globalMixins,
-    optionsCache: cache,
-    config: {
-      optionMergeStrategies
-    }
-  } = instance.appContext;
+  const mixins = base.mixins,
+    extendsOptions = base.extends;
+  const _instance$appContext = instance.appContext,
+    globalMixins = _instance$appContext.mixins,
+    cache = _instance$appContext.optionsCache,
+    optionMergeStrategies = _instance$appContext.config.optionMergeStrategies;
   const cached = cache.get(base);
   let resolved;
   if (cached) {
@@ -3471,10 +3427,8 @@ function mergeOptions(to, from, strats, asMixin) {
   if (asMixin === void 0) {
     asMixin = false;
   }
-  const {
-    mixins,
-    extends: extendsOptions
-  } = from;
+  const mixins = from.mixins,
+    extendsOptions = from.extends;
   if (extendsOptions) {
     mergeOptions(to, extendsOptions, strats, true);
   }
@@ -3798,23 +3752,22 @@ function isEmitListener(options, key) {
 function markAttrsAccessed() {
 }
 function renderComponentRoot(instance) {
-  const {
-    type: Component,
-    vnode,
-    proxy,
-    withProxy,
-    propsOptions: [propsOptions],
-    slots,
-    attrs,
-    emit,
-    render,
-    renderCache,
-    props,
-    data,
-    setupState,
-    ctx,
-    inheritAttrs
-  } = instance;
+  const Component = instance.type,
+    vnode = instance.vnode,
+    proxy = instance.proxy,
+    withProxy = instance.withProxy,
+    _instance$propsOption4 = instance.propsOptions,
+    propsOptions = _instance$propsOption4[0],
+    slots = instance.slots,
+    attrs = instance.attrs,
+    emit = instance.emit,
+    render = instance.render,
+    renderCache = instance.renderCache,
+    props = instance.props,
+    data = instance.data,
+    setupState = instance.setupState,
+    ctx = instance.ctx,
+    inheritAttrs = instance.inheritAttrs;
   const prev = setCurrentRenderingInstance(instance);
   let result;
   let fallthroughAttrs;
@@ -3854,9 +3807,8 @@ function renderComponentRoot(instance) {
   let root = result;
   if (fallthroughAttrs && inheritAttrs !== false) {
     const keys = Object.keys(fallthroughAttrs);
-    const {
-      shapeFlag
-    } = root;
+    const _root = root,
+      shapeFlag = _root.shapeFlag;
     if (keys.length) {
       if (shapeFlag & (1 | 6)) {
         if (propsOptions && keys.some(isModelListener)) {
@@ -3898,16 +3850,12 @@ const filterModelListeners = (attrs, props) => {
   return res;
 };
 function shouldUpdateComponent(prevVNode, nextVNode, optimized) {
-  const {
-    props: prevProps,
-    children: prevChildren,
-    component
-  } = prevVNode;
-  const {
-    props: nextProps,
-    children: nextChildren,
-    patchFlag
-  } = nextVNode;
+  const prevProps = prevVNode.props,
+    prevChildren = prevVNode.children,
+    component = prevVNode.component;
+  const nextProps = nextVNode.props,
+    nextChildren = nextVNode.children,
+    patchFlag = nextVNode.patchFlag;
   const emits = component.emitsOptions;
   if (nextVNode.dirs || nextVNode.transition) {
     return true;
@@ -3970,11 +3918,9 @@ function hasPropValueChanged(nextProps, prevProps, key) {
   }
   return nextProp !== prevProp;
 }
-function updateHOCHostEl(_ref11, el) {
-  let {
-    vnode,
-    parent
-  } = _ref11;
+function updateHOCHostEl(_ref14, el) {
+  let vnode = _ref14.vnode,
+    parent = _ref14.parent;
   while (parent) {
     const root = parent.subTree;
     if (root.suspense && root.suspense.activeBranch === vnode) {
@@ -4016,15 +3962,12 @@ function initProps(instance, rawProps, isStateful, isSSR) {
   instance.attrs = attrs;
 }
 function updateProps(instance, rawProps, rawPrevProps, optimized) {
-  const {
-    props,
-    attrs,
-    vnode: {
-      patchFlag
-    }
-  } = instance;
+  const props = instance.props,
+    attrs = instance.attrs,
+    patchFlag = instance.vnode.patchFlag;
   const rawCurrentProps = toRaw(props);
-  const [options] = instance.propsOptions;
+  const _instance$propsOption5 = instance.propsOptions,
+    options = _instance$propsOption5[0];
   let hasAttrsChanged = false;
   if (
   // always force full diff in dev
@@ -4096,7 +4039,9 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
   }
 }
 function setFullProps(instance, rawProps, props, attrs) {
-  const [options, needCastKeys] = instance.propsOptions;
+  const _instance$propsOption6 = instance.propsOptions,
+    options = _instance$propsOption6[0],
+    needCastKeys = _instance$propsOption6[1];
   let hasAttrsChanged = false;
   let rawCastValues;
   if (rawProps) {
@@ -4137,9 +4082,7 @@ function resolvePropValue(options, props, key, value, instance, isAbsent) {
     if (hasDefault && value === void 0) {
       const defaultValue = opt.default;
       if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
-        const {
-          propsDefaults
-        } = instance;
+        const propsDefaults = instance.propsDefaults;
         if (key in propsDefaults) {
           value = propsDefaults[key];
         } else {
@@ -4181,7 +4124,9 @@ function normalizePropsOptions(comp, appContext, asMixin) {
   if (!isFunction(comp)) {
     const extendProps = raw2 => {
       hasExtends = true;
-      const [props, keys] = normalizePropsOptions(raw2, appContext, true);
+      const _normalizePropsOption = normalizePropsOptions(raw2, appContext, true),
+        props = _normalizePropsOption[0],
+        keys = _normalizePropsOption[1];
       extend(normalized, props);
       if (keys) needCastKeys.push(...keys);
     };
@@ -4307,10 +4252,8 @@ const initSlots = (instance, children, optimized) => {
   }
 };
 const updateSlots = (instance, children, optimized) => {
-  const {
-    vnode,
-    slots
-  } = instance;
+  const vnode = instance.vnode,
+    slots = instance.slots;
   let needDeletionCheck = true;
   let deletionComparisonTarget = EMPTY_OBJ;
   if (vnode.shapeFlag & 32) {
@@ -4355,20 +4298,19 @@ function baseCreateRenderer(options, createHydrationFns) {
   }
   const target = getGlobalThis();
   target.__VUE__ = true;
-  const {
-    insert: hostInsert,
-    remove: hostRemove,
-    patchProp: hostPatchProp,
-    createElement: hostCreateElement,
-    createText: hostCreateText,
-    createComment: hostCreateComment,
-    setText: hostSetText,
-    setElementText: hostSetElementText,
-    parentNode: hostParentNode,
-    nextSibling: hostNextSibling,
-    setScopeId: hostSetScopeId = NOOP,
-    insertStaticContent: hostInsertStaticContent
-  } = options;
+  const hostInsert = options.insert,
+    hostRemove = options.remove,
+    hostPatchProp = options.patchProp,
+    hostCreateElement = options.createElement,
+    hostCreateText = options.createText,
+    hostCreateComment = options.createComment,
+    hostSetText = options.setText,
+    hostSetElementText = options.setElementText,
+    hostParentNode = options.parentNode,
+    hostNextSibling = options.nextSibling,
+    _options$setScopeId = options.setScopeId,
+    hostSetScopeId = _options$setScopeId === void 0 ? NOOP : _options$setScopeId,
+    hostInsertStaticContent = options.insertStaticContent;
   const patch = function patch(n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) {
     if (anchor === void 0) {
       anchor = null;
@@ -4400,11 +4342,9 @@ function baseCreateRenderer(options, createHydrationFns) {
       optimized = false;
       n2.dynamicChildren = null;
     }
-    const {
-      type,
-      ref,
-      shapeFlag
-    } = n2;
+    const type = n2.type,
+      ref = n2.ref,
+      shapeFlag = n2.shapeFlag;
     switch (type) {
       case Text:
         processText(n1, n2, container, anchor);
@@ -4455,13 +4395,13 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
   };
   const mountStaticNode = (n2, container, anchor, namespace) => {
-    [n2.el, n2.anchor] = hostInsertStaticContent(n2.children, container, anchor, namespace, n2.el, n2.anchor);
+    var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, namespace, n2.el, n2.anchor);
+    n2.el = _hostInsertStaticCont[0];
+    n2.anchor = _hostInsertStaticCont[1];
   };
-  const moveStaticNode = (_ref12, container, nextSibling) => {
-    let {
-      el,
-      anchor
-    } = _ref12;
+  const moveStaticNode = (_ref15, container, nextSibling) => {
+    let el = _ref15.el,
+      anchor = _ref15.anchor;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -4470,11 +4410,9 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
     hostInsert(anchor, container, nextSibling);
   };
-  const removeStaticNode = _ref13 => {
-    let {
-      el,
-      anchor
-    } = _ref13;
+  const removeStaticNode = _ref16 => {
+    let el = _ref16.el,
+      anchor = _ref16.anchor;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -4508,12 +4446,10 @@ function baseCreateRenderer(options, createHydrationFns) {
   const mountElement = (vnode, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     let el;
     let vnodeHook;
-    const {
-      props,
-      shapeFlag,
-      transition,
-      dirs
-    } = vnode;
+    const props = vnode.props,
+      shapeFlag = vnode.shapeFlag,
+      transition = vnode.transition,
+      dirs = vnode.dirs;
     el = vnode.el = hostCreateElement(vnode.type, namespace, props && props.is, props);
     if (shapeFlag & 8) {
       hostSetElementText(el, vnode.children);
@@ -4581,11 +4517,9 @@ function baseCreateRenderer(options, createHydrationFns) {
   };
   const patchElement = (n1, n2, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     const el = n2.el = n1.el;
-    let {
-      patchFlag,
-      dynamicChildren,
-      dirs
-    } = n2;
+    let patchFlag = n2.patchFlag,
+      dynamicChildren = n2.dynamicChildren,
+      dirs = n2.dirs;
     patchFlag |= n1.patchFlag & 16;
     const oldProps = n1.props || EMPTY_OBJ;
     const newProps = n2.props || EMPTY_OBJ;
@@ -4692,11 +4626,9 @@ function baseCreateRenderer(options, createHydrationFns) {
   const processFragment = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     const fragmentStartAnchor = n2.el = n1 ? n1.el : hostCreateText("");
     const fragmentEndAnchor = n2.anchor = n1 ? n1.anchor : hostCreateText("");
-    let {
-      patchFlag,
-      dynamicChildren,
-      slotScopeIds: fragmentSlotScopeIds
-    } = n2;
+    let patchFlag = n2.patchFlag,
+      dynamicChildren = n2.dynamicChildren,
+      fragmentSlotScopeIds = n2.slotScopeIds;
     if (fragmentSlotScopeIds) {
       slotScopeIds = slotScopeIds ? slotScopeIds.concat(fragmentSlotScopeIds) : fragmentSlotScopeIds;
     }
@@ -4778,17 +4710,14 @@ function baseCreateRenderer(options, createHydrationFns) {
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         let vnodeHook;
-        const {
-          el,
-          props
-        } = initialVNode;
-        const {
-          bm,
-          m,
-          parent,
-          root,
-          type
-        } = instance;
+        const _initialVNode = initialVNode;
+          _initialVNode.el;
+          const props = _initialVNode.props;
+        const bm = instance.bm,
+          m = instance.m,
+          parent = instance.parent,
+          root = instance.root,
+          type = instance.type;
         const isAsyncWrapperVNode = isAsyncWrapper(initialVNode);
         toggleRecurse(instance, false);
         if (bm) {
@@ -4819,13 +4748,11 @@ function baseCreateRenderer(options, createHydrationFns) {
         instance.isMounted = true;
         initialVNode = container = anchor = null;
       } else {
-        let {
-          next,
-          bu,
-          u,
-          parent,
-          vnode
-        } = instance;
+        let next = instance.next,
+          bu = instance.bu,
+          u = instance.u,
+          parent = instance.parent,
+          vnode = instance.vnode;
         {
           const nonHydratedAsyncRoot = locateNonHydratedAsyncRoot(instance);
           if (nonHydratedAsyncRoot) {
@@ -4906,10 +4833,8 @@ function baseCreateRenderer(options, createHydrationFns) {
     const c1 = n1 && n1.children;
     const prevShapeFlag = n1 ? n1.shapeFlag : 0;
     const c2 = n2.children;
-    const {
-      patchFlag,
-      shapeFlag
-    } = n2;
+    const patchFlag = n2.patchFlag,
+      shapeFlag = n2.shapeFlag;
     if (patchFlag > 0) {
       if (patchFlag & 128) {
         patchKeyedChildren(c1, c2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized);
@@ -5072,13 +4997,11 @@ function baseCreateRenderer(options, createHydrationFns) {
     if (parentSuspense === void 0) {
       parentSuspense = null;
     }
-    const {
-      el,
-      type,
-      transition,
-      children,
-      shapeFlag
-    } = vnode;
+    const el = vnode.el,
+      type = vnode.type,
+      transition = vnode.transition,
+      children = vnode.children,
+      shapeFlag = vnode.shapeFlag;
     if (shapeFlag & 6) {
       _move(vnode.component.subTree, container, anchor, moveType);
       return;
@@ -5110,11 +5033,9 @@ function baseCreateRenderer(options, createHydrationFns) {
         hostInsert(el, container, anchor);
         queuePostRenderEffect(() => transition.enter(el), parentSuspense);
       } else {
-        const {
-          leave,
-          delayLeave,
-          afterLeave
-        } = transition;
+        const leave = transition.leave,
+          delayLeave = transition.delayLeave,
+          afterLeave = transition.afterLeave;
         const remove2 = () => {
           if (vnode.ctx.isUnmounted) {
             hostRemove(el);
@@ -5149,17 +5070,15 @@ function baseCreateRenderer(options, createHydrationFns) {
     if (optimized === void 0) {
       optimized = false;
     }
-    const {
-      type,
-      props,
-      ref,
-      children,
-      dynamicChildren,
-      shapeFlag,
-      patchFlag,
-      dirs,
-      cacheIndex
-    } = vnode;
+    const type = vnode.type,
+      props = vnode.props,
+      ref = vnode.ref,
+      children = vnode.children,
+      dynamicChildren = vnode.dynamicChildren,
+      shapeFlag = vnode.shapeFlag,
+      patchFlag = vnode.patchFlag,
+      dirs = vnode.dirs,
+      cacheIndex = vnode.cacheIndex;
     if (patchFlag === -2) {
       optimized = false;
     }
@@ -5218,12 +5137,10 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
   };
   const remove = vnode => {
-    const {
-      type,
-      el,
-      anchor,
-      transition
-    } = vnode;
+    const type = vnode.type,
+      el = vnode.el,
+      anchor = vnode.anchor,
+      transition = vnode.transition;
     if (type === Fragment) {
       {
         removeFragment(el, anchor);
@@ -5241,10 +5158,8 @@ function baseCreateRenderer(options, createHydrationFns) {
       }
     };
     if (vnode.shapeFlag & 1 && transition && !transition.persisted) {
-      const {
-        leave,
-        delayLeave
-      } = transition;
+      const leave = transition.leave,
+        delayLeave = transition.delayLeave;
       const performLeave = () => leave(el, performRemove);
       if (delayLeave) {
         delayLeave(vnode.el, performRemove, performLeave);
@@ -5265,15 +5180,13 @@ function baseCreateRenderer(options, createHydrationFns) {
     hostRemove(end);
   };
   const unmountComponent = (instance, parentSuspense, doRemove) => {
-    const {
-      bum,
-      scope,
-      job,
-      subTree,
-      um,
-      m,
-      a
-    } = instance;
+    const bum = instance.bum,
+      scope = instance.scope,
+      job = instance.job,
+      subTree = instance.subTree,
+      um = instance.um,
+      m = instance.m,
+      a = instance.a;
     invalidateMount(m);
     invalidateMount(a);
     if (bum) {
@@ -5354,18 +5267,14 @@ function baseCreateRenderer(options, createHydrationFns) {
     createApp: createAppAPI(render)
   };
 }
-function resolveChildrenNamespace(_ref14, currentNamespace) {
-  let {
-    type,
-    props
-  } = _ref14;
+function resolveChildrenNamespace(_ref17, currentNamespace) {
+  let type = _ref17.type,
+    props = _ref17.props;
   return currentNamespace === "svg" && type === "foreignObject" || currentNamespace === "mathml" && type === "annotation-xml" && props && props.encoding && props.encoding.includes("html") ? void 0 : currentNamespace;
 }
-function toggleRecurse(_ref15, allowed) {
-  let {
-    effect,
-    job
-  } = _ref15;
+function toggleRecurse(_ref18, allowed) {
+  let effect = _ref18.effect,
+    job = _ref18.job;
   if (allowed) {
     effect.flags |= 32;
     job.flags |= 4;
@@ -5525,18 +5434,14 @@ function isVNode(value) {
 function isSameVNodeType(n1, n2) {
   return n1.type === n2.type && n1.key === n2.key;
 }
-const normalizeKey = _ref17 => {
-  let {
-    key
-  } = _ref17;
+const normalizeKey = _ref20 => {
+  let key = _ref20.key;
   return key != null ? key : null;
 };
-const normalizeRef = _ref18 => {
-  let {
-    ref,
-    ref_key,
-    ref_for
-  } = _ref18;
+const normalizeRef = _ref21 => {
+  let ref = _ref21.ref,
+    ref_key = _ref21.ref_key,
+    ref_for = _ref21.ref_for;
   if (typeof ref === "number") {
     ref = "" + ref;
   }
@@ -5664,10 +5569,9 @@ function _createVNode(type, props, children, patchFlag, dynamicProps, isBlockNod
   }
   if (props) {
     props = guardReactiveProps(props);
-    let {
-      class: klass,
-      style
-    } = props;
+    let _props = props,
+      klass = _props.class,
+      style = _props.style;
     if (klass && !isString(klass)) {
       props.class = normalizeClass(klass);
     }
@@ -5692,13 +5596,11 @@ function cloneVNode(vnode, extraProps, mergeRef, cloneTransition) {
   if (cloneTransition === void 0) {
     cloneTransition = false;
   }
-  const {
-    props,
-    ref,
-    patchFlag,
-    children,
-    transition
-  } = vnode;
+  const props = vnode.props,
+    ref = vnode.ref,
+    patchFlag = vnode.patchFlag,
+    children = vnode.children,
+    transition = vnode.transition;
   const mergedProps = extraProps ? mergeProps(props || {}, extraProps) : props;
   const cloned = {
     __v_isVNode: true,
@@ -5778,9 +5680,7 @@ function cloneIfMounted(child) {
 }
 function normalizeChildren(vnode, children) {
   let type = 0;
-  const {
-    shapeFlag
-  } = vnode;
+  const shapeFlag = vnode.shapeFlag;
   if (children == null) {
     children = null;
   } else if (isArray(children)) {
@@ -5989,10 +5889,9 @@ function setupComponent(instance, isSSR, optimized) {
     optimized = false;
   }
   isSSR && setInSSRSetupState(isSSR);
-  const {
-    props,
-    children
-  } = instance.vnode;
+  const _instance$vnode = instance.vnode,
+    props = _instance$vnode.props,
+    children = _instance$vnode.children;
   const isStateful = isStatefulComponent(instance);
   initProps(instance, props, isStateful, isSSR);
   initSlots(instance, children, optimized || isSSR);
@@ -6004,9 +5903,7 @@ function setupStatefulComponent(instance, isSSR) {
   const Component = instance.type;
   instance.accessCache = /* @__PURE__ */Object.create(null);
   instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers);
-  const {
-    setup
-  } = Component;
+  const setup = Component.setup;
   if (setup) {
     pauseTracking();
     const setupContext = instance.setupContext = setup.length > 1 ? createSetupContext(instance) : null;
@@ -6055,14 +5952,11 @@ function finishComponentSetup(instance, isSSR, skipOptions) {
     if (!isSSR && compile && !Component.render) {
       const template = Component.template || resolveMergedOptions(instance).template;
       if (template) {
-        const {
-          isCustomElement,
-          compilerOptions
-        } = instance.appContext.config;
-        const {
-          delimiters,
-          compilerOptions: componentCompilerOptions
-        } = Component;
+        const _instance$appContext$ = instance.appContext.config,
+          isCustomElement = _instance$appContext$.isCustomElement,
+          compilerOptions = _instance$appContext$.compilerOptions;
+        const delimiters = Component.delimiters,
+          componentCompilerOptions = Component.compilerOptions;
         const finalCompilerOptions = extend(extend({
           isCustomElement,
           delimiters
@@ -6296,9 +6190,7 @@ const decorate$1 = t => {
   return t;
 };
 const Transition = /* @__PURE__ */decorate$1((props, _ref) => {
-  let {
-    slots
-  } = _ref;
+  let slots = _ref.slots;
   return h(BaseTransition, resolveTransitionProps(props), slots);
 });
 const callHook = function callHook(hook, args) {
@@ -6324,33 +6216,42 @@ function resolveTransitionProps(rawProps) {
   if (rawProps.css === false) {
     return baseProps;
   }
-  const {
-    name = "v",
-    type,
-    duration,
-    enterFromClass = name + "-enter-from",
-    enterActiveClass = name + "-enter-active",
-    enterToClass = name + "-enter-to",
-    appearFromClass = enterFromClass,
-    appearActiveClass = enterActiveClass,
-    appearToClass = enterToClass,
-    leaveFromClass = name + "-leave-from",
-    leaveActiveClass = name + "-leave-active",
-    leaveToClass = name + "-leave-to"
-  } = rawProps;
+  const _rawProps$name = rawProps.name,
+    name = _rawProps$name === void 0 ? "v" : _rawProps$name,
+    type = rawProps.type,
+    duration = rawProps.duration,
+    _rawProps$enterFromCl = rawProps.enterFromClass,
+    enterFromClass = _rawProps$enterFromCl === void 0 ? name + "-enter-from" : _rawProps$enterFromCl,
+    _rawProps$enterActive = rawProps.enterActiveClass,
+    enterActiveClass = _rawProps$enterActive === void 0 ? name + "-enter-active" : _rawProps$enterActive,
+    _rawProps$enterToClas = rawProps.enterToClass,
+    enterToClass = _rawProps$enterToClas === void 0 ? name + "-enter-to" : _rawProps$enterToClas,
+    _rawProps$appearFromC = rawProps.appearFromClass,
+    appearFromClass = _rawProps$appearFromC === void 0 ? enterFromClass : _rawProps$appearFromC,
+    _rawProps$appearActiv = rawProps.appearActiveClass,
+    appearActiveClass = _rawProps$appearActiv === void 0 ? enterActiveClass : _rawProps$appearActiv,
+    _rawProps$appearToCla = rawProps.appearToClass,
+    appearToClass = _rawProps$appearToCla === void 0 ? enterToClass : _rawProps$appearToCla,
+    _rawProps$leaveFromCl = rawProps.leaveFromClass,
+    leaveFromClass = _rawProps$leaveFromCl === void 0 ? name + "-leave-from" : _rawProps$leaveFromCl,
+    _rawProps$leaveActive = rawProps.leaveActiveClass,
+    leaveActiveClass = _rawProps$leaveActive === void 0 ? name + "-leave-active" : _rawProps$leaveActive,
+    _rawProps$leaveToClas = rawProps.leaveToClass,
+    leaveToClass = _rawProps$leaveToClas === void 0 ? name + "-leave-to" : _rawProps$leaveToClas;
   const durations = normalizeDuration(duration);
   const enterDuration = durations && durations[0];
   const leaveDuration = durations && durations[1];
-  const {
-    onBeforeEnter,
-    onEnter,
-    onEnterCancelled,
-    onLeave,
-    onLeaveCancelled,
-    onBeforeAppear = onBeforeEnter,
-    onAppear = onEnter,
-    onAppearCancelled = onEnterCancelled
-  } = baseProps;
+  const onBeforeEnter = baseProps.onBeforeEnter,
+    onEnter = baseProps.onEnter,
+    onEnterCancelled = baseProps.onEnterCancelled,
+    onLeave = baseProps.onLeave,
+    onLeaveCancelled = baseProps.onLeaveCancelled,
+    _baseProps$onBeforeAp = baseProps.onBeforeAppear,
+    onBeforeAppear = _baseProps$onBeforeAp === void 0 ? onBeforeEnter : _baseProps$onBeforeAp,
+    _baseProps$onAppear = baseProps.onAppear,
+    onAppear = _baseProps$onAppear === void 0 ? onEnter : _baseProps$onAppear,
+    _baseProps$onAppearCa = baseProps.onAppearCancelled,
+    onAppearCancelled = _baseProps$onAppearCa === void 0 ? onEnterCancelled : _baseProps$onAppearCa;
   const finishEnter = (el, isAppear, done, isCancelled) => {
     el._enterCancelled = isCancelled;
     removeTransitionClass(el, isAppear ? appearToClass : enterToClass);
@@ -6472,11 +6373,10 @@ function whenTransitionEnds(el, expectedType, explicitTimeout, resolve) {
   if (explicitTimeout != null) {
     return setTimeout(resolveIfNotStale, explicitTimeout);
   }
-  const {
-    type,
-    timeout,
-    propCount
-  } = getTransitionInfo(el, expectedType);
+  const _getTransitionInfo = getTransitionInfo(el, expectedType),
+    type = _getTransitionInfo.type,
+    timeout = _getTransitionInfo.timeout,
+    propCount = _getTransitionInfo.propCount;
   if (!type) {
     return resolve();
   }
@@ -6568,12 +6468,8 @@ const vShow = {
   // used for prop mismatch check during hydration
   name: "show",
   beforeMount(el, _ref2, _ref3) {
-    let {
-      value
-    } = _ref2;
-    let {
-      transition
-    } = _ref3;
+    let value = _ref2.value;
+    let transition = _ref3.transition;
     el[vShowOriginalDisplay] = el.style.display === "none" ? "" : el.style.display;
     if (transition && value) {
       transition.beforeEnter(el);
@@ -6582,24 +6478,16 @@ const vShow = {
     }
   },
   mounted(el, _ref4, _ref5) {
-    let {
-      value
-    } = _ref4;
-    let {
-      transition
-    } = _ref5;
+    let value = _ref4.value;
+    let transition = _ref5.transition;
     if (transition && value) {
       transition.enter(el);
     }
   },
   updated(el, _ref6, _ref7) {
-    let {
-      value,
-      oldValue
-    } = _ref6;
-    let {
-      transition
-    } = _ref7;
+    let value = _ref6.value,
+      oldValue = _ref6.oldValue;
+    let transition = _ref7.transition;
     if (!value === !oldValue) return;
     if (transition) {
       if (value) {
@@ -6616,9 +6504,7 @@ const vShow = {
     }
   },
   beforeUnmount(el, _ref8) {
-    let {
-      value
-    } = _ref8;
+    let value = _ref8.value;
     setDisplay(el, value);
   }
 };
@@ -6793,7 +6679,9 @@ function patchEvent(el, rawName, prevValue, nextValue, instance) {
   if (nextValue && existingInvoker) {
     existingInvoker.value = nextValue;
   } else {
-    const [name, options] = parseName(rawName);
+    const _parseName = parseName(rawName),
+      name = _parseName[0],
+      options = _parseName[1];
     if (nextValue) {
       const invoker = invokers[rawName] = createInvoker(nextValue, instance);
       addEventListener(el, name, invoker, options);
@@ -6948,13 +6836,10 @@ function castValue(value, trim, number) {
 }
 const vModelText = {
   created(el, _ref1, vnode) {
-    let {
-      modifiers: {
-        lazy,
-        trim,
-        number
-      }
-    } = _ref1;
+    let _ref1$modifiers = _ref1.modifiers,
+      lazy = _ref1$modifiers.lazy,
+      trim = _ref1$modifiers.trim,
+      number = _ref1$modifiers.number;
     el[assignKey] = getModelAssigner(vnode);
     const castToNumber = number || vnode.props && vnode.props.type === "number";
     addEventListener(el, lazy ? "change" : "input", e => {
@@ -6974,21 +6859,16 @@ const vModelText = {
   },
   // set value on mounted so it's after min/max for type="range"
   mounted(el, _ref10) {
-    let {
-      value
-    } = _ref10;
+    let value = _ref10.value;
     el.value = value == null ? "" : value;
   },
   beforeUpdate(el, _ref11, vnode) {
-    let {
-      value,
-      oldValue,
-      modifiers: {
-        lazy,
-        trim,
-        number
-      }
-    } = _ref11;
+    let value = _ref11.value,
+      oldValue = _ref11.oldValue,
+      _ref11$modifiers = _ref11.modifiers,
+      lazy = _ref11$modifiers.lazy,
+      trim = _ref11$modifiers.trim,
+      number = _ref11$modifiers.number;
     el[assignKey] = getModelAssigner(vnode);
     if (el.composing) return;
     const elValue = (number || el.type === "number") && !/^0\d/.test(el.value) ? looseToNumber(el.value) : el.value;
@@ -7067,9 +6947,7 @@ function ensureRenderer() {
 }
 const createApp = function createApp() {
   const app = ensureRenderer().createApp(...arguments);
-  const {
-    mount
-  } = app;
+  const mount = app.mount;
   app.mount = containerOrSelector => {
     const container = normalizeContainer(containerOrSelector);
     if (!container) return;
@@ -14335,10 +14213,9 @@ const deleteSelectedItems = context => {
   }
   context.commit(SET_IS_LOADING, true);
   // Get the selected items from the store
-  const {
-    selectedItems,
-    search
-  } = context.state;
+  const _context$state = context.state,
+    selectedItems = _context$state.selectedItems,
+    search = _context$state.search;
   if (selectedItems.length > 0) {
     selectedItems.forEach(item => {
       if (typeof item.canDelete !== 'undefined' && item.canDelete === false || search && !item.name.toLowerCase().includes(search.toLowerCase())) {
@@ -14573,12 +14450,8 @@ var mutations = {
    */
   [RENAME_SUCCESS]: (state, payload) => {
     state.selectedItems[state.selectedItems.length - 1].name = payload.newName;
-    const {
-      item
-    } = payload;
-    const {
-      oldPath
-    } = payload;
+    const item = payload.item;
+    const oldPath = payload.oldPath;
     if (item.type === 'file') {
       const index = state.files.findIndex(file => file.path === oldPath);
       state.files.splice(index, 1, item);
@@ -14778,11 +14651,9 @@ var mutations = {
    * @param payload object with the item, the width and the height
    */
   [UPDATE_ITEM_PROPERTIES]: (state, payload) => {
-    const {
-      item,
-      width,
-      height
-    } = payload;
+    const item = payload.item,
+      width = payload.width,
+      height = payload.height;
     const index = state.files.findIndex(file => file.path === item.path);
     state.files[index].width = width;
     state.files[index].height = height;

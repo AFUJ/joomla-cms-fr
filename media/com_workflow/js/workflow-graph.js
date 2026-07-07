@@ -149,10 +149,8 @@ function normalizeClass(value) {
 }
 function normalizeProps(props) {
   if (!props) return null;
-  let {
-    class: klass,
-    style
-  } = props;
+  let klass = props.class,
+    style = props.style;
   if (klass && !isString(klass)) {
     props.class = normalizeClass(klass);
   }
@@ -224,7 +222,8 @@ const replacer = (_key, val) => {
   } else if (isMap(val)) {
     return {
       ["Map(" + val.size + ")"]: [...val.entries()].reduce((entries, _ref, i) => {
-        let [key, val2] = _ref;
+        let key = _ref[0],
+          val2 = _ref[1];
         entries[stringifySymbol(key, i) + " =>"] = val2;
         return entries;
       }, {})
@@ -632,11 +631,9 @@ function removeSub(link, soft) {
   if (soft === void 0) {
     soft = false;
   }
-  const {
-    dep,
-    prevSub,
-    nextSub
-  } = link;
+  const dep = link.dep,
+    prevSub = link.prevSub,
+    nextSub = link.nextSub;
   if (prevSub) {
     prevSub.nextSub = nextSub;
     link.prevSub = void 0;
@@ -659,10 +656,8 @@ function removeSub(link, soft) {
   }
 }
 function removeDep(link) {
-  const {
-    prevDep,
-    nextDep
-  } = link;
+  const prevDep = link.prevDep,
+    nextDep = link.nextDep;
   if (prevDep) {
     prevDep.nextDep = nextDep;
     link.prevDep = void 0;
@@ -683,9 +678,7 @@ function resetTracking() {
   shouldTrack = last === void 0 ? true : last;
 }
 function cleanupEffect(e) {
-  const {
-    cleanup
-  } = e;
+  const cleanup = e.cleanup;
   e.cleanup = void 0;
   if (cleanup) {
     const prevSub = activeSub;
@@ -1273,10 +1266,9 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
     Object.create(innerIterator), {
       // iterator protocol
       next() {
-        const {
-          value,
-          done
-        } = innerIterator.next();
+        const _innerIterator$next = innerIterator.next(),
+          value = _innerIterator$next.value,
+          done = _innerIterator$next.done;
         return done ? {
           value,
           done
@@ -1305,9 +1297,8 @@ function createInstrumentations(readonly, shallow) {
         }
         track(rawTarget, "get", rawKey);
       }
-      const {
-        has
-      } = getProto(rawTarget);
+      const _getProto = getProto(rawTarget),
+        has = _getProto.has;
       const wrap = shallow ? toShallow : readonly ? toReadonly : toReactive;
       if (has.call(rawTarget, key)) {
         return wrap(target.get(key));
@@ -1368,10 +1359,9 @@ function createInstrumentations(readonly, shallow) {
         value = toRaw(value);
       }
       const target = toRaw(this);
-      const {
-        has,
-        get
-      } = getProto(target);
+      const _getProto2 = getProto(target),
+        has = _getProto2.has,
+        get = _getProto2.get;
       let hadKey = has.call(target, key);
       if (!hadKey) {
         key = toRaw(key);
@@ -1388,10 +1378,9 @@ function createInstrumentations(readonly, shallow) {
     },
     delete(key) {
       const target = toRaw(this);
-      const {
-        has,
-        get
-      } = getProto(target);
+      const _getProto3 = getProto(target),
+        has = _getProto3.has,
+        get = _getProto3.get;
       let hadKey = has.call(target, key);
       if (!hadKey) {
         key = toRaw(key);
@@ -1609,10 +1598,9 @@ class CustomRefImpl {
     this["__v_isRef"] = true;
     this._value = void 0;
     const dep = this.dep = new Dep();
-    const {
-      get,
-      set
-    } = factory(dep.track.bind(dep), dep.trigger.bind(dep));
+    const _factory = factory(dep.track.bind(dep), dep.trigger.bind(dep)),
+      get = _factory.get,
+      set = _factory.set;
     this._get = get;
     this._set = set;
   }
@@ -1800,14 +1788,13 @@ function watch$1(source, cb, options) {
   if (options === void 0) {
     options = EMPTY_OBJ;
   }
-  const {
-    immediate,
-    deep,
-    once,
-    scheduler,
-    augmentJob,
-    call
-  } = options;
+  const _options = options,
+    immediate = _options.immediate,
+    deep = _options.deep,
+    once = _options.once,
+    scheduler = _options.scheduler,
+    augmentJob = _options.augmentJob,
+    call = _options.call;
   const reactiveGetter = source2 => {
     if (deep) return source2;
     if (isShallow(source2) || deep === false || deep === 0) return traverse(source2, 1);
@@ -2003,9 +1990,7 @@ function warn$1(msg) {
       var _a, _b;
       return (_b = (_a = a.toString) == null ? void 0 : _a.call(a)) != null ? _b : JSON.stringify(a);
     }).join(""), instance && instance.proxy, trace.map(_ref => {
-      let {
-        vnode
-      } = _ref;
+      let vnode = _ref.vnode;
       return "at <" + formatComponentName(instance, vnode.type) + ">";
     }).join("\n"), trace]);
   } else {
@@ -2049,10 +2034,8 @@ function formatTrace(trace) {
   return logs;
 }
 function formatTraceEntry(_ref2) {
-  let {
-    vnode,
-    recurseCount
-  } = _ref2;
+  let vnode = _ref2.vnode,
+    recurseCount = _ref2.recurseCount;
   const postfix = recurseCount > 0 ? "... (" + recurseCount + " recursive calls)" : "";
   const isRoot = vnode.component ? vnode.component.parent == null : false;
   const open = " at <" + formatComponentName(vnode.component, vnode.type, isRoot);
@@ -2116,10 +2099,9 @@ function handleError(err, instance, type, throwInDev) {
     throwInDev = true;
   }
   const contextVNode = instance ? instance.vnode : null;
-  const {
-    errorHandler,
-    throwUnhandledErrorInProduction
-  } = instance && instance.appContext.config || EMPTY_OBJ;
+  const _ref3 = instance && instance.appContext.config || EMPTY_OBJ,
+    errorHandler = _ref3.errorHandler,
+    throwUnhandledErrorInProduction = _ref3.throwUnhandledErrorInProduction;
   if (instance) {
     let cur = instance.parent;
     const exposedInstance = instance.proxy;
@@ -2383,12 +2365,11 @@ function doWatch(source, cb, options) {
   if (options === void 0) {
     options = EMPTY_OBJ;
   }
-  const {
-    immediate,
-    deep,
-    flush,
-    once
-  } = options;
+  const _options = options,
+    immediate = _options.immediate;
+    _options.deep;
+    const flush = _options.flush;
+    _options.once;
   const baseWatchOptions = extend$2({}, options);
   const runsImmediately = cb && immediate || !cb && flush !== "post";
   let ssrCleanup;
@@ -2491,23 +2472,18 @@ const TeleportImpl = {
   name: "Teleport",
   __isTeleport: true,
   process(n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized, internals) {
-    const {
-      mc: mountChildren,
-      pc: patchChildren,
-      pbc: patchBlockChildren,
-      o: {
-        insert,
-        querySelector,
-        createText,
-        createComment
-      }
-    } = internals;
+    const mountChildren = internals.mc,
+      patchChildren = internals.pc,
+      patchBlockChildren = internals.pbc,
+      _internals$o = internals.o,
+      insert = _internals$o.insert,
+      querySelector = _internals$o.querySelector,
+      createText = _internals$o.createText;
+      _internals$o.createComment;
     const disabled = isTeleportDisabled(n2.props);
-    let {
-      shapeFlag,
-      children,
-      dynamicChildren
-    } = n2;
+    let shapeFlag = n2.shapeFlag,
+      children = n2.children,
+      dynamicChildren = n2.dynamicChildren;
     if (n1 == null) {
       const placeholder = n2.el = createText("");
       const mainAnchor = n2.anchor = createText("");
@@ -2596,22 +2572,16 @@ const TeleportImpl = {
       updateCssVars(n2, disabled);
     }
   },
-  remove(vnode, parentComponent, parentSuspense, _ref4, doRemove) {
-    let {
-      um: unmount,
-      o: {
-        remove: hostRemove
-      }
-    } = _ref4;
-    const {
-      shapeFlag,
-      children,
-      anchor,
-      targetStart,
-      targetAnchor,
-      target,
-      props
-    } = vnode;
+  remove(vnode, parentComponent, parentSuspense, _ref5, doRemove) {
+    let unmount = _ref5.um,
+      hostRemove = _ref5.o.remove;
+    const shapeFlag = vnode.shapeFlag,
+      children = vnode.children,
+      anchor = vnode.anchor,
+      targetStart = vnode.targetStart,
+      targetAnchor = vnode.targetAnchor,
+      target = vnode.target,
+      props = vnode.props;
     if (target) {
       hostRemove(targetStart);
       hostRemove(targetAnchor);
@@ -2628,26 +2598,20 @@ const TeleportImpl = {
   move: moveTeleport,
   hydrate: hydrateTeleport
 };
-function moveTeleport(vnode, container, parentAnchor, _ref5, moveType) {
-  let {
-    o: {
-      insert
-    },
-    m: move
-  } = _ref5;
+function moveTeleport(vnode, container, parentAnchor, _ref6, moveType) {
+  let insert = _ref6.o.insert,
+    move = _ref6.m;
   if (moveType === void 0) {
     moveType = 2;
   }
   if (moveType === 0) {
     insert(vnode.targetAnchor, container, parentAnchor);
   }
-  const {
-    el,
-    anchor,
-    shapeFlag,
-    children,
-    props
-  } = vnode;
+  const el = vnode.el,
+    anchor = vnode.anchor,
+    shapeFlag = vnode.shapeFlag,
+    children = vnode.children,
+    props = vnode.props;
   const isReorder = moveType === 2;
   if (isReorder) {
     insert(el, container, parentAnchor);
@@ -2663,16 +2627,13 @@ function moveTeleport(vnode, container, parentAnchor, _ref5, moveType) {
     insert(anchor, container, parentAnchor);
   }
 }
-function hydrateTeleport(node, vnode, parentComponent, parentSuspense, slotScopeIds, optimized, _ref6, hydrateChildren) {
-  let {
-    o: {
-      nextSibling,
-      parentNode,
-      querySelector,
-      insert,
-      createText
-    }
-  } = _ref6;
+function hydrateTeleport(node, vnode, parentComponent, parentSuspense, slotScopeIds, optimized, _ref7, hydrateChildren) {
+  let _ref7$o = _ref7.o,
+    nextSibling = _ref7$o.nextSibling,
+    parentNode = _ref7$o.parentNode,
+    querySelector = _ref7$o.querySelector,
+    insert = _ref7$o.insert,
+    createText = _ref7$o.createText;
   function hydrateAnchor(target2, targetNode) {
     let targetAnchor = targetNode;
     while (targetAnchor) {
@@ -2805,10 +2766,8 @@ function setRef(rawRef, oldRawRef, parentSuspense, vnode, isUnmount) {
   }
   const refValue = vnode.shapeFlag & 4 ? getComponentPublicInstance(vnode.component) : vnode.el;
   const value = isUnmount ? null : refValue;
-  const {
-    i: owner,
-    r: ref
-  } = rawRef;
+  const owner = rawRef.i,
+    ref = rawRef.r;
   const oldRef = oldRawRef && oldRawRef.r;
   const refs = owner.refs === EMPTY_OBJ ? owner.refs = {} : owner.refs;
   const setupState = owner.setupState;
@@ -3151,22 +3110,18 @@ extend$2(/* @__PURE__ */Object.create(null), {
 });
 const hasSetupBinding = (state, key) => state !== EMPTY_OBJ && !state.__isScriptSetup && hasOwn(state, key);
 const PublicInstanceProxyHandlers = {
-  get(_ref0, key) {
-    let {
-      _: instance
-    } = _ref0;
+  get(_ref11, key) {
+    let instance = _ref11._;
     if (key === "__v_skip") {
       return true;
     }
-    const {
-      ctx,
-      setupState,
-      data,
-      props,
-      accessCache,
-      type,
-      appContext
-    } = instance;
+    const ctx = instance.ctx,
+      setupState = instance.setupState,
+      data = instance.data,
+      props = instance.props,
+      accessCache = instance.accessCache,
+      type = instance.type,
+      appContext = instance.appContext;
     if (key[0] !== "$") {
       const n = accessCache[key];
       if (n !== void 0) {
@@ -3218,15 +3173,11 @@ const PublicInstanceProxyHandlers = {
       }
     } else ;
   },
-  set(_ref1, key, value) {
-    let {
-      _: instance
-    } = _ref1;
-    const {
-      data,
-      setupState,
-      ctx
-    } = instance;
+  set(_ref12, key, value) {
+    let instance = _ref12._;
+    const data = instance.data,
+      setupState = instance.setupState,
+      ctx = instance.ctx;
     if (hasSetupBinding(setupState, key)) {
       setupState[key] = value;
       return true;
@@ -3245,18 +3196,15 @@ const PublicInstanceProxyHandlers = {
     }
     return true;
   },
-  has(_ref10, key) {
-    let {
-      _: {
-        data,
-        setupState,
-        accessCache,
-        ctx,
-        appContext,
-        props,
-        type
-      }
-    } = _ref10;
+  has(_ref13, key) {
+    let _ref13$_ = _ref13._,
+      data = _ref13$_.data,
+      setupState = _ref13$_.setupState,
+      accessCache = _ref13$_.accessCache,
+      ctx = _ref13$_.ctx,
+      appContext = _ref13$_.appContext,
+      props = _ref13$_.props,
+      type = _ref13$_.type;
     let cssModules;
     return !!(accessCache[key] || data !== EMPTY_OBJ && key[0] !== "$" && hasOwn(data, key) || hasSetupBinding(setupState, key) || hasOwn(props, key) || hasOwn(ctx, key) || hasOwn(publicPropertiesMap, key) || hasOwn(appContext.config.globalProperties, key) || (cssModules = type.__cssModules) && cssModules[key]);
   },
@@ -3303,39 +3251,33 @@ function applyOptions(instance) {
   if (options.beforeCreate) {
     callHook(options.beforeCreate, instance, "bc");
   }
-  const {
-    // state
-    data: dataOptions,
-    computed: computedOptions,
-    methods,
-    watch: watchOptions,
-    provide: provideOptions,
-    inject: injectOptions,
-    // lifecycle
-    created,
-    beforeMount,
-    mounted,
-    beforeUpdate,
-    updated,
-    activated,
-    deactivated,
-    beforeDestroy,
-    beforeUnmount,
-    destroyed,
-    unmounted,
-    render,
-    renderTracked,
-    renderTriggered,
-    errorCaptured,
-    serverPrefetch,
-    // public API
-    expose,
-    inheritAttrs,
-    // assets
-    components,
-    directives,
-    filters
-  } = options;
+  const dataOptions = options.data,
+    computedOptions = options.computed,
+    methods = options.methods,
+    watchOptions = options.watch,
+    provideOptions = options.provide,
+    injectOptions = options.inject,
+    created = options.created,
+    beforeMount = options.beforeMount,
+    mounted = options.mounted,
+    beforeUpdate = options.beforeUpdate,
+    updated = options.updated,
+    activated = options.activated,
+    deactivated = options.deactivated;
+    options.beforeDestroy;
+    const beforeUnmount = options.beforeUnmount;
+    options.destroyed;
+    const unmounted = options.unmounted,
+    render = options.render,
+    renderTracked = options.renderTracked,
+    renderTriggered = options.renderTriggered,
+    errorCaptured = options.errorCaptured,
+    serverPrefetch = options.serverPrefetch,
+    expose = options.expose,
+    inheritAttrs = options.inheritAttrs,
+    components = options.components,
+    directives = options.directives;
+    options.filters;
   if (injectOptions) {
     resolveInjections(injectOptions, ctx);
   }
@@ -3489,17 +3431,12 @@ function createWatcher(raw, ctx, publicThis, key) {
 }
 function resolveMergedOptions(instance) {
   const base = instance.type;
-  const {
-    mixins,
-    extends: extendsOptions
-  } = base;
-  const {
-    mixins: globalMixins,
-    optionsCache: cache,
-    config: {
-      optionMergeStrategies
-    }
-  } = instance.appContext;
+  const mixins = base.mixins,
+    extendsOptions = base.extends;
+  const _instance$appContext = instance.appContext,
+    globalMixins = _instance$appContext.mixins,
+    cache = _instance$appContext.optionsCache,
+    optionMergeStrategies = _instance$appContext.config.optionMergeStrategies;
   const cached = cache.get(base);
   let resolved;
   if (cached) {
@@ -3524,10 +3461,8 @@ function mergeOptions(to, from, strats, asMixin) {
   if (asMixin === void 0) {
     asMixin = false;
   }
-  const {
-    mixins,
-    extends: extendsOptions
-  } = from;
+  const mixins = from.mixins,
+    extendsOptions = from.extends;
   if (extendsOptions) {
     mergeOptions(to, extendsOptions, strats, true);
   }
@@ -3851,23 +3786,22 @@ function isEmitListener(options, key) {
 function markAttrsAccessed() {
 }
 function renderComponentRoot(instance) {
-  const {
-    type: Component,
-    vnode,
-    proxy,
-    withProxy,
-    propsOptions: [propsOptions],
-    slots,
-    attrs,
-    emit,
-    render,
-    renderCache,
-    props,
-    data,
-    setupState,
-    ctx,
-    inheritAttrs
-  } = instance;
+  const Component = instance.type,
+    vnode = instance.vnode,
+    proxy = instance.proxy,
+    withProxy = instance.withProxy,
+    _instance$propsOption4 = instance.propsOptions,
+    propsOptions = _instance$propsOption4[0],
+    slots = instance.slots,
+    attrs = instance.attrs,
+    emit = instance.emit,
+    render = instance.render,
+    renderCache = instance.renderCache,
+    props = instance.props,
+    data = instance.data,
+    setupState = instance.setupState,
+    ctx = instance.ctx,
+    inheritAttrs = instance.inheritAttrs;
   const prev = setCurrentRenderingInstance(instance);
   let result;
   let fallthroughAttrs;
@@ -3907,9 +3841,8 @@ function renderComponentRoot(instance) {
   let root = result;
   if (fallthroughAttrs && inheritAttrs !== false) {
     const keys = Object.keys(fallthroughAttrs);
-    const {
-      shapeFlag
-    } = root;
+    const _root = root,
+      shapeFlag = _root.shapeFlag;
     if (keys.length) {
       if (shapeFlag & (1 | 6)) {
         if (propsOptions && keys.some(isModelListener)) {
@@ -3951,16 +3884,12 @@ const filterModelListeners = (attrs, props) => {
   return res;
 };
 function shouldUpdateComponent(prevVNode, nextVNode, optimized) {
-  const {
-    props: prevProps,
-    children: prevChildren,
-    component
-  } = prevVNode;
-  const {
-    props: nextProps,
-    children: nextChildren,
-    patchFlag
-  } = nextVNode;
+  const prevProps = prevVNode.props,
+    prevChildren = prevVNode.children,
+    component = prevVNode.component;
+  const nextProps = nextVNode.props,
+    nextChildren = nextVNode.children,
+    patchFlag = nextVNode.patchFlag;
   const emits = component.emitsOptions;
   if (nextVNode.dirs || nextVNode.transition) {
     return true;
@@ -4023,11 +3952,9 @@ function hasPropValueChanged(nextProps, prevProps, key) {
   }
   return nextProp !== prevProp;
 }
-function updateHOCHostEl(_ref11, el) {
-  let {
-    vnode,
-    parent
-  } = _ref11;
+function updateHOCHostEl(_ref14, el) {
+  let vnode = _ref14.vnode,
+    parent = _ref14.parent;
   while (parent) {
     const root = parent.subTree;
     if (root.suspense && root.suspense.activeBranch === vnode) {
@@ -4069,15 +3996,12 @@ function initProps(instance, rawProps, isStateful, isSSR) {
   instance.attrs = attrs;
 }
 function updateProps(instance, rawProps, rawPrevProps, optimized) {
-  const {
-    props,
-    attrs,
-    vnode: {
-      patchFlag
-    }
-  } = instance;
+  const props = instance.props,
+    attrs = instance.attrs,
+    patchFlag = instance.vnode.patchFlag;
   const rawCurrentProps = toRaw(props);
-  const [options] = instance.propsOptions;
+  const _instance$propsOption5 = instance.propsOptions,
+    options = _instance$propsOption5[0];
   let hasAttrsChanged = false;
   if (
   // always force full diff in dev
@@ -4149,7 +4073,9 @@ function updateProps(instance, rawProps, rawPrevProps, optimized) {
   }
 }
 function setFullProps(instance, rawProps, props, attrs) {
-  const [options, needCastKeys] = instance.propsOptions;
+  const _instance$propsOption6 = instance.propsOptions,
+    options = _instance$propsOption6[0],
+    needCastKeys = _instance$propsOption6[1];
   let hasAttrsChanged = false;
   let rawCastValues;
   if (rawProps) {
@@ -4190,9 +4116,7 @@ function resolvePropValue(options, props, key, value, instance, isAbsent) {
     if (hasDefault && value === void 0) {
       const defaultValue = opt.default;
       if (opt.type !== Function && !opt.skipFactory && isFunction(defaultValue)) {
-        const {
-          propsDefaults
-        } = instance;
+        const propsDefaults = instance.propsDefaults;
         if (key in propsDefaults) {
           value = propsDefaults[key];
         } else {
@@ -4234,7 +4158,9 @@ function normalizePropsOptions(comp, appContext, asMixin) {
   if (!isFunction(comp)) {
     const extendProps = raw2 => {
       hasExtends = true;
-      const [props, keys] = normalizePropsOptions(raw2, appContext, true);
+      const _normalizePropsOption = normalizePropsOptions(raw2, appContext, true),
+        props = _normalizePropsOption[0],
+        keys = _normalizePropsOption[1];
       extend$2(normalized, props);
       if (keys) needCastKeys.push(...keys);
     };
@@ -4360,10 +4286,8 @@ const initSlots = (instance, children, optimized) => {
   }
 };
 const updateSlots = (instance, children, optimized) => {
-  const {
-    vnode,
-    slots
-  } = instance;
+  const vnode = instance.vnode,
+    slots = instance.slots;
   let needDeletionCheck = true;
   let deletionComparisonTarget = EMPTY_OBJ;
   if (vnode.shapeFlag & 32) {
@@ -4408,20 +4332,19 @@ function baseCreateRenderer(options, createHydrationFns) {
   }
   const target = getGlobalThis();
   target.__VUE__ = true;
-  const {
-    insert: hostInsert,
-    remove: hostRemove,
-    patchProp: hostPatchProp,
-    createElement: hostCreateElement,
-    createText: hostCreateText,
-    createComment: hostCreateComment,
-    setText: hostSetText,
-    setElementText: hostSetElementText,
-    parentNode: hostParentNode,
-    nextSibling: hostNextSibling,
-    setScopeId: hostSetScopeId = NOOP,
-    insertStaticContent: hostInsertStaticContent
-  } = options;
+  const hostInsert = options.insert,
+    hostRemove = options.remove,
+    hostPatchProp = options.patchProp,
+    hostCreateElement = options.createElement,
+    hostCreateText = options.createText,
+    hostCreateComment = options.createComment,
+    hostSetText = options.setText,
+    hostSetElementText = options.setElementText,
+    hostParentNode = options.parentNode,
+    hostNextSibling = options.nextSibling,
+    _options$setScopeId = options.setScopeId,
+    hostSetScopeId = _options$setScopeId === void 0 ? NOOP : _options$setScopeId,
+    hostInsertStaticContent = options.insertStaticContent;
   const patch = function patch(n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) {
     if (anchor === void 0) {
       anchor = null;
@@ -4453,11 +4376,9 @@ function baseCreateRenderer(options, createHydrationFns) {
       optimized = false;
       n2.dynamicChildren = null;
     }
-    const {
-      type,
-      ref,
-      shapeFlag
-    } = n2;
+    const type = n2.type,
+      ref = n2.ref,
+      shapeFlag = n2.shapeFlag;
     switch (type) {
       case Text:
         processText(n1, n2, container, anchor);
@@ -4508,13 +4429,13 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
   };
   const mountStaticNode = (n2, container, anchor, namespace) => {
-    [n2.el, n2.anchor] = hostInsertStaticContent(n2.children, container, anchor, namespace, n2.el, n2.anchor);
+    var _hostInsertStaticCont = hostInsertStaticContent(n2.children, container, anchor, namespace, n2.el, n2.anchor);
+    n2.el = _hostInsertStaticCont[0];
+    n2.anchor = _hostInsertStaticCont[1];
   };
-  const moveStaticNode = (_ref12, container, nextSibling) => {
-    let {
-      el,
-      anchor
-    } = _ref12;
+  const moveStaticNode = (_ref15, container, nextSibling) => {
+    let el = _ref15.el,
+      anchor = _ref15.anchor;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -4523,11 +4444,9 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
     hostInsert(anchor, container, nextSibling);
   };
-  const removeStaticNode = _ref13 => {
-    let {
-      el,
-      anchor
-    } = _ref13;
+  const removeStaticNode = _ref16 => {
+    let el = _ref16.el,
+      anchor = _ref16.anchor;
     let next;
     while (el && el !== anchor) {
       next = hostNextSibling(el);
@@ -4561,12 +4480,10 @@ function baseCreateRenderer(options, createHydrationFns) {
   const mountElement = (vnode, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     let el;
     let vnodeHook;
-    const {
-      props,
-      shapeFlag,
-      transition,
-      dirs
-    } = vnode;
+    const props = vnode.props,
+      shapeFlag = vnode.shapeFlag,
+      transition = vnode.transition,
+      dirs = vnode.dirs;
     el = vnode.el = hostCreateElement(vnode.type, namespace, props && props.is, props);
     if (shapeFlag & 8) {
       hostSetElementText(el, vnode.children);
@@ -4634,11 +4551,9 @@ function baseCreateRenderer(options, createHydrationFns) {
   };
   const patchElement = (n1, n2, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     const el = n2.el = n1.el;
-    let {
-      patchFlag,
-      dynamicChildren,
-      dirs
-    } = n2;
+    let patchFlag = n2.patchFlag,
+      dynamicChildren = n2.dynamicChildren,
+      dirs = n2.dirs;
     patchFlag |= n1.patchFlag & 16;
     const oldProps = n1.props || EMPTY_OBJ;
     const newProps = n2.props || EMPTY_OBJ;
@@ -4745,11 +4660,9 @@ function baseCreateRenderer(options, createHydrationFns) {
   const processFragment = (n1, n2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized) => {
     const fragmentStartAnchor = n2.el = n1 ? n1.el : hostCreateText("");
     const fragmentEndAnchor = n2.anchor = n1 ? n1.anchor : hostCreateText("");
-    let {
-      patchFlag,
-      dynamicChildren,
-      slotScopeIds: fragmentSlotScopeIds
-    } = n2;
+    let patchFlag = n2.patchFlag,
+      dynamicChildren = n2.dynamicChildren,
+      fragmentSlotScopeIds = n2.slotScopeIds;
     if (fragmentSlotScopeIds) {
       slotScopeIds = slotScopeIds ? slotScopeIds.concat(fragmentSlotScopeIds) : fragmentSlotScopeIds;
     }
@@ -4831,17 +4744,14 @@ function baseCreateRenderer(options, createHydrationFns) {
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
         let vnodeHook;
-        const {
-          el,
-          props
-        } = initialVNode;
-        const {
-          bm,
-          m,
-          parent,
-          root,
-          type
-        } = instance;
+        const _initialVNode = initialVNode;
+          _initialVNode.el;
+          const props = _initialVNode.props;
+        const bm = instance.bm,
+          m = instance.m,
+          parent = instance.parent,
+          root = instance.root,
+          type = instance.type;
         const isAsyncWrapperVNode = isAsyncWrapper(initialVNode);
         toggleRecurse(instance, false);
         if (bm) {
@@ -4872,13 +4782,11 @@ function baseCreateRenderer(options, createHydrationFns) {
         instance.isMounted = true;
         initialVNode = container = anchor = null;
       } else {
-        let {
-          next,
-          bu,
-          u,
-          parent,
-          vnode
-        } = instance;
+        let next = instance.next,
+          bu = instance.bu,
+          u = instance.u,
+          parent = instance.parent,
+          vnode = instance.vnode;
         {
           const nonHydratedAsyncRoot = locateNonHydratedAsyncRoot(instance);
           if (nonHydratedAsyncRoot) {
@@ -4959,10 +4867,8 @@ function baseCreateRenderer(options, createHydrationFns) {
     const c1 = n1 && n1.children;
     const prevShapeFlag = n1 ? n1.shapeFlag : 0;
     const c2 = n2.children;
-    const {
-      patchFlag,
-      shapeFlag
-    } = n2;
+    const patchFlag = n2.patchFlag,
+      shapeFlag = n2.shapeFlag;
     if (patchFlag > 0) {
       if (patchFlag & 128) {
         patchKeyedChildren(c1, c2, container, anchor, parentComponent, parentSuspense, namespace, slotScopeIds, optimized);
@@ -5125,13 +5031,11 @@ function baseCreateRenderer(options, createHydrationFns) {
     if (parentSuspense === void 0) {
       parentSuspense = null;
     }
-    const {
-      el,
-      type,
-      transition,
-      children,
-      shapeFlag
-    } = vnode;
+    const el = vnode.el,
+      type = vnode.type,
+      transition = vnode.transition,
+      children = vnode.children,
+      shapeFlag = vnode.shapeFlag;
     if (shapeFlag & 6) {
       _move(vnode.component.subTree, container, anchor, moveType);
       return;
@@ -5163,11 +5067,9 @@ function baseCreateRenderer(options, createHydrationFns) {
         hostInsert(el, container, anchor);
         queuePostRenderEffect(() => transition.enter(el), parentSuspense);
       } else {
-        const {
-          leave,
-          delayLeave,
-          afterLeave
-        } = transition;
+        const leave = transition.leave,
+          delayLeave = transition.delayLeave,
+          afterLeave = transition.afterLeave;
         const remove2 = () => {
           if (vnode.ctx.isUnmounted) {
             hostRemove(el);
@@ -5202,17 +5104,15 @@ function baseCreateRenderer(options, createHydrationFns) {
     if (optimized === void 0) {
       optimized = false;
     }
-    const {
-      type,
-      props,
-      ref,
-      children,
-      dynamicChildren,
-      shapeFlag,
-      patchFlag,
-      dirs,
-      cacheIndex
-    } = vnode;
+    const type = vnode.type,
+      props = vnode.props,
+      ref = vnode.ref,
+      children = vnode.children,
+      dynamicChildren = vnode.dynamicChildren,
+      shapeFlag = vnode.shapeFlag,
+      patchFlag = vnode.patchFlag,
+      dirs = vnode.dirs,
+      cacheIndex = vnode.cacheIndex;
     if (patchFlag === -2) {
       optimized = false;
     }
@@ -5271,12 +5171,10 @@ function baseCreateRenderer(options, createHydrationFns) {
     }
   };
   const remove = vnode => {
-    const {
-      type,
-      el,
-      anchor,
-      transition
-    } = vnode;
+    const type = vnode.type,
+      el = vnode.el,
+      anchor = vnode.anchor,
+      transition = vnode.transition;
     if (type === Fragment) {
       {
         removeFragment(el, anchor);
@@ -5294,10 +5192,8 @@ function baseCreateRenderer(options, createHydrationFns) {
       }
     };
     if (vnode.shapeFlag & 1 && transition && !transition.persisted) {
-      const {
-        leave,
-        delayLeave
-      } = transition;
+      const leave = transition.leave,
+        delayLeave = transition.delayLeave;
       const performLeave = () => leave(el, performRemove);
       if (delayLeave) {
         delayLeave(vnode.el, performRemove, performLeave);
@@ -5318,15 +5214,13 @@ function baseCreateRenderer(options, createHydrationFns) {
     hostRemove(end);
   };
   const unmountComponent = (instance, parentSuspense, doRemove) => {
-    const {
-      bum,
-      scope,
-      job,
-      subTree,
-      um,
-      m,
-      a
-    } = instance;
+    const bum = instance.bum,
+      scope = instance.scope,
+      job = instance.job,
+      subTree = instance.subTree,
+      um = instance.um,
+      m = instance.m,
+      a = instance.a;
     invalidateMount(m);
     invalidateMount(a);
     if (bum) {
@@ -5407,18 +5301,14 @@ function baseCreateRenderer(options, createHydrationFns) {
     createApp: createAppAPI(render)
   };
 }
-function resolveChildrenNamespace(_ref14, currentNamespace) {
-  let {
-    type,
-    props
-  } = _ref14;
+function resolveChildrenNamespace(_ref17, currentNamespace) {
+  let type = _ref17.type,
+    props = _ref17.props;
   return currentNamespace === "svg" && type === "foreignObject" || currentNamespace === "mathml" && type === "annotation-xml" && props && props.encoding && props.encoding.includes("html") ? void 0 : currentNamespace;
 }
-function toggleRecurse(_ref15, allowed) {
-  let {
-    effect,
-    job
-  } = _ref15;
+function toggleRecurse(_ref18, allowed) {
+  let effect = _ref18.effect,
+    job = _ref18.job;
   if (allowed) {
     effect.flags |= 32;
     job.flags |= 4;
@@ -5578,18 +5468,14 @@ function isVNode(value) {
 function isSameVNodeType(n1, n2) {
   return n1.type === n2.type && n1.key === n2.key;
 }
-const normalizeKey = _ref17 => {
-  let {
-    key
-  } = _ref17;
+const normalizeKey = _ref20 => {
+  let key = _ref20.key;
   return key != null ? key : null;
 };
-const normalizeRef = _ref18 => {
-  let {
-    ref,
-    ref_key,
-    ref_for
-  } = _ref18;
+const normalizeRef = _ref21 => {
+  let ref = _ref21.ref,
+    ref_key = _ref21.ref_key,
+    ref_for = _ref21.ref_for;
   if (typeof ref === "number") {
     ref = "" + ref;
   }
@@ -5717,10 +5603,9 @@ function _createVNode(type, props, children, patchFlag, dynamicProps, isBlockNod
   }
   if (props) {
     props = guardReactiveProps(props);
-    let {
-      class: klass,
-      style
-    } = props;
+    let _props = props,
+      klass = _props.class,
+      style = _props.style;
     if (klass && !isString(klass)) {
       props.class = normalizeClass(klass);
     }
@@ -5745,13 +5630,11 @@ function cloneVNode(vnode, extraProps, mergeRef, cloneTransition) {
   if (cloneTransition === void 0) {
     cloneTransition = false;
   }
-  const {
-    props,
-    ref,
-    patchFlag,
-    children,
-    transition
-  } = vnode;
+  const props = vnode.props,
+    ref = vnode.ref,
+    patchFlag = vnode.patchFlag,
+    children = vnode.children,
+    transition = vnode.transition;
   const mergedProps = extraProps ? mergeProps(props || {}, extraProps) : props;
   const cloned = {
     __v_isVNode: true,
@@ -5837,9 +5720,7 @@ function cloneIfMounted(child) {
 }
 function normalizeChildren(vnode, children) {
   let type = 0;
-  const {
-    shapeFlag
-  } = vnode;
+  const shapeFlag = vnode.shapeFlag;
   if (children == null) {
     children = null;
   } else if (isArray(children)) {
@@ -6048,10 +5929,9 @@ function setupComponent(instance, isSSR, optimized) {
     optimized = false;
   }
   isSSR && setInSSRSetupState(isSSR);
-  const {
-    props,
-    children
-  } = instance.vnode;
+  const _instance$vnode = instance.vnode,
+    props = _instance$vnode.props,
+    children = _instance$vnode.children;
   const isStateful = isStatefulComponent(instance);
   initProps(instance, props, isStateful, isSSR);
   initSlots(instance, children, optimized || isSSR);
@@ -6063,9 +5943,7 @@ function setupStatefulComponent(instance, isSSR) {
   const Component = instance.type;
   instance.accessCache = /* @__PURE__ */Object.create(null);
   instance.proxy = new Proxy(instance.ctx, PublicInstanceProxyHandlers);
-  const {
-    setup
-  } = Component;
+  const setup = Component.setup;
   if (setup) {
     pauseTracking();
     const setupContext = instance.setupContext = setup.length > 1 ? createSetupContext(instance) : null;
@@ -6114,14 +5992,11 @@ function finishComponentSetup(instance, isSSR, skipOptions) {
     if (!isSSR && compile && !Component.render) {
       const template = Component.template || resolveMergedOptions(instance).template;
       if (template) {
-        const {
-          isCustomElement,
-          compilerOptions
-        } = instance.appContext.config;
-        const {
-          delimiters,
-          compilerOptions: componentCompilerOptions
-        } = Component;
+        const _instance$appContext$ = instance.appContext.config,
+          isCustomElement = _instance$appContext$.isCustomElement,
+          compilerOptions = _instance$appContext$.compilerOptions;
+        const delimiters = Component.delimiters,
+          componentCompilerOptions = Component.compilerOptions;
         const finalCompilerOptions = extend$2(extend$2({
           isCustomElement,
           delimiters
@@ -6525,7 +6400,9 @@ function patchEvent(el, rawName, prevValue, nextValue, instance) {
   if (nextValue && existingInvoker) {
     existingInvoker.value = nextValue;
   } else {
-    const [name, options] = parseName(rawName);
+    const _parseName = parseName(rawName),
+      name = _parseName[0],
+      options = _parseName[1];
     if (nextValue) {
       const invoker = invokers[rawName] = createInvoker(nextValue, instance);
       addEventListener(el, name, invoker, options);
@@ -6718,9 +6595,7 @@ function ensureRenderer() {
 }
 const createApp = function createApp() {
   const app = ensureRenderer().createApp(...arguments);
-  const {
-    mount
-  } = app;
+  const mount = app.mount;
   app.mount = containerOrSelector => {
     const container = normalizeContainer(containerOrSelector);
     if (!container) return;
@@ -7911,6 +7786,11 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
 script$6.render = render$5;
 script$6.__file = "administrator/components/com_workflow/resources/scripts/components/Titlebar.vue";
 
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
 function _extends() {
   return _extends = Object.assign ? Object.assign.bind() : function (n) {
     for (var e = 1; e < arguments.length; e++) {
@@ -8004,26 +7884,24 @@ function watchWithFilter(source, cb, options) {
   if (options === void 0) {
     options = {};
   }
-  const {
-      eventFilter = bypassFilter
-    } = options,
-    watchOptions = _objectWithoutPropertiesLoose(options, _excluded);
+  const _options = options,
+    _options$eventFilter = _options.eventFilter,
+    eventFilter = _options$eventFilter === void 0 ? bypassFilter : _options$eventFilter,
+    watchOptions = _objectWithoutPropertiesLoose(_options, _excluded);
   return watch(source, createFilterWrapper(eventFilter, cb), watchOptions);
 }
 function watchPausable(source, cb, options) {
   if (options === void 0) {
     options = {};
   }
-  const {
-      eventFilter: filter2
-    } = options,
-    watchOptions = _objectWithoutPropertiesLoose(options, _excluded2);
-  const {
-    eventFilter,
-    pause,
-    resume,
-    isActive
-  } = pausableFilter(filter2);
+  const _options2 = options,
+    filter2 = _options2.eventFilter,
+    watchOptions = _objectWithoutPropertiesLoose(_options2, _excluded2);
+  const _pausableFilter = pausableFilter(filter2),
+    eventFilter = _pausableFilter.eventFilter,
+    pause = _pausableFilter.pause,
+    resume = _pausableFilter.resume,
+    isActive = _pausableFilter.isActive;
   const stop = watchWithFilter(source, cb, _extends({}, watchOptions, {
     eventFilter
   }));
@@ -8075,12 +7953,13 @@ function createUntil(r, isNot) {
     isNot = false;
   }
   function toMatch(condition, _temp) {
-    let {
-      flush = "sync",
-      deep = false,
-      timeout: timeout2,
-      throwOnTimeout
-    } = _temp === void 0 ? {} : _temp;
+    let _ref = _temp === void 0 ? {} : _temp,
+      _ref$flush = _ref.flush,
+      flush = _ref$flush === void 0 ? "sync" : _ref$flush,
+      _ref$deep = _ref.deep,
+      deep = _ref$deep === void 0 ? false : _ref$deep,
+      timeout2 = _ref.timeout,
+      throwOnTimeout = _ref.throwOnTimeout;
     let stop = null;
     const watcher = new Promise(resolve => {
       stop = watch(r, v => {
@@ -8102,16 +7981,18 @@ function createUntil(r, isNot) {
   }
   function toBe(value, options) {
     if (!isRef(value)) return toMatch(v => v === value, options);
-    const {
-      flush = "sync",
-      deep = false,
-      timeout: timeout2,
-      throwOnTimeout
-    } = options != null ? options : {};
+    const _ref2 = options != null ? options : {},
+      _ref2$flush = _ref2.flush,
+      flush = _ref2$flush === void 0 ? "sync" : _ref2$flush,
+      _ref2$deep = _ref2.deep,
+      deep = _ref2$deep === void 0 ? false : _ref2$deep,
+      timeout2 = _ref2.timeout,
+      throwOnTimeout = _ref2.throwOnTimeout;
     let stop = null;
     const watcher = new Promise(resolve => {
-      stop = watch([r, value], _ref => {
-        let [v1, v2] = _ref;
+      stop = watch([r, value], _ref3 => {
+        let v1 = _ref3[0],
+          v2 = _ref3[1];
         if (isNot !== (v1 === v2)) {
           stop == null ? void 0 : stop();
           resolve(v1);
@@ -8208,10 +8089,15 @@ function useEventListener() {
     args[_key2] = arguments[_key2];
   }
   if (typeof args[0] === "string" || Array.isArray(args[0])) {
-    [events, listeners, options] = args;
+    events = args[0];
+    listeners = args[1];
+    options = args[2];
     target = defaultWindow;
   } else {
-    [target, events, listeners, options] = args;
+    target = args[0];
+    events = args[1];
+    listeners = args[2];
+    options = args[3];
   }
   if (!target) return noop$3;
   if (!Array.isArray(events)) events = [events];
@@ -8225,8 +8111,9 @@ function useEventListener() {
     el.addEventListener(event, listener, options2);
     return () => el.removeEventListener(event, listener, options2);
   };
-  const stopWatch = watch(() => [unrefElement(target), toValue(options)], _ref2 => {
-    let [el, options2] = _ref2;
+  const stopWatch = watch(() => [unrefElement(target), toValue(options)], _ref4 => {
+    let el = _ref4[0],
+      options2 = _ref4[1];
     cleanup();
     if (!el) return;
     const optionsClone = isObject(options2) ? _extends({}, options2) : options2;
@@ -8269,12 +8156,15 @@ function onKeyStroke() {
     key = true;
     handler = arguments.length <= 0 ? undefined : arguments[0];
   }
-  const {
-    target = defaultWindow,
-    eventName = "keydown",
-    passive = false,
-    dedupe = false
-  } = options;
+  const _options3 = options,
+    _options3$target = _options3.target,
+    target = _options3$target === void 0 ? defaultWindow : _options3$target,
+    _options3$eventName = _options3.eventName,
+    eventName = _options3$eventName === void 0 ? "keydown" : _options3$eventName,
+    _options3$passive = _options3.passive,
+    passive = _options3$passive === void 0 ? false : _options3$passive,
+    _options3$dedupe = _options3.dedupe,
+    dedupe = _options3$dedupe === void 0 ? false : _options3$dedupe;
   const predicate = createKeyPredicate$1(key);
   const listener = e => {
     if (e.repeat && toValue(dedupe)) return;
@@ -8290,14 +8180,16 @@ function useVModel(props, key, emit, options) {
     options = {};
   }
   var _a, _b, _c;
-  const {
-    clone = false,
-    passive = false,
-    eventName,
-    deep = false,
-    defaultValue,
-    shouldEmit
-  } = options;
+  const _options4 = options,
+    _options4$clone = _options4.clone,
+    clone = _options4$clone === void 0 ? false : _options4$clone,
+    _options4$passive = _options4.passive,
+    passive = _options4$passive === void 0 ? false : _options4$passive,
+    eventName = _options4.eventName,
+    _options4$deep = _options4.deep,
+    deep = _options4$deep === void 0 ? false : _options4$deep,
+    defaultValue = _options4.defaultValue,
+    shouldEmit = _options4.shouldEmit;
   const vm = getCurrentInstance();
   const _emit = emit || (vm == null ? void 0 : vm.emit) || ((_a = vm == null ? void 0 : vm.$emit) == null ? void 0 : _a.bind(vm)) || ((_c = (_b = vm == null ? void 0 : vm.proxy) == null ? void 0 : _b.$emit) == null ? void 0 : _c.bind(vm == null ? void 0 : vm.proxy));
   let event = eventName;
@@ -9222,19 +9114,17 @@ function yesdrag$1(view, noclick) {
   }
 }
 const constant$2$1 = x => () => x;
-function DragEvent(type, _ref3) {
-  let {
-    sourceEvent: sourceEvent2,
-    subject,
-    target,
-    identifier,
-    active,
-    x,
-    y,
-    dx,
-    dy,
-    dispatch: dispatch2
-  } = _ref3;
+function DragEvent(type, _ref5) {
+  let sourceEvent2 = _ref5.sourceEvent,
+    subject = _ref5.subject,
+    target = _ref5.target,
+    identifier = _ref5.identifier,
+    active = _ref5.active,
+    x = _ref5.x,
+    y = _ref5.y,
+    dx = _ref5.dx,
+    dy = _ref5.dy,
+    dispatch2 = _ref5.dispatch;
   Object.defineProperties(this, {
     type: {
       value: type,
@@ -10909,13 +10799,11 @@ function selection_transition$1(name) {
 selection$1.prototype.interrupt = selection_interrupt$1;
 selection$1.prototype.transition = selection_transition$1;
 const constant$4 = x => () => x;
-function ZoomEvent$1(type, _ref4) {
-  let {
-    sourceEvent: sourceEvent2,
-    target,
-    transform,
-    dispatch: dispatch2
-  } = _ref4;
+function ZoomEvent$1(type, _ref6) {
+  let sourceEvent2 = _ref6.sourceEvent,
+    target = _ref6.target,
+    transform = _ref6.transform,
+    dispatch2 = _ref6.dispatch;
   Object.defineProperties(this, {
     type: {
       value: type,
@@ -11646,11 +11534,11 @@ function parseNode(node, existingNode, parentNode) {
   });
 }
 function parseEdge(edge, existingEdge, defaultEdgeOptions) {
-  var _ref5, _edge$type, _edge$updatable, _edge$selectable, _edge$focusable, _edge$label, _edge$interactionWidt;
+  var _ref7, _edge$type, _edge$updatable, _edge$selectable, _edge$focusable, _edge$label, _edge$interactionWidt;
   var _a, _b;
   const initialState = _extends({
     id: edge.id.toString(),
-    type: (_ref5 = (_edge$type = edge.type) != null ? _edge$type : existingEdge == null ? void 0 : existingEdge.type) != null ? _ref5 : "default",
+    type: (_ref7 = (_edge$type = edge.type) != null ? _edge$type : existingEdge == null ? void 0 : existingEdge.type) != null ? _ref7 : "default",
     source: edge.source.toString(),
     target: edge.target.toString(),
     sourceHandle: (_a = edge.sourceHandle) == null ? void 0 : _a.toString(),
@@ -11683,10 +11571,13 @@ function getOutgoers() {
     args[_key9] = arguments[_key9];
   }
   if (args.length === 3) {
-    const [nodeOrId2, nodes, edges] = args;
+    const nodeOrId2 = args[0],
+      nodes = args[1],
+      edges = args[2];
     return getConnectedElements(nodeOrId2, nodes, edges, "target");
   }
-  const [nodeOrId, elements] = args;
+  const nodeOrId = args[0],
+    elements = args[1];
   const nodeId = typeof nodeOrId === "string" ? nodeOrId : nodeOrId.id;
   const outgoers = elements.filter(el => isEdge(el) && el.source === nodeId);
   return outgoers.map(edge => elements.find(el => isNode(el) && el.id === edge.target));
@@ -11696,51 +11587,44 @@ function getIncomers() {
     args[_key0] = arguments[_key0];
   }
   if (args.length === 3) {
-    const [nodeOrId2, nodes, edges] = args;
+    const nodeOrId2 = args[0],
+      nodes = args[1],
+      edges = args[2];
     return getConnectedElements(nodeOrId2, nodes, edges, "source");
   }
-  const [nodeOrId, elements] = args;
+  const nodeOrId = args[0],
+    elements = args[1];
   const nodeId = typeof nodeOrId === "string" ? nodeOrId : nodeOrId.id;
   const incomers = elements.filter(el => isEdge(el) && el.target === nodeId);
   return incomers.map(edge => elements.find(el => isNode(el) && el.id === edge.source));
 }
-function getEdgeId(_ref6) {
-  let {
-    source,
-    sourceHandle,
-    target,
-    targetHandle
-  } = _ref6;
+function getEdgeId(_ref8) {
+  let source = _ref8.source,
+    sourceHandle = _ref8.sourceHandle,
+    target = _ref8.target,
+    targetHandle = _ref8.targetHandle;
   return "vueflow__edge-" + source + (sourceHandle != null ? sourceHandle : "") + "-" + target + (targetHandle != null ? targetHandle : "");
 }
 function connectionExists(edge, elements) {
   return elements.some(el => isEdge(el) && el.source === edge.source && el.target === edge.target && (el.sourceHandle === edge.sourceHandle || !el.sourceHandle && !edge.sourceHandle) && (el.targetHandle === edge.targetHandle || !el.targetHandle && !edge.targetHandle));
 }
-function rendererPointToPoint(_ref7, _ref8) {
-  let {
-    x,
-    y
-  } = _ref7;
-  let {
-    x: tx,
-    y: ty,
-    zoom: tScale
-  } = _ref8;
+function rendererPointToPoint(_ref9, _ref0) {
+  let x = _ref9.x,
+    y = _ref9.y;
+  let tx = _ref0.x,
+    ty = _ref0.y,
+    tScale = _ref0.zoom;
   return {
     x: x * tScale + tx,
     y: y * tScale + ty
   };
 }
-function pointToRendererPoint(_ref9, _ref0, snapToGrid, snapGrid) {
-  let {
-    x,
-    y
-  } = _ref9;
-  let {
-    x: tx,
-    y: ty,
-    zoom: tScale
-  } = _ref0;
+function pointToRendererPoint(_ref1, _ref10, snapToGrid, snapGrid) {
+  let x = _ref1.x,
+    y = _ref1.y;
+  let tx = _ref10.x,
+    ty = _ref10.y,
+    tScale = _ref10.zoom;
   if (snapToGrid === void 0) {
     snapToGrid = false;
   }
@@ -11761,13 +11645,11 @@ function getBoundsOfBoxes(box1, box2) {
     y2: Math.max(box1.y2, box2.y2)
   };
 }
-function rectToBox(_ref1) {
-  let {
-    x,
-    y,
-    width,
-    height
-  } = _ref1;
+function rectToBox(_ref11) {
+  let x = _ref11.x,
+    y = _ref11.y,
+    width = _ref11.width,
+    height = _ref11.height;
   return {
     x,
     y,
@@ -11775,13 +11657,11 @@ function rectToBox(_ref1) {
     y2: y + height
   };
 }
-function boxToRect(_ref10) {
-  let {
-    x,
-    y,
-    x2,
-    y2
-  } = _ref10;
+function boxToRect(_ref12) {
+  let x = _ref12.x,
+    y = _ref12.y,
+    x2 = _ref12.x2,
+    y2 = _ref12.y2;
   return {
     x,
     y,
@@ -11825,14 +11705,14 @@ function getNodesInside(nodes, rect, viewport, partially, excludeNonSelectableNo
   });
   const visibleNodes = [];
   for (const node of nodes) {
-    var _ref11, _dimensions$width, _ref12, _dimensions$height;
-    const {
-      dimensions,
-      selectable = true,
-      hidden = false
-    } = node;
-    const width = (_ref11 = (_dimensions$width = dimensions.width) != null ? _dimensions$width : node.width) != null ? _ref11 : null;
-    const height = (_ref12 = (_dimensions$height = dimensions.height) != null ? _dimensions$height : node.height) != null ? _ref12 : null;
+    var _ref13, _dimensions$width, _ref14, _dimensions$height;
+    const dimensions = node.dimensions,
+      _node$selectable = node.selectable,
+      selectable = _node$selectable === void 0 ? true : _node$selectable,
+      _node$hidden = node.hidden,
+      hidden = _node$hidden === void 0 ? false : _node$hidden;
+    const width = (_ref13 = (_dimensions$width = dimensions.width) != null ? _dimensions$width : node.width) != null ? _ref13 : null;
+    const height = (_ref14 = (_dimensions$height = dimensions.height) != null ? _dimensions$height : node.height) != null ? _ref14 : null;
     if (excludeNonSelectableNodes && !selectable || hidden) {
       continue;
     }
@@ -11891,11 +11771,11 @@ function parsePaddings(padding, width, height) {
     };
   }
   if (typeof padding === "object") {
-    var _ref13, _padding$top, _ref14, _padding$bottom, _ref15, _padding$left, _ref16, _padding$right;
-    const top = parsePadding((_ref13 = (_padding$top = padding.top) != null ? _padding$top : padding.y) != null ? _ref13 : 0, height);
-    const bottom = parsePadding((_ref14 = (_padding$bottom = padding.bottom) != null ? _padding$bottom : padding.y) != null ? _ref14 : 0, height);
-    const left = parsePadding((_ref15 = (_padding$left = padding.left) != null ? _padding$left : padding.x) != null ? _ref15 : 0, width);
-    const right = parsePadding((_ref16 = (_padding$right = padding.right) != null ? _padding$right : padding.x) != null ? _ref16 : 0, width);
+    var _ref15, _padding$top, _ref16, _padding$bottom, _ref17, _padding$left, _ref18, _padding$right;
+    const top = parsePadding((_ref15 = (_padding$top = padding.top) != null ? _padding$top : padding.y) != null ? _ref15 : 0, height);
+    const bottom = parsePadding((_ref16 = (_padding$bottom = padding.bottom) != null ? _padding$bottom : padding.y) != null ? _ref16 : 0, height);
+    const left = parsePadding((_ref17 = (_padding$left = padding.left) != null ? _padding$left : padding.x) != null ? _ref17 : 0, width);
+    const right = parsePadding((_ref18 = (_padding$right = padding.right) != null ? _padding$right : padding.x) != null ? _ref18 : 0, width);
     return {
       top,
       right,
@@ -11915,25 +11795,23 @@ function parsePaddings(padding, width, height) {
   };
 }
 function calculateAppliedPaddings(bounds, x, y, zoom2, width, height) {
-  const {
-    x: left,
-    y: top
-  } = rendererPointToPoint(bounds, {
-    x,
-    y,
-    zoom: zoom2
-  });
-  const {
-    x: boundRight,
-    y: boundBottom
-  } = rendererPointToPoint({
-    x: bounds.x + bounds.width,
-    y: bounds.y + bounds.height
-  }, {
-    x,
-    y,
-    zoom: zoom2
-  });
+  const _rendererPointToPoint = rendererPointToPoint(bounds, {
+      x,
+      y,
+      zoom: zoom2
+    }),
+    left = _rendererPointToPoint.x,
+    top = _rendererPointToPoint.y;
+  const _rendererPointToPoint2 = rendererPointToPoint({
+      x: bounds.x + bounds.width,
+      y: bounds.y + bounds.height
+    }, {
+      x,
+      y,
+      zoom: zoom2
+    }),
+    boundRight = _rendererPointToPoint2.x,
+    boundBottom = _rendererPointToPoint2.y;
   const right = width - boundRight;
   const bottom = height - boundBottom;
   return {
@@ -12201,7 +12079,9 @@ function getSelectionChanges(items, selectedIds, mutateItem) {
     mutateItem = false;
   }
   const changes = [];
-  for (const [id2, item] of items) {
+  for (const _ref19 of items) {
+    const id2 = _ref19[0];
+    const item = _ref19[1];
     const willBeSelected = selectedIds.has(id2);
     if (!(item.selected === void 0 && !willBeSelected) && item.selected !== willBeSelected) {
       if (mutateItem) {
@@ -12277,7 +12157,9 @@ function hasSelector(target, selector2, node) {
 function getDragItems(nodeLookup, nodesDraggable, mousePos, nodeId) {
   var _a, _b;
   const dragItems = /* @__PURE__ */new Map();
-  for (const [id2, node] of nodeLookup) {
+  for (const _ref20 of nodeLookup) {
+    const id2 = _ref20[0];
+    const node = _ref20[1];
     if ((node.selected || node.id === nodeId) && (!node.parentNode || !isParentSelected(node, nodeLookup)) && (node.draggable || nodesDraggable && typeof node.draggable === "undefined")) {
       const internalNode = nodeLookup.get(id2);
       if (internalNode) {
@@ -12305,12 +12187,10 @@ function getDragItems(nodeLookup, nodesDraggable, mousePos, nodeId) {
   }
   return Array.from(dragItems.values());
 }
-function getEventHandlerParams(_ref17) {
-  let {
-    id: id2,
-    dragItems,
-    findNode
-  } = _ref17;
+function getEventHandlerParams(_ref21) {
+  let id2 = _ref21.id,
+    dragItems = _ref21.dragItems,
+    findNode = _ref21.findNode;
   const extendedDragItems = [];
   for (const dragItem of dragItems) {
     const node = findNode(dragItem.id);
@@ -12338,7 +12218,11 @@ function getExtentPadding(padding) {
   return [padding, padding, padding, padding];
 }
 function getParentExtent(currentExtent, node, parent) {
-  const [top, right, bottom, left] = typeof currentExtent !== "string" ? getExtentPadding(currentExtent.padding) : [0, 0, 0, 0];
+  const _ref22 = typeof currentExtent !== "string" ? getExtentPadding(currentExtent.padding) : [0, 0, 0, 0],
+    top = _ref22[0],
+    right = _ref22[1],
+    bottom = _ref22[2],
+    left = _ref22[3];
   if (parent && typeof parent.computedPosition.x !== "undefined" && typeof parent.computedPosition.y !== "undefined" && typeof parent.dimensions.width !== "undefined" && typeof parent.dimensions.height !== "undefined") {
     return [[parent.computedPosition.x + left, parent.computedPosition.y + top], [parent.computedPosition.x + parent.dimensions.width - right, parent.computedPosition.y + parent.dimensions.height - bottom]];
   }
@@ -12361,18 +12245,20 @@ function getExtent(item, triggerError, extent, parent) {
     const parentY = (parent == null ? void 0 : parent.computedPosition.y) || 0;
     currentExtent = [[currentExtent[0][0] + parentX, currentExtent[0][1] + parentY], [currentExtent[1][0] + parentX, currentExtent[1][1] + parentY]];
   } else if (currentExtent !== "parent" && (currentExtent == null ? void 0 : currentExtent.range) && Array.isArray(currentExtent.range)) {
-    const [top, right, bottom, left] = getExtentPadding(currentExtent.padding);
+    const _getExtentPadding = getExtentPadding(currentExtent.padding),
+      top = _getExtentPadding[0],
+      right = _getExtentPadding[1],
+      bottom = _getExtentPadding[2],
+      left = _getExtentPadding[3];
     const parentX = (parent == null ? void 0 : parent.computedPosition.x) || 0;
     const parentY = (parent == null ? void 0 : parent.computedPosition.y) || 0;
     currentExtent = [[currentExtent.range[0][0] + parentX + left, currentExtent.range[0][1] + parentY + top], [currentExtent.range[1][0] + parentX - right, currentExtent.range[1][1] + parentY - bottom]];
   }
   return currentExtent === "parent" ? [[Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY], [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY]] : currentExtent;
 }
-function clampNodeExtent(_ref18, extent) {
-  let {
-    width,
-    height
-  } = _ref18;
+function clampNodeExtent(_ref23, extent) {
+  let width = _ref23.width,
+    height = _ref23.height;
   return [extent[0], [extent[1][0] - (width || 0), extent[1][1] - (height || 0)]];
 }
 function calcNextPosition(node, nextPosition, triggerError, nodeExtent, parentNode) {
@@ -12387,26 +12273,25 @@ function calcNextPosition(node, nextPosition, triggerError, nodeExtent, parentNo
   };
 }
 function getHandlePosition(node, handle, fallbackPosition, center) {
-  var _ref19, _ref20, _ref21;
+  var _ref24, _ref25, _ref27;
   if (fallbackPosition === void 0) {
     fallbackPosition = Position.Left;
   }
   if (center === void 0) {
     center = false;
   }
-  const x = ((_ref19 = handle == null ? void 0 : handle.x) != null ? _ref19 : 0) + node.computedPosition.x;
-  const y = ((_ref20 = handle == null ? void 0 : handle.y) != null ? _ref20 : 0) + node.computedPosition.y;
-  const {
-    width,
-    height
-  } = handle != null ? handle : getNodeDimensions(node);
+  const x = ((_ref24 = handle == null ? void 0 : handle.x) != null ? _ref24 : 0) + node.computedPosition.x;
+  const y = ((_ref25 = handle == null ? void 0 : handle.y) != null ? _ref25 : 0) + node.computedPosition.y;
+  const _ref26 = handle != null ? handle : getNodeDimensions(node),
+    width = _ref26.width,
+    height = _ref26.height;
   if (center) {
     return {
       x: x + width / 2,
       y: y + height / 2
     };
   }
-  const position = (_ref21 = handle == null ? void 0 : handle.position) != null ? _ref21 : fallbackPosition;
+  const position = (_ref27 = handle == null ? void 0 : handle.position) != null ? _ref27 : fallbackPosition;
   switch (position) {
     case Position.Top:
       return {
@@ -12436,18 +12321,16 @@ function getEdgeHandle(bounds, handleId) {
   }
   return (!handleId ? bounds[0] : bounds.find(d => d.id === handleId)) || null;
 }
-function isEdgeVisible(_ref22) {
-  let {
-    sourcePos,
-    targetPos,
-    sourceWidth,
-    sourceHeight,
-    targetWidth,
-    targetHeight,
-    width,
-    height,
-    viewport
-  } = _ref22;
+function isEdgeVisible(_ref28) {
+  let sourcePos = _ref28.sourcePos,
+    targetPos = _ref28.targetPos,
+    sourceWidth = _ref28.sourceWidth,
+    sourceHeight = _ref28.sourceHeight,
+    targetWidth = _ref28.targetWidth,
+    targetHeight = _ref28.targetHeight,
+    width = _ref28.width,
+    height = _ref28.height,
+    viewport = _ref28.viewport;
   const edgeBox = {
     x: Math.min(sourcePos.x, targetPos.x),
     y: Math.min(sourcePos.y, targetPos.y),
@@ -12560,7 +12443,7 @@ function isUseDragEvent(event) {
   return "sourceEvent" in event;
 }
 function getEventPosition(event, bounds) {
-  var _ref23, _ref24;
+  var _ref29, _ref30;
   const isMouse = isMouseEvent(event);
   let evtX;
   let evtY;
@@ -12578,8 +12461,8 @@ function getEventPosition(event, bounds) {
     evtY = 0;
   }
   return {
-    x: evtX - ((_ref23 = bounds == null ? void 0 : bounds.left) != null ? _ref23 : 0),
-    y: evtY - ((_ref24 = bounds == null ? void 0 : bounds.top) != null ? _ref24 : 0)
+    x: evtX - ((_ref29 = bounds == null ? void 0 : bounds.left) != null ? _ref29 : 0),
+    y: evtY - ((_ref30 = bounds == null ? void 0 : bounds.top) != null ? _ref30 : 0)
   };
 }
 const isMacOs = () => {
@@ -12587,11 +12470,11 @@ const isMacOs = () => {
   return typeof navigator !== "undefined" && ((_a = navigator == null ? void 0 : navigator.userAgent) == null ? void 0 : _a.indexOf("Mac")) >= 0;
 };
 function getNodeDimensions(node) {
-  var _ref25, _ref26, _ref27, _ref28;
+  var _ref31, _ref32, _ref33, _ref34;
   var _a, _b;
   return {
-    width: (_ref25 = (_ref26 = (_a = node.dimensions) == null ? void 0 : _a.width) != null ? _ref26 : node.width) != null ? _ref25 : 0,
-    height: (_ref27 = (_ref28 = (_b = node.dimensions) == null ? void 0 : _b.height) != null ? _ref28 : node.height) != null ? _ref27 : 0
+    width: (_ref31 = (_ref32 = (_a = node.dimensions) == null ? void 0 : _a.width) != null ? _ref32 : node.width) != null ? _ref31 : 0,
+    height: (_ref33 = (_ref34 = (_b = node.dimensions) == null ? void 0 : _b.height) != null ? _ref34 : node.height) != null ? _ref33 : 0
   };
 }
 function snapPosition(position, snapGrid) {
@@ -12629,16 +12512,15 @@ function getClosestHandle(position, connectionRadius, nodeLookup, fromHandle) {
   let minDistance = Number.POSITIVE_INFINITY;
   const closeNodes = getNodesWithinDistance(position, nodeLookup, connectionRadius + ADDITIONAL_DISTANCE);
   for (const node of closeNodes) {
-    var _ref29, _ref30;
-    const allHandles = [...((_ref29 = (_a = node.handleBounds) == null ? void 0 : _a.source) != null ? _ref29 : []), ...((_ref30 = (_b = node.handleBounds) == null ? void 0 : _b.target) != null ? _ref30 : [])];
+    var _ref35, _ref36;
+    const allHandles = [...((_ref35 = (_a = node.handleBounds) == null ? void 0 : _a.source) != null ? _ref35 : []), ...((_ref36 = (_b = node.handleBounds) == null ? void 0 : _b.target) != null ? _ref36 : [])];
     for (const handle of allHandles) {
       if (fromHandle.nodeId === handle.nodeId && fromHandle.type === handle.type && fromHandle.id === handle.id) {
         continue;
       }
-      const {
-        x,
-        y
-      } = getHandlePosition(node, handle, handle.position, true);
+      const _getHandlePosition = getHandlePosition(node, handle, handle.position, true),
+        x = _getHandlePosition.x,
+        y = _getHandlePosition.y;
       const distance2 = Math.sqrt((x - position.x) ** 2 + (y - position.y) ** 2);
       if (distance2 > connectionRadius) {
         continue;
@@ -12667,24 +12549,22 @@ function getClosestHandle(position, connectionRadius, nodeLookup, fromHandle) {
   }
   return closestHandles[0];
 }
-function isValidHandle(event, _ref31, edges, nodes, findNode, nodeLookup) {
-  let {
-    handle,
-    connectionMode,
-    fromNodeId,
-    fromHandleId,
-    fromType,
-    doc,
-    lib,
-    flowId,
-    isValidConnection = alwaysValid$1
-  } = _ref31;
+function isValidHandle(event, _ref37, edges, nodes, findNode, nodeLookup) {
+  let handle = _ref37.handle,
+    connectionMode = _ref37.connectionMode,
+    fromNodeId = _ref37.fromNodeId,
+    fromHandleId = _ref37.fromHandleId,
+    fromType = _ref37.fromType,
+    doc = _ref37.doc,
+    lib = _ref37.lib,
+    flowId = _ref37.flowId,
+    _ref37$isValidConnect = _ref37.isValidConnection,
+    isValidConnection = _ref37$isValidConnect === void 0 ? alwaysValid$1 : _ref37$isValidConnect;
   const isTarget = fromType === "target";
   const handleDomNode = handle ? doc.querySelector("." + lib + "-flow__handle[data-id=\"" + flowId + "-" + (handle == null ? void 0 : handle.nodeId) + "-" + (handle == null ? void 0 : handle.id) + "-" + (handle == null ? void 0 : handle.type) + "\"]") : null;
-  const {
-    x,
-    y
-  } = getEventPosition(event);
+  const _getEventPosition = getEventPosition(event),
+    x = _getEventPosition.x,
+    y = _getEventPosition.y;
   const handleBelow = doc.elementFromPoint(x, y);
   const handleToCheck = (handleBelow == null ? void 0 : handleBelow.classList.contains(lib + "-flow__handle")) ? handleBelow : handleDomNode;
   const result = {
@@ -12750,7 +12630,7 @@ function isConnectionValid(isInsideConnectionRadius, isHandleValid) {
   return isValid;
 }
 function getHandle(nodeId, handleType, handleId, nodeLookup, connectionMode, withAbsolutePosition) {
-  var _ref32, _ref33, _ref34;
+  var _ref38, _ref39, _ref40;
   if (withAbsolutePosition === void 0) {
     withAbsolutePosition = false;
   }
@@ -12759,8 +12639,8 @@ function getHandle(nodeId, handleType, handleId, nodeLookup, connectionMode, wit
   if (!node) {
     return null;
   }
-  const handles = connectionMode === ConnectionMode.Strict ? (_a = node.handleBounds) == null ? void 0 : _a[handleType] : [...((_ref32 = (_b = node.handleBounds) == null ? void 0 : _b.source) != null ? _ref32 : []), ...((_ref33 = (_c = node.handleBounds) == null ? void 0 : _c.target) != null ? _ref33 : [])];
-  const handle = (_ref34 = handleId ? handles == null ? void 0 : handles.find(h2 => h2.id === handleId) : handles == null ? void 0 : handles[0]) != null ? _ref34 : null;
+  const handles = connectionMode === ConnectionMode.Strict ? (_a = node.handleBounds) == null ? void 0 : _a[handleType] : [...((_ref38 = (_b = node.handleBounds) == null ? void 0 : _b.source) != null ? _ref38 : []), ...((_ref39 = (_c = node.handleBounds) == null ? void 0 : _c.target) != null ? _ref39 : [])];
+  const handle = (_ref40 = handleId ? handles == null ? void 0 : handles.find(h2 => h2.id === handleId) : handles == null ? void 0 : handles[0]) != null ? _ref40 : null;
   return handle && withAbsolutePosition ? _extends({}, handle, getHandlePosition(node, handle, handle.position, true)) : handle;
 }
 const oppositePosition = {
@@ -12818,8 +12698,8 @@ function isDef(val) {
 }
 function addEdgeToStore(edgeParams, edges, triggerError, defaultEdgeOptions) {
   if (!edgeParams || !edgeParams.source || !edgeParams.target) {
-    var _ref35;
-    triggerError(new VueFlowError(ErrorCode.EDGE_INVALID, (_ref35 = edgeParams == null ? void 0 : edgeParams.id) != null ? _ref35 : "[ID UNKNOWN]"));
+    var _ref41;
+    triggerError(new VueFlowError(ErrorCode.EDGE_INVALID, (_ref41 = edgeParams == null ? void 0 : edgeParams.id) != null ? _ref41 : "[ID UNKNOWN]"));
     return false;
   }
   let edge;
@@ -12845,9 +12725,7 @@ function updateEdgeAction(edge, newConnection, prevEdge, shouldReplaceId, trigge
     triggerError(new VueFlowError(ErrorCode.EDGE_NOT_FOUND, edge.id));
     return false;
   }
-  const {
-      id: id2
-    } = edge,
+  const id2 = edge.id,
     rest = _objectWithoutPropertiesLoose(edge, _excluded3);
   return _extends({}, rest, {
     id: shouldReplaceId ? getEdgeId(newConnection) : id2,
@@ -12904,12 +12782,12 @@ function addConnectionToLookup(type, connection, connectionKey, connectionLookup
 function updateConnectionLookup(connectionLookup, edgeLookup, edges) {
   connectionLookup.clear();
   for (const edge of edges) {
-    const {
-      source: sourceNode,
-      target: targetNode,
-      sourceHandle = null,
-      targetHandle = null
-    } = edge;
+    const sourceNode = edge.source,
+      targetNode = edge.target,
+      _edge$sourceHandle = edge.sourceHandle,
+      sourceHandle = _edge$sourceHandle === void 0 ? null : _edge$sourceHandle,
+      _edge$targetHandle = edge.targetHandle,
+      targetHandle = _edge$targetHandle === void 0 ? null : _edge$targetHandle;
     const connection = {
       edgeId: edge.id,
       source: sourceNode,
@@ -12982,39 +12860,36 @@ const EdgeId = Symbol("edgeId");
 const EdgeRef = Symbol("edgeRef");
 const Slots$1 = Symbol("slots");
 function useDrag(params) {
-  const {
-    vueFlowRef,
-    snapToGrid,
-    snapGrid,
-    noDragClassName,
-    nodeLookup,
-    nodeExtent,
-    nodeDragThreshold,
-    viewport,
-    autoPanOnNodeDrag,
-    autoPanSpeed,
-    nodesDraggable,
-    panBy,
-    findNode,
-    multiSelectionActive,
-    nodesSelectionActive,
-    selectNodesOnDrag,
-    removeSelectedElements,
-    addSelectedNodes,
-    updateNodePositions,
-    emits
-  } = useVueFlow();
-  const {
-    onStart,
-    onDrag,
-    onStop,
-    onClick,
-    el,
-    disabled,
-    id: id2,
-    selectable,
-    dragHandle
-  } = params;
+  const _useVueFlow = useVueFlow(),
+    vueFlowRef = _useVueFlow.vueFlowRef,
+    snapToGrid = _useVueFlow.snapToGrid,
+    snapGrid = _useVueFlow.snapGrid,
+    noDragClassName = _useVueFlow.noDragClassName,
+    nodeLookup = _useVueFlow.nodeLookup,
+    nodeExtent = _useVueFlow.nodeExtent,
+    nodeDragThreshold = _useVueFlow.nodeDragThreshold,
+    viewport = _useVueFlow.viewport,
+    autoPanOnNodeDrag = _useVueFlow.autoPanOnNodeDrag,
+    autoPanSpeed = _useVueFlow.autoPanSpeed,
+    nodesDraggable = _useVueFlow.nodesDraggable,
+    panBy = _useVueFlow.panBy,
+    findNode = _useVueFlow.findNode,
+    multiSelectionActive = _useVueFlow.multiSelectionActive,
+    nodesSelectionActive = _useVueFlow.nodesSelectionActive,
+    selectNodesOnDrag = _useVueFlow.selectNodesOnDrag,
+    removeSelectedElements = _useVueFlow.removeSelectedElements,
+    addSelectedNodes = _useVueFlow.addSelectedNodes,
+    updateNodePositions = _useVueFlow.updateNodePositions,
+    emits = _useVueFlow.emits;
+  const onStart = params.onStart,
+    onDrag = params.onDrag,
+    onStop = params.onStop,
+    onClick = params.onClick,
+    el = params.el,
+    disabled = params.disabled,
+    id2 = params.id,
+    selectable = params.selectable,
+    dragHandle = params.dragHandle;
   const dragging = shallowRef(false);
   let dragItems = [];
   let dragHandler;
@@ -13033,11 +12908,9 @@ function useDrag(params) {
   let autoPanId = 0;
   let autoPanStarted = false;
   const getPointerPosition = useGetPointerPosition();
-  const updateNodes = _ref36 => {
-    let {
-      x,
-      y
-    } = _ref36;
+  const updateNodes = _ref42 => {
+    let x = _ref42.x,
+      y = _ref42.y;
     lastPos = {
       x,
       y
@@ -13048,9 +12921,8 @@ function useDrag(params) {
         x: x - n.distance.x,
         y: y - n.distance.y
       };
-      const {
-        computedPosition
-      } = calcNextPosition(n, snapToGrid.value ? snapPosition(nextPosition, snapGrid.value) : nextPosition, emits.error, nodeExtent.value, n.parentNode ? findNode(n.parentNode) : void 0);
+      const _calcNextPosition = calcNextPosition(n, snapToGrid.value ? snapPosition(nextPosition, snapGrid.value) : nextPosition, emits.error, nodeExtent.value, n.parentNode ? findNode(n.parentNode) : void 0),
+        computedPosition = _calcNextPosition.computedPosition;
       hasChange = hasChange || n.position.x !== computedPosition.x || n.position.y !== computedPosition.y;
       n.position = computedPosition;
       return n;
@@ -13062,11 +12934,13 @@ function useDrag(params) {
     updateNodePositions(dragItems, true, true);
     dragging.value = true;
     if (dragEvent) {
-      const [currentNode, nodes] = getEventHandlerParams({
-        id: id2,
-        dragItems,
-        findNode
-      });
+      const _getEventHandlerParam = getEventHandlerParams({
+          id: id2,
+          dragItems,
+          findNode
+        }),
+        currentNode = _getEventHandlerParam[0],
+        nodes = _getEventHandlerParam[1];
       onDrag({
         event: dragEvent,
         node: currentNode,
@@ -13078,7 +12952,9 @@ function useDrag(params) {
     if (!containerBounds) {
       return;
     }
-    const [xMovement, yMovement] = calcAutoPan(mousePosition, containerBounds, autoPanSpeed.value);
+    const _calcAutoPan = calcAutoPan(mousePosition, containerBounds, autoPanSpeed.value),
+      xMovement = _calcAutoPan[0],
+      yMovement = _calcAutoPan[1];
     if (xMovement !== 0 || yMovement !== 0) {
       var _lastPos$x, _lastPos$y;
       const nextPos = {
@@ -13109,11 +12985,13 @@ function useDrag(params) {
     lastPos = pointerPos;
     dragItems = getDragItems(nodeLookup.value, nodesDraggable.value, pointerPos, id2);
     if (dragItems.length) {
-      const [currentNode, nodes] = getEventHandlerParams({
-        id: id2,
-        dragItems,
-        findNode
-      });
+      const _getEventHandlerParam2 = getEventHandlerParams({
+          id: id2,
+          dragItems,
+          findNode
+        }),
+        currentNode = _getEventHandlerParam2[0],
+        nodes = _getEventHandlerParam2[1];
       onStart({
         event: event.sourceEvent,
         node: currentNode,
@@ -13174,11 +13052,13 @@ function useDrag(params) {
         updateNodePositions(dragItems, false, false);
         nodePositionsChanged = false;
       }
-      const [currentNode, nodes] = getEventHandlerParams({
-        id: id2,
-        dragItems,
-        findNode
-      });
+      const _getEventHandlerParam3 = getEventHandlerParams({
+          id: id2,
+          dragItems,
+          findNode
+        }),
+        currentNode = _getEventHandlerParam3[0],
+        nodes = _getEventHandlerParam3[1];
       onStop({
         event: event.sourceEvent,
         node: currentNode,
@@ -13195,8 +13075,9 @@ function useDrag(params) {
     };
     cancelAnimationFrame(autoPanId);
   };
-  watch([() => toValue$1(disabled), el], (_ref37, _, onCleanup) => {
-    let [isDisabled, nodeEl] = _ref37;
+  watch([() => toValue$1(disabled), el], (_ref43, _, onCleanup) => {
+    let isDisabled = _ref43[0],
+      nodeEl = _ref43[1];
     if (nodeEl) {
       const selection2 = select$1(nodeEl);
       if (!isDisabled) {
@@ -13279,8 +13160,9 @@ function useEdgeHooks(edge, emits) {
     emits.edgeUpdateEnd(event);
     (_b = (_a = edge.events) == null ? void 0 : _a.updateEnd) == null ? void 0 : _b.call(_a, event);
   });
-  return Object.entries(edgeHooks).reduce((hooks, _ref38) => {
-    let [key, value] = _ref38;
+  return Object.entries(edgeHooks).reduce((hooks, _ref44) => {
+    let key = _ref44[0],
+      value = _ref44[1];
     hooks.emit[key] = value.trigger;
     hooks.on[key] = value.on;
     return hooks;
@@ -13290,32 +13172,29 @@ function useEdgeHooks(edge, emits) {
   });
 }
 function useGetPointerPosition() {
-  const {
-    viewport,
-    snapGrid,
-    snapToGrid,
-    vueFlowRef
-  } = useVueFlow();
+  const _useVueFlow3 = useVueFlow(),
+    viewport = _useVueFlow3.viewport,
+    snapGrid = _useVueFlow3.snapGrid,
+    snapToGrid = _useVueFlow3.snapToGrid,
+    vueFlowRef = _useVueFlow3.vueFlowRef;
   return event => {
-    var _ref39;
+    var _ref45;
     var _a;
-    const containerBounds = (_ref39 = (_a = vueFlowRef.value) == null ? void 0 : _a.getBoundingClientRect()) != null ? _ref39 : {
+    const containerBounds = (_ref45 = (_a = vueFlowRef.value) == null ? void 0 : _a.getBoundingClientRect()) != null ? _ref45 : {
       left: 0,
       top: 0
     };
     const evt = isUseDragEvent(event) ? event.sourceEvent : event;
-    const {
-      x,
-      y
-    } = getEventPosition(evt, containerBounds);
+    const _getEventPosition2 = getEventPosition(evt, containerBounds),
+      x = _getEventPosition2.x,
+      y = _getEventPosition2.y;
     const pointerPos = pointToRendererPoint({
       x,
       y
     }, viewport.value);
-    const {
-      x: xSnapped,
-      y: ySnapped
-    } = snapToGrid.value ? snapPosition(pointerPos, snapGrid.value) : pointerPos;
+    const _ref46 = snapToGrid.value ? snapPosition(pointerPos, snapGrid.value) : pointerPos,
+      xSnapped = _ref46.x,
+      ySnapped = _ref46.y;
     return _extends({
       xSnapped,
       ySnapped
@@ -13325,38 +13204,35 @@ function useGetPointerPosition() {
 function alwaysValid() {
   return true;
 }
-function useHandle(_ref40) {
-  let {
-    handleId,
-    nodeId,
-    type,
-    isValidConnection,
-    edgeUpdaterType,
-    onEdgeUpdate,
-    onEdgeUpdateEnd
-  } = _ref40;
-  const {
-    id: flowId,
-    vueFlowRef,
-    connectionMode,
-    connectionRadius,
-    connectOnClick,
-    connectionClickStartHandle,
-    nodesConnectable,
-    autoPanOnConnect,
-    autoPanSpeed,
-    findNode,
-    panBy,
-    startConnection,
-    updateConnection,
-    endConnection,
-    emits,
-    viewport,
-    edges,
-    nodes,
-    isValidConnection: isValidConnectionProp,
-    nodeLookup
-  } = useVueFlow();
+function useHandle(_ref47) {
+  let handleId = _ref47.handleId,
+    nodeId = _ref47.nodeId,
+    type = _ref47.type,
+    isValidConnection = _ref47.isValidConnection,
+    edgeUpdaterType = _ref47.edgeUpdaterType,
+    onEdgeUpdate = _ref47.onEdgeUpdate,
+    onEdgeUpdateEnd = _ref47.onEdgeUpdateEnd;
+  const _useVueFlow4 = useVueFlow(),
+    flowId = _useVueFlow4.id,
+    vueFlowRef = _useVueFlow4.vueFlowRef,
+    connectionMode = _useVueFlow4.connectionMode,
+    connectionRadius = _useVueFlow4.connectionRadius,
+    connectOnClick = _useVueFlow4.connectOnClick,
+    connectionClickStartHandle = _useVueFlow4.connectionClickStartHandle,
+    nodesConnectable = _useVueFlow4.nodesConnectable,
+    autoPanOnConnect = _useVueFlow4.autoPanOnConnect,
+    autoPanSpeed = _useVueFlow4.autoPanSpeed,
+    findNode = _useVueFlow4.findNode,
+    panBy = _useVueFlow4.panBy,
+    startConnection = _useVueFlow4.startConnection,
+    updateConnection = _useVueFlow4.updateConnection,
+    endConnection = _useVueFlow4.endConnection,
+    emits = _useVueFlow4.emits,
+    viewport = _useVueFlow4.viewport,
+    edges = _useVueFlow4.edges,
+    nodes = _useVueFlow4.nodes,
+    isValidConnectionProp = _useVueFlow4.isValidConnection,
+    nodeLookup = _useVueFlow4.nodeLookup;
   let connection = null;
   let isValid = false;
   let handleDomNode = null;
@@ -13453,10 +13329,9 @@ function useHandle(_ref40) {
       }
       let closestHandle;
       let autoPanId = 0;
-      const {
-        x,
-        y
-      } = getEventPosition(event);
+      const _getEventPosition3 = getEventPosition(event),
+        x = _getEventPosition3.x,
+        y = _getEventPosition3.y;
       const handleType = getHandleType(toValue$1(edgeUpdaterType), clickedHandle);
       const containerBounds = (_a = vueFlowRef.value) == null ? void 0 : _a.getBoundingClientRect();
       if (!containerBounds || !handleType) {
@@ -13473,7 +13348,9 @@ function useHandle(_ref40) {
         if (!autoPanOnConnect.value) {
           return;
         }
-        const [xMovement, yMovement] = calcAutoPan(connectionPosition, containerBounds, autoPanSpeed.value);
+        const _calcAutoPan2 = calcAutoPan(connectionPosition, containerBounds, autoPanSpeed.value),
+          xMovement = _calcAutoPan2[0],
+          yMovement = _calcAutoPan2[1];
         panBy({
           x: xMovement,
           y: yMovement
@@ -13584,14 +13461,13 @@ function useNodeId() {
   return inject(NodeId, "");
 }
 function useNode(id2) {
-  var _ref41;
-  const nodeId = (_ref41 = id2 != null ? id2 : useNodeId()) != null ? _ref41 : "";
+  var _ref48;
+  const nodeId = (_ref48 = id2 != null ? id2 : useNodeId()) != null ? _ref48 : "";
   const nodeEl = inject(NodeRef, ref(null));
-  const {
-    findNode,
-    edges,
-    emits
-  } = useVueFlow();
+  const _useVueFlow5 = useVueFlow(),
+    findNode = _useVueFlow5.findNode,
+    edges = _useVueFlow5.edges,
+    emits = _useVueFlow5.emits;
   const node = findNode(nodeId);
   if (!node) {
     emits.error(new VueFlowError(ErrorCode.NODE_NOT_FOUND, nodeId));
@@ -13664,8 +13540,9 @@ function useNodeHooks(node, emits) {
     emits.nodeDragStop(event);
     (_b = (_a = node.events) == null ? void 0 : _a.dragStop) == null ? void 0 : _b.call(_a, event);
   });
-  return Object.entries(nodeHooks).reduce((hooks, _ref42) => {
-    let [key, value] = _ref42;
+  return Object.entries(nodeHooks).reduce((hooks, _ref49) => {
+    let key = _ref49[0],
+      value = _ref49[1];
     hooks.emit[key] = value.trigger;
     hooks.on[key] = value.on;
     return hooks;
@@ -13675,16 +13552,15 @@ function useNodeHooks(node, emits) {
   });
 }
 function useUpdateNodePositions() {
-  const {
-    getSelectedNodes,
-    nodeExtent,
-    updateNodePositions,
-    findNode,
-    snapGrid,
-    snapToGrid,
-    nodesDraggable,
-    emits
-  } = useVueFlow();
+  const _useVueFlow6 = useVueFlow(),
+    getSelectedNodes = _useVueFlow6.getSelectedNodes,
+    nodeExtent = _useVueFlow6.nodeExtent,
+    updateNodePositions = _useVueFlow6.updateNodePositions,
+    findNode = _useVueFlow6.findNode,
+    snapGrid = _useVueFlow6.snapGrid,
+    snapToGrid = _useVueFlow6.snapToGrid,
+    nodesDraggable = _useVueFlow6.nodesDraggable,
+    emits = _useVueFlow6.emits;
   return function (positionDiff, isShiftPressed) {
     if (isShiftPressed === void 0) {
       isShiftPressed = false;
@@ -13701,9 +13577,8 @@ function useUpdateNodePositions() {
           x: node.computedPosition.x + positionDiffX,
           y: node.computedPosition.y + positionDiffY
         };
-        const {
-          position
-        } = calcNextPosition(node, nextPosition, emits.error, nodeExtent.value, node.parentNode ? findNode(node.parentNode) : void 0);
+        const _calcNextPosition2 = calcNextPosition(node, nextPosition, emits.error, nodeExtent.value, node.parentNode ? findNode(node.parentNode) : void 0),
+          position = _calcNextPosition2.position;
         nodeUpdates.push({
           id: node.id,
           position,
@@ -13764,13 +13639,12 @@ function useViewportHelper(state) {
   function transformViewport(x, y, zoom22, transitionOptions) {
     return new Promise(resolve => {
       var _a;
-      const {
-        x: clampedX,
-        y: clampedY
-      } = clampPosition({
-        x: -x,
-        y: -y
-      }, state.translateExtent);
+      const _clampPosition = clampPosition({
+          x: -x,
+          y: -y
+        }, state.translateExtent),
+        clampedX = _clampPosition.x,
+        clampedY = _clampPosition.y;
       const nextTransform = identity$2.translate(-clampedX, -clampedY).scale(zoom22);
       if (state.d3Selection && state.d3Zoom) {
         (_a = state.d3Zoom) == null ? void 0 : _a.interpolate((transitionOptions == null ? void 0 : transitionOptions.interpolate) === "linear" ? interpolate$1 : interpolateZoom$1).transform(getD3Transition(state.d3Selection, transitionOptions == null ? void 0 : transitionOptions.duration, transitionOptions == null ? void 0 : transitionOptions.ease, () => {
@@ -13847,11 +13721,10 @@ function useViewportHelper(state) {
           return Promise.resolve(false);
         }
         const bounds = getRectOfNodes(nodesToFit);
-        const {
-          x,
-          y,
-          zoom: zoom22
-        } = getTransformForBounds(bounds, state.dimensions.width, state.dimensions.height, (_options$minZoom = options.minZoom) != null ? _options$minZoom : state.minZoom, (_options$maxZoom = options.maxZoom) != null ? _options$maxZoom : state.maxZoom, (_options$padding = options.padding) != null ? _options$padding : DEFAULT_PADDING);
+        const _getTransformForBound = getTransformForBounds(bounds, state.dimensions.width, state.dimensions.height, (_options$minZoom = options.minZoom) != null ? _options$minZoom : state.minZoom, (_options$maxZoom = options.maxZoom) != null ? _options$maxZoom : state.maxZoom, (_options$padding = options.padding) != null ? _options$padding : DEFAULT_PADDING),
+          x = _getTransformForBound.x,
+          y = _getTransformForBound.y,
+          zoom22 = _getTransformForBound.zoom;
         return transformViewport(x, y, zoom22, options);
       },
       setCenter: (x, y, options) => {
@@ -13867,20 +13740,18 @@ function useViewportHelper(state) {
             padding: DEFAULT_PADDING
           };
         }
-        const {
-          x,
-          y,
-          zoom: zoom22
-        } = getTransformForBounds(bounds, state.dimensions.width, state.dimensions.height, state.minZoom, state.maxZoom, (_options$padding2 = options.padding) != null ? _options$padding2 : DEFAULT_PADDING);
+        const _getTransformForBound2 = getTransformForBounds(bounds, state.dimensions.width, state.dimensions.height, state.minZoom, state.maxZoom, (_options$padding2 = options.padding) != null ? _options$padding2 : DEFAULT_PADDING),
+          x = _getTransformForBound2.x,
+          y = _getTransformForBound2.y,
+          zoom22 = _getTransformForBound2.zoom;
         return transformViewport(x, y, zoom22, options);
       },
       project: position => pointToRendererPoint(position, state.viewport, state.snapToGrid, state.snapGrid),
       screenToFlowCoordinate: position => {
         if (state.vueFlowRef) {
-          const {
-            x: domX,
-            y: domY
-          } = state.vueFlowRef.getBoundingClientRect();
+          const _state$vueFlowRef$get = state.vueFlowRef.getBoundingClientRect(),
+            domX = _state$vueFlowRef$get.x,
+            domY = _state$vueFlowRef$get.y;
           const correctedPosition = {
             x: position.x - domX,
             y: position.y - domY
@@ -13894,10 +13765,9 @@ function useViewportHelper(state) {
       },
       flowToScreenCoordinate: position => {
         if (state.vueFlowRef) {
-          const {
-            x: domX,
-            y: domY
-          } = state.vueFlowRef.getBoundingClientRect();
+          const _state$vueFlowRef$get2 = state.vueFlowRef.getBoundingClientRect(),
+            domX = _state$vueFlowRef$get2.x,
+            domY = _state$vueFlowRef$get2.y;
           const correctedPosition = {
             x: position.x + domX,
             y: position.y + domY
@@ -13939,8 +13809,8 @@ function useWatchProps(models, props, store) {
         pauseModel = watchPausable([models.modelValue, () => {
           var _a, _b;
           return (_b = (_a = models.modelValue) == null ? void 0 : _a.value) == null ? void 0 : _b.length;
-        }], _ref43 => {
-          let [elements] = _ref43;
+        }], _ref50 => {
+          let elements = _ref50[0];
           if (elements && Array.isArray(elements)) {
             pauseStore == null ? void 0 : pauseStore.pause();
             store.setElements(elements);
@@ -13951,8 +13821,9 @@ function useWatchProps(models, props, store) {
             }
           }
         });
-        pauseStore = watchPausable([store.nodes, store.edges, () => store.edges.value.length, () => store.nodes.value.length], _ref44 => {
-          let [nodes, edges] = _ref44;
+        pauseStore = watchPausable([store.nodes, store.edges, () => store.edges.value.length, () => store.nodes.value.length], _ref51 => {
+          let nodes = _ref51[0],
+            edges = _ref51[1];
           var _a;
           if (((_a = models.modelValue) == null ? void 0 : _a.value) && Array.isArray(models.modelValue.value)) {
             pauseModel == null ? void 0 : pauseModel.pause();
@@ -13978,8 +13849,8 @@ function useWatchProps(models, props, store) {
         pauseModel = watchPausable([models.nodes, () => {
           var _a, _b;
           return (_b = (_a = models.nodes) == null ? void 0 : _a.value) == null ? void 0 : _b.length;
-        }], _ref45 => {
-          let [nodes] = _ref45;
+        }], _ref52 => {
+          let nodes = _ref52[0];
           if (nodes && Array.isArray(nodes)) {
             pauseStore == null ? void 0 : pauseStore.pause();
             store.setNodes(nodes);
@@ -13990,8 +13861,8 @@ function useWatchProps(models, props, store) {
             }
           }
         });
-        pauseStore = watchPausable([store.nodes, () => store.nodes.value.length], _ref46 => {
-          let [nodes] = _ref46;
+        pauseStore = watchPausable([store.nodes, () => store.nodes.value.length], _ref53 => {
+          let nodes = _ref53[0];
           var _a;
           if (((_a = models.nodes) == null ? void 0 : _a.value) && Array.isArray(models.nodes.value)) {
             pauseModel == null ? void 0 : pauseModel.pause();
@@ -14017,8 +13888,8 @@ function useWatchProps(models, props, store) {
         pauseModel = watchPausable([models.edges, () => {
           var _a, _b;
           return (_b = (_a = models.edges) == null ? void 0 : _a.value) == null ? void 0 : _b.length;
-        }], _ref47 => {
-          let [edges] = _ref47;
+        }], _ref54 => {
+          let edges = _ref54[0];
           if (edges && Array.isArray(edges)) {
             pauseStore == null ? void 0 : pauseStore.pause();
             store.setEdges(edges);
@@ -14029,8 +13900,8 @@ function useWatchProps(models, props, store) {
             }
           }
         });
-        pauseStore = watchPausable([store.edges, () => store.edges.value.length], _ref48 => {
-          let [edges] = _ref48;
+        pauseStore = watchPausable([store.edges, () => store.edges.value.length], _ref55 => {
+          let edges = _ref55[0];
           var _a;
           if (((_a = models.edges) == null ? void 0 : _a.value) && Array.isArray(models.edges.value)) {
             pauseModel == null ? void 0 : pauseModel.pause();
@@ -14232,7 +14103,9 @@ function createHooks() {
 function useHooks(emit, hooks) {
   const inst = getCurrentInstance();
   onBeforeMount(() => {
-    for (const [key, value] of Object.entries(hooks.value)) {
+    for (const _ref56 of Object.entries(hooks.value)) {
+      const key = _ref56[0];
+      const value = _ref56[1];
       const listener = data => {
         emit(key, data);
       };
@@ -14250,7 +14123,9 @@ function useHooks(emit, hooks) {
   }
 }
 function toHandlerKey(event) {
-  const [head, ...rest] = event.split(":");
+  const _event$split = event.split(":"),
+    head = _event$split[0],
+    rest = _arrayLikeToArray(_event$split).slice(1);
   const camel = head.replace(/(?:^|-)(\w)/g, (_, c) => c.toUpperCase());
   return "on" + camel + (rest.length ? ":" + rest.join(":") : "");
 }
@@ -14370,16 +14245,14 @@ function useActions(state, nodeLookup, edgeLookup) {
   const getConnectedEdges$1 = nodesOrId => {
     return getConnectedEdges(nodesOrId, state.edges);
   };
-  const getHandleConnections = _ref49 => {
-    var _ref50;
-    let {
-      id: id2,
-      type,
-      nodeId
-    } = _ref49;
+  const getHandleConnections = _ref57 => {
+    var _ref58;
+    let id2 = _ref57.id,
+      type = _ref57.type,
+      nodeId = _ref57.nodeId;
     var _a;
     const handleSuffix = id2 ? "-" + type + "-" + id2 : "-" + type;
-    return Array.from((_ref50 = (_a = state.connectionLookup.get("" + nodeId + handleSuffix)) == null ? void 0 : _a.values()) != null ? _ref50 : []);
+    return Array.from((_ref58 = (_a = state.connectionLookup.get("" + nodeId + handleSuffix)) == null ? void 0 : _a.values()) != null ? _ref58 : []);
   };
   const findNode = id2 => {
     if (!id2) {
@@ -14406,11 +14279,11 @@ function useActions(state, nodeLookup, edgeLookup) {
       if (changed) {
         change.position = node.position;
         if (node.parentNode) {
-          var _ref51, _ref52;
+          var _ref59, _ref60;
           const parentNode = findNode(node.parentNode);
           change.position = {
-            x: change.position.x - ((_ref51 = (_a = parentNode == null ? void 0 : parentNode.computedPosition) == null ? void 0 : _a.x) != null ? _ref51 : 0),
-            y: change.position.y - ((_ref52 = (_b = parentNode == null ? void 0 : parentNode.computedPosition) == null ? void 0 : _b.y) != null ? _ref52 : 0)
+            x: change.position.x - ((_ref59 = (_a = parentNode == null ? void 0 : parentNode.computedPosition) == null ? void 0 : _a.x) != null ? _ref59 : 0),
+            y: change.position.y - ((_ref60 = (_b = parentNode == null ? void 0 : parentNode.computedPosition) == null ? void 0 : _b.y) != null ? _ref60 : 0)
           };
         }
       }
@@ -14429,9 +14302,8 @@ function useActions(state, nodeLookup, edgeLookup) {
       return;
     }
     const style = window.getComputedStyle(viewportNode);
-    const {
-      m22: zoom2
-    } = new window.DOMMatrixReadOnly(style.transform);
+    const _window$DOMMatrixRead = new window.DOMMatrixReadOnly(style.transform),
+      zoom2 = _window$DOMMatrixRead.m22;
     const changes = [];
     for (const element of updates) {
       const update = element;
@@ -14712,7 +14584,8 @@ function useActions(state, nodeLookup, edgeLookup) {
     const prevEdgeIndex = state.edges.indexOf(prevEdge);
     const newEdge = updateEdgeAction(oldEdge, newConnection, prevEdge, shouldReplaceId, state.hooks.error.trigger);
     if (newEdge) {
-      const [validEdge] = createGraphEdges([newEdge], state.isValidConnection, findNode, findEdge, state.hooks.error.trigger, state.defaultEdgeOptions, state.nodes, state.edges);
+      const _createGraphEdges = createGraphEdges([newEdge], state.isValidConnection, findNode, findEdge, state.hooks.error.trigger, state.defaultEdgeOptions, state.nodes, state.edges),
+        validEdge = _createGraphEdges[0];
       state.edges = state.edges.map((edge, index) => index === prevEdgeIndex ? validEdge : edge);
       updateConnectionLookup(state.connectionLookup, edgeLookup.value, [validEdge]);
       return validEdge;
@@ -14827,7 +14700,10 @@ function useActions(state, nodeLookup, edgeLookup) {
     if (nodes === void 0) {
       nodes = state.nodes;
     }
-    const [nodeRect, node, isRect2] = getNodeRect(nodeOrRect);
+    const _getNodeRect = getNodeRect(nodeOrRect),
+      nodeRect = _getNodeRect[0],
+      node = _getNodeRect[1],
+      isRect2 = _getNodeRect[2];
     if (!nodeRect) {
       return [];
     }
@@ -14849,7 +14725,8 @@ function useActions(state, nodeLookup, edgeLookup) {
     if (partially === void 0) {
       partially = true;
     }
-    const [nodeRect] = getNodeRect(nodeOrRect);
+    const _getNodeRect2 = getNodeRect(nodeOrRect),
+      nodeRect = _getNodeRect2[0];
     if (!nodeRect) {
       return false;
     }
@@ -14858,13 +14735,11 @@ function useActions(state, nodeLookup, edgeLookup) {
     return partiallyVisible || overlappingArea >= Number(nodeRect.width) * Number(nodeRect.height);
   };
   const panBy = delta => {
-    const {
-      viewport,
-      dimensions,
-      d3Zoom,
-      d3Selection,
-      translateExtent
-    } = state;
+    const viewport = state.viewport,
+      dimensions = state.dimensions,
+      d3Zoom = state.d3Zoom,
+      d3Selection = state.d3Selection,
+      translateExtent = state.translateExtent;
     if (!d3Zoom || !d3Selection || !delta.x && !delta.y) {
       return false;
     }
@@ -14921,11 +14796,23 @@ function useActions(state, nodeLookup, edgeLookup) {
     const nodes = [];
     const edges = [];
     for (const node of state.nodes) {
-      const rest = _objectWithoutPropertiesLoose(node, _excluded4);
+      node.computedPosition;
+        node.handleBounds;
+        node.selected;
+        node.dimensions;
+        node.isParent;
+        node.resizing;
+        node.dragging;
+        node.events;
+        const rest = _objectWithoutPropertiesLoose(node, _excluded4);
       nodes.push(rest);
     }
     for (const edge of state.edges) {
-      const rest = _objectWithoutPropertiesLoose(edge, _excluded5);
+      edge.selected;
+        edge.sourceNode;
+        edge.targetNode;
+        edge.events;
+        const rest = _objectWithoutPropertiesLoose(edge, _excluded5);
       edges.push(rest);
     }
     return JSON.parse(JSON.stringify({
@@ -14938,20 +14825,20 @@ function useActions(state, nodeLookup, edgeLookup) {
   };
   const fromObject = obj => {
     return new Promise(resolve => {
-      const {
-        nodes,
-        edges,
-        position,
-        zoom: zoom2,
-        viewport
-      } = obj;
+      const nodes = obj.nodes,
+        edges = obj.edges,
+        position = obj.position,
+        zoom2 = obj.zoom,
+        viewport = obj.viewport;
       if (nodes) {
         setNodes(nodes);
       }
       if (edges) {
         setEdges(edges);
       }
-      const [xPos, yPos] = (viewport == null ? void 0 : viewport.x) && (viewport == null ? void 0 : viewport.y) ? [viewport.x, viewport.y] : position != null ? position : [null, null];
+      const _ref61 = (viewport == null ? void 0 : viewport.x) && (viewport == null ? void 0 : viewport.y) ? [viewport.x, viewport.y] : position != null ? position : [null, null],
+        xPos = _ref61[0],
+        yPos = _ref61[1];
       if (xPos && yPos) {
         const nextZoom = (viewport == null ? void 0 : viewport.zoom) || zoom2 || state.viewport.zoom;
         return until(() => viewportHelper.value.viewportInitialized).toBe(true).then(() => {
@@ -15076,10 +14963,8 @@ const _sfc_main$f = /* @__PURE__ */defineComponent(_extends({}, __default__$f, {
       default: true
     }
   },
-  setup(__props, _ref53) {
-    let {
-      expose: __expose
-    } = _ref53;
+  setup(__props, _ref62) {
+    let __expose = _ref62.expose;
     const props = createPropsRestProxy(__props, ["position", "connectable", "connectableStart", "connectableEnd", "id"]);
     const type = toRef(() => {
       var _props$type;
@@ -15089,22 +14974,20 @@ const _sfc_main$f = /* @__PURE__ */defineComponent(_extends({}, __default__$f, {
       var _props$isValidConnect;
       return (_props$isValidConnect = props.isValidConnection) != null ? _props$isValidConnect : null;
     });
-    const {
-      id: flowId,
-      connectionStartHandle,
-      connectionClickStartHandle,
-      connectionEndHandle,
-      vueFlowRef,
-      nodesConnectable,
-      noDragClassName,
-      noPanClassName
-    } = useVueFlow();
-    const {
-      id: nodeId,
-      node,
-      nodeEl,
-      connectedEdges
-    } = useNode();
+    const _useVueFlow7 = useVueFlow(),
+      flowId = _useVueFlow7.id,
+      connectionStartHandle = _useVueFlow7.connectionStartHandle,
+      connectionClickStartHandle = _useVueFlow7.connectionClickStartHandle,
+      connectionEndHandle = _useVueFlow7.connectionEndHandle,
+      vueFlowRef = _useVueFlow7.vueFlowRef,
+      nodesConnectable = _useVueFlow7.nodesConnectable,
+      noDragClassName = _useVueFlow7.noDragClassName,
+      noPanClassName = _useVueFlow7.noPanClassName;
+    const _useNode = useNode(),
+      nodeId = _useNode.id,
+      node = _useNode.node,
+      nodeEl = _useNode.nodeEl,
+      connectedEdges = _useNode.connectedEdges;
     const handle = ref();
     const isConnectableStart = toRef(() => typeof __props.connectableStart !== "undefined" ? __props.connectableStart : true);
     const isConnectableEnd = toRef(() => typeof __props.connectableEnd !== "undefined" ? __props.connectableEnd : true);
@@ -15116,15 +14999,14 @@ const _sfc_main$f = /* @__PURE__ */defineComponent(_extends({}, __default__$f, {
       var _a, _b, _c;
       return ((_a = connectionClickStartHandle.value) == null ? void 0 : _a.nodeId) === nodeId && ((_b = connectionClickStartHandle.value) == null ? void 0 : _b.id) === __props.id && ((_c = connectionClickStartHandle.value) == null ? void 0 : _c.type) === type.value;
     });
-    const {
-      handlePointerDown,
-      handleClick
-    } = useHandle({
-      nodeId,
-      handleId: __props.id,
-      isValidConnection,
-      type
-    });
+    const _useHandle = useHandle({
+        nodeId,
+        handleId: __props.id,
+        isValidConnection,
+        type
+      }),
+      handlePointerDown = _useHandle.handlePointerDown,
+      handleClick = _useHandle.handleClick;
     const isConnectable = computed(() => {
       if (typeof __props.connectable === "string" && __props.connectable === "single") {
         return !connectedEdges.value.some(edge => {
@@ -15166,9 +15048,8 @@ const _sfc_main$f = /* @__PURE__ */defineComponent(_extends({}, __default__$f, {
       const nodeBounds = nodeEl.value.getBoundingClientRect();
       const handleBounds = handle.value.getBoundingClientRect();
       const style = window.getComputedStyle(viewportNode);
-      const {
-        m22: zoom2
-      } = new window.DOMMatrixReadOnly(style.transform);
+      const _window$DOMMatrixRead2 = new window.DOMMatrixReadOnly(style.transform),
+        zoom2 = _window$DOMMatrixRead2.m22;
       const nextBounds = _extends({
         id: __props.id,
         position: __props.position,
@@ -15223,17 +15104,18 @@ const _sfc_main$f = /* @__PURE__ */defineComponent(_extends({}, __default__$f, {
     };
   }
 }));
-const DefaultNode = function DefaultNode(_ref54) {
+const DefaultNode = function DefaultNode(_ref63) {
   var _data$label;
-  let {
-    sourcePosition = Position.Bottom,
-    targetPosition = Position.Top,
-    label: _label,
-    connectable = true,
-    isValidTargetPos,
-    isValidSourcePos,
-    data
-  } = _ref54;
+  let _ref63$sourcePosition = _ref63.sourcePosition,
+    sourcePosition = _ref63$sourcePosition === void 0 ? Position.Bottom : _ref63$sourcePosition,
+    _ref63$targetPosition = _ref63.targetPosition,
+    targetPosition = _ref63$targetPosition === void 0 ? Position.Top : _ref63$targetPosition,
+    _label = _ref63.label,
+    _ref63$connectable = _ref63.connectable,
+    connectable = _ref63$connectable === void 0 ? true : _ref63$connectable,
+    isValidTargetPos = _ref63.isValidTargetPos,
+    isValidSourcePos = _ref63.isValidSourcePos,
+    data = _ref63.data;
   const label = (_data$label = data.label) != null ? _data$label : _label;
   return [h(_sfc_main$f, {
     type: "target",
@@ -15253,15 +15135,15 @@ DefaultNode.compatConfig = {
   MODE: 3
 };
 const DefaultNode$1 = DefaultNode;
-const OutputNode = function OutputNode(_ref55) {
+const OutputNode = function OutputNode(_ref64) {
   var _data$label2;
-  let {
-    targetPosition = Position.Top,
-    label: _label,
-    connectable = true,
-    isValidTargetPos,
-    data
-  } = _ref55;
+  let _ref64$targetPosition = _ref64.targetPosition,
+    targetPosition = _ref64$targetPosition === void 0 ? Position.Top : _ref64$targetPosition,
+    _label = _ref64.label,
+    _ref64$connectable = _ref64.connectable,
+    connectable = _ref64$connectable === void 0 ? true : _ref64$connectable,
+    isValidTargetPos = _ref64.isValidTargetPos,
+    data = _ref64.data;
   const label = (_data$label2 = data.label) != null ? _data$label2 : _label;
   return [h(_sfc_main$f, {
     type: "target",
@@ -15276,15 +15158,15 @@ OutputNode.compatConfig = {
   MODE: 3
 };
 const OutputNode$1 = OutputNode;
-const InputNode = function InputNode(_ref56) {
+const InputNode = function InputNode(_ref65) {
   var _data$label3;
-  let {
-    sourcePosition = Position.Bottom,
-    label: _label,
-    connectable = true,
-    isValidSourcePos,
-    data
-  } = _ref56;
+  let _ref65$sourcePosition = _ref65.sourcePosition,
+    sourcePosition = _ref65$sourcePosition === void 0 ? Position.Bottom : _ref65$sourcePosition,
+    _label = _ref65.label,
+    _ref65$connectable = _ref65.connectable,
+    connectable = _ref65$connectable === void 0 ? true : _ref65$connectable,
+    isValidSourcePos = _ref65.isValidSourcePos,
+    data = _ref65.data;
   const label = (_data$label3 = data.label) != null ? _data$label3 : _label;
   return [typeof label !== "string" && label ? h(label) : h(Fragment, [label]), h(_sfc_main$f, {
     type: "source",
@@ -15408,10 +15290,8 @@ const _sfc_main$d = /* @__PURE__ */defineComponent(_extends({}, __default__$d, {
     labelBgPadding: {},
     labelBgBorderRadius: {}
   },
-  setup(__props, _ref57) {
-    let {
-      expose: __expose
-    } = _ref57;
+  setup(__props, _ref66) {
+    let __expose = _ref66.expose;
     const pathEl = ref(null);
     const interactionEl = ref(null);
     const labelEl = ref(null);
@@ -15455,30 +15335,26 @@ const _sfc_main$d = /* @__PURE__ */defineComponent(_extends({}, __default__$d, {
     };
   }
 }));
-function getSimpleEdgeCenter(_ref58) {
-  let {
-    sourceX,
-    sourceY,
-    targetX,
-    targetY
-  } = _ref58;
+function getSimpleEdgeCenter(_ref67) {
+  let sourceX = _ref67.sourceX,
+    sourceY = _ref67.sourceY,
+    targetX = _ref67.targetX,
+    targetY = _ref67.targetY;
   const xOffset = Math.abs(targetX - sourceX) / 2;
   const centerX = targetX < sourceX ? targetX + xOffset : targetX - xOffset;
   const yOffset = Math.abs(targetY - sourceY) / 2;
   const centerY = targetY < sourceY ? targetY + yOffset : targetY - yOffset;
   return [centerX, centerY, xOffset, yOffset];
 }
-function getBezierEdgeCenter(_ref59) {
-  let {
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourceControlX,
-    sourceControlY,
-    targetControlX,
-    targetControlY
-  } = _ref59;
+function getBezierEdgeCenter(_ref68) {
+  let sourceX = _ref68.sourceX,
+    sourceY = _ref68.sourceY,
+    targetX = _ref68.targetX,
+    targetY = _ref68.targetY,
+    sourceControlX = _ref68.sourceControlX,
+    sourceControlY = _ref68.sourceControlY,
+    targetControlX = _ref68.targetControlX,
+    targetControlY = _ref68.targetControlY;
   const centerX = sourceX * 0.125 + sourceControlX * 0.375 + targetControlX * 0.375 + targetX * 0.125;
   const centerY = sourceY * 0.125 + sourceControlY * 0.375 + targetControlY * 0.375 + targetY * 0.125;
   const offsetX = Math.abs(centerX - sourceX);
@@ -15492,15 +15368,13 @@ function calculateControlOffset(distance2, curvature) {
     return curvature * 25 * Math.sqrt(-distance2);
   }
 }
-function getControlWithCurvature(_ref60) {
-  let {
-    pos,
-    x1,
-    y1,
-    x2,
-    y2,
-    c
-  } = _ref60;
+function getControlWithCurvature(_ref69) {
+  let pos = _ref69.pos,
+    x1 = _ref69.x1,
+    y1 = _ref69.y1,
+    x2 = _ref69.x2,
+    y2 = _ref69.y2,
+    c = _ref69.c;
   let ctX, ctY;
   switch (pos) {
     case Position.Left:
@@ -15523,51 +15397,58 @@ function getControlWithCurvature(_ref60) {
   return [ctX, ctY];
 }
 function getBezierPath(bezierPathParams) {
-  const {
-    sourceX,
-    sourceY,
-    sourcePosition = Position.Bottom,
-    targetX,
-    targetY,
-    targetPosition = Position.Top,
-    curvature = 0.25
-  } = bezierPathParams;
-  const [sourceControlX, sourceControlY] = getControlWithCurvature({
-    pos: sourcePosition,
-    x1: sourceX,
-    y1: sourceY,
-    x2: targetX,
-    y2: targetY,
-    c: curvature
-  });
-  const [targetControlX, targetControlY] = getControlWithCurvature({
-    pos: targetPosition,
-    x1: targetX,
-    y1: targetY,
-    x2: sourceX,
-    y2: sourceY,
-    c: curvature
-  });
-  const [labelX, labelY, offsetX, offsetY] = getBezierEdgeCenter({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourceControlX,
-    sourceControlY,
-    targetControlX,
-    targetControlY
-  });
+  const sourceX = bezierPathParams.sourceX,
+    sourceY = bezierPathParams.sourceY,
+    _bezierPathParams$sou = bezierPathParams.sourcePosition,
+    sourcePosition = _bezierPathParams$sou === void 0 ? Position.Bottom : _bezierPathParams$sou,
+    targetX = bezierPathParams.targetX,
+    targetY = bezierPathParams.targetY,
+    _bezierPathParams$tar = bezierPathParams.targetPosition,
+    targetPosition = _bezierPathParams$tar === void 0 ? Position.Top : _bezierPathParams$tar,
+    _bezierPathParams$cur = bezierPathParams.curvature,
+    curvature = _bezierPathParams$cur === void 0 ? 0.25 : _bezierPathParams$cur;
+  const _getControlWithCurvat = getControlWithCurvature({
+      pos: sourcePosition,
+      x1: sourceX,
+      y1: sourceY,
+      x2: targetX,
+      y2: targetY,
+      c: curvature
+    }),
+    sourceControlX = _getControlWithCurvat[0],
+    sourceControlY = _getControlWithCurvat[1];
+  const _getControlWithCurvat2 = getControlWithCurvature({
+      pos: targetPosition,
+      x1: targetX,
+      y1: targetY,
+      x2: sourceX,
+      y2: sourceY,
+      c: curvature
+    }),
+    targetControlX = _getControlWithCurvat2[0],
+    targetControlY = _getControlWithCurvat2[1];
+  const _getBezierEdgeCenter = getBezierEdgeCenter({
+      sourceX,
+      sourceY,
+      targetX,
+      targetY,
+      sourceControlX,
+      sourceControlY,
+      targetControlX,
+      targetControlY
+    }),
+    labelX = _getBezierEdgeCenter[0],
+    labelY = _getBezierEdgeCenter[1],
+    offsetX = _getBezierEdgeCenter[2],
+    offsetY = _getBezierEdgeCenter[3];
   return ["M" + sourceX + "," + sourceY + " C" + sourceControlX + "," + sourceControlY + " " + targetControlX + "," + targetControlY + " " + targetX + "," + targetY, labelX, labelY, offsetX, offsetY];
 }
-function getControl(_ref61) {
-  let {
-    pos,
-    x1,
-    y1,
-    x2,
-    y2
-  } = _ref61;
+function getControl(_ref70) {
+  let pos = _ref70.pos,
+    x1 = _ref70.x1,
+    y1 = _ref70.y1,
+    x2 = _ref70.x2,
+    y2 = _ref70.y2;
   let ctX, ctY;
   switch (pos) {
     case Position.Left:
@@ -15584,38 +15465,46 @@ function getControl(_ref61) {
   return [ctX, ctY];
 }
 function getSimpleBezierPath(simpleBezierPathParams) {
-  const {
-    sourceX,
-    sourceY,
-    sourcePosition = Position.Bottom,
-    targetX,
-    targetY,
-    targetPosition = Position.Top
-  } = simpleBezierPathParams;
-  const [sourceControlX, sourceControlY] = getControl({
-    pos: sourcePosition,
-    x1: sourceX,
-    y1: sourceY,
-    x2: targetX,
-    y2: targetY
-  });
-  const [targetControlX, targetControlY] = getControl({
-    pos: targetPosition,
-    x1: targetX,
-    y1: targetY,
-    x2: sourceX,
-    y2: sourceY
-  });
-  const [centerX, centerY, offsetX, offsetY] = getBezierEdgeCenter({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourceControlX,
-    sourceControlY,
-    targetControlX,
-    targetControlY
-  });
+  const sourceX = simpleBezierPathParams.sourceX,
+    sourceY = simpleBezierPathParams.sourceY,
+    _simpleBezierPathPara = simpleBezierPathParams.sourcePosition,
+    sourcePosition = _simpleBezierPathPara === void 0 ? Position.Bottom : _simpleBezierPathPara,
+    targetX = simpleBezierPathParams.targetX,
+    targetY = simpleBezierPathParams.targetY,
+    _simpleBezierPathPara2 = simpleBezierPathParams.targetPosition,
+    targetPosition = _simpleBezierPathPara2 === void 0 ? Position.Top : _simpleBezierPathPara2;
+  const _getControl = getControl({
+      pos: sourcePosition,
+      x1: sourceX,
+      y1: sourceY,
+      x2: targetX,
+      y2: targetY
+    }),
+    sourceControlX = _getControl[0],
+    sourceControlY = _getControl[1];
+  const _getControl2 = getControl({
+      pos: targetPosition,
+      x1: targetX,
+      y1: targetY,
+      x2: sourceX,
+      y2: sourceY
+    }),
+    targetControlX = _getControl2[0],
+    targetControlY = _getControl2[1];
+  const _getBezierEdgeCenter2 = getBezierEdgeCenter({
+      sourceX,
+      sourceY,
+      targetX,
+      targetY,
+      sourceControlX,
+      sourceControlY,
+      targetControlX,
+      targetControlY
+    }),
+    centerX = _getBezierEdgeCenter2[0],
+    centerY = _getBezierEdgeCenter2[1],
+    offsetX = _getBezierEdgeCenter2[2],
+    offsetY = _getBezierEdgeCenter2[3];
   return ["M" + sourceX + "," + sourceY + " C" + sourceControlX + "," + sourceControlY + " " + targetControlX + "," + targetControlY + " " + targetX + "," + targetY, centerX, centerY, offsetX, offsetY];
 }
 const handleDirections = {
@@ -15636,12 +15525,11 @@ const handleDirections = {
     y: 1
   }
 };
-function getDirection(_ref62) {
-  let {
-    source,
-    sourcePosition = Position.Bottom,
-    target
-  } = _ref62;
+function getDirection(_ref71) {
+  let source = _ref71.source,
+    _ref71$sourcePosition = _ref71.sourcePosition,
+    sourcePosition = _ref71$sourcePosition === void 0 ? Position.Bottom : _ref71$sourcePosition,
+    target = _ref71.target;
   if (sourcePosition === Position.Left || sourcePosition === Position.Right) {
     return source.x < target.x ? {
       x: 1,
@@ -15662,15 +15550,15 @@ function getDirection(_ref62) {
 function distance(a, b) {
   return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
 }
-function getPoints(_ref63) {
-  let {
-    source,
-    sourcePosition = Position.Bottom,
-    target,
-    targetPosition = Position.Top,
-    center,
-    offset
-  } = _ref63;
+function getPoints(_ref72) {
+  let source = _ref72.source,
+    _ref72$sourcePosition = _ref72.sourcePosition,
+    sourcePosition = _ref72$sourcePosition === void 0 ? Position.Bottom : _ref72$sourcePosition,
+    target = _ref72.target,
+    _ref72$targetPosition = _ref72.targetPosition,
+    targetPosition = _ref72$targetPosition === void 0 ? Position.Top : _ref72$targetPosition,
+    center = _ref72.center,
+    offset = _ref72.offset;
   const sourceDir = handleDirections[sourcePosition];
   const targetDir = handleDirections[targetPosition];
   const sourceGapped = {
@@ -15698,12 +15586,16 @@ function getPoints(_ref63) {
     x: 0,
     y: 0
   };
-  const [defaultCenterX, defaultCenterY, defaultOffsetX, defaultOffsetY] = getSimpleEdgeCenter({
-    sourceX: source.x,
-    sourceY: source.y,
-    targetX: target.x,
-    targetY: target.y
-  });
+  const _getSimpleEdgeCenter = getSimpleEdgeCenter({
+      sourceX: source.x,
+      sourceY: source.y,
+      targetX: target.x,
+      targetY: target.y
+    }),
+    defaultCenterX = _getSimpleEdgeCenter[0],
+    defaultCenterY = _getSimpleEdgeCenter[1],
+    defaultOffsetX = _getSimpleEdgeCenter[2],
+    defaultOffsetY = _getSimpleEdgeCenter[3];
   if (sourceDir[dirAccessor] * targetDir[dirAccessor] === -1) {
     var _center$x, _center$y;
     centerX = (_center$x = center.x) != null ? _center$x : defaultCenterX;
@@ -15791,10 +15683,8 @@ function getPoints(_ref63) {
 }
 function getBend(a, b, c, size) {
   const bendSize = Math.min(distance(a, b) / 2, distance(b, c) / 2, size);
-  const {
-    x,
-    y
-  } = b;
+  const x = b.x,
+    y = b.y;
   if (a.x === x && x === c.x || a.y === y && y === c.y) {
     return "L" + x + " " + y;
   }
@@ -15808,35 +15698,42 @@ function getBend(a, b, c, size) {
   return "L " + x + "," + (y + bendSize * yDir) + "Q " + x + "," + y + " " + (x + bendSize * xDir) + "," + y;
 }
 function getSmoothStepPath(smoothStepPathParams) {
-  const {
-    sourceX,
-    sourceY,
-    sourcePosition = Position.Bottom,
-    targetX,
-    targetY,
-    targetPosition = Position.Top,
-    borderRadius = 5,
-    centerX,
-    centerY,
-    offset = 20
-  } = smoothStepPathParams;
-  const [points, labelX, labelY, offsetX, offsetY] = getPoints({
-    source: {
-      x: sourceX,
-      y: sourceY
-    },
-    sourcePosition,
-    target: {
-      x: targetX,
-      y: targetY
-    },
-    targetPosition,
-    center: {
-      x: centerX,
-      y: centerY
-    },
-    offset
-  });
+  const sourceX = smoothStepPathParams.sourceX,
+    sourceY = smoothStepPathParams.sourceY,
+    _smoothStepPathParams = smoothStepPathParams.sourcePosition,
+    sourcePosition = _smoothStepPathParams === void 0 ? Position.Bottom : _smoothStepPathParams,
+    targetX = smoothStepPathParams.targetX,
+    targetY = smoothStepPathParams.targetY,
+    _smoothStepPathParams2 = smoothStepPathParams.targetPosition,
+    targetPosition = _smoothStepPathParams2 === void 0 ? Position.Top : _smoothStepPathParams2,
+    _smoothStepPathParams3 = smoothStepPathParams.borderRadius,
+    borderRadius = _smoothStepPathParams3 === void 0 ? 5 : _smoothStepPathParams3,
+    centerX = smoothStepPathParams.centerX,
+    centerY = smoothStepPathParams.centerY,
+    _smoothStepPathParams4 = smoothStepPathParams.offset,
+    offset = _smoothStepPathParams4 === void 0 ? 20 : _smoothStepPathParams4;
+  const _getPoints = getPoints({
+      source: {
+        x: sourceX,
+        y: sourceY
+      },
+      sourcePosition,
+      target: {
+        x: targetX,
+        y: targetY
+      },
+      targetPosition,
+      center: {
+        x: centerX,
+        y: centerY
+      },
+      offset
+    }),
+    points = _getPoints[0],
+    labelX = _getPoints[1],
+    labelY = _getPoints[2],
+    offsetX = _getPoints[3],
+    offsetY = _getPoints[4];
   const path = points.reduce((res, p, i) => {
     let segment;
     if (i > 0 && i < points.length - 1) {
@@ -15850,18 +15747,20 @@ function getSmoothStepPath(smoothStepPathParams) {
   return [path, labelX, labelY, offsetX, offsetY];
 }
 function getStraightPath(straightEdgeParams) {
-  const {
-    sourceX,
-    sourceY,
-    targetX,
-    targetY
-  } = straightEdgeParams;
-  const [centerX, centerY, offsetX, offsetY] = getSimpleEdgeCenter({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY
-  });
+  const sourceX = straightEdgeParams.sourceX,
+    sourceY = straightEdgeParams.sourceY,
+    targetX = straightEdgeParams.targetX,
+    targetY = straightEdgeParams.targetY;
+  const _getSimpleEdgeCenter2 = getSimpleEdgeCenter({
+      sourceX,
+      sourceY,
+      targetX,
+      targetY
+    }),
+    centerX = _getSimpleEdgeCenter2[0],
+    centerY = _getSimpleEdgeCenter2[1],
+    offsetX = _getSimpleEdgeCenter2[2],
+    offsetY = _getSimpleEdgeCenter2[3];
   return ["M " + sourceX + "," + sourceY + "L " + targetX + "," + targetY, centerX, centerY, offsetX, offsetY];
 }
 const StraightEdge = defineComponent({
@@ -15870,12 +15769,13 @@ const StraightEdge = defineComponent({
   compatConfig: {
     MODE: 3
   },
-  setup(props, _ref64) {
-    let {
-      attrs
-    } = _ref64;
+  setup(props, _ref73) {
+    let attrs = _ref73.attrs;
     return () => {
-      const [path, labelX, labelY] = getStraightPath(props);
+      const _getStraightPath = getStraightPath(props),
+        path = _getStraightPath[0],
+        labelX = _getStraightPath[1],
+        labelY = _getStraightPath[2];
       return h(_sfc_main$d, _extends({
         path,
         labelX,
@@ -15891,16 +15791,17 @@ const SmoothStepEdge = defineComponent({
   compatConfig: {
     MODE: 3
   },
-  setup(props, _ref65) {
-    let {
-      attrs
-    } = _ref65;
+  setup(props, _ref74) {
+    let attrs = _ref74.attrs;
     return () => {
       var _props$sourcePosition, _props$targetPosition;
-      const [path, labelX, labelY] = getSmoothStepPath(_extends({}, props, {
-        sourcePosition: (_props$sourcePosition = props.sourcePosition) != null ? _props$sourcePosition : Position.Bottom,
-        targetPosition: (_props$targetPosition = props.targetPosition) != null ? _props$targetPosition : Position.Top
-      }));
+      const _getSmoothStepPath = getSmoothStepPath(_extends({}, props, {
+          sourcePosition: (_props$sourcePosition = props.sourcePosition) != null ? _props$sourcePosition : Position.Bottom,
+          targetPosition: (_props$targetPosition = props.targetPosition) != null ? _props$targetPosition : Position.Top
+        })),
+        path = _getSmoothStepPath[0],
+        labelX = _getSmoothStepPath[1],
+        labelY = _getSmoothStepPath[2];
       return h(_sfc_main$d, _extends({
         path,
         labelX,
@@ -15913,10 +15814,8 @@ const SmoothStepEdge$1 = SmoothStepEdge;
 const StepEdge = defineComponent({
   name: "StepEdge",
   props: ["sourcePosition", "targetPosition", "label", "labelStyle", "labelShowBg", "labelBgStyle", "labelBgPadding", "labelBgBorderRadius", "sourceY", "sourceX", "targetX", "targetY", "markerEnd", "markerStart", "interactionWidth"],
-  setup(props, _ref66) {
-    let {
-      attrs
-    } = _ref66;
+  setup(props, _ref75) {
+    let attrs = _ref75.attrs;
     return () => h(SmoothStepEdge$1, _extends({}, props, attrs, {
       borderRadius: 0
     }));
@@ -15929,16 +15828,17 @@ const BezierEdge = defineComponent({
   compatConfig: {
     MODE: 3
   },
-  setup(props, _ref67) {
-    let {
-      attrs
-    } = _ref67;
+  setup(props, _ref76) {
+    let attrs = _ref76.attrs;
     return () => {
       var _props$sourcePosition2, _props$targetPosition2;
-      const [path, labelX, labelY] = getBezierPath(_extends({}, props, {
-        sourcePosition: (_props$sourcePosition2 = props.sourcePosition) != null ? _props$sourcePosition2 : Position.Bottom,
-        targetPosition: (_props$targetPosition2 = props.targetPosition) != null ? _props$targetPosition2 : Position.Top
-      }));
+      const _getBezierPath = getBezierPath(_extends({}, props, {
+          sourcePosition: (_props$sourcePosition2 = props.sourcePosition) != null ? _props$sourcePosition2 : Position.Bottom,
+          targetPosition: (_props$targetPosition2 = props.targetPosition) != null ? _props$targetPosition2 : Position.Top
+        })),
+        path = _getBezierPath[0],
+        labelX = _getBezierPath[1],
+        labelY = _getBezierPath[2];
       return h(_sfc_main$d, _extends({
         path,
         labelX,
@@ -15954,16 +15854,17 @@ const SimpleBezierEdge = defineComponent({
   compatConfig: {
     MODE: 3
   },
-  setup(props, _ref68) {
-    let {
-      attrs
-    } = _ref68;
+  setup(props, _ref77) {
+    let attrs = _ref77.attrs;
     return () => {
       var _props$sourcePosition3, _props$targetPosition3;
-      const [path, labelX, labelY] = getSimpleBezierPath(_extends({}, props, {
-        sourcePosition: (_props$sourcePosition3 = props.sourcePosition) != null ? _props$sourcePosition3 : Position.Bottom,
-        targetPosition: (_props$targetPosition3 = props.targetPosition) != null ? _props$targetPosition3 : Position.Top
-      }));
+      const _getSimpleBezierPath = getSimpleBezierPath(_extends({}, props, {
+          sourcePosition: (_props$sourcePosition3 = props.sourcePosition) != null ? _props$sourcePosition3 : Position.Bottom,
+          targetPosition: (_props$targetPosition3 = props.targetPosition) != null ? _props$targetPosition3 : Position.Top
+        })),
+        path = _getSimpleBezierPath[0],
+        labelX = _getSimpleBezierPath[1],
+        labelY = _getSimpleBezierPath[2];
       return h(_sfc_main$d, _extends({
         path,
         labelX,
@@ -16096,10 +15997,10 @@ class Storage {
     this.flows = /* @__PURE__ */new Map();
   }
   static getInstance() {
-    var _ref69;
+    var _ref78;
     var _a;
     const vueApp = (_a = getCurrentInstance()) == null ? void 0 : _a.appContext.app;
-    const existingInstance = (_ref69 = vueApp == null ? void 0 : vueApp.config.globalProperties.$vueFlowStorage) != null ? _ref69 : Storage.instance;
+    const existingInstance = (_ref78 = vueApp == null ? void 0 : vueApp.config.globalProperties.$vueFlowStorage) != null ? _ref78 : Storage.instance;
     Storage.instance = existingInstance != null ? existingInstance : new Storage();
     if (vueApp) {
       vueApp.config.globalProperties.$vueFlowStorage = Storage.instance;
@@ -16119,12 +16020,16 @@ class Storage {
     const state = useState();
     const reactiveState = reactive(state);
     const hooksOn = {};
-    for (const [n, h2] of Object.entries(reactiveState.hooks)) {
+    for (const _ref79 of Object.entries(reactiveState.hooks)) {
+      const n = _ref79[0];
+      const h2 = _ref79[1];
       const name = "on" + (n.charAt(0).toUpperCase() + n.slice(1));
       hooksOn[name] = h2.on;
     }
     const emits = {};
-    for (const [n, h2] of Object.entries(reactiveState.hooks)) {
+    for (const _ref80 of Object.entries(reactiveState.hooks)) {
+      const n = _ref80[0];
+      const h2 = _ref80[1];
       emits[n] = h2.trigger;
     }
     const nodeLookup = computed(() => {
@@ -16238,16 +16143,15 @@ function useVueFlow(idOrOpts) {
   return vueFlow;
 }
 function useResizeHandler(viewportEl) {
-  const {
-    emits,
-    dimensions
-  } = useVueFlow();
+  const _useVueFlow8 = useVueFlow(),
+    emits = _useVueFlow8.emits,
+    dimensions = _useVueFlow8.dimensions;
   let resizeObserver;
   onMounted(() => {
     const updateDimensions = () => {
-      var _ref70;
+      var _ref81;
       var _a, _b;
-      if (!viewportEl.value || !((_ref70 = (_b = (_a = viewportEl.value).checkVisibility) == null ? void 0 : _b.call(_a)) != null ? _ref70 : true)) {
+      if (!viewportEl.value || !((_ref81 = (_b = (_a = viewportEl.value).checkVisibility) == null ? void 0 : _b.call(_a)) != null ? _ref81 : true)) {
         return;
       }
       const size = getDimensions(viewportEl.value);
@@ -16305,14 +16209,13 @@ const __default__$b = {
 };
 const _sfc_main$b = /* @__PURE__ */defineComponent(_extends({}, __default__$b, {
   setup(__props) {
-    const {
-      emits,
-      viewport,
-      getSelectedNodes,
-      noPanClassName,
-      disableKeyboardA11y,
-      userSelectionActive
-    } = useVueFlow();
+    const _useVueFlow9 = useVueFlow(),
+      emits = _useVueFlow9.emits,
+      viewport = _useVueFlow9.viewport,
+      getSelectedNodes = _useVueFlow9.getSelectedNodes,
+      noPanClassName = _useVueFlow9.noPanClassName,
+      disableKeyboardA11y = _useVueFlow9.disableKeyboardA11y,
+      userSelectionActive = _useVueFlow9.userSelectionActive;
     const updatePositions = useUpdateNodePositions();
     const el = ref(null);
     const dragging = useDrag({
@@ -16406,31 +16309,30 @@ const _sfc_main$a = /* @__PURE__ */defineComponent(_extends({}, __default__$a, {
     }
   },
   setup(__props) {
-    const {
-      vueFlowRef,
-      nodes,
-      viewport,
-      emits,
-      userSelectionActive,
-      removeSelectedElements,
-      userSelectionRect,
-      elementsSelectable,
-      nodesSelectionActive,
-      getSelectedEdges,
-      getSelectedNodes,
-      removeNodes,
-      removeEdges,
-      selectionMode,
-      deleteKeyCode,
-      multiSelectionKeyCode,
-      multiSelectionActive,
-      edgeLookup,
-      nodeLookup,
-      connectionLookup,
-      defaultEdgeOptions,
-      connectionStartHandle,
-      panOnDrag
-    } = useVueFlow();
+    const _useVueFlow0 = useVueFlow(),
+      vueFlowRef = _useVueFlow0.vueFlowRef,
+      nodes = _useVueFlow0.nodes,
+      viewport = _useVueFlow0.viewport,
+      emits = _useVueFlow0.emits,
+      userSelectionActive = _useVueFlow0.userSelectionActive,
+      removeSelectedElements = _useVueFlow0.removeSelectedElements,
+      userSelectionRect = _useVueFlow0.userSelectionRect,
+      elementsSelectable = _useVueFlow0.elementsSelectable,
+      nodesSelectionActive = _useVueFlow0.nodesSelectionActive,
+      getSelectedEdges = _useVueFlow0.getSelectedEdges,
+      getSelectedNodes = _useVueFlow0.getSelectedNodes,
+      removeNodes = _useVueFlow0.removeNodes,
+      removeEdges = _useVueFlow0.removeEdges,
+      selectionMode = _useVueFlow0.selectionMode,
+      deleteKeyCode = _useVueFlow0.deleteKeyCode,
+      multiSelectionKeyCode = _useVueFlow0.multiSelectionKeyCode,
+      multiSelectionActive = _useVueFlow0.multiSelectionActive,
+      edgeLookup = _useVueFlow0.edgeLookup,
+      nodeLookup = _useVueFlow0.nodeLookup,
+      connectionLookup = _useVueFlow0.connectionLookup,
+      defaultEdgeOptions = _useVueFlow0.defaultEdgeOptions,
+      connectionStartHandle = _useVueFlow0.connectionStartHandle,
+      panOnDrag = _useVueFlow0.panOnDrag;
     const container = shallowRef(null);
     const selectedNodeIds = shallowRef(/* @__PURE__ */new Set());
     const selectedEdgeIds = shallowRef(/* @__PURE__ */new Set());
@@ -16483,17 +16385,16 @@ const _sfc_main$a = /* @__PURE__ */defineComponent(_extends({}, __default__$a, {
       emits.paneScroll(event);
     }
     function onPointerDown(event) {
-      var _ref71;
+      var _ref82;
       var _a, _b, _c;
-      containerBounds.value = (_ref71 = (_a = vueFlowRef.value) == null ? void 0 : _a.getBoundingClientRect()) != null ? _ref71 : null;
+      containerBounds.value = (_ref82 = (_a = vueFlowRef.value) == null ? void 0 : _a.getBoundingClientRect()) != null ? _ref82 : null;
       if (!elementsSelectable.value || !__props.isSelecting || event.button !== 0 || event.target !== container.value || !containerBounds.value) {
         return;
       }
       (_c = (_b = event.target) == null ? void 0 : _b.setPointerCapture) == null ? void 0 : _c.call(_b, event.pointerId);
-      const {
-        x,
-        y
-      } = getMousePosition(event, containerBounds.value);
+      const _getMousePosition = getMousePosition(event, containerBounds.value),
+        x = _getMousePosition.x,
+        y = _getMousePosition.y;
       selectionStarted = true;
       selectionInProgress = false;
       removeSelectedElements();
@@ -16508,20 +16409,20 @@ const _sfc_main$a = /* @__PURE__ */defineComponent(_extends({}, __default__$a, {
       emits.selectionStart(event);
     }
     function onPointerMove(event) {
-      var _ref72;
+      var _ref83;
       var _a;
       if (!containerBounds.value || !userSelectionRect.value) {
         return;
       }
       selectionInProgress = true;
-      const {
-        x: mouseX,
-        y: mouseY
-      } = getEventPosition(event, containerBounds.value);
-      const {
-        startX = 0,
-        startY = 0
-      } = userSelectionRect.value;
+      const _getEventPosition4 = getEventPosition(event, containerBounds.value),
+        mouseX = _getEventPosition4.x,
+        mouseY = _getEventPosition4.y;
+      const _userSelectionRect$va = userSelectionRect.value,
+        _userSelectionRect$va2 = _userSelectionRect$va.startX,
+        startX = _userSelectionRect$va2 === void 0 ? 0 : _userSelectionRect$va2,
+        _userSelectionRect$va3 = _userSelectionRect$va.startY,
+        startY = _userSelectionRect$va3 === void 0 ? 0 : _userSelectionRect$va3;
       const nextUserSelectRect = {
         startX,
         startY,
@@ -16534,16 +16435,15 @@ const _sfc_main$a = /* @__PURE__ */defineComponent(_extends({}, __default__$a, {
       const prevSelectedEdgeIds = selectedEdgeIds.value;
       selectedNodeIds.value = new Set(getNodesInside(nodes.value, nextUserSelectRect, viewport.value, selectionMode.value === SelectionMode.Partial, true).map(node => node.id));
       selectedEdgeIds.value = /* @__PURE__ */new Set();
-      const edgesSelectable = (_ref72 = (_a = defaultEdgeOptions.value) == null ? void 0 : _a.selectable) != null ? _ref72 : true;
+      const edgesSelectable = (_ref83 = (_a = defaultEdgeOptions.value) == null ? void 0 : _a.selectable) != null ? _ref83 : true;
       for (const nodeId of selectedNodeIds.value) {
         const connections = connectionLookup.value.get(nodeId);
         if (!connections) {
           continue;
         }
-        for (const {
-          edgeId
-        } of connections.values()) {
+        for (const _ref84 of connections.values()) {
           var _edge$selectable2;
+          const edgeId = _ref84.edgeId;
           const edge = edgeLookup.value.get(edgeId);
           if (edge && ((_edge$selectable2 = edge.selectable) != null ? _edge$selectable2 : edgesSelectable)) {
             selectedEdgeIds.value.add(edgeId);
@@ -16612,11 +16512,10 @@ const __default__$9 = {
 };
 const _sfc_main$9 = /* @__PURE__ */defineComponent(_extends({}, __default__$9, {
   setup(__props) {
-    const {
-      viewport,
-      fitViewOnInit,
-      fitViewOnInitDone
-    } = useVueFlow();
+    const _useVueFlow1 = useVueFlow(),
+      viewport = _useVueFlow1.viewport,
+      fitViewOnInit = _useVueFlow1.fitViewOnInit,
+      fitViewOnInitDone = _useVueFlow1.fitViewOnInitDone;
     const isHidden = computed(() => {
       if (fitViewOnInit.value) {
         return !fitViewOnInitDone.value;
@@ -16643,35 +16542,34 @@ const __default__$8 = {
 };
 const _sfc_main$8 = /* @__PURE__ */defineComponent(_extends({}, __default__$8, {
   setup(__props) {
-    const {
-      minZoom,
-      maxZoom,
-      defaultViewport,
-      translateExtent,
-      zoomActivationKeyCode,
-      selectionKeyCode,
-      panActivationKeyCode,
-      panOnScroll,
-      panOnScrollMode,
-      panOnScrollSpeed,
-      panOnDrag,
-      zoomOnDoubleClick,
-      zoomOnPinch,
-      zoomOnScroll,
-      preventScrolling,
-      noWheelClassName,
-      noPanClassName,
-      emits,
-      connectionStartHandle,
-      userSelectionActive,
-      paneDragging,
-      d3Zoom: storeD3Zoom,
-      d3Selection: storeD3Selection,
-      d3ZoomHandler: storeD3ZoomHandler,
-      viewport,
-      viewportRef,
-      paneClickDistance
-    } = useVueFlow();
+    const _useVueFlow10 = useVueFlow(),
+      minZoom = _useVueFlow10.minZoom,
+      maxZoom = _useVueFlow10.maxZoom,
+      defaultViewport = _useVueFlow10.defaultViewport,
+      translateExtent = _useVueFlow10.translateExtent,
+      zoomActivationKeyCode = _useVueFlow10.zoomActivationKeyCode,
+      selectionKeyCode = _useVueFlow10.selectionKeyCode,
+      panActivationKeyCode = _useVueFlow10.panActivationKeyCode,
+      panOnScroll = _useVueFlow10.panOnScroll,
+      panOnScrollMode = _useVueFlow10.panOnScrollMode,
+      panOnScrollSpeed = _useVueFlow10.panOnScrollSpeed,
+      panOnDrag = _useVueFlow10.panOnDrag,
+      zoomOnDoubleClick = _useVueFlow10.zoomOnDoubleClick,
+      zoomOnPinch = _useVueFlow10.zoomOnPinch,
+      zoomOnScroll = _useVueFlow10.zoomOnScroll,
+      preventScrolling = _useVueFlow10.preventScrolling,
+      noWheelClassName = _useVueFlow10.noWheelClassName,
+      noPanClassName = _useVueFlow10.noPanClassName,
+      emits = _useVueFlow10.emits,
+      connectionStartHandle = _useVueFlow10.connectionStartHandle,
+      userSelectionActive = _useVueFlow10.userSelectionActive,
+      paneDragging = _useVueFlow10.paneDragging,
+      storeD3Zoom = _useVueFlow10.d3Zoom,
+      storeD3Selection = _useVueFlow10.d3Selection,
+      storeD3ZoomHandler = _useVueFlow10.d3ZoomHandler,
+      viewport = _useVueFlow10.viewport,
+      viewportRef = _useVueFlow10.viewportRef,
+      paneClickDistance = _useVueFlow10.paneClickDistance;
     useResizeHandler(viewportRef);
     const isZoomingOrPanning = shallowRef(false);
     const isPanScrolling = shallowRef(false);
@@ -16953,11 +16851,10 @@ const __default__$7 = {
 };
 const _sfc_main$7 = /* @__PURE__ */defineComponent(_extends({}, __default__$7, {
   setup(__props) {
-    const {
-      id: id2,
-      disableKeyboardA11y,
-      ariaLiveMessage
-    } = useVueFlow();
+    const _useVueFlow11 = useVueFlow(),
+      id2 = _useVueFlow11.id,
+      disableKeyboardA11y = _useVueFlow11.disableKeyboardA11y,
+      ariaLiveMessage = _useVueFlow11.ariaLiveMessage;
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [createBaseVNode("div", {
         id: unref(ARIA_NODE_DESC_KEY) + "-" + unref(id2),
@@ -17018,14 +16915,16 @@ function shiftY(y, shift, position) {
   }
   return y;
 }
-const EdgeAnchor = function EdgeAnchor(_ref73) {
-  let {
-    radius = 10,
-    centerX = 0,
-    centerY = 0,
-    position = Position.Top,
-    type
-  } = _ref73;
+const EdgeAnchor = function EdgeAnchor(_ref85) {
+  let _ref85$radius = _ref85.radius,
+    radius = _ref85$radius === void 0 ? 10 : _ref85$radius,
+    _ref85$centerX = _ref85.centerX,
+    centerX = _ref85$centerX === void 0 ? 0 : _ref85$centerX,
+    _ref85$centerY = _ref85.centerY,
+    centerY = _ref85$centerY === void 0 ? 0 : _ref85$centerY,
+    _ref85$position = _ref85.position,
+    position = _ref85$position === void 0 ? Position.Top : _ref85$position,
+    type = _ref85.type;
   return h("circle", {
     class: "vue-flow__edgeupdater vue-flow__edgeupdater-" + type,
     cx: shiftX(centerX, radius, position),
@@ -17047,31 +16946,29 @@ const EdgeWrapper = defineComponent({
   },
   props: ["id"],
   setup(props) {
-    const {
-      id: vueFlowId,
-      addSelectedEdges,
-      connectionMode,
-      edgeUpdaterRadius,
-      emits,
-      nodesSelectionActive,
-      noPanClassName,
-      getEdgeTypes,
-      removeSelectedEdges,
-      findEdge,
-      findNode,
-      isValidConnection,
-      multiSelectionActive,
-      disableKeyboardA11y,
-      elementsSelectable,
-      edgesUpdatable,
-      edgesFocusable,
-      hooks
-    } = useVueFlow();
+    const _useVueFlow12 = useVueFlow(),
+      vueFlowId = _useVueFlow12.id,
+      addSelectedEdges = _useVueFlow12.addSelectedEdges,
+      connectionMode = _useVueFlow12.connectionMode,
+      edgeUpdaterRadius = _useVueFlow12.edgeUpdaterRadius,
+      emits = _useVueFlow12.emits,
+      nodesSelectionActive = _useVueFlow12.nodesSelectionActive,
+      noPanClassName = _useVueFlow12.noPanClassName,
+      getEdgeTypes = _useVueFlow12.getEdgeTypes,
+      removeSelectedEdges = _useVueFlow12.removeSelectedEdges,
+      findEdge = _useVueFlow12.findEdge,
+      findNode = _useVueFlow12.findNode,
+      isValidConnection = _useVueFlow12.isValidConnection,
+      multiSelectionActive = _useVueFlow12.multiSelectionActive,
+      disableKeyboardA11y = _useVueFlow12.disableKeyboardA11y,
+      elementsSelectable = _useVueFlow12.elementsSelectable,
+      edgesUpdatable = _useVueFlow12.edgesUpdatable,
+      edgesFocusable = _useVueFlow12.edgesFocusable,
+      hooks = _useVueFlow12.hooks;
     const edge = computed(() => findEdge(props.id));
-    const {
-      emit,
-      on
-    } = useEdgeHooks(edge.value, emits);
+    const _useEdgeHooks = useEdgeHooks(edge.value, emits),
+      emit = _useEdgeHooks.emit,
+      on = _useEdgeHooks.on;
     const slots = inject(Slots$1);
     const instance = getCurrentInstance();
     const mouseOver = ref(false);
@@ -17109,17 +17006,16 @@ const EdgeWrapper = defineComponent({
       emits.error(new VueFlowError(ErrorCode.EDGE_TYPE_MISSING, edgeType));
       return false;
     });
-    const {
-      handlePointerDown
-    } = useHandle({
-      nodeId,
-      handleId,
-      type: edgeUpdaterType,
-      isValidConnection,
-      edgeUpdaterType,
-      onEdgeUpdate,
-      onEdgeUpdateEnd
-    });
+    const _useHandle2 = useHandle({
+        nodeId,
+        handleId,
+        type: edgeUpdaterType,
+        isValidConnection,
+        edgeUpdaterType,
+        onEdgeUpdate,
+        onEdgeUpdateEnd
+      }),
+      handlePointerDown = _useHandle2.handlePointerDown;
     return () => {
       var _edge$value$ariaLabel;
       const sourceNode = findNode(edge.value.source);
@@ -17156,14 +17052,12 @@ const EdgeWrapper = defineComponent({
       const targetHandle = getEdgeHandle(targetNodeHandles, edge.value.targetHandle);
       const sourcePosition = (sourceHandle == null ? void 0 : sourceHandle.position) || Position.Bottom;
       const targetPosition = (targetHandle == null ? void 0 : targetHandle.position) || Position.Top;
-      const {
-        x: sourceX,
-        y: sourceY
-      } = getHandlePosition(sourceNode, sourceHandle, sourcePosition);
-      const {
-        x: targetX,
-        y: targetY
-      } = getHandlePosition(targetNode, targetHandle, targetPosition);
+      const _getHandlePosition2 = getHandlePosition(sourceNode, sourceHandle, sourcePosition),
+        sourceX = _getHandlePosition2.x,
+        sourceY = _getHandlePosition2.y;
+      const _getHandlePosition3 = getHandlePosition(targetNode, targetHandle, targetPosition),
+        targetX = _getHandlePosition3.x,
+        targetY = _getHandlePosition3.y;
       edge.value.sourceX = sourceX;
       edge.value.sourceY = sourceY;
       edge.value.targetX = targetX;
@@ -17266,13 +17160,13 @@ const EdgeWrapper = defineComponent({
       updating.value = false;
     }
     function handleEdgeUpdater(event, isSourceHandle) {
-      var _ref74;
+      var _ref86;
       if (event.button !== 0) {
         return;
       }
       updating.value = true;
       nodeId.value = isSourceHandle ? edge.value.target : edge.value.source;
-      handleId.value = (_ref74 = isSourceHandle ? edge.value.targetHandle : edge.value.sourceHandle) != null ? _ref74 : null;
+      handleId.value = (_ref86 = isSourceHandle ? edge.value.targetHandle : edge.value.sourceHandle) != null ? _ref86 : null;
       edgeUpdaterType.value = isSourceHandle ? "target" : "source";
       emit.updateStart({
         event,
@@ -17355,19 +17249,18 @@ const ConnectionLine = defineComponent({
   },
   setup() {
     var _a;
-    const {
-      id: id2,
-      connectionMode,
-      connectionStartHandle,
-      connectionEndHandle,
-      connectionPosition,
-      connectionLineType,
-      connectionLineStyle,
-      connectionLineOptions,
-      connectionStatus,
-      viewport,
-      findNode
-    } = useVueFlow();
+    const _useVueFlow13 = useVueFlow(),
+      id2 = _useVueFlow13.id,
+      connectionMode = _useVueFlow13.connectionMode,
+      connectionStartHandle = _useVueFlow13.connectionStartHandle,
+      connectionEndHandle = _useVueFlow13.connectionEndHandle,
+      connectionPosition = _useVueFlow13.connectionPosition,
+      connectionLineType = _useVueFlow13.connectionLineType,
+      connectionLineStyle = _useVueFlow13.connectionLineStyle,
+      connectionLineOptions = _useVueFlow13.connectionLineOptions,
+      connectionStatus = _useVueFlow13.connectionStatus,
+      viewport = _useVueFlow13.viewport,
+      findNode = _useVueFlow13.findNode;
     const connectionLineComponent = (_a = inject(Slots$1)) == null ? void 0 : _a["connection-line"];
     const fromNode = computed(() => {
       var _a2;
@@ -17387,7 +17280,7 @@ const ConnectionLine = defineComponent({
     const markerStart = computed(() => connectionLineOptions.value.markerStart ? "url(#" + getMarkerId(connectionLineOptions.value.markerStart, id2) + ")" : "");
     const markerEnd = computed(() => connectionLineOptions.value.markerEnd ? "url(#" + getMarkerId(connectionLineOptions.value.markerEnd, id2) + ")" : "");
     return () => {
-      var _ref75, _ref77, _ref78, _ref79, _ref80, _connectionLineType$v;
+      var _ref87, _ref89, _ref90, _ref91, _ref92, _connectionLineType$v;
       var _a2, _b, _c;
       if (!fromNode.value || !connectionStartHandle.value) {
         return null;
@@ -17395,21 +17288,20 @@ const ConnectionLine = defineComponent({
       const startHandleId = connectionStartHandle.value.id;
       const handleType = connectionStartHandle.value.type;
       const fromHandleBounds = fromNode.value.handleBounds;
-      let handleBounds = (_ref75 = fromHandleBounds == null ? void 0 : fromHandleBounds[handleType]) != null ? _ref75 : [];
+      let handleBounds = (_ref87 = fromHandleBounds == null ? void 0 : fromHandleBounds[handleType]) != null ? _ref87 : [];
       if (connectionMode.value === ConnectionMode.Loose) {
-        var _ref76;
-        const oppositeBounds = (_ref76 = fromHandleBounds == null ? void 0 : fromHandleBounds[handleType === "source" ? "target" : "source"]) != null ? _ref76 : [];
+        var _ref88;
+        const oppositeBounds = (_ref88 = fromHandleBounds == null ? void 0 : fromHandleBounds[handleType === "source" ? "target" : "source"]) != null ? _ref88 : [];
         handleBounds = [...handleBounds, ...oppositeBounds];
       }
       if (!handleBounds) {
         return null;
       }
-      const fromHandle = (_ref77 = startHandleId ? handleBounds.find(d => d.id === startHandleId) : handleBounds[0]) != null ? _ref77 : null;
-      const fromPosition = (_ref78 = fromHandle == null ? void 0 : fromHandle.position) != null ? _ref78 : Position.Top;
-      const {
-        x: fromX,
-        y: fromY
-      } = getHandlePosition(fromNode.value, fromHandle, fromPosition);
+      const fromHandle = (_ref89 = startHandleId ? handleBounds.find(d => d.id === startHandleId) : handleBounds[0]) != null ? _ref89 : null;
+      const fromPosition = (_ref90 = fromHandle == null ? void 0 : fromHandle.position) != null ? _ref90 : Position.Top;
+      const _getHandlePosition4 = getHandlePosition(fromNode.value, fromHandle, fromPosition),
+        fromX = _getHandlePosition4.x,
+        fromY = _getHandlePosition4.y;
       let toHandle = null;
       if (toNode.value) {
         if (connectionMode.value === ConnectionMode.Strict) {
@@ -17425,11 +17317,11 @@ const ConnectionLine = defineComponent({
           })) || null;
         }
       }
-      const toPosition = (_ref79 = (_c = connectionEndHandle.value) == null ? void 0 : _c.position) != null ? _ref79 : fromPosition ? oppositePosition[fromPosition] : null;
+      const toPosition = (_ref91 = (_c = connectionEndHandle.value) == null ? void 0 : _c.position) != null ? _ref91 : fromPosition ? oppositePosition[fromPosition] : null;
       if (!fromPosition || !toPosition) {
         return null;
       }
-      const type = (_ref80 = (_connectionLineType$v = connectionLineType.value) != null ? _connectionLineType$v : connectionLineOptions.value.type) != null ? _ref80 : ConnectionLineType.Bezier;
+      const type = (_ref92 = (_connectionLineType$v = connectionLineType.value) != null ? _connectionLineType$v : connectionLineOptions.value.type) != null ? _ref92 : ConnectionLineType.Bezier;
       let dAttr = "";
       const pathParams = {
         sourceX: fromX,
@@ -17440,15 +17332,19 @@ const ConnectionLine = defineComponent({
         targetPosition: toPosition
       };
       if (type === ConnectionLineType.Bezier) {
-        [dAttr] = getBezierPath(pathParams);
+        var _getBezierPath2 = getBezierPath(pathParams);
+        dAttr = _getBezierPath2[0];
       } else if (type === ConnectionLineType.Step) {
-        [dAttr] = getSmoothStepPath(_extends({}, pathParams, {
+        var _getSmoothStepPath2 = getSmoothStepPath(_extends({}, pathParams, {
           borderRadius: 0
         }));
+        dAttr = _getSmoothStepPath2[0];
       } else if (type === ConnectionLineType.SmoothStep) {
-        [dAttr] = getSmoothStepPath(pathParams);
+        var _getSmoothStepPath3 = getSmoothStepPath(pathParams);
+        dAttr = _getSmoothStepPath3[0];
       } else if (type === ConnectionLineType.SimpleBezier) {
-        [dAttr] = getSimpleBezierPath(pathParams);
+        var _getSimpleBezierPath2 = getSimpleBezierPath(pathParams);
+        dAttr = _getSimpleBezierPath2[0];
       } else {
         dAttr = "M" + fromX + "," + fromY + " " + toXY.value.x + "," + toXY.value.y;
       }
@@ -17559,12 +17455,11 @@ const __default__$5 = {
 };
 const _sfc_main$5 = /* @__PURE__ */defineComponent(_extends({}, __default__$5, {
   setup(__props) {
-    const {
-      id: vueFlowId,
-      edges,
-      connectionLineOptions,
-      defaultMarkerColor: defaultColor
-    } = useVueFlow();
+    const _useVueFlow14 = useVueFlow(),
+      vueFlowId = _useVueFlow14.id,
+      edges = _useVueFlow14.edges,
+      connectionLineOptions = _useVueFlow14.connectionLineOptions,
+      defaultColor = _useVueFlow14.defaultMarkerColor;
     const markers = computed(() => {
       const ids = /* @__PURE__ */new Set();
       const markers2 = [];
@@ -17623,11 +17518,10 @@ const __default__$4 = {
 };
 const _sfc_main$4 = /* @__PURE__ */defineComponent(_extends({}, __default__$4, {
   setup(__props) {
-    const {
-      findNode,
-      getEdges,
-      elevateEdgesOnSelect
-    } = useVueFlow();
+    const _useVueFlow15 = useVueFlow(),
+      findNode = _useVueFlow15.findNode,
+      getEdges = _useVueFlow15.getEdges,
+      elevateEdgesOnSelect = _useVueFlow15.elevateEdgesOnSelect;
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [createVNode(_sfc_main$5), (openBlock(true), createElementBlock(Fragment, null, renderList(unref(getEdges), edge => {
         return openBlock(), createElementBlock("svg", {
@@ -17650,45 +17544,42 @@ const NodeWrapper = defineComponent({
   },
   props: ["id", "resizeObserver"],
   setup(props) {
-    const {
-      id: vueFlowId,
-      noPanClassName,
-      selectNodesOnDrag,
-      nodesSelectionActive,
-      multiSelectionActive,
-      emits,
-      removeSelectedNodes,
-      addSelectedNodes,
-      updateNodeDimensions,
-      onUpdateNodeInternals,
-      getNodeTypes,
-      nodeExtent,
-      elevateNodesOnSelect,
-      disableKeyboardA11y,
-      ariaLiveMessage,
-      snapToGrid,
-      snapGrid,
-      nodeDragThreshold,
-      nodesDraggable,
-      elementsSelectable,
-      nodesConnectable,
-      nodesFocusable,
-      hooks
-    } = useVueFlow();
+    const _useVueFlow16 = useVueFlow(),
+      vueFlowId = _useVueFlow16.id,
+      noPanClassName = _useVueFlow16.noPanClassName,
+      selectNodesOnDrag = _useVueFlow16.selectNodesOnDrag,
+      nodesSelectionActive = _useVueFlow16.nodesSelectionActive,
+      multiSelectionActive = _useVueFlow16.multiSelectionActive,
+      emits = _useVueFlow16.emits,
+      removeSelectedNodes = _useVueFlow16.removeSelectedNodes,
+      addSelectedNodes = _useVueFlow16.addSelectedNodes,
+      updateNodeDimensions = _useVueFlow16.updateNodeDimensions,
+      onUpdateNodeInternals = _useVueFlow16.onUpdateNodeInternals,
+      getNodeTypes = _useVueFlow16.getNodeTypes,
+      nodeExtent = _useVueFlow16.nodeExtent,
+      elevateNodesOnSelect = _useVueFlow16.elevateNodesOnSelect,
+      disableKeyboardA11y = _useVueFlow16.disableKeyboardA11y,
+      ariaLiveMessage = _useVueFlow16.ariaLiveMessage,
+      snapToGrid = _useVueFlow16.snapToGrid,
+      snapGrid = _useVueFlow16.snapGrid,
+      nodeDragThreshold = _useVueFlow16.nodeDragThreshold,
+      nodesDraggable = _useVueFlow16.nodesDraggable,
+      elementsSelectable = _useVueFlow16.elementsSelectable,
+      nodesConnectable = _useVueFlow16.nodesConnectable,
+      nodesFocusable = _useVueFlow16.nodesFocusable,
+      hooks = _useVueFlow16.hooks;
     const nodeElement = ref(null);
     provide(NodeRef, nodeElement);
     provide(NodeId, props.id);
     const slots = inject(Slots$1);
     const instance = getCurrentInstance();
     const updateNodePositions = useUpdateNodePositions();
-    const {
-      node,
-      parentNode
-    } = useNode(props.id);
-    const {
-      emit,
-      on
-    } = useNodeHooks(node, emits);
+    const _useNode2 = useNode(props.id),
+      node = _useNode2.node,
+      parentNode = _useNode2.parentNode;
+    const _useNodeHooks = useNodeHooks(node, emits),
+      emit = _useNodeHooks.emit,
+      on = _useNodeHooks.on;
     const isDraggable = toRef(() => typeof node.draggable === "undefined" ? nodesDraggable.value : node.draggable);
     const isSelectable = toRef(() => typeof node.selectable === "undefined" ? elementsSelectable.value : node.selectable);
     const isConnectable = toRef(() => typeof node.connectable === "undefined" ? nodesConnectable.value : node.connectable);
@@ -17749,8 +17640,8 @@ const NodeWrapper = defineComponent({
       return styles;
     });
     const zIndex = toRef(() => {
-      var _ref81, _node$zIndex;
-      return Number((_ref81 = (_node$zIndex = node.zIndex) != null ? _node$zIndex : getStyle.value.zIndex) != null ? _ref81 : 0);
+      var _ref93, _node$zIndex;
+      return Number((_ref93 = (_node$zIndex = node.zIndex) != null ? _node$zIndex : getStyle.value.zIndex) != null ? _ref93 : 0);
     });
     onUpdateNodeInternals(updateIds => {
       if (updateIds.includes(props.id) || !updateIds.length) {
@@ -17799,8 +17690,13 @@ const NodeWrapper = defineComponent({
     }, () => {
       var _a;
       return (_a = parentNode.value) == null ? void 0 : _a.dimensions.width;
-    }], _ref82 => {
-      let [newX, newY, parentX, parentY, parentZ, nodeZIndex] = _ref82;
+    }], _ref94 => {
+      let newX = _ref94[0],
+        newY = _ref94[1],
+        parentX = _ref94[2],
+        parentY = _ref94[3],
+        parentZ = _ref94[4],
+        nodeZIndex = _ref94[5];
       const xyzPos = {
         x: newX,
         y: newY,
@@ -17819,9 +17715,11 @@ const NodeWrapper = defineComponent({
       flush: "post",
       immediate: true
     });
-    watch([() => node.extent, nodeExtent], (_ref83, _ref84) => {
-      let [nodeExtent2, globalExtent] = _ref83;
-      let [oldNodeExtent, oldGlobalExtent] = _ref84;
+    watch([() => node.extent, nodeExtent], (_ref95, _ref96) => {
+      let nodeExtent2 = _ref95[0],
+        globalExtent = _ref95[1];
+      let oldNodeExtent = _ref96[0],
+        oldGlobalExtent = _ref96[1];
       if (nodeExtent2 !== oldNodeExtent || globalExtent !== oldGlobalExtent) {
         clampPosition2();
       }
@@ -17891,10 +17789,9 @@ const NodeWrapper = defineComponent({
     };
     function clampPosition2() {
       const nextPosition = node.computedPosition;
-      const {
-        computedPosition,
-        position
-      } = calcNextPosition(node, snapToGrid.value ? snapPosition(nextPosition, snapGrid.value) : nextPosition, emits.error, nodeExtent.value, parentNode.value);
+      const _calcNextPosition3 = calcNextPosition(node, snapToGrid.value ? snapPosition(nextPosition, snapGrid.value) : nextPosition, emits.error, nodeExtent.value, parentNode.value),
+        computedPosition = _calcNextPosition3.computedPosition,
+        position = _calcNextPosition3.position;
       if (node.computedPosition.x !== computedPosition.x || node.computedPosition.y !== computedPosition.y) {
         node.computedPosition = _extends({}, node.computedPosition, computedPosition);
       }
@@ -17987,9 +17884,8 @@ const __default__$3$1 = {
 };
 const _sfc_main$3 = /* @__PURE__ */defineComponent(_extends({}, __default__$3$1, {
   setup(__props) {
-    const {
-      viewportRef
-    } = useVueFlow();
+    const _useVueFlow17 = useVueFlow(),
+      viewportRef = _useVueFlow17.viewportRef;
     const teleportTarget = toRef(() => {
       var _a;
       return (_a = viewportRef.value) == null ? void 0 : _a.getElementsByClassName("vue-flow__edge-labels")[0];
@@ -18008,9 +17904,8 @@ function useNodesInitialized(options) {
       includeHiddenNodes: false
     };
   }
-  const {
-    nodes
-  } = useVueFlow();
+  const _useVueFlow18 = useVueFlow(),
+    nodes = _useVueFlow18.nodes;
   return computed(() => {
     if (nodes.value.length === 0) {
       return false;
@@ -18036,11 +17931,10 @@ const __default__$2$1 = {
 };
 const _sfc_main$2$1 = /* @__PURE__ */defineComponent(_extends({}, __default__$2$1, {
   setup(__props) {
-    const {
-      getNodes,
-      updateNodeDimensions,
-      emits
-    } = useVueFlow();
+    const _useVueFlow19 = useVueFlow(),
+      getNodes = _useVueFlow19.getNodes,
+      updateNodeDimensions = _useVueFlow19.updateNodeDimensions,
+      emits = _useVueFlow19.emits;
     const nodesInitialized = useNodesInitialized();
     const resizeObserver = ref();
     watch(nodesInitialized, isInit => {
@@ -18087,9 +17981,8 @@ const _sfc_main$2$1 = /* @__PURE__ */defineComponent(_extends({}, __default__$2$
   }
 }));
 function useStylesLoadedWarning() {
-  const {
-    emits
-  } = useVueFlow();
+  const _useVueFlow20 = useVueFlow(),
+    emits = _useVueFlow20.emits;
   onMounted(() => {
     if (isDev()) {
       const pane = document.querySelector(".vue-flow__pane");
@@ -18261,11 +18154,9 @@ const _sfc_main$1$1 = /* @__PURE__ */defineComponent(_extends({}, __default__$1$
     autoPanSpeed: {}
   },
   emits: ["nodesChange", "edgesChange", "nodesInitialized", "paneReady", "init", "updateNodeInternals", "error", "connect", "connectStart", "connectEnd", "clickConnectStart", "clickConnectEnd", "moveStart", "move", "moveEnd", "selectionDragStart", "selectionDrag", "selectionDragStop", "selectionContextMenu", "selectionStart", "selectionEnd", "viewportChangeStart", "viewportChange", "viewportChangeEnd", "paneScroll", "paneClick", "paneContextMenu", "paneMouseEnter", "paneMouseMove", "paneMouseLeave", "edgeUpdate", "edgeContextMenu", "edgeMouseEnter", "edgeMouseMove", "edgeMouseLeave", "edgeDoubleClick", "edgeClick", "edgeUpdateStart", "edgeUpdateEnd", "nodeContextMenu", "nodeMouseEnter", "nodeMouseMove", "nodeMouseLeave", "nodeDoubleClick", "nodeClick", "nodeDragStart", "nodeDrag", "nodeDragStop", "miniMapNodeClick", "miniMapNodeDoubleClick", "miniMapNodeMouseEnter", "miniMapNodeMouseMove", "miniMapNodeMouseLeave", "update:modelValue", "update:nodes", "update:edges"],
-  setup(__props, _ref85) {
-    let {
-      expose: __expose,
-      emit
-    } = _ref85;
+  setup(__props, _ref97) {
+    let __expose = _ref97.expose,
+      emit = _ref97.emit;
     const props = __props;
     const slots = useSlots();
     const modelValue = useVModel(props, "modelValue", emit);
@@ -18306,9 +18197,8 @@ const _sfc_main$g = /* @__PURE__ */defineComponent(_extends({}, __default__$g, {
   },
   setup(__props) {
     const props = __props;
-    const {
-      userSelectionActive
-    } = useVueFlow();
+    const _useVueFlow21 = useVueFlow(),
+      userSelectionActive = _useVueFlow21.userSelectionActive;
     const positionClasses = computed(() => ("" + props.position).split("-"));
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
@@ -18327,11 +18217,9 @@ var BackgroundVariant = /* @__PURE__ */(BackgroundVariant2 => {
   return BackgroundVariant2;
 })(BackgroundVariant || {});
 const LinePattern = function LinePattern(_ref) {
-  let {
-    dimensions,
-    size,
-    color
-  } = _ref;
+  let dimensions = _ref.dimensions,
+    size = _ref.size,
+    color = _ref.color;
   return h("path", {
     "stroke": color,
     "stroke-width": size,
@@ -18339,10 +18227,8 @@ const LinePattern = function LinePattern(_ref) {
   });
 };
 const DotPattern = function DotPattern(_ref2) {
-  let {
-    radius,
-    color
-  } = _ref2;
+  let radius = _ref2.radius,
+    color = _ref2.color;
   return h("circle", {
     cx: radius,
     cy: radius,
@@ -18407,16 +18293,19 @@ const _sfc_main$2 = /* @__PURE__ */defineComponent(_extends({}, __default__$3, {
     }
   },
   setup(__props) {
-    const {
-      id: vueFlowId,
-      viewport
-    } = useVueFlow();
+    const _useVueFlow = useVueFlow(),
+      vueFlowId = _useVueFlow.id,
+      viewport = _useVueFlow.viewport;
     const background = computed(() => {
       const zoom = viewport.value.zoom;
-      const [gapX, gapY] = Array.isArray(__props.gap) ? __props.gap : [__props.gap, __props.gap];
+      const _ref3 = Array.isArray(__props.gap) ? __props.gap : [__props.gap, __props.gap],
+        gapX = _ref3[0],
+        gapY = _ref3[1];
       const scaledGap = [gapX * zoom || 1, gapY * zoom || 1];
       const scaledSize = __props.size * zoom;
-      const [offsetX, offsetY] = Array.isArray(__props.offset) ? __props.offset : [__props.offset, __props.offset];
+      const _ref4 = Array.isArray(__props.offset) ? __props.offset : [__props.offset, __props.offset],
+        offsetX = _ref4[0],
+        offsetY = _ref4[1];
       const scaledOffset = [offsetX * zoom || 1 + scaledGap[0] / 2, offsetY * zoom || 1 + scaledGap[1] / 2];
       return {
         scaledGap,
@@ -20733,12 +20622,10 @@ selection.prototype.interrupt = selection_interrupt;
 selection.prototype.transition = selection_transition;
 const constant = x => () => x;
 function ZoomEvent(type, _ref) {
-  let {
-    sourceEvent: sourceEvent2,
-    target,
-    transform,
-    dispatch: dispatch2
-  } = _ref;
+  let sourceEvent2 = _ref.sourceEvent,
+    target = _ref.target,
+    transform = _ref.transform,
+    dispatch2 = _ref.dispatch;
   Object.defineProperties(this, {
     type: {
       value: type,
@@ -21227,9 +21114,7 @@ const _sfc_main$1 = /* @__PURE__ */defineComponent(_extends({}, __default__$1, {
   },
   emits: ["click", "dblclick", "mouseenter", "mousemove", "mouseleave"],
   setup(__props, _ref2) {
-    let {
-      emit: emits
-    } = _ref2;
+    let emits = _ref2.emit;
     const props = __props;
     const miniMapSlots = inject(Slots);
     const attrs = useAttrs();
@@ -21353,24 +21238,21 @@ const _sfc_main = /* @__PURE__ */defineComponent(_extends({}, __default__$2, {
   },
   emits: ["click", "nodeClick", "nodeDblclick", "nodeMouseenter", "nodeMousemove", "nodeMouseleave"],
   setup(__props, _ref3) {
-    let {
-      emit
-    } = _ref3;
+    let emit = _ref3.emit;
     const slots = useSlots();
     const attrs = useAttrs();
     const defaultWidth = 200;
     const defaultHeight = 150;
-    const {
-      id: id2,
-      edges,
-      viewport,
-      translateExtent,
-      dimensions,
-      emits,
-      d3Selection,
-      d3Zoom,
-      getNodesInitialized
-    } = useVueFlow();
+    const _useVueFlow = useVueFlow(),
+      id2 = _useVueFlow.id,
+      edges = _useVueFlow.edges,
+      viewport = _useVueFlow.viewport,
+      translateExtent = _useVueFlow.translateExtent,
+      dimensions = _useVueFlow.dimensions,
+      emits = _useVueFlow.emits,
+      d3Selection = _useVueFlow.d3Selection,
+      d3Zoom = _useVueFlow.d3Zoom,
+      getNodesInitialized = _useVueFlow.getNodesInitialized;
     const el = ref();
     provide(Slots, slots);
     const elementWidth = toRef(() => {
@@ -21454,7 +21336,9 @@ const _sfc_main = /* @__PURE__ */defineComponent(_extends({}, __default__$2, {
       flush: "post"
     });
     function onSvgClick(event) {
-      const [x, y] = pointer(event);
+      const _pointer = pointer(event),
+        x = _pointer[0],
+        y = _pointer[1];
       emit("click", {
         event,
         position: {
@@ -22572,12 +22456,15 @@ function generatePositionedNodes(stages, options) {
   if (options === void 0) {
     options = {};
   }
-  const {
-    gapX = 400,
-    gapY = 300,
-    paddingX = 100,
-    paddingY = 100
-  } = options;
+  const _options = options,
+    _options$gapX = _options.gapX,
+    gapX = _options$gapX === void 0 ? 400 : _options$gapX,
+    _options$gapY = _options.gapY,
+    gapY = _options$gapY === void 0 ? 300 : _options$gapY,
+    _options$paddingX = _options.paddingX,
+    paddingX = _options$paddingX === void 0 ? 100 : _options$paddingX,
+    _options$paddingY = _options.paddingY,
+    paddingY = _options$paddingY === void 0 ? 100 : _options$paddingY;
   const columns = Math.min(4, Math.ceil(Math.sqrt((stages == null ? void 0 : stages.length) || 0)) + 1);
   return stages.map((stage, index) => {
     const col = index % columns;
@@ -22645,9 +22532,9 @@ function generateStyledEdges(transitions, options) {
   if (options === void 0) {
     options = {};
   }
-  const {
-    selectedId = null
-  } = options;
+  const _options = options,
+    _options$selectedId = _options.selectedId,
+    selectedId = _options$selectedId === void 0 ? null : _options$selectedId;
 
   // Group transitions by source-target pair
   const edgeGroups = {};
@@ -22662,7 +22549,8 @@ function generateStyledEdges(transitions, options) {
   // Assign offsetIndex for each edge in a group
   const edgeOffsetMap = new Map();
   Object.entries(edgeGroups).forEach(_ref => {
-    let [key, group] = _ref;
+    _ref[0];
+      let group = _ref[1];
     group.forEach((transition, idx) => {
       edgeOffsetMap.set(transition.id, idx - (group.length - 1) / 2);
     });
@@ -22730,22 +22618,20 @@ function generateStyledEdges(transitions, options) {
  * @param {Object} store - Vuex store instance
  */
 function setupGlobalShortcuts(_ref) {
-  let {
-    addStage,
-    addTransition,
-    editItem,
-    deleteItem,
-    setSaveStatus,
-    updateSaveMessage,
-    saveNodePosition,
-    clearSelection,
-    zoomIn,
-    zoomOut,
-    fitView,
-    viewport,
-    state,
-    store
-  } = _ref;
+  let addStage = _ref.addStage,
+    addTransition = _ref.addTransition,
+    editItem = _ref.editItem,
+    deleteItem = _ref.deleteItem,
+    setSaveStatus = _ref.setSaveStatus,
+    updateSaveMessage = _ref.updateSaveMessage,
+    saveNodePosition = _ref.saveNodePosition,
+    clearSelection = _ref.clearSelection,
+    zoomIn = _ref.zoomIn,
+    zoomOut = _ref.zoomOut,
+    fitView = _ref.fitView,
+    viewport = _ref.viewport,
+    state = _ref.state,
+    store = _ref.store;
   function handleKey(e) {
     const iframe = document.querySelector('joomla-dialog dialog[open]');
     if (iframe) {
@@ -22775,10 +22661,8 @@ function setupGlobalShortcuts(_ref) {
         y: 0
       };
       if (!currentPosition) return;
-      let {
-        x,
-        y
-      } = currentPosition;
+      let x = currentPosition.x,
+        y = currentPosition.y;
       switch (direction) {
         case 'ArrowUp':
           y -= moveBy;
@@ -24032,11 +23916,9 @@ var mutations = {
     state.error = error;
   },
   UPDATE_STAGE_POSITION(state, _ref) {
-    let {
-      id,
-      x,
-      y
-    } = _ref;
+    let id = _ref.id,
+      x = _ref.x,
+      y = _ref.y;
     state.stages = state.stages.map(stage => {
       if (stage.id.toString() === id) {
         return _extends({}, stage, {
@@ -24050,11 +23932,9 @@ var mutations = {
     });
   },
   SET_CANVAS_VIEWPORT(state, _ref2) {
-    let {
-      zoom,
-      panX,
-      panY
-    } = _ref2;
+    let zoom = _ref2.zoom,
+      panX = _ref2.panX,
+      panY = _ref2.panY;
     state.canvas.zoom = zoom;
     state.canvas.panX = panX;
     state.canvas.panY = panY;
@@ -24071,10 +23951,9 @@ class WorkflowGraphApi {
    * @throws {TypeError} If required options are missing.
    */
   constructor() {
-    const {
-      apiBaseUrl,
-      extension
-    } = Joomla.getOptions('com_workflow', {});
+    const _Joomla$getOptions = Joomla.getOptions('com_workflow', {}),
+      apiBaseUrl = _Joomla$getOptions.apiBaseUrl,
+      extension = _Joomla$getOptions.extension;
     if (!apiBaseUrl || !extension) {
       throw new TypeError(Joomla.Text._('COM_WORKFLOW_GRAPH_API_NOT_SET'));
     }
@@ -24236,7 +24115,8 @@ class WorkflowGraphApi {
         return true;
       }
       Object.entries(positions).forEach(_ref => {
-        let [id, position] = _ref;
+        let id = _ref[0],
+          position = _ref[1];
         formData.append("positions[" + id + "][x]", position.x);
         formData.append("positions[" + id + "][y]", position.y);
       });
@@ -24265,14 +24145,15 @@ var actions = {
    * @returns {Promise<{workflow: Object, stages: Array, transitions: Array}>}
    */
   async loadWorkflow(_ref, id) {
-    let {
-      commit
-    } = _ref;
+    let commit = _ref.commit;
     commit('SET_LOADING', true);
     commit('SET_ERROR', null);
     try {
       // Load workflow, stages, and transitions in parallel
-      const [workflowRes, stagesRes, transitionsRes] = await Promise.all([await workflowGraphApi.getWorkflow(id), await workflowGraphApi.getStages(id), await workflowGraphApi.getTransitions(id)]);
+      const _await$Promise$all = await Promise.all([await workflowGraphApi.getWorkflow(id), await workflowGraphApi.getStages(id), await workflowGraphApi.getTransitions(id)]),
+        workflowRes = _await$Promise$all[0],
+        stagesRes = _await$Promise$all[1],
+        transitionsRes = _await$Promise$all[2];
       commit('SET_WORKFLOW_ID', id);
       commit('SET_WORKFLOW', workflowRes == null ? void 0 : workflowRes.data);
       commit('SET_STAGES', stagesRes == null ? void 0 : stagesRes.data);
@@ -24294,15 +24175,11 @@ var actions = {
    * @returns {Promise<void>}
    */
   async deleteStage(_ref2, _ref3) {
-    let {
-      commit,
-      dispatch,
-      state
-    } = _ref2;
-    let {
-      id,
-      workflowId
-    } = _ref3;
+    let commit = _ref2.commit,
+      dispatch = _ref2.dispatch,
+      state = _ref2.state;
+    let id = _ref3.id,
+      workflowId = _ref3.workflowId;
     commit('SET_LOADING', true);
     commit('SET_ERROR', null);
     try {
@@ -24335,15 +24212,11 @@ var actions = {
    * @returns {Promise<void>}
    */
   async deleteTransition(_ref4, _ref5) {
-    let {
-      commit,
-      dispatch,
-      state
-    } = _ref4;
-    let {
-      id,
-      workflowId
-    } = _ref5;
+    let commit = _ref4.commit,
+      dispatch = _ref4.dispatch,
+      state = _ref4.state;
+    let id = _ref5.id,
+      workflowId = _ref5.workflowId;
     commit('SET_LOADING', true);
     commit('SET_ERROR', null);
     try {
@@ -24365,14 +24238,10 @@ var actions = {
    * @param y - The new y position of the stage
    */
   updateStagePosition(_ref6, _ref7) {
-    let {
-      commit
-    } = _ref6;
-    let {
-      id,
-      x,
-      y
-    } = _ref7;
+    let commit = _ref6.commit;
+    let id = _ref7.id,
+      x = _ref7.x,
+      y = _ref7.y;
     commit('UPDATE_STAGE_POSITION', {
       id,
       x,
@@ -24386,10 +24255,8 @@ var actions = {
    * @returns {Promise<boolean>}
    */
   async updateStagePositionAjax(_ref8) {
-    let {
-      commit,
-      state
-    } = _ref8;
+    let commit = _ref8.commit,
+      state = _ref8.state;
     const response = await workflowGraphApi.updateStagePosition(state.workflowId, state.stages.reduce((acc, stage) => {
       if (stage.position) {
         acc[stage.id] = {
@@ -24414,14 +24281,10 @@ var actions = {
    * @param panY - The pan offset on the Y axis
    */
   updateCanvasViewport(_ref9, _ref0) {
-    let {
-      commit
-    } = _ref9;
-    let {
-      zoom,
-      panX,
-      panY
-    } = _ref0;
+    let commit = _ref9.commit;
+    let zoom = _ref0.zoom,
+      panX = _ref0.panX,
+      panY = _ref0.panY;
     commit('SET_CANVAS_VIEWPORT', {
       zoom,
       panX,
@@ -24449,10 +24312,11 @@ var getters = {
  * Typically used for preserving UI state across reloads
  */
 function createPersistedState(_temp) {
-  let {
-    key = 'vuex',
-    paths = []
-  } = _temp === void 0 ? {} : _temp;
+  let _ref = _temp === void 0 ? {} : _temp,
+    _ref$key = _ref.key,
+    key = _ref$key === void 0 ? 'vuex' : _ref$key,
+    _ref$paths = _ref.paths,
+    paths = _ref$paths === void 0 ? [] : _ref$paths;
   return store => {
     try {
       const stored = localStorage.getItem(key);

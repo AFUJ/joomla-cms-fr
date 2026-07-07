@@ -15,6 +15,12 @@
     },
     {
       "name": "com_categories.shared-categories-accordion",
+      "type": "style",
+      "uri": "com_categories/shared-categories-accordion.min.css",
+      "version": "0dc781"
+    },
+    {
+      "name": "com_categories.shared-categories-accordion",
       "type": "script",
       "uri": "com_categories/shared-categories-accordion.min.js",
       "dependencies": [
@@ -24,12 +30,6 @@
         "type": "module"
       },
       "version": "587c3d"
-    },
-    {
-      "name": "com_categories.shared-categories-accordion",
-      "type": "style",
-      "uri": "com_categories/shared-categories-accordion.min.css",
-      "version": "0dc781"
     }
   ]
 }

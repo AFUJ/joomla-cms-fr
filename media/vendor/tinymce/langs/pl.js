@@ -1,5 +1,5 @@
 tinymce.addI18n("pl", {
-    "#": "",
+    "#": "#",
     "Accessibility": "Dost\u0119pno\u015b\u0107",
     "Accordion": "Element Accordion",
     "Accordion body...": "Tre\u015b\u0107 elementu Accordion...",
@@ -255,7 +255,7 @@ tinymce.addI18n("pl", {
     "Numbers only, 0 to 255": "",
     "OR": "LUB",
     "Objects": "Obiekty",
-    "Ok": "",
+    "Ok": "Ok",
     "Open help dialog": "Otw\xf3rz okno dialogowe pomocy",
     "Open link": "Otw\xf3rz \u0142\u0105cze",
     "Open link in...": "Otw\xf3rz \u0142\u0105cze w...",

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Joomla CMS",
   "license": "GPL-2.0-or-later",
   "assets": [
@@ -317,16 +317,6 @@
       "version": "2.3.6"
     },
     {
-      "name": "metismenujs",
-      "type": "script",
-      "uri": "vendor/metismenujs/metismenujs.min.js",
-      "attributes": {
-        "defer": true
-      },
-      "package": "metismenujs",
-      "version": "1.4.0"
-    },
-    {
       "name": "skipto",
       "type": "script",
       "uri": "vendor/skipto/skipto.min.js",
@@ -337,28 +327,14 @@
       "version": "4.1.7"
     },
     {
-      "name": "sa11y",
+      "name": "metismenujs",
       "type": "script",
-      "uri": "vendor/sa11y/sa11y.esm.min.js",
-      "importmap": true,
-      "package": "sa11y",
-      "version": "4.4.1"
-    },
-    {
-      "name": "sa11y-lang",
-      "type": "script",
-      "uri": "vendor/sa11y/en.js",
-      "importmap": true,
-      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
-      "package": "sa11y",
-      "version": "4.4.1"
-    },
-    {
-      "name": "sa11y",
-      "type": "style",
-      "uri": "vendor/sa11y/sa11y.min.css",
-      "package": "sa11y",
-      "version": "4.4.1"
+      "uri": "vendor/metismenujs/metismenujs.min.js",
+      "attributes": {
+        "defer": true
+      },
+      "package": "metismenujs",
+      "version": "1.4.0"
     },
     {
       "name": "qrcode",
@@ -397,6 +373,30 @@
       ],
       "package": "qrcode-generator",
       "version": "2.0.4"
+    },
+    {
+      "name": "sa11y",
+      "type": "script",
+      "uri": "vendor/sa11y/sa11y.esm.min.js",
+      "importmap": true,
+      "package": "sa11y",
+      "version": "4.4.1"
+    },
+    {
+      "name": "sa11y-lang",
+      "type": "script",
+      "uri": "vendor/sa11y/en.js",
+      "importmap": true,
+      "description": "A placeholder asset which is later initialised by plugin, depending on active language.",
+      "package": "sa11y",
+      "version": "4.4.1"
+    },
+    {
+      "name": "sa11y",
+      "type": "style",
+      "uri": "vendor/sa11y/sa11y.min.css",
+      "package": "sa11y",
+      "version": "4.4.1"
     },
     {
       "name": "jquery",

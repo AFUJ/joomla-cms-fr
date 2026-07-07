@@ -15,13 +15,7 @@
       "attributes": {
         "type": "module"
       },
-      "version": "a5c136"
-    },
-    {
-      "name": "com_finder.dates",
-      "type": "style",
-      "uri": "com_finder/dates.min.css",
-      "version": "e479b6"
+      "version": "245553"
     },
     {
       "name": "com_finder.filters",
@@ -40,6 +34,12 @@
       "type": "style",
       "uri": "com_finder/finder.min.css",
       "version": "ab077f"
+    },
+    {
+      "name": "com_finder.dates",
+      "type": "style",
+      "uri": "com_finder/dates.min.css",
+      "version": "e479b6"
     },
     {
       "name": "com_finder.finder",
@@ -72,18 +72,6 @@
       "version": "d51495"
     },
     {
-      "name": "com_finder.maps",
-      "type": "script",
-      "uri": "com_finder/maps.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "63e1cd"
-    },
-    {
       "name": "com_finder.indexer",
       "type": "script",
       "uri": "com_finder/indexer.min.js",
@@ -94,6 +82,18 @@
         "type": "module"
       },
       "version": "deca30"
+    },
+    {
+      "name": "com_finder.maps",
+      "type": "script",
+      "uri": "com_finder/maps.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "63e1cd"
     }
   ]
 }

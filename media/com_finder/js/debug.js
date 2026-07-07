@@ -13,6 +13,14 @@
     const token = `&${document.getElementById('finder-indexer-token').getAttribute('name')}=1`;
     Joomla.debugIndexing = () => {
       const formEls = new URLSearchParams(Array.from(new FormData(document.getElementById('debug-form')))).toString();
+      const getResponseMessage = response => {
+        try {
+          const parsed = JSON.parse(response);
+          return parsed.message || response;
+        } catch (e) {
+          return response;
+        }
+      };
       Joomla.request({
         url: `${path}${token}&${formEls}`,
         method: 'GET',
@@ -32,6 +40,10 @@
           };
           try {
             const parsed = JSON.parse(response);
+            if (parsed.error) {
+              output.textContent = getResponseMessage(response);
+              return;
+            }
             output.innerHTML = Joomla.sanitizeHtml(parsed.rendered, allowedHtml);
           } catch (e) {
             output.innerHTML = Joomla.sanitizeHtml(response, allowedHtml);
@@ -39,7 +51,7 @@
         },
         onError: xhr => {
           const output = document.getElementById('indexer-output');
-          output.innerHTML = xhr.response;
+          output.textContent = getResponseMessage(xhr.response);
         }
       });
     };
