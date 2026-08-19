@@ -30,18 +30,6 @@
       "version": "f3c19c"
     },
     {
-      "name": "com_fields.admin-fields-batch",
-      "type": "script",
-      "uri": "com_fields/admin-fields-default-batch.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "eebfc6"
-    },
-    {
       "name": "com_fields.admin-field-typehaschanged",
       "type": "script",
       "uri": "com_fields/admin-field-typehaschanged.min.js",
@@ -52,6 +40,18 @@
         "type": "module"
       },
       "version": "1fbf0a"
+    },
+    {
+      "name": "com_fields.admin-fields-batch",
+      "type": "script",
+      "uri": "com_fields/admin-fields-default-batch.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      },
+      "version": "eebfc6"
     },
     {
       "name": "com_fields.admin-fields-modal",

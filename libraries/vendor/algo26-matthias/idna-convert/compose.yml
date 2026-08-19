@@ -1,8 +1,0 @@
-services:
-  idna-convert-test:
-    container_name: idna-convert-test
-    build:
-      context: .
-    command: ash -c "composer install && phpunit --display-notices --display-warnings"
-    volumes:
-    - ./:/app

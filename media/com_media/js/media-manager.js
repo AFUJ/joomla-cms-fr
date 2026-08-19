@@ -8743,7 +8743,7 @@ var script$j = {
   },
   props: {
     item: { type: Object, required: true },
-    focused: { type: Boolean, required: true, default: false },
+    focused: { type: Boolean, default: false },
   },
   emits: ['toggle-settings'],
   data() {

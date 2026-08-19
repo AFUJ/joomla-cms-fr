@@ -44,6 +44,10 @@ Joomla = window.Joomla || {};
         window.scrollTo(0, 0);
       });
     }
+
+    /**
+     * Load deferred stylesheets
+     */
     document.head.querySelectorAll('link[rel="lazy-stylesheet"]').forEach($link => {
       $link.rel = 'stylesheet';
     });

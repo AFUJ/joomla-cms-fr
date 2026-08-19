@@ -27,12 +27,6 @@
     },
     {
       "name": "mod_menu.menu",
-      "type": "style",
-      "uri": "mod_menu/mod-menu.min.css",
-      "version": "a45ede"
-    },
-    {
-      "name": "mod_menu.menu",
       "type": "script",
       "uri": "mod_menu/menu.min.js",
       "dependencies": [
@@ -42,6 +36,12 @@
         "type": "module"
       },
       "version": "5a565f"
+    },
+    {
+      "name": "mod_menu.menu",
+      "type": "style",
+      "uri": "mod_menu/mod-menu.min.css",
+      "version": "a45ede"
     }
   ]
 }

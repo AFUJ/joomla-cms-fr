@@ -1701,17 +1701,17 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "4.2.0",
-            "version_normalized": "4.2.0.0",
+            "version": "dev-4.x-shtml",
+            "version_normalized": "dev-4.x-shtml",
             "source": {
                 "type": "git",
-                "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52"
+                "url": "https://github.com/joomla-framework/security-filesystem.git",
+                "reference": "e71e801053de49a1d0546861b2a16e741768a5d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
-                "reference": "66e6212d4cb4d36e7dd5a01a94c5f257e3026a52",
+                "url": "https://api.github.com/repos/joomla-framework/security-filesystem/zipball/e71e801053de49a1d0546861b2a16e741768a5d6",
+                "reference": "e71e801053de49a1d0546861b2a16e741768a5d6",
                 "shasum": ""
             },
             "require": {
@@ -1725,7 +1725,7 @@
                 "phpunit/phpunit": "^12.2.7",
                 "squizlabs/php_codesniffer": "^3.13.2"
             },
-            "time": "2026-06-25T19:31:52+00:00",
+            "time": "2026-08-05T17:20:15+00:00",
             "type": "joomla-package",
             "installation-source": "dist",
             "autoload": {
@@ -1733,7 +1733,11 @@
                     "Joomla\\Filesystem\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Joomla\\Filesystem\\Tests\\": "Tests/"
+                }
+            },
             "license": [
                 "GPL-2.0-or-later"
             ],
@@ -1744,10 +1748,6 @@
                 "framework",
                 "joomla"
             ],
-            "support": {
-                "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/4.2.0"
-            },
             "install-path": "../joomla/filesystem"
         },
         {
