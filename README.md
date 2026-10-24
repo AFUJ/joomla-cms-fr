@@ -67,18 +67,7 @@ Dans cette distribution, les ressources francophones sont mises en avant dans le
 
 Le paquet complet n'est pas un paquet de mise à jour à envoyer dans le composant « Mise à jour de Joomla ». Pour un site existant, utilisez la procédure de mise à jour ou de migration adaptée.
 
-## 9 — Mises à jour et conservation des personnalisations
-
-Les personnalisations utilisent les mécanismes natifs de Joomla :
-
-- `administrator/language/overrides/fr-FR.override.ini` pour les textes personnalisés ;
-- `administrator/templates/atum/html/com_menus/presets/help.xml` pour le tableau de bord Aide ;
-- `administrator/templates/atum/html/com_admin/help/langforum.php` pour le raccourci du forum français ;
-- les paramètres du module `mod_loginsupport` pour les adresses affichées sur la page de connexion.
-
-Le script `installation/sql/mysql/localise.sql` initialise ces paramètres lors d'une nouvelle installation. Il corrige aussi l'insertion de la langue française dans l'arbre des droits, en décalant les bornes avant son ajout.
-
-## 10 — Aide et communauté francophone
+## 9 — Aide et communauté francophone
 
 - **[Forum francophone — Joomla.fr](https://forum.joomla.fr/)** : échanges et entraide.
 - **[Base de connaissances en français](https://kb.joomla.fr/)** : documentation et tutoriels.
@@ -86,14 +75,14 @@ Le script `installation/sql/mysql/localise.sql` initialise ces paramètres lors 
 
 Ces trois liens sont présents sur la page de connexion et en tête du tableau de bord Aide. Les guides techniques internationaux, les informations de sécurité et les ressources pour développeurs restent accessibles.
 
-## 11 — Mettre à jour ou migrer un site existant
+## 10 — Mettre à jour ou migrer un site existant
 
 Sauvegardez les fichiers et la base de données, puis vérifiez la compatibilité des extensions et du template. Testez la migration sur une copie du site avant de l'appliquer en production.
 
 - [Documentation officielle des migrations — en anglais](https://guide.joomla.org/user-manual/migration)
 - [Accompagnement sur le forum francophone](https://forum.joomla.fr/)
 
-## 12 — Contribuer à Joomla
+## 11 — Contribuer à Joomla
 
 - [Signaler un problème dans cette distribution](https://github.com/AFUJ/joomla-cms-fr/issues)
 - [Suivi des problèmes du cœur Joomla](https://issues.joomla.org/)
