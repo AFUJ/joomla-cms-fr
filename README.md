@@ -20,7 +20,7 @@ Joomla! 6.2.0 avec le pack français **6.2.0.1**, les traductions des éléments
 
 Joomla! est un système de gestion de contenu (CMS) qui permet de créer des sites web et des applications en ligne. C'est un logiciel libre et Open Source, distribué sous la licence GNU GPL version 2 ou ultérieure.
 
-Joomla fonctionne avec PHP et une base de données compatible : MySQL, MariaDB ou PostgreSQL. Les personnalisations SQL françaises de ce paquet sont destinées à MySQL/MariaDB ; les tests de cette distribution ont été réalisés avec MySQL.
+Joomla fonctionne avec PHP et une base de données compatible : MySQL, MariaDB ou PostgreSQL. Les personnalisations SQL françaises de ce paquet sont destinées à MySQL/MariaDB..
 
 Consultez les [prérequis techniques officiels](https://downloads.joomla.org/technical-requirements) avant l'installation.
 
@@ -78,10 +78,6 @@ Les personnalisations utilisent les mécanismes natifs de Joomla :
 
 Le script `installation/sql/mysql/localise.sql` initialise ces paramètres lors d'une nouvelle installation. Il corrige aussi l'insertion de la langue française dans l'arbre des droits, en décalant les bornes avant son ajout.
 
-**Conservation testée le 25 octobre 2026** : après une installation neuve, réinstallation du cœur avec le paquet officiel Joomla 6.2.0, puis réinstallation du pack français 6.2.0.1. Les trois fichiers personnalisés et les paramètres des liens sont restés strictement identiques, sans réapplication manuelle.
-
-Voir le [compte rendu des tests](TESTS-JOOMLA-6.2-FR.txt). Une future version majeure ou un changement de template d'administration demandera une nouvelle vérification.
-
 ## 10 — Aide et communauté francophone
 
 - **[Forum francophone — Joomla.fr](https://forum.joomla.fr/)** : échanges et entraide.
@@ -96,8 +92,6 @@ Sauvegardez les fichiers et la base de données, puis vérifiez la compatibilit�
 
 - [Documentation officielle des migrations — en anglais](https://guide.joomla.org/user-manual/migration)
 - [Accompagnement sur le forum francophone](https://forum.joomla.fr/)
-
-Les tests de ce paquet couvrent une installation neuve et des réinstallations à versions identiques ; ils ne valident pas une migration depuis une ancienne version de Joomla.
 
 ## 12 — Contribuer à Joomla
 
