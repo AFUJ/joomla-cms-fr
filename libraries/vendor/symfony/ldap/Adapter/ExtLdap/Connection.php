@@ -170,7 +170,7 @@ class Connection extends AbstractConnection
         $resolver->setAllowedTypes('debug', 'bool');
         $resolver->setDefault('referrals', false);
         $resolver->setAllowedTypes('referrals', 'bool');
-        $resolver->setOptions('options', function (OptionsResolver $options, Options $parent) {
+        $resolver->setOptions('options', static function (OptionsResolver $options, Options $parent) {
             $options->setDefined(array_map('strtolower', array_keys((new \ReflectionClass(ConnectionOptions::class))->getConstants())));
 
             if (true === $parent['debug']) {
@@ -178,7 +178,7 @@ class Connection extends AbstractConnection
             }
 
             if (!isset($parent['network_timeout'])) {
-                $options->setDefault('network_timeout', \ini_get('default_socket_timeout'));
+                $options->setDefault('network_timeout', (int) \ini_get('default_socket_timeout'));
             }
 
             $options->setDefaults([
@@ -203,7 +203,6 @@ class Connection extends AbstractConnection
         if (false === $connection = ldap_connect($this->config['connection_string'])) {
             throw new LdapException('Invalid connection string: '.$this->config['connection_string']);
         }
-
         $this->connection = $connection;
 
         foreach ($this->config['options'] as $name => $value) {

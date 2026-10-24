@@ -14,8 +14,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "752453"
+      }
     },
     {
       "name": "com_config.modules",
@@ -26,8 +25,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "a96b5d"
+      }
     },
     {
       "name": "com_config.templates",
@@ -38,8 +36,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "8e4ec9"
+      }
     },
     {
       "name": "com_config.filters",
@@ -50,8 +47,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "2cad91"
+      }
     }
   ]
 }

@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/*!
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 #overrider-spinner, #overrider-spinner-btn, #refresh-status, #more-results, #language-results, #results-container {
   display: none;
 }

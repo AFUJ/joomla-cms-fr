@@ -31,10 +31,13 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 --
 -- Table `#__assets`
 --
-INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(11, 46, 47, 2, 'com_languages.language.2', 'French (fr-FR)', '{}');
-
-UPDATE IGNORE `#__assets` SET `rgt` = 48 WHERE `id` = 11;
+-- Open two positions before the right boundary of com_languages.
+SET @fr_asset_position = (SELECT `rgt` FROM `#__assets` WHERE `name` = 'com_languages');
+UPDATE `#__assets` SET `rgt` = `rgt` + 2 WHERE `rgt` >= @fr_asset_position;
+UPDATE `#__assets` SET `lft` = `lft` + 2 WHERE `lft` >= @fr_asset_position;
+INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
+SELECT `id`, @fr_asset_position, @fr_asset_position + 1, `level` + 1, 'com_languages.language.2', 'French (fr-FR)', '{}'
+FROM `#__assets` WHERE `name` = 'com_languages';
 
 --
 -- Table `#__update_sites_extensions`
@@ -147,3 +150,11 @@ UPDATE IGNORE `#__categories` SET `alias` = 'non-classe' WHERE `id` = 3;
 UPDATE IGNORE `#__categories` SET `alias` = 'non-classe' WHERE `id` = 4;
 UPDATE IGNORE `#__categories` SET `alias` = 'non-classe' WHERE `id` = 5;
 UPDATE IGNORE `#__categories` SET `alias` = 'non-classe' WHERE `id` = 7;
+
+-- French community support links on the administrator login screen.
+UPDATE `#__modules`
+SET `params` = JSON_SET(CASE WHEN JSON_VALID(`params`) THEN `params` ELSE '{}' END,
+    '$.forum_url', 'https://forum.joomla.fr/',
+    '$.documentation_url', 'https://kb.joomla.fr/',
+    '$.news_url', 'https://www.joomla.fr/')
+WHERE `module` = 'mod_loginsupport' AND `client_id` = 1;

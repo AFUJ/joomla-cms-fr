@@ -481,22 +481,22 @@
 
 .choices[data-type*="select-one"] .choices__inner, .choices[data-type*="select-multiple"] .choices__inner {
   cursor: pointer;
-  background: url("../../../images/select-bg.svg?v=5ebba0") 100% / 116rem no-repeat;
+  background: url("../../../images/select-bg.svg?v=61ee2e") 100% / 116rem no-repeat;
   background-color: var(--template-bg-light);
   padding-inline-end: 3rem;
 }
 
 [dir="rtl"] .choices[data-type*="select-one"] .choices__inner, [dir="rtl"] .choices[data-type*="select-multiple"] .choices__inner {
-  background: url("../../../images/select-bg-rtl.svg?v=e50af2") 0 / 116rem no-repeat;
+  background: url("../../../images/select-bg-rtl.svg?v=61ee2e") 0 / 116rem no-repeat;
   background-color: var(--template-bg-light);
 }
 
 [data-bs-theme="dark"] .choices[data-type*="select-one"] .choices__inner, [data-bs-theme="dark"] .choices[data-type*="select-multiple"] .choices__inner {
-  background: #007db0 url("../../../images/select-bg-dark.svg?v=506196") 100% / 116rem no-repeat;
+  background: #007db0 url("../../../images/select-bg-dark.svg?v=61ee2e") 100% / 116rem no-repeat;
 }
 
 [dir="rtl"] [data-bs-theme="dark"] .choices[data-type*="select-one"] .choices__inner, [dir="rtl"] [data-bs-theme="dark"] .choices[data-type*="select-multiple"] .choices__inner, [dir="rtl"][data-bs-theme="dark"] .choices[data-type*="select-one"] .choices__inner, [dir="rtl"][data-bs-theme="dark"] .choices[data-type*="select-multiple"] .choices__inner {
-  background: #007db0 url("../../../images/select-bg-rtl-dark.svg?v=5f59e1") 0 / 116rem no-repeat;
+  background: #007db0 url("../../../images/select-bg-rtl-dark.svg?v=61ee2e") 0 / 116rem no-repeat;
 }
 
 .choices[data-type*="select-one"] .choices__input {

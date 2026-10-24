@@ -14,6 +14,19 @@
       }
     },
     {
+      "name": "plg_editors_tinymce",
+      "type": "script",
+      "uri": "plg_editors_tinymce/tinymce.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "core",
+        "tinymce",
+        "editors"
+      ]
+    },
+    {
       "name": "plg_editors_tinymce.highlighter",
       "type": "script",
       "uri": "plg_editors_tinymce/plugins/joomla-highlighter/plugin.min.js",
@@ -34,6 +47,33 @@
       },
       "dependencies": [
         "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.jfilepicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/plugins/filepicker/plugin.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "tinymce"
+      ]
+    },
+    {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "style",
+      "uri": "plg_editors_tinymce/linkpicker.min.css"
+    },
+    {
+      "name": "plg_editors_tinymce.linkpicker",
+      "type": "script",
+      "uri": "plg_editors_tinymce/linkpicker.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "joomla.dialog"
       ]
     },
     {
@@ -70,18 +110,15 @@
       ]
     },
     {
-      "name": "plg_editors_tinymce",
+      "name": "plg_editors_tinymce.readmore",
       "type": "script",
-      "uri": "plg_editors_tinymce/tinymce.min.js",
+      "uri": "plg_editors_tinymce/plugins/readmore/plugin.min.js",
       "attributes": {
         "type": "module"
       },
       "dependencies": [
-        "core",
-        "tinymce",
-        "editors"
-      ],
-      "version": "9f8d2c"
+        "tinymce"
+      ]
     }
   ]
 }

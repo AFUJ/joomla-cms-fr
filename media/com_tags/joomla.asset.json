@@ -6,18 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_tags.tag-list",
-      "type": "script",
-      "uri": "com_tags/tag-list.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "db210b"
-    },
-    {
       "name": "com_tags.tag-default",
       "type": "script",
       "uri": "com_tags/tag-default.min.js",
@@ -26,8 +14,18 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "db210b"
+      }
+    },
+    {
+      "name": "com_tags.tag-list",
+      "type": "script",
+      "uri": "com_tags/tag-list.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "com_tags.tags-default",
@@ -38,8 +36,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "db210b"
+      }
     }
   ]
 }

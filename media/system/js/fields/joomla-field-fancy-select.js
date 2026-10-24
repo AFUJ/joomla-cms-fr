@@ -132,6 +132,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.choicesInstance = new Choices(this.select, {
       placeholderValue: this.placeholder,
       searchPlaceholderValue: this.searchPlaceholder,
+      appendGroupInSearch: true,
       removeItemButton: true,
       searchFloor: this.minTermLength,
       searchResultLimit: parseInt(this.select.dataset.maxResults, 10) || 10,

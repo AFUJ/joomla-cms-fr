@@ -14,8 +14,12 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "54d1ad"
+      }
+    },
+    {
+      "name": "com_admin.admin-help",
+      "type": "style",
+      "uri": "com_admin/admin-help.min.css"
     }
   ]
 }

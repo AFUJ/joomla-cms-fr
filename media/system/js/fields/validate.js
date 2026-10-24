@@ -708,7 +708,7 @@ document.formvalidator = new JFormValidator();
 
 /**
  * Expose the classes to the global scope
- * These will be removed in Joomla! 6.0
+ * These will be removed in Joomla! 7.0
  */
 window.JFormValidator = JFormValidator;
 window.punycode = punycode;

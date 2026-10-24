@@ -22,14 +22,12 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "587c3d"
+      }
     },
     {
       "name": "com_categories.shared-categories-accordion",
       "type": "style",
-      "uri": "com_categories/shared-categories-accordion.min.css",
-      "version": "0dc781"
+      "uri": "com_categories/shared-categories-accordion.min.css"
     }
   ]
 }

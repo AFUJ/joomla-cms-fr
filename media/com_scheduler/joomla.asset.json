@@ -14,21 +14,8 @@
         "joomla.dialog"
       ],
       "attributes": {
-        "type": "module"
-      },
-      "version": "6d6fc2"
-    },
-    {
-      "name": "com_scheduler.scheduler-config",
-      "type": "script",
-      "uri": "com_scheduler/scheduler-config.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "ab7203"
+        "type" : "module"
+      }
     },
     {
       "name": "com_scheduler.admin-view-select-task-search",
@@ -39,20 +26,28 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "878d30"
+      }
     },
     {
-      "name": "com_scheduler.admin-view-tasks-css",
-      "type": "style",
-      "uri": "com_scheduler/admin-view-tasks.css",
-      "version": "adee39"
+      "name": "com_scheduler.scheduler-config",
+      "type": "script",
+      "uri": "com_scheduler/scheduler-config.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     },
     {
       "name": "com_scheduler.admin-view-task-css",
       "type": "style",
-      "uri": "com_scheduler/admin-view-task.css",
-      "version": "b5f92b"
+      "uri": "com_scheduler/admin-view-task.css"
+    },
+    {
+      "name": "com_scheduler.admin-view-tasks-css",
+      "type": "style",
+      "uri": "com_scheduler/admin-view-tasks.css"
     }
   ]
 }

@@ -132,6 +132,10 @@ class CategoriesController extends ApiController
             $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
         }
 
+        if (\array_key_exists('state', $apiFilterInfo)) {
+            $this->modelState->set('filter.published', $filter->clean($apiFilterInfo['state'], 'INT'));
+        }
+
         $this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
         return parent::displayList();
@@ -157,6 +161,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowAdd($data = [])
@@ -180,6 +185,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowEdit($data = [], $key = 'id')
@@ -223,6 +229,7 @@ class CategoriesController extends ApiController
      *
      * @return  boolean
      *
+     * @since   5.4.8
      * @since   6.1.3
      */
     protected function allowDelete(): bool

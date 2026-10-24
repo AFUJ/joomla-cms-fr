@@ -15,8 +15,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "b93c10"
+      }
     },
     {
       "name": "com_joomlaupdate.default",
@@ -27,8 +26,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "cc3d38"
+      }
     }
   ]
 }

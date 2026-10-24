@@ -6,14 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_languages.overrider",
-      "type": "preset",
-      "dependencies": [
-        "com_languages.overrider#style",
-        "com_languages.overrider#script"
-      ]
-    },
-    {
       "name": "com_languages.admin-language-edit-change-flag",
       "type": "script",
       "uri": "com_languages/admin-language-edit-change-flag.min.js",
@@ -22,14 +14,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "2e2c65"
-    },
-    {
-      "name": "com_languages.overrider",
-      "type": "style",
-      "uri": "com_languages/overrider.min.css",
-      "version": "d91526"
+      }
     },
     {
       "name": "com_languages.admin-override-edit-refresh-searchstring",
@@ -40,8 +25,12 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "a1febd"
+      }
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "style",
+      "uri": "com_languages/overrider.min.css"
     },
     {
       "name": "com_languages.overrider",
@@ -52,8 +41,15 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "30ce08"
+      }
+    },
+    {
+      "name": "com_languages.overrider",
+      "type": "preset",
+      "dependencies": [
+        "com_languages.overrider#style",
+        "com_languages.overrider#script"
+      ]
     }
   ]
 }

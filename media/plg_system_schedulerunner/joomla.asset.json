@@ -13,9 +13,8 @@
         "core"
       ],
       "attributes": {
-        "type": "module"
-      },
-      "version": "229d3b"
+         "type": "module"
+      }
     }
   ]
 }

@@ -1,10 +1,14 @@
 @charset "UTF-8";
+/*!
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 .js-calendar {
   box-shadow: 0 0 15px 4px #00000026 !important;
 }
 
 .calendar-container {
-  --fallback-url: url("../../images/select-bg.svg?v=5ebba0");
+  --fallback-url: url("../../images/select-bg.svg?v=88ee0e");
   float: left;
   background-color: var(--calendar-bg, #fff);
   border-radius: 5px;

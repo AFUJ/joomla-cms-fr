@@ -7765,7 +7765,7 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode("dt", _hoisted_10$3, toDisplayString(_ctx.translate('COM_WORKFLOW_GRAPH_TRANSITION_COUNT')), 1 /* TEXT */),
         createBaseVNode("dd", _hoisted_11$3, [
           createBaseVNode("span", null, toDisplayString($options.transitionsCount) + " " + toDisplayString($options.transitionsCount === 1 ? _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITION')
-            : _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITIONS')), 1 /* TEXT */)
+              : _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITIONS')), 1 /* TEXT */)
         ])
       ])
     ]),
@@ -7784,7 +7784,7 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$6.render = render$5;
-script$6.__file = "administrator/components/com_workflow/resources/scripts/components/Titlebar.vue";
+script$6.__file = "media_source/com_workflow/src/components/Titlebar.vue";
 
 function _arrayLikeToArray(r, a) {
   (null == a || a > r.length) && (a = r.length);
@@ -21452,16 +21452,16 @@ const _sfc_main = /* @__PURE__ */defineComponent(_extends({}, __default__$2, {
 
 var script$5 = {
   name: 'StageNode',
-  setup() {
-    const { connectionStartHandle } = useVueFlow();
-    return { connectionStartHandle };
-  },
   components: { Handle: _sfc_main$f },
   props: {
     data: {
       type: Object,
       required: true,
     },
+  },
+  setup() {
+    const { connectionStartHandle } = useVueFlow();
+    return { connectionStartHandle };
   },
   data() {
     return {
@@ -21486,7 +21486,7 @@ var script$5 = {
     },
     stageStyle() {
       return {
-        borderColor: `var(--code-color) !important`,
+        borderColor: 'var(--code-color) !important',
         borderWidth: this.isSelected ? '3px !important' : '0 !important',
         background: this.data.isSpecial ? 'purple !important' : 'rgb(var(--primary-rgb)) !important',
         padding: this.isSelected ? '4px !important' : '6px !important',
@@ -21752,7 +21752,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$5.render = render$4;
-script$5.__file = "administrator/components/com_workflow/resources/scripts/components/nodes/StageNode.vue";
+script$5.__file = "media_source/com_workflow/src/components/nodes/StageNode.vue";
 
 var script$4 = {
   name: 'CustomEdge',
@@ -21816,7 +21816,7 @@ var script$4 = {
       return this.edgeData[1] + ((this.data?.isBiDirectional && this.sourceY < this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * this.maxWidth;
     },
     labelY() {
-      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY &&  this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
+      return this.edgeData[2] + ((this.data?.isBiDirectional && this.sourceY > this.targetY && this.data?.offsetIndex ? this.data?.offsetIndex : 0) || 0) * 75;
     },
     sourceStageTitle() {
       return this.data?.from_stage_title || `JSTAGE ${this.data?.from_stage_id || 'Unknown'}`;
@@ -22082,7 +22082,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$4.render = render$3;
-script$4.__file = "administrator/components/com_workflow/resources/scripts/components/edges/CustomEdge.vue";
+script$4.__file = "media_source/com_workflow/src/components/edges/CustomEdge.vue";
 
 var script$3 = {
   name: 'CustomControls',
@@ -22183,7 +22183,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$3.render = render$2;
-script$3.__file = "administrator/components/com_workflow/resources/scripts/components/canvas/CustomControls.vue";
+script$3.__file = "media_source/com_workflow/src/components/canvas/CustomControls.vue";
 
 /**
  * Utility function to compute color for a stage based on its ID.
@@ -22192,7 +22192,7 @@ script$3.__file = "administrator/components/com_workflow/resources/scripts/compo
  * @returns {string} HSL color string.
  */
 function getColorForStage(stage) {
-  return (stage == null ? void 0 : stage.color) || "rgb(var(--primary-rgb))";
+  return (stage == null ? void 0 : stage.color) || 'rgb(var(--primary-rgb))';
 }
 
 /**
@@ -22311,7 +22311,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$2.render = render$1;
-script$2.__file = "administrator/components/com_workflow/resources/scripts/components/canvas/ControlsPanel.vue";
+script$2.__file = "media_source/com_workflow/src/components/canvas/ControlsPanel.vue";
 
 /**
  * Announce a message via ARIA live region.
@@ -23300,14 +23300,14 @@ var script$1 = {
       isTransitionMode.value = false;
       selectedStage.value = parseInt(id, 10);
       selectedTransition.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_STAGE_SELECTED', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id));
     }
 
     function selectTransition(id) {
       isTransitionMode.value = true;
       selectedTransition.value = parseInt(id, 10);
       selectedStage.value = null;
-      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+      announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_TRANSITION_SELECTED', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
     }
 
     function editStage(id) {
@@ -23361,8 +23361,8 @@ var script$1 = {
         : 'COM_WORKFLOW_GRAPH_TRASH_TRANSITION');
 
       const message = translate(type === 'stage'
-        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find(s => s.id === parseInt(id, 10))?.title || id)
-        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find(t => t.id === parseInt(id, 10))?.title || id));
+        ? sprintf('COM_WORKFLOW_GRAPH_TRASH_STAGE_CONFIRM', stages?.value?.find((s) => s.id === parseInt(id, 10))?.title || id)
+        : sprintf('COM_WORKFLOW_GRAPH_TRASH_TRANSITION_CONFIRM', transitions?.value?.find((t) => t.id === parseInt(id, 10))?.title || id));
 
       JoomlaDialog.confirm(message, title).then((result) => {
         if (result) {
@@ -23393,7 +23393,7 @@ var script$1 = {
       }
       if (source && target) {
         openModal('transition', null, { from_stage_id: source, to_stage_id: target });
-        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find(s => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find(s => s.id === parseInt(target, 10))?.title || target)));
+        announce(liveRegion.value, sprintf('COM_WORKFLOW_GRAPH_CREATING_TRANSITION', (stages?.value?.find((s) => s.id === parseInt(source, 10))?.title || source), (stages?.value?.find((s) => s.id === parseInt(target, 10))?.title || target)));
       }
     }
 
@@ -23693,12 +23693,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             ]),
             createCommentVNode(" Workflow Content Sections "),
             createBaseVNode("section", _hoisted_8, [
-              createBaseVNode("span", null, "(" + toDisplayString($setup.positionedNodes.length) + " " + toDisplayString($setup.positionedNodes.length === 1 ? _ctx.translate('COM_WORKFLOW_GRAPH_STAGE') :  _ctx.translate('COM_WORKFLOW_GRAPH_STAGES')) + ")", 1 /* TEXT */),
+              createBaseVNode("span", null, "(" + toDisplayString($setup.positionedNodes.length) + " " + toDisplayString($setup.positionedNodes.length === 1 ? _ctx.translate('COM_WORKFLOW_GRAPH_STAGE') : _ctx.translate('COM_WORKFLOW_GRAPH_STAGES')) + ")", 1 /* TEXT */),
               createBaseVNode("ul", null, [
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.positionedNodes, (node) => {
                   return (openBlock(), createElementBlock("li", {
-                    key: `stage-${node.id}`,
-                    id: `stage-list-${node.id}`
+                    id: `stage-list-${node.id}`,
+                    key: `stage-${node.id}`
                   }, [
                     createTextVNode(toDisplayString(_ctx.sprintf('COM_WORKFLOW_GRAPH_STAGE_REF', node.data.stage?.title)) + " - " + toDisplayString(node.data.stage.published ? _ctx.sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_ENABLED', node.data.stage?.title) : _ctx.sprintf('COM_WORKFLOW_GRAPH_STAGE_STATUS_DISABLED', node.data.stage?.title)) + ". ", 1 /* TEXT */),
                     (node.data.stage.default)
@@ -23710,12 +23710,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ]),
             createBaseVNode("section", _hoisted_11, [
-              createBaseVNode("span", null, "(" + toDisplayString($setup.styledEdges.length) + " " + toDisplayString($setup.styledEdges.length === 1 ? _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITION') :  _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITIONS')) + ")", 1 /* TEXT */),
+              createBaseVNode("span", null, "(" + toDisplayString($setup.styledEdges.length) + " " + toDisplayString($setup.styledEdges.length === 1 ? _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITION') : _ctx.translate('COM_WORKFLOW_GRAPH_TRANSITIONS')) + ")", 1 /* TEXT */),
               createBaseVNode("ul", null, [
                 (openBlock(true), createElementBlock(Fragment, null, renderList($setup.styledEdges, (edge) => {
                   return (openBlock(), createElementBlock("li", {
-                    key: `transition-${edge.id}`,
-                    id: `transition-list-${edge.id}`
+                    id: `transition-list-${edge.id}`,
+                    key: `transition-${edge.id}`
                   }, toDisplayString(_ctx.sprintf('COM_WORKFLOW_GRAPH_TRANSITION_REF', edge.data.title, $setup.stages.find((s) => s.id === parseInt(edge.source, 10))?.title || _ctx.translate('COM_WORKFLOW_GRAPH_FROM_ANY'), $setup.stages.find((s) => s.id === parseInt(edge.target, 10))?.title)) + " " + toDisplayString(edge.data.published ? _ctx.sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_ENABLED', edge.data.title) : _ctx.sprintf('COM_WORKFLOW_GRAPH_TRANSITION_STATUS_DISABLED', edge.data.title)), 9 /* TEXT, PROPS */, _hoisted_12))
                 }), 128 /* KEYED_FRAGMENT */))
               ])
@@ -23739,7 +23739,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$1.render = render;
-script$1.__file = "administrator/components/com_workflow/resources/scripts/components/canvas/WorkflowCanvas.vue";
+script$1.__file = "media_source/com_workflow/src/components/canvas/WorkflowCanvas.vue";
 
 const _hoisted_1 = {
   id: "workflow-app",
@@ -23816,7 +23816,7 @@ return (_ctx, _cache) => {
 
 });
 
-script.__file = "administrator/components/com_workflow/resources/scripts/components/App.vue";
+script.__file = "media_source/com_workflow/src/components/App.vue";
 
 /**
  * Simple Event Bus for cross-module communication
@@ -24167,7 +24167,7 @@ var actions = {
   },
   /**
    * Delete a stage from the workflow.
-   * @param commit 
+   * @param commit
    * @param dispatch
    * @param state
    * @param id - The ID of the stage to delete

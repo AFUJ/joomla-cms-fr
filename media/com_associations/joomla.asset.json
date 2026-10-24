@@ -6,14 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_associations.sidebyside",
-      "type": "preset",
-      "dependencies": [
-        "com_associations.sidebyside#style",
-        "com_associations.sidebyside#script"
-      ]
-    },
-    {
       "name": "com_associations.admin-associations-default",
       "type": "script",
       "uri": "com_associations/admin-associations-default.min.js",
@@ -22,8 +14,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "72d110"
+      }
     },
     {
       "name": "com_associations.admin-associations-modal",
@@ -34,8 +25,7 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "14d673"
+      }
     },
     {
       "name": "com_associations.associations-edit",
@@ -47,14 +37,12 @@
       "attributes": {
         "type": "module",
         "defer": true
-      },
-      "version": "2c1f61"
+      }
     },
     {
       "name": "com_associations.sidebyside",
       "type": "style",
-      "uri": "com_associations/sidebyside.min.css",
-      "version": "5da4fc"
+      "uri": "com_associations/sidebyside.min.css"
     },
     {
       "name": "com_associations.sidebyside",
@@ -65,8 +53,15 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "a057fe"
+      }
+    },
+    {
+      "name": "com_associations.sidebyside",
+      "type": "preset",
+      "dependencies": [
+        "com_associations.sidebyside#style",
+        "com_associations.sidebyside#script"
+      ]
     }
   ]
 }

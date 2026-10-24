@@ -68,6 +68,7 @@ Joomla = window.Joomla || {};
         activeDirection: 'ASC',
         // Extra
         clearListOptions: false,
+        fieldsToPreserveOnClear: [],
         listSelectAutoSubmit: 'js-select-submit-on-change',
         listSelectAutoReset: 'js-select-reset-on-change'
       };
@@ -248,7 +249,7 @@ Joomla = window.Joomla || {};
         self.searchField.value = '';
       }
       self.getFilterFields().forEach(i => {
-        if (exceptElement && i === exceptElement || !i.closest(`${this.options.filterContainerSelector}, .js-stools-container-selector`)) {
+        if (exceptElement && i === exceptElement || self.options.fieldsToPreserveOnClear.includes(i.name) || !i.closest(`${this.options.filterContainerSelector}, .js-stools-container-selector`)) {
           return;
         }
         i.value = '';

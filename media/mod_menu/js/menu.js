@@ -39,12 +39,9 @@ function _extends() {
       this.nav = nav;
 
       // read the HTML dir attribute or computed style, or fall back to defaultSettings.dir
-      const browserDir = document.documentElement.getAttribute('dir') ||
-      // <html dir="…">
-      getComputedStyle(document.documentElement).direction ||
-      // CSS direction
-
-      Nav.defaultSettings.dir;
+      const browserDir = document.documentElement.getAttribute('dir') // <html dir="…">
+      || getComputedStyle(document.documentElement).direction // CSS direction
+      || Nav.defaultSettings.dir;
       this.settings = _extends({}, Nav.defaultSettings, settings);
 
       // merge defaults, browser‐detected dir, and any explicit overrides in `settings`
@@ -55,9 +52,9 @@ function _extends() {
       // Unique prefix for this nav instance - needed for the id of submenus and aria-controls
       this.idPrefix = (_this$nav$id = (_this$nav = this.nav) == null ? void 0 : _this$nav.id) != null ? _this$nav$id : `nav-${Math.floor(Math.random() * 100000)}`;
       this.topLevelNodes = this.nav.querySelectorAll(':scope > li');
-      this.topLevelNodes.forEach(topLevelEl => {
-        // get submenu ul elements within topLevelEl
-        const levelChildUls = topLevelEl.querySelectorAll('ul');
+      this.nav.querySelectorAll('li').forEach(menuItem => {
+        // only direct submenu(s) of each menu item
+        const levelChildUls = menuItem.querySelectorAll(':scope > ul');
         const ariaControls = [];
         levelChildUls.forEach(childUl => {
           childUl.setAttribute('aria-hidden', 'true');
@@ -67,8 +64,9 @@ function _extends() {
           ariaControls.push(childUl.id);
         });
         if (levelChildUls.length > 0) {
-          const togglebtn = topLevelEl.querySelector('[aria-expanded]');
+          const togglebtn = menuItem.querySelector(':scope > [aria-expanded]');
           togglebtn == null || togglebtn.setAttribute('aria-controls', ariaControls.join(' '));
+          togglebtn == null || togglebtn.setAttribute('aria-expanded', 'false');
         }
       });
       nav.addEventListener('keydown', this.onMenuKeyDown.bind(this));
@@ -82,7 +80,7 @@ function _extends() {
       if (!target) {
         return;
       }
-      const subLists = target.querySelectorAll('ul');
+      const subLists = target.querySelectorAll(':scope > ul');
       switch (event.key) {
         case 'ArrowUp':
           event.preventDefault();
@@ -130,7 +128,7 @@ function _extends() {
             if (!currentTopLevelLi) {
               break;
             }
-            const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll('ul');
+            const allChildListsFromTopLevelLi = currentTopLevelLi.querySelectorAll(':scope > ul');
             if (allChildListsFromTopLevelLi.length > 0) {
               this.toggleSubMenu(currentTopLevelLi, allChildListsFromTopLevelLi, false);
             }
@@ -182,7 +180,7 @@ function _extends() {
         return;
       }
       const target = event.target.closest('li');
-      const subLists = target == null ? void 0 : target.querySelectorAll('ul');
+      const subLists = target == null ? void 0 : target.querySelectorAll(':scope > ul');
       if (subLists && subLists.length > 0) {
         var _subLists$3;
         event.preventDefault();
@@ -191,20 +189,40 @@ function _extends() {
     }
     toggleSubMenu(target, subLists, open = false) {
       var _target$querySelector;
+      const closeSubMenuTree = ulChild => {
+        var _ulChild$closest;
+        ulChild.setAttribute('aria-hidden', 'true');
+        ulChild.classList.remove(this.settings.menuHoverClass);
+        const parentToggle = (_ulChild$closest = ulChild.closest('li')) == null ? void 0 : _ulChild$closest.querySelector(':scope > [aria-expanded]');
+        parentToggle == null || parentToggle.setAttribute('aria-expanded', 'false');
+        ulChild.querySelectorAll('ul').forEach(descendantUl => {
+          var _descendantUl$closest;
+          descendantUl.setAttribute('aria-hidden', 'true');
+          descendantUl.classList.remove(this.settings.menuHoverClass);
+          (_descendantUl$closest = descendantUl.closest('li')) == null || (_descendantUl$closest = _descendantUl$closest.querySelector(':scope > [aria-expanded]')) == null || _descendantUl$closest.setAttribute('aria-expanded', 'false');
+        });
+      };
       if (open) {
-        // close all opened submenus before opening the new one
-        const allSubMenus = this.nav.querySelectorAll('ul[aria-hidden="false"]');
-        allSubMenus.forEach(ulChild => {
-          var _this$getTopLevelPare;
-          ulChild.setAttribute('aria-hidden', 'true');
-          ulChild.classList.remove(this.settings.menuHoverClass);
-          (_this$getTopLevelPare = this.getTopLevelParentLi(ulChild)) == null || (_this$getTopLevelPare = _this$getTopLevelPare.querySelector(':scope > [aria-expanded]')) == null || _this$getTopLevelPare.setAttribute('aria-expanded', 'false');
+        // close only sibling branches at the same level, keep ancestor branch open
+        const parentUl = target == null ? void 0 : target.closest('ul');
+        const siblingItems = parentUl == null ? void 0 : parentUl.querySelectorAll(':scope > li');
+        siblingItems == null || siblingItems.forEach(siblingItem => {
+          if (siblingItem === target) {
+            return;
+          }
+          siblingItem.querySelectorAll(':scope > ul').forEach(ulChild => {
+            closeSubMenuTree(ulChild);
+          });
         });
       }
-      subLists.forEach(ulChild => {
-        ulChild.setAttribute('aria-hidden', open ? 'false' : 'true');
-        ulChild.classList.toggle(this.settings.menuHoverClass, open);
-      });
+      if (open) {
+        subLists.forEach(ulChild => {
+          ulChild.setAttribute('aria-hidden', 'false');
+          ulChild.classList.add(this.settings.menuHoverClass);
+        });
+      } else {
+        subLists.forEach(closeSubMenuTree);
+      }
       (_target$querySelector = target.querySelector(':scope > [aria-expanded]')) == null || _target$querySelector.setAttribute('aria-expanded', open ? 'true' : 'false');
     }
     focusTabbable(direction = 1) {
@@ -232,14 +250,13 @@ function _extends() {
     toggleAllForCurrentActive() {
       const active = this.nav.querySelector('.current.active');
       if (active) {
-        this.getTopLevelParentLi(active);
         let currentLi = active;
         while (currentLi && !Array.from(this.topLevelNodes).includes(currentLi)) {
           const parentUl = currentLi.parentElement.closest('ul');
           currentLi = parentUl ? parentUl.closest('li') : null;
           if (currentLi) {
             var _subLists$4;
-            const subLists = currentLi.querySelectorAll('ul');
+            const subLists = currentLi.querySelectorAll(':scope > ul');
             this.toggleSubMenu(currentLi, subLists, ((_subLists$4 = subLists[0]) == null ? void 0 : _subLists$4.getAttribute('aria-hidden')) === 'true');
           }
         }

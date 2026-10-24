@@ -2341,7 +2341,7 @@ textarea.form-control-lg {
 }
 
 .form-select, .custom-select {
-  --form-select-bg-img: url("../images/select-bg.svg?v=5ebba0");
+  --form-select-bg-img: url("../images/select-bg.svg?v=e670ca");
   width: 100%;
   color: var(--body-color);
   appearance: none;
@@ -14180,7 +14180,7 @@ joomla-dialog iframe.iframe-content {
 
 joomla-dialog[type="iframe"].loading dialog:after, joomla-dialog[type="ajax"].loading dialog:after {
   content: "";
-  background: url("../../../../system/images/joomla-loader.svg?v=6dc97a") center / 66px 66px no-repeat;
+  background: url("../../../../system/images/joomla-loader.svg?v=e670ca") center / 66px 66px no-repeat;
   width: 66px;
   height: 66px;
   display: block;
@@ -14990,7 +14990,7 @@ body:not(.has-sidebar-right) .site-grid .container-component {
 .form-select, .custom-select {
   cursor: pointer;
   border: var(--border-width) solid #ced4da;
-  background: #eaedf0 url("../images/select-bg.svg?v=5ebba0") 100% / 116rem no-repeat;
+  background: #eaedf0 url("../images/select-bg.svg?v=e670ca") 100% / 116rem no-repeat;
   max-width: 100%;
 }
 

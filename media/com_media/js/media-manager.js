@@ -7641,7 +7641,7 @@ function render$v(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$v.render = render$v;
-script$v.__file = "administrator/components/com_media/resources/scripts/components/browser/table/row.vue";
+script$v.__file = "media_source/com_media/src/components/browser/table/row.vue";
 
 var script$u = {
   name: 'MediaBrowserTable',
@@ -7796,7 +7796,7 @@ function render$u(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$u.render = render$u;
-script$u.__file = "administrator/components/com_media/resources/scripts/components/browser/table/table.vue";
+script$u.__file = "media_source/com_media/src/components/browser/table/table.vue";
 
 var script$t = {
   name: 'MediaBrowserActionItemEdit',
@@ -7845,7 +7845,7 @@ function render$t(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$t.render = render$t;
-script$t.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/edit.vue";
+script$t.__file = "media_source/com_media/src/components/browser/actionItems/edit.vue";
 
 var script$s = {
   name: 'MediaBrowserActionItemDelete',
@@ -7891,7 +7891,7 @@ function render$s(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$s.render = render$s;
-script$s.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/delete.vue";
+script$s.__file = "media_source/com_media/src/components/browser/actionItems/delete.vue";
 
 var script$r = {
   name: 'MediaBrowserActionItemDownload',
@@ -7937,7 +7937,7 @@ function render$r(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$r.render = render$r;
-script$r.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/download.vue";
+script$r.__file = "media_source/com_media/src/components/browser/actionItems/download.vue";
 
 var script$q = {
   name: 'MediaBrowserActionItemPreview',
@@ -7983,7 +7983,7 @@ function render$q(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$q.render = render$q;
-script$q.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/preview.vue";
+script$q.__file = "media_source/com_media/src/components/browser/actionItems/preview.vue";
 
 var script$p = {
   name: 'MediaBrowserActionItemRename',
@@ -8030,7 +8030,7 @@ function render$p(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$p.render = render$p;
-script$p.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/rename.vue";
+script$p.__file = "media_source/com_media/src/components/browser/actionItems/rename.vue";
 
 var script$o = {
   name: 'MediaBrowserActionItemShare',
@@ -8076,7 +8076,7 @@ function render$o(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$o.render = render$o;
-script$o.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/share.vue";
+script$o.__file = "media_source/com_media/src/components/browser/actionItems/share.vue";
 
 var script$n = {
   name: 'MediaBrowserActionItemToggle',
@@ -8118,7 +8118,7 @@ function render$n(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$n.render = render$n;
-script$n.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/toggle.vue";
+script$n.__file = "media_source/com_media/src/components/browser/actionItems/toggle.vue";
 
 var script$m = {
   name: 'MediaBrowserActionItemsContainer',
@@ -8498,7 +8498,7 @@ function render$m(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$m.render = render$m;
-script$m.__file = "administrator/components/com_media/resources/scripts/components/browser/actionItems/actionItemsContainer.vue";
+script$m.__file = "media_source/com_media/src/components/browser/actionItems/actionItemsContainer.vue";
 
 var script$l = {
   name: 'MediaBrowserItemDirectory',
@@ -8618,7 +8618,7 @@ function render$l(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$l.render = render$l;
-script$l.__file = "administrator/components/com_media/resources/scripts/components/browser/items/directory.vue";
+script$l.__file = "media_source/com_media/src/components/browser/items/directory.vue";
 
 var script$k = {
   name: 'MediaBrowserItemFile',
@@ -8734,7 +8734,7 @@ function render$k(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$k.render = render$k;
-script$k.__file = "administrator/components/com_media/resources/scripts/components/browser/items/file.vue";
+script$k.__file = "media_source/com_media/src/components/browser/items/file.vue";
 
 var script$j = {
   name: 'MediaBrowserItemImage',
@@ -8876,7 +8876,7 @@ function render$j(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$j.render = render$j;
-script$j.__file = "administrator/components/com_media/resources/scripts/components/browser/items/image.vue";
+script$j.__file = "media_source/com_media/src/components/browser/items/image.vue";
 
 var script$i = {
   name: 'MediaBrowserItemVideo',
@@ -8987,7 +8987,7 @@ function render$i(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$i.render = render$i;
-script$i.__file = "administrator/components/com_media/resources/scripts/components/browser/items/video.vue";
+script$i.__file = "media_source/com_media/src/components/browser/items/video.vue";
 
 var script$h = {
   name: 'MediaBrowserItemAudio',
@@ -9100,7 +9100,7 @@ function render$h(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$h.render = render$h;
-script$h.__file = "administrator/components/com_media/resources/scripts/components/browser/items/audio.vue";
+script$h.__file = "media_source/com_media/src/components/browser/items/audio.vue";
 
 var script$g = {
   name: 'MediaBrowserItemDocument',
@@ -9217,7 +9217,7 @@ function render$g(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$g.render = render$g;
-script$g.__file = "administrator/components/com_media/resources/scripts/components/browser/items/document.vue";
+script$g.__file = "media_source/com_media/src/components/browser/items/document.vue";
 
 var MediaBrowserItem = {
   props: {
@@ -9445,7 +9445,7 @@ function render$f(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$f.render = render$f;
-script$f.__file = "administrator/components/com_media/resources/scripts/components/infobar/infobar.vue";
+script$f.__file = "media_source/com_media/src/components/infobar/infobar.vue";
 
 function sortArray(array, by, direction) {
   return array.sort((a, b) => {
@@ -9569,8 +9569,7 @@ var script$e = {
     /* Unselect all browser items */
     unselectAllBrowserItems(event) {
       const clickedDelete = !!((event.target.id !== undefined && event.target.id === 'mediaDelete'));
-      const notClickedBrowserItems = (this.$refs.browserItems
-        && !this.$refs.browserItems.contains(event.target))
+      const notClickedBrowserItems = (this.$refs.browserItems && !this.$refs.browserItems.contains(event.target))
         || event.target === this.$refs.browserItems;
 
       const notClickedInfobar = this.$refs.infobar !== undefined
@@ -9747,7 +9746,7 @@ function render$e(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$e.render = render$e;
-script$e.__file = "administrator/components/com_media/resources/scripts/components/browser/browser.vue";
+script$e.__file = "media_source/com_media/src/components/browser/browser.vue";
 
 var script$d = {
   name: 'MediaTree',
@@ -9910,7 +9909,7 @@ function render$d(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$d.render = render$d;
-script$d.__file = "administrator/components/com_media/resources/scripts/components/tree/tree.vue";
+script$d.__file = "media_source/com_media/src/components/tree/tree.vue";
 
 var script$c = {
   name: 'MediaDrive',
@@ -10017,7 +10016,7 @@ function render$c(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$c.render = render$c;
-script$c.__file = "administrator/components/com_media/resources/scripts/components/tree/drive.vue";
+script$c.__file = "media_source/com_media/src/components/tree/drive.vue";
 
 var script$b = {
   name: 'MediaDisk',
@@ -10070,7 +10069,7 @@ function render$b(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$b.render = render$b;
-script$b.__file = "administrator/components/com_media/resources/scripts/components/tree/disk.vue";
+script$b.__file = "media_source/com_media/src/components/tree/disk.vue";
 
 var script$a = {
   name: 'MediaBreadcrumb',
@@ -10179,7 +10178,7 @@ function render$a(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$a.render = render$a;
-script$a.__file = "administrator/components/com_media/resources/scripts/components/breadcrumb/breadcrumb.vue";
+script$a.__file = "media_source/com_media/src/components/breadcrumb/breadcrumb.vue";
 
 var script$9 = {
   name: 'MediaToolbar',
@@ -10452,7 +10451,7 @@ function render$9(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$9.render = render$9;
-script$9.__file = "administrator/components/com_media/resources/scripts/components/toolbar/toolbar.vue";
+script$9.__file = "media_source/com_media/src/components/toolbar/toolbar.vue";
 
 var script$8 = {
   name: 'MediaUpload',
@@ -10528,7 +10527,7 @@ function render$8(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$8.render = render$8;
-script$8.__file = "administrator/components/com_media/resources/scripts/components/upload/upload.vue";
+script$8.__file = "media_source/com_media/src/components/upload/upload.vue";
 
 /**
  * defines a focus group
@@ -11636,7 +11635,7 @@ function render$6(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$6.render = render$6;
-script$6.__file = "administrator/components/com_media/resources/scripts/components/modals/modal.vue";
+script$6.__file = "media_source/com_media/src/components/modals/modal.vue";
 
 var script$5 = {
   name: 'MediaCreateFolderModal',
@@ -11809,7 +11808,7 @@ function render$5(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$5.render = render$5;
-script$5.__file = "administrator/components/com_media/resources/scripts/components/modals/create-folder-modal.vue";
+script$5.__file = "media_source/com_media/src/components/modals/create-folder-modal.vue";
 
 var script$4 = {
   name: 'MediaPreviewModal',
@@ -11933,7 +11932,7 @@ function render$4(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$4.render = render$4;
-script$4.__file = "administrator/components/com_media/resources/scripts/components/modals/preview-modal.vue";
+script$4.__file = "media_source/com_media/src/components/modals/preview-modal.vue";
 
 var script$3 = {
   name: 'MediaRenameModal',
@@ -12070,7 +12069,7 @@ function render$3(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$3.render = render$3;
-script$3.__file = "administrator/components/com_media/resources/scripts/components/modals/rename-modal.vue";
+script$3.__file = "media_source/com_media/src/components/modals/rename-modal.vue";
 
 /**
  * Translate plugin
@@ -12240,7 +12239,7 @@ function render$2(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$2.render = render$2;
-script$2.__file = "administrator/components/com_media/resources/scripts/components/modals/share-modal.vue";
+script$2.__file = "media_source/com_media/src/components/modals/share-modal.vue";
 
 var script$1 = {
   name: 'MediaShareModal',
@@ -12310,7 +12309,7 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script$1.render = render$1;
-script$1.__file = "administrator/components/com_media/resources/scripts/components/modals/confirm-delete-modal.vue";
+script$1.__file = "media_source/com_media/src/components/modals/confirm-delete-modal.vue";
 
 var script = {
   name: 'MediaApp',
@@ -12409,7 +12408,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 
 script.render = render;
-script.__file = "administrator/components/com_media/resources/scripts/components/app.vue";
+script.__file = "media_source/com_media/src/components/app.vue";
 
 /**
  * Media Event bus - used for communication between joomla and vue
@@ -14484,7 +14483,10 @@ var mutations = {
    * @param payload the item
    */
   [SELECT_BROWSER_ITEM]: (state, payload) => {
-    state.selectedItems.push(payload);
+    const isSelected = state.selectedItems.some(item => item.path === payload.path);
+    if (!isSelected) {
+      state.selectedItems.push(payload);
+    }
   },
   /**
    * Select browser items

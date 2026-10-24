@@ -88,7 +88,7 @@ Joomla = window.Joomla || {};
       }
       return responseData;
     } catch (err) {
-      showMessageInModal(err.message, "error");
+      showMessageInModal(err.message, 'error');
       return false;
     }
   }
@@ -480,7 +480,7 @@ Joomla = window.Joomla || {};
     // Zoom & Pan Logic
     let isPanning = false,
       panStart = {};
-    container.addEventListener("mousedown", e => {
+    container.addEventListener('mousedown', e => {
       if (e.target.closest('.stage') || e.target.closest('.zoom-controls') || e.button !== 0) return;
       isPanning = true;
       panStart = {
@@ -489,7 +489,7 @@ Joomla = window.Joomla || {};
       };
       if (graph) graph.classList.add('dragging');
     });
-    document.addEventListener("mousemove", e => {
+    document.addEventListener('mousemove', e => {
       if (!isPanning) return;
       state.panX = e.clientX - panStart.x;
       state.panY = e.clientY - panStart.y;
@@ -499,9 +499,9 @@ Joomla = window.Joomla || {};
       isPanning = false;
       if (graph) graph.classList.remove('dragging');
     };
-    document.addEventListener("mouseup", stopPanning);
-    container.addEventListener("mouseleave", stopPanning);
-    container.addEventListener("wheel", e => {
+    document.addEventListener('mouseup', stopPanning);
+    container.addEventListener('mouseleave', stopPanning);
+    container.addEventListener('wheel', e => {
       e.preventDefault();
       const rect = container.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;

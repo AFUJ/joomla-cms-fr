@@ -7,16 +7,6 @@
   "assets": [
     {
       "name": "plg_system_jooa11y.jooa11y",
-      "type": "style",
-      "uri": "",
-      "deprecated": true,
-      "deprecatedMsg": "Use 'sa11y' style asset instead",
-      "dependencies": [
-        "sa11y"
-      ]
-    },
-    {
-      "name": "plg_system_jooa11y.jooa11y",
       "type": "script",
       "uri": "plg_system_jooa11y/jooa11y.min.js",
       "dependencies": [
@@ -26,8 +16,17 @@
       ],
       "attributes": {
         "type": "module"
-      },
-      "version": "b04012"
+      }
+    },
+    {
+      "name": "plg_system_jooa11y.jooa11y",
+      "type": "style",
+      "uri": "",
+      "deprecated": true,
+      "deprecatedMsg": "Use 'sa11y' style asset instead",
+      "dependencies": [
+        "sa11y"
+      ]
     }
   ]
 }

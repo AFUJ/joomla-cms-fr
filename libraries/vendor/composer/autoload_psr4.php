@@ -74,7 +74,7 @@ return array(
     'Joomla\\Authentication\\' => array($vendorDir . '/joomla/authentication/src'),
     'Joomla\\Archive\\' => array($vendorDir . '/joomla/archive/src'),
     'Joomla\\Application\\' => array($vendorDir . '/joomla/application/src'),
-    'Jfcherng\\Utility\\' => array($vendorDir . '/jfcherng/php-mb-string/src', $vendorDir . '/jfcherng/php-color-output/src'),
+    'Jfcherng\\Utility\\' => array($vendorDir . '/jfcherng/php-color-output/src', $vendorDir . '/jfcherng/php-mb-string/src'),
     'Jfcherng\\Diff\\' => array($vendorDir . '/jfcherng/php-diff/src', $vendorDir . '/jfcherng/php-sequence-matcher/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),

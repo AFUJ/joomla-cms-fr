@@ -15,8 +15,7 @@
       "attributes": {
         "type": "module",
         "defer": true
-      },
-      "version": "318150"
+      }
     }
   ]
 }

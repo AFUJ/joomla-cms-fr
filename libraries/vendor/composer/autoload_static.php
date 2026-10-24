@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
+class ComposerStaticInita6b35f787925a089f2646438929954ce
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -31,30 +31,30 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
     );
 
     public static $prefixLengthsPsr4 = array (
-        'p' =>
+        'p' => 
         array (
             'phpseclib3\\' => 11,
         ),
-        'e' =>
+        'e' => 
         array (
             'enshrined\\svgSanitize\\' => 22,
         ),
-        'b' =>
+        'b' => 
         array (
             'bcmath_compat\\' => 14,
         ),
-        'W' =>
+        'W' => 
         array (
             'Webauthn\\MetadataService\\' => 25,
             'Webauthn\\' => 9,
             'Wamania\\Snowball\\' => 17,
         ),
-        'T' =>
+        'T' => 
         array (
             'Tuf\\' => 4,
             'Tobscure\\JsonApi\\' => 17,
         ),
-        'S' =>
+        'S' => 
         array (
             'Symfony\\Polyfill\\Uuid\\' => 22,
             'Symfony\\Polyfill\\Php85\\' => 23,
@@ -78,11 +78,11 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
             'Symfony\\Component\\Console\\' => 26,
             'SpomkyLabs\\Pki\\' => 15,
         ),
-        'R' =>
+        'R' => 
         array (
             'ReCaptcha\\' => 10,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Link\\' => 9,
@@ -95,17 +95,17 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'N' =>
+        'N' => 
         array (
             'Negotiation\\' => 12,
         ),
-        'L' =>
+        'L' => 
         array (
             'Lcobucci\\JWT\\' => 13,
             'Lcobucci\\Clock\\' => 15,
             'Laminas\\Diactoros\\' => 18,
         ),
-        'J' =>
+        'J' => 
         array (
             'Jose\\Component\\' => 15,
             'Joomla\\Utilities\\' => 17,
@@ -134,33 +134,33 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
             'Jfcherng\\Utility\\' => 17,
             'Jfcherng\\Diff\\' => 14,
         ),
-        'G' =>
+        'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
         ),
-        'F' =>
+        'F' => 
         array (
             'Fig\\Link\\' => 9,
         ),
-        'D' =>
+        'D' => 
         array (
             'Doctrine\\Inflector\\' => 19,
             'Defuse\\Crypto\\' => 14,
             'DebugBar\\' => 9,
         ),
-        'C' =>
+        'C' => 
         array (
             'Cron\\' => 5,
             'Cose\\' => 5,
             'Composer\\CaBundle\\' => 18,
             'CBOR\\' => 5,
         ),
-        'B' =>
+        'B' => 
         array (
             'Brick\\Math\\' => 11,
         ),
-        'A' =>
+        'A' => 
         array (
             'AltchaOrg\\Altcha\\' => 17,
             'Algo26\\IdnaConvert\\' => 19,
@@ -168,338 +168,338 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpseclib3\\' =>
+        'phpseclib3\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
-        'enshrined\\svgSanitize\\' =>
+        'enshrined\\svgSanitize\\' => 
         array (
             0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
-        'bcmath_compat\\' =>
+        'bcmath_compat\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/bcmath_compat/src',
         ),
-        'Webauthn\\MetadataService\\' =>
+        'Webauthn\\MetadataService\\' => 
         array (
             0 => __DIR__ . '/..' . '/web-auth/metadata-service/src',
         ),
-        'Webauthn\\' =>
+        'Webauthn\\' => 
         array (
             0 => __DIR__ . '/..' . '/web-auth/webauthn-lib/src',
         ),
-        'Wamania\\Snowball\\' =>
+        'Wamania\\Snowball\\' => 
         array (
             0 => __DIR__ . '/..' . '/wamania/php-stemmer/src',
         ),
-        'Tuf\\' =>
+        'Tuf\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-tuf/php-tuf/src',
         ),
-        'Tobscure\\JsonApi\\' =>
+        'Tobscure\\JsonApi\\' => 
         array (
             0 => __DIR__ . '/..' . '/tobscure/json-api/src',
         ),
-        'Symfony\\Polyfill\\Uuid\\' =>
+        'Symfony\\Polyfill\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
         ),
-        'Symfony\\Polyfill\\Php85\\' =>
+        'Symfony\\Polyfill\\Php85\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php85',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' =>
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
         ),
-        'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
         ),
-        'Symfony\\Polyfill\\Ctype\\' =>
+        'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Contracts\\Translation\\' =>
+        'Symfony\\Contracts\\Translation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/translation-contracts',
         ),
-        'Symfony\\Contracts\\Service\\' =>
+        'Symfony\\Contracts\\Service\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'Symfony\\Contracts\\HttpClient\\' =>
+        'Symfony\\Contracts\\HttpClient\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
         ),
-        'Symfony\\Component\\Yaml\\' =>
+        'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Symfony\\Component\\WebLink\\' =>
+        'Symfony\\Component\\WebLink\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/web-link',
         ),
-        'Symfony\\Component\\VarDumper\\' =>
+        'Symfony\\Component\\VarDumper\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Symfony\\Component\\Validator\\' =>
+        'Symfony\\Component\\Validator\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/validator',
         ),
-        'Symfony\\Component\\Uid\\' =>
+        'Symfony\\Component\\Uid\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/uid',
         ),
-        'Symfony\\Component\\String\\' =>
+        'Symfony\\Component\\String\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/string',
         ),
-        'Symfony\\Component\\OptionsResolver\\' =>
+        'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\Ldap\\' =>
+        'Symfony\\Component\\Ldap\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/ldap',
         ),
-        'Symfony\\Component\\HttpClient\\' =>
+        'Symfony\\Component\\HttpClient\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client',
         ),
-        'Symfony\\Component\\ErrorHandler\\' =>
+        'Symfony\\Component\\ErrorHandler\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/error-handler',
         ),
-        'Symfony\\Component\\Console\\' =>
+        'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
-        'SpomkyLabs\\Pki\\' =>
+        'SpomkyLabs\\Pki\\' => 
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/pki-framework/src',
         ),
-        'ReCaptcha\\' =>
+        'ReCaptcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/google/recaptcha/src/ReCaptcha',
         ),
-        'Psr\\Log\\' =>
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Psr\\Link\\' =>
+        'Psr\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/link/src',
         ),
-        'Psr\\Http\\Message\\' =>
+        'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' =>
+        'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Psr\\EventDispatcher\\' =>
+        'Psr\\EventDispatcher\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/event-dispatcher/src',
         ),
-        'Psr\\Container\\' =>
+        'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'Psr\\Clock\\' =>
+        'Psr\\Clock\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
-        'Psr\\Cache\\' =>
+        'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'ParagonIE\\ConstantTime\\' =>
+        'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
-        'PHPMailer\\PHPMailer\\' =>
+        'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Negotiation\\' =>
+        'Negotiation\\' => 
         array (
             0 => __DIR__ . '/..' . '/willdurand/negotiation/src/Negotiation',
         ),
-        'Lcobucci\\JWT\\' =>
+        'Lcobucci\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
-        'Lcobucci\\Clock\\' =>
+        'Lcobucci\\Clock\\' => 
         array (
             0 => __DIR__ . '/..' . '/lcobucci/clock/src',
         ),
-        'Laminas\\Diactoros\\' =>
+        'Laminas\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-diactoros/src',
         ),
-        'Jose\\Component\\' =>
+        'Jose\\Component\\' => 
         array (
             0 => __DIR__ . '/..' . '/web-token/jwt-library',
         ),
-        'Joomla\\Utilities\\' =>
+        'Joomla\\Utilities\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/utilities/src',
         ),
-        'Joomla\\Uri\\' =>
+        'Joomla\\Uri\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/uri/src',
         ),
-        'Joomla\\String\\' =>
+        'Joomla\\String\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/string/src',
         ),
-        'Joomla\\Session\\' =>
+        'Joomla\\Session\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/session/src',
         ),
-        'Joomla\\Router\\' =>
+        'Joomla\\Router\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/router/src',
         ),
-        'Joomla\\Registry\\' =>
+        'Joomla\\Registry\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/registry/src',
         ),
-        'Joomla\\OAuth2\\' =>
+        'Joomla\\OAuth2\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth2/src',
         ),
-        'Joomla\\OAuth1\\' =>
+        'Joomla\\OAuth1\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/oauth1/src',
         ),
-        'Joomla\\Language\\' =>
+        'Joomla\\Language\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/language/src',
         ),
-        'Joomla\\Input\\' =>
+        'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
         ),
-        'Joomla\\Http\\' =>
+        'Joomla\\Http\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/http/src',
         ),
-        'Joomla\\Filter\\' =>
+        'Joomla\\Filter\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filter/src',
         ),
-        'Joomla\\Filesystem\\' =>
+        'Joomla\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
         ),
-        'Joomla\\Event\\' =>
+        'Joomla\\Event\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/event/src',
         ),
-        'Joomla\\Database\\' =>
+        'Joomla\\Database\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/database/src',
         ),
-        'Joomla\\Data\\' =>
+        'Joomla\\Data\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/data/src',
         ),
-        'Joomla\\DI\\' =>
+        'Joomla\\DI\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/di/src',
         ),
-        'Joomla\\Crypt\\' =>
+        'Joomla\\Crypt\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/crypt/src',
         ),
-        'Joomla\\Console\\' =>
+        'Joomla\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/console/src',
         ),
-        'Joomla\\CMS\\' =>
+        'Joomla\\CMS\\' => 
         array (
             0 => __DIR__ . '/../../..' . '/libraries/src',
         ),
-        'Joomla\\Authentication\\' =>
+        'Joomla\\Authentication\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/authentication/src',
         ),
-        'Joomla\\Archive\\' =>
+        'Joomla\\Archive\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/archive/src',
         ),
-        'Joomla\\Application\\' =>
+        'Joomla\\Application\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
-        'Jfcherng\\Utility\\' =>
+        'Jfcherng\\Utility\\' => 
         array (
-            0 => __DIR__ . '/..' . '/jfcherng/php-mb-string/src',
-            1 => __DIR__ . '/..' . '/jfcherng/php-color-output/src',
+            0 => __DIR__ . '/..' . '/jfcherng/php-color-output/src',
+            1 => __DIR__ . '/..' . '/jfcherng/php-mb-string/src',
         ),
-        'Jfcherng\\Diff\\' =>
+        'Jfcherng\\Diff\\' => 
         array (
             0 => __DIR__ . '/..' . '/jfcherng/php-diff/src',
             1 => __DIR__ . '/..' . '/jfcherng/php-sequence-matcher/src',
         ),
-        'GuzzleHttp\\Psr7\\' =>
+        'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' =>
+        'GuzzleHttp\\Promise\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'Fig\\Link\\' =>
+        'Fig\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
         ),
-        'Doctrine\\Inflector\\' =>
+        'Doctrine\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/src',
         ),
-        'Defuse\\Crypto\\' =>
+        'Defuse\\Crypto\\' => 
         array (
             0 => __DIR__ . '/..' . '/defuse/php-encryption/src',
         ),
-        'DebugBar\\' =>
+        'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
         ),
-        'Cron\\' =>
+        'Cron\\' => 
         array (
             0 => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron',
         ),
-        'Cose\\' =>
+        'Cose\\' => 
         array (
             0 => __DIR__ . '/..' . '/web-auth/cose-lib/src',
         ),
-        'Composer\\CaBundle\\' =>
+        'Composer\\CaBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
-        'CBOR\\' =>
+        'CBOR\\' => 
         array (
             0 => __DIR__ . '/..' . '/spomky-labs/cbor-php/src',
         ),
-        'Brick\\Math\\' =>
+        'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
         ),
-        'AltchaOrg\\Altcha\\' =>
+        'AltchaOrg\\Altcha\\' => 
         array (
             0 => __DIR__ . '/..' . '/altcha-org/altcha/src',
         ),
-        'Algo26\\IdnaConvert\\' =>
+        'Algo26\\IdnaConvert\\' => 
         array (
             0 => __DIR__ . '/..' . '/algo26-matthias/idna-convert/src',
         ),
@@ -746,6 +746,7 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Defuse\\Crypto\\KeyOrPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyOrPassword.php',
         'Defuse\\Crypto\\KeyProtectedByPassword' => __DIR__ . '/..' . '/defuse/php-encryption/src/KeyProtectedByPassword.php',
         'Defuse\\Crypto\\RuntimeTests' => __DIR__ . '/..' . '/defuse/php-encryption/src/RuntimeTests.php',
+        'DelayedTargetValidation' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/DelayedTargetValidation.php',
         'Doctrine\\Inflector\\CachedWordInflector' => __DIR__ . '/..' . '/doctrine/inflector/src/CachedWordInflector.php',
         'Doctrine\\Inflector\\GenericLanguageInflectorFactory' => __DIR__ . '/..' . '/doctrine/inflector/src/GenericLanguageInflectorFactory.php',
         'Doctrine\\Inflector\\Inflector' => __DIR__ . '/..' . '/doctrine/inflector/src/Inflector.php',
@@ -803,6 +804,8 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Fig\\Link\\LinkTrait' => __DIR__ . '/..' . '/fig/link-util/src/LinkTrait.php',
         'Fig\\Link\\Relations' => __DIR__ . '/..' . '/fig/link-util/src/Relations.php',
         'Fig\\Link\\TemplatedHrefTrait' => __DIR__ . '/..' . '/fig/link-util/src/TemplatedHrefTrait.php',
+        'Filter\\FilterException' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/Filter/FilterException.php',
+        'Filter\\FilterFailedException' => __DIR__ . '/..' . '/symfony/polyfill-php85/Resources/stubs/Filter/FilterFailedException.php',
         'GuzzleHttp\\Promise\\AggregateException' => __DIR__ . '/..' . '/guzzlehttp/promises/src/AggregateException.php',
         'GuzzleHttp\\Promise\\CancellationException' => __DIR__ . '/..' . '/guzzlehttp/promises/src/CancellationException.php',
         'GuzzleHttp\\Promise\\Coroutine' => __DIR__ . '/..' . '/guzzlehttp/promises/src/Coroutine.php',
@@ -952,6 +955,7 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Joomla\\CMS\\Authentication\\Password\\MD5Handler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/MD5Handler.php',
         'Joomla\\CMS\\Authentication\\Password\\PHPassHandler' => __DIR__ . '/../../..' . '/libraries/src/Authentication/Password/PHPassHandler.php',
         'Joomla\\CMS\\Authentication\\ProviderAwareAuthenticationPluginInterface' => __DIR__ . '/../../..' . '/libraries/src/Authentication/ProviderAwareAuthenticationPluginInterface.php',
+        'Joomla\\CMS\\Authentication\\RememberMe' => __DIR__ . '/../../..' . '/libraries/src/Authentication/RememberMe.php',
         'Joomla\\CMS\\Autoload\\ClassLoader' => __DIR__ . '/../../..' . '/libraries/src/Autoload/ClassLoader.php',
         'Joomla\\CMS\\Button\\ActionButton' => __DIR__ . '/../../..' . '/libraries/src/Button/ActionButton.php',
         'Joomla\\CMS\\Button\\FeaturedButton' => __DIR__ . '/../../..' . '/libraries/src/Button/FeaturedButton.php',
@@ -1406,6 +1410,7 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Joomla\\CMS\\Form\\Field\\DatetimeField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/DatetimeField.php',
         'Joomla\\CMS\\Form\\Field\\EditorField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/EditorField.php',
         'Joomla\\CMS\\Form\\Field\\EmailField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/EmailField.php',
+        'Joomla\\CMS\\Form\\Field\\EnumField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/EnumField.php',
         'Joomla\\CMS\\Form\\Field\\FileField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/FileField.php',
         'Joomla\\CMS\\Form\\Field\\FilelistField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/FilelistField.php',
         'Joomla\\CMS\\Form\\Field\\FolderlistField' => __DIR__ . '/../../..' . '/libraries/src/Form/Field/FolderlistField.php',
@@ -1600,6 +1605,8 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Joomla\\CMS\\Language\\LanguageAwareInterface' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageAwareInterface.php',
         'Joomla\\CMS\\Language\\LanguageAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageAwareTrait.php',
         'Joomla\\CMS\\Language\\LanguageFactory' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageFactory.php',
+        'Joomla\\CMS\\Language\\LanguageFactoryAwareInterface' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageFactoryAwareInterface.php',
+        'Joomla\\CMS\\Language\\LanguageFactoryAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageFactoryAwareTrait.php',
         'Joomla\\CMS\\Language\\LanguageFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageFactoryInterface.php',
         'Joomla\\CMS\\Language\\LanguageHelper' => __DIR__ . '/../../..' . '/libraries/src/Language/LanguageHelper.php',
         'Joomla\\CMS\\Language\\Multilanguage' => __DIR__ . '/../../..' . '/libraries/src/Language/Multilanguage.php',
@@ -1671,14 +1678,17 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Joomla\\CMS\\MVC\\View\\ListView' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/ListView.php',
         'Joomla\\CMS\\MVC\\View\\ViewInterface' => __DIR__ . '/../../..' . '/libraries/src/MVC/View/ViewInterface.php',
         'Joomla\\CMS\\Mail\\Exception\\MailDisabledException' => __DIR__ . '/../../..' . '/libraries/src/Mail/Exception/MailDisabledException.php',
+        'Joomla\\CMS\\Mail\\FormatConfigurableMailerInterface' => __DIR__ . '/../../..' . '/libraries/src/Mail/FormatConfigurableMailerInterface.php',
         'Joomla\\CMS\\Mail\\Mail' => __DIR__ . '/../../..' . '/libraries/src/Mail/Mail.php',
         'Joomla\\CMS\\Mail\\MailHelper' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailHelper.php',
+        'Joomla\\CMS\\Mail\\MailOAuth2TokenProvider' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailOAuth2TokenProvider.php',
         'Joomla\\CMS\\Mail\\MailTemplate' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailTemplate.php',
         'Joomla\\CMS\\Mail\\MailerFactory' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailerFactory.php',
         'Joomla\\CMS\\Mail\\MailerFactoryAwareInterface' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailerFactoryAwareInterface.php',
         'Joomla\\CMS\\Mail\\MailerFactoryAwareTrait' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailerFactoryAwareTrait.php',
         'Joomla\\CMS\\Mail\\MailerFactoryInterface' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailerFactoryInterface.php',
         'Joomla\\CMS\\Mail\\MailerInterface' => __DIR__ . '/../../..' . '/libraries/src/Mail/MailerInterface.php',
+        'Joomla\\CMS\\Mail\\TransportConfigurableMailerInterface' => __DIR__ . '/../../..' . '/libraries/src/Mail/TransportConfigurableMailerInterface.php',
         'Joomla\\CMS\\Menu\\AbstractMenu' => __DIR__ . '/../../..' . '/libraries/src/Menu/AbstractMenu.php',
         'Joomla\\CMS\\Menu\\AdministratorMenu' => __DIR__ . '/../../..' . '/libraries/src/Menu/AdministratorMenu.php',
         'Joomla\\CMS\\Menu\\AdministratorMenuItem' => __DIR__ . '/../../..' . '/libraries/src/Menu/AdministratorMenuItem.php',
@@ -3422,6 +3432,7 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
         'Symfony\\Contracts\\HttpClient\\ResponseStreamInterface' => __DIR__ . '/..' . '/symfony/http-client-contracts/ResponseStreamInterface.php',
         'Symfony\\Contracts\\Service\\Attribute\\Required' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/Required.php',
         'Symfony\\Contracts\\Service\\Attribute\\SubscribedService' => __DIR__ . '/..' . '/symfony/service-contracts/Attribute/SubscribedService.php',
+        'Symfony\\Contracts\\Service\\ContainerAwareInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ContainerAwareInterface.php',
         'Symfony\\Contracts\\Service\\ResetInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ResetInterface.php',
         'Symfony\\Contracts\\Service\\ServiceCollectionInterface' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceCollectionInterface.php',
         'Symfony\\Contracts\\Service\\ServiceLocatorTrait' => __DIR__ . '/..' . '/symfony/service-contracts/ServiceLocatorTrait.php',
@@ -4000,9 +4011,9 @@ class ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit4fcf2a4a0a1009078e583bf2d5653502::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita6b35f787925a089f2646438929954ce::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita6b35f787925a089f2646438929954ce::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita6b35f787925a089f2646438929954ce::$classMap;
 
         }, null, ClassLoader::class);
     }

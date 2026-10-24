@@ -6,18 +6,69 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
+      "name": "plg_editors_codemirror",
+      "type": "style",
+      "uri": "plg_editors_codemirror/codemirror.css"
+    },
+    {
+      "name": "codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/codemirror.min.js",
+      "importmap": true,
+      "dependencies": [
+        "@codemirror/autocomplete",
+        "@codemirror/commands",
+        "@codemirror/lang-css",
+        "@codemirror/lang-html",
+        "@codemirror/lang-javascript",
+        "@codemirror/lang-json",
+        "@codemirror/lang-markdown",
+        "@codemirror/lang-php",
+        "@codemirror/lang-xml",
+        "@codemirror/language",
+        "@codemirror/lint",
+        "@codemirror/search",
+        "@codemirror/state",
+        "@codemirror/theme-one-dark",
+        "@codemirror/view",
+        "@lezer/common",
+        "@lezer/css",
+        "@lezer/highlight",
+        "@lezer/html",
+        "@lezer/javascript",
+        "@lezer/json",
+        "@lezer/lr",
+        "@lezer/markdown",
+        "@lezer/php",
+        "@lezer/xml"
+      ]
+    },
+    {
+      "name": "webcomponent.editor-codemirror",
+      "type": "script",
+      "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",
+      "dependencies": [
+        "core",
+        "codemirror",
+        "editors"
+      ],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "type": "script",
       "name": "@codemirror/autocomplete",
       "uri": "media/vendor/codemirror/js/codemirror-autocomplete.min.js",
       "importmap": true,
-      "version": "6.20.1"
+      "version": "6.20.3"
     },
     {
       "type": "script",
       "name": "@codemirror/commands",
       "uri": "media/vendor/codemirror/js/codemirror-commands.min.js",
       "importmap": true,
-      "version": "6.10.3"
+      "version": "6.11.0"
     },
     {
       "type": "script",
@@ -31,7 +82,7 @@
       "name": "@codemirror/lang-html",
       "uri": "media/vendor/codemirror/js/codemirror-lang-html.min.js",
       "importmap": true,
-      "version": "6.4.11"
+      "version": "6.4.12"
     },
     {
       "type": "script",
@@ -52,7 +103,7 @@
       "name": "@codemirror/lang-markdown",
       "uri": "media/vendor/codemirror/js/codemirror-lang-markdown.min.js",
       "importmap": true,
-      "version": "6.5.0"
+      "version": "6.5.2"
     },
     {
       "type": "script",
@@ -73,28 +124,28 @@
       "name": "@codemirror/language",
       "uri": "media/vendor/codemirror/js/codemirror-language.min.js",
       "importmap": true,
-      "version": "6.12.2"
+      "version": "6.12.4"
     },
     {
       "type": "script",
       "name": "@codemirror/lint",
       "uri": "media/vendor/codemirror/js/codemirror-lint.min.js",
       "importmap": true,
-      "version": "6.9.5"
+      "version": "6.9.7"
     },
     {
       "type": "script",
       "name": "@codemirror/search",
       "uri": "media/vendor/codemirror/js/codemirror-search.min.js",
       "importmap": true,
-      "version": "6.6.0"
+      "version": "6.7.2"
     },
     {
       "type": "script",
       "name": "@codemirror/state",
       "uri": "media/vendor/codemirror/js/codemirror-state.min.js",
       "importmap": true,
-      "version": "6.6.0"
+      "version": "6.7.2"
     },
     {
       "type": "script",
@@ -108,7 +159,7 @@
       "name": "@codemirror/view",
       "uri": "media/vendor/codemirror/js/codemirror-view.min.js",
       "importmap": true,
-      "version": "6.40.0"
+      "version": "6.43.10"
     },
     {
       "type": "script",
@@ -179,60 +230,6 @@
       "uri": "media/vendor/codemirror/js/lezer-xml.min.js",
       "importmap": true,
       "version": "1.0.6"
-    },
-    {
-      "name": "codemirror",
-      "type": "script",
-      "uri": "plg_editors_codemirror/codemirror.min.js",
-      "importmap": true,
-      "dependencies": [
-        "@codemirror/autocomplete",
-        "@codemirror/commands",
-        "@codemirror/lang-css",
-        "@codemirror/lang-html",
-        "@codemirror/lang-javascript",
-        "@codemirror/lang-json",
-        "@codemirror/lang-markdown",
-        "@codemirror/lang-php",
-        "@codemirror/lang-xml",
-        "@codemirror/language",
-        "@codemirror/lint",
-        "@codemirror/search",
-        "@codemirror/state",
-        "@codemirror/theme-one-dark",
-        "@codemirror/view",
-        "@lezer/common",
-        "@lezer/css",
-        "@lezer/highlight",
-        "@lezer/html",
-        "@lezer/javascript",
-        "@lezer/json",
-        "@lezer/lr",
-        "@lezer/markdown",
-        "@lezer/php",
-        "@lezer/xml"
-      ],
-      "version": "f7abf9"
-    },
-    {
-      "name": "plg_editors_codemirror",
-      "type": "style",
-      "uri": "plg_editors_codemirror/codemirror.css",
-      "version": "ace1a2"
-    },
-    {
-      "name": "webcomponent.editor-codemirror",
-      "type": "script",
-      "uri": "plg_editors_codemirror/joomla-editor-codemirror.min.js",
-      "dependencies": [
-        "core",
-        "codemirror",
-        "editors"
-      ],
-      "attributes": {
-        "type": "module"
-      },
-      "version": "c360f1"
     }
   ]
 }

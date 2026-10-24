@@ -1,4 +1,8 @@
 @charset "UTF-8";
+/*!
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 .invalid {
   border-color: red;
 }
@@ -54,30 +58,30 @@ label.invalid {
 
 .button2-left {
   float: left;
-  background: url("../images/j_button2_left.png?v=178706") no-repeat;
+  background: url("../images/j_button2_left.png?v=216f32") no-repeat;
   margin-left: 5px;
 }
 
 .button2-right {
   float: left;
-  background: url("../images/j_button2_right.png?v=178706") 100% 0 no-repeat;
+  background: url("../images/j_button2_right.png?v=216f32") 100% 0 no-repeat;
   margin-left: 5px;
 }
 
 .button2-left .image {
-  background: url("../images/j_button2_image.png?v=178706") 100% 0 no-repeat;
+  background: url("../images/j_button2_image.png?v=216f32") 100% 0 no-repeat;
 }
 
 .button2-left .readmore, .button2-left .article {
-  background: url("../images/j_button2_readmore.png?v=178706") 100% 0 no-repeat;
+  background: url("../images/j_button2_readmore.png?v=216f32") 100% 0 no-repeat;
 }
 
 .button2-left .pagebreak {
-  background: url("../images/j_button2_pagebreak.png?v=178706") 100% 0 no-repeat;
+  background: url("../images/j_button2_pagebreak.png?v=216f32") 100% 0 no-repeat;
 }
 
 .button2-left .blank {
-  background: url("../images/j_button2_blank.png?v=178706") 100% 0 no-repeat;
+  background: url("../images/j_button2_blank.png?v=216f32") 100% 0 no-repeat;
 }
 
 div.tooltip {
@@ -90,7 +94,7 @@ div.tooltip {
 }
 
 div.tooltip h4 {
-  background: url("../images/selector-arrow.png?v=178706") no-repeat;
+  background: url("../images/selector-arrow.png?v=216f32") no-repeat;
   margin: -15px 0 0;
   padding: 15px 0 5px;
   font-size: 95%;
@@ -134,7 +138,7 @@ div.tooltip p {
 a img.calendar {
   vertical-align: middle;
   cursor: pointer;
-  background: url("../images/calendar.png?v=ad4756") no-repeat;
+  background: url("../images/calendar.png?v=216f32") no-repeat;
   width: 16px;
   height: 16px;
   margin-left: 3px;

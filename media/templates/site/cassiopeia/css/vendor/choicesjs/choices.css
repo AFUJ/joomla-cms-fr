@@ -464,12 +464,12 @@
 
 .choices[data-type*="select-one"] .choices__inner, .choices[data-type*="select-multiple"] .choices__inner {
   cursor: pointer;
-  background: #eaedf0 url("../../../images/select-bg.svg?v=5ebba0") 100% / 116rem no-repeat;
+  background: #eaedf0 url("../../../images/select-bg.svg?v=951d53") 100% / 116rem no-repeat;
   padding-inline-end: 3rem;
 }
 
 [dir="rtl"] .choices[data-type*="select-one"] .choices__inner, [dir="rtl"] .choices[data-type*="select-multiple"] .choices__inner {
-  background: #eaedf0 url("../../../images/select-bg-rtl.svg?v=e50af2") 0 / 116rem no-repeat;
+  background: #eaedf0 url("../../../images/select-bg-rtl.svg?v=951d53") 0 / 116rem no-repeat;
 }
 
 .choices[data-type*="select-one"] .choices__item {
